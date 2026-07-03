@@ -15,6 +15,7 @@ import { PatternsSection } from "@/components/portal/patterns"
 import { FlowsSection } from "@/components/portal/flows"
 import { ContractDetailSection } from "@/components/portal/contract-detail"
 import { InstallSection } from "@/components/portal/install"
+import { StatusSection } from "@/components/portal/status-page"
 
 export default function PortalPage() {
   return (
@@ -50,6 +51,7 @@ export default function PortalPage() {
           <FlowsSection />
           <ContractDetailSection />
           <InstallSection />
+          <StatusSection />
         </main>
       </SidebarInset>
     </SidebarProvider>
