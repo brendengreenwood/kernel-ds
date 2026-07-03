@@ -377,7 +377,7 @@ export function FormElementsSection() {
           <div className="font-mono text-xs text-muted-foreground">Checkbox</div>
           <Label className="flex items-center gap-2 font-normal"><Checkbox /> Unchecked</Label>
           <Label className="flex items-center gap-2 font-normal"><Checkbox defaultChecked /> Checked</Label>
-          <Label className="flex items-center gap-2 font-normal"><Checkbox checked="indeterminate" /> Indeterminate</Label>
+          <Label className="flex items-center gap-2 font-normal"><Checkbox indeterminate /> Indeterminate</Label>
           <Label className="flex items-center gap-2 font-normal opacity-60"><Checkbox disabled /> Disabled</Label>
           <Label className="flex items-center gap-2 font-normal opacity-60"><Checkbox defaultChecked disabled /> Disabled checked</Label>
         </Demo>

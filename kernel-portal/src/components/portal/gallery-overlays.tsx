@@ -116,11 +116,13 @@ export function GalleryOverlays() {
         </Button>
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Plus />
-              </Button>
-            </TooltipTrigger>
+            <TooltipTrigger
+              render={
+                <Button variant="outline" size="icon">
+                  <Plus />
+                </Button>
+              }
+            />
             <TooltipContent>Add to library</TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -129,9 +131,7 @@ export function GalleryOverlays() {
       <Subhead>Dialog · Alert dialog</Subhead>
       <Demo className="gap-4">
         <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline">Edit profile</Button>
-          </DialogTrigger>
+          <DialogTrigger render={<Button variant="outline">Edit profile</Button>} />
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Edit profile</DialogTitle>
@@ -150,9 +150,7 @@ export function GalleryOverlays() {
         </Dialog>
 
         <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete project</Button>
-          </AlertDialogTrigger>
+          <AlertDialogTrigger render={<Button variant="destructive">Delete project</Button>} />
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -172,9 +170,7 @@ export function GalleryOverlays() {
       <Subhead>Popover · Hover card</Subhead>
       <Demo className="gap-4">
         <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline">Dimensions</Button>
-          </PopoverTrigger>
+          <PopoverTrigger render={<Button variant="outline">Dimensions</Button>} />
           <PopoverContent className="w-72">
             <div className="space-y-3">
               <div>
@@ -198,9 +194,7 @@ export function GalleryOverlays() {
         </Popover>
 
         <HoverCard>
-          <HoverCardTrigger asChild>
-            <Button variant="link">@sashalin</Button>
-          </HoverCardTrigger>
+          <HoverCardTrigger render={<Button variant="link">@sashalin</Button>} />
           <HoverCardContent className="w-80">
             <div className="flex gap-3">
               <Avatar className="size-12"><AvatarFallback>SL</AvatarFallback></Avatar>
@@ -218,9 +212,7 @@ export function GalleryOverlays() {
       <Subhead>Sheet · Drawer</Subhead>
       <Demo className="gap-4">
         <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline">Open sheet</Button>
-          </SheetTrigger>
+          <SheetTrigger render={<Button variant="outline">Open sheet</Button>} />
           <SheetContent>
             <SheetHeader>
               <SheetTitle>Filters</SheetTitle>

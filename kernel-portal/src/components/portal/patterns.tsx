@@ -80,12 +80,14 @@ const loads: Load[] = [
 function RowMenu() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-8">
-          <MoreVertical />
-          <span className="sr-only">Row actions</span>
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={
+          <Button variant="ghost" size="icon" className="size-8">
+            <MoreVertical />
+            <span className="sr-only">Row actions</span>
+          </Button>
+        }
+      />
       <DropdownMenuContent align="end" className="w-40">
         <DropdownMenuItem>View</DropdownMenuItem>
         <DropdownMenuItem>Edit</DropdownMenuItem>
@@ -353,9 +355,7 @@ function DeleteDialog() {
       </p>
       <div className="mt-5 flex justify-end gap-2.5">
         <Dialog>
-          <DialogTrigger asChild>
-            <Button size="sm" variant="outline">Cancel</Button>
-          </DialogTrigger>
+          <DialogTrigger render={<Button size="sm" variant="outline">Cancel</Button>} />
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Wired example</DialogTitle>

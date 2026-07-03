@@ -102,12 +102,14 @@ export function AppSidebar() {
               <SidebarMenu>
                 {group.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.href}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
+                    <SidebarMenuButton
+                      render={
+                        <a href={item.href}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      }
+                    />
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>

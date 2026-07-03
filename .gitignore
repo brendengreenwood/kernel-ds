@@ -2,6 +2,7 @@ node_modules/
 dist/
 .netlify/
 .claude/settings.local.json
+.claude/skills/
 
 # source archive — contents are extracted into the repo
 kernel ds.zip

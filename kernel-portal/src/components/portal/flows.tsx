@@ -187,7 +187,7 @@ function SettingsPage() {
               </Select>
             </SettingRow>
             <SettingRow title="Delivery channel" desc="Where these notifications are sent.">
-              <ToggleGroup type="single" defaultValue="email" variant="outline" size="sm">
+              <ToggleGroup defaultValue={["email"]} variant="outline" size="sm">
                 <ToggleGroupItem value="email">Email</ToggleGroupItem>
                 <ToggleGroupItem value="sms">SMS</ToggleGroupItem>
                 <ToggleGroupItem value="both">Both</ToggleGroupItem>

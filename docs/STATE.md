@@ -13,8 +13,8 @@ surfaces that must stay in sync:
 1. **Static preview** — `Kernel Design System.html` + `theme.css` +
    `portal.css` + `portal.js` at the repo root. Zero-build, open-in-browser.
 2. **Real build** — `kernel-portal/`: a runnable Vite 8 + React 19 +
-   TypeScript portal using shadcn/ui (radix, nova preset) + Tailwind CSS v4 +
-   React Router. Tokens live in `kernel-portal/src/index.css`; components in
+   TypeScript portal using shadcn/ui (Base UI, `base-nova` style — see
+   decision 0005) + Tailwind CSS v4 + React Router. Tokens live in `kernel-portal/src/index.css`; components in
    `src/components/ui/` (shadcn) and `src/components/portal/` (portal
    sections); entry `src/main.tsx` → `src/pages/portal.tsx`. Deploys to
    Netlify (`netlify.toml`: build to `dist/`, SPA redirect).
@@ -29,6 +29,11 @@ surfaces that must stay in sync:
   and `kernel-portal/src/index.css`, light + dark.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
+- Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of
+  2026-07-04 — decision 0005 executed; radix removed. Migration reports in
+  `kernel-portal/.migration/`; flagged behavior deltas: tabs manual
+  activation, menu checkbox/radio items don't close on click, nav-menu 50ms
+  hover delay.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
@@ -38,13 +43,6 @@ surfaces that must stay in sync:
 
 ## In flight
 
-- **Base UI migration (decision 0005) — executing locally.** The portal
-  moves from Radix to `@base-ui/react` via the vendored
-  `migrate-radix-to-base` skill (`.agents/skills/`), whole-project mode.
-  Remote sessions can't run it (network policy blocks `ui.shadcn.com`), so
-  the user drives it from local Claude Code on this branch. When done:
-  reports in `kernel-portal/.migration/`, then rerun build + console +
-  mobile-overflow verification and update README/STATE.
 - **Domain patterns (backlog #2), 1 of 4 done.** Approved lineup: contract
   detail ✓ → settlement statement (next) → load ticket entry flow → basis &
   bid board. Each lands on both surfaces under the **Domain** nav group.
