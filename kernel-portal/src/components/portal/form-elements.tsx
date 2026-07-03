@@ -218,7 +218,7 @@ export function FormElementsSection() {
         optional description, the control, and a single message slot that shows a
         hint or an error — never both.
       </p>
-      <div className="grid gap-4 sm:grid-cols-2 sm:items-start">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-start">
         <Demo className="block">
           <Field label="Cash price" required hint="Posted price before basis adjustment." error="Price must be above the floor of $4.50.">
             <InputGroup>
@@ -243,7 +243,7 @@ export function FormElementsSection() {
 
       <Subhead>Input states</Subhead>
       <Demo>
-        <div className="grid w-full gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {[
             ["default", <Input key="d" placeholder="Empty field" />],
             ["focus", <Input key="f" defaultValue="Focused" className="border-ring ring-[3px] ring-ring/30" />],
@@ -362,7 +362,7 @@ export function FormElementsSection() {
       </Demo>
 
       <Subhead>File upload</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2 sm:items-start">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-start">
         <Dropzone />
         <div className="flex flex-col gap-2.5">
           <div className="font-mono text-xs text-muted-foreground">Uploaded</div>
@@ -372,7 +372,7 @@ export function FormElementsSection() {
       </div>
 
       <Subhead>Selection controls — states</Subhead>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Demo className="flex-col items-start gap-3">
           <div className="font-mono text-xs text-muted-foreground">Checkbox</div>
           <Label className="flex items-center gap-2 font-normal"><Checkbox /> Unchecked</Label>

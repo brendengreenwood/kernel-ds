@@ -99,7 +99,7 @@ export function FiltersSection() {
       </div>
 
       <Subhead>Filter popover &amp; saved views</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2 sm:items-start">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-start">
         <div className="flex justify-center rounded-lg border bg-card p-7">
           <div className="w-[234px] overflow-hidden rounded-md border bg-popover shadow-lg">
             <div className="border-b px-3 py-2.5 text-xs font-semibold text-muted-foreground">Status</div>
@@ -120,7 +120,7 @@ export function FiltersSection() {
         <div>
           <div className="mb-2.5 font-mono text-xs text-muted-foreground">Saved views</div>
           <div className="overflow-hidden rounded-lg border bg-card">
-            <div className="flex items-center gap-1 border-b px-1">
+            <div className="flex items-center gap-1 overflow-x-auto border-b px-1">
               {views.map(([name, count, on]) => (
                 <span
                   key={name}

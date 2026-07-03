@@ -17,6 +17,7 @@ import {
   LayoutList,
   Route,
   Terminal,
+  FileText,
 } from "lucide-react"
 
 import {
@@ -67,6 +68,12 @@ const nav = [
       { title: "Filtering", href: "#filters", icon: Filter },
       { title: "CRUD patterns", href: "#patterns", icon: LayoutList },
       { title: "Flows", href: "#flows", icon: Route },
+    ],
+  },
+  {
+    label: "Domain",
+    items: [
+      { title: "Contract detail", href: "#contract", icon: FileText },
     ],
   },
 ]

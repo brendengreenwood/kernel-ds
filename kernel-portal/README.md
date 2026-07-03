@@ -60,6 +60,7 @@ src/
       filters.tsx              ← Filter bar · chips · popover · saved views
       patterns.tsx             ← CRUD recipes: list view · form · detail · empty
       flows.tsx                ← Multi-step wizard · settings page
+      contract-detail.tsx      ← Domain: contract header · terms · fills · activity
       section.tsx              ← shared <Section> / <Demo> layout helpers
 ```
 
@@ -84,10 +85,10 @@ defined in `src/index.css`. Zero network requests and instant first paint.
 
 The palette has two layers, both in `src/index.css`:
 
-- **Scales** — absolute, mode-independent ink. Every family ships 50→950:
-  `--brand-*` (green), `--neutral-*`, plus four notification scales
+- **Scales** — absolute, mode-independent ink. `--brand-*` (green) and
+  `--neutral-*` ship full 50→950 ramps; the four notification scales
   `--success-*` (emerald), `--warning-*` (wheat), `--error-*` (red),
-  `--info-*` (blue). A separate categorical **data-viz** palette — eight hues
+  `--info-*` (blue) run 50→900. A separate categorical **data-viz** palette — eight hues
   (`--viz-crop`, `--viz-wheat`, `--viz-clay`, `--viz-sky`, `--viz-plum`,
   `--viz-teal`, `--viz-rust`, `--viz-slate`), **each a full 50→950 scale**, with
   `-light` / `-dark` aliases at steps 200 / 700 — keeps chart series from
