@@ -143,6 +143,7 @@
   var links = Array.prototype.slice.call(document.querySelectorAll(".nav-link[data-section]"));
   var sections = links.map(function (l) { return document.getElementById(l.getAttribute("data-section")); }).filter(Boolean);
   function onScroll() {
+    sections.sort(function (a, b) { return a.offsetTop - b.offsetTop; });
     var pos = window.scrollY + 120;
     var current = sections[0];
     for (var i = 0; i < sections.length; i++) {
