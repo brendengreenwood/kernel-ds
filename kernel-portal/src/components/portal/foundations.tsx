@@ -34,7 +34,7 @@ function Ramp({
           <button
             key={st}
             onClick={() => copy(`var(--${token}-${st})`)}
-            className={`flex h-14 flex-1 cursor-copy items-end justify-start p-1.5 font-mono text-[10px] font-semibold ${
+            className={`flex h-14 min-w-0 flex-1 cursor-copy items-end justify-start p-1.5 max-sm:px-1 font-mono text-[10px] font-semibold ${
               st <= 400 ? "text-neutral-800" : "text-white"
             }`}
             style={{ background: `var(--${token}-${st})` }}

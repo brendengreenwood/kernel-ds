@@ -18,6 +18,16 @@ npm run dev        # http://localhost:5173
 npm run build      # type-check + production build to dist/
 ```
 
+Two repeatable audits live in `scripts/` (see `docs/a11y/` and decision 0007):
+
+```bash
+node scripts/contrast-audit.mjs                 # WCAG ratios for every rendered token pair
+node scripts/mobile-audit.mjs <url> [url...]    # 390px scan: overflow, clipped content,
+                                                # sub-16px inputs, <44px effective hit areas
+                                                # (needs playwright; PW_EXECUTABLE to point
+                                                # at an existing chromium)
+```
+
 ## Stack
 
 - **Vite 8** + React 19 + TypeScript, `@/*` aliased to `src/*`

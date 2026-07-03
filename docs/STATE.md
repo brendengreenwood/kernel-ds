@@ -57,9 +57,14 @@ surfaces that must stay in sync:
   have a 16px floor on phones so iOS doesn't zoom on focus; compact
   controls get ≥44px effective touch targets on coarse pointers via
   invisible pseudo-element hit extensions (both surfaces); the app-shell
-  demo stacks below 720px/`md`. Verified headless at 390×844: drawer
-  works, zero horizontal overflow, hit extension resolves, tabs indicator
-  intact.
+  demo stacks below 720px/`md`. Round 2: preview tables scroll in place
+  instead of amputating columns (`.table-wrap` overflow-x,
+  `.crud-scroll` wrappers), ramp cells no longer overflow
+  (`minmax(0,1fr)` / `min-w-0`), overlays verified fitting at 390px.
+  Repeatable check: `kernel-portal/scripts/mobile-audit.mjs` (playwright)
+  — overflow, clipped content, sub-16px inputs, effective hit areas;
+  currently preview 0/0/0/0, portal clean except two by-design demo
+  internals.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
 - Docs system (this directory) in place — see decision 0001.
