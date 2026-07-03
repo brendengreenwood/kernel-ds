@@ -38,6 +38,13 @@ surfaces that must stay in sync:
 
 ## In flight
 
+- **Base UI migration (decision 0005) — executing locally.** The portal
+  moves from Radix to `@base-ui/react` via the vendored
+  `migrate-radix-to-base` skill (`.agents/skills/`), whole-project mode.
+  Remote sessions can't run it (network policy blocks `ui.shadcn.com`), so
+  the user drives it from local Claude Code on this branch. When done:
+  reports in `kernel-portal/.migration/`, then rerun build + console +
+  mobile-overflow verification and update README/STATE.
 - **Domain patterns (backlog #2), 1 of 4 done.** Approved lineup: contract
   detail ✓ → settlement statement (next) → load ticket entry flow → basis &
   bid board. Each lands on both surfaces under the **Domain** nav group.
