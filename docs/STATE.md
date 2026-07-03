@@ -34,6 +34,12 @@ surfaces that must stay in sync:
   `kernel-portal/.migration/`; flagged behavior deltas: tabs manual
   activation, menu checkbox/radio items don't close on click, nav-menu 50ms
   hover delay.
+- **Component lifecycle statuses** (decision 0006): experimental/ready/
+  deprecated tracked in `kernel-portal/src/lib/component-meta.ts`, shown as
+  Primer-style per-component side-rail entries with maturity pills and a
+  Component status overview section — both surfaces. Currently
+  experimental: the five delta-flagged components + contract-detail. A11y
+  review column is `pending` everywhere until backlog #3 runs.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
