@@ -71,7 +71,7 @@ export function ColorsSection() {
       id="colors"
       eyebrow="Foundations"
       title="Color"
-      lead="The palette is built in two layers. Scales are the absolute, mode-independent ink — every shade from 50 to 950, available as bg-brand-500, text-success-700, and so on. Role tokens (primary, background…) point at a scale step and remap per mode."
+      lead="The palette is built in two layers. Scales are the absolute, mode-independent ink — 50→950 ramps (the four notification scales run 50→900), available as bg-brand-500, text-success-700, and so on. Role tokens (primary, background…) point at a scale step and remap per mode."
     >
       <h4 className="mb-4 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
         Brand & neutral scales

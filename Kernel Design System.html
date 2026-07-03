@@ -93,7 +93,7 @@
         <section class="section" id="colors">
           <div class="eyebrow">Foundations</div>
           <h2 class="section-title">Color</h2>
-          <p class="section-lead">The palette is built in two layers. <b>Scales</b> are the absolute, mode-independent ink — every shade from 50 to 950. <b>Role tokens</b> (primary, background, destructive…) point at a scale step, and remap per mode. Click any cell to copy its OKLCH value.</p>
+          <p class="section-lead">The palette is built in two layers. <b>Scales</b> are the absolute, mode-independent ink — 50→950 ramps (the four notification scales run 50→900). <b>Role tokens</b> (primary, background, destructive…) point at a scale step, and remap per mode. Click any cell to copy its OKLCH value.</p>
 
           <div class="subhead">Brand &amp; neutral scales</div>
           <div class="panel">
@@ -1867,7 +1867,8 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
           <div class="code" style="margin-top:14px">
             <div class="code-head"><span class="code-lang">globals.css · radius, fonts & shadows</span><button class="copy-btn" data-copy-target="#code-tok-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="copy-btn-label">Copy</span></button></div>
             <pre><code id="code-tok-1">  <span class="tok-c">--font-sans</span>: ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
   <span class="tok-c">--font-mono</span>: ui-monospace, SFMono-Regular, "SF Mono",
     Menlo, Consolas, "Liberation Mono", monospace;
   <span class="tok-c">--radius</span>: 0.5rem;

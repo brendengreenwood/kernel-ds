@@ -27,7 +27,7 @@ The `docs/` directory is the project's memory. In the **same turn** as any meani
 ## Conventions
 - No web fonts. `--font-sans` and `--font-mono` are native system stacks only (no Inter, no Roboto Mono, no `next/font`, no `<link>` tags). No serif.
 - Statuses = persistent lifecycle state (`--status-*`, `<StatusBadge>`); notifications = momentary event outcome (`success`/`warning`/`info` on `Alert`/`Badge`). Never conflate them.
-- Every color family is a full 50→950 scale. New hues follow the same ramp.
+- Color families are full 50→950 scales, except the four notification scales (`success`/`warning`/`error`/`info`), which run 50→900 by design (see decision 0004). New hues follow the brand/viz ramp (50→950).
 - Grids that can sit beside the sidebar use `auto-fit, minmax(...)` (not `1fr`) to avoid page overflow.
 - Domain is a grain-buying merchant platform (loads, contracts, farms, bushels, basis, settlement). Keep example copy in that world.
 - After changes: `done` → fix console errors → `fork_verifier_agent`.

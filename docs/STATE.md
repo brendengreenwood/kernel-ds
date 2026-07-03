@@ -21,7 +21,10 @@ surfaces that must stay in sync:
 
 ## Current state
 
-- Full token system: two-layer color tokens (50→950 scales + semantic layer),
+- Both surfaces verified mirrored by the 2026-07-03 sync audit (tokens,
+  values, nav, sections, HTML token reference; build passes).
+- Full token system: two-layer color tokens (50→950 scales + semantic layer;
+  notification scales run 50→900 by design — decision 0004),
   12-step type scale, spacing, shadows, radius — defined in both `theme.css`
   and `kernel-portal/src/index.css`, light + dark.
 - Component coverage: shadcn registry components themed with Kernel tokens,
@@ -37,6 +40,19 @@ surfaces that must stay in sync:
 
 *(nothing currently — add items here when work starts, remove when the
 worklog entry lands)*
+
+## Backlog (in priority order)
+
+1. ~~Sync audit~~ ✓ done 2026-07-03 (see worklog; surfaces verified mirrored)
+2. **Domain patterns** — real merchant screens to pressure-test the system:
+   settlement statement, load ticket entry flow, contract detail with
+   basis/futures breakdown, scale-ticket table.
+3. **Accessibility pass** — contrast ratios across the 50→950 ramps and
+   status colors in light + dark; focus states; keyboard nav in interactive
+   patterns.
+4. **Usage guidance** — do/don't guidance in the portal (when to use which
+   component; StatusBadge vs Alert per decision 0003) so it teaches, not
+   just shows.
 
 ## Open questions
 
