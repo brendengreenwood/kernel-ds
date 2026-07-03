@@ -102,7 +102,7 @@ export function GalleryForms() {
     <>
       <GroupHeader title="Actions" sub="Buttons and toggles — the primary triggers in the system." />
 
-      <Subhead>Button</Subhead>
+      <Subhead id="c-button">Button</Subhead>
       <Demo className="flex-col items-start gap-4">
         <div className="flex flex-wrap items-center gap-4">
           <Button>Primary</Button>
@@ -126,7 +126,7 @@ export function GalleryForms() {
         </div>
       </Demo>
 
-      <Subhead>Toggle · Toggle group</Subhead>
+      <Subhead id="c-toggle">Toggle · Toggle group</Subhead>
       <Demo className="gap-8">
         <div className="flex items-center gap-2">
           <Toggle aria-label="Bold" defaultPressed>
@@ -148,7 +148,7 @@ export function GalleryForms() {
 
       <GroupHeader title="Forms & input" sub="Text fields, choices, ranges, validation, and one-time codes." />
 
-      <Subhead>Input · Select · Textarea</Subhead>
+      <Subhead id="c-input">Input · Select · Textarea</Subhead>
       <Demo className="flex-col items-stretch gap-5">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="grid gap-2">
@@ -183,7 +183,7 @@ export function GalleryForms() {
         </div>
       </Demo>
 
-      <Subhead>Radio group</Subhead>
+      <Subhead id="c-radio-group">Radio group</Subhead>
       <Demo>
         <RadioGroup defaultValue="comfortable" className="gap-3">
           <Label className="flex items-center gap-2 font-normal">
@@ -198,7 +198,7 @@ export function GalleryForms() {
         </RadioGroup>
       </Demo>
 
-      <Subhead>Slider · Input OTP</Subhead>
+      <Subhead id="c-slider">Slider · Input OTP</Subhead>
       <Demo className="flex-col items-start gap-7">
         <div className="w-full max-w-xs">
           <div className="mb-3 text-sm font-medium">
@@ -226,7 +226,7 @@ export function GalleryForms() {
         </InputOTP>
       </Demo>
 
-      <Subhead>Form (react-hook-form + zod)</Subhead>
+      <Subhead id="c-form">Form (react-hook-form + zod)</Subhead>
       <Demo>
         <ProfileForm />
       </Demo>

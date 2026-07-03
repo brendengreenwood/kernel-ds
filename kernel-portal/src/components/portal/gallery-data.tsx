@@ -114,7 +114,7 @@ export function GalleryData() {
     <>
       <GroupHeader title="Data display" sub="Surfaces for content, status, and loading states." />
 
-      <Subhead>Card</Subhead>
+      <Subhead id="c-card">Card</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader>
@@ -147,7 +147,7 @@ export function GalleryData() {
         </Card>
       </div>
 
-      <Subhead>Status badges</Subhead>
+      <Subhead id="c-status-badge">Status badges</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
         Persistent lifecycle states for loads and contracts. Each maps to a
         <code className="mx-1 font-mono">--status-*</code> token on a distinct hue,
@@ -170,7 +170,7 @@ export function GalleryData() {
         ))}
       </Demo>
 
-      <Subhead>Badge · Avatar</Subhead>
+      <Subhead id="c-badge">Badge · Avatar</Subhead>
       <Demo className="gap-8">
         <div className="flex flex-wrap items-center gap-3">
           <Badge>Default</Badge>
@@ -189,10 +189,10 @@ export function GalleryData() {
         </div>
       </Demo>
 
-      <Subhead>Table · Data table (sortable)</Subhead>
+      <Subhead id="c-table">Table · Data table (sortable)</Subhead>
       <DataTable />
 
-      <Subhead>Progress · Skeleton</Subhead>
+      <Subhead id="c-progress">Progress · Skeleton</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="flex-col items-stretch gap-4">
           <div className="text-sm font-medium">72%</div>
@@ -213,7 +213,7 @@ export function GalleryData() {
         </Demo>
       </div>
 
-      <Subhead>Separator · Aspect ratio</Subhead>
+      <Subhead id="c-separator">Separator · Aspect ratio</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="flex-col items-start">
           <div>

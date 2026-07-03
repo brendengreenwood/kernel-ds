@@ -79,7 +79,7 @@ export function GalleryMisc() {
     <>
       <GroupHeader title="Disclosure" sub="Progressive reveal for dense content." />
 
-      <Subhead>Accordion · Collapsible</Subhead>
+      <Subhead id="c-accordion">Accordion · Collapsible</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Accordion defaultValue={["a1"]} className="rounded-lg border bg-card px-4">
           <AccordionItem value="a1">
@@ -127,7 +127,7 @@ export function GalleryMisc() {
 
       <GroupHeader title="Date & media" sub="Calendars, pickers, and carousels." />
 
-      <Subhead>Calendar · Date picker</Subhead>
+      <Subhead id="c-calendar">Calendar · Date picker</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="justify-center">
           <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border bg-card" />
@@ -137,7 +137,7 @@ export function GalleryMisc() {
         </Demo>
       </div>
 
-      <Subhead>Carousel</Subhead>
+      <Subhead id="c-carousel">Carousel</Subhead>
       <Demo className="justify-center">
         <Carousel className="w-full max-w-md">
           <CarouselContent>
@@ -156,7 +156,7 @@ export function GalleryMisc() {
 
       <GroupHeader title="Layout" sub="Containers for scrolling and resizable regions." />
 
-      <Subhead>Scroll area · Resizable</Subhead>
+      <Subhead id="c-scroll-area">Scroll area · Resizable</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="justify-center">
           <ScrollArea className="h-44 w-full max-w-xs rounded-md border bg-card p-2">

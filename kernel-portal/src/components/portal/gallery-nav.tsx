@@ -139,7 +139,7 @@ export function GalleryNav() {
     <>
       <GroupHeader title="Navigation" sub="Tabs, breadcrumbs, paging, and menu bars for moving through the app." />
 
-      <Subhead>Tabs</Subhead>
+      <Subhead id="c-tabs">Tabs</Subhead>
       <Demo className="block">
         <Tabs defaultValue="account" className="w-full">
           <TabsList>
@@ -159,7 +159,7 @@ export function GalleryNav() {
         </Tabs>
       </Demo>
 
-      <Subhead>Breadcrumb · Pagination</Subhead>
+      <Subhead id="c-breadcrumb">Breadcrumb · Pagination</Subhead>
       <Demo className="flex-col items-start gap-6">
         <Breadcrumb>
           <BreadcrumbList>
@@ -182,7 +182,7 @@ export function GalleryNav() {
         </Pagination>
       </Demo>
 
-      <Subhead>Navigation menu · Menubar</Subhead>
+      <Subhead id="c-navigation-menu">Navigation menu · Menubar</Subhead>
       <Demo className="flex-col items-start gap-6">
         <NavigationMenu>
           <NavigationMenuList>
@@ -226,7 +226,7 @@ export function GalleryNav() {
 
       <GroupHeader title="Menus & command" sub="Context-driven actions and keyboard-first search." />
 
-      <Subhead>Dropdown menu · Context menu</Subhead>
+      <Subhead id="c-dropdown-menu">Dropdown menu · Context menu</Subhead>
       <Demo className="gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger render={<Button variant="outline">Open menu</Button>} />
@@ -254,7 +254,7 @@ export function GalleryNav() {
         </ContextMenu>
       </Demo>
 
-      <Subhead>Command · Combobox</Subhead>
+      <Subhead id="c-command">Command · Combobox</Subhead>
       <Demo className="flex-col items-start gap-6">
         <Command className="max-w-md rounded-lg border shadow-md">
           <CommandInput placeholder="Type a command or search…" />

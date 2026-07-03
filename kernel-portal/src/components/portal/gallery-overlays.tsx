@@ -69,7 +69,7 @@ export function GalleryOverlays() {
     <>
       <GroupHeader title="Feedback & overlay" sub="Alerts, transient messages, and floating surfaces." />
 
-      <Subhead>Alert</Subhead>
+      <Subhead id="c-alert">Alert</Subhead>
       <div className="space-y-4">
         <Alert variant="success">
           <CheckCircle2 />
@@ -101,7 +101,7 @@ export function GalleryOverlays() {
         </Alert>
       </div>
 
-      <Subhead>Sonner (toast) · Tooltip</Subhead>
+      <Subhead id="c-sonner">Sonner (toast) · Tooltip</Subhead>
       <Demo className="gap-4">
         <Button
           variant="outline"
@@ -128,7 +128,7 @@ export function GalleryOverlays() {
         </TooltipProvider>
       </Demo>
 
-      <Subhead>Dialog · Alert dialog</Subhead>
+      <Subhead id="c-dialog">Dialog · Alert dialog</Subhead>
       <Demo className="gap-4">
         <Dialog>
           <DialogTrigger render={<Button variant="outline">Edit profile</Button>} />
@@ -167,7 +167,7 @@ export function GalleryOverlays() {
         </AlertDialog>
       </Demo>
 
-      <Subhead>Popover · Hover card</Subhead>
+      <Subhead id="c-popover">Popover · Hover card</Subhead>
       <Demo className="gap-4">
         <Popover>
           <PopoverTrigger render={<Button variant="outline">Dimensions</Button>} />
@@ -209,7 +209,7 @@ export function GalleryOverlays() {
         </HoverCard>
       </Demo>
 
-      <Subhead>Sheet · Drawer</Subhead>
+      <Subhead id="c-sheet">Sheet · Drawer</Subhead>
       <Demo className="gap-4">
         <Sheet>
           <SheetTrigger render={<Button variant="outline">Open sheet</Button>} />

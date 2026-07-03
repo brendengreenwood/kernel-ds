@@ -212,7 +212,7 @@ export function FormElementsSection() {
       title="Form elements"
       lead="Data entry is most of an internal tool, so inputs carry the load. This is the full toolkit — every field state, the size steps, unit and currency affixes for pricing, and the specialized controls merchants reach for daily."
     >
-      <Subhead>Field anatomy</Subhead>
+      <Subhead id="fe-anatomy">Field anatomy</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
         Every field is the same parts: label (with required/optional marker), an
         optional description, the control, and a single message slot that shows a
@@ -371,7 +371,7 @@ export function FormElementsSection() {
         </div>
       </div>
 
-      <Subhead>Selection controls — states</Subhead>
+      <Subhead id="fe-selection">Selection controls — states</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Demo className="flex-col items-start gap-3">
           <div className="font-mono text-xs text-muted-foreground">Checkbox</div>

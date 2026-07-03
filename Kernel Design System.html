@@ -26,6 +26,7 @@
       <div class="nav-group-label">Get started</div>
       <a class="nav-link active" href="#overview" data-section="overview" data-title="Overview"><span class="dot"></span>Overview</a>
       <a class="nav-link" href="#install" data-section="install" data-title="Install &amp; usage"><span class="dot"></span>Install &amp; usage</a>
+      <a class="nav-link" href="#status" data-section="status" data-title="Component status"><span class="dot"></span>Component status</a>
 
       <div class="nav-group-label">Foundations</div>
       <a class="nav-link" href="#colors" data-section="colors" data-title="Color"><span class="dot"></span>Color</a>
@@ -34,7 +35,59 @@
       <a class="nav-link" href="#shadows" data-section="shadows" data-title="Elevation"><span class="dot"></span>Elevation</a>
 
       <div class="nav-group-label">Components</div>
-      <a class="nav-link" href="#components" data-section="components" data-title="Components"><span class="dot"></span>Components</a>
+      <a class="nav-link" href="#components" data-section="components" data-title="Components"><span class="dot"></span>All components</a>
+      <a class="nav-sublink" href="#c-accordion">Accordion</a>
+      <a class="nav-sublink" href="#c-alert">Alert</a>
+      <a class="nav-sublink" href="#c-dialog">Alert Dialog</a>
+      <a class="nav-sublink" href="#c-separator">Aspect Ratio</a>
+      <a class="nav-sublink" href="#c-avatar">Avatar</a>
+      <a class="nav-sublink" href="#c-badge">Badge</a>
+      <a class="nav-sublink" href="#c-breadcrumb">Breadcrumb</a>
+      <a class="nav-sublink" href="#c-button">Button</a>
+      <a class="nav-sublink" href="#c-calendar">Calendar</a>
+      <a class="nav-sublink" href="#c-card">Card</a>
+      <a class="nav-sublink" href="#c-carousel">Carousel</a>
+      <a class="nav-sublink" href="#charts">Chart</a>
+      <a class="nav-sublink" href="#fe-selection">Checkbox</a>
+      <a class="nav-sublink" href="#c-accordion">Collapsible</a>
+      <a class="nav-sublink" href="#c-command">Combobox</a>
+      <a class="nav-sublink" href="#c-command">Command</a>
+      <a class="nav-sublink" href="#c-dropdown-menu">Context Menu<span class="mat-pill">exp</span></a>
+      <a class="nav-sublink" href="#c-table">Data Table</a>
+      <a class="nav-sublink" href="#c-calendar">Date Picker</a>
+      <a class="nav-sublink" href="#c-dialog">Dialog</a>
+      <a class="nav-sublink" href="#c-sheet">Drawer</a>
+      <a class="nav-sublink" href="#c-dropdown-menu">Dropdown Menu<span class="mat-pill">exp</span></a>
+      <a class="nav-sublink" href="#c-form">Form</a>
+      <a class="nav-sublink" href="#c-popover">Hover Card</a>
+      <a class="nav-sublink" href="#c-input">Input</a>
+      <a class="nav-sublink" href="#c-slider">Input OTP</a>
+      <a class="nav-sublink" href="#fe-anatomy">Label</a>
+      <a class="nav-sublink" href="#c-navigation-menu">Menubar<span class="mat-pill">exp</span></a>
+      <a class="nav-sublink" href="#c-navigation-menu">Navigation Menu<span class="mat-pill">exp</span></a>
+      <a class="nav-sublink" href="#c-breadcrumb">Pagination</a>
+      <a class="nav-sublink" href="#c-popover">Popover</a>
+      <a class="nav-sublink" href="#c-progress">Progress</a>
+      <a class="nav-sublink" href="#c-radio-group">Radio Group</a>
+      <a class="nav-sublink" href="#c-scroll-area">Resizable</a>
+      <a class="nav-sublink" href="#c-scroll-area">Scroll Area</a>
+      <a class="nav-sublink" href="#c-input">Select</a>
+      <a class="nav-sublink" href="#c-separator">Separator</a>
+      <a class="nav-sublink" href="#c-sheet">Sheet</a>
+      <a class="nav-sublink" href="#appshell">Sidebar</a>
+      <a class="nav-sublink" href="#c-progress">Skeleton</a>
+      <a class="nav-sublink" href="#c-slider">Slider</a>
+      <a class="nav-sublink" href="#c-sonner">Sonner</a>
+      <a class="nav-sublink" href="#c-status-badge">Status Badge</a>
+      <a class="nav-sublink" href="#fe-selection">Switch</a>
+      <a class="nav-sublink" href="#c-table">Table</a>
+      <a class="nav-sublink" href="#c-tabs">Tabs<span class="mat-pill">exp</span></a>
+      <a class="nav-sublink" href="#c-input">Textarea</a>
+      <a class="nav-sublink" href="#c-toggle">Toggle</a>
+      <a class="nav-sublink" href="#c-toggle">Toggle Group</a>
+      <a class="nav-sublink" href="#c-sonner">Tooltip</a>
+
+      <div class="nav-group-label">Elements</div>
       <a class="nav-link" href="#forms" data-section="forms" data-title="Form elements"><span class="dot"></span>Form elements</a>
       <a class="nav-link" href="#tables" data-section="tables" data-title="Table system"><span class="dot"></span>Tables</a>
       <a class="nav-link" href="#charts" data-section="charts" data-title="Charts"><span class="dot"></span>Charts</a>
@@ -47,7 +100,7 @@
       <a class="nav-link" href="#flows" data-section="flows" data-title="Flows"><span class="dot"></span>Flows</a>
 
       <div class="nav-group-label">Domain</div>
-      <a class="nav-link" href="#contract" data-section="contract" data-title="Contract detail"><span class="dot"></span>Contract detail</a>
+      <a class="nav-link" href="#contract" data-section="contract" data-title="Contract detail"><span class="dot"></span>Contract detail<span class="mat-pill">exp</span></a>
     </nav>
 
     <div class="sidebar-foot">
@@ -373,7 +426,7 @@
           <div class="comp-group-sub">Buttons and toggles — the primary triggers in the system.</div>
 
           <!-- Buttons -->
-          <div class="subhead">Button</div>
+          <div class="subhead" id="c-button">Button</div>
           <div class="demo col">
             <div class="demo-label">// variants</div>
             <div class="demo-row">
@@ -396,7 +449,7 @@
           </div>
 
           <!-- Toggle + toggle group -->
-          <div class="subhead">Toggle · Toggle group</div>
+          <div class="subhead" id="c-toggle">Toggle · Toggle group</div>
           <div class="demo" style="gap:34px">
             <div class="demo-row" style="gap:10px">
               <button class="toggle on" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 0 8H6zM6 12h9a4 4 0 0 1 0 8H6z"/></svg></button>
@@ -414,7 +467,7 @@
           <div class="comp-group-title">Forms &amp; input</div>
           <div class="comp-group-sub">Text fields, choices, ranges, and one-time codes.</div>
 
-          <div class="subhead">Input · Select · Textarea</div>
+          <div class="subhead" id="c-input">Input · Select · Textarea</div>
           <div class="demo col">
             <div class="grid-2" style="width:100%">
               <div class="field">
@@ -440,7 +493,7 @@
           </div>
 
           <!-- Slider · Input OTP -->
-          <div class="subhead">Slider · Input OTP</div>
+          <div class="subhead" id="c-slider">Slider · Input OTP</div>
           <div class="demo col" style="gap:26px">
             <div style="width:100%">
               <div class="demo-cap">Slider <span class="mono-tag">value = 64</span></div>
@@ -457,7 +510,7 @@
           </div>
 
           <!-- Radio group · Form -->
-          <div class="subhead">Radio group · Form</div>
+          <div class="subhead" id="c-radio-group"><span id="c-form"></span>Radio group · Form</div>
           <div class="grid-2" style="align-items:start">
             <div class="demo col" style="gap:12px">
               <div class="demo-cap">Radio group</div>
@@ -486,7 +539,7 @@
           <div class="comp-group-sub">Surfaces for content, status, and loading states.</div>
 
           <!-- Cards -->
-          <div class="subhead">Card</div>
+          <div class="subhead" id="c-card">Card</div>
           <div class="grid-2">
             <div class="card">
               <div class="card-body">
@@ -511,7 +564,7 @@
           </div>
 
           <!-- Badges -->
-          <div class="subhead">Badge</div>
+          <div class="subhead" id="c-badge">Badge</div>
           <div class="demo">
             <span class="badge badge-default">Default</span>
             <span class="badge badge-secondary">Secondary</span>
@@ -523,7 +576,7 @@
           </div>
 
           <!-- Avatar -->
-          <div class="subhead">Avatar</div>
+          <div class="subhead" id="c-avatar">Avatar</div>
           <div class="demo" style="gap:14px">
             <div class="avatar sm">SL</div>
             <div class="avatar">EM</div>
@@ -535,7 +588,7 @@
           </div>
 
           <!-- Status badges -->
-          <div class="subhead">Status badges</div>
+          <div class="subhead" id="c-status-badge">Status badges</div>
           <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Persistent lifecycle states for loads and contracts. Each maps to a <span class="mono" style="color:var(--foreground)">--status-*</span> token on a distinct hue, so a column of them is scannable at a glance. The dot carries the color; the soft fill keeps rows calm.</p>
           <div class="demo" style="gap:10px">
             <span class="status status-draft"><span class="dot"></span>Draft</span>
@@ -551,7 +604,7 @@
           </div>
 
           <!-- Table -->
-          <div class="subhead">Table</div>
+          <div class="subhead" id="c-table">Table</div>
           <div class="table-wrap">
             <table class="table">
               <thead><tr><th>Project</th><th>Status</th><th>Owner</th><th class="num">Usage</th></tr></thead>
@@ -583,7 +636,7 @@
           </div>
 
           <!-- Progress · Skeleton -->
-          <div class="subhead">Progress · Skeleton</div>
+          <div class="subhead" id="c-progress">Progress · Skeleton</div>
           <div class="grid-2" style="align-items:start">
             <div class="demo col" style="gap:18px">
               <div class="demo-cap">Progress <span class="mono-tag">72%</span></div>
@@ -606,7 +659,7 @@
           </div>
 
           <!-- Separator · Aspect ratio -->
-          <div class="subhead">Separator · Aspect ratio</div>
+          <div class="subhead" id="c-separator">Separator · Aspect ratio</div>
           <div class="grid-2" style="align-items:start">
             <div class="demo col" style="gap:0">
               <div style="font-size:13.5px;font-weight:600">Kernel</div>
@@ -631,7 +684,7 @@
           <div class="comp-group-sub">Alerts, transient messages, and floating surfaces.</div>
 
           <!-- Alerts -->
-          <div class="subhead">Alert</div>
+          <div class="subhead" id="c-alert">Alert</div>
           <div class="demo col" style="gap:14px">
             <div class="alert alert-success" style="width:100%">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
@@ -652,7 +705,7 @@
           </div>
 
           <!-- Toast (Sonner) · Tooltip -->
-          <div class="subhead">Sonner (toast) · Tooltip</div>
+          <div class="subhead" id="c-sonner">Sonner (toast) · Tooltip</div>
           <div class="demo" style="gap:40px">
             <div>
               <div class="demo-cap" style="margin-bottom:12px">Sonner <span class="mono-tag">try the copy buttons →</span></div>
@@ -671,7 +724,7 @@
           </div>
 
           <!-- Dialog · Alert dialog -->
-          <div class="subhead">Dialog · Alert dialog</div>
+          <div class="subhead" id="c-dialog">Dialog · Alert dialog</div>
           <div class="grid-2" style="align-items:start">
             <div class="dialog-scrim">
               <div class="dialog">
@@ -697,7 +750,7 @@
           </div>
 
           <!-- Popover · Hover card -->
-          <div class="subhead">Popover · Hover card</div>
+          <div class="subhead" id="c-popover">Popover · Hover card</div>
           <div class="grid-2" style="align-items:start">
             <div class="demo recessed" style="justify-content:center;padding:30px">
               <div class="popover">
@@ -722,7 +775,7 @@
           </div>
 
           <!-- Sheet · Drawer -->
-          <div class="subhead">Sheet · Drawer</div>
+          <div class="subhead" id="c-sheet">Sheet · Drawer</div>
           <div class="grid-2" style="align-items:start">
             <div>
               <div class="demo-cap" style="margin-bottom:10px">Sheet <span class="mono-tag">side panel</span></div>
@@ -756,7 +809,7 @@
           <div class="comp-group-sub">Tabs, breadcrumbs, paging, and menu bars for moving through the app.</div>
 
           <!-- Tabs -->
-          <div class="subhead">Tabs</div>
+          <div class="subhead" id="c-tabs">Tabs</div>
           <div class="demo col">
             <div class="tabs">
               <div class="tabs-list">
@@ -771,7 +824,7 @@
           </div>
 
           <!-- Breadcrumb · Pagination -->
-          <div class="subhead">Breadcrumb · Pagination</div>
+          <div class="subhead" id="c-breadcrumb">Breadcrumb · Pagination</div>
           <div class="demo col" style="gap:24px;align-items:flex-start">
             <nav class="breadcrumb" aria-label="Breadcrumb">
               <a href="#components">Home</a>
@@ -792,7 +845,7 @@
           </div>
 
           <!-- Navigation menu · Menubar -->
-          <div class="subhead">Navigation menu · Menubar</div>
+          <div class="subhead" id="c-navigation-menu">Navigation menu · Menubar</div>
           <div class="demo col recessed" style="gap:22px;align-items:flex-start">
             <div class="navmenu">
               <div class="navmenu-item">
@@ -820,7 +873,7 @@
           <div class="comp-group-sub">Context-driven actions and keyboard-first search.</div>
 
           <!-- Dropdown · Context menu -->
-          <div class="subhead">Dropdown menu · Context menu</div>
+          <div class="subhead" id="c-dropdown-menu">Dropdown menu · Context menu</div>
           <div class="grid-2" style="align-items:start">
             <div class="demo recessed" style="justify-content:center;padding:30px">
               <div class="menu">
@@ -843,7 +896,7 @@
           </div>
 
           <!-- Command · Combobox -->
-          <div class="subhead">Command · Combobox</div>
+          <div class="subhead" id="c-command">Command · Combobox</div>
           <div class="demo col recessed" style="gap:22px;align-items:flex-start">
             <div class="command">
               <div class="command-input">
@@ -868,7 +921,7 @@
           <div class="comp-group-sub">Progressive reveal for dense content.</div>
 
           <!-- Accordion · Collapsible -->
-          <div class="subhead">Accordion · Collapsible</div>
+          <div class="subhead" id="c-accordion">Accordion · Collapsible</div>
           <div class="grid-2" style="align-items:start">
             <div class="accordion">
               <div class="acc-item open">
@@ -901,7 +954,7 @@
           <div class="comp-group-sub">Calendars, pickers, and carousels.</div>
 
           <!-- Calendar · Date picker -->
-          <div class="subhead">Calendar · Date picker</div>
+          <div class="subhead" id="c-calendar">Calendar · Date picker</div>
           <div class="grid-2" style="align-items:start">
             <div class="demo" style="justify-content:center">
               <div class="calendar">
@@ -932,7 +985,7 @@
           </div>
 
           <!-- Carousel -->
-          <div class="subhead">Carousel</div>
+          <div class="subhead" id="c-carousel">Carousel</div>
           <div class="demo col">
             <div class="carousel" style="width:100%">
               <div class="carousel-viewport">
@@ -953,7 +1006,7 @@
           <div class="comp-group-sub">Containers for scrolling and resizable regions.</div>
 
           <!-- Scroll area · Resizable -->
-          <div class="subhead">Scroll area · Resizable</div>
+          <div class="subhead" id="c-scroll-area">Scroll area · Resizable</div>
           <div class="grid-2" style="align-items:start">
             <div class="demo" style="justify-content:center">
               <div class="scrollarea">
@@ -984,7 +1037,7 @@
           <p class="section-lead">Data entry is most of an internal tool, so inputs carry the load. This is the full toolkit — every field state, the size steps, unit and currency affixes for pricing, and the specialized controls merchants reach for daily.</p>
 
           <!-- Field anatomy -->
-          <div class="subhead">Field anatomy</div>
+          <div class="subhead" id="fe-anatomy">Field anatomy</div>
           <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Every field is the same five parts: label (with required or optional marker), an optional description, the control, and a single message slot that shows a hint or an error — never both.</p>
           <div class="grid-2" style="align-items:start">
             <div class="demo col" style="gap:7px;align-items:stretch">
@@ -1065,7 +1118,7 @@
           </div>
 
           <!-- Selection controls -->
-          <div class="subhead">Selection controls &mdash; states</div>
+          <div class="subhead" id="fe-selection">Selection controls &mdash; states</div>
           <div class="grid-3">
             <div class="demo col" style="gap:12px;align-items:flex-start">
               <div class="demo-cap">Checkbox</div>
@@ -2214,6 +2267,84 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
           <div class="alert alert-info" style="margin-top:22px">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
             <div><div class="alert-title">This page is a visual preview</div><div class="alert-desc">The production React source — <span class="mono" style="color:var(--foreground)">globals.css</span>, <span class="mono" style="color:var(--foreground)">app/page.tsx</span>, and a <span class="mono" style="color:var(--foreground)">components/portal/*</span> file per group, all using real <span class="mono" style="color:var(--foreground)">@/components/ui/*</span> imports — ships in the <span class="mono" style="color:var(--foreground)">kernel-portal/</span> folder. See its <span class="mono" style="color:var(--foreground)">README.md</span> for setup.</div></div>
+          </div>
+        </section>
+        <section class="section" id="status">
+          <div class="eyebrow">Get started</div>
+          <h2 class="section-title">Component status</h2>
+          <p class="section-lead">Every component, element, and pattern with its lifecycle stage. <b>Experimental</b> means usable but still settling &mdash; the notes say exactly what&#8217;s open. <b>Ready</b> means long-term support; breaking changes come with migration guidance. Accessibility review is tracked separately and is pending the system-wide pass.</p>
+
+          <div class="status-legend">
+            <span class="mat mat-ready"><span class="dot"></span>ready<span class="n">53</span></span>
+            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">6</span></span>
+            <span class="mat mat-dep"><span class="dot"></span>deprecated<span class="n">0</span></span>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table status-table">
+              <thead><tr><th>Name</th><th>Type</th><th>Status</th><th>A11y review</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight:600">Accordion</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Alert</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Kernel success/warning/info variants.</td></tr>
+                <tr><td style="font-weight:600">Alert Dialog</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Aspect Ratio</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Avatar</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Badge</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Kernel success/warning/info variants.</td></tr>
+                <tr><td style="font-weight:600">Breadcrumb</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Button</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Calendar</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Card</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Carousel</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Chart</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Checkbox</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Collapsible</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Combobox</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Composition: popover + command.</td></tr>
+                <tr><td style="font-weight:600">Command</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Context Menu</td><td class="muted">Component</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Base UI delta pending sign-off: checkbox/radio menu items don&#8217;t close on click.</td></tr>
+                <tr><td style="font-weight:600">Data Table</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Composition: table + @tanstack/react-table.</td></tr>
+                <tr><td style="font-weight:600">Date Picker</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Composition: popover + calendar.</td></tr>
+                <tr><td style="font-weight:600">Dialog</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Drawer</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Dropdown Menu</td><td class="muted">Component</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Base UI delta pending sign-off: checkbox/radio menu items don&#8217;t close on click.</td></tr>
+                <tr><td style="font-weight:600">Form</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Hover Card</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Input</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Input OTP</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Label</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Menubar</td><td class="muted">Component</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Base UI delta pending sign-off: checkbox/radio menu items don&#8217;t close on click.</td></tr>
+                <tr><td style="font-weight:600">Navigation Menu</td><td class="muted">Component</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Base UI delta pending sign-off: hover-open delay 200ms &#8594; 50ms.</td></tr>
+                <tr><td style="font-weight:600">Pagination</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Popover</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Progress</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Radio Group</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Resizable</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Scroll Area</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Select</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Separator</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Sheet</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Sidebar</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Demonstrated by this portal&#8217;s own rail and the app shell.</td></tr>
+                <tr><td style="font-weight:600">Skeleton</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Slider</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Sonner</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Status Badge</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Kernel-only; domain lifecycle states (decision 0003).</td></tr>
+                <tr><td style="font-weight:600">Switch</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Table</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Tabs</td><td class="muted">Component</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Base UI delta pending sign-off: manual activation (arrows move focus; Enter/Space activates).</td></tr>
+                <tr><td style="font-weight:600">Textarea</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Toggle</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Toggle Group</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Tooltip</td><td class="muted">Component</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Form elements</td><td class="muted">Element</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Tables</td><td class="muted">Element</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Charts</td><td class="muted">Element</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">App shell</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Dashboard</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Filtering</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">CRUD patterns</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Flows</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Contract detail</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 1 of 4; API settling while the lineup lands.</td></tr>
+              </tbody>
+            </table>
           </div>
         </section>
 

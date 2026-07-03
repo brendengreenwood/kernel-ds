@@ -153,6 +153,16 @@ The original portal source targeted Next.js App Router. Changes made:
 - A standalone disabled `RadioGroupItem` demo now sits in its own `RadioGroup`
   (radio items throw when rendered outside a group)
 
+## Component status (decision 0006)
+
+Every component/element/pattern carries a lifecycle status —
+`experimental` / `ready` / `deprecated` — tracked in
+`src/lib/component-meta.ts` and rendered as Primer-style side-rail entries
+(maturity pills on non-ready items) plus the **Component status** section
+(`#status`). Adding a component means adding a registry entry; signing off
+an experimental delta means flipping its entry to `ready` and deleting the
+note. A11y review is a separate column, pending the system-wide pass.
+
 ## Base UI notes (post-migration)
 
 - Triggers compose via `render={<Button/>}` instead of `asChild` (the vaul
