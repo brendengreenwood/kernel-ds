@@ -78,7 +78,7 @@ export function GalleryMisc() {
       <GroupHeader title="Disclosure" sub="Progressive reveal for dense content." />
 
       <Subhead>Accordion · Collapsible</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Accordion type="single" collapsible defaultValue="a1" className="rounded-lg border bg-card px-4">
           <AccordionItem value="a1">
             <AccordionTrigger>Is it accessible?</AccordionTrigger>
@@ -124,7 +124,7 @@ export function GalleryMisc() {
       <GroupHeader title="Date & media" sub="Calendars, pickers, and carousels." />
 
       <Subhead>Calendar · Date picker</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="justify-center">
           <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border bg-card" />
         </Demo>
@@ -153,7 +153,7 @@ export function GalleryMisc() {
       <GroupHeader title="Layout" sub="Containers for scrolling and resizable regions." />
 
       <Subhead>Scroll area · Resizable</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="justify-center">
           <ScrollArea className="h-44 w-full max-w-xs rounded-md border bg-card p-2">
             {releases.map((r) => (

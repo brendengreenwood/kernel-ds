@@ -109,7 +109,7 @@ export function ColorsSection() {
       <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
         Role tokens — semantic pairs
       </h4>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {pairs.map((p) => (
           <button
             key={p.v}
@@ -180,7 +180,7 @@ export function TypographySection() {
       title="Typography"
       lead="No web fonts, by design — the system renders in each OS's native UI typeface (San Francisco, Segoe UI, Roboto), with a monospace stack for code, IDs, and tabular data. Zero network requests, instant paint, native everywhere. The size ramp runs from dense table meta to display."
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {families.map((f) => (
           <div key={f.name} className="rounded-lg border bg-card p-6">
             <div className={`${f.cls} text-5xl leading-none tracking-tight`}>Ag</div>
@@ -220,7 +220,7 @@ export function TypographySection() {
         {styles.map(([name, map, cls, text]) => (
           <div
             key={name}
-            className="grid grid-cols-[172px_1fr] items-baseline gap-6 border-b py-4 last:border-b-0"
+            className="grid grid-cols-1 gap-2 border-b py-4 last:border-b-0 sm:grid-cols-[172px_minmax(0,1fr)] sm:items-baseline sm:gap-6"
           >
             <div>
               <div className="text-sm font-semibold">{name}</div>
@@ -234,7 +234,7 @@ export function TypographySection() {
       <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
         Weights & numerals
       </h4>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {weights.map(([name, num, cls]) => (
             <div key={num} className="rounded-md border bg-card p-[18px]">
@@ -295,7 +295,7 @@ export function SpacingSection() {
       title="Spacing & radius"
       lead="Spacing derives from a --spacing base of 0.24rem; corner radius flows from a single --radius of 0.5rem."
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="rounded-lg border bg-card p-8">
           <div className="text-sm font-semibold">Spacing scale</div>
           <div className="mb-4 font-mono text-xs text-muted-foreground">

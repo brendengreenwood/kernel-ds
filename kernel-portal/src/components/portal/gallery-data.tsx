@@ -115,7 +115,7 @@ export function GalleryData() {
       <GroupHeader title="Data display" sub="Surfaces for content, status, and loading states." />
 
       <Subhead>Card</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Deploy preview</CardTitle>
@@ -193,7 +193,7 @@ export function GalleryData() {
       <DataTable />
 
       <Subhead>Progress · Skeleton</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="flex-col items-stretch gap-4">
           <div className="text-sm font-medium">72%</div>
           <Progress value={72} />
@@ -214,7 +214,7 @@ export function GalleryData() {
       </div>
 
       <Subhead>Separator · Aspect ratio</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="flex-col items-start">
           <div>
             <div className="text-sm font-semibold">Kernel</div>

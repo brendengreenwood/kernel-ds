@@ -29,5 +29,6 @@ The `docs/` directory is the project's memory. In the **same turn** as any meani
 - Statuses = persistent lifecycle state (`--status-*`, `<StatusBadge>`); notifications = momentary event outcome (`success`/`warning`/`info` on `Alert`/`Badge`). Never conflate them.
 - Color families are full 50→950 scales, except the four notification scales (`success`/`warning`/`error`/`info`), which run 50→900 by design (see decision 0004). New hues follow the brand/viz ramp (50→950).
 - Grids that can sit beside the sidebar use `auto-fit, minmax(...)` (not `1fr`) to avoid page overflow.
+- No mobile horizontal overflow: responsive Tailwind grids always declare the mobile column explicitly (`grid grid-cols-1 … sm:grid-cols-2`) — an implicit auto column sizes to content and blows out the page; in preview CSS, grid children get `min-width: 0` (see `.grid-2 > *`). Raw `1fr` in `grid-cols-[…]` must be `minmax(0,1fr)`. Atomic-width rows (segmented controls, tab strips) get `overflow-x-auto` so they scroll in place. Verify with a 375/390px-viewport overflow scan after layout changes.
 - Domain is a grain-buying merchant platform (loads, contracts, farms, bushels, basis, settlement). Keep example copy in that world.
 - After changes: `done` → fix console errors → `fork_verifier_agent`.

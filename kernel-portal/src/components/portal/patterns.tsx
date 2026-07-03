@@ -217,7 +217,7 @@ function RecordForm() {
         <h4 className="mt-1 text-lg font-semibold tracking-tight">New load ticket</h4>
       </div>
       <div className="flex flex-col gap-7 p-6">
-        <div className="grid gap-7 sm:grid-cols-[200px_1fr]">
+        <div className="grid grid-cols-1 gap-7 sm:grid-cols-[200px_1fr]">
           <div>
             <div className="text-sm font-semibold">Load details</div>
             <div className="mt-1 text-xs leading-relaxed text-muted-foreground">
@@ -225,7 +225,7 @@ function RecordForm() {
             </div>
           </div>
           <div className="grid gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="grid gap-2">
                 <Label>Farm / supplier <span className="text-destructive">*</span></Label>
                 <Input defaultValue="Hartmann Farms" />
@@ -235,7 +235,7 @@ function RecordForm() {
                 <Input defaultValue="4471" />
               </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="grid gap-2">
                 <Label>Grain <span className="text-destructive">*</span></Label>
                 <Select defaultValue="corn">
@@ -255,7 +255,7 @@ function RecordForm() {
           </div>
         </div>
 
-        <div className="grid gap-7 sm:grid-cols-[200px_1fr]">
+        <div className="grid grid-cols-1 gap-7 sm:grid-cols-[200px_1fr]">
           <div>
             <div className="text-sm font-semibold">Weights &amp; grade</div>
             <div className="mt-1 text-xs leading-relaxed text-muted-foreground">
@@ -263,7 +263,7 @@ function RecordForm() {
             </div>
           </div>
           <div className="grid gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="grid gap-2">
                 <Label>Gross weight (bu)</Label>
                 <Input defaultValue="18,640" />
@@ -398,7 +398,7 @@ export function PatternsSection() {
       <RecordForm />
 
       <Subhead>Detail view · empty state · delete</Subhead>
-      <div className="grid gap-4 sm:grid-cols-2 sm:items-start">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-start">
         <DetailView />
         <div className="flex flex-col gap-4">
           <EmptyState />

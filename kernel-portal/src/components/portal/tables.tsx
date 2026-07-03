@@ -39,9 +39,9 @@ function Segmented<T extends string>({
   label: string
 }) {
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2.5">
       <span className="text-xs font-semibold text-muted-foreground">{label}</span>
-      <div className="inline-flex gap-0.5 rounded-md border bg-muted p-[3px]">
+      <div className="inline-flex max-w-full gap-0.5 overflow-x-auto rounded-md border bg-muted p-[3px]">
         {options.map((o) => (
           <button
             key={o.value}
@@ -320,7 +320,7 @@ function StateCard({ title, children }: { title: string; children: React.ReactNo
 
 function States() {
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
       <StateCard title="Loading">
         <table className="w-full text-[13.5px]">
           <tbody>

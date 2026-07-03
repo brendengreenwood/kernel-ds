@@ -58,7 +58,7 @@ export function ChartsSection() {
       title="Charts"
       lead="Data visualization draws from the five-step chart scale via shadcn's ChartContainer. The greens read clearly together in both light and dark."
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Weekly deployments</CardTitle>

@@ -199,7 +199,7 @@ export function ContractDetailSection() {
         own lifecycle badge, and the footer reconciles to the delivered total.
         The activity trail records pricing events and amendments, newest first.
       </p>
-      <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-start">
         <FillsTable />
         <ActivityTimeline />
       </div>
