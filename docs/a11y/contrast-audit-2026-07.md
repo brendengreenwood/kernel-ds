@@ -5,6 +5,14 @@ UI. **Report only — no token values were changed.** Fixes land in a follow-up
 (backlog #3, part 2), which must mirror any token change across both surfaces
 per `CLAUDE.md`.
 
+> **Applied 2026-07-04 (part 2 done).** All three fixes landed on both
+> surfaces with one deviation: light `--muted-foreground` went to
+> **L 0.5350** instead of the recommended 0.540 — at 0.540 the computed
+> ratio is 4.497:1, which rounds to 4.50 but fails a strict ≥ 4.5 check.
+> Re-run confirms **62 pairs · 0 below AA 4.5:1 · 0 below AA 3:1**.
+> Remaining for backlog #3: focus states, keyboard nav, per-component
+> a11y reviews (the `component-meta.ts` scoreboard).
+
 - **Source of truth:** `kernel-portal/src/index.css` (mirrored in `theme.css`)
 - **Tool (repeatable):** `kernel-portal/scripts/contrast-audit.mjs` — run
   `node scripts/contrast-audit.mjs` from `kernel-portal/`
