@@ -57,7 +57,7 @@ function PageHeader({
           ))}
         </div>
       )}
-      <div className="mt-2 flex items-start gap-4">
+      <div className="mt-2 flex flex-wrap items-start gap-4 gap-y-2">
         <div>
           <h3 className="text-[22px] font-semibold tracking-tight">{title}</h3>
           {subtitle && <div className="mt-0.5 text-sm text-muted-foreground">{subtitle}</div>}
@@ -65,12 +65,12 @@ function PageHeader({
         {actions && <div className="ml-auto flex shrink-0 gap-2.5">{actions}</div>}
       </div>
       {tabs && (
-        <div className="-mb-5 mt-4 flex gap-1">
+        <div className="-mb-5 mt-4 flex gap-1 overflow-x-auto">
           {tabs.map((t, i) => (
             <span
               key={t}
               className={cn(
-                "border-b-2 px-3 py-2.5 text-sm font-medium",
+                "whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium",
                 i === 0 ? "border-primary font-semibold text-foreground" : "border-transparent text-muted-foreground"
               )}
             >
@@ -101,19 +101,19 @@ export function AppShellSection() {
             </span>
             Kernel
           </div>
-          <div className="flex h-8 max-w-80 flex-1 items-center gap-2 rounded-md border bg-background px-3 text-xs text-muted-foreground">
-            <Search className="size-3.5" /> Search loads, farms, contracts…
+          <div className="flex h-8 min-w-0 max-w-80 flex-1 items-center gap-2 rounded-md border bg-background px-3 text-xs text-muted-foreground">
+            <Search className="size-3.5 shrink-0" /> <span className="truncate">Search loads, farms, contracts…</span>
           </div>
           <div className="flex-1" />
           <Button size="sm" variant="outline"><Plus /> New load</Button>
           <Avatar className="size-7"><AvatarFallback className="text-[11px]">EM</AvatarFallback></Avatar>
         </div>
         {/* body */}
-        <div className="grid min-h-80 grid-cols-[184px_1fr]">
-          <div className="flex flex-col gap-0.5 border-r bg-sidebar p-2.5">
+        <div className="grid min-h-80 grid-cols-1 md:grid-cols-[184px_1fr]">
+          <div className="flex flex-row flex-wrap items-center gap-0.5 border-b bg-sidebar px-2.5 py-2 md:flex-col md:items-stretch md:border-r md:border-b-0 md:p-2.5">
             {sideNav.map((g) => (
               <React.Fragment key={g.label}>
-                <div className="px-2 pb-1.5 pt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{g.label}</div>
+                <div className="hidden px-2 pb-1.5 pt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground md:block">{g.label}</div>
                 {g.items.map((it) => (
                   <div
                     key={it.name}

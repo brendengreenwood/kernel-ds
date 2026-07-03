@@ -573,3 +573,29 @@
   --color-status-cancelled: var(--status-cancelled);
   --color-status-expired: var(--status-expired);
 }
+
+/* Touch targets — ≥44px effective hit area on coarse pointers (decision 0007).
+   Visuals stay identical: an invisible ::after pads compact controls out to
+   44px per axis when they are smaller. Checkbox / radio / switch already ship
+   their own after:-inset extensions from base-nova. */
+@media (pointer: coarse) {
+  [data-slot="button"],
+  [data-slot="toggle"],
+  [data-slot="toggle-group-item"],
+  [data-slot="pagination-link"],
+  [data-slot="menubar-trigger"] {
+    position: relative;
+  }
+  [data-slot="button"]::after,
+  [data-slot="toggle"]::after,
+  [data-slot="toggle-group-item"]::after,
+  [data-slot="pagination-link"]::after,
+  [data-slot="menubar-trigger"]::after {
+    content: "";
+    position: absolute;
+    top: min(0px, calc((100% - 44px) / 2));
+    bottom: min(0px, calc((100% - 44px) / 2));
+    left: min(0px, calc((100% - 44px) / 2));
+    right: min(0px, calc((100% - 44px) / 2));
+  }
+}

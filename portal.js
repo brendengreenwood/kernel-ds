@@ -139,6 +139,25 @@
     panel.hidden = !open;
   });
 
+  /* ---------- Mobile nav drawer ---------- */
+  var navToggle = document.querySelector("[data-nav-toggle]");
+  function setNav(open) {
+    document.body.classList.toggle("nav-open", open);
+    if (navToggle) navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("[data-nav-toggle]")) {
+      setNav(!document.body.classList.contains("nav-open"));
+      return;
+    }
+    if (e.target.closest("[data-nav-close]")) { setNav(false); return; }
+    var link = e.target.closest(".sidebar a");
+    if (link && document.body.classList.contains("nav-open")) setNav(false);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && document.body.classList.contains("nav-open")) setNav(false);
+  });
+
   /* ---------- Scrollspy ---------- */
   var links = Array.prototype.slice.call(document.querySelectorAll(".nav-link[data-section]"));
   var sections = links.map(function (l) { return document.getElementById(l.getAttribute("data-section")); }).filter(Boolean);

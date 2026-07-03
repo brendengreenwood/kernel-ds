@@ -74,6 +74,16 @@ src/
 > settled, on_hold, rejected, cancelled, expired), each on a distinct
 > `--status-*` hue. Use it for *persistent state*; use `Badge`/`Alert`
 > variants for *event outcomes*.
+> `ui/command.tsx` diverges from stock in one class: the palette input is
+> `text-base md:text-sm` so iOS Safari doesn't zoom on focus (decision 0007).
+
+> **Touch ergonomics (decision 0007):** `src/index.css` ends with a
+> `@media (pointer: coarse)` rule that pads compact controls
+> (`button`, `toggle`, `toggle-group-item`, `pagination-link`,
+> `menubar-trigger` slots) out to a ≥44px effective hit area with an
+> invisible `::after` — visuals unchanged. Checkbox/radio/switch already
+> ship base-nova's `after:-inset-*` extensions; `tabs-trigger` is excluded
+> because its `::after` draws the active-line indicator.
 
 ## Fonts
 

@@ -52,6 +52,14 @@ surfaces that must stay in sync:
 - **Contrast fixes applied** (backlog #3, part 2 — 2026-07-04): the three
   role-token L nudges landed on both surfaces (light muted-foreground to
   0.535 for strict-check headroom); re-run reports 62 pairs, 0 AA failures.
+- **Mobile ergonomics** (decision 0007, 2026-07-03): preview has a
+  hamburger → drawer nav below 880px (was: no nav at all); form controls
+  have a 16px floor on phones so iOS doesn't zoom on focus; compact
+  controls get ≥44px effective touch targets on coarse pointers via
+  invisible pseudo-element hit extensions (both surfaces); the app-shell
+  demo stacks below 720px/`md`. Verified headless at 390×844: drawer
+  works, zero horizontal overflow, hit extension resolves, tabs indicator
+  intact.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
 - Docs system (this directory) in place — see decision 0001.

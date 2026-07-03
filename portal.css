@@ -817,7 +817,6 @@ code, pre, .mono { font-family: var(--font-mono); }
 
 @media (max-width: 880px) {
   .shell { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
   .content, .topbar { padding-left: 22px; padding-right: 22px; }
   .hero h1 { font-size: 40px; }
   .navmenu-panel { width: 320px; grid-template-columns: 1fr; }
@@ -1211,7 +1210,7 @@ code, pre, .mono { font-family: var(--font-mono); }
 .sv-logo .mk svg { width: 15px; height: 15px; }
 .sv-search { flex: 1; max-width: 320px; height: 32px; border: 1px solid var(--input); border-radius: var(--radius-md); background: var(--background);
   display: flex; align-items: center; gap: 8px; padding: 0 11px; color: var(--muted-foreground); font-size: 12.5px; }
-.sv-search svg { width: 14px; height: 14px; }
+.sv-search svg { width: 14px; height: 14px; flex-shrink: 0; }
 .sv-top .spacer { flex: 1; }
 .sv-body { display: grid; grid-template-columns: 184px 1fr; min-height: 320px; }
 .sv-side { border-right: 1px solid var(--border); background: var(--sidebar); padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; }
@@ -1341,3 +1340,92 @@ code, pre, .mono { font-family: var(--font-mono); }
 .dark .mat-dep { color: var(--error-300); }
 .status-table td { vertical-align: top; }
 .status-table .muted, .table .muted { color: var(--muted-foreground); }
+/* ============================================================
+   MOBILE ERGONOMICS (decision 0007)
+   Drawer nav on phones, 16px input floor (no iOS focus zoom),
+   ≥44px effective touch targets on coarse pointers.
+   ============================================================ */
+
+/* ---------- Nav drawer (site chrome) ---------- */
+.nav-toggle { display: none; }
+.nav-scrim { display: none; }
+
+@media (max-width: 880px) {
+  .nav-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; flex-shrink: 0; cursor: pointer;
+    border-radius: var(--radius-md); border: 1px solid var(--border);
+    background: var(--card); color: var(--foreground);
+    transition: background .15s;
+  }
+  .nav-toggle:hover { background: var(--muted); }
+  .nav-toggle svg { width: 18px; height: 18px; }
+
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 60;
+    width: min(320px, 86vw); height: 100dvh;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(-103%); visibility: hidden;
+    transition: transform .22s ease, visibility 0s linear .22s;
+  }
+  body.nav-open .sidebar { transform: none; visibility: visible; transition: transform .22s ease; }
+
+  .nav-scrim {
+    display: block; position: fixed; inset: 0; z-index: 55;
+    background: color-mix(in oklch, var(--foreground) 34%, transparent);
+    opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  }
+  body.nav-open .nav-scrim { opacity: 1; pointer-events: auto; }
+  body.nav-open { overflow: hidden; }
+
+  /* keep the crumb on one line between the toggle and the actions */
+  .topbar { gap: 12px; }
+  .topbar-crumb { min-width: 0; flex: 1; white-space: nowrap; }
+  .topbar-crumb b { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+}
+
+@media (max-width: 600px) {
+  .theme-toggle .theme-label { display: none; }
+  .theme-toggle { padding: 0 10px; }
+  .topbar-right .ghost-link { padding: 0 8px; }
+}
+
+/* ---------- Inputs: 16px floor on phones so iOS Safari doesn't zoom on focus ---------- */
+@media (max-width: 767px) {
+  .input, .input-sm, .input-lg, .select, .textarea, .addon-select { font-size: 16px; }
+}
+
+/* ---------- App shell demo stacks on phones ---------- */
+@media (max-width: 720px) {
+  .sv-body { grid-template-columns: 1fr; }
+  .sv-side { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 2px 4px;
+    border-right: none; border-bottom: 1px solid var(--border); padding: 8px 10px; }
+  .sv-navlabel { display: none; }
+  .sv-search { min-width: 0; }
+  .sv-search span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .pagehead .hrow { flex-wrap: wrap; row-gap: 10px; }
+  .pagehead .htabs { overflow-x: auto; }
+}
+
+/* ---------- Touch targets: ≥44px effective hit area on coarse pointers ----------
+   Visuals stay identical — an invisible pseudo-element pads each control out to
+   44px per axis when it is smaller. Selection controls use ::before because
+   ::after already draws their glyph/thumb. */
+@media (pointer: coarse) {
+  .btn, .copy-btn, .page-btn, .row-kebab, .rm, .tab, .htab, .menubar-item,
+  .segmented button, .comp-chip, .view-tab, .view-add, .ghost-link,
+  .theme-toggle, .nav-toggle, .checkbox, .radio { position: relative; }
+
+  .btn::after, .copy-btn::after, .page-btn::after, .row-kebab::after, .rm::after,
+  .tab::after, .htab::after, .menubar-item::after, .segmented button::after,
+  .comp-chip::after, .view-tab::after, .view-add::after, .ghost-link::after,
+  .theme-toggle::after, .nav-toggle::after,
+  .checkbox::before, .radio::before, .switch::before {
+    content: "";
+    position: absolute;
+    top: min(0px, calc((100% - 44px) / 2));
+    bottom: min(0px, calc((100% - 44px) / 2));
+    left: min(0px, calc((100% - 44px) / 2));
+    right: min(0px, calc((100% - 44px) / 2));
+  }
+}
