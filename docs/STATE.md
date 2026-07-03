@@ -49,7 +49,9 @@ surfaces that must stay in sync:
   dark; 3 fail AA 4.5:1, all in the role layer (dark
   destructive-foreground/destructive 3.50:1, muted-foreground/muted 3.68:1
   dark and 4.10:1 light). All Badge/Alert/StatusBadge soft fills pass.
-  Token fixes (with exact L values in the report) are part 2 — not applied.
+- **Contrast fixes applied** (backlog #3, part 2 — 2026-07-04): the three
+  role-token L nudges landed on both surfaces (light muted-foreground to
+  0.535 for strict-check headroom); re-run reports 62 pairs, 0 AA failures.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
 - Docs system (this directory) in place — see decision 0001.
@@ -60,8 +62,8 @@ surfaces that must stay in sync:
 
 ## In flight
 
-- **Domain patterns (backlog #2), 1 of 4 done.** Approved lineup: contract
-  detail ✓ → settlement statement (next) → load ticket entry flow → basis &
+- **Domain patterns (backlog #2), 2 of 4 done.** Approved lineup: contract
+  detail ✓ → settlement statement ✓ → load ticket entry flow (next) → basis &
   bid board. Each lands on both surfaces under the **Domain** nav group.
 
 ## Backlog (in priority order)
@@ -70,11 +72,11 @@ surfaces that must stay in sync:
 2. **Domain patterns** → in flight (approved lineup: contract detail ✓,
    settlement statement, load ticket entry flow, basis & bid board —
    scale-ticket table dropped; its data lives in fills + load entry).
-3. **Accessibility pass** — part 1 (contrast audit + report) ✓ done
-   2026-07-03; remaining: apply the three role-token fixes from
-   `docs/a11y/contrast-audit-2026-07.md` (mirrored across both surfaces),
-   focus states, keyboard nav in interactive patterns, and a preview-CSS
-   pairing pass.
+3. **Accessibility pass** — part 1 (contrast audit + report) ✓ 2026-07-03;
+   part 2 (role-token fixes applied, both surfaces) ✓ 2026-07-04.
+   Remaining: focus states, keyboard nav in interactive patterns, a
+   preview-CSS pairing pass, and per-component reviews to flip the
+   `component-meta.ts` a11y column from `pending` to `reviewed`.
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
