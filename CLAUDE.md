@@ -4,18 +4,25 @@
 This project has a preview (`Kernel Design System.html` + `theme.css` + `portal.css` + `portal.js`) AND a real shadcn build (`kernel-portal/`). They must stay mirrored. Whenever we add or change anything, update **all** of the relevant surfaces in the same turn:
 
 When **tokens** change (color scales, status, type, spacing, shadows, radius):
-- `theme.css` (preview) **and** `kernel-portal/app/globals.css` (`:root`, `.dark`, and the `@theme inline` map)
+- `theme.css` (preview) **and** `kernel-portal/src/index.css` (`:root`, `.dark`, and the `@theme inline` maps)
 - The in-portal **"4 · Tokens — complete reference"** blocks in the Install section of `Kernel Design System.html` (regenerate the full list — it is exhaustive, not an excerpt)
-- The **Color**/**Typography** foundation sections in both `Kernel Design System.html` and `kernel-portal/components/portal/foundations.tsx`
+- The **Color**/**Typography** foundation sections in both `Kernel Design System.html` and `kernel-portal/src/components/portal/foundations.tsx`
 - `kernel-portal/README.md` (Color system / Type scale sections)
 
 When a **component, form element, or pattern** is added/changed:
 - Preview markup in `Kernel Design System.html` + styles in `portal.css`
-- Real build: the matching `kernel-portal/components/portal/*.tsx` (and any `components/ui/*.tsx` customizations)
-- Wire into `kernel-portal/app/page.tsx` + the sidebar nav in `app-sidebar.tsx`, and the nav + scrollspy in `Kernel Design System.html`
+- Real build: the matching `kernel-portal/src/components/portal/*.tsx` (and any `src/components/ui/*.tsx` customizations)
+- Wire into `kernel-portal/src/pages/portal.tsx` + the sidebar nav in `src/components/portal/app-sidebar.tsx`, and the nav + scrollspy in `Kernel Design System.html`
 - `kernel-portal/README.md` (file map, component coverage, customized-components notes)
 
 When **nav sections** change: update the sidebar in both the HTML and `app-sidebar.tsx`.
+
+## Documentation (part of every change — see `docs/README.md`)
+The `docs/` directory is the project's memory. In the **same turn** as any meaningful change:
+- **Append** a what/why/touched entry to `docs/worklog/YYYY-MM.md` (append-only; never rewrite old entries).
+- **Update** `docs/STATE.md` so it matches reality (current state, in-flight items, open questions).
+- If the change involved a **shaping decision** (convention, dependency, architecture), add an immutable record to `docs/decisions/` — supersede old records with new ones, never edit them.
+- When a `STATE.md` section is no longer active, **archive** it to `docs/archive/YYYY-MM-DD-topic.md` instead of deleting it.
 
 ## Conventions
 - No web fonts. `--font-sans` and `--font-mono` are native system stacks only (no Inter, no Roboto Mono, no `next/font`, no `<link>` tags). No serif.
