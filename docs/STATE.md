@@ -19,9 +19,6 @@ surfaces that must stay in sync:
    sections); entry `src/main.tsx` → `src/pages/portal.tsx`. Deploys to
    Netlify (`netlify.toml`: build to `dist/`, SPA redirect).
 
-Also present: `kernel-portal-src/` — an earlier Next-style layout
-(`app/`, `components/`) that predates the Vite port. See open questions.
-
 ## Current state
 
 - Full token system: two-layer color tokens (50→950 scales + semantic layer),
@@ -43,11 +40,4 @@ worklog entry lands)*
 
 ## Open questions
 
-- **`CLAUDE.md` paths are stale.** It references a Next.js layout
-  (`kernel-portal/app/globals.css`, `app/page.tsx`, `components/portal/*.tsx`)
-  but the actual build is Vite (`kernel-portal/src/index.css`,
-  `src/pages/portal.tsx`, `src/components/portal/`). CLAUDE.md sync rules
-  should be updated to the real paths.
-- **`kernel-portal-src/` status unclear.** It looks like the pre-Vite source
-  layout. If it's dead, archive or delete it; if it's the sync source for
-  something, document that.
+*(none currently)*
