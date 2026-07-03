@@ -87,6 +87,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Flows", anchor: "flows", group: "pattern", maturity: "ready", a11y: "pending" },
 
   { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 1 of 4; API settling while the lineup lands." },
+  { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 2 of 4; API settling while the lineup lands." },
 ]
 
 export const components = componentMeta.filter((c) => c.group === "component")

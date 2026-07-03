@@ -17,6 +17,7 @@ import {
   Route,
   Terminal,
   FileText,
+  Receipt,
   ListChecks,
 } from "lucide-react"
 
@@ -79,6 +80,7 @@ const nav = [
     label: "Domain",
     items: [
       { title: "Contract detail", href: "#contract", icon: FileText, maturity: "experimental" as const },
+      { title: "Settlement statement", href: "#settlement", icon: Receipt, maturity: "experimental" as const },
     ],
   },
 ]

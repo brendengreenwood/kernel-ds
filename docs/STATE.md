@@ -38,7 +38,8 @@ surfaces that must stay in sync:
   deprecated tracked in `kernel-portal/src/lib/component-meta.ts`, shown as
   Primer-style per-component side-rail entries with maturity pills and a
   Component status overview section — both surfaces. Currently
-  experimental: the five delta-flagged components + contract-detail. A11y
+  experimental: the five delta-flagged components + the two domain
+  patterns (contract detail, settlement statement). A11y
   review column is `pending` everywhere until backlog #3 runs.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
@@ -49,15 +50,16 @@ surfaces that must stay in sync:
 
 ## In flight
 
-- **Domain patterns (backlog #2), 1 of 4 done.** Approved lineup: contract
-  detail ✓ → settlement statement (next) → load ticket entry flow → basis &
-  bid board. Each lands on both surfaces under the **Domain** nav group.
+- **Domain patterns (backlog #2), 2 of 4 done.** Approved lineup: contract
+  detail ✓ → settlement statement ✓ → load ticket entry flow (next) →
+  basis & bid board. Each lands on both surfaces under the **Domain** nav
+  group.
 
 ## Backlog (in priority order)
 
 1. ~~Sync audit~~ ✓ done 2026-07-03 (see worklog; surfaces verified mirrored)
 2. **Domain patterns** → in flight (approved lineup: contract detail ✓,
-   settlement statement, load ticket entry flow, basis & bid board —
+   settlement statement ✓, load ticket entry flow, basis & bid board —
    scale-ticket table dropped; its data lives in fills + load entry).
 3. **Accessibility pass** — contrast ratios across the 50→950 ramps and
    status colors in light + dark; focus states; keyboard nav in interactive
