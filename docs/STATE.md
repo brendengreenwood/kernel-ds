@@ -76,8 +76,11 @@ surfaces that must stay in sync:
 ## In flight
 
 - **Domain patterns (backlog #2), 2 of 4 done.** Approved lineup: contract
-  detail ✓ → settlement statement ✓ → load ticket entry flow (next) → basis &
-  bid board. Each lands on both surfaces under the **Domain** nav group.
+  detail ✓ → settlement statement ✓ (2026-07-03; an earlier version of this
+  file marked it done before it was ever built — the worklog entry for
+  2026-07-03 records the drift and the actual landing) → load ticket entry
+  flow (next) → basis & bid board. Each lands on both surfaces under the
+  **Domain** nav group.
 
 ## Backlog (in priority order)
 

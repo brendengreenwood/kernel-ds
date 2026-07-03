@@ -14,6 +14,7 @@ import { FiltersSection } from "@/components/portal/filters"
 import { PatternsSection } from "@/components/portal/patterns"
 import { FlowsSection } from "@/components/portal/flows"
 import { ContractDetailSection } from "@/components/portal/contract-detail"
+import { SettlementSection } from "@/components/portal/settlement"
 import { InstallSection } from "@/components/portal/install"
 import { StatusSection } from "@/components/portal/status-page"
 
@@ -50,6 +51,7 @@ export default function PortalPage() {
           <PatternsSection />
           <FlowsSection />
           <ContractDetailSection />
+          <SettlementSection />
           <InstallSection />
           <StatusSection />
         </main>

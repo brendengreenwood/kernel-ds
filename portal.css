@@ -1029,6 +1029,18 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tl .tl-date { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted-foreground); margin-left: 8px; }
 .tl .tl-detail { font-size: 13px; color: var(--muted-foreground); margin-top: 2px; }
 
+/* domain — settlement statement */
+.paylines { padding: 4px 20px 14px; }
+.payline { display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+.payline .k { color: var(--muted-foreground); }
+.payline .v { font-family: var(--font-mono); }
+.payline.total { font-size: 15px; font-weight: 600; }
+.payline.total .k { color: var(--foreground); }
+.payline-note { display: flex; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap;
+  padding-top: 10px; font-size: 12px; color: var(--muted-foreground); }
+.fine { padding: 12px 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted-foreground); }
+
 /* empty state */
 .empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 54px 24px; }
 .empty .ic { width: 52px; height: 52px; border-radius: 50%; background: var(--muted); color: var(--muted-foreground);

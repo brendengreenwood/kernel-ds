@@ -102,6 +102,7 @@
 
       <div class="nav-group-label">Domain</div>
       <a class="nav-link" href="#contract" data-section="contract" data-title="Contract detail"><span class="dot"></span>Contract detail<span class="mat-pill">exp</span></a>
+      <a class="nav-link" href="#settlement" data-section="settlement" data-title="Settlement statement"><span class="dot"></span>Settlement statement<span class="mat-pill">exp</span></a>
     </nav>
 
     <div class="sidebar-foot">
@@ -1975,6 +1976,123 @@
           </div>
         </section>
 
+
+        <!-- ============ SETTLEMENT STATEMENT ============ -->
+        <section class="section" id="settlement">
+          <div class="eyebrow">Domain patterns</div>
+          <h2 class="section-title">Settlement statement</h2>
+          <p class="section-lead">The money document &mdash; what the merchant owes the farmer for delivered grain. The loads being settled with their scale-ticket facts, priced against the contract; the deductions that come out of the check; and the net payable the farmer actually receives.</p>
+
+          <div class="subhead">Statement header &middot; loads settled</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">A settlement is issued against a contract, so the header carries both identities and the lifecycle badge. Every money fact is monospace and right-aligned; the footer reconciles bushels and gross dollars to the contract&rsquo;s delivered total.</p>
+          <div class="pattern-frame">
+            <div class="detail-head">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg></div>
+              <div style="min-width:0">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                  <h4>Settlement #S-1042</h4>
+                  <span class="status status-settled"><span class="dot"></span>Settled</span>
+                </div>
+                <div class="sub">Hartmann Farms &middot; Corn &middot; Contract #C-2214 &middot; Issued Jun 12, 2026</div>
+              </div>
+              <div class="acts">
+                <button class="btn btn-outline btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Download</button>
+                <button class="row-kebab" style="border-color:var(--border)" aria-label="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </div>
+            <div class="crud-scroll"><table class="crud-table">
+              <thead>
+                <tr>
+                  <th>Load</th>
+                  <th>Ticket</th>
+                  <th>Delivered</th>
+                  <th class="num">Net bu</th>
+                  <th class="num">Moisture</th>
+                  <th class="num">Price / bu</th>
+                  <th class="num">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="cell-strong" style="font-family:var(--font-mono)">#4402</span></td>
+                  <td style="font-family:var(--font-mono)">88-1988</td>
+                  <td>May 28, 2026</td>
+                  <td class="num">9,120</td>
+                  <td class="num">15.1%</td>
+                  <td class="num">$4.16</td>
+                  <td class="num">$37,939.20</td>
+                </tr>
+                <tr>
+                  <td><span class="cell-strong" style="font-family:var(--font-mono)">#4433</span></td>
+                  <td style="font-family:var(--font-mono)">88-2016</td>
+                  <td>Jun 2, 2026</td>
+                  <td class="num">8,760</td>
+                  <td class="num">15.6%</td>
+                  <td class="num">$4.16</td>
+                  <td class="num">$36,441.60</td>
+                </tr>
+                <tr>
+                  <td><span class="cell-strong" style="font-family:var(--font-mono)">#4471</span></td>
+                  <td style="font-family:var(--font-mono)">88-2041</td>
+                  <td>Jun 7, 2026</td>
+                  <td class="num">8,420</td>
+                  <td class="num">15.4%</td>
+                  <td class="num">$4.16</td>
+                  <td class="num">$35,027.20</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3">Gross &middot; 3 loads</td>
+                  <td class="num">26,300</td>
+                  <td colspan="2"></td>
+                  <td class="num">$109,408.00</td>
+                </tr>
+              </tfoot>
+            </table></div>
+          </div>
+
+          <div class="subhead">Deductions &middot; net payable</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Deductions each carry their own math so the farmer can re-derive the check: gross, minus deductions, equals net &mdash; stated once, in order, with the payment record attached.</p>
+          <div class="grid-2" style="align-items:start">
+            <div class="pattern-frame">
+              <div class="frame-head">Deductions</div>
+              <div class="crud-scroll"><table class="crud-table">
+                <tbody>
+                  <tr>
+                    <td><span class="cell-strong">Drying charge</span><div class="dt-sub">26,300 bu &times; $0.072 &middot; avg 15.4% &rarr; 15.0%</div></td>
+                    <td class="num" style="vertical-align:top">&minus;$1,893.60</td>
+                  </tr>
+                  <tr>
+                    <td><span class="cell-strong">State check-off</span><div class="dt-sub">0.5&cent;/bu &times; 26,300 bu</div></td>
+                    <td class="num" style="vertical-align:top">&minus;$131.50</td>
+                  </tr>
+                  <tr>
+                    <td><span class="cell-strong">Advance repayment</span><div class="dt-sub">Note APR-2026 &middot; balance retired</div></td>
+                    <td class="num" style="vertical-align:top">&minus;$25,000.00</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td>Total deductions</td>
+                    <td class="num">&minus;$27,025.10</td>
+                  </tr>
+                </tfoot>
+              </table></div>
+            </div>
+            <div class="pattern-frame">
+              <div class="frame-head">Net payable</div>
+              <div class="paylines">
+                <div class="payline"><span class="k">Gross proceeds</span><span class="v">$109,408.00</span></div>
+                <div class="payline"><span class="k">Total deductions</span><span class="v">&minus;$27,025.10</span></div>
+                <div class="payline total"><span class="k">Net payable</span><span class="v">$82,382.90</span></div>
+                <div class="payline-note"><span>Paid &middot; ACH &middot;&middot;&middot;&middot;2201 &middot; Jun 12, 2026</span><span style="font-family:var(--font-mono)">ref 771-40218</span></div>
+              </div>
+              <div class="fine">Net 10 after settlement per contract #C-2214 &middot; questions to the Fairmont office.</div>
+            </div>
+          </div>
+        </section>
+
         <!-- ============ INSTALL ============ -->
         <section class="section" id="install">
           <div class="eyebrow">Get started</div>
@@ -2280,7 +2398,7 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
 
           <div class="status-legend">
             <span class="mat mat-ready"><span class="dot"></span>ready<span class="n">53</span></span>
-            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">6</span></span>
+            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">7</span></span>
             <span class="mat mat-dep"><span class="dot"></span>deprecated<span class="n">0</span></span>
           </div>
 
@@ -2347,6 +2465,7 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
                 <tr><td style="font-weight:600">CRUD patterns</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Flows</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Contract detail</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 1 of 4; API settling while the lineup lands.</td></tr>
+                <tr><td style="font-weight:600">Settlement statement</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 2 of 4; money math reconciles to contract-detail fills.</td></tr>
               </tbody>
             </table>
           </div>
