@@ -43,6 +43,13 @@ surfaces that must stay in sync:
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
+- **Contrast audit done** (backlog #3, part 1 — 2026-07-03): repeatable tool
+  at `kernel-portal/scripts/contrast-audit.mjs` (`culori` devDependency),
+  findings in `docs/a11y/contrast-audit-2026-07.md`. 62 pairs checked light +
+  dark; 3 fail AA 4.5:1, all in the role layer (dark
+  destructive-foreground/destructive 3.50:1, muted-foreground/muted 3.68:1
+  dark and 4.10:1 light). All Badge/Alert/StatusBadge soft fills pass.
+  Token fixes (with exact L values in the report) are part 2 — not applied.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
 - Docs system (this directory) in place — see decision 0001.
@@ -63,9 +70,11 @@ surfaces that must stay in sync:
 2. **Domain patterns** → in flight (approved lineup: contract detail ✓,
    settlement statement, load ticket entry flow, basis & bid board —
    scale-ticket table dropped; its data lives in fills + load entry).
-3. **Accessibility pass** — contrast ratios across the 50→950 ramps and
-   status colors in light + dark; focus states; keyboard nav in interactive
-   patterns.
+3. **Accessibility pass** — part 1 (contrast audit + report) ✓ done
+   2026-07-03; remaining: apply the three role-token fixes from
+   `docs/a11y/contrast-audit-2026-07.md` (mirrored across both surfaces),
+   focus states, keyboard nav in interactive patterns, and a preview-CSS
+   pairing pass.
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
