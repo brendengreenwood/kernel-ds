@@ -58,6 +58,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuGroup,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
@@ -98,12 +99,14 @@ function Combobox() {
   const [value, setValue] = React.useState("next")
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button variant="outline" className="w-[220px] justify-between">
-          {frameworks.find((f) => f.value === value)?.label ?? "Select…"}
-          <ChevronsUpDown className="opacity-50" />
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger
+        render={
+          <Button variant="outline" className="w-[220px] justify-between">
+            {frameworks.find((f) => f.value === value)?.label ?? "Select…"}
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        }
+      />
       <PopoverContent className="w-[220px] p-0">
         <Command>
           <CommandInput placeholder="Search framework…" />
@@ -226,13 +229,13 @@ export function GalleryNav() {
       <Subhead>Dropdown menu · Context menu</Subhead>
       <Demo className="gap-4">
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">Open menu</Button>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger render={<Button variant="outline">Open menu</Button>} />
           <DropdownMenuContent className="w-56" align="start">
-            <DropdownMenuLabel>My account</DropdownMenuLabel>
-            <DropdownMenuItem><User /> Profile <DropdownMenuShortcut>⌘P</DropdownMenuShortcut></DropdownMenuItem>
-            <DropdownMenuItem><Settings /> Settings <DropdownMenuShortcut>⌘,</DropdownMenuShortcut></DropdownMenuItem>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>My account</DropdownMenuLabel>
+              <DropdownMenuItem><User /> Profile <DropdownMenuShortcut>⌘P</DropdownMenuShortcut></DropdownMenuItem>
+              <DropdownMenuItem><Settings /> Settings <DropdownMenuShortcut>⌘,</DropdownMenuShortcut></DropdownMenuItem>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive"><LogOut /> Log out</DropdownMenuItem>
           </DropdownMenuContent>

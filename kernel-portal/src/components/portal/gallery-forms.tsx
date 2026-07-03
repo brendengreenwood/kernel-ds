@@ -139,7 +139,7 @@ export function GalleryForms() {
             <Underline />
           </Toggle>
         </div>
-        <ToggleGroup type="single" defaultValue="left" variant="outline">
+        <ToggleGroup defaultValue={["left"]} variant="outline">
           <ToggleGroupItem value="left">Left</ToggleGroupItem>
           <ToggleGroupItem value="center">Center</ToggleGroupItem>
           <ToggleGroupItem value="right">Right</ToggleGroupItem>
@@ -204,7 +204,12 @@ export function GalleryForms() {
           <div className="mb-3 text-sm font-medium">
             Value <span className="font-mono text-muted-foreground">{slider[0]}</span>
           </div>
-          <Slider value={slider} onValueChange={setSlider} max={100} step={1} />
+          <Slider
+            value={slider}
+            onValueChange={(value) => setSlider(Array.isArray(value) ? [...value] : [value])}
+            max={100}
+            step={1}
+          />
         </div>
         <InputOTP maxLength={6}>
           <InputOTPGroup>

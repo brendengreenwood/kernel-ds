@@ -42,15 +42,17 @@ function DatePicker() {
   const [date, setDate] = React.useState<Date | undefined>(new Date(2026, 5, 12))
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className={cn("w-[260px] justify-start gap-2 font-normal", !date && "text-muted-foreground")}
-        >
-          <CalendarIcon className="size-4" />
-          {date ? format(date, "PPP") : "Pick a date"}
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            className={cn("w-[260px] justify-start gap-2 font-normal", !date && "text-muted-foreground")}
+          >
+            <CalendarIcon className="size-4" />
+            {date ? format(date, "PPP") : "Pick a date"}
+          </Button>
+        }
+      />
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar mode="single" selected={date} onSelect={setDate} autoFocus />
       </PopoverContent>
@@ -79,7 +81,7 @@ export function GalleryMisc() {
 
       <Subhead>Accordion · Collapsible</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Accordion type="single" collapsible defaultValue="a1" className="rounded-lg border bg-card px-4">
+        <Accordion defaultValue={["a1"]} className="rounded-lg border bg-card px-4">
           <AccordionItem value="a1">
             <AccordionTrigger>Is it accessible?</AccordionTrigger>
             <AccordionContent>
@@ -104,11 +106,13 @@ export function GalleryMisc() {
           <Collapsible open={open} onOpenChange={setOpen} className="w-full max-w-xs space-y-2">
             <div className="flex items-center justify-between rounded-md border bg-card px-4 py-2.5">
               <span className="text-sm font-medium">@kernel starred 3 repos</span>
-              <CollapsibleTrigger asChild>
-                <Button variant="ghost" size="icon" className="size-7">
-                  <ChevronsUpDown />
-                </Button>
-              </CollapsibleTrigger>
+              <CollapsibleTrigger
+                render={
+                  <Button variant="ghost" size="icon" className="size-7">
+                    <ChevronsUpDown />
+                  </Button>
+                }
+              />
             </div>
             <CollapsibleContent className="space-y-2">
               {["@kernel/ui", "@kernel/themes", "@kernel/charts"].map((r) => (
