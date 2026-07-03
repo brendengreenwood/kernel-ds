@@ -23,7 +23,9 @@ npm run build      # type-check + production build to dist/
 - **Vite 8** + React 19 + TypeScript, `@/*` aliased to `src/*`
 - **React Router** — the portal mounts at `/` (`src/main.tsx` → `src/pages/portal.tsx`)
 - **Tailwind CSS v4** via `@tailwindcss/vite`; all tokens live in `src/index.css`
-- **shadcn/ui** components in `src/components/ui/` (radix base, nova preset)
+- **shadcn/ui** components in `src/components/ui/` (**Base UI** primitives,
+  `base-nova` style — migrated from Radix 2026-07-04 per decision 0005;
+  reports in `.migration/`)
 - `next-themes` drives light/dark via the `class` attribute (works outside Next)
 
 ## File map
@@ -149,4 +151,14 @@ The original portal source targeted Next.js App Router. Changes made:
 - `<StatusBadge>`'s `Status` type now derives from its cva variants so
   `status` props are checked against the real lifecycle union
 - A standalone disabled `RadioGroupItem` demo now sits in its own `RadioGroup`
-  (the current Radix build throws when an item renders outside a group)
+  (radio items throw when rendered outside a group)
+
+## Base UI notes (post-migration)
+
+- Triggers compose via `render={<Button/>}` instead of `asChild` (the vaul
+  drawer still uses `asChild`).
+- Accordion/ToggleGroup values are arrays; single-open is the default.
+- Behavior deltas vs the Radix era, deliberately not patched: tabs activate
+  manually (arrow keys move focus, Enter/Space activates), menu
+  checkbox/radio items don't close on click, navigation-menu hover delay is
+  50ms. Details in `.migration/project.md`.
