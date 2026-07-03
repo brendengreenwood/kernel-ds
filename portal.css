@@ -997,6 +997,37 @@ code, pre, .mono { font-family: var(--font-mono); }
 .dl dd.mono { font-family: var(--font-mono); }
 @media (max-width: 600px) { .dl { grid-template-columns: 1fr; } }
 
+/* ============================================================
+   DOMAIN PATTERNS — contract detail
+   ============================================================ */
+.dl.dl-4 { grid-template-columns: repeat(4, 1fr); column-gap: 24px; }
+@media (max-width: 900px) { .dl.dl-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .dl.dl-4 { grid-template-columns: 1fr; } }
+
+.frame-head { padding: 13px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
+
+.delivery { padding: 18px 22px; border-bottom: 1px solid var(--border); }
+.delivery .row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.delivery .cap { font-size: 12px; color: var(--muted-foreground); font-weight: 500; }
+.delivery .amt { font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); }
+.delivery .progress { max-width: none; margin-top: 10px; }
+.delivery-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 24px; margin-top: 16px; }
+.delivery-stats .k { font-size: 12px; color: var(--muted-foreground); font-weight: 500; }
+.delivery-stats .v { font-family: var(--font-mono); font-size: 14px; margin-top: 2px; }
+@media (max-width: 600px) { .delivery-stats { grid-template-columns: 1fr 1fr; } }
+
+.crud-table tfoot td { padding: 11px 16px; border-top: 1px solid var(--border); font-weight: 600; font-size: 13px;
+  background: color-mix(in oklch, var(--muted) 40%, transparent); }
+
+.tl { list-style: none; padding: 16px 20px; margin: 0; }
+.tl li { position: relative; display: flex; gap: 14px; padding-bottom: 20px; }
+.tl li:last-child { padding-bottom: 6px; }
+.tl li:not(:last-child)::before { content: ""; position: absolute; left: 5px; top: 14px; bottom: -2px; width: 1px; background: var(--border); }
+.tl .tl-dot { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--primary); background: var(--card); flex-shrink: 0; margin-top: 5px; }
+.tl .tl-title { font-size: 13.5px; font-weight: 500; }
+.tl .tl-date { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted-foreground); margin-left: 8px; }
+.tl .tl-detail { font-size: 13px; color: var(--muted-foreground); margin-top: 2px; }
+
 /* empty state */
 .empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 54px 24px; }
 .empty .ic { width: 52px; height: 52px; border-radius: 50%; background: var(--muted); color: var(--muted-foreground);

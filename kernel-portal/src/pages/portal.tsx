@@ -13,6 +13,7 @@ import { DashboardSection } from "@/components/portal/dashboard"
 import { FiltersSection } from "@/components/portal/filters"
 import { PatternsSection } from "@/components/portal/patterns"
 import { FlowsSection } from "@/components/portal/flows"
+import { ContractDetailSection } from "@/components/portal/contract-detail"
 import { InstallSection } from "@/components/portal/install"
 
 export default function PortalPage() {
@@ -47,6 +48,7 @@ export default function PortalPage() {
           <FiltersSection />
           <PatternsSection />
           <FlowsSection />
+          <ContractDetailSection />
           <InstallSection />
         </main>
       </SidebarInset>

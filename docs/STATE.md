@@ -38,15 +38,16 @@ surfaces that must stay in sync:
 
 ## In flight
 
-*(nothing currently — add items here when work starts, remove when the
-worklog entry lands)*
+- **Domain patterns (backlog #2), 1 of 4 done.** Approved lineup: contract
+  detail ✓ → settlement statement (next) → load ticket entry flow → basis &
+  bid board. Each lands on both surfaces under the **Domain** nav group.
 
 ## Backlog (in priority order)
 
 1. ~~Sync audit~~ ✓ done 2026-07-03 (see worklog; surfaces verified mirrored)
-2. **Domain patterns** — real merchant screens to pressure-test the system:
-   settlement statement, load ticket entry flow, contract detail with
-   basis/futures breakdown, scale-ticket table.
+2. **Domain patterns** → in flight (approved lineup: contract detail ✓,
+   settlement statement, load ticket entry flow, basis & bid board —
+   scale-ticket table dropped; its data lives in fills + load entry).
 3. **Accessibility pass** — contrast ratios across the 50→950 ramps and
    status colors in light + dark; focus states; keyboard nav in interactive
    patterns.

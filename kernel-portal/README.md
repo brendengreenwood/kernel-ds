@@ -60,6 +60,7 @@ src/
       filters.tsx              ← Filter bar · chips · popover · saved views
       patterns.tsx             ← CRUD recipes: list view · form · detail · empty
       flows.tsx                ← Multi-step wizard · settings page
+      contract-detail.tsx      ← Domain: contract header · terms · fills · activity
       section.tsx              ← shared <Section> / <Demo> layout helpers
 ```
 
