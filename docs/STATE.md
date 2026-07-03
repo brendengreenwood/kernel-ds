@@ -46,6 +46,10 @@ surfaces that must stay in sync:
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
 - Docs system (this directory) in place — see decision 0001.
+- CI quality gates: GitHub Actions (`.github/workflows/ci.yml`) runs
+  `npm ci` + `tsc -b` + build + lint (oxlint, blocking) for `kernel-portal`
+  on every PR and push to `main`. Branch protection requiring the check
+  must be enabled by the repo owner in GitHub settings.
 
 ## In flight
 
