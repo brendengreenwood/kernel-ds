@@ -18,6 +18,8 @@ import {
   Terminal,
   FileText,
   Banknote,
+  Compass,
+  SlidersHorizontal,
   ListChecks,
 } from "lucide-react"
 
@@ -70,8 +72,10 @@ const nav = [
     label: "Patterns",
     items: [
       { title: "App shell", href: "#appshell", icon: PanelsTopLeft },
+      { title: "Navigation", href: "#navigation", icon: Compass, maturity: "experimental" as const },
       { title: "Dashboard", href: "#dashboard", icon: LayoutDashboard },
       { title: "Filtering", href: "#filters", icon: Filter },
+      { title: "Advanced filtering", href: "#filtering-advanced", icon: SlidersHorizontal, maturity: "experimental" as const },
       { title: "CRUD patterns", href: "#patterns", icon: LayoutList },
       { title: "Flows", href: "#flows", icon: Route },
     ],

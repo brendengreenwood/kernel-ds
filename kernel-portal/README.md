@@ -68,8 +68,10 @@ src/
       tables.tsx               ← Table system: density · variants · sort · sticky · states
       charts.tsx               ← shadcn <ChartContainer> (recharts)
       app-shell.tsx            ← App shell + page-header pattern
+      nav-patterns.tsx         ← Navigation: module switcher · grouped rail · record tabs
       dashboard.tsx            ← KPI cards · sparklines · activity feed
       filters.tsx              ← Filter bar · chips · popover · saved views
+      filtering-advanced.tsx   ← Filter builder · column controls · date presets
       patterns.tsx             ← CRUD recipes: list view · form · detail · empty
       flows.tsx                ← Multi-step wizard · settings page
       contract-detail.tsx      ← Domain: contract header · terms · fills · activity
@@ -88,13 +90,14 @@ src/
 > `ui/command.tsx` diverges from stock in one class: the palette input is
 > `text-base md:text-sm` so iOS Safari doesn't zoom on focus (decision 0007).
 
-> **Touch ergonomics (decision 0007):** `src/index.css` ends with a
-> `@media (pointer: coarse)` rule that pads compact controls
-> (`button`, `toggle`, `toggle-group-item`, `pagination-link`,
-> `menubar-trigger` slots) out to a ≥44px effective hit area with an
-> invisible `::after` — visuals unchanged. Checkbox/radio/switch already
-> ship base-nova's `after:-inset-*` extensions; `tabs-trigger` is excluded
-> because its `::after` draws the active-line indicator.
+> **Touch ergonomics (decisions 0007 + 0009):** `src/index.css` ends with
+> a `@media (pointer: coarse)` block. Primary controls (button, input,
+> input-group, select-trigger slots) visibly grow to 44px min-height
+> (compact sizes 40px); compact controls that stay small (toggles,
+> pagination, menubar triggers) get a ≥44px effective hit area via an
+> invisible `::after`. Checkbox/radio/switch already ship base-nova's
+> `after:-inset-*` extensions; `tabs-trigger` is excluded because its
+> `::after` draws the active-line indicator.
 
 ## Fonts
 

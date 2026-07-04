@@ -6,9 +6,11 @@
 
 ## What this project is
 
-The **Kernel design system** for a grain-buying merchant platform (loads,
-contracts, farms, bushels, basis, settlement). It ships as two mirrored
-surfaces that must stay in sync:
+The **Kernel design system** for a grain-buying merchant platform — a
+**merchant strategic pricing tool** (bids, basis, contracts) with an
+**origination** experience (offers, producers) and a CRUD core throughout
+(loads, farms, bushels, settlement). It ships as two mirrored surfaces
+that must stay in sync:
 
 1. **Static preview** — `Kernel Design System.html` + `theme.css` +
    `portal.css` + `portal.js` at the repo root. Zero-build, open-in-browser.
@@ -61,9 +63,12 @@ surfaces that must stay in sync:
   instead of amputating columns (`.table-wrap` overflow-x,
   `.crud-scroll` wrappers), ramp cells no longer overflow
   (`minmax(0,1fr)` / `min-w-0`), overlays verified fitting at 390px.
-  Repeatable check: `kernel-portal/scripts/mobile-audit.mjs` (playwright)
-  — overflow, clipped content, sub-16px inputs, effective hit areas;
-  currently preview 0/0/0/0, portal clean except two by-design demo
+  Comfortable touch sizing (decision 0009, amends 0007): on coarse
+  pointers primary controls visibly grow to 44px min-height (compact 40px)
+  on both surfaces; invisible hit extensions remain for deliberately-small
+  controls. Repeatable check: `kernel-portal/scripts/mobile-audit.mjs`
+  (playwright) — overflow, clipped content, sub-16px inputs, effective hit
+  areas; currently preview 0/0/0/0, portal clean except two by-design demo
   internals.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
@@ -75,19 +80,21 @@ surfaces that must stay in sync:
 
 ## In flight
 
-- **Domain patterns (backlog #2), 2 of 4 done.** Approved lineup: contract
-  detail ✓ → settlement statement ✓ (2026-07-03; an earlier version of this
-  file marked it done before it was ever built — the worklog entry for
-  2026-07-03 records the drift and the actual landing) → load ticket entry
-  flow (next) → basis & bid board. Each lands on both surfaces under the
-  **Domain** nav group.
+- **UI pattern library buildout (decision 0008).** Primer-style: each
+  pattern is a first-class rail entry with a maturity pill, driven by the
+  product's needs (pricing + origination, CRUD core). Landed 2026-07-03:
+  **Navigation** (module switcher · grouped rail with nested destinations
+  and counts · record underline tabs with overflow) and **Advanced
+  filtering** (condition builder · column controls · crop-year date
+  presets) — both surfaces, experimental. Candidates next: origination
+  flows, pricing worksheet patterns, bulk-edit patterns.
 
 ## Backlog (in priority order)
 
 1. ~~Sync audit~~ ✓ done 2026-07-03 (see worklog; surfaces verified mirrored)
-2. **Domain patterns** → in flight (approved lineup: contract detail ✓,
-   settlement statement, load ticket entry flow, basis & bid board —
-   scale-ticket table dropped; its data lives in fills + load entry).
+2. **UI pattern library** → in flight (decision 0008). Domain lineup
+   capped at two worked examples (contract detail, settlement statement);
+   load ticket entry and basis & bid board dropped.
 3. **Accessibility pass** — part 1 (contrast audit + report) ✓ 2026-07-03;
    part 2 (role-token fixes applied, both surfaces) ✓ 2026-07-04.
    Remaining: focus states, keyboard nav in interactive patterns, a

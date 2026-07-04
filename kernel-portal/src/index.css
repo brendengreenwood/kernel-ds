@@ -598,4 +598,18 @@
     left: min(0px, calc((100% - 44px) / 2));
     right: min(0px, calc((100% - 44px) / 2));
   }
+
+  /* Comfortable visible sizing on touch (decision 0009): primary controls
+     grow to 44px (compact sizes to 40px) instead of relying on invisible
+     hit areas alone. min-height wins even over h-8! utilities. */
+  [data-slot="button"] { min-height: 2.75rem; }
+  [data-slot="button"].h-7,
+  [data-slot="button"].h-6 { min-height: 2.5rem; }
+  [data-slot="button"].size-8 { min-width: 2.75rem; }
+  [data-slot="button"].size-7,
+  [data-slot="button"].size-6 { min-width: 2.5rem; }
+  [data-slot="input"] { min-height: 2.75rem; }
+  [data-slot="input-group"] { min-height: 2.75rem; }
+  [data-slot="select-trigger"] { min-height: 2.75rem; }
+  [data-slot="select-trigger"][data-size="sm"] { min-height: 2.5rem; }
 }

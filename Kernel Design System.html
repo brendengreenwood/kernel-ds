@@ -95,8 +95,10 @@
 
       <div class="nav-group-label">Patterns</div>
       <a class="nav-link" href="#appshell" data-section="appshell" data-title="App shell"><span class="dot"></span>App shell</a>
+      <a class="nav-link" href="#navigation" data-section="navigation" data-title="Navigation"><span class="dot"></span>Navigation<span class="mat-pill">exp</span></a>
       <a class="nav-link" href="#dashboard" data-section="dashboard" data-title="Dashboard"><span class="dot"></span>Dashboard</a>
       <a class="nav-link" href="#filters" data-section="filters" data-title="Filtering &amp; views"><span class="dot"></span>Filtering</a>
+      <a class="nav-link" href="#filtering-advanced" data-section="filtering-advanced" data-title="Advanced filtering"><span class="dot"></span>Advanced filtering<span class="mat-pill">exp</span></a>
       <a class="nav-link" href="#patterns" data-section="patterns" data-title="CRUD patterns"><span class="dot"></span>CRUD patterns</a>
       <a class="nav-link" href="#flows" data-section="flows" data-title="Flows"><span class="dot"></span>Flows</a>
 
@@ -1458,6 +1460,75 @@
           </div>
         </section>
 
+        <!-- ============ NAVIGATION PATTERNS ============ -->
+        <section class="section" id="navigation">
+          <div class="eyebrow">Patterns</div>
+          <h2 class="section-title">Navigation</h2>
+          <p class="section-lead">A pricing tool grows areas &mdash; origination today, accounting tomorrow &mdash; so navigation has to scale by adding entries, not redesigning. Three levels, three patterns: a module switcher for areas, a grouped rail for destinations within an area, and underline tabs for views within a record.</p>
+
+          <div class="subhead">Grouped rail &middot; nested destinations</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">A destination is an icon, a label, and optionally a live count. Related destinations sit under a group label; a destination with sub-views nests one level of children &mdash; never deeper. Extending the app is adding an entry or a group here, nothing else moves.</p>
+          <div class="shellview">
+            <div class="sv-body sv-body-wide" style="min-height:380px">
+              <div class="sv-side">
+                <div class="sv-navlabel">Pricing</div>
+                <div class="sv-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard</div>
+                <div class="sv-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>Bids &amp; basis</div>
+                <div class="sv-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Contracts<span class="sv-cnt">128</span></div>
+                <div class="sv-navlabel">Origination</div>
+                <div class="sv-nav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17a5 5 0 0 1-5-5c0-2.76 2.5-5 5-9 2.5 4 5 6.24 5 9a5 5 0 0 1-5 5z"/><path d="m15.7 10.4 5.3 5.3-2 2-2.3-.7-.7 2.3-2 2-1.3-5.3"/></svg>Offers<span class="sv-cnt">12</span><svg style="width:13px;height:13px;margin-left:2px;opacity:.6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+                <div class="sv-child on">Open</div>
+                <div class="sv-child">Countered</div>
+                <div class="sv-child">Expired</div>
+                <div class="sv-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>Producers</div>
+                <div class="sv-navlabel">Records</div>
+                <div class="sv-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.3a1 1 0 0 0-.3-.7l-2.7-2.7a1 1 0 0 0-.7-.3H14v7h2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>Loads</div>
+                <div class="sv-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>Settlements</div>
+              </div>
+              <div class="sv-main" style="display:grid;place-items:center;background:color-mix(in oklch, var(--muted) 20%, transparent);padding:20px">
+                <div class="sv-skel" style="width:100%;max-width:420px">Origination &middot; Offers &middot; Open</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="subhead">Module switcher</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">When areas have separate audiences (traders price, originators book), a switcher next to the brand swaps the whole rail instead of growing it. The current area is always visible; switching is one click.</p>
+          <div class="shellview">
+            <div class="sv-top">
+              <div class="sv-logo"><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="var(--sidebar-primary-foreground)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg></span>Kernel</div>
+              <span style="color:var(--border)">/</span>
+              <button class="btn btn-ghost btn-sm" style="font-weight:600">Pricing <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.6"><path d="m6 9 6 6 6-6"/></svg></button>
+              <div class="spacer"></div>
+              <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted-foreground)">area-scoped nav &darr;</span>
+            </div>
+            <div style="padding:10px 14px 18px 96px">
+              <div class="menu" style="width:180px">
+                <div class="menu-item" style="font-weight:600"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pricing</div>
+                <div class="menu-item" style="padding-left:34px">Origination</div>
+                <div class="menu-item" style="padding-left:34px">Accounting</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="subhead">Record tabs &middot; overflow</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Views within one record are underline tabs with counts for anything actionable. Past five tabs, the rest live in an overflow menu &mdash; the strip itself never wraps or scrolls off-screen on desktop.</p>
+          <div class="pattern-frame">
+            <div class="pagehead" style="border-bottom:none;padding-bottom:0">
+              <div class="hrow"><div><h3 style="font-size:15px">Contract #C-2214</h3></div></div>
+              <div class="htabs" style="margin-bottom:0">
+                <span class="htab on">Overview</span>
+                <span class="htab">Fills<span class="htab-cnt">3</span></span>
+                <span class="htab">Amendments<span class="htab-cnt">1</span></span>
+                <span class="htab">Pricing</span>
+                <span class="htab">Activity</span>
+                <button class="btn btn-ghost btn-sm" style="color:var(--muted-foreground);margin-bottom:2px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>More</button>
+              </div>
+            </div>
+            <div style="border-top:1px solid var(--border);margin:0 20px 16px;margin-top:0"></div>
+            <div class="sv-skel" style="margin:0 20px 20px;min-height:80px">tab panel</div>
+          </div>
+        </section>
+
         <!-- ============ DASHBOARD ============ -->
         <section class="section" id="dashboard">
           <div class="eyebrow">Patterns</div>
@@ -1564,6 +1635,63 @@
                 <div style="padding:18px"><div class="sv-skel" style="min-height:90px">filtered results</div></div>
               </div>
             </div>
+          </div>
+        </section>
+
+        <!-- ============ ADVANCED FILTERING ============ -->
+        <section class="section" id="filtering-advanced">
+          <div class="eyebrow">Patterns</div>
+          <h2 class="section-title">Advanced filtering</h2>
+          <p class="section-lead">Quick chips answer the everyday questions; a pricing desk also asks compound ones &mdash; corn under &minus;0.15 basis delivering before November. The builder composes those conditions, column controls shape the table, and date presets speak the domain&rsquo;s calendar. Saved views (see Filtering &amp; views) persist the result.</p>
+
+          <div class="subhead">Filter builder</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">One row per condition &mdash; field, operator, value &mdash; joined with And. Operators change with the field type; the footer shows the match count live so a bad filter is obvious before it&rsquo;s applied. Reach for the builder past three conditions; below that, chips win.</p>
+          <div class="pattern-frame">
+            <div class="fb">
+              <div class="fb-row"><span class="fb-join">Where</span><select class="select fb-field"><option>Grain</option></select><select class="select fb-op"><option>is</option></select><input class="input fb-val" value="Corn" /><button class="row-kebab" aria-label="Remove condition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+              <div class="fb-row"><span class="fb-join">And</span><select class="select fb-field"><option>Basis</option></select><select class="select fb-op"><option>&le;</option></select><input class="input fb-val" value="&minus;0.15" style="font-family:var(--font-mono)" /><button class="row-kebab" aria-label="Remove condition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+              <div class="fb-row"><span class="fb-join">And</span><select class="select fb-field"><option>Delivery window</option></select><select class="select fb-op"><option>overlaps</option></select><input class="input fb-val" value="Oct 1 &ndash; Nov 15" /><button class="row-kebab" aria-label="Remove condition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+              <div><button class="btn btn-ghost btn-sm" style="color:var(--muted-foreground)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add condition</button></div>
+            </div>
+            <div class="fb-foot">
+              <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted-foreground)">matches 23 of 210 contracts</span>
+              <div class="right"><button class="btn btn-ghost btn-sm">Clear</button><button class="btn btn-outline btn-sm">Save as view</button><button class="btn btn-default btn-sm">Apply</button></div>
+            </div>
+          </div>
+
+          <div class="subhead">Column controls</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Data-heavy tables let the merchant choose their columns instead of showing everything.</p>
+          <div class="demo recessed" style="justify-content:flex-start;align-items:flex-start;gap:22px;padding:24px">
+            <div>
+              <button class="btn btn-outline btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg>Columns <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted-foreground)">5/7</span></button>
+              <div class="filter-pop" style="margin-top:8px">
+                <div class="ph">Visible columns</div>
+                <div class="pl">
+                  <label class="fopt" style="opacity:.6"><input class="checkbox" type="checkbox" checked disabled/> Load <span class="cnt">locked</span></label>
+                  <label class="fopt"><input class="checkbox" type="checkbox" checked/> Farm</label>
+                  <label class="fopt"><input class="checkbox" type="checkbox" checked/> Grain</label>
+                  <label class="fopt"><input class="checkbox" type="checkbox" checked/> Basis</label>
+                  <label class="fopt"><input class="checkbox" type="checkbox"/> Futures</label>
+                  <label class="fopt"><input class="checkbox" type="checkbox" checked/> Cash price</label>
+                  <label class="fopt"><input class="checkbox" type="checkbox"/> Delivered</label>
+                </div>
+                <div class="pf"><button class="btn btn-ghost btn-sm" style="flex:1">Reset to default</button></div>
+              </div>
+            </div>
+            <p style="font-size:12px;line-height:1.6;color:var(--muted-foreground);max-width:24ch;margin-top:2px">The identity column is locked &mdash; a table always keeps its anchor. Order is drag-to-reorder; the choice persists per saved view.</p>
+          </div>
+
+          <div class="subhead">Date-range presets</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Date filters offer the ranges merchants actually use &mdash; including the crop year, which no generic date picker knows about. Custom exposes plain range inputs.</p>
+          <div class="pattern-frame" style="padding:16px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+            <div class="segmented">
+              <button>Today</button>
+              <button>7D</button>
+              <button>30D</button>
+              <button class="on">Crop year</button>
+              <button>Custom</button>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted-foreground)">Sep 1, 2025 &ndash; Aug 31, 2026</span>
           </div>
         </section>
 
@@ -2398,7 +2526,7 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
 
           <div class="status-legend">
             <span class="mat mat-ready"><span class="dot"></span>ready<span class="n">53</span></span>
-            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">7</span></span>
+            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">9</span></span>
             <span class="mat mat-dep"><span class="dot"></span>deprecated<span class="n">0</span></span>
           </div>
 
@@ -2459,6 +2587,8 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
                 <tr><td style="font-weight:600">Form elements</td><td class="muted">Element</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Tables</td><td class="muted">Element</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Charts</td><td class="muted">Element</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Navigation</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; module switcher + nested rail conventions settling.</td></tr>
+                <tr><td style="font-weight:600">Advanced filtering</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; builder operator set and persistence model settling.</td></tr>
                 <tr><td style="font-weight:600">App shell</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Dashboard</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Filtering</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
