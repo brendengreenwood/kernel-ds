@@ -88,8 +88,11 @@ that must stay in sync:
   filtering** (condition builder · column controls · crop-year date
   presets), and **Origination flow** (offer queue · counter composer ·
   negotiation thread; a counter is an event on a *pending* offer, not a
-  lifecycle state — every status hue is allocated, decision 0003 applies)
-  — both surfaces, experimental. Candidates next: bulk-edit pattern,
+  lifecycle state — every status hue is allocated, decision 0003 applies),
+  and **Modals** (configuration axes, not use cases: xs/sm/md/lg size
+  ladder · standard/split/stacked footers · capped scrolling body ·
+  dismissable vs must-choose, with a working Escape/outside-click-refusing
+  demo) — both surfaces, experimental. Candidates next: bulk-edit pattern,
   pricing worksheet patterns, saved-view management.
 
 ## Backlog (in priority order)
@@ -106,6 +109,16 @@ that must stay in sync:
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
+
+## Experiments
+
+- **Workspace shell** (`/workspace` route in kernel-portal, 2026-07-04):
+  four-zone AI-era layout — collapsed icon rail · context column
+  (menu/list that drives the canvas) · workspace canvas · chat assistant.
+  Rail switches areas (Origination/Pricing), list selection drives the
+  record; context column and chat become overlays below lg/xl. Linked
+  from the docs rail ("Workspace demo ↗"). Route-level experiment only —
+  no static-preview mirror until/unless it graduates to a pattern.
 
 ## Open questions
 
