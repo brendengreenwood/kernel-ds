@@ -622,4 +622,9 @@
   [data-slot="input-group"] { min-height: 2.75rem; }
   [data-slot="select-trigger"] { min-height: 2.75rem; }
   [data-slot="select-trigger"][data-size="sm"] { min-height: 2.5rem; }
+
+  /* Nav rows are tap targets too: grow every rail item to 44px on touch
+     so the sidebar sheet is as comfortable as buttons and fields. */
+  [data-slot="sidebar-menu-button"],
+  [data-slot="sidebar-menu-sub-button"] { min-height: 2.75rem; }
 }
