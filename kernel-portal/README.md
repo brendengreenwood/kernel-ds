@@ -92,8 +92,10 @@ src/
 > `ui/select.tsx` diverges from stock in form ergonomics: the trigger is
 > `w-full` (selects fill their form column like `Input`; size compact ones
 > at the call site), the popup is `min-w-[max(var(--anchor-width),9rem)]`
-> — never narrower than the trigger or its own content — and the list
-> carries `p-1` with roomier items (`py-1.5 pl-2`).
+> — never narrower than the trigger or its own content — the list carries
+> `p-1` with roomier items (`py-1.5 pl-2`), and the menu drops *below* the
+> field, left-aligned (`alignItemWithTrigger` defaults off, `align`
+> defaults `start`) instead of Base UI's macOS-style overlay.
 
 > **Touch ergonomics (decisions 0007 + 0009):** `src/index.css` ends with
 > a `@media (pointer: coarse)` block. Primary controls (button, input,
