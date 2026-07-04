@@ -38,9 +38,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar"
@@ -135,23 +132,21 @@ export function AppSidebar() {
           <SidebarGroupLabel>Component pages</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuSub className="mr-0 border-l-0 px-0">
-                  {galleryClusters.map((c) => (
-                    <SidebarMenuSubItem key={c.slug}>
-                      <SidebarMenuSubButton
-                        size="sm"
-                        isActive={pathname === `/components/${c.slug}`}
-                        render={
-                          <Link to={`/components/${c.slug}`} onClick={close}>
-                            <span className="truncate">{c.title}</span>
-                          </Link>
-                        }
-                      />
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </SidebarMenuItem>
+              {galleryClusters.map((c) => (
+                <SidebarMenuItem key={c.slug}>
+                  <SidebarMenuButton
+                    isActive={pathname === `/components/${c.slug}`}
+                    render={
+                      <Link to={`/components/${c.slug}`} onClick={close}>
+                        <span className="flex size-4 items-center justify-center" aria-hidden>
+                          <span className="size-1.5 rounded-full bg-current opacity-40" />
+                        </span>
+                        <span>{c.title}</span>
+                      </Link>
+                    }
+                  />
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

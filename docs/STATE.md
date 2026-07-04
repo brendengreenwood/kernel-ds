@@ -74,7 +74,10 @@ long scroll.
   controls. Repeatable check: `kernel-portal/scripts/mobile-audit.mjs`
   (playwright) — overflow, clipped content, sub-16px inputs, effective hit
   areas; currently preview 0/0/0/0, portal clean except two by-design demo
-  internals.
+  internals. Extended 2026-07-04 to nav rows: sidebar menu buttons (portal)
+  and the preview drawer's `.nav-link` grow to 44px on coarse pointers,
+  and the portal's per-component rail list is now normal menu rows (dot +
+  label), not a smaller nested sub-tree — the rail reads as one style.
 - **Per-page information architecture** (decision 0011, 2026-07-04):
   every rail destination is its own page. Portal uses React Router nested
   routes under `PortalLayout` (one route per section; `/components` index

@@ -1512,6 +1512,8 @@ code, pre, .mono { font-family: var(--font-mono); }
   .btn-sm { min-height: 40px; }
   .btn-icon { min-width: 44px; min-height: 44px; }
   .nav-toggle { width: 44px; height: 44px; }
+  /* Rail rows are tap targets too — comfortable in the drawer on touch. */
+  .nav-link { min-height: 44px; }
   .input, .select, .addon-select { min-height: 44px; height: auto; }
   .input-sm { min-height: 40px; }
   .page-btn { min-width: 40px; min-height: 40px; }
