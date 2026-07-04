@@ -145,7 +145,7 @@ function ContextColumn({
       <div className="border-b p-2.5">
         <span className="relative block">
           <Search className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder={`Search ${area.columnTitle.toLowerCase()}…`} className="h-8 pl-8" />
+          <Input placeholder={`Search ${area.columnTitle.toLowerCase()}…`} className="h-(--control-h-sm) pl-8" />
         </span>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto p-2">

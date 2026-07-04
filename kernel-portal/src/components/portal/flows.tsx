@@ -178,7 +178,7 @@ function SettingsPage() {
             <div className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">Markets</div>
             <SettingRow title="Basis alerts" desc="Notify me when basis at my locations crosses a threshold.">
               <Select defaultValue="daily" items={{ daily: "Daily digest", rt: "Real-time", off: "Off" }}>
-                <SelectTrigger className="h-[34px] w-auto min-w-[150px]"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="w-auto min-w-[150px]"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="daily">Daily digest</SelectItem>
                   <SelectItem value="rt">Real-time</SelectItem>

@@ -70,7 +70,7 @@ function FilterBuilder() {
             <Input
               value={r.value}
               onChange={(e) => update(r.id, { value: e.target.value })}
-              className="h-7 w-44 font-mono text-base md:text-[0.8rem]"
+              className="h-(--control-h-sm) w-44 font-mono text-base md:text-[0.8rem]"
             />
             <Button
               size="icon-sm"
@@ -177,9 +177,9 @@ function DatePresets() {
         </div>
         {preset === "Custom" ? (
           <div className="flex items-center gap-2">
-            <Input className="h-8 w-32 font-mono" defaultValue="Oct 1, 2026" />
+            <Input className="h-(--control-h-sm) w-32 font-mono" defaultValue="Oct 1, 2026" />
             <span className="text-muted-foreground">–</span>
-            <Input className="h-8 w-32 font-mono" defaultValue="Nov 15, 2026" />
+            <Input className="h-(--control-h-sm) w-32 font-mono" defaultValue="Nov 15, 2026" />
           </div>
         ) : (
           <span className="font-mono text-xs text-muted-foreground">
