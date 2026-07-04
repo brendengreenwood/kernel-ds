@@ -20,6 +20,7 @@ import {
   Banknote,
   Handshake,
   AppWindow,
+  PanelsLeftRight,
   Compass,
   SlidersHorizontal,
   ListChecks,
@@ -82,6 +83,7 @@ const nav = [
       { title: "Flows", href: "#flows", icon: Route },
       { title: "Origination flow", href: "#origination", icon: Handshake, maturity: "experimental" as const },
       { title: "Modals", href: "#modals", icon: AppWindow, maturity: "experimental" as const },
+      { title: "Workspace demo ↗", href: "/workspace", icon: PanelsLeftRight, maturity: "experimental" as const },
     ],
   },
   {

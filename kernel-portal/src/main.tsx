@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import PortalPage from "@/pages/portal"
+import WorkspacePage from "@/pages/workspace"
 import "./index.css"
 
 createRoot(document.getElementById("root")!).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PortalPage />} />
+          <Route path="/workspace" element={<WorkspacePage />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

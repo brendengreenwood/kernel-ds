@@ -110,6 +110,16 @@ that must stay in sync:
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
 
+## Experiments
+
+- **Workspace shell** (`/workspace` route in kernel-portal, 2026-07-04):
+  four-zone AI-era layout — collapsed icon rail · context column
+  (menu/list that drives the canvas) · workspace canvas · chat assistant.
+  Rail switches areas (Origination/Pricing), list selection drives the
+  record; context column and chat become overlays below lg/xl. Linked
+  from the docs rail ("Workspace demo ↗"). Route-level experiment only —
+  no static-preview mirror until/unless it graduates to a pattern.
+
 ## Open questions
 
 *(none currently)*
