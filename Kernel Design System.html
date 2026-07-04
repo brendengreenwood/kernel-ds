@@ -737,9 +737,13 @@
           <div class="grid-2" style="align-items:start">
             <div class="dialog-scrim">
               <div class="dialog">
-                <div class="dialog-title">Edit profile</div>
-                <div class="dialog-desc">Make changes to your profile here. Click save when you’re done.</div>
-                <div class="field" style="margin-top:16px"><label class="label">Display name</label><input class="input" value="Ellis Morgan" /></div>
+                <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+                  <div class="dialog-title">Edit profile</div>
+                  <div class="dialog-desc">Make changes to your profile here. Click save when you’re done.</div>
+                </div>
+                <div class="dialog-body">
+                  <div class="field"><label class="label">Display name</label><input class="input" value="Ellis Morgan" /></div>
+                </div>
                 <div class="dialog-foot">
                   <button class="btn btn-outline btn-sm">Cancel</button>
                   <button class="btn btn-default btn-sm">Save changes</button>
@@ -748,8 +752,10 @@
             </div>
             <div class="dialog-scrim">
               <div class="dialog">
-                <div class="dialog-title">Delete project</div>
-                <div class="dialog-desc">This permanently removes the project and all of its deployments. This action cannot be undone.</div>
+                <div class="dialog-body">
+                  <div class="dialog-title">Delete project</div>
+                  <div class="dialog-desc">This permanently removes the project and all of its deployments. This action cannot be undone.</div>
+                </div>
                 <div class="dialog-foot">
                   <button class="btn btn-outline btn-sm">Cancel</button>
                   <button class="btn btn-destructive btn-sm">Delete</button>
@@ -2107,56 +2113,78 @@
         <section class="section" id="modals">
           <div class="eyebrow">Patterns</div>
           <h2 class="section-title">Modal patterns</h2>
-          <p class="section-lead">One dialog component, four axes of configuration: how wide it is, how the footer arranges its actions, what scrolls when content is long, and which ways out exist. Pick a point on each axis deliberately &mdash; the combinations below cover nearly every modal an app needs.</p>
+          <p class="section-lead">One dialog component, four axes of configuration: how wide and tall it is, how the header and footer bars arrange themselves, what scrolls when content is long, and which ways out exist. Pick a point on each axis deliberately &mdash; the combinations below cover nearly every modal an app needs, up to entire flows.</p>
 
-          <div class="subhead">Size ladder</div>
-          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Four stops: <b>xs</b> for confirms, <b>sm</b> for messages, <b>md</b> for forms, <b>lg</b> for review surfaces. Size to the content&rsquo;s natural width, then stop &mdash; past lg the task deserves a page, not a bigger modal. On phones every size becomes the same near-full-width sheet.</p>
+          <div class="subhead">Width ladder</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Five stops: <b>xs</b> for confirms, <b>sm</b> for messages, <b>md</b> for forms, <b>lg</b> for review surfaces, <b>xl</b> for flows and workspaces. Size to the content&rsquo;s natural width, then stop. On phones every width becomes the same near-full-width sheet.</p>
           <div class="dialog-scrim" style="gap:20px;flex-wrap:wrap;display:flex;align-items:flex-start;justify-content:center">
-            <div class="dialog" style="position:relative;max-width:300px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-              <div class="dialog-title">An xs dialog</div>
-              <div class="dialog-desc"><span style="font-family:var(--font-mono)">max-w-xs</span> &middot; confirms &mdash; a sentence and two buttons.</div>
+            <div class="dialog" style="max-width:300px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">An xs dialog</div><div class="dialog-desc"><span style="font-family:var(--font-mono)">width=&quot;xs&quot;</span> &middot; confirms &mdash; a sentence and two buttons.</div></div>
               <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Continue</button></div>
             </div>
-            <div class="dialog" style="position:relative;max-width:480px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-              <div class="dialog-title">An md dialog</div>
-              <div class="dialog-desc"><span style="font-family:var(--font-mono)">max-w-md</span> &middot; forms up to ~6 fields. lg (<span style="font-family:var(--font-mono)">max-w-lg</span>) adds room for review surfaces and two-column content.</div>
+            <div class="dialog" style="max-width:480px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">An md dialog</div><div class="dialog-desc"><span style="font-family:var(--font-mono)">width=&quot;md&quot;</span> &middot; forms up to ~6 fields. lg adds room for review; xl is the flow canvas.</div></div>
               <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Continue</button></div>
             </div>
           </div>
 
-          <div class="subhead">Footer configurations</div>
-          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch"><b>Standard</b>: dismiss + commit, right-aligned. <b>Split</b>: a rarer third action anchored left, away from the commit pair. <b>Stacked</b>: full-width buttons when there&rsquo;s one clear recommendation. All collapse to stacked on phones automatically. The primary always names its verb &mdash; never &ldquo;OK&rdquo;.</p>
+          <div class="subhead">Header &amp; footer bars</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">The header is its own bar &mdash; title, context, and the &#10005; live there, visually separated from the work. Footers come in three arrangements: <b>standard</b> (dismiss + commit, right-aligned), <b>split</b> (a rarer third action anchored left, away from the commit pair), and <b>stacked</b> (full-width buttons for one clear recommendation). All collapse to stacked on phones. The primary always names its verb &mdash; never &ldquo;OK&rdquo;.</p>
           <div class="dialog-scrim" style="gap:20px;flex-wrap:wrap;display:flex;align-items:flex-start;justify-content:center">
-            <div class="dialog" style="position:relative;max-width:340px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-              <div class="dialog-title">Standard</div>
-              <div class="dialog-desc">Dismiss beside commit, right-aligned &mdash; the primary hugs the corner where the eye finishes.</div>
+            <div class="dialog" style="max-width:340px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">Standard</div><div class="dialog-desc">Dismiss beside commit, right-aligned &mdash; the primary hugs the corner where the eye finishes.</div></div>
               <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Save changes</button></div>
             </div>
-            <div class="dialog" style="position:relative;max-width:440px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-              <div class="dialog-title">Split</div>
-              <div class="dialog-desc">The rare third action anchors left, physically separated from the commit pair so it can&rsquo;t be hit by momentum.</div>
+            <div class="dialog" style="max-width:440px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">Split</div><div class="dialog-desc">The rare third action anchors left, physically separated from the commit pair so it can&rsquo;t be hit by momentum.</div></div>
               <div class="dialog-foot"><button class="btn btn-destructive btn-sm" style="margin-right:auto">Delete draft</button><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Save changes</button></div>
             </div>
-            <div class="dialog" style="position:relative;max-width:300px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-              <div class="dialog-title">Stacked</div>
-              <div class="dialog-desc">One clear recommendation: full-width buttons, primary first.</div>
+            <div class="dialog" style="max-width:300px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">Stacked</div><div class="dialog-desc">One clear recommendation: full-width buttons, primary first.</div></div>
               <div class="dialog-foot" style="flex-direction:column;align-items:stretch"><button class="btn btn-default btn-sm">Lock basis at &minus;0.22</button><button class="btn btn-ghost btn-sm">Not now</button></div>
             </div>
           </div>
 
+          <div class="subhead">Height &amp; flows</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Width is only half the frame. <b>auto</b> height hugs the content; <b>tall</b> fixes the frame for feeds and histories; <b>full</b> turns the modal into a canvas &mdash; entire flows run inside it, with the header bar carrying progress and the footer navigating steps. Fixed heights scroll their body region. If a flow outgrows even that, it&rsquo;s a page.</p>
+          <div class="dialog-scrim" style="gap:20px;flex-wrap:wrap;display:flex;align-items:stretch;justify-content:center;padding:32px">
+            <div class="dialog" style="max-width:340px;height:360px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">Producer history</div><div class="dialog-desc"><span style="font-family:var(--font-mono)">height=&quot;tall&quot;</span> &mdash; the frame is fixed; the body flexes and scrolls.</div></div>
+              <div class="dialog-body scroll">
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Delivery 18</span><span style="font-family:var(--font-mono)">2,200 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Delivery 17</span><span style="font-family:var(--font-mono)">2,511 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Delivery 16</span><span style="font-family:var(--font-mono)">2,822 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Delivery 15</span><span style="font-family:var(--font-mono)">2,233 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Delivery 14</span><span style="font-family:var(--font-mono)">2,544 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Delivery 13</span><span style="font-family:var(--font-mono)">2,855 bu</span></div>
+              </div>
+              <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Close</button></div>
+            </div>
+            <div class="dialog" style="max-width:560px;height:360px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+                <div class="dialog-title" style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">New contract <span style="font-family:var(--font-mono);font-size:11.5px;font-weight:400;color:var(--muted-foreground)">step 1 of 3 &middot; Terms</span></div>
+                <div class="dialog-desc">An entire flow in one modal: bar header carries the progress, the body is the step, the footer navigates.</div>
+              </div>
+              <div class="dialog-body" style="display:grid">
+                <div style="display:grid;place-items:center;border:1.5px dashed var(--border);border-radius:var(--radius-md);font-family:var(--font-mono);font-size:12px;color:var(--muted-foreground)">Terms &mdash; step content region</div>
+              </div>
+              <div class="dialog-foot"><button class="btn btn-outline btn-sm" style="margin-right:auto" disabled>Back</button><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Next</button></div>
+            </div>
+          </div>
+
           <div class="subhead">Scrolling</div>
-          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Long content scrolls in a capped, bordered body region; the title and actions never move. If the body wants more than about half the screen, that&rsquo;s the signal to leave the modal for a page or sheet.</p>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">In an auto-height modal, long content scrolls in a capped, bordered body region; the title and actions never move. Cap the body, never the popup &mdash; the dialog itself must not exceed the viewport.</p>
           <div class="dialog-scrim">
-            <div class="dialog" style="position:relative;max-width:460px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-              <div class="dialog-title">Delivery schedule</div>
-              <div class="dialog-desc">Header and footer stay put; only the body scrolls, inside its own bordered region so the edge is visible.</div>
-              <div style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-md);margin-top:14px;padding:2px 14px">
-                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 1</span><span style="font-family:var(--font-mono)">1,600 bu</span></div>
-                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 2</span><span style="font-family:var(--font-mono)">1,737 bu</span></div>
-                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 3</span><span style="font-family:var(--font-mono)">1,874 bu</span></div>
-                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 4</span><span style="font-family:var(--font-mono)">2,011 bu</span></div>
-                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 5</span><span style="font-family:var(--font-mono)">2,148 bu</span></div>
-                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 6</span><span style="font-family:var(--font-mono)">1,685 bu</span></div>
+            <div class="dialog" style="max-width:460px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">Delivery schedule</div><div class="dialog-desc">Header and footer stay put; only the body scrolls, inside its own bordered region so the edge is visible.</div></div>
+              <div class="dialog-body">
+                <div style="max-height:150px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-md);padding:2px 14px">
+                  <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 1</span><span style="font-family:var(--font-mono)">1,600 bu</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 2</span><span style="font-family:var(--font-mono)">1,737 bu</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 3</span><span style="font-family:var(--font-mono)">1,874 bu</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 4</span><span style="font-family:var(--font-mono)">2,011 bu</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 5</span><span style="font-family:var(--font-mono)">2,148 bu</span></div>
+                </div>
               </div>
               <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Close</button><button class="btn btn-default btn-sm">Approve schedule</button></div>
             </div>
@@ -2165,14 +2193,12 @@
           <div class="subhead">Dismissal</div>
           <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Default is generous: &#10005;, Escape, and scrim click all cancel safely. A <i>must-choose</i> modal removes them and offers only explicit actions &mdash; legitimate only when abandoning would lose real work, and even then one of the choices must be an exit. Never nest modals.</p>
           <div class="dialog-scrim" style="gap:20px;flex-wrap:wrap;display:flex;align-items:flex-start;justify-content:center">
-            <div class="dialog" style="position:relative;max-width:340px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-              <div class="dialog-title">Dismissable</div>
-              <div class="dialog-desc">Three exits, all safe: the &#10005;, Escape, and clicking the scrim.</div>
+            <div class="dialog" style="max-width:340px">
+              <div class="dialog-head"><button class="dialog-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><div class="dialog-title">Dismissable</div><div class="dialog-desc">Three exits, all safe: the &#10005;, Escape, and clicking the scrim.</div></div>
               <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Apply</button></div>
             </div>
             <div class="dialog" style="max-width:300px">
-              <div class="dialog-title">Pricing in progress</div>
-              <div class="dialog-desc">No &#10005;, no outside-click close &mdash; leaving would drop the lock on ZCZ6.</div>
+              <div class="dialog-head"><div class="dialog-title">Pricing in progress</div><div class="dialog-desc">No &#10005;, no outside-click close &mdash; leaving would drop the lock on ZCZ6.</div></div>
               <div class="dialog-foot" style="flex-direction:column;align-items:stretch"><button class="btn btn-default btn-sm">Keep waiting</button><button class="btn btn-ghost btn-sm">Release lock &amp; exit</button></div>
             </div>
           </div>

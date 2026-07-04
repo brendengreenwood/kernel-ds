@@ -6,6 +6,7 @@ import { Section, Subhead } from "@/components/portal/section"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogBody,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -17,11 +18,12 @@ import {
 
 /* -- sizes ------------------------------------------------------------------ */
 
-const SIZES: { label: string; max: string; use: string }[] = [
-  { label: "xs", max: "sm:max-w-xs", use: "confirms — a sentence and two buttons" },
-  { label: "sm (default)", max: "sm:max-w-sm", use: "short messages, single-field asks" },
-  { label: "md", max: "sm:max-w-md", use: "forms up to ~6 fields" },
-  { label: "lg", max: "sm:max-w-lg", use: "review surfaces, two-column content" },
+const SIZES: { w: "xs" | "sm" | "md" | "lg" | "xl"; label: string; use: string }[] = [
+  { w: "xs", label: "xs", use: "confirms — a sentence and two buttons" },
+  { w: "sm", label: "sm (default)", use: "short messages, single-field asks" },
+  { w: "md", label: "md", use: "forms up to ~6 fields" },
+  { w: "lg", label: "lg", use: "review surfaces, two-column content" },
+  { w: "xl", label: "xl", use: "flows and workspaces — pair with height" },
 ]
 
 function SizeDemo() {
@@ -30,11 +32,11 @@ function SizeDemo() {
       {SIZES.map((s) => (
         <Dialog key={s.label}>
           <DialogTrigger render={<Button variant="outline" size="sm">{s.label}</Button>} />
-          <DialogContent className={s.max}>
+          <DialogContent width={s.w}>
             <DialogHeader>
               <DialogTitle>A {s.label} dialog</DialogTitle>
               <DialogDescription>
-                <span className="font-mono">{s.max}</span> · {s.use}.
+                <span className="font-mono">width=&quot;{s.w}&quot;</span> · {s.use}.
               </DialogDescription>
             </DialogHeader>
             <p className="text-sm text-muted-foreground">
@@ -79,7 +81,7 @@ function FooterDemo() {
       {/* split: tertiary action anchored left */}
       <Dialog>
         <DialogTrigger render={<Button variant="outline" size="sm">Split</Button>} />
-        <DialogContent className="sm:max-w-md">
+        <DialogContent width="md">
           <DialogHeader>
             <DialogTitle>Split footer</DialogTitle>
             <DialogDescription>
@@ -99,7 +101,7 @@ function FooterDemo() {
       {/* stacked: full-width, primary on top */}
       <Dialog>
         <DialogTrigger render={<Button variant="outline" size="sm">Stacked</Button>} />
-        <DialogContent className="sm:max-w-xs">
+        <DialogContent width="xs">
           <DialogHeader>
             <DialogTitle>Stacked footer</DialogTitle>
             <DialogDescription>
@@ -124,7 +126,7 @@ function ScrollDemo() {
     <div className="flex flex-wrap items-center gap-2.5 rounded-lg border bg-card p-6">
       <Dialog>
         <DialogTrigger render={<Button variant="outline" size="sm">Scrollable body</Button>} />
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent width="lg">
           <DialogHeader>
             <DialogTitle>Delivery schedule</DialogTitle>
             <DialogDescription>
@@ -152,6 +154,101 @@ function ScrollDemo() {
         The dialog itself never exceeds the viewport — cap the body
         (<span className="font-mono">max-h + overflow-y-auto</span>), never the
         whole popup.
+      </p>
+    </div>
+  )
+}
+
+/* -- height & flows ------------------------------------------------------------ */
+
+function TallDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger render={<Button variant="outline" size="sm">Tall (fixed height)</Button>} />
+      <DialogContent width="md" height="tall">
+        <DialogHeader>
+          <DialogTitle>Producer history</DialogTitle>
+          <DialogDescription>
+            <span className="font-mono">height=&quot;tall&quot;</span> — the frame is
+            fixed; <span className="font-mono">&lt;DialogBody&gt;</span> flexes and scrolls.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogBody>
+          <dl>
+            {Array.from({ length: 18 }, (_, i) => (
+              <div key={i} className="flex items-baseline justify-between gap-4 border-b py-2.5 last:border-b-0">
+                <dt className="text-xs font-medium text-muted-foreground">Delivery {18 - i}</dt>
+                <dd className="font-mono text-sm">{(2200 + ((i * 311) % 900)).toLocaleString()} bu</dd>
+              </div>
+            ))}
+          </dl>
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose render={<Button variant="ghost">Close</Button>} />
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+const FLOW_STEPS = ["Terms", "Delivery schedule", "Review & book"] as const
+
+function FlowModal() {
+  const [open, setOpen] = React.useState(false)
+  const [step, setStep] = React.useState(0)
+  const last = step === FLOW_STEPS.length - 1
+  return (
+    <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (o) setStep(0) }}>
+      <DialogTrigger render={<Button size="sm">Full-height flow</Button>} />
+      <DialogContent width="xl" height="full">
+        <DialogHeader>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <DialogTitle>New contract</DialogTitle>
+            <span className="font-mono text-xs text-muted-foreground">
+              step {step + 1} of {FLOW_STEPS.length} · {FLOW_STEPS[step]}
+            </span>
+          </div>
+          <DialogDescription>
+            An entire flow in one modal: bar header carries the progress, the
+            body is the step, the footer navigates.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogBody>
+          <div className="grid h-full min-h-40 place-items-center rounded-md border-[1.5px] border-dashed font-mono text-xs text-muted-foreground">
+            {FLOW_STEPS[step]} — step content region
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="outline"
+            disabled={step === 0}
+            onClick={() => setStep((v) => Math.max(0, v - 1))}
+            className="sm:mr-auto"
+          >
+            Back
+          </Button>
+          <DialogClose render={<Button variant="ghost">Cancel</Button>} />
+          {last ? (
+            <Button onClick={() => setOpen(false)}>Book contract</Button>
+          ) : (
+            <Button onClick={() => setStep((v) => v + 1)}>Next</Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function HeightDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-2.5 rounded-lg border bg-card p-6">
+      <TallDialog />
+      <FlowModal />
+      <p className="max-w-72 text-xs leading-relaxed text-muted-foreground">
+        <span className="font-mono">auto</span> hugs content ·{" "}
+        <span className="font-mono">tall</span> fixes ~75dvh ·{" "}
+        <span className="font-mono">full</span> is the flow canvas. Fixed
+        heights need a <span className="font-mono">&lt;DialogBody&gt;</span>.
       </p>
     </div>
   )
@@ -198,7 +295,7 @@ function MustChooseDialog() {
       }}
     >
       <DialogTrigger render={<Button variant="outline" size="sm">Must choose</Button>} />
-      <DialogContent showCloseButton={false} className="sm:max-w-xs">
+      <DialogContent showCloseButton={false} width="xs">
           <DialogHeader>
             <DialogTitle>Pricing in progress</DialogTitle>
             <DialogDescription>
@@ -232,15 +329,27 @@ export function ModalPatternsSection() {
       </p>
       <SizeDemo />
 
-      <Subhead>Footer configurations</Subhead>
+      <Subhead>Header &amp; footer bars</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
-        <b>Standard</b>: dismiss + commit, right-aligned. <b>Split</b>: a
-        rarer third action anchored left, away from the commit pair.{" "}
-        <b>Stacked</b>: full-width buttons when there&rsquo;s one clear
-        recommendation. All collapse to stacked on phones automatically. The
-        primary always names its verb — never &ldquo;OK&rdquo;.
+        The header is its own bar — title, context, and the ✕ live there,
+        visually separated from the work. Footers come in three arrangements:{" "}
+        <b>standard</b> (dismiss + commit, right-aligned), <b>split</b> (a
+        rarer third action anchored left, away from the commit pair), and{" "}
+        <b>stacked</b> (full-width buttons for one clear recommendation). All
+        collapse to stacked on phones. The primary always names its verb —
+        never &ldquo;OK&rdquo;.
       </p>
       <FooterDemo />
+
+      <Subhead>Height &amp; flows</Subhead>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        Width is only half the frame. <b>auto</b> height hugs the content;{" "}
+        <b>tall</b> fixes the frame for feeds and histories; <b>full</b> turns
+        the modal into a canvas — entire flows run inside it, with the header
+        bar carrying progress and the footer navigating steps. If a flow
+        outgrows even that, it&rsquo;s a page.
+      </p>
+      <HeightDemo />
 
       <Subhead>Scrolling</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">

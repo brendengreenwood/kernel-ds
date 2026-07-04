@@ -91,6 +91,11 @@ src/
 > variants for *event outcomes*.
 > `ui/command.tsx` diverges from stock in one class: the palette input is
 > `text-base md:text-sm` so iOS Safari doesn't zoom on focus (decision 0007).
+> `ui/dialog.tsx` diverges from stock: the header is its own bar (full-bleed,
+> `border-b bg-muted/50`, the ✕ lives in it) mirroring the footer bar; the
+> content takes `width` (`xs`–`xl`) and `height` (`auto` · `tall` ≈75dvh ·
+> `full` ≈90dvh) props; and a `<DialogBody>` slot flexes + scrolls inside
+> fixed-height modals — full-height flows run entirely in the modal.
 > `ui/select.tsx` diverges from stock in form ergonomics: the trigger is
 > `w-full` (selects fill their form column like `Input`; size compact ones
 > at the call site), the popup is `min-w-[max(var(--anchor-width),9rem)]`
