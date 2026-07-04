@@ -19,6 +19,7 @@ import {
   FileText,
   Banknote,
   Handshake,
+  AppWindow,
   Compass,
   SlidersHorizontal,
   ListChecks,
@@ -80,6 +81,7 @@ const nav = [
       { title: "CRUD patterns", href: "#patterns", icon: LayoutList },
       { title: "Flows", href: "#flows", icon: Route },
       { title: "Origination flow", href: "#origination", icon: Handshake, maturity: "experimental" as const },
+      { title: "Modals", href: "#modals", icon: AppWindow, maturity: "experimental" as const },
     ],
   },
   {

@@ -88,8 +88,11 @@ that must stay in sync:
   filtering** (condition builder · column controls · crop-year date
   presets), and **Origination flow** (offer queue · counter composer ·
   negotiation thread; a counter is an event on a *pending* offer, not a
-  lifecycle state — every status hue is allocated, decision 0003 applies)
-  — both surfaces, experimental. Candidates next: bulk-edit pattern,
+  lifecycle state — every status hue is allocated, decision 0003 applies),
+  and **Modals** (configuration axes, not use cases: xs/sm/md/lg size
+  ladder · standard/split/stacked footers · capped scrolling body ·
+  dismissable vs must-choose, with a working Escape/outside-click-refusing
+  demo) — both surfaces, experimental. Candidates next: bulk-edit pattern,
   pricing worksheet patterns, saved-view management.
 
 ## Backlog (in priority order)

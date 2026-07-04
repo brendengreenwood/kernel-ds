@@ -102,6 +102,7 @@
       <a class="nav-link" href="#patterns" data-section="patterns" data-title="CRUD patterns"><span class="dot"></span>CRUD patterns</a>
       <a class="nav-link" href="#flows" data-section="flows" data-title="Flows"><span class="dot"></span>Flows</a>
       <a class="nav-link" href="#origination" data-section="origination" data-title="Origination flow"><span class="dot"></span>Origination flow<span class="mat-pill">exp</span></a>
+      <a class="nav-link" href="#modals" data-section="modals" data-title="Modal patterns"><span class="dot"></span>Modals<span class="mat-pill">exp</span></a>
 
       <div class="nav-group-label">Domain</div>
       <a class="nav-link" href="#contract" data-section="contract" data-title="Contract detail"><span class="dot"></span>Contract detail<span class="mat-pill">exp</span></a>
@@ -2102,6 +2103,81 @@
           </div>
         </section>
 
+        <!-- ============ MODAL PATTERNS ============ -->
+        <section class="section" id="modals">
+          <div class="eyebrow">Patterns</div>
+          <h2 class="section-title">Modal patterns</h2>
+          <p class="section-lead">One dialog component, four axes of configuration: how wide it is, how the footer arranges its actions, what scrolls when content is long, and which ways out exist. Pick a point on each axis deliberately &mdash; the combinations below cover nearly every modal an app needs.</p>
+
+          <div class="subhead">Size ladder</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Four stops: <b>xs</b> for confirms, <b>sm</b> for messages, <b>md</b> for forms, <b>lg</b> for review surfaces. Size to the content&rsquo;s natural width, then stop &mdash; past lg the task deserves a page, not a bigger modal. On phones every size becomes the same near-full-width sheet.</p>
+          <div class="dialog-scrim" style="gap:20px;flex-wrap:wrap;display:flex;align-items:flex-start;justify-content:center">
+            <div class="dialog" style="position:relative;max-width:300px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+              <div class="dialog-title">An xs dialog</div>
+              <div class="dialog-desc"><span style="font-family:var(--font-mono)">max-w-xs</span> &middot; confirms &mdash; a sentence and two buttons.</div>
+              <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Continue</button></div>
+            </div>
+            <div class="dialog" style="position:relative;max-width:480px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+              <div class="dialog-title">An md dialog</div>
+              <div class="dialog-desc"><span style="font-family:var(--font-mono)">max-w-md</span> &middot; forms up to ~6 fields. lg (<span style="font-family:var(--font-mono)">max-w-lg</span>) adds room for review surfaces and two-column content.</div>
+              <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Continue</button></div>
+            </div>
+          </div>
+
+          <div class="subhead">Footer configurations</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch"><b>Standard</b>: dismiss + commit, right-aligned. <b>Split</b>: a rarer third action anchored left, away from the commit pair. <b>Stacked</b>: full-width buttons when there&rsquo;s one clear recommendation. All collapse to stacked on phones automatically. The primary always names its verb &mdash; never &ldquo;OK&rdquo;.</p>
+          <div class="dialog-scrim" style="gap:20px;flex-wrap:wrap;display:flex;align-items:flex-start;justify-content:center">
+            <div class="dialog" style="position:relative;max-width:340px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+              <div class="dialog-title">Standard</div>
+              <div class="dialog-desc">Dismiss beside commit, right-aligned &mdash; the primary hugs the corner where the eye finishes.</div>
+              <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Save changes</button></div>
+            </div>
+            <div class="dialog" style="position:relative;max-width:440px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+              <div class="dialog-title">Split</div>
+              <div class="dialog-desc">The rare third action anchors left, physically separated from the commit pair so it can&rsquo;t be hit by momentum.</div>
+              <div class="dialog-foot"><button class="btn btn-destructive btn-sm" style="margin-right:auto">Delete draft</button><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Save changes</button></div>
+            </div>
+            <div class="dialog" style="position:relative;max-width:300px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+              <div class="dialog-title">Stacked</div>
+              <div class="dialog-desc">One clear recommendation: full-width buttons, primary first.</div>
+              <div class="dialog-foot" style="flex-direction:column;align-items:stretch"><button class="btn btn-default btn-sm">Lock basis at &minus;0.22</button><button class="btn btn-ghost btn-sm">Not now</button></div>
+            </div>
+          </div>
+
+          <div class="subhead">Scrolling</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Long content scrolls in a capped, bordered body region; the title and actions never move. If the body wants more than about half the screen, that&rsquo;s the signal to leave the modal for a page or sheet.</p>
+          <div class="dialog-scrim">
+            <div class="dialog" style="position:relative;max-width:460px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+              <div class="dialog-title">Delivery schedule</div>
+              <div class="dialog-desc">Header and footer stay put; only the body scrolls, inside its own bordered region so the edge is visible.</div>
+              <div style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-md);margin-top:14px;padding:2px 14px">
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 1</span><span style="font-family:var(--font-mono)">1,600 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 2</span><span style="font-family:var(--font-mono)">1,737 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 3</span><span style="font-family:var(--font-mono)">1,874 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 4</span><span style="font-family:var(--font-mono)">2,011 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 5</span><span style="font-family:var(--font-mono)">2,148 bu</span></div>
+                <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;font-size:13px"><span style="color:var(--muted-foreground);font-size:12px;font-weight:500">Week 6</span><span style="font-family:var(--font-mono)">1,685 bu</span></div>
+              </div>
+              <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Close</button><button class="btn btn-default btn-sm">Approve schedule</button></div>
+            </div>
+          </div>
+
+          <div class="subhead">Dismissal</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Default is generous: &#10005;, Escape, and scrim click all cancel safely. A <i>must-choose</i> modal removes them and offers only explicit actions &mdash; legitimate only when abandoning would lose real work, and even then one of the choices must be an exit. Never nest modals.</p>
+          <div class="dialog-scrim" style="gap:20px;flex-wrap:wrap;display:flex;align-items:flex-start;justify-content:center">
+            <div class="dialog" style="position:relative;max-width:340px"><button aria-label="Close" style="position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:none;background:transparent;color:var(--muted-foreground);border-radius:var(--radius-sm)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+              <div class="dialog-title">Dismissable</div>
+              <div class="dialog-desc">Three exits, all safe: the &#10005;, Escape, and clicking the scrim.</div>
+              <div class="dialog-foot"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-default btn-sm">Apply</button></div>
+            </div>
+            <div class="dialog" style="max-width:300px">
+              <div class="dialog-title">Pricing in progress</div>
+              <div class="dialog-desc">No &#10005;, no outside-click close &mdash; leaving would drop the lock on ZCZ6.</div>
+              <div class="dialog-foot" style="flex-direction:column;align-items:stretch"><button class="btn btn-default btn-sm">Keep waiting</button><button class="btn btn-ghost btn-sm">Release lock &amp; exit</button></div>
+            </div>
+          </div>
+        </section>
+
         <!-- ============ DOMAIN — CONTRACT DETAIL ============ -->
         <section class="section" id="contract">
           <div class="eyebrow">Domain patterns</div>
@@ -2650,7 +2726,7 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
 
           <div class="status-legend">
             <span class="mat mat-ready"><span class="dot"></span>ready<span class="n">53</span></span>
-            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">10</span></span>
+            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">11</span></span>
             <span class="mat mat-dep"><span class="dot"></span>deprecated<span class="n">0</span></span>
           </div>
 
@@ -2719,6 +2795,7 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
                 <tr><td style="font-weight:600">CRUD patterns</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Flows</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Origination flow</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; queue actions and counter-expiry conventions settling.</td></tr>
+                <tr><td style="font-weight:600">Modals</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; size ladder and must-choose rules settling.</td></tr>
                 <tr><td style="font-weight:600">Contract detail</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 1 of 4; API settling while the lineup lands.</td></tr>
                 <tr><td style="font-weight:600">Settlement statement</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 2 of 4; money math reconciles to contract-detail fills.</td></tr>
               </tbody>

@@ -75,6 +75,7 @@ src/
       patterns.tsx             ← CRUD recipes: list view · form · detail · empty
       flows.tsx                ← Multi-step wizard · settings page
       origination.tsx          ← Origination: offer queue · counter composer · thread
+      modal-patterns.tsx       ← Modals: size ladder · footers · scrolling · dismissal
       contract-detail.tsx      ← Domain: contract header · terms · fills · activity
       settlement.tsx           ← Domain: settlement statement — loads · deductions · net payable
       section.tsx              ← shared <Section> / <Demo> layout helpers
