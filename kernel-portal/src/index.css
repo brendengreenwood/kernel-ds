@@ -11,6 +11,10 @@
 
 :root {
   --radius: 0.5rem;
+  /* control metrics (decision 0010): the density knob for interactive controls */
+  --control-h-sm: 2rem;      /* 32px — compact toolbars, dense rows */
+  --control-h: 2.375rem;     /* 38px — the resting default */
+  --control-h-lg: 2.75rem;   /* 44px — hero actions; the touch minimum */
 
   --background: oklch(1.0000 0 0);
   --foreground: oklch(0.2128 0.0209 162.2254);
@@ -579,6 +583,12 @@
    44px per axis when they are smaller. Checkbox / radio / switch already ship
    their own after:-inset extensions from base-nova. */
 @media (pointer: coarse) {
+  /* decision 0010: on touch, density comes from the tokens themselves */
+  :root {
+    --control-h-sm: 2.5rem;
+    --control-h: 2.75rem;
+    --control-h-lg: 3rem;
+  }
   [data-slot="button"],
   [data-slot="toggle"],
   [data-slot="toggle-group-item"],

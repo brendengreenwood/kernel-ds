@@ -70,6 +70,12 @@ that must stay in sync:
   (playwright) — overflow, clipped content, sub-16px inputs, effective hit
   areas; currently preview 0/0/0/0, portal clean except two by-design demo
   internals.
+- **Control density tokens** (decision 0010, 2026-07-04): `--control-h-sm/
+  -h/-h-lg` (32/38/44px) drive button/input/select heights on both
+  surfaces; default raised 32 → 38px on the portal (converging with the
+  preview, which was already 38). Coarse pointers redefine the tokens
+  (40/44/48) — now the primary mechanism of 0009's touch sizing. Table
+  density modes remain a separate axis.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
 - Docs system (this directory) in place — see decision 0001.

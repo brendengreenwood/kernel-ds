@@ -44,6 +44,10 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   --radius: 0.5rem;
+  /* control metrics (decision 0010): the density knob for interactive controls */
+  --control-h-sm: 2rem;      /* 32px — compact toolbars, dense rows */
+  --control-h: 2.375rem;     /* 38px — the resting default */
+  --control-h-lg: 2.75rem;   /* 44px — hero actions; the touch minimum */
   --spacing: 0.24rem;
   --tracking-normal: 0em;
   --letter-spacing: 0em;
