@@ -78,7 +78,7 @@ function Wizard() {
           <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
             <div className="grid gap-1.5">
               <Label>Destination <span className="text-destructive">*</span></Label>
-              <Select defaultValue="dav">
+              <Select defaultValue="dav" items={{ dav: "River Terminal — Davenport", ames: "North Elevator — Ames", cr: "Processing — Cedar Rapids" }}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="dav">River Terminal — Davenport</SelectItem>
@@ -89,7 +89,7 @@ function Wizard() {
             </div>
             <div className="grid gap-1.5">
               <Label>Freight</Label>
-              <Select defaultValue="del">
+              <Select defaultValue="del" items={{ del: "Delivered (seller pays)", fob: "FOB farm (buyer pays)" }}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="del">Delivered (seller pays)</SelectItem>
@@ -177,7 +177,7 @@ function SettingsPage() {
           <div className="mt-[26px]">
             <div className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">Markets</div>
             <SettingRow title="Basis alerts" desc="Notify me when basis at my locations crosses a threshold.">
-              <Select defaultValue="daily">
+              <Select defaultValue="daily" items={{ daily: "Daily digest", rt: "Real-time", off: "Off" }}>
                 <SelectTrigger className="h-[34px] w-auto min-w-[150px]"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="daily">Daily digest</SelectItem>
