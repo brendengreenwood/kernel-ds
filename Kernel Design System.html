@@ -101,6 +101,7 @@
       <a class="nav-link" href="#filtering-advanced" data-section="filtering-advanced" data-title="Advanced filtering"><span class="dot"></span>Advanced filtering<span class="mat-pill">exp</span></a>
       <a class="nav-link" href="#patterns" data-section="patterns" data-title="CRUD patterns"><span class="dot"></span>CRUD patterns</a>
       <a class="nav-link" href="#flows" data-section="flows" data-title="Flows"><span class="dot"></span>Flows</a>
+      <a class="nav-link" href="#origination" data-section="origination" data-title="Origination flow"><span class="dot"></span>Origination flow<span class="mat-pill">exp</span></a>
 
       <div class="nav-group-label">Domain</div>
       <a class="nav-link" href="#contract" data-section="contract" data-title="Contract detail"><span class="dot"></span>Contract detail<span class="mat-pill">exp</span></a>
@@ -1978,6 +1979,129 @@
           </div>
         </section>
 
+        <!-- ============ ORIGINATION FLOW ============ -->
+        <section class="section" id="origination">
+          <div class="eyebrow">Patterns</div>
+          <h2 class="section-title">Origination flow</h2>
+          <p class="section-lead">The origination loop: a producer offers grain at a target price, the merchant counters or books, and a booked offer becomes a contract. Three surfaces &mdash; a work queue that ranks the decisions, a counter composer that keeps the market math in view, and a negotiation thread that becomes the audit trail.</p>
+
+          <div class="subhead">Offer queue</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">The queue leads with the decision: offer vs. current bid, in mono, side by side. An offer at or under the bid emphasizes <b>Book</b>; above it, <b>Counter</b>. An offer stays <i>pending</i> while a counter is out &mdash; the counter itself is an event (outline badge), not a lifecycle state. Expired rows mute and offer a renew.</p>
+          <div class="pattern-frame">
+            <div class="frame-head" style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">Open offers <span style="font-family:var(--font-mono);font-size:12px;font-weight:400;color:var(--muted-foreground)">corn bid $4.16 &middot; beans $10.25 &middot; wheat $5.58</span></div>
+            <div class="crud-scroll"><table class="crud-table">
+              <thead>
+                <tr>
+                  <th>Producer</th>
+                  <th>Grain</th>
+                  <th class="num">Qty (bu)</th>
+                  <th class="num">Offer</th>
+                  <th class="num">vs bid</th>
+                  <th class="num">Expires</th>
+                  <th>Status</th>
+                  <th class="num">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="cell-strong">Hartmann Farms</span></td>
+                  <td>Corn</td>
+                  <td class="num">10,000</td>
+                  <td class="num">$4.25</td>
+                  <td class="num" style="color:var(--muted-foreground)">+$0.09</td>
+                  <td class="num">2h 10m</td>
+                  <td><span class="status status-pending"><span class="dot"></span>Pending</span></td>
+                  <td class="num" style="white-space:nowrap"><button class="btn btn-outline btn-sm">Counter</button> <button class="btn btn-ghost btn-sm">Book</button></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-strong">Valley Co-op</span></td>
+                  <td>Soybean</td>
+                  <td class="num">8,000</td>
+                  <td class="num">$10.40</td>
+                  <td class="num" style="color:var(--muted-foreground)">+$0.15</td>
+                  <td class="num">1d 4h</td>
+                  <td style="white-space:nowrap"><span class="status status-pending"><span class="dot"></span>Pending</span> <span class="badge badge-secondary" style="font-family:var(--font-mono);font-size:11px">countered $10.30</span></td>
+                  <td class="num" style="white-space:nowrap"><button class="btn btn-outline btn-sm">Counter</button> <button class="btn btn-ghost btn-sm">Book</button></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-strong">Miller Bros</span></td>
+                  <td>Wheat</td>
+                  <td class="num">12,000</td>
+                  <td class="num">$5.55</td>
+                  <td class="num" style="color:var(--muted-foreground)">&minus;$0.03</td>
+                  <td class="num">5h 40m</td>
+                  <td><span class="status status-pending"><span class="dot"></span>Pending</span></td>
+                  <td class="num" style="white-space:nowrap"><button class="btn btn-ghost btn-sm">Counter</button> <button class="btn btn-default btn-sm">Book</button></td>
+                </tr>
+                <tr style="opacity:.55">
+                  <td><span class="cell-strong">Anders Farm</span></td>
+                  <td>Corn</td>
+                  <td class="num">5,000</td>
+                  <td class="num">$4.30</td>
+                  <td class="num" style="color:var(--muted-foreground)">+$0.14</td>
+                  <td class="num">&mdash;</td>
+                  <td><span class="status status-expired"><span class="dot"></span>Expired</span></td>
+                  <td class="num"><button class="btn btn-ghost btn-sm">Renew</button></td>
+                </tr>
+              </tbody>
+            </table></div>
+          </div>
+
+          <div class="subhead">Counter composer</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Countering is a pricing decision, so the market facts sit directly above the form: their number, your bid, the board. The footer restates the counter as basis so the trader sees both languages, and every counter carries an expiry &mdash; no open-ended quotes.</p>
+          <div class="pattern-frame">
+            <div class="frame-head">Counter offer &mdash; Hartmann Farms<div style="font-size:12px;font-weight:400;color:var(--muted-foreground);margin-top:2px">Corn &middot; 10,000 bu &middot; Oct&ndash;Nov delivery &middot; Elevator #2, Fairmont</div></div>
+            <div class="delivery-stats" style="padding:14px 20px;margin:0;border-bottom:1px solid var(--border);background:color-mix(in oklch, var(--muted) 30%, transparent)">
+              <div><div class="k">Their offer</div><div class="v">$4.25</div></div>
+              <div><div class="k">Current bid</div><div class="v">$4.16</div></div>
+              <div><div class="k">Board (ZCZ6)</div><div class="v">$4.38</div></div>
+              <div><div class="k">Bid basis</div><div class="v">&minus;0.22</div></div>
+            </div>
+            <div class="fb" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:16px 20px">
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:7px">Counter price</div>
+                <div class="input-group" style="max-width:none"><span class="affix">$</span><input class="input" value="4.20" style="font-family:var(--font-mono)" /><span class="affix">/bu</span></div>
+              </div>
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:7px">Counter expires</div>
+                <select class="select"><option>End of day</option><option>In 2 hours</option><option>In 24 hours</option></select>
+              </div>
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:7px">Note <span style="font-weight:400;color:var(--muted-foreground)">(optional)</span></div>
+                <input class="input" placeholder="Best I can do into Fairmont&hellip;" />
+              </div>
+            </div>
+            <div class="fb-foot">
+              <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted-foreground)">$4.20 = &minus;0.18 basis vs ZCZ6</span>
+              <div class="right"><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-outline btn-sm">Book at $4.25</button><button class="btn btn-default btn-sm">Send counter</button></div>
+            </div>
+          </div>
+
+          <div class="subhead">Negotiation thread</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Every touch on the offer lands in one thread, newest first. Booking is the terminal event and the handoff: it names the contract it created &mdash; from there, the record lives in Contract detail.</p>
+          <div class="pattern-frame">
+            <div class="detail-head" style="padding:16px 20px">
+              <div class="ic" style="width:40px;height:40px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M11 17a5 5 0 0 1-5-5c0-2.76 2.5-5 5-9 2.5 4 5 6.24 5 9a5 5 0 0 1-5 5z"/><path d="m15.7 10.4 5.3 5.3-2 2-2.3-.7-.7 2.3-2 2-1.3-5.3"/></svg></div>
+              <div style="min-width:0">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                  <h4 style="font-size:15px">Offer #OF-3121</h4>
+                  <span class="status status-booked"><span class="dot"></span>Booked</span>
+                </div>
+                <div class="sub" style="font-size:12px">Hartmann Farms &middot; Corn &middot; 10,000 bu &middot; Oct&ndash;Nov delivery</div>
+              </div>
+              <div class="acts">
+                <button class="row-kebab" style="border-color:var(--border)" aria-label="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </div>
+            <ol class="tl">
+              <li><span class="tl-dot"></span><div><div><span class="tl-title">Booked at $4.22</span><span class="tl-date">Jun 30, 2026</span></div><div class="tl-detail">Creates contract #C-2231 &middot; booked by M. Reyes</div></div></li>
+              <li><span class="tl-dot"></span><div><div><span class="tl-title">Producer countered</span><span class="tl-date">Jun 30, 2026</span></div><div class="tl-detail">$4.22 &middot; &ldquo;meet in the middle&rdquo;</div></div></li>
+              <li><span class="tl-dot"></span><div><div><span class="tl-title">Counter sent</span><span class="tl-date">Jun 29, 2026</span></div><div class="tl-detail">$4.20 &middot; expires end of day</div></div></li>
+              <li><span class="tl-dot"></span><div><div><span class="tl-title">Offer received</span><span class="tl-date">Jun 29, 2026</span></div><div class="tl-detail">$4.25 target &middot; via producer portal</div></div></li>
+            </ol>
+          </div>
+        </section>
+
         <!-- ============ DOMAIN — CONTRACT DETAIL ============ -->
         <section class="section" id="contract">
           <div class="eyebrow">Domain patterns</div>
@@ -2526,7 +2650,7 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
 
           <div class="status-legend">
             <span class="mat mat-ready"><span class="dot"></span>ready<span class="n">53</span></span>
-            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">9</span></span>
+            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">10</span></span>
             <span class="mat mat-dep"><span class="dot"></span>deprecated<span class="n">0</span></span>
           </div>
 
@@ -2594,6 +2718,7 @@ npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw</co
                 <tr><td style="font-weight:600">Filtering</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">CRUD patterns</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Flows</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
+                <tr><td style="font-weight:600">Origination flow</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; queue actions and counter-expiry conventions settling.</td></tr>
                 <tr><td style="font-weight:600">Contract detail</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 1 of 4; API settling while the lineup lands.</td></tr>
                 <tr><td style="font-weight:600">Settlement statement</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 2 of 4; money math reconciles to contract-detail fills.</td></tr>
               </tbody>

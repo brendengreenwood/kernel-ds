@@ -15,6 +15,7 @@ import { FiltersSection } from "@/components/portal/filters"
 import { FilteringAdvancedSection } from "@/components/portal/filtering-advanced"
 import { PatternsSection } from "@/components/portal/patterns"
 import { FlowsSection } from "@/components/portal/flows"
+import { OriginationSection } from "@/components/portal/origination"
 import { ContractDetailSection } from "@/components/portal/contract-detail"
 import { SettlementSection } from "@/components/portal/settlement"
 import { InstallSection } from "@/components/portal/install"
@@ -54,6 +55,7 @@ export default function PortalPage() {
           <FilteringAdvancedSection />
           <PatternsSection />
           <FlowsSection />
+          <OriginationSection />
           <ContractDetailSection />
           <SettlementSection />
           <InstallSection />

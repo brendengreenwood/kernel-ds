@@ -86,8 +86,11 @@ that must stay in sync:
   **Navigation** (module switcher · grouped rail with nested destinations
   and counts · record underline tabs with overflow) and **Advanced
   filtering** (condition builder · column controls · crop-year date
-  presets) — both surfaces, experimental. Candidates next: origination
-  flows, pricing worksheet patterns, bulk-edit patterns.
+  presets), and **Origination flow** (offer queue · counter composer ·
+  negotiation thread; a counter is an event on a *pending* offer, not a
+  lifecycle state — every status hue is allocated, decision 0003 applies)
+  — both surfaces, experimental. Candidates next: bulk-edit pattern,
+  pricing worksheet patterns, saved-view management.
 
 ## Backlog (in priority order)
 

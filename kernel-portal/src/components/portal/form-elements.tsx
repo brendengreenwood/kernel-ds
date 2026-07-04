@@ -301,7 +301,7 @@ export function FormElementsSection() {
           <Field label="Quantity">
             <InputGroup>
               <Input defaultValue="640" />
-              <Select defaultValue="bu">
+              <Select defaultValue="bu" items={{ bu: "bu", cwt: "cwt", tons: "tons" }}>
                 <SelectTrigger className="w-24 rounded-l-none border-l-0 bg-muted">
                   <SelectValue />
                 </SelectTrigger>
@@ -349,7 +349,7 @@ export function FormElementsSection() {
             <Field label="Grading notes"><CharCountTextarea /></Field>
           </div>
           <Field label="Sort">
-            <Select defaultValue="new">
+            <Select defaultValue="new" items={{ new: "Newest first", old: "Oldest first" }}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="new">Newest first</SelectItem>

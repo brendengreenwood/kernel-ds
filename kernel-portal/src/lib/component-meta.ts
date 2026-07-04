@@ -87,6 +87,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Advanced filtering", anchor: "filtering-advanced", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; builder operator set and persistence model settling." },
   { name: "CRUD patterns", anchor: "patterns", group: "pattern", maturity: "ready", a11y: "pending" },
   { name: "Flows", anchor: "flows", group: "pattern", maturity: "ready", a11y: "pending" },
+  { name: "Origination flow", anchor: "origination", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; queue actions and counter-expiry conventions settling." },
 
   { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 1 of 4; API settling while the lineup lands." },
   { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 2 of 4; money math reconciles to contract-detail fills." },

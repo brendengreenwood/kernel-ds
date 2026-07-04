@@ -18,6 +18,7 @@ import {
   Terminal,
   FileText,
   Banknote,
+  Handshake,
   Compass,
   SlidersHorizontal,
   ListChecks,
@@ -78,6 +79,7 @@ const nav = [
       { title: "Advanced filtering", href: "#filtering-advanced", icon: SlidersHorizontal, maturity: "experimental" as const },
       { title: "CRUD patterns", href: "#patterns", icon: LayoutList },
       { title: "Flows", href: "#flows", icon: Route },
+      { title: "Origination flow", href: "#origination", icon: Handshake, maturity: "experimental" as const },
     ],
   },
   {

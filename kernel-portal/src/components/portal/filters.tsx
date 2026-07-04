@@ -73,7 +73,7 @@ export function FiltersSection() {
             <Plus /> Add filter
           </Button>
           <div className="flex-1" />
-          <Select defaultValue="new">
+          <Select defaultValue="new" items={{ new: "Sort: Newest", old: "Sort: Oldest", bu: "Sort: Bushels" }}>
             <SelectTrigger className="w-auto min-w-40"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="new">Sort: Newest</SelectItem>

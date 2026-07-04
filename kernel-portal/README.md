@@ -74,6 +74,7 @@ src/
       filtering-advanced.tsx   ← Filter builder · column controls · date presets
       patterns.tsx             ← CRUD recipes: list view · form · detail · empty
       flows.tsx                ← Multi-step wizard · settings page
+      origination.tsx          ← Origination: offer queue · counter composer · thread
       contract-detail.tsx      ← Domain: contract header · terms · fills · activity
       settlement.tsx           ← Domain: settlement statement — loads · deductions · net payable
       section.tsx              ← shared <Section> / <Demo> layout helpers
