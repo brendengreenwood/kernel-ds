@@ -265,16 +265,16 @@ export function FormElementsSection() {
       <Subhead>Sizes</Subhead>
       <Demo className="gap-6">
         <div className="grid gap-1.5">
-          <div className="font-mono text-[11px] text-muted-foreground">sm · h-8</div>
-          <Input defaultValue="Compact" className="h-8 text-xs" />
+          <div className="font-mono text-[11px] text-muted-foreground">sm · --control-h-sm</div>
+          <Input defaultValue="Compact" className="h-(--control-h-sm) text-xs" />
         </div>
         <div className="grid gap-1.5">
-          <div className="font-mono text-[11px] text-muted-foreground">default · h-9</div>
+          <div className="font-mono text-[11px] text-muted-foreground">default · --control-h</div>
           <Input defaultValue="Default" />
         </div>
         <div className="grid gap-1.5">
-          <div className="font-mono text-[11px] text-muted-foreground">lg · h-11</div>
-          <Input defaultValue="Large" className="h-11 text-base" />
+          <div className="font-mono text-[11px] text-muted-foreground">lg · --control-h-lg</div>
+          <Input defaultValue="Large" className="h-(--control-h-lg) text-base" />
         </div>
       </Demo>
 

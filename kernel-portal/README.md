@@ -104,6 +104,12 @@ src/
 > field, left-aligned (`alignItemWithTrigger` defaults off, `align`
 > defaults `start`) instead of Base UI's macOS-style overlay.
 
+> **Control density (decision 0010):** interactive controls take their
+> height from three tokens — `--control-h-sm` 32px · `--control-h` 38px ·
+> `--control-h-lg` 44px — referenced as `h-(--control-h)` in button/input/
+> select. One knob for the whole system's chunkiness; on coarse pointers
+> the tokens grow to 40/44/48, which is how touch sizing now works.
+
 > **Touch ergonomics (decisions 0007 + 0009):** `src/index.css` ends with
 > a `@media (pointer: coarse)` block. Primary controls (button, input,
 > input-group, select-trigger slots) visibly grow to 44px min-height
