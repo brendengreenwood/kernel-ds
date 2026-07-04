@@ -12,10 +12,10 @@ When **tokens** change (color scales, status, type, spacing, shadows, radius):
 When a **component, form element, or pattern** is added/changed:
 - Preview markup in `Kernel Design System.html` + styles in `portal.css`
 - Real build: the matching `kernel-portal/src/components/portal/*.tsx` (and any `src/components/ui/*.tsx` customizations)
-- Wire into `kernel-portal/src/pages/portal.tsx` + the sidebar nav in `src/components/portal/app-sidebar.tsx`, and the nav + scrollspy in `Kernel Design System.html`
+- Wire into the portal as a **route** (decision 0011): a section adds a `<Route>` in `kernel-portal/src/main.tsx` + a rail entry in `src/components/portal/app-sidebar.tsx`; a component adds its cluster to the relevant `gallery-*.tsx` exported list (`galleryClusters` and both nav surfaces read from it — no separate page file needed). In the preview add the `<section class="section" id="…">` + a `.nav-link` (the `portal.js` hash router shows one section at a time).
 - `kernel-portal/README.md` (file map, component coverage, customized-components notes)
 
-When **nav sections** change: update the sidebar in both the HTML and `app-sidebar.tsx`.
+When **nav sections** change: update the sidebar in both the HTML and `app-sidebar.tsx`, and add the matching portal route (`main.tsx`) / preview `<section>`. Every rail item is its own page (decision 0011): portal = a React Router route; preview = a `.section` toggled by the `portal.js` hash router. Reuse the old anchor id as the route slug so `routeForAnchor()` keeps legacy `#hash` links working; never reintroduce a single-scroll page or a scrollspy.
 
 ## Documentation (part of every change — see `docs/README.md`)
 The `docs/` directory is the project's memory. In the **same turn** as any meaningful change:

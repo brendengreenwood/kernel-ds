@@ -31,7 +31,11 @@ node scripts/mobile-audit.mjs <url> [url...]    # 390px scan: overflow, clipped 
 ## Stack
 
 - **Vite 8** + React 19 + TypeScript, `@/*` aliased to `src/*`
-- **React Router** — the portal mounts at `/` (`src/main.tsx` → `src/pages/portal.tsx`)
+- **React Router** — one route per side-rail item (decision 0011):
+  `src/main.tsx` mounts a `PortalLayout` (shared sidebar + header) with a
+  child route per section (`/colors`, `/forms`, …), a `/components` index,
+  and `/components/:slug` component pages. Old `#anchor` bookmarks redirect
+  to their route on load
 - **Tailwind CSS v4** via `@tailwindcss/vite`; all tokens live in `src/index.css`
 - **shadcn/ui** components in `src/components/ui/` (**Base UI** primitives,
   `base-nova` style — migrated from Radix 2026-07-04 per decision 0005;
@@ -44,10 +48,16 @@ node scripts/mobile-audit.mjs <url> [url...]    # 390px scan: overflow, clipped 
 index.html                     ← title + font-sans/antialiased on body
 src/
   index.css                    ← Kernel theme tokens (scales, roles, statuses)
-  main.tsx                     ← ThemeProvider + BrowserRouter + Toaster
+  main.tsx                     ← ThemeProvider + Router; one route per rail item (0011)
   pages/
-    portal.tsx                 ← the portal page (all sections)
+    portal-layout.tsx          ← sidebar + header + <Outlet/> (shared chrome)
+    components-index.tsx       ← /components — grouped index of component pages
+    component-page.tsx         ← /components/:slug — one cluster + member pills + prev/next
+    workspace.tsx              ← /workspace — four-zone shell experiment
   lib/utils.ts                 ← cn() helper
+  lib/gallery-types.ts         ← GalleryCluster type
+  lib/gallery-registry.ts      ← galleryClusters + slug/anchor maps (rail + pages read this)
+  lib/routes.ts                ← sectionRoutes + routeForAnchor() (legacy #hash → route)
   components/
     theme-provider.tsx
     mode-toggle.tsx
@@ -57,13 +67,13 @@ src/
       status-badge.tsx         ← Kernel-only <StatusBadge> (lifecycle states)
       …                        ← the rest from `npx shadcn add` (button, input, …)
     portal/
-      app-sidebar.tsx          ← real shadcn <Sidebar> nav
+      app-sidebar.tsx          ← rail: router links per section + per-component page list
       foundations.tsx          ← Colors · Typography · Spacing · Elevation
-      gallery-forms.tsx        ← Button · Toggle · Inputs · Form · Slider · OTP …
-      gallery-data.tsx         ← Card · Table · Data Table · Progress · Skeleton …
-      gallery-overlays.tsx     ← Alert · Dialog · Sheet · Drawer · Popover · Sonner …
-      gallery-nav.tsx          ← Tabs · Breadcrumb · Pagination · Menubar · Command …
-      gallery-misc.tsx         ← Accordion · Calendar · Carousel · Resizable …
+      gallery-forms.tsx        ← per-cluster demos + formsClusters (Button · Toggle · Inputs …)
+      gallery-data.tsx         ← per-cluster demos + dataClusters (Card · Table · Progress …)
+      gallery-overlays.tsx     ← per-cluster demos + overlaysClusters (Alert · Dialog · Sheet …)
+      gallery-nav.tsx          ← per-cluster demos + navClusters (Tabs · Breadcrumb · Command …)
+      gallery-misc.tsx         ← per-cluster demos + miscClusters (Accordion · Calendar · Carousel …)
       form-elements.tsx        ← Input states · sizes · affixes · file upload …
       tables.tsx               ← Table system: density · variants · sort · sticky · states
       charts.tsx               ← shadcn <ChartContainer> (recharts)

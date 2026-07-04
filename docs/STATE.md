@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-03
+> Last touched: 2026-07-04
 
 ## What this project is
 
@@ -18,8 +18,13 @@ that must stay in sync:
    TypeScript portal using shadcn/ui (Base UI, `base-nova` style — see
    decision 0005) + Tailwind CSS v4 + React Router. Tokens live in `kernel-portal/src/index.css`; components in
    `src/components/ui/` (shadcn) and `src/components/portal/` (portal
-   sections); entry `src/main.tsx` → `src/pages/portal.tsx`. Deploys to
-   Netlify (`netlify.toml`: build to `dist/`, SPA redirect).
+   sections); entry `src/main.tsx` → `src/pages/portal-layout.tsx` with a
+   route per rail item (decision 0011). Deploys to Netlify
+   (`netlify.toml`: build to `dist/`, SPA redirect).
+
+Both surfaces are **per-page** (decision 0011): every side-rail item is
+its own route (portal) / hash-routed page (preview), not a section of one
+long scroll.
 
 ## Current state
 
@@ -70,12 +75,26 @@ that must stay in sync:
   (playwright) — overflow, clipped content, sub-16px inputs, effective hit
   areas; currently preview 0/0/0/0, portal clean except two by-design demo
   internals.
+- **Per-page information architecture** (decision 0011, 2026-07-04):
+  every rail destination is its own page. Portal uses React Router nested
+  routes under `PortalLayout` (one route per section; `/components` index
+  + `/components/:slug` drill-down driven by a `galleryClusters` registry
+  split out of the old single gallery). Preview uses a `portal.js` hash
+  router showing one `.section.is-active` at a time (sub-anchors resolve
+  to their section), gated on a pre-paint `.js` class. Old `#anchor`
+  bookmarks redirect to routes via `routeForAnchor()`. The two rails
+  mirror at destination level; per-component pages are portal-only by
+  design (the preview rail never had per-component entries).
 - **Control density tokens** (decision 0010, 2026-07-04): `--control-h-sm/
   -h/-h-lg` (32/38/44px) drive button/input/select heights on both
   surfaces; default raised 32 → 38px on the portal (converging with the
   preview, which was already 38). Coarse pointers redefine the tokens
   (40/44/48) — now the primary mechanism of 0009's touch sizing. Table
-  density modes remain a separate axis.
+  density modes remain a separate axis. Follow-up 2026-07-04: swept the
+  last call-site hardcoded control heights (filter builder, date presets,
+  flows settings select, form-elements size demos, workspace search,
+  command palette, preview `.fb`) onto the tokens, so no control height
+  is hardcoded outside the deliberate `xs` button size.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
 - Docs system (this directory) in place — see decision 0001.

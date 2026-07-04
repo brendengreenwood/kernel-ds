@@ -28,7 +28,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { GroupHeader, Subhead, Demo } from "./section"
+import { Demo } from "./section"
+import type { GalleryCluster } from "@/lib/gallery-types"
 
 type Project = { name: string; status: Status; owner: string; usage: number }
 
@@ -109,12 +110,9 @@ function DataTable() {
   )
 }
 
-export function GalleryData() {
+function CardCluster() {
   return (
     <>
-      <GroupHeader title="Data display" sub="Surfaces for content, status, and loading states." />
-
-      <Subhead id="c-card">Card</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader>
@@ -146,8 +144,13 @@ export function GalleryData() {
           </CardContent>
         </Card>
       </div>
+    </>
+  )
+}
 
-      <Subhead id="c-status-badge">Status badges</Subhead>
+function StatusBadgeCluster() {
+  return (
+    <>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
         Persistent lifecycle states for loads and contracts. Each maps to a
         <code className="mx-1 font-mono">--status-*</code> token on a distinct hue,
@@ -169,8 +172,13 @@ export function GalleryData() {
           <StatusBadge key={s} status={s} />
         ))}
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-badge">Badge · Avatar</Subhead>
+function BadgeCluster() {
+  return (
+    <>
       <Demo className="gap-8">
         <div className="flex flex-wrap items-center gap-3">
           <Badge>Default</Badge>
@@ -188,11 +196,21 @@ export function GalleryData() {
           <Avatar className="ring-2 ring-card"><AvatarFallback>+5</AvatarFallback></Avatar>
         </div>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-table">Table · Data table (sortable)</Subhead>
+function TableCluster() {
+  return (
+    <>
       <DataTable />
+    </>
+  )
+}
 
-      <Subhead id="c-progress">Progress · Skeleton</Subhead>
+function ProgressCluster() {
+  return (
+    <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="flex-col items-stretch gap-4">
           <div className="text-sm font-medium">72%</div>
@@ -212,8 +230,13 @@ export function GalleryData() {
           <Skeleton className="h-3 w-4/5" />
         </Demo>
       </div>
+    </>
+  )
+}
 
-      <Subhead id="c-separator">Separator · Aspect ratio</Subhead>
+function SeparatorCluster() {
+  return (
+    <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="flex-col items-start">
           <div>
@@ -242,3 +265,12 @@ export function GalleryData() {
     </>
   )
 }
+
+export const dataClusters: GalleryCluster[] = [
+  { anchor: "c-card", slug: "card", title: "Card", group: "Data display", demo: CardCluster },
+  { anchor: "c-status-badge", slug: "status-badge", title: "Status badges", group: "Data display", demo: StatusBadgeCluster },
+  { anchor: "c-badge", slug: "badge", title: "Badge · Avatar", group: "Data display", demo: BadgeCluster },
+  { anchor: "c-table", slug: "table", title: "Table · Data table (sortable)", group: "Data display", demo: TableCluster },
+  { anchor: "c-progress", slug: "progress", title: "Progress · Skeleton", group: "Data display", demo: ProgressCluster },
+  { anchor: "c-separator", slug: "separator", title: "Separator · Aspect ratio", group: "Data display", demo: SeparatorCluster },
+]

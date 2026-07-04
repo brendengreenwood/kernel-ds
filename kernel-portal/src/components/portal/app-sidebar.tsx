@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { Link, useLocation } from "react-router-dom"
 import {
   Sprout,
   Palette,
@@ -24,6 +24,7 @@ import {
   Compass,
   SlidersHorizontal,
   ListChecks,
+  Shapes,
 } from "lucide-react"
 
 import {
@@ -41,61 +42,75 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar"
-import { components } from "@/lib/component-meta"
+import { galleryClusters } from "@/lib/gallery-registry"
 import { MaturityPill } from "./section"
 
-const nav = [
+type NavItem = {
+  title: string
+  to: string
+  icon: React.ComponentType<{ className?: string }>
+  maturity?: "experimental"
+  external?: boolean
+}
+
+const nav: { label: string; items: NavItem[] }[] = [
   {
     label: "Get started",
     items: [
-      { title: "Overview", href: "#overview", icon: Sprout },
-      { title: "Install & usage", href: "#install", icon: Terminal },
-      { title: "Component status", href: "#status", icon: ListChecks },
+      { title: "Overview", to: "/", icon: Sprout },
+      { title: "Install & usage", to: "/install", icon: Terminal },
+      { title: "Component status", to: "/status", icon: ListChecks },
     ],
   },
   {
     label: "Foundations",
     items: [
-      { title: "Color", href: "#colors", icon: Palette },
-      { title: "Typography", href: "#typography", icon: Type },
-      { title: "Spacing & radius", href: "#spacing", icon: Ruler },
-      { title: "Elevation", href: "#shadows", icon: Layers },
+      { title: "Color", to: "/colors", icon: Palette },
+      { title: "Typography", to: "/typography", icon: Type },
+      { title: "Spacing & radius", to: "/spacing", icon: Ruler },
+      { title: "Elevation", to: "/shadows", icon: Layers },
     ],
   },
   {
     label: "Elements",
     items: [
-      { title: "Form elements", href: "#forms", icon: TextCursorInput },
-      { title: "Tables", href: "#tables", icon: Table2 },
-      { title: "Charts", href: "#charts", icon: BarChart3 },
+      { title: "Components", to: "/components", icon: Shapes },
+      { title: "Form elements", to: "/forms", icon: TextCursorInput },
+      { title: "Tables", to: "/tables", icon: Table2 },
+      { title: "Charts", to: "/charts", icon: BarChart3 },
     ],
   },
   {
     label: "Patterns",
     items: [
-      { title: "App shell", href: "#appshell", icon: PanelsTopLeft },
-      { title: "Navigation", href: "#navigation", icon: Compass, maturity: "experimental" as const },
-      { title: "Dashboard", href: "#dashboard", icon: LayoutDashboard },
-      { title: "Filtering", href: "#filters", icon: Filter },
-      { title: "Advanced filtering", href: "#filtering-advanced", icon: SlidersHorizontal, maturity: "experimental" as const },
-      { title: "CRUD patterns", href: "#patterns", icon: LayoutList },
-      { title: "Flows", href: "#flows", icon: Route },
-      { title: "Origination flow", href: "#origination", icon: Handshake, maturity: "experimental" as const },
-      { title: "Modals", href: "#modals", icon: AppWindow, maturity: "experimental" as const },
-      { title: "Workspace demo ↗", href: "/workspace", icon: PanelsLeftRight, maturity: "experimental" as const },
+      { title: "App shell", to: "/appshell", icon: PanelsTopLeft },
+      { title: "Navigation", to: "/navigation", icon: Compass, maturity: "experimental" },
+      { title: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
+      { title: "Filtering", to: "/filters", icon: Filter },
+      { title: "Advanced filtering", to: "/filtering-advanced", icon: SlidersHorizontal, maturity: "experimental" },
+      { title: "CRUD patterns", to: "/patterns", icon: LayoutList },
+      { title: "Flows", to: "/flows", icon: Route },
+      { title: "Origination flow", to: "/origination", icon: Handshake, maturity: "experimental" },
+      { title: "Modals", to: "/modals", icon: AppWindow, maturity: "experimental" },
+      { title: "Workspace demo ↗", to: "/workspace", icon: PanelsLeftRight, maturity: "experimental", external: true },
     ],
   },
   {
     label: "Domain",
     items: [
-      { title: "Contract detail", href: "#contract", icon: FileText, maturity: "experimental" as const },
-      { title: "Settlement statement", href: "#settlement", icon: Banknote, maturity: "experimental" as const },
+      { title: "Contract detail", to: "/contract", icon: FileText, maturity: "experimental" },
+      { title: "Settlement statement", to: "/settlement", icon: Banknote, maturity: "experimental" },
     ],
   },
 ]
 
 export function AppSidebar() {
+  const { setOpenMobile, isMobile } = useSidebar()
+  const { pathname } = useLocation()
+  const close = () => isMobile && setOpenMobile(false)
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -112,25 +127,25 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        {nav.slice(0, 2).map((group) => (
-          <NavGroup key={group.label} group={group} />
+        {nav.slice(0, 3).map((group) => (
+          <NavGroup key={group.label} group={group} pathname={pathname} onNavigate={close} />
         ))}
 
         <SidebarGroup>
-          <SidebarGroupLabel>Components</SidebarGroupLabel>
+          <SidebarGroupLabel>Component pages</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuSub className="mr-0 border-l-0 px-0">
-                  {components.map((c) => (
-                    <SidebarMenuSubItem key={c.name}>
+                  {galleryClusters.map((c) => (
+                    <SidebarMenuSubItem key={c.slug}>
                       <SidebarMenuSubButton
                         size="sm"
+                        isActive={pathname === `/components/${c.slug}`}
                         render={
-                          <a href={`#${c.anchor}`}>
-                            <span className="truncate">{c.name}</span>
-                            <MaturityPill maturity={c.maturity} />
-                          </a>
+                          <Link to={`/components/${c.slug}`} onClick={close}>
+                            <span className="truncate">{c.title}</span>
+                          </Link>
                         }
                       />
                     </SidebarMenuSubItem>
@@ -141,8 +156,8 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {nav.slice(2).map((group) => (
-          <NavGroup key={group.label} group={group} />
+        {nav.slice(3).map((group) => (
+          <NavGroup key={group.label} group={group} pathname={pathname} onNavigate={close} />
         ))}
       </SidebarContent>
       <SidebarFooter>
@@ -155,7 +170,15 @@ export function AppSidebar() {
   )
 }
 
-function NavGroup({ group }: { group: (typeof nav)[number] }) {
+function NavGroup({
+  group,
+  pathname,
+  onNavigate,
+}: {
+  group: (typeof nav)[number]
+  pathname: string
+  onNavigate: () => void
+}) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
@@ -164,14 +187,13 @@ function NavGroup({ group }: { group: (typeof nav)[number] }) {
           {group.items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
+                isActive={!item.external && pathname === item.to}
                 render={
-                  <a href={item.href}>
+                  <Link to={item.to} onClick={onNavigate}>
                     <item.icon />
                     <span>{item.title}</span>
-                    {"maturity" in item && item.maturity ? (
-                      <MaturityPill maturity={item.maturity} />
-                    ) : null}
-                  </a>
+                    {item.maturity ? <MaturityPill maturity={item.maturity} /> : null}
+                  </Link>
                 }
               />
             </SidebarMenuItem>

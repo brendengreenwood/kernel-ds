@@ -39,7 +39,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { GroupHeader, Subhead, Demo } from "./section"
+import { Demo } from "./section"
+import type { GalleryCluster } from "@/lib/gallery-types"
 
 const schema = z.object({
   username: z.string().min(2, "At least 2 characters."),
@@ -95,14 +96,9 @@ function ProfileForm() {
   )
 }
 
-export function GalleryForms() {
-  const [slider, setSlider] = React.useState([64])
-
+function ButtonCluster() {
   return (
     <>
-      <GroupHeader title="Actions" sub="Buttons and toggles — the primary triggers in the system." />
-
-      <Subhead id="c-button">Button</Subhead>
       <Demo className="flex-col items-start gap-4">
         <div className="flex flex-wrap items-center gap-4">
           <Button>Primary</Button>
@@ -125,8 +121,13 @@ export function GalleryForms() {
           </Button>
         </div>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-toggle">Toggle · Toggle group</Subhead>
+function ToggleCluster() {
+  return (
+    <>
       <Demo className="gap-8">
         <div className="flex items-center gap-2">
           <Toggle aria-label="Bold" defaultPressed>
@@ -145,10 +146,13 @@ export function GalleryForms() {
           <ToggleGroupItem value="right">Right</ToggleGroupItem>
         </ToggleGroup>
       </Demo>
+    </>
+  )
+}
 
-      <GroupHeader title="Forms & input" sub="Text fields, choices, ranges, validation, and one-time codes." />
-
-      <Subhead id="c-input">Input · Select · Textarea</Subhead>
+function InputCluster() {
+  return (
+    <>
       <Demo className="flex-col items-stretch gap-5">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="grid gap-2">
@@ -182,8 +186,13 @@ export function GalleryForms() {
           </Label>
         </div>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-radio-group">Radio group</Subhead>
+function RadioGroupCluster() {
+  return (
+    <>
       <Demo>
         <RadioGroup defaultValue="comfortable" className="gap-3">
           <Label className="flex items-center gap-2 font-normal">
@@ -197,8 +206,15 @@ export function GalleryForms() {
           </Label>
         </RadioGroup>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-slider">Slider · Input OTP</Subhead>
+function SliderCluster() {
+  const [slider, setSlider] = React.useState([64])
+
+  return (
+    <>
       <Demo className="flex-col items-start gap-7">
         <div className="w-full max-w-xs">
           <div className="mb-3 text-sm font-medium">
@@ -225,11 +241,25 @@ export function GalleryForms() {
           </InputOTPGroup>
         </InputOTP>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-form">Form (react-hook-form + zod)</Subhead>
+function FormCluster() {
+  return (
+    <>
       <Demo>
         <ProfileForm />
       </Demo>
     </>
   )
 }
+
+export const formsClusters: GalleryCluster[] = [
+  { anchor: "c-button", slug: "button", title: "Button", group: "Actions", demo: ButtonCluster },
+  { anchor: "c-toggle", slug: "toggle", title: "Toggle · Toggle group", group: "Actions", demo: ToggleCluster },
+  { anchor: "c-input", slug: "input", title: "Input · Select · Textarea", group: "Forms & input", demo: InputCluster },
+  { anchor: "c-radio-group", slug: "radio-group", title: "Radio group", group: "Forms & input", demo: RadioGroupCluster },
+  { anchor: "c-slider", slug: "slider", title: "Slider · Input OTP", group: "Forms & input", demo: SliderCluster },
+  { anchor: "c-form", slug: "form", title: "Form (react-hook-form + zod)", group: "Forms & input", demo: FormCluster },
+]

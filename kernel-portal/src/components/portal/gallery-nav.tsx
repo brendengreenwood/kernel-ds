@@ -85,7 +85,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { GroupHeader, Subhead, Demo } from "./section"
+import { Demo } from "./section"
+import type { GalleryCluster } from "@/lib/gallery-types"
 
 const frameworks = [
   { value: "next", label: "Next.js" },
@@ -134,12 +135,9 @@ function Combobox() {
   )
 }
 
-export function GalleryNav() {
+function TabsCluster() {
   return (
     <>
-      <GroupHeader title="Navigation" sub="Tabs, breadcrumbs, paging, and menu bars for moving through the app." />
-
-      <Subhead id="c-tabs">Tabs</Subhead>
       <Demo className="block">
         <Tabs defaultValue="account" className="w-full">
           <TabsList>
@@ -158,8 +156,13 @@ export function GalleryNav() {
           </TabsContent>
         </Tabs>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-breadcrumb">Breadcrumb · Pagination</Subhead>
+function BreadcrumbCluster() {
+  return (
+    <>
       <Demo className="flex-col items-start gap-6">
         <Breadcrumb>
           <BreadcrumbList>
@@ -181,8 +184,13 @@ export function GalleryNav() {
           </PaginationContent>
         </Pagination>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-navigation-menu">Navigation menu · Menubar</Subhead>
+function NavigationMenuCluster() {
+  return (
+    <>
       <Demo className="flex-col items-start gap-6">
         <NavigationMenu>
           <NavigationMenuList>
@@ -223,10 +231,13 @@ export function GalleryNav() {
           <MenubarMenu><MenubarTrigger>View</MenubarTrigger></MenubarMenu>
         </Menubar>
       </Demo>
+    </>
+  )
+}
 
-      <GroupHeader title="Menus & command" sub="Context-driven actions and keyboard-first search." />
-
-      <Subhead id="c-dropdown-menu">Dropdown menu · Context menu</Subhead>
+function DropdownMenuCluster() {
+  return (
+    <>
       <Demo className="gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger render={<Button variant="outline">Open menu</Button>} />
@@ -253,8 +264,13 @@ export function GalleryNav() {
           </ContextMenuContent>
         </ContextMenu>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-command">Command · Combobox</Subhead>
+function CommandCluster() {
+  return (
+    <>
       <Demo className="flex-col items-start gap-6">
         <Command className="max-w-md rounded-lg border shadow-md">
           <CommandInput placeholder="Type a command or search…" />
@@ -273,3 +289,11 @@ export function GalleryNav() {
     </>
   )
 }
+
+export const navClusters: GalleryCluster[] = [
+  { anchor: "c-tabs", slug: "tabs", title: "Tabs", group: "Navigation", demo: TabsCluster },
+  { anchor: "c-breadcrumb", slug: "breadcrumb", title: "Breadcrumb · Pagination", group: "Navigation", demo: BreadcrumbCluster },
+  { anchor: "c-navigation-menu", slug: "navigation-menu", title: "Navigation menu · Menubar", group: "Navigation", demo: NavigationMenuCluster },
+  { anchor: "c-dropdown-menu", slug: "dropdown-menu", title: "Dropdown menu · Context menu", group: "Menus & command", demo: DropdownMenuCluster },
+  { anchor: "c-command", slug: "command", title: "Command · Combobox", group: "Menus & command", demo: CommandCluster },
+]

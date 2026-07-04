@@ -158,25 +158,55 @@
     if (e.key === "Escape" && document.body.classList.contains("nav-open")) setNav(false);
   });
 
-  /* ---------- Scrollspy ---------- */
+  /* ---------- Per-page hash router (decision 0011) ----------
+     Each side-rail item is its own page: only the active <section> is
+     shown. A sub-anchor (e.g. #c-input, #fe-selection) resolves to the
+     section that contains it, then scrolls to that element. */
   var links = Array.prototype.slice.call(document.querySelectorAll(".nav-link[data-section]"));
-  var sections = links.map(function (l) { return document.getElementById(l.getAttribute("data-section")); }).filter(Boolean);
-  function onScroll() {
-    sections.sort(function (a, b) { return a.offsetTop - b.offsetTop; });
-    var pos = window.scrollY + 120;
-    var current = sections[0];
-    for (var i = 0; i < sections.length; i++) {
-      if (sections[i].offsetTop <= pos) current = sections[i];
-    }
+  var pages = Array.prototype.slice.call(document.querySelectorAll("main.content .section"));
+
+  // id (section id OR any descendant element id) -> owning section id
+  var ownerOf = {};
+  pages.forEach(function (sec) {
+    ownerOf[sec.id] = sec.id;
+    sec.querySelectorAll("[id]").forEach(function (el) {
+      if (!ownerOf[el.id]) ownerOf[el.id] = sec.id;
+    });
+  });
+
+  var DEFAULT_PAGE = pages.length ? pages[0].id : "overview";
+
+  function resolve(hash) {
+    var raw = (hash || "").replace(/^#/, "");
+    if (!raw) return { page: DEFAULT_PAGE, target: null };
+    var owner = ownerOf[raw];
+    if (!owner) return { page: DEFAULT_PAGE, target: null };
+    return { page: owner, target: raw === owner ? null : raw };
+  }
+
+  function showPage(pageId, targetId) {
+    pages.forEach(function (sec) {
+      sec.classList.toggle("is-active", sec.id === pageId);
+    });
     links.forEach(function (l) {
-      l.classList.toggle("active", current && l.getAttribute("data-section") === current.id);
+      l.classList.toggle("active", l.getAttribute("data-section") === pageId);
     });
     var crumb = document.getElementById("crumb-section");
-    if (crumb && current) {
-      var link = links.find(function (l) { return l.getAttribute("data-section") === current.id; });
-      if (link) crumb.textContent = link.getAttribute("data-title") || link.textContent.trim();
+    var active = links.find(function (l) { return l.getAttribute("data-section") === pageId; });
+    if (crumb && active) crumb.textContent = active.getAttribute("data-title") || active.textContent.trim();
+
+    if (targetId) {
+      var el = document.getElementById(targetId);
+      if (el) { el.scrollIntoView({ block: "start" }); return; }
     }
+    window.scrollTo(0, 0);
   }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+
+  function route() {
+    var r = resolve(window.location.hash);
+    showPage(r.page, r.target);
+  }
+
+  window.addEventListener("hashchange", route);
+  route();
 })();

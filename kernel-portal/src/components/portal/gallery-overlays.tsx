@@ -62,14 +62,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { GroupHeader, Subhead, Demo } from "./section"
+import { Demo } from "./section"
+import type { GalleryCluster } from "@/lib/gallery-types"
 
-export function GalleryOverlays() {
+function AlertCluster() {
   return (
     <>
-      <GroupHeader title="Feedback & overlay" sub="Alerts, transient messages, and floating surfaces." />
-
-      <Subhead id="c-alert">Alert</Subhead>
       <div className="space-y-4">
         <Alert variant="success">
           <CheckCircle2 />
@@ -100,8 +98,13 @@ export function GalleryOverlays() {
           </AlertDescription>
         </Alert>
       </div>
+    </>
+  )
+}
 
-      <Subhead id="c-sonner">Sonner (toast) · Tooltip</Subhead>
+function SonnerCluster() {
+  return (
+    <>
       <Demo className="gap-4">
         <Button
           variant="outline"
@@ -127,8 +130,13 @@ export function GalleryOverlays() {
           </Tooltip>
         </TooltipProvider>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-dialog">Dialog · Alert dialog</Subhead>
+function DialogCluster() {
+  return (
+    <>
       <Demo className="gap-4">
         <Dialog>
           <DialogTrigger render={<Button variant="outline">Edit profile</Button>} />
@@ -166,8 +174,13 @@ export function GalleryOverlays() {
           </AlertDialogContent>
         </AlertDialog>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-popover">Popover · Hover card</Subhead>
+function PopoverCluster() {
+  return (
+    <>
       <Demo className="gap-4">
         <Popover>
           <PopoverTrigger render={<Button variant="outline">Dimensions</Button>} />
@@ -208,8 +221,13 @@ export function GalleryOverlays() {
           </HoverCardContent>
         </HoverCard>
       </Demo>
+    </>
+  )
+}
 
-      <Subhead id="c-sheet">Sheet · Drawer</Subhead>
+function SheetCluster() {
+  return (
+    <>
       <Demo className="gap-4">
         <Sheet>
           <SheetTrigger render={<Button variant="outline">Open sheet</Button>} />
@@ -247,3 +265,11 @@ export function GalleryOverlays() {
     </>
   )
 }
+
+export const overlaysClusters: GalleryCluster[] = [
+  { anchor: "c-alert", slug: "alert", title: "Alert", group: "Feedback & overlay", demo: AlertCluster },
+  { anchor: "c-sonner", slug: "sonner", title: "Sonner (toast) · Tooltip", group: "Feedback & overlay", demo: SonnerCluster },
+  { anchor: "c-dialog", slug: "dialog", title: "Dialog · Alert dialog", group: "Feedback & overlay", demo: DialogCluster },
+  { anchor: "c-popover", slug: "popover", title: "Popover · Hover card", group: "Feedback & overlay", demo: PopoverCluster },
+  { anchor: "c-sheet", slug: "sheet", title: "Sheet · Drawer", group: "Feedback & overlay", demo: SheetCluster },
+]
