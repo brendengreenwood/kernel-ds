@@ -118,8 +118,11 @@ code, pre, .mono { font-family: var(--font-mono); }
 .wrap { max-width: 920px; margin: 0 auto; }
 
 /* ---------- Section primitives ---------- */
-.section { padding-top: 76px; scroll-margin-top: 80px; }
-.section:first-of-type { padding-top: 48px; }
+/* Per-page router (decision 0011): only the active section is shown.
+   Gated on `.js` so a no-JS load still renders every section stacked. */
+.section { padding-top: 48px; scroll-margin-top: 80px; }
+.js .section { display: none; }
+.js .section.is-active { display: block; }
 .eyebrow {
   font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--primary); font-family: var(--font-mono);

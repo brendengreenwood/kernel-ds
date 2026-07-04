@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom"
 import { Section } from "./section"
 import { cn } from "@/lib/utils"
+import { routeForAnchor } from "@/lib/routes"
 import {
   Table,
   TableBody,
@@ -75,9 +77,9 @@ export function StatusSection() {
             {componentMeta.map((c) => (
               <TableRow key={`${c.group}-${c.name}`}>
                 <TableCell className="font-medium">
-                  <a href={`#${c.anchor}`} className="hover:underline">
+                  <Link to={routeForAnchor(c.anchor)} className="hover:underline">
                     {c.name}
-                  </a>
+                  </Link>
                 </TableCell>
                 <TableCell className="text-muted-foreground">{groupLabel[c.group]}</TableCell>
                 <TableCell>

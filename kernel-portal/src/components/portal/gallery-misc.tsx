@@ -36,7 +36,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { GroupHeader, Subhead, Demo } from "./section"
+import { Demo } from "./section"
+import type { GalleryCluster } from "@/lib/gallery-types"
 
 function DatePicker() {
   const [date, setDate] = React.useState<Date | undefined>(new Date(2026, 5, 12))
@@ -71,15 +72,11 @@ const releases = [
   "v0.8.0 — alpha",
 ]
 
-export function GalleryMisc() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date(2026, 5, 7))
+function AccordionCluster() {
   const [open, setOpen] = React.useState(true)
 
   return (
     <>
-      <GroupHeader title="Disclosure" sub="Progressive reveal for dense content." />
-
-      <Subhead id="c-accordion">Accordion · Collapsible</Subhead>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Accordion defaultValue={["a1"]} className="rounded-lg border bg-card px-4">
           <AccordionItem value="a1">
@@ -124,10 +121,15 @@ export function GalleryMisc() {
           </Collapsible>
         </Demo>
       </div>
+    </>
+  )
+}
 
-      <GroupHeader title="Date & media" sub="Calendars, pickers, and carousels." />
+function CalendarCluster() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2026, 5, 7))
 
-      <Subhead id="c-calendar">Calendar · Date picker</Subhead>
+  return (
+    <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="justify-center">
           <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border bg-card" />
@@ -136,8 +138,13 @@ export function GalleryMisc() {
           <DatePicker />
         </Demo>
       </div>
+    </>
+  )
+}
 
-      <Subhead id="c-carousel">Carousel</Subhead>
+function CarouselCluster() {
+  return (
+    <>
       <Demo className="justify-center">
         <Carousel className="w-full max-w-md">
           <CarouselContent>
@@ -153,10 +160,13 @@ export function GalleryMisc() {
           <CarouselNext />
         </Carousel>
       </Demo>
+    </>
+  )
+}
 
-      <GroupHeader title="Layout" sub="Containers for scrolling and resizable regions." />
-
-      <Subhead id="c-scroll-area">Scroll area · Resizable</Subhead>
+function ScrollAreaCluster() {
+  return (
+    <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Demo className="justify-center">
           <ScrollArea className="h-44 w-full max-w-xs rounded-md border bg-card p-2">
@@ -189,3 +199,10 @@ export function GalleryMisc() {
     </>
   )
 }
+
+export const miscClusters: GalleryCluster[] = [
+  { anchor: "c-accordion", slug: "accordion", title: "Accordion · Collapsible", group: "Disclosure", demo: AccordionCluster },
+  { anchor: "c-calendar", slug: "calendar", title: "Calendar · Date picker", group: "Date & media", demo: CalendarCluster },
+  { anchor: "c-carousel", slug: "carousel", title: "Carousel", group: "Date & media", demo: CarouselCluster },
+  { anchor: "c-scroll-area", slug: "scroll-area", title: "Scroll area · Resizable", group: "Layout", demo: ScrollAreaCluster },
+]
