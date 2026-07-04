@@ -18,6 +18,16 @@ npm run dev        # http://localhost:5173
 npm run build      # type-check + production build to dist/
 ```
 
+Two repeatable audits live in `scripts/` (see `docs/a11y/` and decision 0007):
+
+```bash
+node scripts/contrast-audit.mjs                 # WCAG ratios for every rendered token pair
+node scripts/mobile-audit.mjs <url> [url...]    # 390px scan: overflow, clipped content,
+                                                # sub-16px inputs, <44px effective hit areas
+                                                # (needs playwright; PW_EXECUTABLE to point
+                                                # at an existing chromium)
+```
+
 ## Stack
 
 - **Vite 8** + React 19 + TypeScript, `@/*` aliased to `src/*`
@@ -58,11 +68,14 @@ src/
       tables.tsx               ← Table system: density · variants · sort · sticky · states
       charts.tsx               ← shadcn <ChartContainer> (recharts)
       app-shell.tsx            ← App shell + page-header pattern
+      nav-patterns.tsx         ← Navigation: module switcher · grouped rail · record tabs
       dashboard.tsx            ← KPI cards · sparklines · activity feed
       filters.tsx              ← Filter bar · chips · popover · saved views
+      filtering-advanced.tsx   ← Filter builder · column controls · date presets
       patterns.tsx             ← CRUD recipes: list view · form · detail · empty
       flows.tsx                ← Multi-step wizard · settings page
       contract-detail.tsx      ← Domain: contract header · terms · fills · activity
+      settlement.tsx           ← Domain: settlement statement — loads · deductions · net payable
       section.tsx              ← shared <Section> / <Demo> layout helpers
 ```
 
@@ -74,6 +87,17 @@ src/
 > settled, on_hold, rejected, cancelled, expired), each on a distinct
 > `--status-*` hue. Use it for *persistent state*; use `Badge`/`Alert`
 > variants for *event outcomes*.
+> `ui/command.tsx` diverges from stock in one class: the palette input is
+> `text-base md:text-sm` so iOS Safari doesn't zoom on focus (decision 0007).
+
+> **Touch ergonomics (decisions 0007 + 0009):** `src/index.css` ends with
+> a `@media (pointer: coarse)` block. Primary controls (button, input,
+> input-group, select-trigger slots) visibly grow to 44px min-height
+> (compact sizes 40px); compact controls that stay small (toggles,
+> pagination, menubar triggers) get a ≥44px effective hit area via an
+> invisible `::after`. Checkbox/radio/switch already ship base-nova's
+> `after:-inset-*` extensions; `tabs-trigger` is excluded because its
+> `::after` draws the active-line indicator.
 
 ## Fonts
 

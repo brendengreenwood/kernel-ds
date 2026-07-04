@@ -81,12 +81,15 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Charts", anchor: "charts", group: "element", maturity: "ready", a11y: "pending" },
 
   { name: "App shell", anchor: "appshell", group: "pattern", maturity: "ready", a11y: "pending" },
+  { name: "Navigation", anchor: "navigation", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; module switcher + nested rail conventions settling." },
   { name: "Dashboard", anchor: "dashboard", group: "pattern", maturity: "ready", a11y: "pending" },
   { name: "Filtering", anchor: "filters", group: "pattern", maturity: "ready", a11y: "pending" },
+  { name: "Advanced filtering", anchor: "filtering-advanced", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; builder operator set and persistence model settling." },
   { name: "CRUD patterns", anchor: "patterns", group: "pattern", maturity: "ready", a11y: "pending" },
   { name: "Flows", anchor: "flows", group: "pattern", maturity: "ready", a11y: "pending" },
 
   { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 1 of 4; API settling while the lineup lands." },
+  { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 2 of 4; money math reconciles to contract-detail fills." },
 ]
 
 export const components = componentMeta.filter((c) => c.group === "component")

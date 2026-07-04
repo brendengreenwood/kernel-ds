@@ -9,11 +9,14 @@ import { FormElementsSection } from "@/components/portal/form-elements"
 import { TablesSection } from "@/components/portal/tables"
 import { ChartsSection } from "@/components/portal/charts"
 import { AppShellSection } from "@/components/portal/app-shell"
+import { NavPatternsSection } from "@/components/portal/nav-patterns"
 import { DashboardSection } from "@/components/portal/dashboard"
 import { FiltersSection } from "@/components/portal/filters"
+import { FilteringAdvancedSection } from "@/components/portal/filtering-advanced"
 import { PatternsSection } from "@/components/portal/patterns"
 import { FlowsSection } from "@/components/portal/flows"
 import { ContractDetailSection } from "@/components/portal/contract-detail"
+import { SettlementSection } from "@/components/portal/settlement"
 import { InstallSection } from "@/components/portal/install"
 import { StatusSection } from "@/components/portal/status-page"
 
@@ -45,11 +48,14 @@ export default function PortalPage() {
           <TablesSection />
           <ChartsSection />
           <AppShellSection />
+          <NavPatternsSection />
           <DashboardSection />
           <FiltersSection />
+          <FilteringAdvancedSection />
           <PatternsSection />
           <FlowsSection />
           <ContractDetailSection />
+          <SettlementSection />
           <InstallSection />
           <StatusSection />
         </main>
