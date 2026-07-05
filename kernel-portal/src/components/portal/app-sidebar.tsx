@@ -25,6 +25,7 @@ import {
   SlidersHorizontal,
   ListChecks,
   Shapes,
+  Sparkles,
 } from "lucide-react"
 
 import {
@@ -77,6 +78,7 @@ const nav: { label: string; items: NavItem[] }[] = [
       { title: "Form elements", to: "/forms", icon: TextCursorInput },
       { title: "Tables", to: "/tables", icon: Table2 },
       { title: "Charts", to: "/charts", icon: BarChart3 },
+      { title: "Border beam", to: "/border-beam", icon: Sparkles, maturity: "experimental" },
     ],
   },
   {

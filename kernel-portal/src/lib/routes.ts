@@ -15,6 +15,7 @@ export const sectionRoutes: Record<string, string> = {
   forms: "/forms",
   tables: "/tables",
   charts: "/charts",
+  "border-beam": "/border-beam",
   appshell: "/appshell",
   navigation: "/navigation",
   dashboard: "/dashboard",

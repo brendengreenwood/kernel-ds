@@ -79,6 +79,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Form elements", anchor: "forms", group: "element", maturity: "ready", a11y: "pending" },
   { name: "Tables", anchor: "tables", group: "element", maturity: "ready", a11y: "pending" },
   { name: "Charts", anchor: "charts", group: "element", maturity: "ready", a11y: "pending" },
+  { name: "Border beam", anchor: "border-beam", group: "element", maturity: "experimental", a11y: "pending", note: "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card. Portal-only — no static-preview mirror." },
 
   { name: "App shell", anchor: "appshell", group: "pattern", maturity: "ready", a11y: "pending" },
   { name: "Navigation", anchor: "navigation", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; module switcher + nested rail conventions settling." },

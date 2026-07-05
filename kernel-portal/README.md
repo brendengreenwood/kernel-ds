@@ -65,6 +65,7 @@ src/
       alert.tsx                ← + success / warning / info variants (replaces stock)
       badge.tsx                ← + success / warning / info variants (replaces stock)
       status-badge.tsx         ← Kernel-only <StatusBadge> (lifecycle states)
+      border-beam.tsx          ← BeamWrap: opt-in borderBeam prop (button/input/card)
       …                        ← the rest from `npx shadcn add` (button, input, …)
     portal/
       app-sidebar.tsx          ← rail: router links per section + per-component page list
@@ -106,6 +107,13 @@ src/
 > content takes `width` (`xs`–`xl`) and `height` (`auto` · `tall` ≈75dvh ·
 > `full` ≈90dvh) props; and a `<DialogBody>` slot flexes + scrolls inside
 > fixed-height modals — full-height flows run entirely in the modal.
+> `ui/border-beam.tsx` is Kernel-only: `BeamWrap` powers an opt-in
+> `borderBeam` prop on `Button` / `Input` / `Card` (`borderBeam` for the
+> default beam, or `borderBeam={{ size, colorVariant, active, … }}`),
+> wrapping the third-party [`border-beam`](https://github.com/Jakubantalik/border-beam)
+> (MIT) only when set. Beam `theme` follows the app's light/dark.
+> **Portal-only** (decision 0012) — no static-preview mirror, since the
+> preview is zero-build and can't import a React package.
 > `ui/select.tsx` diverges from stock in form ergonomics: the trigger is
 > `w-full` (selects fill their form column like `Input`; size compact ones
 > at the call site), the popup is `min-w-[max(var(--anchor-width),9rem)]`
