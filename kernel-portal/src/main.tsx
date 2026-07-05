@@ -14,6 +14,7 @@ import { ColorsSection, TypographySection, SpacingSection, ShadowsSection } from
 import { FormElementsSection } from "@/components/portal/form-elements"
 import { TablesSection } from "@/components/portal/tables"
 import { ChartsSection } from "@/components/portal/charts"
+import { BorderBeamSection } from "@/components/portal/border-beam-demo"
 import { AppShellSection } from "@/components/portal/app-shell"
 import { NavPatternsSection } from "@/components/portal/nav-patterns"
 import { DashboardSection } from "@/components/portal/dashboard"
@@ -67,6 +68,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="forms" element={<FormElementsSection />} />
             <Route path="tables" element={<TablesSection />} />
             <Route path="charts" element={<ChartsSection />} />
+            <Route path="border-beam" element={<BorderBeamSection />} />
             <Route path="appshell" element={<AppShellSection />} />
             <Route path="navigation" element={<NavPatternsSection />} />
             <Route path="dashboard" element={<DashboardSection />} />

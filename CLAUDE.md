@@ -3,6 +3,8 @@
 ## Keep everything in sync on EVERY change
 This project has a preview (`Kernel Design System.html` + `theme.css` + `portal.css` + `portal.js`) AND a real shadcn build (`kernel-portal/`). They must stay mirrored. Whenever we add or change anything, update **all** of the relevant surfaces in the same turn:
 
+> **One carve-out (decision 0012):** a feature that fundamentally can't exist on the static side — e.g. a third-party **React** package like `border-beam` — is portal-only. Don't hand-reimplement it in the preview to fake parity; instead mark it "portal-only" in its `component-meta` note + STATE and record why. A CSS approximation, if ever wanted, is its own tracked task.
+
 When **tokens** change (color scales, status, type, spacing, shadows, radius):
 - `theme.css` (preview) **and** `kernel-portal/src/index.css` (`:root`, `.dark`, and the `@theme inline` maps)
 - The in-portal **"4 · Tokens — complete reference"** blocks in the Install section of `Kernel Design System.html` (regenerate the full list — it is exhaustive, not an excerpt)
