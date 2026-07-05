@@ -6,3 +6,10 @@ dist/
 
 # source archive — contents are extracted into the repo
 kernel ds.zip
+
+# design-sync machine state
+.ds-sync/
+ds-bundle/
+.design-sync/.cache/
+.design-sync/learnings/
+.design-sync/node_modules
