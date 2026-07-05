@@ -181,6 +181,9 @@
   body {
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking-normal);
+    /* `antialiased` on <body> (index.html) already sets webkit/moz
+       font-smoothing; match the preview's legibility hint too. */
+    text-rendering: optimizeLegibility;
   }
 }
 
