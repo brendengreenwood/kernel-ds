@@ -111,6 +111,12 @@ long scroll.
   `npm ci` + `tsc -b` + build + lint (oxlint, blocking) for `kernel-portal`
   on every PR and push to `main`. Branch protection requiring the check
   must be enabled by the repo owner in GitHub settings.
+- **Claude Design sync tooling** (2026-07-05):
+  `kernel-portal/scripts/build-ds-cards.mjs` generates 14 `@dsCard` HTML
+  cards from `theme.css` into gitignored `.ds-cards/` for DesignSync upload
+  to a claude.ai/design project. First upload pending user authorization
+  (`/design-login`); after any token change, rebuild + re-upload the
+  affected cards.
 
 ## In flight
 

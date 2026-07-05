@@ -6,3 +6,4 @@ dist/
 
 # source archive — contents are extracted into the repo
 kernel ds.zip
+.ds-cards/
