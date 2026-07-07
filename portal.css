@@ -886,6 +886,22 @@ code, pre, .mono { font-family: var(--font-mono); }
 /* ===== Status badges ===== */
 .status { display:inline-flex; align-items:center; justify-content:center; gap:6px; height:22px; padding:0 10px 0 8px; border-radius:999px; font-size:12px; font-weight:500; line-height:1; border:1px solid transparent; white-space:nowrap; }
 .status .dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+
+/* commodity coding tags (decision 0013) — categorical crop hues */
+.commodity-tag { display:inline-flex; align-items:center; justify-content:center; gap:6px; height:22px; padding:0 10px 0 8px; border-radius:999px; font-size:12px; font-weight:500; line-height:1; border:1px solid transparent; white-space:nowrap; }
+.commodity-tag .dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.commodity-corn { background:var(--commodity-corn-100); color:var(--commodity-corn-900); border-color:var(--commodity-corn-200); }
+.commodity-corn .dot { background:var(--commodity-corn-500); }
+.dark .commodity-corn { background:color-mix(in oklch, var(--commodity-corn-900) 45%, transparent); color:var(--commodity-corn-100); border-color:color-mix(in oklch, var(--commodity-corn-800) 50%, transparent); }
+.commodity-canola { background:var(--commodity-canola-100); color:var(--commodity-canola-900); border-color:var(--commodity-canola-200); }
+.commodity-canola .dot { background:var(--commodity-canola-500); }
+.dark .commodity-canola { background:color-mix(in oklch, var(--commodity-canola-900) 45%, transparent); color:var(--commodity-canola-100); border-color:color-mix(in oklch, var(--commodity-canola-800) 50%, transparent); }
+.commodity-soy { background:var(--commodity-soy-100); color:var(--commodity-soy-900); border-color:var(--commodity-soy-200); }
+.commodity-soy .dot { background:var(--commodity-soy-500); }
+.dark .commodity-soy { background:color-mix(in oklch, var(--commodity-soy-900) 45%, transparent); color:var(--commodity-soy-100); border-color:color-mix(in oklch, var(--commodity-soy-800) 50%, transparent); }
+.commodity-wheat { background:var(--commodity-wheat-100); color:var(--commodity-wheat-900); border-color:var(--commodity-wheat-200); }
+.commodity-wheat .dot { background:var(--commodity-wheat-500); }
+.dark .commodity-wheat { background:color-mix(in oklch, var(--commodity-wheat-900) 45%, transparent); color:var(--commodity-wheat-100); border-color:color-mix(in oklch, var(--commodity-wheat-800) 50%, transparent); }
 .status-draft { background:var(--neutral-100); color:var(--neutral-800); border-color:var(--neutral-200); }
 .status-draft .dot { background:var(--neutral-500); }
 .dark .status-draft { background:color-mix(in oklch, var(--neutral-900) 45%, transparent); color:var(--neutral-100); border-color:color-mix(in oklch, var(--neutral-800) 50%, transparent); }
