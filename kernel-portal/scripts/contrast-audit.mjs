@@ -231,6 +231,32 @@ for (const { status, family, lightText, darkBg } of statusVariants) {
   });
 }
 
+/* ---- (d) CommodityBadge variants (from commodity-badge.tsx, decision 0013) ---- */
+const commodityVariants = [
+  { commodity: "corn", family: "commodity-corn" },
+  { commodity: "canola", family: "commodity-canola" },
+  { commodity: "soybeans", family: "commodity-soy" },
+  { commodity: "wheat", family: "commodity-wheat" },
+];
+for (const { commodity, family } of commodityVariants) {
+  check({
+    group: "CommodityBadge",
+    label: `${commodity}: text-${family}-900 on bg-${family}-100`,
+    mode: "light",
+    fgToken: `${family}-900`,
+    bg: softFill("light", family, "100", 1),
+    bgLabel: `${family}-100`,
+  });
+  check({
+    group: "CommodityBadge",
+    label: `${commodity}: text-${family}-100 on bg-${family}-900/45 over --card`,
+    mode: "dark",
+    fgToken: `${family}-100`,
+    bg: softFill("dark", family, "900", 0.45, "card"),
+    bgLabel: `${family}-900/45 ⊕ card`,
+  });
+}
+
 /* ---- report ---- */
 const fmt = (r) => r.toFixed(2) + ":1";
 const mark = (ok) => (ok ? "pass" : "**FAIL**");

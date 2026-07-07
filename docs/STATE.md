@@ -78,6 +78,12 @@ long scroll.
   and the preview drawer's `.nav-link` grow to 44px on coarse pointers,
   and the portal's per-component rail list is now normal menu rows (dot +
   label), not a smaller nested sub-tree — the rail reads as one style.
+- **Commodity color coding** (decision 0013, 2026-07-05): a dedicated
+  `--commodity-*` categorical family (corn gold, canola yellow, soybean
+  green, wheat tan) — four full 50→950 OKLCH scales on both surfaces +
+  `<CommodityBadge>` for tags. A semantic sibling to the abstract `--viz-*`
+  palette; distinct from status (lifecycle) and notification (events).
+  Contrast-audit covers it (70 pairs, 0 AA failures).
 - **Border beam effect** (decision 0012, 2026-07-05): third-party
   `border-beam` (MIT) wired as an opt-in `borderBeam` prop on Button,
   Input, Card via a shared `BeamWrap` that only mounts when set; beam

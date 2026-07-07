@@ -156,7 +156,12 @@ The palette has two layers, both in `src/index.css`:
   (`--viz-crop`, `--viz-wheat`, `--viz-clay`, `--viz-sky`, `--viz-plum`,
   `--viz-teal`, `--viz-rust`, `--viz-slate`), **each a full 50→950 scale**, with
   `-light` / `-dark` aliases at steps 200 / 700 — keeps chart series from
-  reading as a status.
+  reading as a status. A parallel **commodity** family (decision 0013) —
+  `--commodity-corn` (gold), `--commodity-canola` (yellow),
+  `--commodity-soy` (green), `--commodity-wheat` (tan), **each a full
+  50→950 scale** with the same `-light`/`-dark` aliases — colour-codes
+  grain commodities so tags and chart series read at a glance. Unlike viz,
+  it's *semantic*: the hue means the commodity.
 - **Role tokens** — `--primary`, `--background`, `--destructive`, etc. point at
   a scale step and remap between light and dark (e.g. `--primary` =
   `brand-600` in light, `brand-300` in dark).
@@ -165,11 +170,13 @@ The palette has two layers, both in `src/index.css`:
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so
   a column of statuses stays scannable; the `<StatusBadge>` derives its soft
   fill from the same hue. Use these for *persistent state*, the notification
-  scales for *event outcomes*.
+  scales for *event outcomes*, and the commodity scales for *which crop* —
+  three distinct axes, never crossed. `<CommodityBadge commodity="corn" />`
+  renders a commodity tag.
 
 All scales are mapped through `@theme inline`, so Tailwind utilities work
 directly: `bg-brand-500`, `text-success-700`, `border-warning-300`,
-`fill-viz-sky`, `bg-status-settled`, …
+`fill-viz-sky`, `bg-status-settled`, `bg-commodity-corn-500`, …
 
 ---
 

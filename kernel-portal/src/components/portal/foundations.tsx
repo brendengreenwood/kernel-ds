@@ -3,6 +3,7 @@
 import * as React from "react"
 import { toast } from "sonner"
 import { Section } from "./section"
+import { CommodityBadge, type Commodity } from "@/components/ui/commodity-badge"
 
 function copy(token: string) {
   navigator.clipboard?.writeText(token)
@@ -58,6 +59,16 @@ const viz = [
   ["slate", "Slate"],
 ]
 
+// token key → display label; token is --commodity-<key>-*
+const commodities: [string, string][] = [
+  ["corn", "Corn"],
+  ["canola", "Canola"],
+  ["soy", "Soybeans"],
+  ["wheat", "Wheat"],
+]
+
+const commodityTags: Commodity[] = ["corn", "canola", "soybeans", "wheat"]
+
 const pairs = [
   { name: "Primary", v: "--primary", fg: "--primary-foreground", map: "brand-600 / brand-300" },
   { name: "Secondary", v: "--secondary", fg: "--secondary-foreground", map: "brand-50 / neutral-800" },
@@ -103,6 +114,29 @@ export function ColorsSection() {
       <div className="rounded-lg border bg-card p-8">
         {viz.map(([k, n]) => (
           <Ramp key={k} name={n} role={`--viz-${k}-*`} token={`viz-${k}`} steps={STEPS_11} />
+        ))}
+      </div>
+
+      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+        Commodity coding
+      </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        A fixed hue per grain commodity (decision 0013) so tags, badges, and
+        chips are scannable at a glance — corn gold, canola yellow, soybean
+        green, wheat tan. A categorical system like data-viz, but semantic:
+        the hue <em>means</em> the commodity. Use{" "}
+        <code className="font-mono">&lt;CommodityBadge&gt;</code> for tags;
+        drive charts from the same <code className="font-mono">--commodity-*</code>{" "}
+        tokens.
+      </p>
+      <div className="rounded-lg border bg-card p-8">
+        <div className="mb-6 flex flex-wrap gap-2">
+          {commodityTags.map((c) => (
+            <CommodityBadge key={c} commodity={c} />
+          ))}
+        </div>
+        {commodities.map(([k, n]) => (
+          <Ramp key={k} name={n} role={`--commodity-${k}-*`} token={`commodity-${k}`} steps={STEPS_11} />
         ))}
       </div>
 
