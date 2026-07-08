@@ -36,6 +36,7 @@ The recurring rituals above are encoded as invocable skills — reach for them i
 Craft/principles skills — consult when designing or reviewing, not just building:
 - **`kernel-typesetting`** — typesetting, vertical rhythm, and layout done well, on the 4pt baseline grid (measure, leading, tracking, hierarchy, alignment, proximity, negative space).
 - **`kernel-norman`** — Don Norman's usability principles (affordance/signifier/mapping/feedback/constraints/mental model, the two gulfs, designing for error).
+- **`kernel-visual`** — color, contrast (WCAG AA), visual hierarchy, and Gestalt grouping done well (the three color axes, redundant coding, squint test).
 
 ## Conventions
 - No web fonts. `--font-sans` and `--font-mono` are native system stacks only (no Inter, no Roboto Mono, no `next/font`, no `<link>` tags). No serif.
