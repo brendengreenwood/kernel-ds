@@ -72,4 +72,46 @@ function CommodityBadge({
   )
 }
 
-export { CommodityBadge, commodityBadgeVariants }
+/**
+ * CommodityLabel — the quiet form: a commodity-colored dot + the name, no
+ * pill. For dense table cells where a full badge would compete with the
+ * StatusBadge already in the row (decision 0013). Same hue vocabulary.
+ *
+ *   <CommodityLabel commodity="soybeans" />
+ */
+function CommodityLabel({
+  commodity = "corn",
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"span"> &
+  VariantProps<typeof commodityBadgeVariants>) {
+  const key = (commodity ?? "corn") as Commodity
+  return (
+    <span
+      data-slot="commodity-label"
+      data-commodity={key}
+      className={cn("inline-flex items-center gap-1.5 whitespace-nowrap", className)}
+      {...props}
+    >
+      <span className={cn("size-1.5 shrink-0 rounded-full", dotColor[key])} />
+      {children ?? defaultLabel[key]}
+    </span>
+  )
+}
+
+/** Map a free-text grain label ("Soybean", "soy") to its Commodity key. */
+function commodityFromLabel(s: string): Commodity {
+  const k = s.trim().toLowerCase()
+  if (k.startsWith("canola")) return "canola"
+  if (k.startsWith("soy")) return "soybeans"
+  if (k.startsWith("wheat")) return "wheat"
+  return "corn"
+}
+
+export {
+  CommodityBadge,
+  CommodityLabel,
+  commodityBadgeVariants,
+  commodityFromLabel,
+}
