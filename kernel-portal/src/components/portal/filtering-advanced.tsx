@@ -2,8 +2,10 @@
 
 import * as React from "react"
 import { Plus, X, Columns3, GripVertical } from "lucide-react"
+import { useAutoAnimate } from "@formkit/auto-animate/react"
 
 import { cn } from "@/lib/utils"
+import { autoAnimateConfig } from "@/lib/motion"
 import { Section, Subhead } from "./section"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -43,13 +45,14 @@ function FilterBuilder() {
     { id: 3, field: "Delivery window", op: "overlaps", value: "Oct 1 – Nov 15" },
   ])
   const next = React.useRef(4)
+  const [listRef] = useAutoAnimate<HTMLDivElement>(autoAnimateConfig)
 
   const update = (id: number, patch: Partial<Condition>) =>
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)))
 
   return (
     <div className="rounded-lg border bg-card">
-      <div className="flex flex-col gap-2.5 p-4">
+      <div ref={listRef} className="flex flex-col gap-2.5 p-4">
         {rows.map((r, i) => (
           <div key={r.id} className="flex flex-wrap items-center gap-2">
             <span className="w-14 shrink-0 text-right text-xs font-medium text-muted-foreground">

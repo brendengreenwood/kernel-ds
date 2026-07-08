@@ -134,7 +134,8 @@ long scroll.
   Engines are opt-in npm libs, portal-only (decision 0012). Adopted:
   `@number-flow/react` via `<AnimatedNumber>` (counts up on mount, rolls on
   change, honors reduced-motion) on the dashboard KPIs + settlement net
-  payable. Candidates next: `@formkit/auto-animate` (lists), `motion`.
+  payable, and `@formkit/auto-animate` (shared `autoAnimateConfig`) on the
+  filter builder rows + applied-filter chips. Candidate next: `motion`.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
