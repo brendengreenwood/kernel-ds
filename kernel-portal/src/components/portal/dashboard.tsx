@@ -6,6 +6,8 @@ import { Truck, FileText, Banknote, TrendingUp, TrendingDown } from "lucide-reac
 import { cn } from "@/lib/utils"
 import { Section, Subhead } from "./section"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { AnimatedNumber } from "@/components/ui/animated-number"
+import { type Format } from "@number-flow/react"
 
 function Spark({ points, color }: { points: string; color: string }) {
   return (
@@ -41,7 +43,10 @@ function Delta({ dir, children }: { dir: "up" | "down"; children: React.ReactNod
 type Kpi = {
   label: string
   icon: React.ElementType
-  value: string
+  value: number
+  format?: Format
+  prefix?: string
+  suffix?: string
   dir: "up" | "down"
   delta: string
   points: string
@@ -49,10 +54,10 @@ type Kpi = {
 }
 
 const kpis: Kpi[] = [
-  { label: "Bushels received", icon: Truck, value: "482k", dir: "up", delta: "+8.2%", points: "0,26 11,22 22,24 33,16 44,18 55,11 66,13 80,6", color: "var(--viz-crop)" },
-  { label: "Open contracts", icon: FileText, value: "128", dir: "up", delta: "+3.1%", points: "0,20 11,18 22,21 33,15 44,17 55,14 66,12 80,9", color: "var(--viz-sky)" },
-  { label: "Avg basis", icon: Banknote, value: "−0.12", dir: "down", delta: "−0.04", points: "0,10 11,12 22,11 33,15 44,14 55,18 66,17 80,22", color: "var(--viz-clay)" },
-  { label: "Settlement value", icon: Banknote, value: "$2.41M", dir: "up", delta: "+12.4%", points: "0,28 11,24 22,25 33,18 44,16 55,12 66,10 80,5", color: "var(--viz-crop)" },
+  { label: "Bushels received", icon: Truck, value: 482, suffix: "k", dir: "up", delta: "+8.2%", points: "0,26 11,22 22,24 33,16 44,18 55,11 66,13 80,6", color: "var(--viz-crop)" },
+  { label: "Open contracts", icon: FileText, value: 128, dir: "up", delta: "+3.1%", points: "0,20 11,18 22,21 33,15 44,17 55,14 66,12 80,9", color: "var(--viz-sky)" },
+  { label: "Avg basis", icon: Banknote, value: -0.12, format: { minimumFractionDigits: 2, maximumFractionDigits: 2 }, dir: "down", delta: "−0.04", points: "0,10 11,12 22,11 33,15 44,14 55,18 66,17 80,22", color: "var(--viz-clay)" },
+  { label: "Settlement value", icon: Banknote, value: 2.41, prefix: "$", suffix: "M", format: { minimumFractionDigits: 2, maximumFractionDigits: 2 }, dir: "up", delta: "+12.4%", points: "0,28 11,24 22,25 33,18 44,16 55,12 66,10 80,5", color: "var(--viz-crop)" },
 ]
 
 const feed: { id: string; what: string; who: string; num: string; status: Status }[] = [
@@ -87,7 +92,9 @@ export function DashboardSection() {
               <k.icon className="size-[15px]" /> {k.label}
             </div>
             <div className="mt-3 flex items-end justify-between gap-3">
-              <div className="text-[27px] font-semibold leading-none tracking-tight tabular-nums">{k.value}</div>
+              <div className="text-[27px] font-semibold leading-none tracking-tight tabular-nums">
+                <AnimatedNumber value={k.value} format={k.format} prefix={k.prefix} suffix={k.suffix} />
+              </div>
               <Spark points={k.points} color={k.color} />
             </div>
             <div className="mt-3 flex items-center gap-2 text-[11.5px] text-muted-foreground">
