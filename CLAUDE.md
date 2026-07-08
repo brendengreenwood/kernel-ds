@@ -26,6 +26,13 @@ The `docs/` directory is the project's memory. In the **same turn** as any meani
 - If the change involved a **shaping decision** (convention, dependency, architecture), add an immutable record to `docs/decisions/` — supersede old records with new ones, never edit them.
 - When a `STATE.md` section is no longer active, **archive** it to `docs/archive/YYYY-MM-DD-topic.md` instead of deleting it.
 
+## Project skills (`.agents/skills/`)
+The recurring rituals above are encoded as invocable skills — reach for them instead of re-deriving the steps:
+- **`kernel-token`** — add/change a color scale or design token across every surface (OKLCH ramp + `@theme` + token reference + contrast audit).
+- **`kernel-feature`** — add/change a component or pattern with both surfaces mirrored + the per-page route + `component-meta`.
+- **`kernel-verify`** — build + `tsc` + mobile-audit (390px) + contrast-audit + screenshot both surfaces, light/dark.
+- **`kernel-ship`** — worklog + STATE + decision docs, commit to the working branch, PR, and Netlify deploy verify.
+
 ## Conventions
 - No web fonts. `--font-sans` and `--font-mono` are native system stacks only (no Inter, no Roboto Mono, no `next/font`, no `<link>` tags). No serif.
 - Three color axes, never crossed: statuses = persistent lifecycle state (`--status-*`, `<StatusBadge>`); notifications = momentary event outcome (`success`/`warning`/`info` on `Alert`/`Badge`); commodities = which grain (`--commodity-*`, `<CommodityBadge>`; corn/canola/soybeans/wheat — decision 0013). `--viz-*` stays abstract (chart series that must not read as a status). Never conflate them.
