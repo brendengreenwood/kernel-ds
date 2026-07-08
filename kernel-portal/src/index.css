@@ -16,6 +16,16 @@
   --control-h: 2.375rem;     /* 38px — the resting default */
   --control-h-lg: 2.75rem;   /* 44px — hero actions; the touch minimum */
 
+  /* motion system (decision 0018): one source for timing + easing so
+     polish stays consistent and tunable. Honor prefers-reduced-motion
+     (guard at the end of this file). */
+  --duration-fast: 120ms;    /* hovers, small state flips */
+  --duration-base: 200ms;    /* the resting default */
+  --duration-slow: 320ms;    /* enter/exit, layout shifts */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);        /* decelerate — most UI */
+  --ease-in-out: cubic-bezier(0.5, 0, 0.2, 1);   /* symmetric moves */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* playful overshoot */
+
   --background: oklch(1.0000 0 0);
   --foreground: oklch(0.2128 0.0209 162.2254);
   --card: oklch(1.0000 0 0);
@@ -184,6 +194,17 @@
     /* `antialiased` on <body> (index.html) already sets webkit/moz
        font-smoothing; match the preview's legibility hint too. */
     text-rendering: optimizeLegibility;
+  }
+}
+
+/* Motion system (decision 0018): respect prefers-reduced-motion everywhere —
+   near-instant, no bounce, no smooth-scroll — so polish never costs comfort. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
