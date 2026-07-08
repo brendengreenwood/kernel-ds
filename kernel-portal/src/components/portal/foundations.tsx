@@ -72,7 +72,7 @@ const commodities: [string, string][] = [
 const commodityTags: Commodity[] = ["corn", "canola", "soybeans", "wheat"]
 
 const pairs = [
-  { name: "Primary", v: "--primary", fg: "--primary-foreground", map: "brand-600 / brand-300" },
+  { name: "Primary", v: "--primary", fg: "--primary-foreground", map: "orange-600 / orange-400 · action" },
   { name: "Secondary", v: "--secondary", fg: "--secondary-foreground", map: "brand-50 / neutral-800" },
   { name: "Accent", v: "--accent", fg: "--accent-foreground", map: "brand-300" },
   { name: "Destructive", v: "--destructive", fg: "--destructive-foreground", map: "error-500 / error-400" },
@@ -90,7 +90,8 @@ export function ColorsSection() {
         Brand & neutral scales
       </h4>
       <div className="rounded-lg border bg-card p-8">
-        <Ramp name="Brand" role="green · brand-*" token="brand" steps={STEPS_11} />
+        <Ramp name="Brand" role="green · brand-* · navigation" token="brand" steps={STEPS_11} />
+        <Ramp name="Orange" role="Cargill action · orange-* · --primary" token="orange" steps={STEPS_11} />
         <Ramp name="Neutral" role="green-tinted · neutral-*" token="neutral" steps={STEPS_11} />
       </div>
 
