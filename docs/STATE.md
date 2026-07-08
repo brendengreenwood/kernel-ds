@@ -115,8 +115,10 @@ long scroll.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
-  `kernel-ship` (user-invocable). Generic `shadcn` / `migrate-radix-to-base`
-  skills also live there.
+  `kernel-ship` (workflow), plus craft/principles skills `kernel-typesetting`
+  (typesetting · vertical rhythm · layout on a 4pt baseline grid) and
+  `kernel-norman` (Don Norman usability principles). Generic `shadcn` /
+  `migrate-radix-to-base` skills also live there.
 - CI quality gates: GitHub Actions (`.github/workflows/ci.yml`) runs
   `npm ci` + `tsc -b` + build + lint (oxlint, blocking) for `kernel-portal`
   on every PR and push to `main`. Branch protection requiring the check
