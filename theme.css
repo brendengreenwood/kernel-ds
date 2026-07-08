@@ -11,7 +11,7 @@
   --card-foreground: oklch(0.2128 0.0209 162.2254);
   --popover: oklch(1.0000 0 0);
   --popover-foreground: oklch(0.2128 0.0209 162.2254);
-  --primary: oklch(0.556 0.168 45);
+  --primary: oklch(0.5364 0.1457 150.5842);
   --primary-foreground: oklch(1.0000 0 0);
   --secondary: oklch(0.9758 0.0163 121.7629);
   --secondary-foreground: oklch(0.4373 0.1176 150.8612);
@@ -23,7 +23,7 @@
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.8957 0.0025 165.0685);
   --input: oklch(0.7140 0.0064 170.3662);
-  --ring: oklch(0.556 0.168 45);
+  --ring: oklch(0.5364 0.1457 150.5842);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -70,8 +70,8 @@
   --card-foreground: oklch(1.0000 0 0);
   --popover: oklch(0.2128 0.0209 162.2254);
   --popover-foreground: oklch(1.0000 0 0);
-  --primary: oklch(0.738 0.162 49);
-  --primary-foreground: oklch(0.258 0.066 37);
+  --primary: oklch(0.8722 0.1272 127.8039);
+  --primary-foreground: oklch(0.2128 0.0209 162.2254);
   --secondary: oklch(0.3959 0.0135 167.1419);
   --secondary-foreground: oklch(0.8722 0.1272 127.8039);
   --muted: oklch(0.3959 0.0135 167.1419);
@@ -82,7 +82,7 @@
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.3959 0.0135 167.1419);
   --input: oklch(0.5620 0.0104 161.1304);
-  --ring: oklch(0.738 0.162 49);
+  --ring: oklch(0.8722 0.1272 127.8039);
 
   --chart-1: oklch(0.8722 0.1272 127.8039);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -127,22 +127,6 @@
   --brand-800: oklch(0.375 0.100 151.5);
   --brand-900: oklch(0.300 0.078 152.5);
   --brand-950: oklch(0.225 0.055 153.5);
-  /* ===== ORANGE — Cargill action color (decision 0016) ===== */
-  --orange-50: oklch(0.972 0.020 62);
-  --orange-100: oklch(0.940 0.045 58);
-  --orange-200: oklch(0.888 0.084 54);
-  --orange-300: oklch(0.818 0.122 51);
-  --orange-400: oklch(0.738 0.162 49);
-  --orange-500: oklch(0.678 0.184 47);
-  --orange-600: oklch(0.556 0.168 45);
-  --orange-700: oklch(0.500 0.150 43);
-  --orange-800: oklch(0.418 0.122 41);
-  --orange-900: oklch(0.344 0.094 39);
-  --orange-950: oklch(0.258 0.066 37);
-  --orange-light: var(--orange-200);
-  --orange: var(--orange-500);
-  --orange-dark: var(--orange-700);
-
 
   --neutral-50:  oklch(0.985 0.002 165);
   --neutral-100: oklch(0.967 0.003 165);
