@@ -149,9 +149,8 @@ defined in `src/index.css`. Zero network requests and instant first paint.
 
 The palette has two layers, both in `src/index.css`:
 
-- **Scales** — absolute, mode-independent ink. `--brand-*` (Cargill green,
-  navigation), `--orange-*` (Cargill orange, the **action** color —
-  decision 0016) and `--neutral-*` ship full 50→950 ramps; the four notification scales
+- **Scales** — absolute, mode-independent ink. `--brand-*` (green) and
+  `--neutral-*` ship full 50→950 ramps; the four notification scales
   `--success-*` (emerald), `--warning-*` (wheat), `--error-*` (red),
   `--info-*` (blue) run 50→900. A separate categorical **data-viz** palette — eight hues
   (`--viz-crop`, `--viz-wheat`, `--viz-clay`, `--viz-sky`, `--viz-plum`,
@@ -164,10 +163,8 @@ The palette has two layers, both in `src/index.css`:
   grain commodities so tags and chart series read at a glance. Unlike viz,
   it's *semantic*: the hue means the commodity.
 - **Role tokens** — `--primary`, `--background`, `--destructive`, etc. point at
-  a scale step and remap between light and dark. The **action** role
-  `--primary` (buttons, links, focus ring) points at `orange-600` (light) /
-  `orange-400` (dark) — Cargill orange; **navigation** chrome (`--sidebar-*`)
-  stays green (decision 0016). Green nav, orange action.
+  a scale step and remap between light and dark (e.g. `--primary` =
+  `brand-600` in light, `brand-300` in dark).
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so

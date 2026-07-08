@@ -127,12 +127,6 @@ long scroll.
   Overline labels from `typeStyles`. Preview mirrors it via a `#doc-pager`
   populated by `portal.js`. Opens the mobile-doc-pattern area (on-this-page,
   compact header, bottom tab bar are candidates next).
-- **Cargill brand roles** (decision 0016, 2026-07-08): a full `--orange-*`
-  scale (Cargill orange) is the **action** color — `--primary`/`--ring` point
-  at it (buttons, links, focus), tuned to `oklch(0.556 0.168 45)` for AA with
-  white text. **Navigation** stays green (`--sidebar-*`/`--secondary`/
-  `--accent` → `--brand-*`). Green = navigate, orange = act. Both surfaces;
-  contrast-audit 0 AA failures.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
