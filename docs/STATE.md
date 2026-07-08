@@ -127,6 +127,12 @@ long scroll.
   Overline labels from `typeStyles`. Preview mirrors it via a `#doc-pager`
   populated by `portal.js`. Opens the mobile-doc-pattern area (on-this-page,
   compact header, bottom tab bar are candidates next).
+- **Motion system** (decision 0018, 2026-07-08): motion tokens on both
+  surfaces — durations (`--duration-fast/-base/-slow` 120/200/320ms) + easings
+  (`--ease-out`/`-in-out`/`-spring`) — plus a `prefers-reduced-motion` guard
+  that near-zeros animation everywhere (verified: 0.15s → ~0 under reduce).
+  Richer engines (`@number-flow/react` for animated numerics, `@formkit/
+  auto-animate`, `motion`) are opt-in npm libs, portal-only — not yet adopted.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
