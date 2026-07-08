@@ -2,8 +2,10 @@
 
 import * as React from "react"
 import { Search, Plus, X } from "lucide-react"
+import { useAutoAnimate } from "@formkit/auto-animate/react"
 
 import { cn } from "@/lib/utils"
+import { autoAnimateConfig } from "@/lib/motion"
 import { Section, Subhead } from "./section"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -54,6 +56,20 @@ export function FiltersSection() {
     { id: "status", k: "Status", v: "In transit, On hold" },
     { id: "date", k: "Delivered", v: "This week" },
   ])
+  const [chipsRef] = useAutoAnimate<HTMLDivElement>(autoAnimateConfig)
+
+  // pool the "Add filter" button cycles through, so add + remove both animate
+  const pool: Chip[] = [
+    { id: "farm", k: "Farm", v: "Hartmann Farms" },
+    { id: "basis", k: "Basis", v: "≤ −0.15" },
+    { id: "moisture", k: "Moisture", v: "< 15%" },
+    { id: "elevator", k: "Elevator", v: "River terminal" },
+  ]
+  const addFilter = () =>
+    setChips((p) => {
+      const next = pool.find((c) => !p.some((x) => x.id === c.id))
+      return next ? [...p, next] : p
+    })
 
   return (
     <Section
@@ -69,7 +85,7 @@ export function FiltersSection() {
             <Search className="pointer-events-none absolute left-3 size-4 text-muted-foreground" />
             <Input placeholder="Search loads…" className="pl-9" />
           </div>
-          <Button variant="outline" className="border-dashed text-muted-foreground">
+          <Button variant="outline" className="border-dashed text-muted-foreground" onClick={addFilter}>
             <Plus /> Add filter
           </Button>
           <div className="flex-1" />
@@ -83,7 +99,7 @@ export function FiltersSection() {
           </Select>
         </div>
         {chips.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2">
+          <div ref={chipsRef} className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-medium text-muted-foreground">Filters</span>
             {chips.map((c) => (
               <FilterChip key={c.id} chip={c} onRemove={() => setChips((p) => p.filter((x) => x.id !== c.id))} />
