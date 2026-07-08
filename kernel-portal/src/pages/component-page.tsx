@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router-dom"
 import { Section, MaturityPill } from "@/components/portal/section"
-import { galleryClusters, clusterBySlug } from "@/lib/gallery-registry"
+import { clusterBySlug } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
-import { ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 
 const RANK: Record<Maturity, number> = { deprecated: 3, experimental: 2, ready: 1 }
 function clusterMaturity(anchor: string): Maturity {
@@ -25,9 +25,6 @@ export default function ComponentPage() {
     )
   }
 
-  const idx = galleryClusters.findIndex((c) => c.slug === cluster.slug)
-  const prev = galleryClusters[idx - 1]
-  const next = galleryClusters[idx + 1]
   const Demo = cluster.demo
   const members = componentMeta.filter((c) => c.anchor === cluster.anchor)
 
@@ -55,27 +52,6 @@ export default function ComponentPage() {
       </div>
 
       <Demo />
-
-      <nav className="mt-14 flex items-stretch gap-3 border-t pt-6">
-        {prev ? (
-          <Link to={`/components/${prev.slug}`} className="group flex flex-1 items-center gap-2 rounded-lg border bg-card px-4 py-3 transition-colors hover:border-ring hover:bg-accent/40">
-            <ChevronLeft className="size-4 shrink-0 text-muted-foreground" />
-            <span className="min-w-0">
-              <span className="block text-[11px] uppercase tracking-wide text-muted-foreground">Previous</span>
-              <span className="block truncate font-medium">{prev.title}</span>
-            </span>
-          </Link>
-        ) : <span className="flex-1" />}
-        {next ? (
-          <Link to={`/components/${next.slug}`} className="group flex flex-1 items-center justify-end gap-2 rounded-lg border bg-card px-4 py-3 text-right transition-colors hover:border-ring hover:bg-accent/40">
-            <span className="min-w-0">
-              <span className="block text-[11px] uppercase tracking-wide text-muted-foreground">Next</span>
-              <span className="block truncate font-medium">{next.title}</span>
-            </span>
-            <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
-          </Link>
-        ) : <span className="flex-1" />}
-      </nav>
     </Section>
   )
 }

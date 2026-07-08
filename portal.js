@@ -195,11 +195,38 @@
     var active = links.find(function (l) { return l.getAttribute("data-section") === pageId; });
     if (crumb && active) crumb.textContent = active.getAttribute("data-title") || active.textContent.trim();
 
+    renderPager(pageId);
+
     if (targetId) {
       var el = document.getElementById(targetId);
       if (el) { el.scrollIntoView({ block: "start" }); return; }
     }
     window.scrollTo(0, 0);
+  }
+
+  /* Sequential prev/next pager (mobile doc pattern) — walks the rail order. */
+  var pager = document.getElementById("doc-pager");
+  function pagerCard(dir, link) {
+    var page = link.getAttribute("data-section");
+    var title = link.getAttribute("data-title") || link.textContent.trim();
+    var isNext = dir === "next";
+    var chevron = isNext
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+    var label = '<span class="dp-label">' + (isNext ? "Next" : "Previous") + '</span>';
+    var name = '<span class="dp-title">' + title + '</span>';
+    var text = '<span class="dp-text">' + label + name + '</span>';
+    return '<a class="dp-card dp-' + dir + '" href="#' + page + '">' +
+      (isNext ? text + chevron : chevron + text) + '</a>';
+  }
+  function renderPager(pageId) {
+    if (!pager) return;
+    var i = links.findIndex(function (l) { return l.getAttribute("data-section") === pageId; });
+    if (i < 0) { pager.innerHTML = ""; return; }
+    var html = "";
+    html += i > 0 ? pagerCard("prev", links[i - 1]) : '<span class="dp-spacer"></span>';
+    if (i < links.length - 1) html += pagerCard("next", links[i + 1]);
+    pager.innerHTML = html;
   }
 
   function route() {

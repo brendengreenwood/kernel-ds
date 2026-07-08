@@ -120,6 +120,13 @@ long scroll.
   docs and app render the same styles, no drift. Example screens are held to
   the same bar (commodity-coding + this type pass are the first slices; more
   example-screen rigor is in flight).
+- **Mobile documentation-portal patterns** (decision 0015, 2026-07-05):
+  a global sequential prev/next `<DocPager>` at the foot of every page
+  (order in `src/lib/page-order.ts` = the rail order; component pages after
+  the Components index), mounted once in `PortalLayout`; mobile-first cards,
+  Overline labels from `typeStyles`. Preview mirrors it via a `#doc-pager`
+  populated by `portal.js`. Opens the mobile-doc-pattern area (on-this-page,
+  compact header, bottom tab bar are candidates next).
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
