@@ -62,11 +62,13 @@ const feed: { id: string; what: string; who: string; num: string; status: Status
   { id: "#4460", what: "rejected", who: "Hartmann Farms · 2h ago", num: "—", status: "rejected" },
 ]
 
+// grain series use the commodity hues (decision 0013), not abstract viz —
+// corn = gold, soybean = green, so the chart reads like the tags elsewhere.
 const bars = [
-  [58, "var(--viz-crop)"], [80, "var(--viz-wheat)"],
-  [90, "var(--viz-crop)"], [62, "var(--viz-wheat)"],
-  [106, "var(--viz-crop)"], [76, "var(--viz-wheat)"],
-  [50, "var(--viz-crop)"], [34, "var(--viz-wheat)"],
+  [58, "var(--commodity-corn)"], [80, "var(--commodity-soy)"],
+  [90, "var(--commodity-corn)"], [62, "var(--commodity-soy)"],
+  [106, "var(--commodity-corn)"], [76, "var(--commodity-soy)"],
+  [50, "var(--commodity-corn)"], [34, "var(--commodity-soy)"],
 ] as const
 
 export function DashboardSection() {
@@ -106,8 +108,8 @@ export function DashboardSection() {
             ))}
           </svg>
           <div className="mt-4 flex gap-3.5">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><span className="size-2.5 rounded-[3px]" style={{ background: "var(--viz-crop)" }} /> Corn</div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><span className="size-2.5 rounded-[3px]" style={{ background: "var(--viz-wheat)" }} /> Soybean</div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><span className="size-2.5 rounded-[3px]" style={{ background: "var(--commodity-corn)" }} /> Corn</div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><span className="size-2.5 rounded-[3px]" style={{ background: "var(--commodity-soy)" }} /> Soybean</div>
           </div>
         </div>
         <div className="rounded-lg border bg-card">

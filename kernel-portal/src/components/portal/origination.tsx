@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { CommodityLabel, commodityFromLabel } from "@/components/ui/commodity-badge"
 import {
   Select,
   SelectContent,
@@ -67,7 +68,7 @@ function OfferQueue() {
             return (
               <TableRow key={o.producer} className={dead ? "opacity-55" : undefined}>
                 <TableCell className="font-medium">{o.producer}</TableCell>
-                <TableCell>{o.grain}</TableCell>
+                <TableCell><CommodityLabel commodity={commodityFromLabel(o.grain)}>{o.grain}</CommodityLabel></TableCell>
                 <TableCell className="text-right font-mono">{o.qty}</TableCell>
                 <TableCell className="text-right font-mono">{o.offer}</TableCell>
                 <TableCell className="text-right font-mono text-muted-foreground">{o.delta}</TableCell>

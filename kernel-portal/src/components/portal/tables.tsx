@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { CommodityLabel, commodityFromLabel } from "@/components/ui/commodity-badge"
 
 /* ---- shared bits ---- */
 
@@ -124,7 +125,7 @@ function Playground() {
                 <tr key={r.id} className={cn("transition-colors hover:bg-muted/40", striped && i % 2 === 1 && "bg-muted/30")}>
                   <td className={cn(cell, "font-mono")}>{r.id}</td>
                   <td className={cell}>{r.farm}</td>
-                  <td className={cell}>{r.grain}</td>
+                  <td className={cell}><CommodityLabel commodity={commodityFromLabel(r.grain)}>{r.grain}</CommodityLabel></td>
                   <td className={cell}><StatusBadge status={r.status} /></td>
                   <td className={cn(cell, numCls)}>{r.bu}</td>
                   <td className={cn(cell, numCls)}>{r.price}</td>
