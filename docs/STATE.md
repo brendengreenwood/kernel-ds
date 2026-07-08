@@ -112,6 +112,14 @@ long scroll.
   is hardcoded outside the deliberate `xs` button size.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
+- **Portal dogfoods the system** (decision 0014, 2026-07-05, slice 1): the
+  portal is treated as a first-class application of the system, not just its
+  docs. Named type roles live in one source (`src/lib/type-styles.ts`); the
+  portal chrome (`Section`/`Subhead`/`GroupHeader`) and the Typography
+  specimen both import it, and the preview chrome CSS mirrors the roles — so
+  docs and app render the same styles, no drift. Example screens are held to
+  the same bar (commodity-coding + this type pass are the first slices; more
+  example-screen rigor is in flight).
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
