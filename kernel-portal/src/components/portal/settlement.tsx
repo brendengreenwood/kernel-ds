@@ -3,6 +3,7 @@ import { Banknote, Download, MoreVertical } from "lucide-react"
 import { Section, Subhead } from "@/components/portal/section"
 import { Button } from "@/components/ui/button"
 import { StatusBadge } from "@/components/ui/status-badge"
+import { AnimatedNumber } from "@/components/ui/animated-number"
 import {
   Table,
   TableBody,
@@ -125,16 +126,17 @@ function DeductionsTable() {
 }
 
 function NetPayable() {
-  const rows: [string, string, boolean][] = [
-    ["Gross proceeds", "$109,408.00", false],
-    ["Total deductions", "−$27,025.10", false],
-    ["Net payable", "$82,382.90", true],
+  // Only the climactic total animates (restraint) — the line items stay still.
+  const rows: { k: string; v: string; total?: boolean; animate?: number }[] = [
+    { k: "Gross proceeds", v: "$109,408.00" },
+    { k: "Total deductions", v: "−$27,025.10" },
+    { k: "Net payable", v: "$82,382.90", total: true, animate: 82382.9 },
   ]
   return (
     <div className="rounded-lg border bg-card">
       <div className="border-b px-5 py-3.5 text-sm font-semibold">Net payable</div>
       <div className="px-5 pt-1 pb-4">
-        {rows.map(([k, v, total]) => (
+        {rows.map(({ k, v, total, animate }) => (
           <div
             key={k}
             className={`flex items-baseline justify-between gap-4 border-b py-3 last:border-b-0 ${
@@ -142,7 +144,13 @@ function NetPayable() {
             }`}
           >
             <div className={total ? "" : "text-muted-foreground"}>{k}</div>
-            <div className="font-mono">{v}</div>
+            <div className="font-mono">
+              {animate != null ? (
+                <AnimatedNumber value={animate} prefix="$" format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }} />
+              ) : (
+                v
+              )}
+            </div>
           </div>
         ))}
         <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-xs text-muted-foreground">
