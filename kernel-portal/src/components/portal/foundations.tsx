@@ -4,6 +4,8 @@ import * as React from "react"
 import { toast } from "sonner"
 import { Section } from "./section"
 import { CommodityBadge, type Commodity } from "@/components/ui/commodity-badge"
+import { typeStyles } from "@/lib/type-styles"
+import { cn } from "@/lib/utils"
 
 function copy(token: string) {
   navigator.clipboard?.writeText(token)
@@ -84,7 +86,7 @@ export function ColorsSection() {
       title="Color"
       lead="The palette is built in two layers. Scales are the absolute, mode-independent ink — 50→950 ramps (the four notification scales run 50→900), available as bg-brand-500, text-success-700, and so on. Role tokens (primary, background…) point at a scale step and remap per mode."
     >
-      <h4 className="mb-4 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4", typeStyles.overline)}>
         Brand & neutral scales
       </h4>
       <div className="rounded-lg border bg-card p-8">
@@ -92,7 +94,7 @@ export function ColorsSection() {
         <Ramp name="Neutral" role="green-tinted · neutral-*" token="neutral" steps={STEPS_11} />
       </div>
 
-      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Notification scales
       </h4>
       <div className="rounded-lg border bg-card p-8">
@@ -102,7 +104,7 @@ export function ColorsSection() {
         <Ramp name="Info" role="blue · info-*" token="info" steps={STEPS_10} />
       </div>
 
-      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Data visualization
       </h4>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
@@ -117,7 +119,7 @@ export function ColorsSection() {
         ))}
       </div>
 
-      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Commodity coding
       </h4>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
@@ -140,7 +142,7 @@ export function ColorsSection() {
         ))}
       </div>
 
-      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Role tokens — semantic pairs
       </h4>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -188,19 +190,21 @@ export function TypographySection() {
     ["text-6xl", "text-6xl", "60px · 1 · −0.03em", "font-semibold tracking-[-0.03em]"],
     ["text-7xl", "text-7xl", "72px · 1 · −0.03em", "font-semibold tracking-[-0.03em]"],
   ] as const
-  const styles = [
-    ["Display", "text-5xl · 600 · −0.025em", "text-4xl font-semibold tracking-[-0.025em]", "412 loads settled"],
-    ["Page title", "text-3xl · 600 · −0.02em", "text-3xl font-semibold tracking-[-0.02em]", "Open contracts"],
-    ["Section title", "text-2xl · 600 · −0.015em", "text-2xl font-semibold tracking-[-0.015em]", "Today's cash bids"],
-    ["Card title", "text-lg · 600 · −0.01em", "text-lg font-semibold tracking-[-0.01em]", "River terminal"],
-    ["Body", "text-base · 400", "text-base leading-relaxed max-w-[52ch]", "Merchants compare local basis, lock a price, and settle the load — all from one screen."],
-    ["Body small · default UI", "text-sm · 400", "text-sm leading-relaxed max-w-[54ch]", "The default size for most controls, table cells, and dense layouts."],
-    ["Label", "text-sm · 500", "text-sm font-medium", "Delivery window"],
-    ["Caption", "text-xs · 400 · muted", "text-xs text-muted-foreground", "Updated 12 minutes ago"],
-    ["Overline", "text-2xs · 600 · +0.13em · caps", "text-2xs font-semibold uppercase tracking-[0.13em] text-muted-foreground", "Settlement"],
-    ["Numeric", "text-sm · mono · tabular-nums", "font-mono text-sm tabular-nums", "$4.62 / bu   18,400 bu"],
-    ["Code", "text-sm · mono", "font-mono text-sm", 'contract.status === "settled"'],
-  ] as const
+  // Rendered from the same `typeStyles` source the portal chrome consumes,
+  // so the specimen can't drift from what the app actually uses (dogfooding).
+  const styles: [string, string, string, string][] = [
+    ["Display", "text-5xl · 600 · −0.025em", typeStyles.display, "412 loads settled"],
+    ["Page title", "text-3xl · 600 · −0.02em", typeStyles.pageTitle, "Open contracts"],
+    ["Section title", "text-2xl · 600 · −0.015em", typeStyles.sectionTitle, "Today's cash bids"],
+    ["Card title", "text-lg · 600 · −0.01em", typeStyles.cardTitle, "River terminal"],
+    ["Body", "text-base · 400", cn(typeStyles.body, "max-w-[52ch]"), "Merchants compare local basis, lock a price, and settle the load — all from one screen."],
+    ["Body small · default UI", "text-sm · 400", cn(typeStyles.bodySmall, "max-w-[54ch]"), "The default size for most controls, table cells, and dense layouts."],
+    ["Label", "text-sm · 500", typeStyles.label, "Delivery window"],
+    ["Caption", "text-xs · 400 · muted", typeStyles.caption, "Updated 12 minutes ago"],
+    ["Overline", "text-2xs · 600 · +0.13em · caps", typeStyles.overline, "Settlement"],
+    ["Numeric", "text-sm · mono · tabular-nums", typeStyles.numeric, "$4.62 / bu   18,400 bu"],
+    ["Code", "text-sm · mono", typeStyles.code, 'contract.status === "settled"'],
+  ]
   const weights = [
     ["Regular", "400", "font-normal"],
     ["Medium", "500", "font-medium"],
@@ -227,7 +231,7 @@ export function TypographySection() {
         ))}
       </div>
 
-      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Size scale
       </h4>
       <div className="rounded-lg border bg-card p-8">
@@ -247,7 +251,7 @@ export function TypographySection() {
         ))}
       </div>
 
-      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Semantic text styles
       </h4>
       <div className="rounded-lg border bg-card p-8">
@@ -265,7 +269,7 @@ export function TypographySection() {
         ))}
       </div>
 
-      <h4 className="mb-4 mt-9 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Weights & numerals
       </h4>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

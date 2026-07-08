@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { typeStyles } from "@/lib/type-styles"
 
 /** Section wrapper — eyebrow, title, lead, then content. */
 export function Section({
@@ -17,12 +18,10 @@ export function Section({
 }) {
   return (
     <section id={id} className="scroll-mt-20 pt-16 first:pt-8">
-      <p className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-        {eyebrow}
-      </p>
-      <h2 className="mt-3 text-3xl font-semibold tracking-tight">{title}</h2>
+      <p className={cn(typeStyles.overline, "text-primary")}>{eyebrow}</p>
+      <h2 className={cn("mt-3", typeStyles.pageTitle)}>{title}</h2>
       {lead ? (
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
+        <p className={cn("mt-3 max-w-2xl text-muted-foreground", typeStyles.body)}>
           {lead}
         </p>
       ) : null}
@@ -35,8 +34,8 @@ export function Section({
 export function GroupHeader({ title, sub }: { title: string; sub: string }) {
   return (
     <div className="mt-14 border-t pt-5 first:mt-0 first:border-t-0 first:pt-0">
-      <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
-      <p className="mt-1 text-sm text-muted-foreground">{sub}</p>
+      <h3 className={typeStyles.cardTitle}>{title}</h3>
+      <p className={cn("mt-1 text-muted-foreground", typeStyles.bodySmall)}>{sub}</p>
     </div>
   )
 }
@@ -44,10 +43,7 @@ export function GroupHeader({ title, sub }: { title: string; sub: string }) {
 /** Labeled subhead above a single component demo. `id` makes it a side-rail anchor. */
 export function Subhead({ id, children }: { id?: string; children: React.ReactNode }) {
   return (
-    <h4
-      id={id}
-      className="mt-9 mb-4 scroll-mt-20 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground"
-    >
+    <h4 id={id} className={cn("mt-9 mb-4 scroll-mt-20", typeStyles.overline)}>
       {children}
     </h4>
   )
