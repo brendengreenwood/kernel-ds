@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { AppSidebar } from "@/components/portal/app-sidebar"
+import { DocPager } from "@/components/portal/doc-pager"
 import { ModeToggle } from "@/components/mode-toggle"
 
 /** On navigation, jump to top (or to the in-page anchor when the URL has a hash). */
@@ -41,6 +42,7 @@ export default function PortalLayout() {
 
         <main className="mx-auto w-full max-w-4xl px-6 pb-32 md:px-10">
           <Outlet />
+          <DocPager />
         </main>
       </SidebarInset>
     </SidebarProvider>
