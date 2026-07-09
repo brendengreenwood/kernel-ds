@@ -11,6 +11,7 @@ export const sectionRoutes: Record<string, string> = {
   typography: "/typography",
   spacing: "/spacing",
   shadows: "/shadows",
+  motion: "/motion",
   components: "/components",
   forms: "/forms",
   tables: "/tables",

@@ -58,6 +58,9 @@ src/
   lib/gallery-types.ts         ← GalleryCluster type
   lib/gallery-registry.ts      ← galleryClusters + slug/anchor maps (rail + pages read this)
   lib/routes.ts                ← sectionRoutes + routeForAnchor() (legacy #hash → route)
+  lib/page-order.ts            ← linear reading order for the DocPager
+  lib/type-styles.ts           ← named type roles (single source; decision 0014)
+  lib/motion.ts                ← autoAnimateConfig (motion tokens; decision 0018)
   components/
     theme-provider.tsx
     mode-toggle.tsx
@@ -70,6 +73,7 @@ src/
     portal/
       app-sidebar.tsx          ← rail: router links per section + per-component page list
       foundations.tsx          ← Colors · Typography · Spacing · Elevation
+      motion-foundation.tsx    ← Motion: duration/easing tokens + polish primitives (0018)
       gallery-forms.tsx        ← per-cluster demos + formsClusters (Button · Toggle · Inputs …)
       gallery-data.tsx         ← per-cluster demos + dataClusters (Card · Table · Progress …)
       gallery-overlays.tsx     ← per-cluster demos + overlaysClusters (Alert · Dialog · Sheet …)

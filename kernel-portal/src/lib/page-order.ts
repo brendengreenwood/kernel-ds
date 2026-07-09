@@ -16,6 +16,7 @@ export const docOrder: DocPage[] = [
   { path: "/typography", title: "Typography" },
   { path: "/spacing", title: "Spacing & radius" },
   { path: "/shadows", title: "Elevation" },
+  { path: "/motion", title: "Motion" },
   { path: "/components", title: "Components" },
   ...galleryClusters.map((c) => ({ path: `/components/${c.slug}`, title: c.title })),
   { path: "/forms", title: "Form elements" },

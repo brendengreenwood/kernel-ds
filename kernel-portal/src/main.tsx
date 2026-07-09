@@ -11,6 +11,7 @@ import { routeForAnchor } from "@/lib/routes"
 
 import { OverviewSection } from "@/components/portal/overview"
 import { ColorsSection, TypographySection, SpacingSection, ShadowsSection } from "@/components/portal/foundations"
+import { MotionSection } from "@/components/portal/motion-foundation"
 import { FormElementsSection } from "@/components/portal/form-elements"
 import { TablesSection } from "@/components/portal/tables"
 import { ChartsSection } from "@/components/portal/charts"
@@ -63,6 +64,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="typography" element={<TypographySection />} />
             <Route path="spacing" element={<SpacingSection />} />
             <Route path="shadows" element={<ShadowsSection />} />
+            <Route path="motion" element={<MotionSection />} />
             <Route path="components" element={<ComponentsIndex />} />
             <Route path="components/:slug" element={<ComponentPage />} />
             <Route path="forms" element={<FormElementsSection />} />

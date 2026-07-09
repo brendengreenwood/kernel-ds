@@ -136,6 +136,12 @@ long scroll.
   change, honors reduced-motion) on the dashboard KPIs + settlement net
   payable, and `@formkit/auto-animate` (shared `autoAnimateConfig`) on the
   filter builder rows + applied-filter chips. Candidate next: `motion`.
+- **Motion system + foundation page** (decision 0018): timing + easing
+  tokens (`--duration-*`/`--ease-*`) on both surfaces with a reduced-motion
+  guard; a **Motion** Foundations rail page (`/motion`) documents them with
+  replayable track demos, plus a portal-only polish showcase. Engines adopted
+  (portal-only): `@number-flow/react` (`<AnimatedNumber>`), `@formkit/
+  auto-animate` (`autoAnimateConfig`), `motion` (Framer `AnimatePresence`).
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,

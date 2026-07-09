@@ -106,6 +106,15 @@
     if (body) body.hidden = !body.hidden;
   });
 
+  /* ---------- Motion token tracks (foundation demo) ---------- */
+  document.addEventListener("click", function (e) {
+    var track = e.target.closest(".motion-track");
+    if (!track) return;
+    var dot = track.querySelector(".motion-dot");
+    if (dot) dot.style.transition = "left " + track.getAttribute("data-dur") + " " + track.getAttribute("data-ease");
+    track.classList.toggle("on");
+  });
+
   /* ---------- Table playground (density / style) ---------- */
   document.addEventListener("click", function (e) {
     var btn = e.target.closest("[data-dt-set]");
