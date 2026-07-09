@@ -1,11 +1,20 @@
 "use client"
 
 import * as React from "react"
+import indexCss from "@/index.css?raw"
 import { Check, Copy } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { Section } from "./section"
 
-function CodeBlock({ lang, code }: { lang: string; code: string }) {
+function CodeBlock({
+  lang,
+  code,
+  scroll,
+}: {
+  lang: string
+  code: string
+  scroll?: boolean
+}) {
   const [copied, setCopied] = React.useState(false)
   return (
     <div className="overflow-hidden rounded-md border bg-card">
@@ -25,37 +34,49 @@ function CodeBlock({ lang, code }: { lang: string; code: string }) {
           {copied ? "Copied" : "Copy"}
         </Button>
       </div>
-      <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed">
+      <pre
+        className={
+          "overflow-x-auto p-4 font-mono text-[13px] leading-relaxed" +
+          (scroll ? " max-h-[420px] overflow-y-auto" : "")
+        }
+      >
         <code>{code}</code>
       </pre>
     </div>
   )
 }
 
-const cli = `# add the Kernel theme to your project
-npx shadcn@latest add https://tweakcn.com/r/themes/cmof9c9uz000204la2vq54eiw`
+const setup = `# a Tailwind v4 + shadcn/ui project (components on Base UI, base-nova style)
+npm create vite@latest my-app -- --template react-ts
+npx shadcn@latest init`
 
-const usage = `<Button className="bg-primary text-primary-foreground">
-  Deploy
-</Button>
+const tokens = `/* globals.css / index.css */
+@import "tailwindcss";
 
-<Card className="bg-card text-card-foreground border-border">
-  …
-</Card>`
+/* Paste Kernel's token layer here — the full :root, .dark, and
+   @theme inline blocks from step 4. That layer IS Kernel; every
+   shadcn component re-themes off it. Native system fonts only. */`
 
-const vars = `:root {
-  --background: oklch(1.0000 0 0);
-  --foreground: oklch(0.2128 0.0209 162.2254);
-  --primary: oklch(0.5364 0.1457 150.5842);
-  --primary-foreground: oklch(1.0000 0 0);
-  --secondary: oklch(0.9758 0.0163 121.7629);
-  --accent: oklch(0.8722 0.1272 127.8039);
-  --destructive: oklch(0.5227 0.2063 25.8499);
-  --muted: oklch(0.9612 0 0);
-  --border: oklch(0.8957 0.0025 165.0685);
-  --ring: oklch(0.5364 0.1457 150.5842);
-  --radius: 0.5rem;
-}`
+const add = `npx shadcn@latest add accordion alert alert-dialog aspect-ratio avatar \\
+  badge breadcrumb button calendar card carousel chart checkbox collapsible \\
+  command context-menu dialog drawer dropdown-menu form hover-card input \\
+  input-otp label menubar navigation-menu pagination popover progress \\
+  radio-group resizable scroll-area select separator sheet sidebar skeleton \\
+  slider sonner switch table tabs textarea toggle toggle-group tooltip`
+
+const icons = `// Kernel icons are MDI, not lucide (decision 0019).
+// shadcn generates components that import from "lucide-react" —
+// redirect those to the shim; it exports the same glyph names.
+import { Search, ChevronRight } from "@/components/ui/icon"`
+
+const usage = `<Button>Book load</Button>                        {/* --primary + --control-h */}
+
+<div className="bg-card text-card-foreground border rounded-lg" />
+
+<span className="text-[color:var(--status-settled)]">Settled</span>
+<span className="text-[color:var(--commodity-corn)]">Corn</span>
+
+<div className="transition-colors duration-[var(--duration-base)] ease-[var(--ease-out)]" />`
 
 export function InstallSection() {
   return (
@@ -63,20 +84,54 @@ export function InstallSection() {
       id="install"
       eyebrow="Get started"
       title="Install & usage"
-      lead="Add Kernel to any shadcn/ui project with a single command, then reference tokens by their semantic names."
+      lead="Kernel is a Tailwind v4 token layer for shadcn/ui — components on Base UI (base-nova), icons from MDI, native fonts only. There's no package to add: the token layer in this repo is the source of truth. Drop it into a shadcn project and every component re-themes."
     >
       <div className="space-y-6">
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">1 · Add the theme</h4>
-          <CodeBlock lang="terminal" code={cli} />
+          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+            1 · Start from a shadcn/ui project
+          </h4>
+          <CodeBlock lang="terminal" code={setup} />
         </div>
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">2 · Use the tokens</h4>
+          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+            2 · Drop in the Kernel token layer
+          </h4>
+          <CodeBlock lang="globals.css" code={tokens} />
+        </div>
+        <div>
+          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+            3 · Add the components
+          </h4>
+          <CodeBlock lang="terminal" code={add} />
+          <p className="mt-3 max-w-[68ch] text-[13.5px] leading-relaxed text-muted-foreground">
+            Components resolve to <span className="font-mono text-foreground">base-nova</span> (Base UI),
+            not Radix. Generated files import <span className="font-mono text-foreground">lucide-react</span> —
+            redirect those to the MDI shim:
+          </p>
+          <div className="mt-3">
+            <CodeBlock lang="tsx" code={icons} />
+          </div>
+        </div>
+        <div>
+          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+            4 · Use tokens by semantic name
+          </h4>
           <CodeBlock lang="tsx" code={usage} />
         </div>
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">3 · CSS variables (light)</h4>
-          <CodeBlock lang="globals.css" code={vars} />
+          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+            5 · Complete token reference
+          </h4>
+          <p className="mb-3 max-w-[68ch] text-[13.5px] leading-relaxed text-muted-foreground">
+            The entire Kernel token layer, rendered live from the portal's own{" "}
+            <span className="font-mono text-foreground">src/index.css</span> — scales, role tokens,
+            statuses, commodities, viz series, control heights, motion, and the{" "}
+            <span className="font-mono text-foreground">@theme inline</span> maps that expose every
+            token as a Tailwind utility. Copy it whole; the <span className="font-mono text-foreground">.dark</span>{" "}
+            block carries the mode overrides.
+          </p>
+          <CodeBlock lang="src/index.css" code={indexCss.trim()} scroll />
         </div>
       </div>
     </Section>
