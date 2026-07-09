@@ -424,7 +424,7 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tabs-list { display: inline-flex; gap: 4px; align-items: center; max-width: 100%; overflow-x: auto; }
 .tab {
   display: inline-flex; align-items: center; gap: 8px;
-  height: var(--control-h); padding: 0 12px; border-radius: var(--radius-sm);
+  height: var(--control-h); padding: 0 14px; border-radius: 999px;
   font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer;
   color: var(--muted-foreground); border: 1px solid transparent; background: transparent;
   transition: background .14s, color .14s, border-color .14s;
@@ -440,7 +440,7 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tab-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--destructive); flex-shrink: 0; }
 
 /* pill (default): segmented container, primary as the active fill */
-.tabs-list { padding: 3px; border-radius: var(--radius-md); background: var(--muted); border: 1px solid var(--border); }
+.tabs-list { padding: 3px; border-radius: 999px; background: var(--muted); border: 1px solid var(--border); }
 .tab.active { background: var(--primary); color: var(--primary-foreground); box-shadow: var(--shadow-xs); }
 
 /* underline */
@@ -448,11 +448,12 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tabs-list.underline .tab { border-radius: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; }
 .tabs-list.underline .tab.active { background: transparent; box-shadow: none; color: var(--foreground); border-bottom-color: var(--primary); }
 
-/* folder */
+/* folder — active tab's bottom edge is card-colored so it punches through the
+   list baseline and reads as connected to the panel below */
 .tabs-list.folder { align-items: flex-end; padding: 0; background: transparent; border: none; border-bottom: 1px solid var(--border); }
-.tabs-list.folder .tab { border-radius: var(--radius-sm) var(--radius-sm) 0 0; border: 1px solid transparent; border-bottom: none; margin-bottom: -1px; }
+.tabs-list.folder .tab { border-radius: var(--radius-sm) var(--radius-sm) 0 0; border: 1px solid transparent; margin-bottom: -1px; }
 .tabs-list.folder .tab:hover { background: color-mix(in oklch, var(--muted) 60%, transparent); }
-.tabs-list.folder .tab.active { background: var(--card); border-color: var(--border); box-shadow: none; color: var(--foreground); }
+.tabs-list.folder .tab.active { position: relative; z-index: 1; background: var(--card); border-color: var(--border); border-bottom-color: var(--card); box-shadow: none; color: var(--foreground); }
 
 /* sizes (mirror the control-height tokens) */
 .tabs-list.compact .tab { height: var(--control-h-sm); padding: 0 10px; font-size: 13px; gap: 6px; }
