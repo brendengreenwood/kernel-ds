@@ -3,7 +3,7 @@ import { Section, MaturityPill } from "@/components/portal/section"
 import { Badge } from "@/components/ui/badge"
 import { galleryClusters } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight } from "@/components/ui/icon"
 
 const all = [
   "Accordion","Alert","Alert Dialog","Aspect Ratio","Avatar","Badge","Breadcrumb",

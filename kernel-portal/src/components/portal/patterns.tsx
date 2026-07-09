@@ -11,7 +11,7 @@ import {
   MoreVertical,
   Pencil,
   Truck,
-} from "lucide-react"
+} from "@/components/ui/icon"
 
 import { Section, Subhead } from "./section"
 import { Button } from "@/components/ui/button"

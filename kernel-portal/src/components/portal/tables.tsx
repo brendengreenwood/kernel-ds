@@ -8,7 +8,7 @@ import {
   ChevronsUpDown,
   BarChart3,
   AlertTriangle,
-} from "lucide-react"
+} from "@/components/ui/icon"
 import { cn } from "@/lib/utils"
 import { Section, Subhead } from "./section"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"

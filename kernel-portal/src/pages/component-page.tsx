@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom"
 import { Section, MaturityPill } from "@/components/portal/section"
 import { clusterBySlug } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "@/components/ui/icon"
 
 const RANK: Record<Maturity, number> = { deprecated: 3, experimental: 2, ready: 1 }
 function clusterMaturity(anchor: string): Maturity {

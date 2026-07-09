@@ -14,7 +14,7 @@ import {
   X,
   Info,
   AlertCircle,
-} from "lucide-react"
+} from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { Section, Subhead, Demo } from "./section"

@@ -1,4 +1,4 @@
-import { Banknote, Download, MoreVertical } from "lucide-react"
+import { Banknote, Download, MoreVertical } from "@/components/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
 import { Button } from "@/components/ui/button"

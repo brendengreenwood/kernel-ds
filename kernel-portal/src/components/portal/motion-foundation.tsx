@@ -3,7 +3,7 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
-import { Plus, X, ChevronDown } from "lucide-react"
+import { Plus, X, ChevronDown } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { Section, Subhead } from "./section"

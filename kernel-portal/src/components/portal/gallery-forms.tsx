@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { toast } from "sonner"
-import { Bold, Italic, Underline, ArrowRight, Plus } from "lucide-react"
+import { Bold, Italic, Underline, ArrowRight, Plus } from "@/components/ui/icon"
 
 import { Button } from "@/components/ui/button"
 import { Toggle } from "@/components/ui/toggle"

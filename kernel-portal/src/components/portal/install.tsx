@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, Copy } from "lucide-react"
+import { Check, Copy } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { Section } from "./section"
 
