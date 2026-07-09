@@ -105,6 +105,11 @@ src/
 > settled, on_hold, rejected, cancelled, expired), each on a distinct
 > `--status-*` hue. Use it for *persistent state*; use `Badge`/`Alert`
 > variants for *event outcomes*.
+> `ui/tabs.tsx` extends the stock component (decision 0021): `TabsList` takes
+> `variant` (**pill** — primary active, default · **underline** · **folder**)
+> and `size` (**compact/default/comfortable**, on the control-height tokens),
+> plus `<TabCount>` (trailing count badge) and `<TabDot>` (notification dot);
+> tabs also take a leading MDI icon. Strips scroll in place on mobile.
 > `ui/command.tsx` diverges from stock in one class: the palette input is
 > `text-base md:text-sm` so iOS Safari doesn't zoom on focus (decision 0007).
 > `ui/dialog.tsx` diverges from stock: the header is its own bar (full-bleed,

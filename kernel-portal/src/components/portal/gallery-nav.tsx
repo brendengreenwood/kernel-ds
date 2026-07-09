@@ -11,6 +11,11 @@ import {
   Check,
   Calendar as CalendarIcon,
   Clock,
+  Truck,
+  FileText,
+  Banknote,
+  Sprout,
+  AlertTriangle,
 } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
@@ -20,6 +25,8 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TabCount,
+  TabDot,
 } from "@/components/ui/tabs"
 import {
   Breadcrumb,
@@ -135,28 +142,92 @@ function Combobox() {
   )
 }
 
+function GrainTabs({
+  variant,
+  size,
+  notify = "dot",
+}: {
+  variant?: "pill" | "underline" | "folder"
+  size?: "compact" | "default" | "comfortable"
+  notify?: "dot" | "icon"
+}) {
+  return (
+    <Tabs defaultValue="loads" className="w-full">
+      {/* atomic-width row → scroll in place on narrow viewports (no page overflow) */}
+      <div className="max-w-full overflow-x-auto pb-px">
+      <TabsList variant={variant} size={size}>
+        <TabsTrigger value="loads">
+          <Truck /> Open loads <TabCount>12</TabCount>
+        </TabsTrigger>
+        <TabsTrigger value="contracts">
+          <FileText /> Contracts <TabCount>128</TabCount>
+        </TabsTrigger>
+        <TabsTrigger value="settle">
+          <Banknote /> Settlements <TabCount>3</TabCount>
+          {notify === "dot" ? (
+            <TabDot />
+          ) : (
+            <AlertTriangle className="size-3.5 text-[var(--warning-600)]" />
+          )}
+        </TabsTrigger>
+        <TabsTrigger value="farms">
+          <Sprout /> Farms
+        </TabsTrigger>
+      </TabsList>
+      </div>
+      <TabsContent value="loads" className="text-sm text-muted-foreground">
+        12 open loads awaiting scheduling.
+      </TabsContent>
+      <TabsContent value="contracts" className="text-sm text-muted-foreground">
+        128 active contracts across corn, soybeans, and wheat.
+      </TabsContent>
+      <TabsContent value="settle" className="text-sm text-muted-foreground">
+        3 settlements need review before payment runs.
+      </TabsContent>
+      <TabsContent value="farms" className="text-sm text-muted-foreground">
+        Producer and farm directory.
+      </TabsContent>
+    </Tabs>
+  )
+}
+
+function Labeled({
+  label,
+  children,
+}: {
+  label: string
+  children: React.ReactNode
+}) {
+  return (
+    <Demo className="block">
+      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+        {label}
+      </p>
+      {children}
+    </Demo>
+  )
+}
+
 function TabsCluster() {
   return (
-    <>
-      <Demo className="block">
-        <Tabs defaultValue="account" className="w-full">
-          <TabsList>
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
-            <TabsTrigger value="team">Team</TabsTrigger>
-          </TabsList>
-          <TabsContent value="account" className="text-sm text-muted-foreground">
-            Manage your profile, email, and connected accounts.
-          </TabsContent>
-          <TabsContent value="password" className="text-sm text-muted-foreground">
-            Use at least 12 characters with a mix of letters and numbers.
-          </TabsContent>
-          <TabsContent value="team" className="text-sm text-muted-foreground">
-            Invite teammates and manage roles across your workspace.
-          </TabsContent>
-        </Tabs>
-      </Demo>
-    </>
+    <div className="space-y-6">
+      <Labeled label="Pill · primary active (default) — leading icon · count badge · notification dot">
+        <GrainTabs variant="pill" />
+      </Labeled>
+      <Labeled label="Underline">
+        <GrainTabs variant="underline" />
+      </Labeled>
+      <Labeled label="Folder — with a trailing notification icon">
+        <GrainTabs variant="folder" notify="icon" />
+      </Labeled>
+      <Labeled label="Sizes — compact · default · comfortable (control-height tokens)">
+        <div className="space-y-5">
+          <GrainTabs variant="pill" size="compact" />
+          <GrainTabs variant="pill" size="default" />
+          <GrainTabs variant="pill" size="comfortable" />
+        </div>
+      </Labeled>
+    </div>
   )
 }
 

@@ -155,6 +155,12 @@ long scroll.
   `@theme inline` blocks into a shadcn/ui project — not run a tweakcn command
   (which only carried base roles). The portal's step-5 token reference renders
   live from `src/index.css` via `?raw`, so it can't drift.
+- **Tabs system** (decision 0021, 2026-07-09): variants **pill** (primary
+  active, default) · **underline** · **folder**; sizes **compact/default/
+  comfortable** on the `--control-h-*` tokens (same language as table density);
+  every tab takes a leading MDI icon, a trailing count badge (`<TabCount>` /
+  `.tab-count`), and a notification dot (`<TabDot>` / `.tab-dot`) or inline
+  glyph. Strips scroll in place on mobile (0 overflow at 390px). Both surfaces.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,

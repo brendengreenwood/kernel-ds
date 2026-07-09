@@ -70,7 +70,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Status Badge", anchor: "c-status-badge", group: "component", maturity: "ready", a11y: "pending", note: "Kernel-only; domain lifecycle states (decision 0003)." },
   { name: "Switch", anchor: "fe-selection", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Table", anchor: "c-table", group: "component", maturity: "ready", a11y: "pending" },
-  { name: "Tabs", anchor: "c-tabs", group: "component", maturity: "experimental", a11y: "pending", note: "Base UI delta pending sign-off: manual activation (arrows move focus; Enter/Space activates)." },
+  { name: "Tabs", anchor: "c-tabs", group: "component", maturity: "experimental", a11y: "pending", note: "Variants pill (primary active, default) · underline · folder; sizes compact/default/comfortable (control-height tokens); slots for leading icon, <TabCount> badge, <TabDot> notification (decision 0021). Base UI delta pending sign-off: manual activation (arrows move focus; Enter/Space activates)." },
   { name: "Textarea", anchor: "c-input", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Toggle", anchor: "c-toggle", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Toggle Group", anchor: "c-toggle", group: "component", maturity: "ready", a11y: "pending" },
