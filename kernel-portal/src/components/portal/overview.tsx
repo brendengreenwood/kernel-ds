@@ -16,9 +16,10 @@ export function OverviewSection() {
       </Badge>
       <h1 className="mt-4 text-5xl font-semibold tracking-tight">Kernel Design System</h1>
       <p className="mt-4 max-w-xl text-lg leading-snug text-muted-foreground">
-        The shadcn/ui foundation for Kernel — the platform our grain-buying
-        merchants use to price, contract, and settle loads. One source of truth
-        for color, type, spacing, and components, in light and dark.
+        The shadcn/ui foundation for Kernel — the platform our merchants and
+        origination teams use for pricing strategy and sales execution. One
+        source of truth for color, type, spacing, and components, in light and
+        dark.
       </p>
       <div className="mt-6 flex flex-wrap gap-2">
         {meta.map(([k, v]) => (
