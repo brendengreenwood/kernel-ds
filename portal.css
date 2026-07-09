@@ -418,16 +418,46 @@ code, pre, .mono { font-family: var(--font-mono); }
 .alert-destructive { border-color: color-mix(in oklch, var(--destructive) 40%, var(--border)); }
 .alert-destructive svg, .alert-destructive .alert-title { color: var(--destructive); }
 
-/* Tabs */
-.tabs-list {
-  display: inline-flex; gap: 3px; padding: 4px; border-radius: var(--radius-md);
-  background: var(--muted); border: 1px solid var(--border);
-}
+/* Tabs — pill (default) · underline · folder; sizes compact/comfortable.
+   Anatomy: leading icon · label · .tab-count badge · .tab-dot notification. */
+.tabs { min-width: 0; width: 100%; }  /* flex item must shrink so the strip can scroll, not push the page */
+.tabs-list { display: inline-flex; gap: 4px; align-items: center; max-width: 100%; overflow-x: auto; }
 .tab {
-  padding: 6px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
-  color: var(--muted-foreground); border: none; background: transparent; transition: background .14s, color .14s;
+  display: inline-flex; align-items: center; gap: 8px;
+  height: var(--control-h); padding: 0 12px; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer;
+  color: var(--muted-foreground); border: 1px solid transparent; background: transparent;
+  transition: background .14s, color .14s, border-color .14s;
 }
-.tab.active { background: var(--card); color: var(--foreground); box-shadow: var(--shadow-xs); }
+.tab svg { width: 16px; height: 16px; flex-shrink: 0; }
+.tab:hover { color: var(--foreground); }
+.tab-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 18px; min-width: 18px; padding: 0 5px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums;
+  background: color-mix(in oklch, currentColor 15%, transparent); color: currentColor;
+}
+.tab-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--destructive); flex-shrink: 0; }
+
+/* pill (default): segmented container, primary as the active fill */
+.tabs-list { padding: 3px; border-radius: var(--radius-md); background: var(--muted); border: 1px solid var(--border); }
+.tab.active { background: var(--primary); color: var(--primary-foreground); box-shadow: var(--shadow-xs); }
+
+/* underline */
+.tabs-list.underline { align-items: flex-end; padding: 0; background: transparent; border: none; border-bottom: 1px solid var(--border); }
+.tabs-list.underline .tab { border-radius: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs-list.underline .tab.active { background: transparent; box-shadow: none; color: var(--foreground); border-bottom-color: var(--primary); }
+
+/* folder */
+.tabs-list.folder { align-items: flex-end; padding: 0; background: transparent; border: none; border-bottom: 1px solid var(--border); }
+.tabs-list.folder .tab { border-radius: var(--radius-sm) var(--radius-sm) 0 0; border: 1px solid transparent; border-bottom: none; margin-bottom: -1px; }
+.tabs-list.folder .tab:hover { background: color-mix(in oklch, var(--muted) 60%, transparent); }
+.tabs-list.folder .tab.active { background: var(--card); border-color: var(--border); box-shadow: none; color: var(--foreground); }
+
+/* sizes (mirror the control-height tokens) */
+.tabs-list.compact .tab { height: var(--control-h-sm); padding: 0 10px; font-size: 13px; gap: 6px; }
+.tabs-list.comfortable .tab { height: var(--control-h-lg); padding: 0 16px; }
+
 .tab-panel { margin-top: 18px; font-size: 14px; color: var(--muted-foreground); line-height: 1.6; }
 .tab-panel[hidden] { display: none; }
 
