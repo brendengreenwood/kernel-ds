@@ -424,7 +424,7 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tabs-list { display: inline-flex; gap: 4px; align-items: center; max-width: 100%; overflow-x: auto; }
 .tab {
   display: inline-flex; align-items: center; gap: 8px;
-  height: var(--control-h); padding: 0 14px; border-radius: 999px;
+  height: var(--control-h); padding: 0 10px; border-radius: 999px;
   font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer;
   color: var(--muted-foreground); border: 1px solid transparent; background: transparent;
   transition: background .14s, color .14s, border-color .14s;
@@ -440,7 +440,7 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tab-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--destructive); flex-shrink: 0; }
 
 /* pill (default): segmented container, primary as the active fill */
-.tabs-list { padding: 3px; border-radius: 999px; background: var(--muted); border: 1px solid var(--border); }
+.tabs-list { padding: 5px; border-radius: 999px; background: var(--muted); border: 1px solid var(--border); }
 .tab.active { background: var(--primary); color: var(--primary-foreground); box-shadow: var(--shadow-xs); }
 
 /* underline */
@@ -456,8 +456,8 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tabs-list.folder .tab.active { position: relative; z-index: 1; background: var(--card); border-color: var(--border); border-bottom-color: var(--card); box-shadow: none; color: var(--foreground); }
 
 /* sizes (mirror the control-height tokens) */
-.tabs-list.compact .tab { height: var(--control-h-sm); padding: 0 10px; font-size: 13px; gap: 6px; }
-.tabs-list.comfortable .tab { height: var(--control-h-lg); padding: 0 16px; }
+.tabs-list.compact .tab { height: var(--control-h-sm); padding: 0 8px; font-size: 13px; gap: 6px; }
+.tabs-list.comfortable .tab { height: var(--control-h-lg); padding: 0 14px; }
 
 .tab-panel { margin-top: 18px; font-size: 14px; color: var(--muted-foreground); line-height: 1.6; }
 .tab-panel[hidden] { display: none; }
