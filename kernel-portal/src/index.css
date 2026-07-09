@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
-   Kernel â€” shadcn/ui theme tokens
+   Kernel — shadcn/ui theme tokens
    Generated for Tailwind CSS v4 + shadcn/ui (New York)
    ============================================================ */
 
@@ -208,7 +208,7 @@
   }
 }
 
-/* ===== COLOR SCALES â€” absolute palette (mode-independent) ===== */
+/* ===== COLOR SCALES — absolute palette (mode-independent) ===== */
 :root {
   --brand-50: oklch(0.975 0.012 150.5);
   --brand-100: oklch(0.945 0.030 150.5);
@@ -691,7 +691,7 @@
   --text-2xs--line-height: 1rem; /* 16px */
 }
 
-/* ===== STATUS â€” lifecycle states (alias scale steps) ===== */
+/* ===== STATUS — lifecycle states (alias scale steps) ===== */
 :root {
   --status-draft: var(--neutral-500);
   --status-pending: var(--info-500);

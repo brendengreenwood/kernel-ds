@@ -150,6 +150,11 @@ long scroll.
   single-path MDI (`fill="currentColor"`), incl. the `portal.css` select
   arrows + `portal.js` pager chevrons. Prefer `*Outline` variants so the
   filled set stays close to lucide's weight.
+- **Adoption = copy-in token layer** (decision 0020, 2026-07-09): the Install &
+  usage page (both surfaces) tells you to copy Kernel's `:root`/`.dark`/
+  `@theme inline` blocks into a shadcn/ui project — not run a tweakcn command
+  (which only carried base roles). The portal's step-5 token reference renders
+  live from `src/index.css` via `?raw`, so it can't drift.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
