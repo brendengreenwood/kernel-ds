@@ -14,7 +14,7 @@ export function OverviewSection() {
         <span className="size-1.5 rounded-full bg-primary" />
         internal design system
       </Badge>
-      <h1 className="mt-4 text-5xl font-semibold tracking-tight">Kernel UI</h1>
+      <h1 className="mt-4 text-5xl font-semibold tracking-tight">Kernel Design System</h1>
       <p className="mt-4 max-w-xl text-lg leading-snug text-muted-foreground">
         The shadcn/ui foundation for Kernel — the platform our grain-buying
         merchants use to price, contract, and settle loads. One source of truth
