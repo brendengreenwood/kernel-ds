@@ -26,6 +26,7 @@ import {
   ListChecks,
   Shapes,
   Sparkles,
+  Gauge,
 } from "lucide-react"
 
 import {
@@ -69,6 +70,7 @@ const nav: { label: string; items: NavItem[] }[] = [
       { title: "Typography", to: "/typography", icon: Type },
       { title: "Spacing & radius", to: "/spacing", icon: Ruler },
       { title: "Elevation", to: "/shadows", icon: Layers },
+      { title: "Motion", to: "/motion", icon: Gauge },
     ],
   },
   {

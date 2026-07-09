@@ -35,6 +35,7 @@
       <a class="nav-link" href="#typography" data-section="typography" data-title="Typography"><span class="dot"></span>Typography</a>
       <a class="nav-link" href="#spacing" data-section="spacing" data-title="Spacing &amp; radius"><span class="dot"></span>Spacing &amp; radius</a>
       <a class="nav-link" href="#shadows" data-section="shadows" data-title="Elevation"><span class="dot"></span>Elevation</a>
+      <a class="nav-link" href="#motion" data-section="motion" data-title="Motion"><span class="dot"></span>Motion</a>
 
       <div class="nav-group-label">Components</div>
       <a class="nav-link" href="#components" data-section="components" data-title="Components"><span class="dot"></span>All components</a>
@@ -437,6 +438,35 @@
               <div class="shadow-cell"><div class="shadow-box" style="box-shadow:var(--shadow-2xl)"></div><div class="shadow-name">2xl</div></div>
             </div>
           </div>
+        </section>
+
+        <!-- ============ MOTION ============ -->
+        <section class="section" id="motion">
+          <div class="eyebrow">Foundations</div>
+          <h2 class="section-title">Motion</h2>
+          <p class="section-lead">One source for timing and easing (decision 0018) so polish stays consistent and tunable — animate with the tokens, never ad-hoc ms or curves. All motion honors <code style="font-family:var(--font-mono);font-size:.92em">prefers-reduced-motion</code>. Richer engines (animated numbers, list transitions, enter/exit) are opt-in npm libraries, portal-only.</p>
+
+          <div class="subhead">Duration &mdash; how long</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Three steps. Faster for small state flips, slower for enter/exit and layout. Click a track to replay.</p>
+          <div class="panel motion-grid">
+            <div class="motion-item"><div class="motion-meta"><span class="motion-token">--duration-fast</span><span class="motion-ms">120ms</span></div><button class="motion-track" data-dur="var(--duration-fast)" data-ease="var(--ease-out)" aria-label="Replay --duration-fast"><span class="motion-dot"></span></button></div>
+            <div class="motion-item"><div class="motion-meta"><span class="motion-token">--duration-base</span><span class="motion-ms">200ms</span></div><button class="motion-track" data-dur="var(--duration-base)" data-ease="var(--ease-out)" aria-label="Replay --duration-base"><span class="motion-dot"></span></button></div>
+            <div class="motion-item"><div class="motion-meta"><span class="motion-token">--duration-slow</span><span class="motion-ms">320ms</span></div><button class="motion-track" data-dur="var(--duration-slow)" data-ease="var(--ease-out)" aria-label="Replay --duration-slow"><span class="motion-dot"></span></button></div>
+          </div>
+
+          <div class="subhead">Easing &mdash; the curve</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Decelerate for most UI, symmetric for moves, a little overshoot for playful affordances. Same duration, different feel.</p>
+          <div class="panel motion-grid">
+            <div class="motion-item"><div class="motion-meta"><span class="motion-token">--ease-out</span><span class="motion-ms">most UI</span></div><button class="motion-track" data-dur="var(--duration-slow)" data-ease="var(--ease-out)" aria-label="Replay --ease-out"><span class="motion-dot"></span></button></div>
+            <div class="motion-item"><div class="motion-meta"><span class="motion-token">--ease-in-out</span><span class="motion-ms">symmetric</span></div><button class="motion-track" data-dur="var(--duration-slow)" data-ease="var(--ease-in-out)" aria-label="Replay --ease-in-out"><span class="motion-dot"></span></button></div>
+            <div class="motion-item"><div class="motion-meta"><span class="motion-token">--ease-spring</span><span class="motion-ms">overshoot</span></div><button class="motion-track" data-dur="var(--duration-slow)" data-ease="var(--ease-spring)" aria-label="Replay --ease-spring"><span class="motion-dot"></span></button></div>
+          </div>
+
+          <div class="subhead">Reduced motion</div>
+          <div class="panel" style="font-size:13.5px;color:var(--muted-foreground);line-height:1.6">Both surfaces carry a <code style="font-family:var(--font-mono)">@media (prefers-reduced-motion: reduce)</code> guard that near-zeros durations everywhere. New motion inherits the guard for free &mdash; you never opt in to accessibility.</div>
+
+          <div class="subhead">Polish primitives <span class="mat mat-exp" style="margin-left:4px"><span class="dot"></span>portal-only</span></div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Opt-in engines wired to the same tokens &mdash; animated numerics (<code style="font-family:var(--font-mono)">@number-flow/react</code>), list transitions (<code style="font-family:var(--font-mono)">@formkit/auto-animate</code>), and enter/exit + layout (<code style="font-family:var(--font-mono)">motion</code>). React-only, so this static preview documents the tokens and shows the content without the motion; see the portal for the live effect.</p>
         </section>
 
         <!-- ============ COMPONENTS ============ -->

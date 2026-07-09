@@ -144,6 +144,18 @@ code, pre, .mono { font-family: var(--font-mono); }
 .section-lead { font-size: 16px; color: var(--muted-foreground); margin-top: 12px; max-width: 64ch; line-height: 1.6; }
 .subhead { font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted-foreground); margin: 36px 0 16px; }
 
+/* Motion foundation — token demo tracks (mirrors the portal MotionSection) */
+.motion-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 640px) { .motion-grid { grid-template-columns: repeat(3, 1fr); } }
+.motion-meta { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.motion-token { font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.motion-ms { font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); }
+.motion-track { position: relative; display: block; width: 100%; height: 36px; overflow: hidden;
+  border: 1px solid var(--border); border-radius: var(--radius-md); background: color-mix(in oklch, var(--muted) 40%, transparent); cursor: pointer; }
+.motion-dot { position: absolute; top: 50%; left: 4px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--primary); transform: translateY(-50%); }
+.motion-track.on .motion-dot { left: calc(100% - 24px); }
+
 /* Sequential prev/next pager — mobile doc pattern (mirrors the portal DocPager) */
 .doc-pager { margin-top: 64px; border-top: 1px solid var(--border); padding-top: 24px; display: grid; grid-template-columns: 1fr; gap: 12px; }
 .doc-pager:empty { display: none; }
