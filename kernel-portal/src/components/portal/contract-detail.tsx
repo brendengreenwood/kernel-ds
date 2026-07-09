@@ -3,7 +3,7 @@ import {
   FileText,
   FileSignature,
   MoreVertical,
-} from "lucide-react"
+} from "@/components/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
 import { Button } from "@/components/ui/button"

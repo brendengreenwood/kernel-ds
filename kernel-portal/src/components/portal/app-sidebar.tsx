@@ -27,7 +27,7 @@ import {
   Shapes,
   Sparkles,
   Gauge,
-} from "lucide-react"
+} from "@/components/ui/icon"
 
 import {
   Sidebar,

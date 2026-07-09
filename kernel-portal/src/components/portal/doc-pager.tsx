@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { typeStyles } from "@/lib/type-styles"

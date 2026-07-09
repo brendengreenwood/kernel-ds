@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Truck, FileText, Banknote, TrendingUp, TrendingDown } from "lucide-react"
+import { Truck, FileText, Banknote, TrendingUp, TrendingDown } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { Section, Subhead } from "./section"

@@ -1,4 +1,4 @@
-import { Handshake, Reply, MoreVertical } from "lucide-react"
+import { Handshake, Reply, MoreVertical } from "@/components/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
 import { Badge } from "@/components/ui/badge"

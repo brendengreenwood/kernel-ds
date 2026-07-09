@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Search, Plus, X } from "lucide-react"
+import { Search, Plus, X } from "@/components/ui/icon"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 
 import { cn } from "@/lib/utils"

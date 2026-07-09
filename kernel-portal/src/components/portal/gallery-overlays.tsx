@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { toast } from "sonner"
-import { CheckCircle2, AlertTriangle, Info, XCircle, Plus } from "lucide-react"
+import { CheckCircle2, AlertTriangle, Info, XCircle, Plus } from "@/components/ui/icon"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

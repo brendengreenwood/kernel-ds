@@ -16,7 +16,7 @@ import {
   MoreVertical,
   X,
   ArrowLeft,
-} from "lucide-react"
+} from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"

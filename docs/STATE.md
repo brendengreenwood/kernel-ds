@@ -142,6 +142,14 @@ long scroll.
   replayable track demos, plus a portal-only polish showcase. Engines adopted
   (portal-only): `@number-flow/react` (`<AnimatedNumber>`), `@formkit/
   auto-animate` (`autoAnimateConfig`), `motion` (Framer `AnimatePresence`).
+- **Icon library: MDI** (decision 0019, 2026-07-09): both surfaces use
+  Material Design Icons. Portal glyphs import from a shim
+  `src/components/ui/icon.tsx` (lucide-named components backed by `@mdi/js`
+  paths, lucide-compatible API); all 42 files that imported `lucide-react`
+  were redirected to it and `lucide-react` was removed. Preview `<svg>`s are
+  single-path MDI (`fill="currentColor"`), incl. the `portal.css` select
+  arrows + `portal.js` pager chevrons. Prefer `*Outline` variants so the
+  filled set stays close to lucide's weight.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,

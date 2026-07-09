@@ -61,6 +61,7 @@ src/
   lib/page-order.ts            ← linear reading order for the DocPager
   lib/type-styles.ts           ← named type roles (single source; decision 0014)
   lib/motion.ts                ← autoAnimateConfig (motion tokens; decision 0018)
+  components/ui/icon.tsx        ← MDI icon shim: lucide-named glyphs on @mdi/js (decision 0019)
   components/
     theme-provider.tsx
     mode-toggle.tsx
@@ -220,7 +221,7 @@ The original portal source targeted Next.js App Router. Changes made:
 - Dropped an unused `next/image` import; no other Next APIs were in use
 - Newer library APIs: Calendar `initialFocus` → `autoFocus` (react-day-picker v10),
   `ResizablePanelGroup direction` → `orientation` (react-resizable-panels v4),
-  lucide has no `Kernel` icon → brand mark uses `Sprout`
+  MDI has no `Kernel` icon → brand mark uses `Sprout` (`mdiSproutOutline`)
 - `<StatusBadge>`'s `Status` type now derives from its cva variants so
   `status` props are checked against the real lifecycle union
 - A standalone disabled `RadioGroupItem` demo now sits in its own `RadioGroup`

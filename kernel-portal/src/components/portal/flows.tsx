@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, User, Home, Bell, Users, CreditCard } from "lucide-react"
+import { Check, User, Home, Bell, Users, CreditCard } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { Section, Subhead } from "./section"

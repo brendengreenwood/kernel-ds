@@ -11,7 +11,7 @@ import {
   FileText,
   Home,
   Banknote,
-} from "lucide-react"
+} from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { Section, Subhead } from "./section"
