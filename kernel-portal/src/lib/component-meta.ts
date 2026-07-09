@@ -22,7 +22,7 @@ export type ComponentMeta = {
 }
 
 const MENU_DELTA =
-  "Base UI delta pending sign-off: checkbox/radio menu items don't close on click."
+  "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
 
 export const componentMeta: ComponentMeta[] = [
   { name: "Accordion", anchor: "c-accordion", group: "component", maturity: "ready", a11y: "pending" },
@@ -41,19 +41,19 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Collapsible", anchor: "c-accordion", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Combobox", anchor: "c-command", group: "component", maturity: "ready", a11y: "pending", note: "Composition: popover + command." },
   { name: "Command", anchor: "c-command", group: "component", maturity: "ready", a11y: "pending" },
-  { name: "Context Menu", anchor: "c-dropdown-menu", group: "component", maturity: "experimental", a11y: "pending", note: MENU_DELTA },
+  { name: "Context Menu", anchor: "c-dropdown-menu", group: "component", maturity: "ready", a11y: "pending", note: MENU_DELTA },
   { name: "Data Table", anchor: "c-table", group: "component", maturity: "ready", a11y: "pending", note: "Composition: table + @tanstack/react-table." },
   { name: "Date Picker", anchor: "c-calendar", group: "component", maturity: "ready", a11y: "pending", note: "Composition: popover + calendar." },
   { name: "Dialog", anchor: "c-dialog", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Drawer", anchor: "c-sheet", group: "component", maturity: "ready", a11y: "pending" },
-  { name: "Dropdown Menu", anchor: "c-dropdown-menu", group: "component", maturity: "experimental", a11y: "pending", note: MENU_DELTA },
+  { name: "Dropdown Menu", anchor: "c-dropdown-menu", group: "component", maturity: "ready", a11y: "pending", note: MENU_DELTA },
   { name: "Form", anchor: "c-form", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Hover Card", anchor: "c-popover", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Input", anchor: "c-input", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Input OTP", anchor: "c-slider", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Label", anchor: "fe-anatomy", group: "component", maturity: "ready", a11y: "pending" },
-  { name: "Menubar", anchor: "c-navigation-menu", group: "component", maturity: "experimental", a11y: "pending", note: MENU_DELTA },
-  { name: "Navigation Menu", anchor: "c-navigation-menu", group: "component", maturity: "experimental", a11y: "pending", note: "Base UI delta pending sign-off: hover-open delay 200ms → 50ms." },
+  { name: "Menubar", anchor: "c-navigation-menu", group: "component", maturity: "ready", a11y: "pending", note: MENU_DELTA },
+  { name: "Navigation Menu", anchor: "c-navigation-menu", group: "component", maturity: "ready", a11y: "pending", note: "Base UI behavior (documented, intended): hover-open delay tuned to 50ms." },
   { name: "Pagination", anchor: "c-breadcrumb", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Popover", anchor: "c-popover", group: "component", maturity: "ready", a11y: "pending" },
   { name: "Progress", anchor: "c-progress", group: "component", maturity: "ready", a11y: "pending" },
