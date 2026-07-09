@@ -30,7 +30,7 @@ const tabsListVariants = cva(
       // underline = transparent, primary underline indicator
       // folder = file-folder tabs that lift onto the panel
       variant: {
-        pill: "items-center gap-1 rounded-full bg-muted p-[3px]",
+        pill: "items-center gap-1 rounded-full border border-border bg-muted p-[5px]",
         underline: "items-end gap-1 rounded-none border-b border-border",
         folder: "items-end gap-1 rounded-none border-b border-border",
       },
@@ -72,9 +72,9 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
         // shared
         "group/tab relative inline-flex items-center justify-center whitespace-nowrap font-medium text-muted-foreground transition-all outline-none group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // size (height / padding / text / inner gap) — mirrors the control-height tokens
-        "group-data-[size=compact]/tabs-list:h-[var(--control-h-sm)] group-data-[size=compact]/tabs-list:gap-1.5 group-data-[size=compact]/tabs-list:px-2.5 group-data-[size=compact]/tabs-list:text-xs",
-        "group-data-[size=default]/tabs-list:h-[var(--control-h)] group-data-[size=default]/tabs-list:gap-2 group-data-[size=default]/tabs-list:px-3 group-data-[size=default]/tabs-list:text-sm",
-        "group-data-[size=comfortable]/tabs-list:h-[var(--control-h-lg)] group-data-[size=comfortable]/tabs-list:gap-2 group-data-[size=comfortable]/tabs-list:px-4 group-data-[size=comfortable]/tabs-list:text-sm",
+        "group-data-[size=compact]/tabs-list:h-[var(--control-h-sm)] group-data-[size=compact]/tabs-list:gap-1.5 group-data-[size=compact]/tabs-list:px-2 group-data-[size=compact]/tabs-list:text-xs",
+        "group-data-[size=default]/tabs-list:h-[var(--control-h)] group-data-[size=default]/tabs-list:gap-2 group-data-[size=default]/tabs-list:px-2.5 group-data-[size=default]/tabs-list:text-sm",
+        "group-data-[size=comfortable]/tabs-list:h-[var(--control-h-lg)] group-data-[size=comfortable]/tabs-list:gap-2 group-data-[size=comfortable]/tabs-list:px-3.5 group-data-[size=comfortable]/tabs-list:text-sm",
         // pill
         "group-data-[variant=pill]/tabs-list:rounded-full group-data-[variant=pill]/tabs-list:hover:text-foreground group-data-[variant=pill]/tabs-list:data-active:bg-primary group-data-[variant=pill]/tabs-list:data-active:text-primary-foreground group-data-[variant=pill]/tabs-list:data-active:shadow-sm",
         // underline
