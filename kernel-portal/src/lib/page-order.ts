@@ -31,6 +31,7 @@ export const docOrder: DocPage[] = [
   { path: "/patterns", title: "CRUD patterns" },
   { path: "/flows", title: "Flows" },
   { path: "/origination", title: "Origination flow" },
+  { path: "/pricing", title: "Pricing worksheet" },
   { path: "/modals", title: "Modals" },
   { path: "/contract", title: "Contract detail" },
   { path: "/settlement", title: "Settlement statement" },

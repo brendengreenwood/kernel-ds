@@ -25,6 +25,7 @@ export const sectionRoutes: Record<string, string> = {
   patterns: "/patterns",
   flows: "/flows",
   origination: "/origination",
+  pricing: "/pricing",
   modals: "/modals",
   contract: "/contract",
   settlement: "/settlement",
