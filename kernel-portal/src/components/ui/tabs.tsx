@@ -30,7 +30,7 @@ const tabsListVariants = cva(
       // underline = transparent, primary underline indicator
       // folder = file-folder tabs that lift onto the panel
       variant: {
-        pill: "items-center gap-1 rounded-lg bg-muted p-[3px]",
+        pill: "items-center gap-1 rounded-full bg-muted p-[3px]",
         underline: "items-end gap-1 rounded-none border-b border-border",
         folder: "items-end gap-1 rounded-none border-b border-border",
       },
@@ -76,11 +76,12 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
         "group-data-[size=default]/tabs-list:h-[var(--control-h)] group-data-[size=default]/tabs-list:gap-2 group-data-[size=default]/tabs-list:px-3 group-data-[size=default]/tabs-list:text-sm",
         "group-data-[size=comfortable]/tabs-list:h-[var(--control-h-lg)] group-data-[size=comfortable]/tabs-list:gap-2 group-data-[size=comfortable]/tabs-list:px-4 group-data-[size=comfortable]/tabs-list:text-sm",
         // pill
-        "group-data-[variant=pill]/tabs-list:rounded-md group-data-[variant=pill]/tabs-list:hover:text-foreground group-data-[variant=pill]/tabs-list:data-active:bg-primary group-data-[variant=pill]/tabs-list:data-active:text-primary-foreground group-data-[variant=pill]/tabs-list:data-active:shadow-sm",
+        "group-data-[variant=pill]/tabs-list:rounded-full group-data-[variant=pill]/tabs-list:hover:text-foreground group-data-[variant=pill]/tabs-list:data-active:bg-primary group-data-[variant=pill]/tabs-list:data-active:text-primary-foreground group-data-[variant=pill]/tabs-list:data-active:shadow-sm",
         // underline
         "group-data-[variant=underline]/tabs-list:-mb-px group-data-[variant=underline]/tabs-list:rounded-none group-data-[variant=underline]/tabs-list:border-b-2 group-data-[variant=underline]/tabs-list:border-transparent group-data-[variant=underline]/tabs-list:hover:text-foreground group-data-[variant=underline]/tabs-list:data-active:border-primary group-data-[variant=underline]/tabs-list:data-active:text-foreground",
-        // folder
-        "group-data-[variant=folder]/tabs-list:-mb-px group-data-[variant=folder]/tabs-list:rounded-t-md group-data-[variant=folder]/tabs-list:border group-data-[variant=folder]/tabs-list:border-transparent group-data-[variant=folder]/tabs-list:border-b-0 group-data-[variant=folder]/tabs-list:hover:bg-muted/60 group-data-[variant=folder]/tabs-list:hover:text-foreground group-data-[variant=folder]/tabs-list:data-active:bg-card group-data-[variant=folder]/tabs-list:data-active:border-border group-data-[variant=folder]/tabs-list:data-active:text-foreground",
+        // folder — active tab's bottom edge is card-colored so it punches
+        // through the list's baseline and reads as connected to the panel
+        "group-data-[variant=folder]/tabs-list:-mb-px group-data-[variant=folder]/tabs-list:rounded-t-md group-data-[variant=folder]/tabs-list:border group-data-[variant=folder]/tabs-list:border-transparent group-data-[variant=folder]/tabs-list:hover:bg-muted/60 group-data-[variant=folder]/tabs-list:hover:text-foreground group-data-[variant=folder]/tabs-list:data-active:relative group-data-[variant=folder]/tabs-list:data-active:z-10 group-data-[variant=folder]/tabs-list:data-active:bg-card group-data-[variant=folder]/tabs-list:data-active:border-border group-data-[variant=folder]/tabs-list:data-active:border-b-card group-data-[variant=folder]/tabs-list:data-active:text-foreground",
         className
       )}
       {...props}
