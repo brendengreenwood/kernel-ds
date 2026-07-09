@@ -24,6 +24,7 @@ import { FilteringAdvancedSection } from "@/components/portal/filtering-advanced
 import { PatternsSection } from "@/components/portal/patterns"
 import { FlowsSection } from "@/components/portal/flows"
 import { OriginationSection } from "@/components/portal/origination"
+import { PricingSection } from "@/components/portal/pricing"
 import { ModalPatternsSection } from "@/components/portal/modal-patterns"
 import { ContractDetailSection } from "@/components/portal/contract-detail"
 import { SettlementSection } from "@/components/portal/settlement"
@@ -79,6 +80,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="patterns" element={<PatternsSection />} />
             <Route path="flows" element={<FlowsSection />} />
             <Route path="origination" element={<OriginationSection />} />
+            <Route path="pricing" element={<PricingSection />} />
             <Route path="modals" element={<ModalPatternsSection />} />
             <Route path="contract" element={<ContractDetailSection />} />
             <Route path="settlement" element={<SettlementSection />} />

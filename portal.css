@@ -462,6 +462,21 @@ code, pre, .mono { font-family: var(--font-mono); }
 .tab-panel { margin-top: 18px; font-size: 14px; color: var(--muted-foreground); line-height: 1.6; }
 .tab-panel[hidden] { display: none; }
 
+/* Pricing worksheet — buy/sell price stack rows */
+.ws-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 6px 0; }
+.ws-row.strong { border-top: 1px solid var(--border); margin-top: 2px; padding-top: 8px; }
+.ws-k { font-size: 14px; color: var(--muted-foreground); }
+.ws-row.strong .ws-k { color: var(--foreground); font-weight: 500; }
+.ws-v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 14px; }
+.ws-row.strong .ws-v { font-size: 15px; font-weight: 600; }
+.ws-v.muted { color: var(--muted-foreground); }
+.ws-v.pos { color: var(--success-700); }
+.dark .ws-v.pos { color: var(--success-500); }
+.ws-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 32px; padding: 16px 20px; }
+@media (max-width: 640px) { .ws-grid { grid-template-columns: 1fr; gap: 14px; } }
+.ws-input { width: 104px; height: var(--control-h-sm); text-align: right; font-family: var(--font-mono); padding: 0 10px; }
+.crud-table tr.is-current td { background: color-mix(in oklch, var(--primary) 8%, transparent); font-weight: 500; }
+
 /* floating surfaces sit visibly above the page in both modes */
 .menu, .navmenu-panel, .filter-pop, .popover, .hovercard, .command { box-shadow: var(--shadow-lg); }
 .dark .menu, .dark .navmenu-panel, .dark .filter-pop,

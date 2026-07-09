@@ -104,6 +104,7 @@
       <a class="nav-link" href="#patterns" data-section="patterns" data-title="CRUD patterns"><span class="dot"></span>CRUD patterns</a>
       <a class="nav-link" href="#flows" data-section="flows" data-title="Flows"><span class="dot"></span>Flows</a>
       <a class="nav-link" href="#origination" data-section="origination" data-title="Origination flow"><span class="dot"></span>Origination flow<span class="mat-pill">exp</span></a>
+      <a class="nav-link" href="#pricing" data-section="pricing" data-title="Pricing worksheet"><span class="dot"></span>Pricing worksheet<span class="mat-pill">exp</span></a>
       <a class="nav-link" href="#modals" data-section="modals" data-title="Modal patterns"><span class="dot"></span>Modals<span class="mat-pill">exp</span></a>
 
       <div class="nav-group-label">Domain</div>
@@ -2212,6 +2213,76 @@
           </div>
         </section>
 
+        <!-- ============ PRICING WORKSHEET ============ -->
+        <section class="section" id="pricing">
+          <div class="eyebrow">Patterns</div>
+          <h2 class="section-title">Pricing worksheet</h2>
+          <p class="section-lead">The origination desk&rsquo;s core loop: set a cash bid from the board and basis, see what it does to margin, and push it to the country. Three surfaces &mdash; a worksheet that makes the buy/sell math legible, a ladder that prices the trade-off between winning bushels and holding margin, and the bid board that publishes the number.</p>
+
+          <div class="subhead">Bid worksheet</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">The number you post is board plus basis; the margin is the sell basis minus the cost to move it. Both sides sit side by side in mono, so the cash bid and the gross margin it implies are one glance apart &mdash; basis is the only thing you type.</p>
+          <div class="pattern-frame">
+            <div class="frame-head" style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">Bid worksheet <span class="grain grain-corn"><span class="gdot"></span>Corn</span> <span style="font-family:var(--font-mono);font-size:12px;font-weight:400;color:var(--muted-foreground)">Dec &rsquo;26 &middot; ZCZ6</span></div>
+            <div class="ws-grid">
+              <div>
+                <div style="font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-foreground);margin-bottom:4px">Buy side</div>
+                <div class="ws-row"><span class="ws-k">Board futures (ZCZ6)</span><span class="ws-v muted">$4.38</span></div>
+                <div class="ws-row"><label class="ws-k" for="pw-bid">Bid basis</label><input id="pw-bid" class="input ws-input" value="&minus;0.22" /></div>
+                <div class="ws-row strong"><span class="ws-k">Cash bid &mdash; posted</span><span class="ws-v">$4.16</span></div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-foreground);margin-bottom:4px">Sell side</div>
+                <div class="ws-row"><label class="ws-k" for="pw-sell">Sell basis (terminal)</label><input id="pw-sell" class="input ws-input" value="&minus;0.05" /></div>
+                <div class="ws-row"><span class="ws-k">Sell price</span><span class="ws-v muted">$4.33</span></div>
+                <div class="ws-row"><span class="ws-k">Freight + handling</span><span class="ws-v muted">&minus;0.11</span></div>
+                <div class="ws-row strong"><span class="ws-k">Gross margin / bu</span><span class="ws-v pos">$0.06</span></div>
+              </div>
+            </div>
+            <div class="fb-foot">
+              <span style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--muted-foreground)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:16px;height:16px"><path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/></svg>$0.06/bu &times; 10,000 bu = $600 &middot; target $0.05/bu &check;</span>
+            </div>
+          </div>
+
+          <div class="subhead">Margin ladder</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Every cent of basis you give up to win bushels comes out of margin. The ladder shows the whole trade-off at once &mdash; cash bid, margin per bushel, and dollars on a typical load &mdash; with the posted basis marked, so the strategy call is visible, not buried in a spreadsheet.</p>
+          <div class="pattern-frame">
+            <div class="frame-head" style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">Margin ladder <span style="font-family:var(--font-mono);font-size:12px;font-weight:400;color:var(--muted-foreground)">push basis to win bushels &mdash; margin is the cost</span></div>
+            <div class="crud-scroll"><table class="crud-table">
+              <thead>
+                <tr><th>Bid basis</th><th class="num">Cash bid</th><th class="num">Margin / bu</th><th class="num">On 10,000 bu</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="num" style="text-align:left">&minus;0.26</td><td class="num">$4.12</td><td class="num">$0.10</td><td class="num" style="color:var(--muted-foreground)">+$1,000</td></tr>
+                <tr><td class="num" style="text-align:left">&minus;0.24</td><td class="num">$4.14</td><td class="num">$0.08</td><td class="num" style="color:var(--muted-foreground)">+$800</td></tr>
+                <tr class="is-current"><td class="num" style="text-align:left">&minus;0.22 <span class="badge badge-outline" style="font-size:10px">current</span></td><td class="num">$4.16</td><td class="num">$0.06</td><td class="num" style="color:var(--muted-foreground)">+$600</td></tr>
+                <tr><td class="num" style="text-align:left">&minus;0.20</td><td class="num">$4.18</td><td class="num">$0.04</td><td class="num" style="color:var(--muted-foreground)">+$400</td></tr>
+                <tr><td class="num" style="text-align:left">&minus;0.18</td><td class="num">$4.20</td><td class="num">$0.02</td><td class="num" style="color:var(--muted-foreground)">+$200</td></tr>
+              </tbody>
+            </table></div>
+          </div>
+
+          <div class="subhead">Bid board</div>
+          <p style="font-size:13.5px;color:var(--muted-foreground);margin:-6px 0 16px;max-width:62ch">Execution: the cash bids that go out to producers, by location and delivery window. Freight sets the spread between elevators; a bid stays a draft until it&rsquo;s pushed, and pushing is the one deliberate action that makes the price live.</p>
+          <div class="pattern-frame">
+            <div class="frame-head" style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">Bid board <span class="grain grain-corn"><span class="gdot"></span>Corn</span> <span style="font-family:var(--font-mono);font-size:12px;font-weight:400;color:var(--muted-foreground)">cash bids by location &middot; $/bu</span></div>
+            <div class="crud-scroll"><table class="crud-table">
+              <thead>
+                <tr><th>Location</th><th class="num">Oct&ndash;Nov</th><th class="num">Dec</th><th class="num">Jan&ndash;Mar</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="cell-strong">Fairmont #2</span></td><td class="num">$4.16</td><td class="num">$4.18</td><td class="num">$4.21</td><td><span class="badge badge-success">Published</span></td></tr>
+                <tr><td><span class="cell-strong">Blue Earth</span></td><td class="num">$4.14</td><td class="num">$4.16</td><td class="num">$4.19</td><td><span class="badge badge-success">Published</span></td></tr>
+                <tr><td><span class="cell-strong">Trimont</span></td><td class="num">$4.12</td><td class="num">$4.14</td><td class="num">$4.17</td><td><span class="badge badge-outline" style="color:var(--muted-foreground)">Draft</span></td></tr>
+                <tr><td><span class="cell-strong">Welcome</span></td><td class="num">$4.15</td><td class="num">$4.17</td><td class="num">$4.20</td><td><span class="badge badge-success">Published</span></td></tr>
+              </tbody>
+            </table></div>
+            <div class="fb-foot">
+              <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted-foreground)">1 draft &middot; last pushed 8m ago</span>
+              <div class="right"><button class="btn btn-ghost btn-sm">Preview sheet</button><button class="btn btn-default btn-sm"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z"/></svg>Push to portal</button></div>
+            </div>
+          </div>
+        </section>
+
         <!-- ============ MODAL PATTERNS ============ -->
         <section class="section" id="modals">
           <div class="eyebrow">Patterns</div>
@@ -2936,7 +3007,7 @@ npx shadcn@latest init</code></pre>
 
           <div class="status-legend">
             <span class="mat mat-ready"><span class="dot"></span>ready<span class="n">57</span></span>
-            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">10</span></span>
+            <span class="mat mat-exp"><span class="dot"></span>experimental<span class="n">11</span></span>
             <span class="mat mat-dep"><span class="dot"></span>deprecated<span class="n">0</span></span>
           </div>
 
@@ -3008,6 +3079,7 @@ npx shadcn@latest init</code></pre>
                 <tr><td style="font-weight:600">CRUD patterns</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Flows</td><td class="muted">Pattern</td><td><span class="mat mat-ready"><span class="dot"></span>ready</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">&mdash;</td></tr>
                 <tr><td style="font-weight:600">Origination flow</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; queue actions and counter-expiry conventions settling.</td></tr>
+                <tr><td style="font-weight:600">Pricing worksheet</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; board&rarr;basis&rarr;cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative.</td></tr>
                 <tr><td style="font-weight:600">Modals</td><td class="muted">Pattern</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">New pattern; size ladder and must-choose rules settling.</td></tr>
                 <tr><td style="font-weight:600">Contract detail</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 1 of 4; API settling while the lineup lands.</td></tr>
                 <tr><td style="font-weight:600">Settlement statement</td><td class="muted">Domain</td><td><span class="mat mat-exp"><span class="dot"></span>experimental</span></td><td class="muted">pending</td><td class="muted" style="max-width:380px">Domain pattern 2 of 4; money math reconciles to contract-detail fills.</td></tr>

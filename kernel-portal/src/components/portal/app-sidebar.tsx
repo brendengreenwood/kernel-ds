@@ -94,6 +94,7 @@ const nav: { label: string; items: NavItem[] }[] = [
       { title: "CRUD patterns", to: "/patterns", icon: LayoutList },
       { title: "Flows", to: "/flows", icon: Route },
       { title: "Origination flow", to: "/origination", icon: Handshake, maturity: "experimental" },
+      { title: "Pricing worksheet", to: "/pricing", icon: Banknote, maturity: "experimental" },
       { title: "Modals", to: "/modals", icon: AppWindow, maturity: "experimental" },
       { title: "Workspace demo ↗", to: "/workspace", icon: PanelsLeftRight, maturity: "experimental", external: true },
     ],

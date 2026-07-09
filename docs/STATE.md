@@ -188,8 +188,12 @@ long scroll.
   and **Modals** (configuration axes, not use cases: xs/sm/md/lg size
   ladder · standard/split/stacked footers · capped scrolling body ·
   dismissable vs must-choose, with a working Escape/outside-click-refusing
-  demo) — both surfaces, experimental. Candidates next: bulk-edit pattern,
-  pricing worksheet patterns, saved-view management.
+  demo) — both surfaces, experimental. Landed 2026-07-09: **Pricing worksheet**
+  (bid worksheet: board + basis → cash bid, sell basis − costs → margin · margin
+  ladder: the win-bushels-vs-hold-margin trade-off with the posted basis marked ·
+  bid board: cash bids by location × delivery, publish) — both surfaces,
+  experimental; the desk-facing pattern for the pricing-strategy / sales-execution
+  positioning. Candidates next: bulk-edit pattern, saved-view management.
 
 ## Backlog (in priority order)
 
