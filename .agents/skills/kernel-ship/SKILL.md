@@ -35,7 +35,7 @@ git push -u origin <branch>   # retry with backoff on network errors only
 
 ## 4. Confirm the deploy (Netlify)
 
-Netlify builds `main` (site `kernel-design-system`, id `22e1ff2b-5e90-4f3e-8b7b-d45907f8fcf1`). The static preview is NOT deployed — only `kernel-portal/`.
+Netlify builds `main` (site `kernel-design-system`, id `22e1ff2b-5e90-4f3e-8b7b-d45907f8fcf1`). The portal is the only surface — it publishes `kernel-portal/dist`.
 
 - Direct `curl` to `*.netlify.app` is blocked by the sandbox proxy (403). Use the **Netlify MCP**: `netlify-project-services-reader get-project` for the current deploy, then `netlify-deploy-services-reader get-deploy-for-site` to confirm `state: "ready"` and `commit_ref` matches the merge commit.
 - A fresh merge takes ~1 min to build; poll with a background wait, not foreground sleep. Report the live commit + state when green.
