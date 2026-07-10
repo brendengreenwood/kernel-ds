@@ -111,6 +111,9 @@ src/
 > and `size` (**compact/default/comfortable**, on the control-height tokens),
 > plus `<TabCount>` (trailing count badge) and `<TabDot>` (notification dot);
 > tabs also take a leading MDI icon. Strips scroll in place on mobile.
+> Arrow keys activate tabs automatically — `TabsList` defaults Base UI's
+> `activateOnFocus` to `true` for shadcn/Radix parity (overridable;
+> decision 0023).
 > `ui/command.tsx` diverges from stock in one class: the palette input is
 > `text-base md:text-sm` so iOS Safari doesn't zoom on focus (decision 0007).
 > `ui/dialog.tsx` diverges from stock: the header is its own bar (full-bleed,
@@ -241,14 +244,15 @@ Every component/element/pattern carries a lifecycle status —
 (maturity pills on non-ready items) plus the **Component status** section
 (`#status`). Adding a component means adding a registry entry; signing off
 an experimental delta means flipping its entry to `ready` and deleting the
-note. A11y review is a separate column, pending the system-wide pass.
+note. A11y review is a separate column; Tabs is the first `reviewed` entry (`docs/a11y/tabs-review-2026-07.md`), the rest are pending the system-wide pass.
 
 ## Base UI notes (post-migration)
 
 - Triggers compose via `render={<Button/>}` instead of `asChild` (the vaul
   drawer still uses `asChild`).
 - Accordion/ToggleGroup values are arrays; single-open is the default.
-- Behavior deltas vs the Radix era, deliberately not patched: tabs activate
-  manually (arrow keys move focus, Enter/Space activates), menu
+- Behavior deltas vs the Radix era, deliberately not patched: menu
   checkbox/radio items don't close on click, navigation-menu hover delay is
-  50ms. Details in `.migration/project.md`.
+  50ms. Details in `.migration/project.md`. (Tabs' manual-activation delta
+  was overridden 2026-07-10 — tabs now activate on arrow focus, decision
+  0023.)

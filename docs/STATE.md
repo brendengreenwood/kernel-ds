@@ -43,18 +43,21 @@ own route, not a section of one long scroll.
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of
   2026-07-04 — decision 0005 executed; radix removed. Migration reports in
-  `kernel-portal/.migration/`; flagged behavior deltas: tabs manual
-  activation, menu checkbox/radio items don't close on click, nav-menu 50ms
-  hover delay.
+  `kernel-portal/.migration/`; flagged behavior deltas: menu
+  checkbox/radio items don't close on click, nav-menu 50ms hover delay
+  (tabs' manual-activation delta was overridden 2026-07-10 — tabs now
+  activate automatically on arrow focus, decision 0023).
 - **Component lifecycle statuses** (decision 0006): experimental/ready/
   deprecated tracked in `kernel-portal/src/lib/component-meta.ts`, shown as
   Primer-style per-component side-rail entries with maturity pills and a
-  Component status overview section. Currently ready 57 /
-  experimental 11: Tabs, the three portal-only elements (Border beam,
+  Component status overview section. Currently ready 58 /
+  experimental 10: the three portal-only elements (Border beam,
   Commodity tags, Animated number), five patterns (Navigation, Advanced
   filtering, Origination flow, Pricing worksheet, Modals), and the two
-  domain patterns (Contract detail, Settlement statement). A11y
-  review column is `pending` everywhere until backlog #3 runs.
+  domain patterns (Contract detail, Settlement statement). A11y review
+  column: **Tabs is the first `reviewed`** (2026-07-10,
+  `docs/a11y/tabs-review-2026-07.md`); the rest stay `pending` until
+  backlog #3 finishes.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
@@ -157,7 +160,10 @@ own route, not a section of one long scroll.
   comfortable** on the `--control-h-*` tokens (same language as table density);
   every tab takes a leading MDI icon, a trailing count badge (`<TabCount>` /
   `.tab-count`), and a notification dot (`<TabDot>` / `.tab-dot`) or inline
-  glyph. Strips scroll in place on mobile (0 overflow at 390px).
+  glyph. Strips scroll in place on mobile (0 overflow at 390px). Promoted
+  **ready** 2026-07-10 with automatic activation (arrows activate;
+  `activateOnFocus` overridable) after the first per-component a11y
+  review — decision 0023.
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
@@ -203,6 +209,8 @@ own route, not a section of one long scroll.
    Remaining: focus states, keyboard nav in interactive patterns, and
    per-component reviews to flip the
    `component-meta.ts` a11y column from `pending` to `reviewed`.
+   First per-component review done: **Tabs** ✓ 2026-07-10
+   (`docs/a11y/tabs-review-2026-07.md`, 20/20 checks).
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
@@ -212,7 +220,7 @@ own route, not a section of one long scroll.
    duration (the preview-CSS motion-literal migration is moot — file retired,
    decision 0022);
    give the 30px filter chip (`filters.tsx`) a home in the size system;
-   resolve the `tabsListVariants` fast-refresh warning (export location);
+   ~~resolve the `tabsListVariants` fast-refresh warning~~ ✓ done 2026-07-10 (dead export removed on the tabs-promotion branch);
    backfill worklog entries for `8545649` and `bdd3b1d`; portability pass on
    the kernel-verify / kernel-ship skills (Linux paths, theme storageKey,
    environment rules); scrub stale “static preview” prose inside the portal
