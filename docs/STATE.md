@@ -215,7 +215,11 @@ own route, not a section of one long scroll.
    resolve the `tabsListVariants` fast-refresh warning (export location);
    backfill worklog entries for `8545649` and `bdd3b1d`; portability pass on
    the kernel-verify / kernel-ship skills (Linux paths, theme storageKey,
-   environment rules).
+   environment rules); scrub stale “static preview” prose inside the portal
+   itself (`motion-foundation.tsx:156` rendered copy,
+   `kernel-portal/README.md:126`, `component-meta.ts` border-beam note) —
+   flagged by the 0022 ship review; portal code was deliberately untouched
+   in the retirement branch.
 
 ## Experiments
 
