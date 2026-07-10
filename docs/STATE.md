@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-05
+> Last touched: 2026-07-10
 
 ## What this project is
 
@@ -44,8 +44,11 @@ long scroll.
 - **Component lifecycle statuses** (decision 0006): experimental/ready/
   deprecated tracked in `kernel-portal/src/lib/component-meta.ts`, shown as
   Primer-style per-component side-rail entries with maturity pills and a
-  Component status overview section — both surfaces. Currently
-  experimental: the five delta-flagged components + contract-detail. A11y
+  Component status overview section — both surfaces. Currently ready 57 /
+  experimental 11: Tabs, the three portal-only elements (Border beam,
+  Commodity tags, Animated number), five patterns (Navigation, Advanced
+  filtering, Origination flow, Pricing worksheet, Modals), and the two
+  domain patterns (Contract detail, Settlement statement). A11y
   review column is `pending` everywhere until backlog #3 runs.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
