@@ -1,6 +1,6 @@
 ---
 name: kernel-verify
-description: Verify a Kernel change end-to-end — type-check, build, run the mobile + contrast audits, and screenshot both surfaces in light and dark. Use after any component/token/pattern change and before shipping. Bakes in the Playwright/chromium invocation so you don't re-derive it.
+description: Verify a Kernel change end-to-end — type-check, build, run the mobile + contrast audits, and screenshot the portal in light and dark. Use after any component/token/pattern change and before shipping. Bakes in the Playwright/chromium invocation so you don't re-derive it.
 user-invocable: true
 ---
 
@@ -19,17 +19,14 @@ Fix all TS errors and console errors before moving on.
 
 ```bash
 cd kernel-portal && (npx serve -s -l 4600 dist >/dev/null 2>&1 &)   # portal (SPA fallback: -s)
-(npx serve -l 4601 . >/dev/null 2>&1 &)                             # preview (repo root)
 ```
-Preview URL: `http://localhost:4601/Kernel%20Design%20System.html#<section>`.
 
-## 3. Mobile audit (390px) — both surfaces
+## 3. Mobile audit (390px)
 
 ```bash
 cd kernel-portal
 export NODE_PATH=/opt/node22/lib/node_modules
-PW_EXECUTABLE=/opt/pw-browsers/chromium node scripts/mobile-audit.mjs \
-  http://localhost:4600/<route> "http://localhost:4601/Kernel%20Design%20System.html#<section>"
+PW_EXECUTABLE=/opt/pw-browsers/chromium node scripts/mobile-audit.mjs http://localhost:4600/<route>
 ```
 Target **0/0/0/0** (horizontal overflow / clipped content / sub-16px text controls / <44px effective hit areas). Known by-design exceptions: the form-elements compact-size demo input and a switch demo.
 
@@ -39,7 +36,7 @@ Target **0/0/0/0** (horizontal overflow / clipped content / sub-16px text contro
 cd kernel-portal && node scripts/contrast-audit.mjs   # 0 AA failures expected
 ```
 
-## 5. Screenshot both surfaces, light + dark
+## 5. Screenshot the portal, light + dark
 
 Playwright is ESM-only here — import from the absolute path; chromium is a symlink:
 

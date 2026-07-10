@@ -9,4 +9,3 @@ superseded standalone docs.
   relevant, which worklog entries cover the work.
 - Files here are read-only history — never edited after landing.
 
-*(empty so far)*

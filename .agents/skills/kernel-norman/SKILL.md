@@ -39,7 +39,7 @@ When something "feels confusing," name which gulf it's on — the fix differs.
 - **Knowledge in the world > knowledge in the head.** Don't make users remember; show the options. Prefer recognition over recall (visible actions, labeled fields, a command palette that lists, not a syntax to memorize).
 - **Defaults do the work.** A good default is the most-common correct choice; it turns a decision into a confirmation.
 - **Progressive disclosure.** Reveal complexity on demand (advanced filters, expandable rows) so the common path stays simple without hiding power.
-- **Consistency lowers the learning cost.** One vocabulary of components and behaviors across the whole product (and across Kernel's two surfaces) means learning it once. Internal consistency > novelty.
+- **Consistency lowers the learning cost.** One vocabulary of components and behaviors across the whole product means learning it once. Internal consistency > novelty.
 - **Human-centered:** design for the real task and the real merchant; observe, prototype, iterate. Solve the right problem before polishing the wrong one.
 
 ## Applying it in Kernel
@@ -49,7 +49,7 @@ When something "feels confusing," name which gulf it's on — the fix differs.
 - Loading, empty, and error are first-class states, not afterthoughts (the CRUD patterns model them).
 - Forms constrain: typed inputs, masks, required markers, disabled-until-valid submits, in-domain defaults (a corn contract at the river terminal).
 - State is always visible — status column, counters, "updated N min ago" — so the gulf of evaluation stays closed.
-- Keep the conceptual model honest across both surfaces: the preview and the portal must behave the same, or the user's model fractures.
+- Keep the conceptual model honest across the whole portal: the same control must behave the same everywhere, or the user's model fractures.
 
 ## Reviewing a flow
 

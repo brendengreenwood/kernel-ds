@@ -6,8 +6,8 @@ user-invocable: true
 
 # Typesetting, rhythm & layout — done well
 
-These are craft principles, not project plumbing. They apply whether you're in
-`.tsx`, `portal.css`, or the HTML preview. Kernel is the instantiation: a **4pt
+These are craft principles, not project plumbing. They apply anywhere in the
+portal's `.tsx` and CSS. Kernel is the instantiation: a **4pt
 baseline grid** (`--spacing: 0.24rem` = 4px), a modular type scale, native font
 stacks, tabular numerals. Learn the principle; snap it to the grid.
 

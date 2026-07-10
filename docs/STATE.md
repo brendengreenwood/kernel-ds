@@ -9,35 +9,36 @@
 The **Kernel design system** for a grain-buying merchant platform — a
 **merchant strategic pricing tool** (bids, basis, contracts) with an
 **origination** experience (offers, producers) and a CRUD core throughout
-(loads, farms, bushels, settlement). It ships as two mirrored surfaces
-that must stay in sync:
+(loads, farms, bushels, settlement). It ships as a **single surface**
+(decision 0022; the hand-maintained static preview was retired 2026-07-10 —
+see `archive/2026-07-10-static-preview.md`):
 
-1. **Static preview** — `Kernel Design System.html` + `theme.css` +
-   `portal.css` + `portal.js` at the repo root. Zero-build, open-in-browser.
-2. **Real build** — `kernel-portal/`: a runnable Vite 8 + React 19 +
-   TypeScript portal using shadcn/ui (Base UI, `base-nova` style — see
-   decision 0005) + Tailwind CSS v4 + React Router. Tokens live in `kernel-portal/src/index.css`; components in
-   `src/components/ui/` (shadcn) and `src/components/portal/` (portal
-   sections); entry `src/main.tsx` → `src/pages/portal-layout.tsx` with a
-   route per rail item (decision 0011). Deploys to Netlify
-   (`netlify.toml`: build to `dist/`, SPA redirect).
+- **`kernel-portal/`** — a runnable Vite 8 + React 19 + TypeScript portal
+  using shadcn/ui (Base UI, `base-nova` style — see decision 0005) +
+  Tailwind CSS v4 + React Router. Tokens live in
+  `kernel-portal/src/index.css`; components in `src/components/ui/`
+  (shadcn) and `src/components/portal/` (portal sections); entry
+  `src/main.tsx` → `src/pages/portal-layout.tsx` with a route per rail
+  item (decision 0011). Deploys to Netlify (`netlify.toml`: build to
+  `dist/`, SPA redirect).
 
-Both surfaces are **per-page** (decision 0011): every side-rail item is
-its own route (portal) / hash-routed page (preview), not a section of one
-long scroll.
+The portal is **per-page** (decision 0011): every side-rail item is its
+own route, not a section of one long scroll.
 
 ## Current state
 
-- Both surfaces verified mirrored by the 2026-07-03 sync audit (tokens,
-  values, nav, sections, HTML token reference; build passes).
+- **Static preview retired** (decision 0022, 2026-07-10): the four root
+  preview files are deleted; the portal is the single surface. The
+  mirror/parity rituals are obsolete; preview-specific state is archived
+  to `archive/2026-07-10-static-preview.md`.
 - **2026-07-10 full project audit** (`docs/audit/2026-07-10-project-audit.md`):
   parity, conventions, a11y gates, build health, and docs freshness re-proved
   after the 47-commit fast-forward to `880a721`. 8 mechanical findings fixed
   inline; 7 non-trivial items added to the backlog (see backlog #5).
 - Full token system: two-layer color tokens (50→950 scales + semantic layer;
   notification scales run 50→900 by design — decision 0004),
-  12-step type scale, spacing, shadows, radius — defined in both `theme.css`
-  and `kernel-portal/src/index.css`, light + dark.
+  12-step type scale, spacing, shadows, radius — defined in
+  `kernel-portal/src/index.css`, light + dark.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of
@@ -48,7 +49,7 @@ long scroll.
 - **Component lifecycle statuses** (decision 0006): experimental/ready/
   deprecated tracked in `kernel-portal/src/lib/component-meta.ts`, shown as
   Primer-style per-component side-rail entries with maturity pills and a
-  Component status overview section — both surfaces. Currently ready 57 /
+  Component status overview section. Currently ready 57 /
   experimental 11: Tabs, the three portal-only elements (Border beam,
   Commodity tags, Animated number), five patterns (Navigation, Advanced
   filtering, Origination flow, Pricing worksheet, Modals), and the two
@@ -64,30 +65,27 @@ long scroll.
   destructive-foreground/destructive 3.50:1, muted-foreground/muted 3.68:1
   dark and 4.10:1 light). All Badge/Alert/StatusBadge soft fills pass.
 - **Contrast fixes applied** (backlog #3, part 2 — 2026-07-04): the three
-  role-token L nudges landed on both surfaces (light muted-foreground to
+  role-token L nudges landed in the token layer (light muted-foreground to
   0.535 for strict-check headroom); re-run reports 62 pairs, 0 AA failures.
-- **Mobile ergonomics** (decision 0007, 2026-07-03): preview has a
-  hamburger → drawer nav below 880px (was: no nav at all); form controls
-  have a 16px floor on phones so iOS doesn't zoom on focus; compact
-  controls get ≥44px effective touch targets on coarse pointers via
-  invisible pseudo-element hit extensions (both surfaces); the app-shell
-  demo stacks below 720px/`md`. Round 2: preview tables scroll in place
-  instead of amputating columns (`.table-wrap` overflow-x,
-  `.crud-scroll` wrappers), ramp cells no longer overflow
-  (`minmax(0,1fr)` / `min-w-0`), overlays verified fitting at 390px.
-  Comfortable touch sizing (decision 0009, amends 0007): on coarse
-  pointers primary controls visibly grow to 44px min-height (compact 40px)
-  on both surfaces; invisible hit extensions remain for deliberately-small
-  controls. Repeatable check: `kernel-portal/scripts/mobile-audit.mjs`
-  (playwright) — overflow, clipped content, sub-16px inputs, effective hit
-  areas; currently preview 0/0/0/0, portal clean except two by-design demo
-  internals. Extended 2026-07-04 to nav rows: sidebar menu buttons (portal)
-  and the preview drawer's `.nav-link` grow to 44px on coarse pointers,
-  and the portal's per-component rail list is now normal menu rows (dot +
-  label), not a smaller nested sub-tree — the rail reads as one style.
+- **Mobile ergonomics** (decision 0007, 2026-07-03): form controls have a
+  16px floor on phones so iOS doesn't zoom on focus; compact controls get
+  ≥44px effective touch targets on coarse pointers via invisible
+  pseudo-element hit extensions; the app-shell demo stacks below
+  720px/`md`. Tables scroll in place instead of amputating columns, ramp
+  cells no longer overflow (`minmax(0,1fr)` / `min-w-0`), overlays
+  verified fitting at 390px. Comfortable touch sizing (decision 0009,
+  amends 0007): on coarse pointers primary controls visibly grow to 44px
+  min-height (compact 40px); invisible hit extensions remain for
+  deliberately-small controls. Repeatable check:
+  `kernel-portal/scripts/mobile-audit.mjs` (playwright) — overflow,
+  clipped content, sub-16px inputs, effective hit areas; currently clean
+  except two by-design demo internals. Extended 2026-07-04 to nav rows:
+  sidebar menu buttons grow to 44px on coarse pointers, and the
+  per-component rail list is now normal menu rows (dot + label), not a
+  smaller nested sub-tree — the rail reads as one style.
 - **Commodity color coding** (decision 0013, 2026-07-05): a dedicated
   `--commodity-*` categorical family (corn gold, canola yellow, soybean
-  green, wheat tan) — four full 50→950 OKLCH scales on both surfaces +
+  green, wheat tan) — four full 50→950 OKLCH scales +
   `<CommodityBadge>` for tags. A semantic sibling to the abstract `--viz-*`
   palette; distinct from status (lifecycle) and notification (events).
   Contrast-audit covers it (70 pairs, 0 AA failures).
@@ -95,27 +93,22 @@ long scroll.
   `border-beam` (MIT) wired as an opt-in `borderBeam` prop on Button,
   Input, Card via a shared `BeamWrap` that only mounts when set; beam
   `theme` follows app light/dark. `/border-beam` route + rail entry +
-  demo. **Portal-only** — a deliberate, recorded exception to the mirror
-  rule (the static preview can't import a React package).
+  demo. Was **portal-only** under the mirror-era carve-out (decision
+  0012); moot since decision 0022 — everything is portal-only now.
 - **Per-page information architecture** (decision 0011, 2026-07-04):
   every rail destination is its own page. Portal uses React Router nested
   routes under `PortalLayout` (one route per section; `/components` index
   + `/components/:slug` drill-down driven by a `galleryClusters` registry
-  split out of the old single gallery). Preview uses a `portal.js` hash
-  router showing one `.section.is-active` at a time (sub-anchors resolve
-  to their section), gated on a pre-paint `.js` class. Old `#anchor`
-  bookmarks redirect to routes via `routeForAnchor()`. The two rails
-  mirror at destination level; per-component pages are portal-only by
-  design (the preview rail never had per-component entries).
+  split out of the old single gallery). Old `#anchor` bookmarks redirect
+  to routes via `routeForAnchor()`.
 - **Control density tokens** (decision 0010, 2026-07-04): `--control-h-sm/
-  -h/-h-lg` (32/38/44px) drive button/input/select heights on both
-  surfaces; default raised 32 → 38px on the portal (converging with the
-  preview, which was already 38). Coarse pointers redefine the tokens
+  -h/-h-lg` (32/38/44px) drive button/input/select heights; default
+  raised 32 → 38px on 2026-07-04. Coarse pointers redefine the tokens
   (40/44/48) — now the primary mechanism of 0009's touch sizing. Table
   density modes remain a separate axis. Follow-up 2026-07-04: swept the
   last call-site hardcoded control heights (filter builder, date presets,
   flows settings select, form-elements size demos, workspace search,
-  command palette, preview `.fb`) onto the tokens, so no control height
+  command palette) onto the tokens, so no control height
   is hardcoded outside the deliberate `xs` button size.
 - Netlify deploy configured for `kernel-portal` (build command, publish dir,
   SPA redirect).
@@ -123,42 +116,39 @@ long scroll.
   portal is treated as a first-class application of the system, not just its
   docs. Named type roles live in one source (`src/lib/type-styles.ts`); the
   portal chrome (`Section`/`Subhead`/`GroupHeader`) and the Typography
-  specimen both import it, and the preview chrome CSS mirrors the roles — so
-  docs and app render the same styles, no drift. Example screens are held to
+  specimen both import it — so docs and app render the same styles, no
+  drift. Example screens are held to
   the same bar (commodity-coding + this type pass are the first slices; more
   example-screen rigor is in flight).
 - **Mobile documentation-portal patterns** (decision 0015, 2026-07-05):
   a global sequential prev/next `<DocPager>` at the foot of every page
   (order in `src/lib/page-order.ts` = the rail order; component pages after
   the Components index), mounted once in `PortalLayout`; mobile-first cards,
-  Overline labels from `typeStyles`. Preview mirrors it via a `#doc-pager`
-  populated by `portal.js`. Opens the mobile-doc-pattern area (on-this-page,
-  compact header, bottom tab bar are candidates next).
-- **Motion system** (decision 0018, 2026-07-08): motion tokens on both
-  surfaces — durations (`--duration-fast/-base/-slow` 120/200/320ms) + easings
+  Overline labels from `typeStyles`. Opens the mobile-doc-pattern area
+  (on-this-page, compact header, bottom tab bar are candidates next).
+- **Motion system** (decision 0018, 2026-07-08): motion tokens —
+  durations (`--duration-fast/-base/-slow` 120/200/320ms) + easings
   (`--ease-out`/`-in-out`/`-spring`) — plus a `prefers-reduced-motion` guard
   that near-zeros animation everywhere (verified: 0.15s → ~0 under reduce).
-  Engines are opt-in npm libs, portal-only (decision 0012). Adopted:
+  Engines are opt-in npm libs. Adopted:
   `@number-flow/react` via `<AnimatedNumber>` (counts up on mount, rolls on
   change, honors reduced-motion) on the dashboard KPIs + settlement net
   payable, and `@formkit/auto-animate` (shared `autoAnimateConfig`) on the
   filter builder rows + applied-filter chips. Candidate next: `motion`.
 - **Motion system + foundation page** (decision 0018): timing + easing
-  tokens (`--duration-*`/`--ease-*`) on both surfaces with a reduced-motion
-  guard; a **Motion** Foundations rail page (`/motion`) documents them with
-  replayable track demos, plus a portal-only polish showcase. Engines adopted
-  (portal-only): `@number-flow/react` (`<AnimatedNumber>`), `@formkit/
+  tokens (`--duration-*`/`--ease-*`) with a reduced-motion guard; a
+  **Motion** Foundations rail page (`/motion`) documents them with
+  replayable track demos, plus a polish showcase. Engines adopted:
+  `@number-flow/react` (`<AnimatedNumber>`), `@formkit/
   auto-animate` (`autoAnimateConfig`), `motion` (Framer `AnimatePresence`).
-- **Icon library: MDI** (decision 0019, 2026-07-09): both surfaces use
-  Material Design Icons. Portal glyphs import from a shim
+- **Icon library: MDI** (decision 0019, 2026-07-09): icons are
+  Material Design Icons. Glyphs import from a shim
   `src/components/ui/icon.tsx` (lucide-named components backed by `@mdi/js`
   paths, lucide-compatible API); all 42 files that imported `lucide-react`
-  were redirected to it and `lucide-react` was removed. Preview `<svg>`s are
-  single-path MDI (`fill="currentColor"`), incl. the `portal.css` select
-  arrows + `portal.js` pager chevrons. Prefer `*Outline` variants so the
-  filled set stays close to lucide's weight.
+  were redirected to it and `lucide-react` was removed. Prefer `*Outline`
+  variants so the filled set stays close to lucide's weight.
 - **Adoption = copy-in token layer** (decision 0020, 2026-07-09): the Install &
-  usage page (both surfaces) tells you to copy Kernel's `:root`/`.dark`/
+  usage page tells you to copy Kernel's `:root`/`.dark`/
   `@theme inline` blocks into a shadcn/ui project — not run a tweakcn command
   (which only carried base roles). The portal's step-5 token reference renders
   live from `src/index.css` via `?raw`, so it can't drift.
@@ -167,7 +157,7 @@ long scroll.
   comfortable** on the `--control-h-*` tokens (same language as table density);
   every tab takes a leading MDI icon, a trailing count badge (`<TabCount>` /
   `.tab-count`), and a notification dot (`<TabDot>` / `.tab-dot`) or inline
-  glyph. Strips scroll in place on mobile (0 overflow at 390px). Both surfaces.
+  glyph. Strips scroll in place on mobile (0 overflow at 390px).
 - Docs system (this directory) in place — see decision 0001.
 - **Project skills** (`.agents/skills/`, 2026-07-05): the CLAUDE.md rituals
   are invocable skills — `kernel-token`, `kernel-feature`, `kernel-verify`,
@@ -195,11 +185,11 @@ long scroll.
   and **Modals** (configuration axes, not use cases: xs/sm/md/lg size
   ladder · standard/split/stacked footers · capped scrolling body ·
   dismissable vs must-choose, with a working Escape/outside-click-refusing
-  demo) — both surfaces, experimental. Landed 2026-07-09: **Pricing worksheet**
+  demo) — experimental. Landed 2026-07-09: **Pricing worksheet**
   (bid worksheet: board + basis → cash bid, sell basis − costs → margin · margin
   ladder: the win-bushels-vs-hold-margin trade-off with the posted basis marked ·
-  bid board: cash bids by location × delivery, publish) — both surfaces,
-  experimental; the desk-facing pattern for the pricing-strategy / sales-execution
+  bid board: cash bids by location × delivery, publish) — experimental;
+  the desk-facing pattern for the pricing-strategy / sales-execution
   positioning. Candidates next: bulk-edit pattern, saved-view management.
 
 ## Backlog (in priority order)
@@ -209,17 +199,18 @@ long scroll.
    capped at two worked examples (contract detail, settlement statement);
    load ticket entry and basis & bid board dropped.
 3. **Accessibility pass** — part 1 (contrast audit + report) ✓ 2026-07-03;
-   part 2 (role-token fixes applied, both surfaces) ✓ 2026-07-04.
-   Remaining: focus states, keyboard nav in interactive patterns, a
-   preview-CSS pairing pass, and per-component reviews to flip the
+   part 2 (role-token fixes applied) ✓ 2026-07-04.
+   Remaining: focus states, keyboard nav in interactive patterns, and
+   per-component reviews to flip the
    `component-meta.ts` a11y column from `pending` to `reviewed`.
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
 5. **2026-07-10 audit follow-ups** (details in
    `docs/audit/2026-07-10-project-audit.md`): code-split the portal bundle
-   (single 1,862 kB JS chunk); migrate portal.css’s ~30 raw duration literals
-   onto the motion tokens (and decide on navigation-menu’s vendored 350ms);
+   (single 1,862 kB JS chunk); decide on navigation-menu’s vendored 350ms
+   duration (the preview-CSS motion-literal migration is moot — file retired,
+   decision 0022);
    give the 30px filter chip (`filters.tsx`) a home in the size system;
    resolve the `tabsListVariants` fast-refresh warning (export location);
    backfill worklog entries for `8545649` and `bdd3b1d`; portability pass on
@@ -233,8 +224,8 @@ long scroll.
   (menu/list that drives the canvas) · workspace canvas · chat assistant.
   Rail switches areas (Origination/Pricing), list selection drives the
   record; context column and chat become overlays below lg/xl. Linked
-  from the docs rail ("Workspace demo ↗"). Route-level experiment only —
-  no static-preview mirror until/unless it graduates to a pattern.
+  from the docs rail ("Workspace demo ↗"). Route-level experiment only
+  until/unless it graduates to a pattern.
 
 ## Open questions
 
