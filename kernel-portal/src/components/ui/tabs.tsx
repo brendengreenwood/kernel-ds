@@ -51,6 +51,7 @@ function TabsList({
   className,
   variant = "pill",
   size = "default",
+  activateOnFocus = true,
   ...props
 }: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
   return (
@@ -58,6 +59,7 @@ function TabsList({
       data-slot="tabs-list"
       data-variant={variant}
       data-size={size}
+      activateOnFocus={activateOnFocus}
       className={cn(tabsListVariants({ variant, size }), className)}
       {...props}
     />
@@ -139,5 +141,4 @@ export {
   TabsContent,
   TabCount,
   TabDot,
-  tabsListVariants,
 }
