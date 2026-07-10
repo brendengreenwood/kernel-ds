@@ -8,6 +8,8 @@ Two kinds of documentation live here, and the distinction is the whole point:
 | `worklog/` | "What was **done**, when, and why?" | Append-only — entries are never rewritten |
 | `decisions/` | "**Why** is the system shaped this way?" | Immutable — superseded, never edited |
 | `archive/` | "What used to be true?" | Cold storage — date-stamped, read-only |
+| `a11y/` | "How accessible is it, as **measured**?" | Point-in-time reports — date-stamped, read-only |
+| `audit/` | "Did reality match the **invariants** on date X?" | Point-in-time reports — date-stamped, read-only |
 
 ## The process (follow on every change)
 
