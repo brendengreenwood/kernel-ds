@@ -32,7 +32,7 @@ long scroll.
   values, nav, sections, HTML token reference; build passes).
 - **2026-07-10 full project audit** (`docs/audit/2026-07-10-project-audit.md`):
   parity, conventions, a11y gates, build health, and docs freshness re-proved
-  after the 47-commit fast-forward to `880a721`. 5 mechanical findings fixed
+  after the 47-commit fast-forward to `880a721`. 8 mechanical findings fixed
   inline; 7 non-trivial items added to the backlog (see backlog #5).
 - Full token system: two-layer color tokens (50→950 scales + semantic layer;
   notification scales run 50→900 by design — decision 0004),

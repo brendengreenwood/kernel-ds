@@ -19,8 +19,9 @@ health, and docs freshness.
 - **Evidence:** raw command transcripts live in the session proof bundle
   (`gates/`, `fixes/NN-<slug>/{red,green}.txt`, `screenshots/`, `demo.md`) —
   outside the repo, referenced below by filename. Repo-side evidence is the
-  three audit commits: `a3e4931` (parity), `b83ba31` (conventions), `019b253`
-  (docs freshness).
+  audit commits: `a3e4931` (parity), `b83ba31` (conventions), `019b253`
+  (docs freshness), and the Phase 6 ship-check fix commit (adversarial
+  review: three more unused-import removals + report corrections).
 
 ## Methodology
 
@@ -51,7 +52,7 @@ All portal commands from `kernel-portal/`; everything else from repo root.
   - Found: `--shadow-color` present in theme.css `:root` and `.dark` and in
     index.css `:root`, but **missing from index.css `.dark`** — dark-mode
     shadows in the portal silently fell back to the light value. Fixed
-    (commit `a3e4931`, +1 line). Evidence: `fixes/01-shadow-color-dark/`.
+    (commit `a3e4931`, +1 line). Evidence: `fixes/01-shadow-color-dark-block/`.
   - index.css-only names (shadcn bridge layer: `--background`, `--primary`,
     sidebar vars, etc.) all resolve to Kernel tokens via `var(...)`, except
     five literal shadow-geometry primitives (`--shadow-opacity`, `--shadow-blur`,
@@ -78,13 +79,18 @@ All portal commands from `kernel-portal/`; everything else from repo root.
 | 5 | Status vs notification separation (decision 0003) | **Clean** at component level — status tokens only in status UI, notification scales only in alert/notification UI. (Token-definition aliases like `--status-settled: var(--success-500)` are the sanctioned bridge, not contamination.) |
 | 6 | Commodity OKLCH identity across three surfaces | **Clean** — 421 literal oklch values in the HTML (88 commodity + 333 other) all match theme.css; theme.css ↔ index.css identity proven by the parity script (0 drift) |
 
-- Lint: 53 warnings → 52. Fixed the unused `StatusBadge` import at
-  `kernel-portal/src/components/portal/dashboard.tsx:8` (the `type Status`
-  import on the same line is used and stays) — commit `b83ba31`. The one
-  remaining named warning, `tabsListVariants` fast-refresh (`tabs.tsx:142`),
-  needs an export-location decision → **backlog**.
+- Lint: 53 warnings → 49, 0 errors. Fixed four unused imports:
+  `StatusBadge` at `dashboard.tsx:8` (the `type Status` import on the same
+  line is used and stays) — commit `b83ba31`; plus `ChevronRight`
+  (`nav-patterns.tsx:7`), `AvatarImage` (`gallery-data.tsx:17`), and `Info`
+  (`form-elements.tsx:15`) — ship-check commit, found via adversarial
+  review. Zero `no-unused-vars` warnings remain; all 49 remaining are
+  fast-refresh/other classes. The named one, `tabsListVariants` fast-refresh
+  (`tabs.tsx:142`), needs an export-location decision → **backlog**.
 - Evidence: `gates/conventions.txt`, `gates/lint-before.txt` (53) /
-  `gates/lint-after.txt` (52), `fixes/02-statusbadge-import/`.
+  `gates/lint-after.txt` (49), `fixes/02-unused-statusbadge-import/`,
+  `fixes/06-unused-chevronright-import/`, `fixes/07-unused-avatarimage-import/`,
+  `fixes/08-unused-info-import/`.
 
 ### 3 · A11y gates + mobile/visual — clean (1 accepted exception)
 
@@ -142,13 +148,17 @@ All in commit `019b253`; transcripts in `gates/docs-freshness.txt`.
 
 ### 6 · Environment/skills + untracked artifacts — report-only
 
-- `.agents/skills/kernel-verify/SKILL.md` hardcodes Linux-sandbox paths
-  (`/opt/...`) that don't exist on this Windows machine, and references a
-  theme storageKey that doesn't match the portal's actual next-themes setup
-  (`kernel-portal/src/main.tsx` uses the default `theme` key) → **backlog**.
+- `.agents/skills/kernel-verify/SKILL.md` (in-repo) hardcodes
+  Linux-sandbox paths (`/opt/...`, lines 30–31/47–48) that don't exist on
+  this Windows machine, and its dark-mode recipe (line 49) uses a
+  `vite-ui-theme` storageKey that doesn't match the portal's actual
+  next-themes setup (`kernel-portal/src/main.tsx` passes no `storageKey`,
+  so the default `theme` key applies) → **backlog**. Evidence:
+  `gates/skill-drift.txt`.
 - `.agents/skills/kernel-ship/SKILL.md` encodes environment-specific rules
   (working-branch name, sandbox-proxy notes, commit trailers) that have
   drifted from the current environment → **backlog** (review pass).
+  Evidence: `gates/skill-drift.txt`.
 - **Untracked local artifacts** (inventoried, untouched per user decision):
 
 | Path | Kind | Size | Apparent purpose |
@@ -162,8 +172,8 @@ All in commit `019b253`; transcripts in `gates/docs-freshness.txt`.
 
 | # | Finding | Class | Disposition | Evidence |
 |---|---|---|---|---|
-| 1 | `--shadow-color` missing from index.css `.dark` | mechanical | fixed | `a3e4931`, `fixes/01-shadow-color-dark/` |
-| 2 | Unused `StatusBadge` import, `dashboard.tsx:8` | mechanical | fixed | `b83ba31`, `fixes/02-statusbadge-import/` |
+| 1 | `--shadow-color` missing from index.css `.dark` | mechanical | fixed | `a3e4931`, `fixes/01-shadow-color-dark-block/` |
+| 2 | Unused `StatusBadge` import, `dashboard.tsx:8` | mechanical | fixed | `b83ba31`, `fixes/02-unused-statusbadge-import/` |
 | 3 | STATE `Last touched` stale (07-05 → 07-10) | mechanical | fixed | `019b253`, `fixes/03-state-last-touched/` |
 | 4 | STATE experimental list stale (pre-promotion) | mechanical | fixed | `019b253`, `fixes/04-state-experimental-list/` |
 | 5 | Decision 0016 status line not marked superseded | mechanical | fixed | `019b253`, `fixes/05-decision-0016-superseded/` |
@@ -174,14 +184,19 @@ All in commit `019b253`; transcripts in `gates/docs-freshness.txt`.
 | 10 | `filters.tsx:25` `h-[30px]` chip, no matching token | non-trivial | backlog | `gates/conventions.txt` |
 | 11 | portal.css motion literals (~30) + `duration-[0.35s]` | non-trivial | backlog | `gates/conventions.txt` |
 | 12 | 2 worklog gaps (`8545649`, `bdd3b1d`) | non-trivial | backlog | `gates/docs-freshness.txt` |
-| 13 | kernel-verify skill: Linux paths + storageKey drift | non-trivial | backlog | report §6 |
-| 14 | kernel-ship skill: environment-rule drift | non-trivial | backlog | report §6 |
+| 13 | kernel-verify skill: Linux paths + storageKey drift | non-trivial | backlog | `gates/skill-drift.txt` |
+| 14 | kernel-ship skill: environment-rule drift | non-trivial | backlog | `gates/skill-drift.txt` |
 | 15 | Untracked artifacts (4 entries, ~78 MB) | — | report-only (user decision) | report §6 |
 | 16 | Decision header format drift (0019–0021) | — | report-only (cosmetic) | `gates/docs-freshness.txt` |
 | 17 | A11y backlog #3 part 3 not started | — | status reported (separate tracked effort) | STATE backlog #3 |
+| 18 | Unused `ChevronRight` import, `nav-patterns.tsx:7` | mechanical | fixed (ship-check commit) | `fixes/06-unused-chevronright-import/` |
+| 19 | Unused `AvatarImage` import, `gallery-data.tsx:17` | mechanical | fixed (ship-check commit) | `fixes/07-unused-avatarimage-import/` |
+| 20 | Unused `Info` import, `form-elements.tsx:15` | mechanical | fixed (ship-check commit) | `fixes/08-unused-info-import/` |
 
-**Totals:** 5 mechanical (all fixed, red→green captured) · 7 non-trivial
-(backlogged) · 5 accepted/report-only/status.
+**Totals:** 8 mechanical (all fixed, red→green captured) · 7 non-trivial
+(backlogged) · 5 accepted/report-only/status. Findings 18–20 were surfaced
+by the Phase 6 adversarial review (18 directly; 19–20 by the follow-up
+sweep it prompted).
 
 ## Backlog (feeds STATE)
 
