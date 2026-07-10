@@ -5,6 +5,9 @@ import { Separator } from "@/components/ui/separator"
 import { AppSidebar } from "@/components/portal/app-sidebar"
 import { DocPager } from "@/components/portal/doc-pager"
 import { ModeToggle } from "@/components/mode-toggle"
+import { buttonVariants } from "@/components/ui/button"
+import { Github } from "@/components/ui/icon"
+import { cn } from "@/lib/utils"
 
 /** On navigation, jump to top (or to the in-page anchor when the URL has a hash). */
 function ScrollManager() {
@@ -35,7 +38,16 @@ export default function PortalLayout() {
             Kernel <span className="opacity-40">/</span>{" "}
             <span className="font-medium text-foreground">Design System</span>
           </span>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-2">
+            <a
+              href="https://github.com/brendengreenwood/kernel-ds"
+              target="_blank"
+              rel="noreferrer"
+              className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+            >
+              <Github className="h-[1.2rem] w-[1.2rem]" />
+              <span className="sr-only">GitHub repository</span>
+            </a>
             <ModeToggle />
           </div>
         </header>
