@@ -1,6 +1,6 @@
 # 0016 — Cargill orange is the action color; green is navigation
 
-Date: 2026-07-08 · Status: accepted
+Date: 2026-07-08 · Status: superseded by 0017
 
 ## Context
 

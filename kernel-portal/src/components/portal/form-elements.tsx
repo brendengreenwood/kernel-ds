@@ -12,7 +12,6 @@ import {
   UploadCloud,
   FileText,
   X,
-  Info,
   AlertCircle,
 } from "@/components/ui/icon"
 

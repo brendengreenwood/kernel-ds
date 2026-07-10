@@ -5,7 +5,7 @@ import { Truck, FileText, Banknote, TrendingUp, TrendingDown } from "@/component
 
 import { cn } from "@/lib/utils"
 import { Section, Subhead } from "./section"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { type Status } from "@/components/ui/status-badge"
 import { AnimatedNumber } from "@/components/ui/animated-number"
 import { type Format } from "@number-flow/react"
 

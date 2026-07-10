@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-05
+> Last touched: 2026-07-10
 
 ## What this project is
 
@@ -30,6 +30,10 @@ long scroll.
 
 - Both surfaces verified mirrored by the 2026-07-03 sync audit (tokens,
   values, nav, sections, HTML token reference; build passes).
+- **2026-07-10 full project audit** (`docs/audit/2026-07-10-project-audit.md`):
+  parity, conventions, a11y gates, build health, and docs freshness re-proved
+  after the 47-commit fast-forward to `880a721`. 8 mechanical findings fixed
+  inline; 7 non-trivial items added to the backlog (see backlog #5).
 - Full token system: two-layer color tokens (50→950 scales + semantic layer;
   notification scales run 50→900 by design — decision 0004),
   12-step type scale, spacing, shadows, radius — defined in both `theme.css`
@@ -44,8 +48,11 @@ long scroll.
 - **Component lifecycle statuses** (decision 0006): experimental/ready/
   deprecated tracked in `kernel-portal/src/lib/component-meta.ts`, shown as
   Primer-style per-component side-rail entries with maturity pills and a
-  Component status overview section — both surfaces. Currently
-  experimental: the five delta-flagged components + contract-detail. A11y
+  Component status overview section — both surfaces. Currently ready 57 /
+  experimental 11: Tabs, the three portal-only elements (Border beam,
+  Commodity tags, Animated number), five patterns (Navigation, Advanced
+  filtering, Origination flow, Pricing worksheet, Modals), and the two
+  domain patterns (Contract detail, Settlement statement). A11y
   review column is `pending` everywhere until backlog #3 runs.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
@@ -209,6 +216,15 @@ long scroll.
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
+5. **2026-07-10 audit follow-ups** (details in
+   `docs/audit/2026-07-10-project-audit.md`): code-split the portal bundle
+   (single 1,862 kB JS chunk); migrate portal.css’s ~30 raw duration literals
+   onto the motion tokens (and decide on navigation-menu’s vendored 350ms);
+   give the 30px filter chip (`filters.tsx`) a home in the size system;
+   resolve the `tabsListVariants` fast-refresh warning (export location);
+   backfill worklog entries for `8545649` and `bdd3b1d`; portability pass on
+   the kernel-verify / kernel-ship skills (Linux paths, theme storageKey,
+   environment rules).
 
 ## Experiments
 
