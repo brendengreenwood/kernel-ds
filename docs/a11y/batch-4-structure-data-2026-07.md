@@ -62,10 +62,12 @@ Date Picker, App shell (pattern), Tables (element).
 - **`/tables` sort headers are visual specimens** — static spans showing the
   sort-indicator styling, no handlers. The working sortable implementation is
   Data Table on `/components/table`, reviewed above.
-- **Charts have no `accessibilityLayer`** (recharts keyboard layer) and no
-  data-table alternative; series values are reachable via pointer tooltip
-  only. Titles + text legends give context. Noted as a follow-up candidate,
-  not an AA failure for decorative demo charts.
+- **Chart component scope** — batch 4 verified chart containers, card titles,
+  and text legends. The page-level Charts row in batch 5 separately verified
+  Recharts' keyboard layer (`svg role="application" tabindex="0"`) plus
+  text axis ticks. A data-table alternative remains a future enhancement
+  candidate for non-demo charts, not an AA failure for these decorative
+  portal specimens.
 - **App shell side-nav items are static `<div>` specimens** (no handlers, no
   pointer cursor) — illustration, not fake interactivity (asserted).
 - Reduced motion: no bespoke animations in this batch (global
