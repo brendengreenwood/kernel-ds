@@ -55,9 +55,19 @@ own route, not a section of one long scroll.
   Commodity tags, Animated number), five patterns (Navigation, Advanced
   filtering, Origination flow, Pricing worksheet, Modals), and the two
   domain patterns (Contract detail, Settlement statement). A11y review
-  column: **Tabs is the first `reviewed`** (2026-07-10,
-  `docs/a11y/tabs-review-2026-07.md`); the rest stay `pending` until
-  backlog #3 finishes.
+  column: **reviewed 66/68** — Tabs (2026-07-10,
+  `docs/a11y/tabs-review-2026-07.md`) plus batch 1 form controls
+  (2026-07-11, `docs/a11y/batch-1-form-controls-2026-07.md`), batch 2
+  overlays & menus minus Drawer (2026-07-11,
+  `docs/a11y/batch-2-overlays-menus-2026-07.md`), and batch 3 content &
+  display (2026-07-11, `docs/a11y/batch-3-content-display-2026-07.md`), and
+  batch 4 structure & data (2026-07-11,
+  `docs/a11y/batch-4-structure-data-2026-07.md`), and batch 5 elements &
+  foundations minus Form elements (2026-07-11,
+  `docs/a11y/batch-5-elements-foundations-2026-07.md`), and batch 6
+  patterns & domain (2026-07-11,
+  `docs/a11y/batch-6-patterns-domain-2026-07.md`) — campaign complete;
+  only Drawer and Form elements stay `pending` (backlogged, see backlog #3).
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
@@ -81,8 +91,9 @@ own route, not a section of one long scroll.
   min-height (compact 40px); invisible hit extensions remain for
   deliberately-small controls. Repeatable check:
   `kernel-portal/scripts/mobile-audit.mjs` (playwright) — overflow,
-  clipped content, sub-16px inputs, effective hit areas; currently clean
-  except two by-design demo internals. Extended 2026-07-04 to nav rows:
+  clipped content, sub-16px inputs, effective hit areas; known campaign
+  exceptions are named in backlog #3 / watch items rather than treated as
+  globally clean. Extended 2026-07-04 to nav rows:
   sidebar menu buttons grow to 44px on coarse pointers, and the
   per-component rail list is now normal menu rows (dot + label), not a
   smaller nested sub-tree — the rail reads as one style.
@@ -211,6 +222,46 @@ own route, not a section of one long scroll.
    `component-meta.ts` a11y column from `pending` to `reviewed`.
    First per-component review done: **Tabs** ✓ 2026-07-10
    (`docs/a11y/tabs-review-2026-07.md`, 20/20 checks).
+   Review campaign in flight: batch 1 form controls ✓ 2026-07-11
+   (13 components, `docs/a11y/batch-1-form-controls-2026-07.md`);
+   batch 2 overlays & menus ✓ 2026-07-11 (12 of 13 reviewed,
+   `docs/a11y/batch-2-overlays-menus-2026-07.md`);
+   batch 3 content & display ✓ 2026-07-11 (15 components,
+   `docs/a11y/batch-3-content-display-2026-07.md`);
+   batch 4 structure & data ✓ 2026-07-11 (10 components, 2 mechanical
+   fixes: Data Table `aria-sort`, expandable-row `aria-expanded`,
+   `docs/a11y/batch-4-structure-data-2026-07.md`);
+   batch 5 elements & foundations ✓ 2026-07-11 (4 of 5 reviewed, 1
+   mechanical fix: 3 icon-button `aria-label`s on /forms,
+   `docs/a11y/batch-5-elements-foundations-2026-07.md`);
+   batch 6 patterns & domain ✓ 2026-07-11 (11 of 11 reviewed, mechanical
+   fixes: duplicate `<main>` landmark removed portal-wide
+   (portal-layout), focus-visible utilities on 3 raw buttons (filters),
+   `htmlFor`/`id` label association ×8 (patterns/flows/origination),
+   `aria-label`s ×4 (filtering-advanced, patterns),
+   `docs/a11y/batch-6-patterns-domain-2026-07.md`) — **reviewed 66/68,
+   campaign complete**; remaining `pending`: Drawer (focus trap,
+   behavioral) and Form elements (Field id plumbing, structural).
+   Watch items from the campaign (disclosed, not blockers): Calendar day-grid
+   buttons are 27×27px at 390px — passes WCAG 2.5.8 AA (≥24px) but below
+   the project 44px bar; dense grid, decision-0007 extension not
+   applicable. Slider's native range input reports h=10px in the mobile
+   audit, while the styled track/thumb remain the functional target.
+   Resizable handle keeps its vendored 1px focus ring (visible both modes)
+   instead of the 3px control ring. `/forms` mobile audit reports one
+   sub-16px text control and the known switch-rail h=18px hit-area flag;
+   Form elements remains pending/backlogged for the Field/id plumbing.
+   Backlogged from batch 2: **Drawer (vaul) does not trap keyboard
+   focus** — with the drawer open, Tab reaches page content behind the
+   overlay (background is aria-hidden, so SR-side is covered; Escape and
+   focus-return work). Behavioral, not mechanical; `a11y` stays
+   `pending` until fixed.
+   Backlogged from batch 5: **Form elements — `Field` demo helper does
+   not associate labels with controls** (`<Label>` without `htmlFor`;
+   23 of 41 specimen inputs on /forms have no programmatic name). Needs
+   `useId` + id plumbing through the Field/InputGroup composition and
+   its ~20 call sites — structural, not mechanical; the Form elements
+   row stays `pending` until fixed.
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.

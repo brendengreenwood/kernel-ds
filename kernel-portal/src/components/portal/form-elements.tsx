@@ -107,7 +107,7 @@ function NumberStepper({ defaultValue = 12 }: { defaultValue?: number }) {
   const [n, setN] = React.useState(defaultValue)
   return (
     <div className="inline-flex items-stretch">
-      <Button variant="outline" size="icon" className="rounded-r-none border-r-0" onClick={() => setN((v) => Math.max(0, v - 1))}>
+      <Button variant="outline" size="icon" aria-label="Decrease value" className="rounded-r-none border-r-0" onClick={() => setN((v) => Math.max(0, v - 1))}>
         <Minus />
       </Button>
       <Input
@@ -115,7 +115,7 @@ function NumberStepper({ defaultValue = 12 }: { defaultValue?: number }) {
         onChange={(e) => setN(Number(e.target.value) || 0)}
         className="w-20 rounded-none text-center font-mono"
       />
-      <Button variant="outline" size="icon" className="rounded-l-none border-l-0" onClick={() => setN((v) => v + 1)}>
+      <Button variant="outline" size="icon" aria-label="Increase value" className="rounded-l-none border-l-0" onClick={() => setN((v) => v + 1)}>
         <Plus />
       </Button>
     </div>
@@ -321,7 +321,7 @@ export function FormElementsSection() {
           <Field label="Contract ID">
             <InputGroup>
               <Input defaultValue="CTR-4471" readOnly className="font-mono" />
-              <Button variant="outline" size="icon"><Copy /></Button>
+              <Button variant="outline" size="icon" aria-label="Copy contract ID"><Copy /></Button>
             </InputGroup>
           </Field>
           <Field label="Delivery date">

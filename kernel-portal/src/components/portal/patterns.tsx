@@ -229,12 +229,12 @@ function RecordForm() {
           <div className="grid gap-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="grid gap-2">
-                <Label>Farm / supplier <span className="text-destructive">*</span></Label>
-                <Input defaultValue="Hartmann Farms" />
+                <Label htmlFor="crud-farm">Farm / supplier <span className="text-destructive">*</span></Label>
+                <Input id="crud-farm" defaultValue="Hartmann Farms" />
               </div>
               <div className="grid gap-2">
-                <Label>Ticket # <span className="text-destructive">*</span></Label>
-                <Input defaultValue="4471" />
+                <Label htmlFor="crud-ticket">Ticket # <span className="text-destructive">*</span></Label>
+                <Input id="crud-ticket" defaultValue="4471" />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -250,8 +250,8 @@ function RecordForm() {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label>Delivery date</Label>
-                <Input defaultValue="Jun 7, 2026" />
+                <Label htmlFor="crud-delivery">Delivery date</Label>
+                <Input id="crud-delivery" defaultValue="Jun 7, 2026" />
               </div>
             </div>
           </div>
@@ -267,12 +267,12 @@ function RecordForm() {
           <div className="grid gap-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="grid gap-2">
-                <Label>Gross weight (bu)</Label>
-                <Input defaultValue="18,640" />
+                <Label htmlFor="crud-gross">Gross weight (bu)</Label>
+                <Input id="crud-gross" defaultValue="18,640" />
               </div>
               <div className="grid gap-2">
-                <Label>Moisture %</Label>
-                <Input defaultValue="16.2" aria-invalid />
+                <Label htmlFor="crud-moisture">Moisture %</Label>
+                <Input id="crud-moisture" defaultValue="16.2" aria-invalid />
                 <p className="text-xs text-destructive">Over 15% — a drying discount will apply.</p>
               </div>
             </div>
@@ -315,7 +315,7 @@ function DetailView() {
         </div>
         <div className="ml-auto flex gap-2">
           <Button size="sm" variant="outline"><Pencil /> Edit</Button>
-          <Button size="sm" variant="outline" className="size-8 p-0"><MoreVertical /></Button>
+          <Button size="sm" variant="outline" className="size-8 p-0" aria-label="More actions"><MoreVertical /></Button>
         </div>
       </div>
       <dl className="grid grid-cols-2 gap-x-6 px-6 pb-5 pt-2">

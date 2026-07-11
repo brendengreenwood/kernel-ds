@@ -112,7 +112,7 @@ function ButtonCluster() {
           <Button size="sm">Small</Button>
           <Button>Default</Button>
           <Button size="lg">Large</Button>
-          <Button size="icon" variant="outline">
+          <Button size="icon" variant="outline" aria-label="Add item">
             <Plus />
           </Button>
           <Button disabled>Disabled</Button>
