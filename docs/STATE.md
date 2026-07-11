@@ -60,7 +60,9 @@ own route, not a section of one long scroll.
   (2026-07-11, `docs/a11y/batch-1-form-controls-2026-07.md`), batch 2
   overlays & menus minus Drawer (2026-07-11,
   `docs/a11y/batch-2-overlays-menus-2026-07.md`), and batch 3 content &
-  display (2026-07-11, `docs/a11y/batch-3-content-display-2026-07.md`);
+  display (2026-07-11, `docs/a11y/batch-3-content-display-2026-07.md`), and
+  batch 4 structure & data (2026-07-11,
+  `docs/a11y/batch-4-structure-data-2026-07.md`);
   the rest stay `pending` until the review campaign (backlog #3) finishes.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
@@ -220,7 +222,15 @@ own route, not a section of one long scroll.
    batch 2 overlays & menus ✓ 2026-07-11 (12 of 13 reviewed,
    `docs/a11y/batch-2-overlays-menus-2026-07.md`);
    batch 3 content & display ✓ 2026-07-11 (15 components,
-   `docs/a11y/batch-3-content-display-2026-07.md`) — **reviewed 41/68**.
+   `docs/a11y/batch-3-content-display-2026-07.md`);
+   batch 4 structure & data ✓ 2026-07-11 (10 components, 2 mechanical
+   fixes: Data Table `aria-sort`, expandable-row `aria-expanded`,
+   `docs/a11y/batch-4-structure-data-2026-07.md`) — **reviewed 51/68**.
+   Watch items from batch 4 (disclosed, not blockers): Calendar day-grid
+   buttons are 27×27px at 390px — passes WCAG 2.5.8 AA (≥24px) but below
+   the project 44px bar; dense grid, decision-0007 extension not
+   applicable. Resizable handle keeps its vendored 1px focus ring
+   (visible both modes) instead of the 3px control ring.
    Backlogged from batch 2: **Drawer (vaul) does not trap keyboard
    focus** — with the drawer open, Tab reaches page content behind the
    overlay (background is aria-hidden, so SR-side is covered; Escape and

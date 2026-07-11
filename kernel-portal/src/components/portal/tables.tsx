@@ -277,7 +277,7 @@ function ExpandableRows() {
                 <React.Fragment key={r.id}>
                   <tr className={cn("transition-colors hover:bg-muted/40", isOpen && "bg-muted/30")}>
                     <td className="border-b px-4 py-3">
-                      <button onClick={() => toggle(r.id)} className="grid size-6 place-items-center rounded-sm text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="Expand">
+                      <button onClick={() => toggle(r.id)} aria-expanded={isOpen} className="grid size-6 place-items-center rounded-sm text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="Expand">
                         <ChevronRight className={cn("size-4 transition-transform", isOpen && "rotate-90")} />
                       </button>
                     </td>
