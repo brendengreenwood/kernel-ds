@@ -53,8 +53,7 @@ Date Picker, App shell (pattern), Tables (element).
   (≥24px); below the project's stricter 44px bar. The decision-0007
   pseudo-element extension is not applicable in a dense grid (it would create
   overlapping targets), and resizing cells is a styling change outside this
-  campaign's do-not list. Recorded as a watch item in STATE (alongside the
-  switch-rail exception).
+  campaign's do-not list. Recorded in STATE with the campaign watch items.
 - **Resizable handle ring is 1px**, not the 3px control ring — vendored
   shadcn styling (`resizable.tsx` `focus-visible:ring-1`). Visible in both
   modes (screenshots); ring-width harmonization would be a styling change,

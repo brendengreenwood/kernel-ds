@@ -4,9 +4,9 @@ Fifth batch of the per-component a11y review campaign (methodology: `tabs-review
 generalized harness). 5 rows: Form elements, Charts (element), Border beam, Commodity tags,
 Animated number. **4 reviewed, 1 backlogged.**
 
-Evidence: harness transcript `gates\batch-5-final.txt` (23 pass / 1 fail), focus-ring screenshots
+Evidence: harness transcript `gates/batch-5-final.txt` (23 pass / 1 fail), focus-ring screenshots
 (light+dark), mobile audits at 390px on all 5 routes — proof bundle
-`kernel-ds-github-button-a11y-campaign.proof\` (gates\, screenshots\batch-5\, fixes\).
+`kernel-ds-github-button-a11y-campaign.proof/` (`gates/`, `screenshots/batch-5/`, `fixes/`).
 
 ## Where each row was exercised
 
