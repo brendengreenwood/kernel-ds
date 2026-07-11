@@ -121,7 +121,7 @@ function SonnerCluster() {
           <Tooltip>
             <TooltipTrigger
               render={
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" aria-label="Add to library">
                   <Plus />
                 </Button>
               }
