@@ -55,9 +55,10 @@ own route, not a section of one long scroll.
   Commodity tags, Animated number), five patterns (Navigation, Advanced
   filtering, Origination flow, Pricing worksheet, Modals), and the two
   domain patterns (Contract detail, Settlement statement). A11y review
-  column: **Tabs is the first `reviewed`** (2026-07-10,
-  `docs/a11y/tabs-review-2026-07.md`); the rest stay `pending` until
-  backlog #3 finishes.
+  column: **reviewed 14/68** — Tabs (2026-07-10,
+  `docs/a11y/tabs-review-2026-07.md`) plus batch 1 form controls
+  (2026-07-11, `docs/a11y/batch-1-form-controls-2026-07.md`); the rest stay
+  `pending` until the review campaign (backlog #3) finishes.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
@@ -211,6 +212,9 @@ own route, not a section of one long scroll.
    `component-meta.ts` a11y column from `pending` to `reviewed`.
    First per-component review done: **Tabs** ✓ 2026-07-10
    (`docs/a11y/tabs-review-2026-07.md`, 20/20 checks).
+   Review campaign in flight: batch 1 form controls ✓ 2026-07-11
+   (13 components, `docs/a11y/batch-1-form-controls-2026-07.md`) —
+   **reviewed 14/68**.
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
