@@ -78,10 +78,10 @@ export const componentMeta: ComponentMeta[] = [
 
   { name: "Form elements", anchor: "forms", group: "element", maturity: "ready", a11y: "pending" },
   { name: "Tables", anchor: "tables", group: "element", maturity: "ready", a11y: "reviewed" },
-  { name: "Charts", anchor: "charts", group: "element", maturity: "ready", a11y: "pending" },
-  { name: "Border beam", anchor: "border-beam", group: "element", maturity: "experimental", a11y: "pending", note: "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card. Portal-only — no static-preview mirror." },
-  { name: "Commodity tags", anchor: "colors", group: "element", maturity: "experimental", a11y: "pending", note: "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)." },
-  { name: "Animated number", anchor: "dashboard", group: "element", maturity: "experimental", a11y: "pending", note: "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018). Portal-only; used on dashboard KPIs + settlement net payable." },
+  { name: "Charts", anchor: "charts", group: "element", maturity: "ready", a11y: "reviewed" },
+  { name: "Border beam", anchor: "border-beam", group: "element", maturity: "experimental", a11y: "reviewed", note: "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card. Portal-only — no static-preview mirror." },
+  { name: "Commodity tags", anchor: "colors", group: "element", maturity: "experimental", a11y: "reviewed", note: "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)." },
+  { name: "Animated number", anchor: "dashboard", group: "element", maturity: "experimental", a11y: "reviewed", note: "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018). Portal-only; used on dashboard KPIs + settlement net payable." },
 
   { name: "App shell", anchor: "appshell", group: "pattern", maturity: "ready", a11y: "reviewed" },
   { name: "Navigation", anchor: "navigation", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; module switcher + nested rail conventions settling." },

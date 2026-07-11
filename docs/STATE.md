@@ -55,14 +55,16 @@ own route, not a section of one long scroll.
   Commodity tags, Animated number), five patterns (Navigation, Advanced
   filtering, Origination flow, Pricing worksheet, Modals), and the two
   domain patterns (Contract detail, Settlement statement). A11y review
-  column: **reviewed 41/68** — Tabs (2026-07-10,
+  column: **reviewed 55/68** — Tabs (2026-07-10,
   `docs/a11y/tabs-review-2026-07.md`) plus batch 1 form controls
   (2026-07-11, `docs/a11y/batch-1-form-controls-2026-07.md`), batch 2
   overlays & menus minus Drawer (2026-07-11,
   `docs/a11y/batch-2-overlays-menus-2026-07.md`), and batch 3 content &
   display (2026-07-11, `docs/a11y/batch-3-content-display-2026-07.md`), and
   batch 4 structure & data (2026-07-11,
-  `docs/a11y/batch-4-structure-data-2026-07.md`);
+  `docs/a11y/batch-4-structure-data-2026-07.md`), and batch 5 elements &
+  foundations minus Form elements (2026-07-11,
+  `docs/a11y/batch-5-elements-foundations-2026-07.md`);
   the rest stay `pending` until the review campaign (backlog #3) finishes.
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
@@ -225,7 +227,10 @@ own route, not a section of one long scroll.
    `docs/a11y/batch-3-content-display-2026-07.md`);
    batch 4 structure & data ✓ 2026-07-11 (10 components, 2 mechanical
    fixes: Data Table `aria-sort`, expandable-row `aria-expanded`,
-   `docs/a11y/batch-4-structure-data-2026-07.md`) — **reviewed 51/68**.
+   `docs/a11y/batch-4-structure-data-2026-07.md`);
+   batch 5 elements & foundations ✓ 2026-07-11 (4 of 5 reviewed, 1
+   mechanical fix: 3 icon-button `aria-label`s on /forms,
+   `docs/a11y/batch-5-elements-foundations-2026-07.md`) — **reviewed 55/68**.
    Watch items from batch 4 (disclosed, not blockers): Calendar day-grid
    buttons are 27×27px at 390px — passes WCAG 2.5.8 AA (≥24px) but below
    the project 44px bar; dense grid, decision-0007 extension not
@@ -236,6 +241,12 @@ own route, not a section of one long scroll.
    overlay (background is aria-hidden, so SR-side is covered; Escape and
    focus-return work). Behavioral, not mechanical; `a11y` stays
    `pending` until fixed.
+   Backlogged from batch 5: **Form elements — `Field` demo helper does
+   not associate labels with controls** (`<Label>` without `htmlFor`;
+   23 of 41 specimen inputs on /forms have no programmatic name). Needs
+   `useId` + id plumbing through the Field/InputGroup composition and
+   its ~20 call sites — structural, not mechanical; the Form elements
+   row stays `pending` until fixed.
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
