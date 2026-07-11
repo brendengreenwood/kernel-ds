@@ -130,10 +130,10 @@ function CounterComposer() {
       </div>
       <div className="grid grid-cols-1 gap-4 px-5 py-4 sm:grid-cols-3">
         <div className="grid gap-2">
-          <Label>Counter price</Label>
+          <Label htmlFor="orig-counter-price">Counter price</Label>
           <span className="relative">
             <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-muted-foreground">$</span>
-            <Input defaultValue="4.20" className="pr-12 pl-7 font-mono" />
+            <Input id="orig-counter-price" defaultValue="4.20" className="pr-12 pl-7 font-mono" />
             <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-muted-foreground">/bu</span>
           </span>
         </div>

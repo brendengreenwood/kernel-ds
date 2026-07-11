@@ -84,18 +84,18 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Animated number", anchor: "dashboard", group: "element", maturity: "experimental", a11y: "reviewed", note: "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018). Portal-only; used on dashboard KPIs + settlement net payable." },
 
   { name: "App shell", anchor: "appshell", group: "pattern", maturity: "ready", a11y: "reviewed" },
-  { name: "Navigation", anchor: "navigation", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; module switcher + nested rail conventions settling." },
-  { name: "Dashboard", anchor: "dashboard", group: "pattern", maturity: "ready", a11y: "pending" },
-  { name: "Filtering", anchor: "filters", group: "pattern", maturity: "ready", a11y: "pending" },
-  { name: "Advanced filtering", anchor: "filtering-advanced", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; builder operator set and persistence model settling." },
-  { name: "CRUD patterns", anchor: "patterns", group: "pattern", maturity: "ready", a11y: "pending" },
-  { name: "Flows", anchor: "flows", group: "pattern", maturity: "ready", a11y: "pending" },
-  { name: "Origination flow", anchor: "origination", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; queue actions and counter-expiry conventions settling." },
-  { name: "Pricing worksheet", anchor: "pricing", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; board→basis→cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative." },
-  { name: "Modals", anchor: "modals", group: "pattern", maturity: "experimental", a11y: "pending", note: "New pattern; size ladder and must-choose rules settling." },
+  { name: "Navigation", anchor: "navigation", group: "pattern", maturity: "experimental", a11y: "reviewed", note: "New pattern; module switcher + nested rail conventions settling." },
+  { name: "Dashboard", anchor: "dashboard", group: "pattern", maturity: "ready", a11y: "reviewed" },
+  { name: "Filtering", anchor: "filters", group: "pattern", maturity: "ready", a11y: "reviewed" },
+  { name: "Advanced filtering", anchor: "filtering-advanced", group: "pattern", maturity: "experimental", a11y: "reviewed", note: "New pattern; builder operator set and persistence model settling." },
+  { name: "CRUD patterns", anchor: "patterns", group: "pattern", maturity: "ready", a11y: "reviewed" },
+  { name: "Flows", anchor: "flows", group: "pattern", maturity: "ready", a11y: "reviewed" },
+  { name: "Origination flow", anchor: "origination", group: "pattern", maturity: "experimental", a11y: "reviewed", note: "New pattern; queue actions and counter-expiry conventions settling." },
+  { name: "Pricing worksheet", anchor: "pricing", group: "pattern", maturity: "experimental", a11y: "reviewed", note: "New pattern; board→basis→cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative." },
+  { name: "Modals", anchor: "modals", group: "pattern", maturity: "experimental", a11y: "reviewed", note: "New pattern; size ladder and must-choose rules settling." },
 
-  { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 1 of 4; API settling while the lineup lands." },
-  { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "pending", note: "Domain pattern 2 of 4; money math reconciles to contract-detail fills." },
+  { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 1 of 4; API settling while the lineup lands." },
+  { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 2 of 4; money math reconciles to contract-detail fills." },
 ]
 
 export const components = componentMeta.filter((c) => c.group === "component")

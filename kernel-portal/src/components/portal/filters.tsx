@@ -26,7 +26,7 @@ function FilterChip({ chip, onRemove }: { chip: Chip; onRemove: () => void }) {
       <span className="font-normal text-muted-foreground">{chip.k}:</span> {chip.v}
       <button
         onClick={onRemove}
-        className="grid size-[19px] place-items-center rounded-full text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
+        className="grid size-[19px] place-items-center rounded-full text-muted-foreground outline-none hover:bg-foreground/10 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
         aria-label={`Remove ${chip.k}`}
       >
         <X className="size-3" />
@@ -106,7 +106,7 @@ export function FiltersSection() {
             ))}
             <button
               onClick={() => setChips([])}
-              className="px-1.5 py-1 text-[12.5px] font-medium text-muted-foreground hover:text-destructive"
+              className="rounded-sm px-1.5 py-1 text-[12.5px] font-medium text-muted-foreground outline-none hover:text-destructive focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               Clear all
             </button>
@@ -149,7 +149,7 @@ export function FiltersSection() {
                   <span className={cn("rounded-full px-1.5 py-px font-mono text-[11px]", on ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground")}>{count}</span>
                 </span>
               ))}
-              <button className="px-2.5 py-2 text-muted-foreground hover:text-foreground" aria-label="Save view"><Plus className="size-[15px]" /></button>
+              <button className="px-2.5 py-2 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50" aria-label="Save view"><Plus className="size-[15px]" /></button>
             </div>
             <div className="p-[18px]">
               <div className="grid min-h-[90px] place-items-center rounded-md border-[1.5px] border-dashed font-mono text-xs text-muted-foreground">

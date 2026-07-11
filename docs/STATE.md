@@ -55,7 +55,7 @@ own route, not a section of one long scroll.
   Commodity tags, Animated number), five patterns (Navigation, Advanced
   filtering, Origination flow, Pricing worksheet, Modals), and the two
   domain patterns (Contract detail, Settlement statement). A11y review
-  column: **reviewed 55/68** — Tabs (2026-07-10,
+  column: **reviewed 66/68** — Tabs (2026-07-10,
   `docs/a11y/tabs-review-2026-07.md`) plus batch 1 form controls
   (2026-07-11, `docs/a11y/batch-1-form-controls-2026-07.md`), batch 2
   overlays & menus minus Drawer (2026-07-11,
@@ -64,8 +64,10 @@ own route, not a section of one long scroll.
   batch 4 structure & data (2026-07-11,
   `docs/a11y/batch-4-structure-data-2026-07.md`), and batch 5 elements &
   foundations minus Form elements (2026-07-11,
-  `docs/a11y/batch-5-elements-foundations-2026-07.md`);
-  the rest stay `pending` until the review campaign (backlog #3) finishes.
+  `docs/a11y/batch-5-elements-foundations-2026-07.md`), and batch 6
+  patterns & domain (2026-07-11,
+  `docs/a11y/batch-6-patterns-domain-2026-07.md`) — campaign complete;
+  only Drawer and Form elements stay `pending` (backlogged, see backlog #3).
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
@@ -230,7 +232,15 @@ own route, not a section of one long scroll.
    `docs/a11y/batch-4-structure-data-2026-07.md`);
    batch 5 elements & foundations ✓ 2026-07-11 (4 of 5 reviewed, 1
    mechanical fix: 3 icon-button `aria-label`s on /forms,
-   `docs/a11y/batch-5-elements-foundations-2026-07.md`) — **reviewed 55/68**.
+   `docs/a11y/batch-5-elements-foundations-2026-07.md`);
+   batch 6 patterns & domain ✓ 2026-07-11 (11 of 11 reviewed, mechanical
+   fixes: duplicate `<main>` landmark removed portal-wide
+   (portal-layout), focus-visible utilities on 3 raw buttons (filters),
+   `htmlFor`/`id` label association ×8 (patterns/flows/origination),
+   `aria-label`s ×4 (filtering-advanced, patterns),
+   `docs/a11y/batch-6-patterns-domain-2026-07.md`) — **reviewed 66/68,
+   campaign complete**; remaining `pending`: Drawer (focus trap,
+   behavioral) and Form elements (Field id plumbing, structural).
    Watch items from batch 4 (disclosed, not blockers): Calendar day-grid
    buttons are 27×27px at 390px — passes WCAG 2.5.8 AA (≥24px) but below
    the project 44px bar; dense grid, decision-0007 extension not

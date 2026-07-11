@@ -52,10 +52,11 @@ export default function PortalLayout() {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-4xl px-6 pb-32 md:px-10">
+        {/* SidebarInset already renders the <main> landmark - keep this a div (one main per page) */}
+        <div className="mx-auto w-full max-w-4xl px-6 pb-32 md:px-10">
           <Outlet />
           <DocPager />
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   )

@@ -71,6 +71,7 @@ function FilterBuilder() {
               </SelectContent>
             </Select>
             <Input
+              aria-label={r.field + " filter value"}
               value={r.value}
               onChange={(e) => update(r.id, { value: e.target.value })}
               className="h-(--control-h-sm) w-44 font-mono text-base md:text-[0.8rem]"
@@ -180,9 +181,9 @@ function DatePresets() {
         </div>
         {preset === "Custom" ? (
           <div className="flex items-center gap-2">
-            <Input className="h-(--control-h-sm) w-32 font-mono" defaultValue="Oct 1, 2026" />
+            <Input aria-label="Custom range start" className="h-(--control-h-sm) w-32 font-mono" defaultValue="Oct 1, 2026" />
             <span className="text-muted-foreground">–</span>
-            <Input className="h-(--control-h-sm) w-32 font-mono" defaultValue="Nov 15, 2026" />
+            <Input aria-label="Custom range end" className="h-(--control-h-sm) w-32 font-mono" defaultValue="Nov 15, 2026" />
           </div>
         ) : (
           <span className="font-mono text-xs text-muted-foreground">

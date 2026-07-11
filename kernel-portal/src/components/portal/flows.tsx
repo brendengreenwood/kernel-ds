@@ -67,12 +67,12 @@ function Wizard() {
         <div className="grid gap-4">
           <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
             <div className="grid gap-1.5">
-              <Label>Delivery window start <span className="text-destructive">*</span></Label>
-              <Input defaultValue="Sep 1, 2026" />
+              <Label htmlFor="flow-win-start">Delivery window start <span className="text-destructive">*</span></Label>
+              <Input id="flow-win-start" defaultValue="Sep 1, 2026" />
             </div>
             <div className="grid gap-1.5">
-              <Label>Delivery window end <span className="text-destructive">*</span></Label>
-              <Input defaultValue="Nov 30, 2026" />
+              <Label htmlFor="flow-win-end">Delivery window end <span className="text-destructive">*</span></Label>
+              <Input id="flow-win-end" defaultValue="Nov 30, 2026" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
