@@ -91,8 +91,9 @@ own route, not a section of one long scroll.
   min-height (compact 40px); invisible hit extensions remain for
   deliberately-small controls. Repeatable check:
   `kernel-portal/scripts/mobile-audit.mjs` (playwright) — overflow,
-  clipped content, sub-16px inputs, effective hit areas; currently clean
-  except two by-design demo internals. Extended 2026-07-04 to nav rows:
+  clipped content, sub-16px inputs, effective hit areas; known campaign
+  exceptions are named in backlog #3 / watch items rather than treated as
+  globally clean. Extended 2026-07-04 to nav rows:
   sidebar menu buttons grow to 44px on coarse pointers, and the
   per-component rail list is now normal menu rows (dot + label), not a
   smaller nested sub-tree — the rail reads as one style.
@@ -241,11 +242,15 @@ own route, not a section of one long scroll.
    `docs/a11y/batch-6-patterns-domain-2026-07.md`) — **reviewed 66/68,
    campaign complete**; remaining `pending`: Drawer (focus trap,
    behavioral) and Form elements (Field id plumbing, structural).
-   Watch items from batch 4 (disclosed, not blockers): Calendar day-grid
+   Watch items from the campaign (disclosed, not blockers): Calendar day-grid
    buttons are 27×27px at 390px — passes WCAG 2.5.8 AA (≥24px) but below
    the project 44px bar; dense grid, decision-0007 extension not
-   applicable. Resizable handle keeps its vendored 1px focus ring
-   (visible both modes) instead of the 3px control ring.
+   applicable. Slider's native range input reports h=10px in the mobile
+   audit, while the styled track/thumb remain the functional target.
+   Resizable handle keeps its vendored 1px focus ring (visible both modes)
+   instead of the 3px control ring. `/forms` mobile audit reports one
+   sub-16px text control and the known switch-rail h=18px hit-area flag;
+   Form elements remains pending/backlogged for the Field/id plumbing.
    Backlogged from batch 2: **Drawer (vaul) does not trap keyboard
    focus** — with the drawer open, Tab reaches page content behind the
    overlay (background is aria-hidden, so SR-side is covered; Escape and

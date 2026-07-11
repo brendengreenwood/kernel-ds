@@ -4,7 +4,7 @@ Fifth batch of the per-component a11y review campaign (methodology: `tabs-review
 generalized harness). 5 rows: Form elements, Charts (element), Border beam, Commodity tags,
 Animated number. **4 reviewed, 1 backlogged.**
 
-Evidence: harness transcript `batch-5-final.txt` (23 pass / 1 fail), focus-ring screenshots
+Evidence: harness transcript `gates\batch-5-final.txt` (23 pass / 1 fail), focus-ring screenshots
 (light+dark), mobile audits at 390px on all 5 routes — proof bundle
 `kernel-ds-github-button-a11y-campaign.proof\` (gates\, screenshots\batch-5\, fixes\).
 
@@ -44,7 +44,7 @@ Evidence: harness transcript `batch-5-final.txt` (23 pass / 1 fail), focus-ring 
 | Animated number | AT exposure | PASS | `role=image`, name = formatted value (482k · 128 · −0.12 · $2.41M) via ElementInternals (number-flow lite.mjs:92,105) — read from the real AX tree via CDP, since internals-ARIA never reflects to DOM attributes |
 | Animated number | Reduced motion | PASS | `respectMotionPreference` default true; AX name final+stable 250ms after load under emulated reduce (decision 0018) |
 | Animated number | Digit encapsulation | PASS | digits live in shadow DOM; AT gets a single labelled image node, not digit soup |
-| all 5 routes | Touch targets @390px | PASS* | `/charts` `/border-beam` `/colors` `/dashboard` 0/0/0/0; `/forms` shows only the switch rail h=18px — known accepted exception (decision 0007 pseudo-element extension) |
+| all 5 routes | Mobile audit @390px | PASS* | `/charts` `/border-beam` `/colors` `/dashboard` 0/0/0/0; `/forms` reports one sub-16px text control plus the switch rail h=18px. Because Form elements is backlogged/pending, these are disclosed with that row rather than treated as clean. |
 
 ## Backlogged (row stays `pending`)
 

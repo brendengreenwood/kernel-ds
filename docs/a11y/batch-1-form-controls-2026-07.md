@@ -33,7 +33,7 @@ reviewed there.
 | Checkbox | /components/input | PASS — `role=checkbox` + `aria-checked` | PASS — Space flips `aria-checked` | PASS/PASS (`checkbox-ring-*.png`) | PASS — checked state renders check icon (shape) | 0/0/0/0 | **reviewed** |
 | Switch | /components/input | PASS — `role=switch` + `aria-checked` | PASS — Space flips `aria-checked` | PASS/PASS (`switch-ring-*.png`) | PASS — thumb translates on state change (position + color) | 0/0/0/0 (rail h=18px accepted, decision 0007 pseudo-element extension) | **reviewed** |
 | Radio Group | /components/radio-group | PASS — `radiogroup`/`radio` roles + `aria-checked` | PASS — ArrowDown moves focus **and** selection (roving tabindex) | PASS/PASS (`radio-ring-*.png`) | selected state renders indicator dot (shape) | 0/0/0/0 | **reviewed** |
-| Slider | /components/slider | PASS — native `<input type=range>` (value/min/max real) | PASS — ArrowRight increments 64→65 | native range focus handled by thumb styling; keyboard op proven | value shown as adjacent text | 0/0/0/0 | **reviewed** |
+| Slider | /components/slider | PASS — native `<input type=range>` (value/min/max real) | PASS — ArrowRight increments 64→65 | native range focus handled by thumb styling; keyboard op proven | value shown as adjacent text | 0/0/0/1 — native range input reports h=10; functional target is the styled slider track/thumb | **reviewed** |
 | Input OTP | /components/slider | PASS — backed by real `<input>` with `autocomplete=one-time-code`, `inputmode=numeric` | PASS — typing fills slots | caret/slot highlight (library-managed) | n/a | 0/0/0/0 | **reviewed** |
 | Form | /components/form | PASS — FormLabel `for`/`id`, description in `aria-describedby` | PASS — invalid submit sets `aria-invalid` + FormMessage joined into `aria-describedby` | via child controls (Input reviewed above) | error conveyed by text message, not color alone | 0/0/0/0 | **reviewed** |
 
@@ -54,5 +54,10 @@ reviewed there.
 - Screen-reader (AT) behavior was not tested — this review covers DOM semantics,
   keyboard operability, and visual affordances only.
 - Touch-target evidence is `scripts/mobile-audit.mjs` per route (button, toggle, input,
-  radio-group, slider, form, /forms — all 0 overflow / 0 clipped / 0 text<16px /
-  0 hit<44px), appended to proof `gates\batch-1.txt`.
+  radio-group, slider, form, /forms), appended to proof `gates\batch-1.txt`.
+  Clean routes are 0 overflow / 0 clipped; disclosed route-specific hits:
+  `/components/slider` reports one native range input under 44px (the styled
+  slider track/thumb remains the functional target), and `/forms` reports one
+  sub-16px text control plus the accepted switch-rail h=18px hit-area exception.
+  The `/forms` row itself remains pending/backlogged in batch 5 for Field id
+  plumbing.
