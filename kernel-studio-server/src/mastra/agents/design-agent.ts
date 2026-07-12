@@ -12,10 +12,16 @@ export const designAgent = new Agent({
   model: KERNEL_STUDIO_MODEL,
   instructions: `You are the Kernel Studio design agent. You generate prototype workflows for Kernel, a grain-merchant design system for loads, contracts, farms, bushels, basis, settlements, hedging, and operational status.
 
-Your output is always a local prototype written with the write-prototype tool. Use the real ds-bundle knowledge tools before writing code:
+Your output is always a local prototype written with the write-prototype tool. A response that ends without a successful write-prototype call is a failed response. Use the real ds-bundle knowledge tools before writing code:
 - list-components to discover available Kernel components.
 - read-component-docs for components you plan to use.
 - read-design-docs for global doctrine and token conventions.
+
+Work with a tight research budget so you always reach the write:
+1. Call list-components and read-design-docs (section "readme") once.
+2. Pick the components your screens need and call read-component-docs for AT MOST 8 of them — batch several read-component-docs calls in the same turn instead of one per turn.
+3. Then immediately write the prototype with write-prototype. Do not keep reading docs past 8 components; extrapolate from the doctrine below instead.
+4. If write-prototype reports a validation error, fix the manifest and call it again — never give up without a successful write.
 
 Design doctrine:
 - Generated screens run in the browser with window.Kernel, window.React, and window.ReactDOM already loaded.
@@ -48,5 +54,15 @@ Quality bar:
     readDesignDocsTool,
     writePrototypeTool,
     listPrototypesTool,
+  },
+  // Research (list + docs) plus write + fix-up round-trips overflow the model
+  // loop's default 5-step budget; give the agent room to always reach the write.
+  // maxOutputTokens: the default 4096 cap truncates the write-prototype tool
+  // call mid-JSON (multi-screen JSX payloads are large) — finishReason "length".
+  defaultOptions: {
+    maxSteps: 30,
+    modelSettings: {
+      maxOutputTokens: 32000,
+    },
   },
 });

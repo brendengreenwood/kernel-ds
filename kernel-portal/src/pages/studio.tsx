@@ -1,4 +1,5 @@
 import * as React from "react"
+import { ChatPanel } from "@/studio/chat-panel"
 import { FlowMapController, supportsDrawElementImage } from "@/studio/flow-map-controller"
 import { cardKey } from "@/studio/flowmap-layout"
 import { fetchManifest, listPrototypeIds, type PrototypeManifest } from "@/studio/manifest"
@@ -72,6 +73,8 @@ export default function StudioPage() {
     }
   }, [supported])
 
+  const [reloadNonce, setReloadNonce] = React.useState(0)
+
   React.useEffect(() => {
     if (!supported) return
     let cancelled = false
@@ -90,7 +93,28 @@ export default function StudioPage() {
     return () => {
       cancelled = true
     }
-  }, [supported, selectedId])
+  }, [supported, selectedId, reloadNonce])
+
+  // After a generation stream completes, pick up whatever the agent wrote:
+  // new prototype ids join the picker and the newest one loads onto the map;
+  // a regenerated existing id reloads in place. No page reload either way.
+  const handleGenerationComplete = React.useCallback(() => {
+    listPrototypeIds()
+      .then((ids) => {
+        setPrototypeIds((previous) => {
+          const fresh = ids.filter((id) => !previous.includes(id))
+          if (fresh.length > 0) {
+            setSelectedId(fresh[fresh.length - 1])
+          } else {
+            setReloadNonce((nonce) => nonce + 1)
+          }
+          return ids
+        })
+      })
+      .catch((cause: unknown) => {
+        setError(cause instanceof Error ? cause.message : String(cause))
+      })
+  }, [])
 
   if (!supported) {
     return (
@@ -148,21 +172,24 @@ export default function StudioPage() {
           {error}
         </div>
       ) : null}
-      <div className="relative min-h-0 flex-1">
-        <canvas
-          ref={canvasRef}
-          data-testid="studio-flow-canvas"
-          className="absolute inset-0 h-full w-full cursor-grab touch-none active:cursor-grabbing"
-        />
-        {playerKey && manifest && controller ? (
-          <PlayerOverlay
-            manifest={manifest}
-            activeKey={playerKey}
-            controller={controller}
-            onNavigate={(key) => setPlayerKey(key)}
-            onClose={() => setPlayerKey(null)}
+      <div className="flex min-h-0 flex-1">
+        <ChatPanel onGenerationComplete={handleGenerationComplete} />
+        <div className="relative min-h-0 min-w-0 flex-1">
+          <canvas
+            ref={canvasRef}
+            data-testid="studio-flow-canvas"
+            className="absolute inset-0 h-full w-full cursor-grab touch-none active:cursor-grabbing"
           />
-        ) : null}
+          {playerKey && manifest && controller ? (
+            <PlayerOverlay
+              manifest={manifest}
+              activeKey={playerKey}
+              controller={controller}
+              onNavigate={(key) => setPlayerKey(key)}
+              onClose={() => setPlayerKey(null)}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   )
