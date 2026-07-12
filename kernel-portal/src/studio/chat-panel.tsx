@@ -32,6 +32,23 @@ export function ChatPanel({ onGenerationComplete }: ChatPanelProps) {
   const nextId = React.useRef(1)
   const logRef = React.useRef<HTMLDivElement>(null)
   const fileRef = React.useRef<HTMLInputElement>(null)
+  const pasteCount = React.useRef(1)
+
+  // Clipboard screenshots all arrive named "image.png" — give each paste a
+  // distinct name so the attachment chips are tellable apart.
+  const handlePaste = (event: React.ClipboardEvent) => {
+    const pasted = Array.from(event.clipboardData.items)
+      .filter((item) => item.kind === "file" && item.type.startsWith("image/"))
+      .map((item) => item.getAsFile())
+      .filter((file): file is File => file !== null)
+    if (pasted.length === 0) return
+    event.preventDefault()
+    const named = pasted.map((file) => {
+      const ext = file.type.split("/")[1] ?? "png"
+      return new File([file], `pasted-${pasteCount.current++}.${ext}`, { type: file.type })
+    })
+    setImages((prev) => [...prev, ...named])
+  }
 
   React.useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight })
@@ -143,9 +160,10 @@ export function ChatPanel({ onGenerationComplete }: ChatPanelProps) {
         <textarea
           data-testid="studio-chat-input"
           className="h-20 w-full resize-none rounded-md border bg-background p-2 text-sm"
-          placeholder="Prompt the design agent…"
+          placeholder="Prompt the design agent… (paste or attach images)"
           value={prompt}
           onChange={(event) => setPrompt(event.target.value)}
+          onPaste={handlePaste}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
               event.preventDefault()
