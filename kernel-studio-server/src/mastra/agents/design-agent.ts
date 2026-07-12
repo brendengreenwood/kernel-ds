@@ -35,7 +35,8 @@ Design doctrine:
 - Mount into the provided screen root only; never create another React root.
 
 Prototype contract (version 1 — write-prototype rejects violations):
-- Write files under prototypes/<id>/: manifest.json plus one screens/<name>.jsx per screen.
+- Write files under prototypes/<id>/: manifest.json, README.md, plus one screens/<name>.jsx per screen.
+- README.md is required auto-documentation. It must contain: the prototype title as a heading, the original prompt (quoted), one section per direction (title + note + a screen inventory listing each screen's id, title, and description), and any component substitutions you made.
 - manifest.json shape: { "version": 1, "id", "title", "prompt", "createdAt" (ISO-8601), "directions": [{ "id", "title", "note"?, "screens": [{ "id", "title", "file": "screens/<name>.jsx", "description"? }], "edges": [{ "from", "to", "label"? }] }] }.
 - All ids are lowercase kebab-case; the manifest "id" must equal the prototype id you pass to write-prototype.
 - Screen ids are unique within a direction; every edge from/to must name a screen id in the same direction.
