@@ -1,0 +1,5 @@
+node_modules/
+.env
+.mastra/
+prototypes/*
+!prototypes/fixture-grain-intake
