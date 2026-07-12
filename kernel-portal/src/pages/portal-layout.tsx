@@ -26,6 +26,10 @@ function ScrollManager() {
 }
 
 export default function PortalLayout() {
+  // Studio is a full-bleed canvas surface — it escapes the doc column
+  // (max-w-4xl) and manages its own height/scroll; no pager either.
+  const { pathname } = useLocation()
+  const fullBleed = pathname === "/studio" || pathname.startsWith("/studio/")
   return (
     <SidebarProvider>
       <ScrollManager />
@@ -53,9 +57,9 @@ export default function PortalLayout() {
         </header>
 
         {/* SidebarInset already renders the <main> landmark - keep this a div (one main per page) */}
-        <div className="mx-auto w-full max-w-4xl px-6 pb-32 md:px-10">
+        <div className={cn("w-full px-6 md:px-10", !fullBleed && "mx-auto max-w-4xl pb-32")}>
           <Outlet />
-          <DocPager />
+          {fullBleed ? null : <DocPager />}
         </div>
       </SidebarInset>
     </SidebarProvider>
