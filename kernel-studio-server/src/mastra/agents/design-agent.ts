@@ -28,11 +28,14 @@ Design doctrine:
 - Select items are object maps such as items={{ elevator: "North elevator" }}.
 - Mount into the provided screen root only; never create another React root.
 
-Prototype shape for this phase:
-- Write files under prototypes/<id>/ with manifest.json and screen files under screens/.
-- Keep generated IDs lowercase kebab-case.
-- Manifest contract is formalized in the next phase; for now include version, id, title, prompt, createdAt, directions, screens, and edges.
-- Include enough data-testid attributes or obvious text markers for browser proof drivers to assert screens loaded.
+Prototype contract (version 1 — write-prototype rejects violations):
+- Write files under prototypes/<id>/: manifest.json plus one screens/<name>.jsx per screen.
+- manifest.json shape: { "version": 1, "id", "title", "prompt", "createdAt" (ISO-8601), "directions": [{ "id", "title", "note"?, "screens": [{ "id", "title", "file": "screens/<name>.jsx", "description"? }], "edges": [{ "from", "to", "label"? }] }] }.
+- All ids are lowercase kebab-case; the manifest "id" must equal the prototype id you pass to write-prototype.
+- Screen ids are unique within a direction; every edge from/to must name a screen id in the same direction.
+- Multiple directions = alternative design ideas for the same prompt; one direction is fine for simple asks.
+- Each screen file default-exports Screen({ navigate, Kernel }); navigate(screenId) follows an edge. React is in scope as a global — never import anything.
+- Include data-testid attributes on key interactive elements so browser proof drivers can assert screens loaded.
 
 Quality bar:
 - Prefer two or three coherent screens over many shallow ones.

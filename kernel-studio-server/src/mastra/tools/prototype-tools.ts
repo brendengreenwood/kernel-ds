@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
+import { manifestSchema } from "../../contract/manifest.js";
 import { prototypesDir, resolveInside } from "../../lib/paths.js";
 
 const prototypeIdSchema = z.string().regex(/^[a-z0-9][a-z0-9-]{1,80}$/);
@@ -16,13 +17,32 @@ const prototypeFileSchema = z.object({
 
 export const writePrototypeTool = createTool({
   id: "write-prototype",
-  description: "Write a prototype's manifest and screen files under kernel-studio-server/prototypes/<id>/.",
+  description:
+    "Write a prototype's manifest and screen files under kernel-studio-server/prototypes/<id>/. " +
+    "manifest.json must satisfy the version-1 contract (see PROTOTYPE-CONTRACT.md); invalid manifests are rejected.",
   inputSchema: z.object({
     id: prototypeIdSchema,
     files: z.array(prototypeFileSchema).min(1),
   }),
   outputSchema: z.object({ id: z.string(), filesWritten: z.array(z.string()), directory: z.string() }),
   execute: async ({ id, files }) => {
+    const manifestFile = files.find((file) => file.path.replaceAll("\\", "/") === "manifest.json");
+    if (manifestFile) {
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(manifestFile.content);
+      } catch (error) {
+        throw new Error(`manifest.json is not valid JSON: ${(error as Error).message}`);
+      }
+      const check = manifestSchema.safeParse(parsed);
+      if (!check.success) {
+        throw new Error(`manifest.json violates the prototype contract: ${z.prettifyError(check.error)}`);
+      }
+      if (check.data.id !== id) {
+        throw new Error(`manifest id "${check.data.id}" must match the prototype id "${id}"`);
+      }
+    }
+
     const base = prototypesDir();
     const prototypeRoot = resolveInside(base, id);
     await fs.mkdir(prototypeRoot, { recursive: true });

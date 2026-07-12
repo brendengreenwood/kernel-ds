@@ -28,6 +28,24 @@ const listPrototypesResultSchema = z.object({
   prototypes: z.array(z.object({ id: z.string(), manifestPath: z.string() })),
 });
 
+function minimalManifest(id: string): string {
+  return JSON.stringify({
+    version: 1,
+    id,
+    title: "Test prototype",
+    prompt: "test",
+    createdAt: "2026-07-12T12:00:00Z",
+    directions: [
+      {
+        id: "primary",
+        title: "Primary",
+        screens: [{ id: "intake", title: "Intake", file: "screens/intake.jsx" }],
+        edges: [],
+      },
+    ],
+  });
+}
+
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "kernel-studio-tools-"));
   process.env.STUDIO_PROTOTYPES_DIR = tempDir;
@@ -64,7 +82,7 @@ describe("prototype tools", () => {
         {
           id: "test-prototype",
           files: [
-            { path: "manifest.json", content: "{}" },
+            { path: "manifest.json", content: minimalManifest("test-prototype") },
             { path: "screens/intake.jsx", content: "export default function Screen() { return null; }" },
           ],
         },
@@ -95,7 +113,7 @@ describe("prototype tools", () => {
 
   it("lists only prototype directories with manifest files", async () => {
     await writePrototypeTool.execute!(
-      { id: "listed-prototype", files: [{ path: "manifest.json", content: "{}" }] },
+      { id: "listed-prototype", files: [{ path: "manifest.json", content: minimalManifest("listed-prototype") }] },
       dummyContext,
     );
     await fs.mkdir(path.join(tempDir!, "scratch"), { recursive: true });

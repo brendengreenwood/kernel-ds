@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "id": "fixture-grain-intake",
+  "title": "Grain load intake",
+  "prompt": "Hand-written fixture: a load intake flow — intake form, contract match, settlement summary.",
+  "createdAt": "2026-07-12T12:00:00Z",
+  "directions": [
+    {
+      "id": "primary",
+      "title": "Form-first intake",
+      "note": "Single direction exercising form controls, a table, StatusBadge, and edges between all three screens.",
+      "screens": [
+        {
+          "id": "intake",
+          "title": "New load intake",
+          "file": "screens/intake.jsx",
+          "description": "Scale ticket entry: ticket number, farm, commodity, gross bushels, moisture."
+        },
+        {
+          "id": "contract-match",
+          "title": "Contract match",
+          "file": "screens/contract-match.jsx",
+          "description": "Open contracts table; apply the load to a contract."
+        },
+        {
+          "id": "settlement",
+          "title": "Settlement summary",
+          "file": "screens/settlement.jsx",
+          "description": "Shrink, net bushels, and settlement value."
+        }
+      ],
+      "edges": [
+        { "from": "intake", "to": "contract-match", "label": "Match to contract" },
+        { "from": "contract-match", "to": "intake", "label": "Back to intake" },
+        { "from": "contract-match", "to": "settlement", "label": "Apply & settle" },
+        { "from": "settlement", "to": "intake", "label": "New load" }
+      ]
+    }
+  ]
+}
