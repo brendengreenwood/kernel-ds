@@ -2,7 +2,7 @@ import { Agent } from "@mastra/core/agent";
 import { listComponentsTool, readComponentDocsTool, readDesignDocsTool } from "../tools/ds-bundle-tools.js";
 import { listPrototypesTool, writePrototypeTool } from "../tools/prototype-tools.js";
 
-export const KERNEL_STUDIO_MODEL = "anthropic/claude-sonnet-4-20250514";
+export const KERNEL_STUDIO_MODEL = "anthropic/claude-sonnet-5";
 
 export const designAgent = new Agent({
   id: "kernel-design-agent",
