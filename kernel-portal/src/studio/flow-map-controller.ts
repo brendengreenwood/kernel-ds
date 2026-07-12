@@ -33,6 +33,20 @@ export function supportsDrawElementImage(): boolean {
 
 const MIN_ZOOM = 0.05
 const MAX_ZOOM = 2
+const CLICK_SLOP_PX = 5
+
+function poolStyle(card: FlowCard): string {
+  return [
+    "position:fixed",
+    "left:-10000px",
+    "top:0",
+    `width:${card.w}px`,
+    `height:${card.h}px`,
+    "overflow:hidden",
+    "background:var(--background)",
+    "pointer-events:none",
+  ].join(";")
+}
 
 interface ThemeColors {
   background: string
@@ -47,7 +61,9 @@ export class FlowMapController {
   private readonly canvas: HTMLCanvasElement
   private readonly ctx: DrawElementImageContext
   private layout: FlowLayout | null = null
+  private manifest: PrototypeManifest | null = null
   private containers = new Map<string, HTMLDivElement>()
+  private mounts = new Map<string, Promise<HTMLDivElement>>()
   private pan = { x: 0, y: 0 }
   private zoom = 0.3
   private dirty = true
@@ -56,6 +72,11 @@ export class FlowMapController {
   private loadToken = 0
   private retryScheduled = false
   private readonly cleanups: Array<() => void> = []
+
+  /** Fired when a screen card on the map is clicked (not dragged). */
+  onCardClick?: (cardKey: string) => void
+  /** Fired when a mounted screen calls its `navigate(screenId)` prop. */
+  onNavigate?: (directionId: string, screenId: string) => void
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
@@ -92,36 +113,14 @@ export class FlowMapController {
   async loadPrototype(manifest: PrototypeManifest): Promise<void> {
     const token = ++this.loadToken
     this.clearContainers()
+    this.manifest = manifest
     this.layout = layoutFlowMap(manifest)
     this.fitToBounds()
     this.markDirty()
 
-    const runtime = await loadKernelRuntime()
     for (const card of this.layout.cards) {
       if (this.destroyed || token !== this.loadToken) return
-      const container = document.createElement("div")
-      container.dataset.flowCard = card.key
-      container.style.cssText = [
-        "position:fixed",
-        "left:-10000px",
-        "top:0",
-        `width:${card.w}px`,
-        `height:${card.h}px`,
-        "overflow:hidden",
-        "background:var(--background)",
-        "pointer-events:none",
-      ].join(";")
-      this.canvas.appendChild(container)
-      this.containers.set(card.key, container)
-
-      const component = await loadScreenComponent(manifest.id, card.screen.file)
-      if (this.destroyed || token !== this.loadToken) return
-      await mountScreen(container, component, {
-        navigate: () => {
-          /* map mode: navigation activates in the player (Phase 4) */
-        },
-        Kernel: runtime.Kernel,
-      })
+      await this.ensureScreen(card.key, token)
     }
     // The vendored React commits asynchronously and fonts/styles settle late;
     // repaint a few times after mounting so the map catches up.
@@ -130,12 +129,106 @@ export class FlowMapController {
     }
   }
 
+  /**
+   * Ensure a screen is mounted into its pool container (creating and mounting
+   * it on demand) and return the container. The container is an immediate
+   * child of the canvas unless it is currently borrowed by the player.
+   */
+  async ensureScreen(cardKey: string, token = this.loadToken): Promise<HTMLDivElement | null> {
+    const pending = this.mounts.get(cardKey)
+    if (pending) return pending
+    const manifest = this.manifest
+    const card = this.layout?.cards.find((candidate) => candidate.key === cardKey)
+    if (!manifest || !card) return null
+
+    const mount = (async () => {
+      const runtime = await loadKernelRuntime()
+      const container = document.createElement("div")
+      container.dataset.flowCard = card.key
+      container.style.cssText = poolStyle(card)
+      this.canvas.appendChild(container)
+      this.containers.set(card.key, container)
+
+      const component = await loadScreenComponent(manifest.id, card.screen.file)
+      await mountScreen(container, component, {
+        navigate: (screenId: string) => this.onNavigate?.(card.directionId, screenId),
+        Kernel: runtime.Kernel,
+      })
+      this.markDirty()
+      return container
+    })()
+    this.mounts.set(cardKey, mount)
+    const container = await mount
+    if (this.destroyed || token !== this.loadToken) {
+      // A newer prototype load superseded this mount: discard it.
+      this.mounts.delete(cardKey)
+      if (this.containers.get(cardKey) === container) this.containers.delete(cardKey)
+      unmountScreen(container)
+      container.remove()
+      return null
+    }
+    return container
+  }
+
+  /**
+   * Hand a screen's container to the player overlay. The caller reparents and
+   * restyles it; `returnScreen` undoes both. Reparenting preserves the mounted
+   * React subtree and its input state (verified by the Phase 0 probe).
+   */
+  async borrowScreen(cardKey: string): Promise<HTMLDivElement | null> {
+    return this.ensureScreen(cardKey)
+  }
+
+  /** Return a borrowed container to the canvas pool so it is drawable again. */
+  returnScreen(cardKey: string): void {
+    const container = this.containers.get(cardKey)
+    const card = this.layout?.cards.find((candidate) => candidate.key === cardKey)
+    if (!container || !card) return
+    container.style.cssText = poolStyle(card)
+    if (container.parentElement !== this.canvas) this.canvas.appendChild(container)
+    this.markDirty()
+    // Repaint after the reparented subtree settles back into canvas layout.
+    for (const delay of [50, 200, 500]) {
+      setTimeout(() => this.markDirty(), delay)
+    }
+  }
+
+  /** Client-space center of a card — lets drivers click cards from outside. */
+  clientPointForCard(cardKey: string): { x: number; y: number } | null {
+    const card = this.layout?.cards.find((candidate) => candidate.key === cardKey)
+    if (!card) return null
+    const rect = this.canvas.getBoundingClientRect()
+    return {
+      x: rect.left + this.pan.x + (card.x + card.w / 2) * this.zoom,
+      y: rect.top + this.pan.y + (card.y + card.h / 2) * this.zoom,
+    }
+  }
+
+  private hitTest(clientX: number, clientY: number): FlowCard | null {
+    if (!this.layout) return null
+    const rect = this.canvas.getBoundingClientRect()
+    const worldX = (clientX - rect.left - this.pan.x) / this.zoom
+    const worldY = (clientY - rect.top - this.pan.y) / this.zoom
+    for (const card of this.layout.cards) {
+      if (
+        worldX >= card.x &&
+        worldX <= card.x + card.w &&
+        worldY >= card.y - CARD_TITLE_H &&
+        worldY <= card.y + card.h
+      ) {
+        return card
+      }
+    }
+    return null
+  }
+
   private clearContainers(): void {
     for (const container of this.containers.values()) {
       unmountScreen(container)
       container.remove()
     }
     this.containers.clear()
+    this.mounts.clear()
   }
 
   private syncCanvasSize(): void {
@@ -170,22 +263,31 @@ export class FlowMapController {
     const canvas = this.canvas
     let dragging = false
     let last = { x: 0, y: 0 }
+    let travel = 0
 
     const onPointerDown = (event: PointerEvent) => {
       dragging = true
+      travel = 0
       last = { x: event.clientX, y: event.clientY }
       canvas.setPointerCapture(event.pointerId)
     }
     const onPointerMove = (event: PointerEvent) => {
       if (!dragging) return
+      travel += Math.abs(event.clientX - last.x) + Math.abs(event.clientY - last.y)
       this.pan.x += event.clientX - last.x
       this.pan.y += event.clientY - last.y
       last = { x: event.clientX, y: event.clientY }
       this.markDirty()
     }
     const onPointerUp = (event: PointerEvent) => {
+      if (!dragging) return
       dragging = false
       if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId)
+      // A press that barely moved is a click: hit-test the map cards.
+      if (event.type === "pointerup" && travel <= CLICK_SLOP_PX) {
+        const card = this.hitTest(event.clientX, event.clientY)
+        if (card) this.onCardClick?.(card.key)
+      }
     }
     const onWheel = (event: WheelEvent) => {
       event.preventDefault()
@@ -367,7 +469,15 @@ export class FlowMapController {
     ctx.fill()
 
     const container = this.containers.get(card.key)
-    if (container && typeof this.ctx.drawElementImage === "function") {
+    if (container && container.parentElement !== this.canvas) {
+      // Borrowed by the player overlay: not drawable until returned.
+      ctx.fillStyle = colors.muted
+      ctx.font = "500 22px system-ui, sans-serif"
+      ctx.textBaseline = "middle"
+      ctx.textAlign = "center"
+      ctx.fillText("Open in player", card.x + card.w / 2, card.y + card.h / 2)
+      ctx.textAlign = "left"
+    } else if (container && typeof this.ctx.drawElementImage === "function") {
       try {
         ctx.save()
         ctx.beginPath()

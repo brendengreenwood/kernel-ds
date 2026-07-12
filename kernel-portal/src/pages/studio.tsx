@@ -1,6 +1,8 @@
 import * as React from "react"
 import { FlowMapController, supportsDrawElementImage } from "@/studio/flow-map-controller"
-import { fetchManifest, listPrototypeIds } from "@/studio/manifest"
+import { cardKey } from "@/studio/flowmap-layout"
+import { fetchManifest, listPrototypeIds, type PrototypeManifest } from "@/studio/manifest"
+import { PlayerOverlay } from "@/studio/player"
 
 const DEFAULT_PROTOTYPE = "fixture-grain-intake"
 
@@ -19,19 +21,33 @@ export default function StudioPage() {
   const [supported] = React.useState(() => supportsDrawElementImage())
   const [prototypeIds, setPrototypeIds] = React.useState<string[]>([])
   const [selectedId, setSelectedId] = React.useState(DEFAULT_PROTOTYPE)
+  const [manifest, setManifest] = React.useState<PrototypeManifest | null>(null)
+  const [playerKey, setPlayerKey] = React.useState<string | null>(null)
   const [error, setError] = React.useState<string | null>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const controllerRef = React.useRef<FlowMapController | null>(null)
+  const [controller, setController] = React.useState<FlowMapController | null>(null)
 
   React.useEffect(() => {
     if (!supported) return
     const canvas = canvasRef.current
     if (!canvas) return
     const controller = new FlowMapController(canvas)
+    controller.onCardClick = (key) => setPlayerKey(key)
+    controller.onNavigate = (directionId, screenId) => setPlayerKey(cardKey(directionId, screenId))
     controllerRef.current = controller
+    setController(controller)
+    if (import.meta.env.DEV) {
+      // Test hook for the proof driver (dev server only, like the studio itself).
+      ;(window as unknown as { __kernelStudio?: unknown }).__kernelStudio = { controller }
+    }
     return () => {
       controller.destroy()
       controllerRef.current = null
+      setController(null)
+      if (import.meta.env.DEV) {
+        delete (window as unknown as { __kernelStudio?: unknown }).__kernelStudio
+      }
     }
   }, [supported])
 
@@ -60,10 +76,13 @@ export default function StudioPage() {
     if (!supported) return
     let cancelled = false
     setError(null)
+    setPlayerKey(null)
+    setManifest(null)
     fetchManifest(selectedId)
-      .then((manifest) => {
+      .then((next) => {
         if (cancelled) return
-        return controllerRef.current?.loadPrototype(manifest)
+        setManifest(next)
+        return controllerRef.current?.loadPrototype(next)
       })
       .catch((cause: unknown) => {
         if (!cancelled) setError(cause instanceof Error ? cause.message : String(cause))
@@ -102,7 +121,9 @@ export default function StudioPage() {
     <div className="-mx-6 flex h-[calc(100dvh-3.5rem)] flex-col md:-mx-10" data-testid="studio-root">
       <div className="flex items-center gap-3 border-b px-6 py-3 md:px-10">
         <h1 className="text-base font-semibold tracking-tight">Studio</h1>
-        <span className="text-xs text-muted-foreground">flow map · drag to pan · scroll to zoom</span>
+        <span className="text-xs text-muted-foreground">
+          drag to pan · scroll to zoom · click a screen to play
+        </span>
         <div className="ml-auto flex items-center gap-2">
           <label htmlFor="studio-prototype" className="text-xs text-muted-foreground">
             Prototype
@@ -133,6 +154,15 @@ export default function StudioPage() {
           data-testid="studio-flow-canvas"
           className="absolute inset-0 h-full w-full cursor-grab touch-none active:cursor-grabbing"
         />
+        {playerKey && manifest && controller ? (
+          <PlayerOverlay
+            manifest={manifest}
+            activeKey={playerKey}
+            controller={controller}
+            onNavigate={(key) => setPlayerKey(key)}
+            onClose={() => setPlayerKey(null)}
+          />
+        ) : null}
       </div>
     </div>
   )
