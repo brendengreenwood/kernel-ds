@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-10
+> Last touched: 2026-07-12
 
 ## What this project is
 
@@ -187,6 +187,25 @@ own route, not a section of one long scroll.
   `npm ci` + `tsc -b` + build + lint (oxlint, blocking) for `kernel-portal`
   on every PR and push to `main`. Branch protection requiring the check
   must be enabled by the repo owner in GitHub settings.
+
+- **Kernel Studio** (decision 0024, 2026-07-12): generative
+  design-prototyping surface. `kernel-studio-server/` (repo-root package)
+  runs a Mastra dev server (`npx mastra dev`, port 4111) hosting
+  `kernel-design-agent` (Anthropic Sonnet), which reads the ds-bundle via
+  tools and writes contract-validated prototypes (manifest + JSX screens +
+  README auto-doc) to `kernel-studio-server/prototypes/`. The portal's
+  `/studio` route renders prototypes on an HTML-in-Canvas flow map
+  (`drawElementImage`) with pan/zoom and direction lanes; clicking a card
+  opens a fully interactive player mode with edge navigation; a chat panel
+  streams generations onto the map. **Prerequisites:** Chrome 150+ launched
+  with `--enable-features=CanvasDrawElement`, `ANTHROPIC_API_KEY` in
+  `kernel-studio-server/.env`, and both dev servers running — the studio is
+  **dev-server-only** (`npm run dev` in `kernel-portal/`; the Vite middleware
+  serving `ds-bundle/` and `prototypes/` doesn't exist in the built site;
+  unflagged browsers get a capability panel with launch instructions).
+  Contract: `kernel-studio-server/PROTOTYPE-CONTRACT.md`. Skill:
+  `.agents/skills/kernel-studio/`. The committed fixture prototype is
+  `fixture-grain-intake`; agent-generated prototypes stay untracked.
 
 ## In flight
 
