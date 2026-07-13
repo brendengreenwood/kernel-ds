@@ -48,6 +48,7 @@ function studioFilesPlugin(): Plugin {
                   .map((e) => e.name)
                   .sort()
             res.setHeader("Content-Type", "application/json")
+            res.setHeader("Cache-Control", "no-store")
             res.end(JSON.stringify({ prototypes: ids }))
           })
           return
@@ -66,6 +67,9 @@ function studioFilesPlugin(): Plugin {
             "Content-Type",
             CONTENT_TYPES[path.extname(resolved).toLowerCase()] ?? "application/octet-stream",
           )
+          // Prototypes regenerate in place under the same URLs; never let the
+          // browser cache a stale manifest or screen.
+          res.setHeader("Cache-Control", "no-store")
           fs.createReadStream(resolved).pipe(res)
         })
       })

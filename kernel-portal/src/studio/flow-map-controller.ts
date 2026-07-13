@@ -182,6 +182,7 @@ export class FlowMapController {
       const placeholder = this.containers.get(cardKey)
       if (placeholder) {
         this.containers.delete(cardKey)
+        unmountScreen(placeholder)
         placeholder.remove()
       }
       throw cause

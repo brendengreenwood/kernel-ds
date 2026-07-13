@@ -84,6 +84,7 @@ export function ChatPanel({ onGenerationComplete }: ChatPanelProps) {
       const parts: UserContentPart[] = [{ type: "text", text }]
       for (const file of attached) parts.push(await fileToImagePart(file))
       let assistantText = ""
+      let streamErrored = false
       await streamDesignAgent([...history.current, { role: "user", content: parts }], {
         onTextDelta: (delta) => {
           assistantText += delta
@@ -91,13 +92,25 @@ export function ChatPanel({ onGenerationComplete }: ChatPanelProps) {
         },
         onToolCall: (toolName) =>
           appendAssistant((entry) => ({ ...entry, tools: [...entry.tools, toolName] }), assistantId),
-        onError: (message) => setError(message),
+        onError: (message) => {
+          streamErrored = true
+          setError(message)
+        },
       })
-      history.current.push({ role: "user", content: parts }, { role: "assistant", content: assistantText })
+      // Only record clean turns: an errored or text-less stream would replay
+      // an empty assistant message, which the model API rejects on every
+      // later send — poisoning the whole session.
+      if (!streamErrored && assistantText.trim().length > 0) {
+        history.current.push(
+          { role: "user", content: parts },
+          { role: "assistant", content: assistantText },
+        )
+      }
       onGenerationComplete()
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause))
-      // The request never reached the agent — hand the draft back for retry.
+      // The request failed — hand the draft back for retry. (If it died
+      // mid-stream the agent may still have written files server-side.)
       setPrompt(text)
       setImages(attached)
     } finally {

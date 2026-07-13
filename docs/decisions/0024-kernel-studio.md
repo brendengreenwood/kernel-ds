@@ -67,3 +67,8 @@ Kernel gets a generative design-prototyping surface, **Kernel Studio**:
 - Agent reliability needed explicit loop budgets (`maxSteps`,
   `maxOutputTokens`) — the model-loop defaults truncated multi-screen
   write-prototype calls mid-JSON.
+- **Chat memory is client-side.** The panel replays the full message history
+  (including image parts) with every request instead of wiring
+  `@mastra/memory` — the server keeps no storage, the studio is local
+  dev-only, and sessions are short. Accepted cost: pasted images are resent
+  each turn. Revisit if sessions grow long enough to need server-side threads.
