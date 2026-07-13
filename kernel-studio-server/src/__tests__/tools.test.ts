@@ -21,7 +21,11 @@ function toolResult<T>(result: unknown, schema: z.ZodType<T>): T {
   return schema.parse(result);
 }
 
-const listComponentsResultSchema = z.object({ count: z.number(), components: z.array(z.string()) });
+const listComponentsResultSchema = z.object({
+  count: z.number(),
+  components: z.array(z.string()),
+  exports: z.array(z.string()),
+});
 const readComponentDocsResultSchema = z.object({ component: z.string(), files: z.record(z.string(), z.string()) });
 const writePrototypeResultSchema = z.object({ id: z.string(), filesWritten: z.array(z.string()), directory: z.string() });
 const listPrototypesResultSchema = z.object({
@@ -62,6 +66,21 @@ describe("ds-bundle tools", () => {
     expect(result.count).toBe(48);
     expect(result.components).toContain("Button");
     expect(result.components).toContain("Tooltip");
+  });
+
+  it("exposes real bundle exports, including subcomponents docs never mention", async () => {
+    const result = toolResult(await listComponentsTool.execute!({}, dummyContext), listComponentsResultSchema);
+    // shadcn-style subcomponent names ship in the bundle...
+    expect(result.exports).toEqual(expect.arrayContaining(["TabsList", "TabsTrigger", "TabsContent", "CardHeader"]));
+    // ...Base UI-style names do not (agents guessing these crashed screens at runtime).
+    expect(result.exports).not.toContain("TabsTab");
+    expect(result.exports).not.toContain("TabsPanel");
+    // An overrun past the entry export map would sweep in internal Base UI
+    // part maps (Root/Panel/Trigger...) that are undefined on window.Kernel.
+    expect(result.exports).not.toContain("Root");
+    expect(result.exports).not.toContain("Panel");
+    expect(new Set(result.exports).size).toBe(result.exports.length);
+    expect(result.exports.length).toBeGreaterThan(100);
   });
 
   it("reads component knowledge files for Button", async () => {

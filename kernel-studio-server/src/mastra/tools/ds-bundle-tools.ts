@@ -28,15 +28,43 @@ async function markdownFiles(dir: string): Promise<string[]> {
   }
 }
 
+let cachedBundleExports: string[] | undefined;
+
+/**
+ * The authoritative list of names on `window.Kernel`, parsed from the bundle's
+ * export map. Component docs don't enumerate subcomponents (e.g. Tabs ships
+ * TabsList/TabsTrigger/TabsContent, not Base UI's TabsTab/TabsPanel), so this
+ * is the only source of truth for what a screen may destructure.
+ */
+async function bundleExports(): Promise<string[]> {
+  if (cachedBundleExports) return cachedBundleExports;
+  const source = await fs.readFile(path.join(dsBundleDir(), "_ds_bundle.js"), "utf8");
+  const start = source.indexOf("__export(ds_entry_exports, {");
+  if (start === -1) throw new Error("ds-bundle export map not found: _ds_bundle.js has no __export(ds_entry_exports, ...) block");
+  // Entry lines are `Name: () => Impl,` — none contain "});", so the first
+  // occurrence after the marker closes the entry export map (later `\n})`
+  // variants belong to other module maps and the bundle IIFE).
+  const end = source.indexOf("});", start);
+  const block = source.slice(start, end === -1 ? source.length : end);
+  const names = new Set([...block.matchAll(/^\s*(\w+): \(\) =>/gm)].map((match) => match[1]));
+  cachedBundleExports = [...names].sort();
+  return cachedBundleExports;
+}
+
 export const listComponentsTool = createTool({
   id: "list-components",
-  description: "List Kernel ds-bundle component names available under ds-bundle/components/general.",
+  description:
+    "List Kernel ds-bundle component names (doc directories) plus the exact set of names exported on window.Kernel. Screens must only destructure names from `exports`.",
   inputSchema: z.object({}),
-  outputSchema: z.object({ count: z.number(), components: z.array(z.string()) }),
+  outputSchema: z.object({
+    count: z.number(),
+    components: z.array(z.string()),
+    exports: z.array(z.string()),
+  }),
   execute: async () => {
     const entries = await fs.readdir(componentsDir(), { withFileTypes: true });
     const components = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
-    return { count: components.length, components };
+    return { count: components.length, components, exports: await bundleExports() };
   },
 });
 

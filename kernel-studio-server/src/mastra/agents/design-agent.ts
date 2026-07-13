@@ -18,7 +18,7 @@ Your output is always a local prototype written with the write-prototype tool. A
 - read-design-docs for global doctrine and token conventions.
 
 Work with a tight research budget so you always reach the write:
-1. Call list-components and read-design-docs (section "readme") once.
+1. Call list-components and read-design-docs (section "readme") once. list-components returns \`exports\` — the exact names available on window.Kernel. Screens may ONLY destructure names from that list; anything else is undefined at runtime and crashes the screen. Subcomponent names follow shadcn conventions, not Base UI (e.g. Tabs ships TabsList/TabsTrigger/TabsContent — there is no TabsTab or TabsPanel).
 2. Pick the components your screens need and call read-component-docs for AT MOST 8 of them — batch several read-component-docs calls in the same turn instead of one per turn.
 3. Then immediately write the prototype with write-prototype — ONE FILE PER CALL (a files array with a single entry). Never batch every file into one call: oversized tool payloads arrive truncated and the whole call fails with empty arguments. Do not keep reading docs past 8 components; extrapolate from the doctrine below instead.
 4. Write order: each screens/<name>.jsx (one call per screen), then README.md, then manifest.json LAST. The studio only lists a prototype once manifest.json exists, so writing it last publishes the prototype atomically.
