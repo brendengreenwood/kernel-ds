@@ -1,4 +1,4 @@
-import { loadKernelRuntime, loadScreenComponent, mountScreen, unmountScreen } from "./loader"
+import { clearScreenCache, loadKernelRuntime, loadScreenComponent, mountScreen, unmountScreen } from "./loader"
 import type { PrototypeManifest } from "./manifest"
 import {
   CARD_TITLE_H,
@@ -113,19 +113,32 @@ export class FlowMapController {
   async loadPrototype(manifest: PrototypeManifest): Promise<void> {
     const token = ++this.loadToken
     this.clearContainers()
+    // A regenerated prototype reuses its id; drop this session's compiled
+    // screens so the map shows the new files, not the cached ones.
+    clearScreenCache(manifest.id)
     this.manifest = manifest
     this.layout = layoutFlowMap(manifest)
     this.fitToBounds()
     this.markDirty()
 
+    // Agent-generated screens can individually fail (bad JSX, missing default
+    // export); mount the rest and surface the failures afterwards.
+    const failures: string[] = []
     for (const card of this.layout.cards) {
       if (this.destroyed || token !== this.loadToken) return
-      await this.ensureScreen(card.key, token)
+      try {
+        await this.ensureScreen(card.key, token)
+      } catch (cause) {
+        failures.push(`${card.key}: ${cause instanceof Error ? cause.message : String(cause)}`)
+      }
     }
     // The vendored React commits asynchronously and fonts/styles settle late;
     // repaint a few times after mounting so the map catches up.
     for (const delay of [50, 200, 500, 1000, 2000]) {
       setTimeout(() => this.markDirty(), delay)
+    }
+    if (failures.length > 0) {
+      throw new Error(`Some screens failed to mount — ${failures.join("; ")}`)
     }
   }
 
@@ -158,7 +171,21 @@ export class FlowMapController {
       return container
     })()
     this.mounts.set(cardKey, mount)
-    const container = await mount
+    let container: HTMLDivElement
+    try {
+      container = await mount
+    } catch (cause) {
+      // Failed mount (fetch error, malformed JSX, no default export): forget
+      // the rejected promise so a later attempt retries, and drop the
+      // already-appended placeholder container.
+      this.mounts.delete(cardKey)
+      const placeholder = this.containers.get(cardKey)
+      if (placeholder) {
+        this.containers.delete(cardKey)
+        placeholder.remove()
+      }
+      throw cause
+    }
     if (this.destroyed || token !== this.loadToken) {
       // A newer prototype load superseded this mount: discard it.
       this.mounts.delete(cardKey)

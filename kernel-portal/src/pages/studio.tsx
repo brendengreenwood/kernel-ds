@@ -21,6 +21,9 @@ const CHROME_LAUNCH_CMD =
 export default function StudioPage() {
   const [supported] = React.useState(() => supportsDrawElementImage())
   const [prototypeIds, setPrototypeIds] = React.useState<string[]>([])
+  // Mirror of prototypeIds for handleGenerationComplete (state updaters must
+  // stay pure, so "which ids are new" is computed outside the setter).
+  const knownIdsRef = React.useRef<string[]>([])
   const [selectedId, setSelectedId] = React.useState(DEFAULT_PROTOTYPE)
   const [manifest, setManifest] = React.useState<PrototypeManifest | null>(null)
   const [playerKey, setPlayerKey] = React.useState<string | null>(null)
@@ -58,6 +61,7 @@ export default function StudioPage() {
     listPrototypeIds()
       .then((ids) => {
         if (cancelled) return
+        knownIdsRef.current = ids
         setPrototypeIds(ids)
         if (ids.length > 0 && !ids.includes(DEFAULT_PROTOTYPE)) setSelectedId(ids[0])
       })
@@ -101,15 +105,14 @@ export default function StudioPage() {
   const handleGenerationComplete = React.useCallback(() => {
     listPrototypeIds()
       .then((ids) => {
-        setPrototypeIds((previous) => {
-          const fresh = ids.filter((id) => !previous.includes(id))
-          if (fresh.length > 0) {
-            setSelectedId(fresh[fresh.length - 1])
-          } else {
-            setReloadNonce((nonce) => nonce + 1)
-          }
-          return ids
-        })
+        const fresh = ids.filter((id) => !knownIdsRef.current.includes(id))
+        knownIdsRef.current = ids
+        setPrototypeIds(ids)
+        if (fresh.length > 0) {
+          setSelectedId(fresh[fresh.length - 1])
+        } else {
+          setReloadNonce((nonce) => nonce + 1)
+        }
       })
       .catch((cause: unknown) => {
         setError(cause instanceof Error ? cause.message : String(cause))

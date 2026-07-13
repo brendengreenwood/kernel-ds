@@ -2,6 +2,7 @@ import * as React from "react"
 import {
   fileToImagePart,
   streamDesignAgent,
+  type ChatMessage,
   type UserContentPart,
 } from "./chat"
 
@@ -30,6 +31,10 @@ export function ChatPanel({ onGenerationComplete }: ChatPanelProps) {
   const [busy, setBusy] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const nextId = React.useRef(1)
+  // Full conversation for the agent: the server keeps no memory, so every
+  // request replays prior turns (follow-ups like "make direction two denser"
+  // need the agent to have seen direction two).
+  const history = React.useRef<ChatMessage[]>([])
   const logRef = React.useRef<HTMLDivElement>(null)
   const fileRef = React.useRef<HTMLInputElement>(null)
   const pasteCount = React.useRef(1)
@@ -78,16 +83,23 @@ export function ChatPanel({ onGenerationComplete }: ChatPanelProps) {
     try {
       const parts: UserContentPart[] = [{ type: "text", text }]
       for (const file of attached) parts.push(await fileToImagePart(file))
-      await streamDesignAgent(parts, {
-        onTextDelta: (delta) =>
-          appendAssistant((entry) => ({ ...entry, text: entry.text + delta }), assistantId),
+      let assistantText = ""
+      await streamDesignAgent([...history.current, { role: "user", content: parts }], {
+        onTextDelta: (delta) => {
+          assistantText += delta
+          appendAssistant((entry) => ({ ...entry, text: entry.text + delta }), assistantId)
+        },
         onToolCall: (toolName) =>
           appendAssistant((entry) => ({ ...entry, tools: [...entry.tools, toolName] }), assistantId),
         onError: (message) => setError(message),
       })
+      history.current.push({ role: "user", content: parts }, { role: "assistant", content: assistantText })
       onGenerationComplete()
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause))
+      // The request never reached the agent — hand the draft back for retry.
+      setPrompt(text)
+      setImages(attached)
     } finally {
       setBusy(false)
     }

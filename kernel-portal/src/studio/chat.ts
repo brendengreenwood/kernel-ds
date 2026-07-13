@@ -16,6 +16,14 @@ export type UserContentPart =
   | { type: "text"; text: string }
   | { type: "image"; image: string; mimeType: string }
 
+/**
+ * One turn of the conversation. The server keeps no memory, so the client
+ * sends the full history with every request (assistant turns as plain text).
+ */
+export type ChatMessage =
+  | { role: "user"; content: UserContentPart[] }
+  | { role: "assistant"; content: string }
+
 export interface StreamCallbacks {
   onTextDelta: (text: string) => void
   onToolCall: (toolName: string) => void
@@ -33,7 +41,7 @@ interface StreamEvent {
 }
 
 export async function streamDesignAgent(
-  parts: UserContentPart[],
+  messages: ChatMessage[],
   callbacks: StreamCallbacks,
   signal?: AbortSignal,
 ): Promise<void> {
@@ -42,7 +50,7 @@ export async function streamDesignAgent(
     res = await fetch(`${STUDIO_SERVER_URL}/api/agents/${DESIGN_AGENT_ID}/stream`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: [{ role: "user", content: parts }] }),
+      body: JSON.stringify({ messages }),
       signal,
     })
   } catch (cause) {

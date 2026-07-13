@@ -97,6 +97,17 @@ export function loadKernelRuntime(): Promise<KernelRuntime> {
 const moduleCache = new Map<string, ScreenComponent>()
 
 /**
+ * Drop cached compiled screens for a prototype so a regeneration of the same
+ * id reloads fresh .jsx from disk instead of replaying this session's cache.
+ */
+export function clearScreenCache(prototypeId: string): void {
+  const prefix = screenUrl(prototypeId, "")
+  for (const url of moduleCache.keys()) {
+    if (url.startsWith(prefix)) moduleCache.delete(url)
+  }
+}
+
+/**
  * Fetch a screen's .jsx source, transpile with sucrase, and evaluate it.
  * The module's default export is the Screen component. `React` in the
  * evaluated scope is the VENDORED React global.
