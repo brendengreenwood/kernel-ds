@@ -23,8 +23,10 @@ in the same Mastra instance as the design agent:
 - **The research repo stays as an archive** (`main` + `spike/mastra-150`),
   untouched. Source of the port is the `spike/mastra-150` working tree
   (identical to main except the lockfile). No behavior changes in the port:
-  ported files are byte-identical except import paths and the config edits
-  recorded as deviations below.
+  every ported file is byte-identical to its research-repo original except
+  the three config edits recorded as deviations below (no import-path
+  rewrites were needed — relative structure was preserved; the only import
+  edits were in the studio-owned `design-agent.ts`, D4).
 
 ## Why
 
