@@ -7,6 +7,7 @@ import PortalLayout from "@/pages/portal-layout"
 import WorkspacePage from "@/pages/workspace"
 import ComponentsIndex from "@/pages/components-index"
 import ComponentPage from "@/pages/component-page"
+import StudioPage from "@/pages/studio"
 import { routeForAnchor } from "@/lib/routes"
 
 import { OverviewSection } from "@/components/portal/overview"
@@ -84,6 +85,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="modals" element={<ModalPatternsSection />} />
             <Route path="contract" element={<ContractDetailSection />} />
             <Route path="settlement" element={<SettlementSection />} />
+            <Route path="studio" element={<StudioPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
           <Route path="/workspace" element={<WorkspacePage />} />
