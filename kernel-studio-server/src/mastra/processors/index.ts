@@ -22,16 +22,20 @@ import { rateLimitGuardProcessor } from '../lib/rate-limit-guard.js';
 // ── Built-in: Prompt Injection Detection ──
 
 export const promptInjectionDetector = new PromptInjectionDetector({
-  model: 'anthropic/claude-haiku-3-5-20241022',
+  model: 'anthropic/claude-haiku-4-5-20251001',
   threshold: 0.8,
   strategy: 'rewrite',
   detectionTypes: ['injection', 'jailbreak', 'system-override'],
 });
 
 // ── Built-in: Token Limiter ──
+// Limit raised 4000 → 30000 for @mastra/core 1.50: TokenLimiterProcessor now
+// also enforces the limit against input via processInputStep, and the research
+// agent's ~12K-token system prompt tripwired the old output-only budget.
+// (Consolidation deviation — see agent-consolidation.progress.md.)
 
 export const tokenLimiter = new TokenLimiterProcessor({
-  limit: 4000,
+  limit: 30000,
   strategy: 'truncate',
 });
 

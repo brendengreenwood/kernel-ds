@@ -17,8 +17,8 @@ import type {
   ProcessInputStepResult,
 } from '@mastra/core/processors';
 
-const PRIMARY_MODEL = 'anthropic/claude-sonnet-4-20250514';
-const FALLBACK_MODEL = 'anthropic/claude-3-5-haiku-20241022';
+const PRIMARY_MODEL = 'anthropic/claude-sonnet-5';
+const FALLBACK_MODEL = 'anthropic/claude-haiku-4-5-20251001';
 const COOLDOWN_MS = 65_000;
 const TOKEN_LIMIT_PER_MINUTE = 200_000;
 const BUDGET_THRESHOLD = 0.8; // switch at 80% usage (160K)

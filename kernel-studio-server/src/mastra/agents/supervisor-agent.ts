@@ -8,7 +8,7 @@ export const supervisorAgent = new Agent({
   id: 'supervisor-agent',
   name: 'Research Supervisor',
   description: 'Coordinates research and artifact generation by delegating to specialized agents.',
-  model: 'anthropic/claude-sonnet-4-20250514',
+  model: 'anthropic/claude-sonnet-5',
 
   instructions: `You coordinate UX research analysis and artifact generation by delegating to two specialized agents.
 
