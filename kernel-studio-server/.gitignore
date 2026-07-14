@@ -3,3 +3,6 @@ node_modules/
 .mastra/
 prototypes/*
 !prototypes/fixture-grain-intake
+*.db
+*.db-shm
+*.db-wal
