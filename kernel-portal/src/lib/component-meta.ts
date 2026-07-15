@@ -45,7 +45,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Data Table", anchor: "c-table", group: "component", maturity: "ready", a11y: "reviewed", note: "Composition: table + @tanstack/react-table." },
   { name: "Date Picker", anchor: "c-calendar", group: "component", maturity: "ready", a11y: "reviewed", note: "Composition: popover + calendar." },
   { name: "Dialog", anchor: "c-dialog", group: "component", maturity: "ready", a11y: "reviewed" },
-  { name: "Drawer", anchor: "c-sheet", group: "component", maturity: "ready", a11y: "pending" },
+  { name: "Drawer", anchor: "c-sheet", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Dropdown Menu", anchor: "c-dropdown-menu", group: "component", maturity: "ready", a11y: "reviewed", note: MENU_DELTA },
   { name: "Form", anchor: "c-form", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Hover Card", anchor: "c-popover", group: "component", maturity: "ready", a11y: "reviewed" },
