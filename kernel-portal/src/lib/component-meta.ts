@@ -76,7 +76,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Toggle Group", anchor: "c-toggle", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Tooltip", anchor: "c-sonner", group: "component", maturity: "ready", a11y: "reviewed" },
 
-  { name: "Form elements", anchor: "forms", group: "element", maturity: "ready", a11y: "pending" },
+  { name: "Form elements", anchor: "forms", group: "element", maturity: "ready", a11y: "reviewed" },
   { name: "Tables", anchor: "tables", group: "element", maturity: "ready", a11y: "reviewed" },
   { name: "Charts", anchor: "charts", group: "element", maturity: "ready", a11y: "reviewed" },
   { name: "Border beam", anchor: "border-beam", group: "element", maturity: "experimental", a11y: "reviewed", note: "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card. Portal-only — no static-preview mirror." },
