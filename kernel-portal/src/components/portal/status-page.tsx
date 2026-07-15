@@ -51,7 +51,7 @@ export function StatusSection() {
       id="status"
       eyebrow="Get started"
       title="Component status"
-      lead="Every component, element, and pattern with its lifecycle stage. Experimental means usable but still settling — the notes say exactly what's open. Ready means long-term support; breaking changes come with migration guidance. Accessibility review is tracked separately and is pending the system-wide pass."
+      lead="Every component, element, and pattern with its lifecycle stage. Experimental means usable but intentionally blocked by the note. Ready means long-term support; breaking changes come with migration guidance. Accessibility review is tracked separately and is complete for every row."
     >
       <div className="mb-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
         {(Object.keys(counts) as Maturity[]).map((m) => (
