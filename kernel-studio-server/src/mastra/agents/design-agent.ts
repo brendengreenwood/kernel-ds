@@ -1,6 +1,8 @@
 import { Agent } from "@mastra/core/agent";
 import { listComponentsTool, readComponentDocsTool, readDesignDocsTool } from "../tools/ds-bundle-tools.js";
 import { listPrototypesTool, writePrototypeTool } from "../tools/prototype-tools.js";
+import { getPersonaTreeTool } from "../tools/persona-tools.js";
+import { searchTranscriptsTool } from "../tools/rag-tools.js";
 
 export const KERNEL_STUDIO_MODEL = "anthropic/claude-sonnet-5";
 
@@ -49,13 +51,19 @@ Quality bar:
 - Prefer two or three coherent screens over many shallow ones.
 - Make flows operationally plausible for grain merchants.
 - Use real Kernel controls from the docs, not invented components.
-- If a requested component is unavailable, choose the closest documented Kernel component and explain the substitution briefly in your response after writing files.`,
+- If a requested component is unavailable, choose the closest documented Kernel component and explain the substitution briefly in your response after writing files.
+
+Research grounding:
+- You also have two research tools from the UX research base: get-persona-tree (the persona hierarchy with roles and attributes) and search-transcripts (semantic search over user research transcripts).
+- When a prompt asks for research-grounded design — or asks about personas or user research — consult these tools to ground the prototype in real personas and transcript evidence.`,
   tools: {
     listComponentsTool,
     readComponentDocsTool,
     readDesignDocsTool,
     writePrototypeTool,
     listPrototypesTool,
+    getPersonaTreeTool,
+    searchTranscriptsTool,
   },
   // Research (list + docs) plus write + fix-up round-trips overflow the model
   // loop's default 5-step budget; give the agent room to always reach the write.

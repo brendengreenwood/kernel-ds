@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-12
+> Last touched: 2026-07-14
 
 ## What this project is
 
@@ -206,6 +206,19 @@ own route, not a section of one long scroll.
   Contract: `kernel-studio-server/PROTOTYPE-CONTRACT.md`. Skill:
   `.agents/skills/kernel-studio/`. The committed fixture prototype is
   `fixture-grain-intake`; agent-generated prototypes stay untracked.
+- **Agent consolidation** (decision 0025, 2026-07-14):
+  `kernel-studio-server/` now hosts **4 agents** in one Mastra instance on
+  `@mastra/core` 1.50.x — `kernel-design-agent` plus the ported UX research
+  stack (`cognitive-research-agent`, `artifact-agent`, `supervisor-agent`,
+  2 workflows, LibSQL stores, RAG, the `ux-research-mcp` MCP server with
+  10 tools, brief/artifact/viewer `apiRoutes`, and the standalone Hono API
+  via `npm run api`, port 3001). The design agent bridges natively into
+  research (`getPersonaTreeTool`, `searchTranscriptsTool`) for
+  research-grounded prototypes. Data DBs live gitignored at
+  `kernel-studio-server/src/mastra/public/`; runtime needs
+  `GOOGLE_GENERATIVE_AI_API_KEY` in `.env` alongside `ANTHROPIC_API_KEY`.
+  The merged test suite is 104 tests. The old `mastra-ux-research-agent`
+  repo is an archive — source of truth is this package now.
 
 ## In flight
 
