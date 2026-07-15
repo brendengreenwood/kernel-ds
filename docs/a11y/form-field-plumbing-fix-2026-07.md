@@ -24,11 +24,11 @@ The two mobile-audit findings were resolved in the `/forms` exemplars:
 
 Red transcript:
 
-- `C:\Users\brend\.mastracode\plans\ds-finish-components.proof\without-forms.txt`
+- `.mastracode/plans/ds-finish-components.proof/without-forms.txt`
 
 Green transcript:
 
-- `C:\Users\brend\.mastracode\plans\ds-finish-components.proof\with-forms.txt`
+- `.mastracode/plans/ds-finish-components.proof/with-forms.txt`
 
 Current green result:
 
