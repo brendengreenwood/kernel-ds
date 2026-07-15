@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-14
+> Last touched: 2026-07-15
 
 ## What this project is
 
@@ -50,24 +50,19 @@ own route, not a section of one long scroll.
 - **Component lifecycle statuses** (decision 0006): experimental/ready/
   deprecated tracked in `kernel-portal/src/lib/component-meta.ts`, shown as
   Primer-style per-component side-rail entries with maturity pills and a
-  Component status overview section. Currently ready 58 /
-  experimental 10: the three portal-only elements (Border beam,
-  Commodity tags, Animated number), five patterns (Navigation, Advanced
-  filtering, Origination flow, Pricing worksheet, Modals), and the two
-  domain patterns (Contract detail, Settlement statement). A11y review
-  column: **reviewed 66/68** — Tabs (2026-07-10,
-  `docs/a11y/tabs-review-2026-07.md`) plus batch 1 form controls
-  (2026-07-11, `docs/a11y/batch-1-form-controls-2026-07.md`), batch 2
-  overlays & menus minus Drawer (2026-07-11,
-  `docs/a11y/batch-2-overlays-menus-2026-07.md`), and batch 3 content &
-  display (2026-07-11, `docs/a11y/batch-3-content-display-2026-07.md`), and
-  batch 4 structure & data (2026-07-11,
-  `docs/a11y/batch-4-structure-data-2026-07.md`), and batch 5 elements &
-  foundations minus Form elements (2026-07-11,
-  `docs/a11y/batch-5-elements-foundations-2026-07.md`), and batch 6
-  patterns & domain (2026-07-11,
-  `docs/a11y/batch-6-patterns-domain-2026-07.md`) — campaign complete;
-  only Drawer and Form elements stay `pending` (backlogged, see backlog #3).
+  Component status overview section. Currently **ready 66 / experimental 2 /
+  deprecated 0**. The 2026-07 component-completeness pass closed the two
+  remaining a11y-pending rows (Drawer and Form elements) and resolved the
+  10-row experimental sweep: 8 promoted to ready; Contract detail and
+  Settlement statement remain experimental until contract, settlement,
+  ticket, and invoice pages share one complete domain lineup. A11y review
+  column: **reviewed 68/68** — Tabs (2026-07-10,
+  `docs/a11y/tabs-review-2026-07.md`) plus batches 1–6
+  (`docs/a11y/batch-*-2026-07.md`), with follow-up resolutions in
+  `docs/a11y/drawer-focus-trap-fix-2026-07.md`,
+  `docs/a11y/form-field-plumbing-fix-2026-07.md`, and
+  `docs/a11y/promotion-sweep-2026-07.md`.
+
 - Fonts: native system stacks only (`--font-sans`, `--font-mono`), no web
   fonts, no serif — see decision 0002.
 - Statuses vs notifications are distinct systems — see decision 0003.
@@ -247,53 +242,20 @@ own route, not a section of one long scroll.
 2. **UI pattern library** → in flight (decision 0008). Domain lineup
    capped at two worked examples (contract detail, settlement statement);
    load ticket entry and basis & bid board dropped.
-3. **Accessibility pass** — part 1 (contrast audit + report) ✓ 2026-07-03;
-   part 2 (role-token fixes applied) ✓ 2026-07-04.
-   Remaining: focus states, keyboard nav in interactive patterns, and
-   per-component reviews to flip the
-   `component-meta.ts` a11y column from `pending` to `reviewed`.
-   First per-component review done: **Tabs** ✓ 2026-07-10
-   (`docs/a11y/tabs-review-2026-07.md`, 20/20 checks).
-   Review campaign in flight: batch 1 form controls ✓ 2026-07-11
-   (13 components, `docs/a11y/batch-1-form-controls-2026-07.md`);
-   batch 2 overlays & menus ✓ 2026-07-11 (12 of 13 reviewed,
-   `docs/a11y/batch-2-overlays-menus-2026-07.md`);
-   batch 3 content & display ✓ 2026-07-11 (15 components,
-   `docs/a11y/batch-3-content-display-2026-07.md`);
-   batch 4 structure & data ✓ 2026-07-11 (10 components, 2 mechanical
-   fixes: Data Table `aria-sort`, expandable-row `aria-expanded`,
-   `docs/a11y/batch-4-structure-data-2026-07.md`);
-   batch 5 elements & foundations ✓ 2026-07-11 (4 of 5 reviewed, 1
-   mechanical fix: 3 icon-button `aria-label`s on /forms,
-   `docs/a11y/batch-5-elements-foundations-2026-07.md`);
-   batch 6 patterns & domain ✓ 2026-07-11 (11 of 11 reviewed, mechanical
-   fixes: duplicate `<main>` landmark removed portal-wide
-   (portal-layout), focus-visible utilities on 3 raw buttons (filters),
-   `htmlFor`/`id` label association ×8 (patterns/flows/origination),
-   `aria-label`s ×4 (filtering-advanced, patterns),
-   `docs/a11y/batch-6-patterns-domain-2026-07.md`) — **reviewed 66/68,
-   campaign complete**; remaining `pending`: Drawer (focus trap,
-   behavioral) and Form elements (Field id plumbing, structural).
-   Watch items from the campaign (disclosed, not blockers): Calendar day-grid
-   buttons are 27×27px at 390px — passes WCAG 2.5.8 AA (≥24px) but below
-   the project 44px bar; dense grid, decision-0007 extension not
-   applicable. Slider's native range input reports h=10px in the mobile
-   audit, while the styled track/thumb remain the functional target.
-   Resizable handle keeps its vendored 1px focus ring (visible both modes)
-   instead of the 3px control ring. `/forms` mobile audit reports one
-   sub-16px text control and the known switch-rail h=18px hit-area flag;
-   Form elements remains pending/backlogged for the Field/id plumbing.
-   Backlogged from batch 2: **Drawer (vaul) does not trap keyboard
-   focus** — with the drawer open, Tab reaches page content behind the
-   overlay (background is aria-hidden, so SR-side is covered; Escape and
-   focus-return work). Behavioral, not mechanical; `a11y` stays
-   `pending` until fixed.
-   Backlogged from batch 5: **Form elements — `Field` demo helper does
-   not associate labels with controls** (`<Label>` without `htmlFor`;
-   23 of 41 specimen inputs on /forms have no programmatic name). Needs
-   `useId` + id plumbing through the Field/InputGroup composition and
-   its ~20 call sites — structural, not mechanical; the Form elements
-   row stays `pending` until fixed.
+3. **Accessibility pass** — complete at **68/68 reviewed**. Contrast audit +
+   role-token fixes landed 2026-07-03/04. Per-component reviews landed in
+   batches 1–6 (2026-07-10/11), with final follow-up fixes on 2026-07-15:
+   Drawer focus trap (`docs/a11y/drawer-focus-trap-fix-2026-07.md`) and
+   Form elements Field/id plumbing (`docs/a11y/form-field-plumbing-fix-2026-07.md`).
+   The final component-completeness sweep also resolved all vague experimental
+   notes (`docs/a11y/promotion-sweep-2026-07.md`). Watch items from the
+   campaign (disclosed, not blockers): Calendar day-grid buttons are 27×27px
+   at 390px — passes WCAG 2.5.8 AA (≥24px) but below the project 44px bar;
+   dense grid, decision-0007 extension not applicable. Slider's native range
+   input reports h=10px in the mobile audit, while the styled track/thumb
+   remain the functional target. Resizable handle keeps its vendored 1px focus
+   ring (visible both modes) instead of the 3px control ring.
+
 4. **Usage guidance** — do/don't guidance in the portal (when to use which
    component; StatusBadge vs Alert per decision 0003) so it teaches, not
    just shows.
