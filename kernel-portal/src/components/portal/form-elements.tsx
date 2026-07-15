@@ -34,6 +34,55 @@ import {
 
 /* ---- small composition helpers (build on ui/* primitives) ---- */
 
+type FieldControlProps = {
+  id: string
+  "aria-describedby"?: string
+  "aria-invalid"?: true
+}
+
+const FieldControlContext = React.createContext<FieldControlProps | null>(null)
+
+function useFieldControlProps() {
+  return React.useContext(FieldControlContext)
+}
+
+function mergeDescribedBy(existing: unknown, generated: string | undefined) {
+  return [typeof existing === "string" ? existing : undefined, generated].filter(Boolean).join(" ") || undefined
+}
+
+function isFieldControl(element: React.ReactElement) {
+  return element.type === Input || element.type === Textarea || element.type === SelectTrigger || element.type === "input" || element.type === "textarea" || element.type === "select"
+}
+
+function wireFieldControl(children: React.ReactNode, controlProps: FieldControlProps): React.ReactNode {
+  let wired = false
+
+  function visit(node: React.ReactNode): React.ReactNode {
+    if (!React.isValidElement(node)) return node
+
+    const element = node as React.ReactElement<Record<string, unknown> & { children?: React.ReactNode }>
+    const nextChildren = element.props.children ? React.Children.map(element.props.children, visit) : element.props.children
+
+    if (!wired && isFieldControl(element)) {
+      wired = true
+      return React.cloneElement(element, {
+        id: controlProps.id,
+        "aria-describedby": mergeDescribedBy(element.props["aria-describedby"], controlProps["aria-describedby"]),
+        "aria-invalid": controlProps["aria-invalid"] ?? element.props["aria-invalid"],
+        children: nextChildren,
+      })
+    }
+
+    if (nextChildren !== element.props.children) {
+      return React.cloneElement(element, { children: nextChildren })
+    }
+
+    return element
+  }
+
+  return React.Children.map(children, visit)
+}
+
 function Field({
   label,
   required,
@@ -51,26 +100,40 @@ function Field({
   success?: string
   children: React.ReactNode
 }) {
+  const reactId = React.useId()
+  const controlId = `${reactId}-control`
+  const hintId = hint ? `${reactId}-hint` : undefined
+  const errorId = error ? `${reactId}-error` : undefined
+  const successId = success ? `${reactId}-success` : undefined
+  const describedBy = [errorId, successId, hintId].filter(Boolean).join(" ") || undefined
+  const controlProps: FieldControlProps = {
+    id: controlId,
+    "aria-describedby": describedBy,
+    ...(error ? { "aria-invalid": true } : null),
+  }
+
   return (
-    <div className="grid gap-2">
-      <Label>
-        {label}
-        {required && <span className="text-destructive">*</span>}
-        {optional && <span className="ml-1 font-normal text-muted-foreground">(optional)</span>}
-      </Label>
-      {children}
-      {error ? (
-        <p className="flex items-center gap-1.5 text-xs text-destructive">
-          <AlertCircle className="size-3.5" /> {error}
-        </p>
-      ) : success ? (
-        <p className="flex items-center gap-1.5 text-xs text-success-600 dark:text-success-400">
-          {success}
-        </p>
-      ) : hint ? (
-        <p className="text-xs text-muted-foreground">{hint}</p>
-      ) : null}
-    </div>
+    <FieldControlContext.Provider value={controlProps}>
+      <div className="grid gap-2">
+        <Label htmlFor={controlId}>
+          {label}
+          {required && <span className="text-destructive">*</span>}
+          {optional && <span className="ml-1 font-normal text-muted-foreground">(optional)</span>}
+        </Label>
+        {wireFieldControl(children, controlProps)}
+        {error ? (
+          <p id={errorId} className="flex items-center gap-1.5 text-xs text-destructive">
+            <AlertCircle className="size-3.5" /> {error}
+          </p>
+        ) : success ? (
+          <p id={successId} className="flex items-center gap-1.5 text-xs text-success-600 dark:text-success-400">
+            {success}
+          </p>
+        ) : hint ? (
+          <p id={hintId} className="text-xs text-muted-foreground">{hint}</p>
+        ) : null}
+      </div>
+    </FieldControlContext.Provider>
   )
 }
 
@@ -105,12 +168,14 @@ function Affix({ children, mono }: { children: React.ReactNode; mono?: boolean }
 
 function NumberStepper({ defaultValue = 12 }: { defaultValue?: number }) {
   const [n, setN] = React.useState(defaultValue)
+  const controlProps = useFieldControlProps()
   return (
     <div className="inline-flex items-stretch">
       <Button variant="outline" size="icon" aria-label="Decrease value" className="rounded-r-none border-r-0" onClick={() => setN((v) => Math.max(0, v - 1))}>
         <Minus />
       </Button>
       <Input
+        {...controlProps}
         value={n}
         onChange={(e) => setN(Number(e.target.value) || 0)}
         className="w-20 rounded-none text-center font-mono"
@@ -124,9 +189,10 @@ function NumberStepper({ defaultValue = 12 }: { defaultValue?: number }) {
 
 function PasswordInput() {
   const [show, setShow] = React.useState(false)
+  const controlProps = useFieldControlProps()
   return (
     <div className="relative flex items-center">
-      <Input type={show ? "text" : "password"} defaultValue="grainco2026" className="pr-10" />
+      <Input {...controlProps} type={show ? "text" : "password"} defaultValue="grainco2026" className="pr-10" />
       <button
         type="button"
         onClick={() => setShow((s) => !s)}
@@ -141,9 +207,10 @@ function PasswordInput() {
 
 function CharCountTextarea() {
   const [v, setV] = React.useState("Light dockage, no foreign material.")
+  const controlProps = useFieldControlProps()
   return (
     <div className="relative">
-      <Textarea value={v} onChange={(e) => setV(e.target.value)} maxLength={280} className="min-h-[74px] pb-6" />
+      <Textarea {...controlProps} value={v} onChange={(e) => setV(e.target.value)} maxLength={280} className="min-h-[74px] pb-6" />
       <span className="absolute bottom-2 right-2.5 font-mono text-[11px] text-muted-foreground">
         {v.length} / 280
       </span>
@@ -244,14 +311,14 @@ export function FormElementsSection() {
       <Demo>
         <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {[
-            ["default", <Input key="d" placeholder="Empty field" />],
-            ["focus", <Input key="f" defaultValue="Focused" className="border-ring ring-[3px] ring-ring/30" />],
-            ["filled", <Input key="fi" defaultValue="Hartmann Farms" />],
-            ["disabled", <Input key="di" defaultValue="Locked" disabled />],
-            ["read-only", <Input key="r" defaultValue="#4471" readOnly className="bg-muted text-muted-foreground" />],
-            ["error", <Input key="e" defaultValue="16.2" aria-invalid />],
-            ["success", <Input key="s" defaultValue="14.1" className="border-success-500 focus-visible:ring-success-500/30" />],
-            ["placeholder", <Input key="p" placeholder="Search tickets…" />],
+            ["default", <Input key="d" aria-label="Default input state" placeholder="Empty field" />],
+            ["focus", <Input key="f" aria-label="Focused input state" defaultValue="Focused" className="border-ring ring-[3px] ring-ring/30" />],
+            ["filled", <Input key="fi" aria-label="Filled input state" defaultValue="Hartmann Farms" />],
+            ["disabled", <Input key="di" aria-label="Disabled input state" defaultValue="Locked" disabled />],
+            ["read-only", <Input key="r" aria-label="Read-only input state" defaultValue="#4471" readOnly className="bg-muted text-muted-foreground" />],
+            ["error", <Input key="e" aria-label="Error input state" defaultValue="16.2" aria-invalid />],
+            ["success", <Input key="s" aria-label="Success input state" defaultValue="14.1" className="border-success-500 focus-visible:ring-success-500/30" />],
+            ["placeholder", <Input key="p" aria-label="Placeholder input state" placeholder="Search tickets…" />],
           ].map(([label, el]) => (
             <div key={label as string}>
               <div className="mb-1.5 font-mono text-[11px] text-muted-foreground">{label as string}</div>
@@ -265,15 +332,15 @@ export function FormElementsSection() {
       <Demo className="gap-6">
         <div className="grid gap-1.5">
           <div className="font-mono text-[11px] text-muted-foreground">sm · --control-h-sm</div>
-          <Input defaultValue="Compact" className="h-(--control-h-sm) text-xs" />
+          <Input aria-label="Small input size" defaultValue="Compact" className="h-(--control-h-sm) text-base sm:text-xs" />
         </div>
         <div className="grid gap-1.5">
           <div className="font-mono text-[11px] text-muted-foreground">default · --control-h</div>
-          <Input defaultValue="Default" />
+          <Input aria-label="Default input size" defaultValue="Default" />
         </div>
         <div className="grid gap-1.5">
           <div className="font-mono text-[11px] text-muted-foreground">lg · --control-h-lg</div>
-          <Input defaultValue="Large" className="h-(--control-h-lg) text-base" />
+          <Input aria-label="Large input size" defaultValue="Large" className="h-(--control-h-lg) text-base" />
         </div>
       </Demo>
 
@@ -300,8 +367,8 @@ export function FormElementsSection() {
           <Field label="Quantity">
             <InputGroup>
               <Input defaultValue="640" />
-              <Select defaultValue="bu" items={{ bu: "bu", cwt: "cwt", tons: "tons" }}>
-                <SelectTrigger className="w-24 rounded-l-none border-l-0 bg-muted">
+              <Select defaultValue="bu" items={{ bu: "bu", cwt: "cwt", tons: "tons" }} aria-label="Quantity unit">
+                <SelectTrigger aria-label="Quantity unit" className="w-24 rounded-l-none border-l-0 bg-muted">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -348,8 +415,8 @@ export function FormElementsSection() {
             <Field label="Grading notes"><CharCountTextarea /></Field>
           </div>
           <Field label="Sort">
-            <Select defaultValue="new" items={{ new: "Newest first", old: "Oldest first" }}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+            <Select defaultValue="new" items={{ new: "Newest first", old: "Oldest first" }} aria-label="Sort order">
+              <SelectTrigger aria-label="Sort order"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="new">Newest first</SelectItem>
                 <SelectItem value="old">Oldest first</SelectItem>
@@ -392,9 +459,9 @@ export function FormElementsSection() {
         </Demo>
         <Demo className="flex-col items-start gap-3">
           <div className="font-mono text-xs text-muted-foreground">Switch &amp; segmented</div>
-          <Label className="flex items-center gap-2 font-normal"><Switch /> Off</Label>
-          <Label className="flex items-center gap-2 font-normal"><Switch defaultChecked /> On</Label>
-          <Label className="flex items-center gap-2 font-normal opacity-60"><Switch defaultChecked disabled /> Disabled</Label>
+          <Label className="flex items-center gap-2 font-normal"><Switch className="min-h-11 min-w-11 justify-center" /> Off</Label>
+          <Label className="flex items-center gap-2 font-normal"><Switch className="min-h-11 min-w-11 justify-center" defaultChecked /> On</Label>
+          <Label className="flex items-center gap-2 font-normal opacity-60"><Switch className="min-h-11 min-w-11 justify-center" defaultChecked disabled /> Disabled</Label>
           <Segmented />
         </Demo>
       </div>

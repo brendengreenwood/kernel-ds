@@ -243,8 +243,12 @@ Every component/element/pattern carries a lifecycle status —
 `src/lib/component-meta.ts` and rendered as Primer-style side-rail entries
 (maturity pills on non-ready items) plus the **Component status** section
 (`#status`). Adding a component means adding a registry entry; signing off
-an experimental delta means flipping its entry to `ready` and deleting the
-note. A11y review is a separate column; Tabs is the first `reviewed` entry (`docs/a11y/tabs-review-2026-07.md`), the rest are pending the system-wide pass.
+an experimental delta means flipping its entry to `ready` and rewriting the
+note to remove stale blocker language. A11y review is a separate column;
+the 2026-07 component-completeness pass closed the two remaining pending rows
+(Drawer and Form elements) and resolved the experimental sweep: eight rows were
+promoted to ready, while Contract detail and Settlement statement remain
+experimental with a concrete four-page domain-lineup blocker.
 
 ## Base UI notes (post-migration)
 
