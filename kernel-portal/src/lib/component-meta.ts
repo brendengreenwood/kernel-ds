@@ -105,6 +105,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Write", anchor: "obj-write", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — write layer (form + in-place postures)." },
   { name: "Query", anchor: "obj-query", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — Aspect: narrows an object row set with predicates; yields a Collection." },
   { name: "Traversal", anchor: "obj-traversal", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — Aspect: walks declared associations to related object rows." },
+  { name: "Designs", anchor: "obj-designs", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — auto-derived surface iterating objectRegistry through every primitive preview." },
   { name: "Pin", anchor: "mark-pin", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Positioned single-record marker; caller owns placement." },
   { name: "Plot", anchor: "mark-plot", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Decorative glyph for one datum on a plot or spatial view." },
   { name: "ClusterBadge", anchor: "mark-cluster-badge", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Rolled-up count when marks would overlap." },

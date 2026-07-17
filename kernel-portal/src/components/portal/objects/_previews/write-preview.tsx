@@ -23,7 +23,7 @@ import { statusForObject } from "@/lib/objects/status-map"
  */
 export interface WritePreviewProps {
   model: ObjectModel
-  rows: ObjectRow[]
+  rows: ReadonlyArray<ObjectRow>
   /** Optional cap for the in-place editor grid. */
   maxRows?: number
 }
@@ -51,7 +51,7 @@ function parseValue(raw: string, type: EditableField["type"]): unknown {
 
 // ---------- Form posture ----------
 
-function FormPreview({ model, rows }: { model: ObjectModel; rows: ObjectRow[] }) {
+function FormPreview({ model, rows }: { model: ObjectModel; rows: ReadonlyArray<ObjectRow> }) {
   const editable = editableFieldsFor(model)
   const seed = rows[0] ?? { id: "" }
   const [draft, setDraft] = React.useState<Record<string, unknown>>(() => {
@@ -112,7 +112,7 @@ function FormPreview({ model, rows }: { model: ObjectModel; rows: ObjectRow[] })
 
 // ---------- In-place posture ----------
 
-function InPlacePreview({ model, rows, maxRows }: { model: ObjectModel; rows: ObjectRow[]; maxRows?: number }) {
+function InPlacePreview({ model, rows, maxRows }: { model: ObjectModel; rows: ReadonlyArray<ObjectRow>; maxRows?: number }) {
   const editable = editableFieldsFor(model)
   const statusField = model.fields.find((f) => f.type === "status")
   const objectKey = model.key as Parameters<typeof statusForObject>[0]

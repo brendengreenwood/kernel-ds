@@ -59,4 +59,9 @@ export const newRailManifest = [
     path: "/traversal",
     assertion: { text: "Traversal", within: "h1" },
   },
+  {
+    slug: "designs",
+    path: "/designs",
+    assertion: { text: "Designs", within: "h1" },
+  },
 ]

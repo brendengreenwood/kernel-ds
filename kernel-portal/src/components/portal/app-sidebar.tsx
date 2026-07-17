@@ -117,6 +117,7 @@ const nav: { label: string; items: NavItem[] }[] = [
       { title: "Record", to: "/record", icon: FileText, maturity: "experimental" },
       { title: "Write", to: "/write", icon: Pencil, maturity: "experimental" },
       { title: "Substrate", to: "/substrate", icon: Shapes, maturity: "experimental" },
+      { title: "Designs", to: "/designs", icon: LayoutDashboard, maturity: "experimental" },
     ],
   },
   {
