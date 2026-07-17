@@ -1,163 +1,190 @@
-"use client"
-
 import * as React from "react"
 import { Section, Subhead, Demo } from "../section"
-import { Plot } from "@/components/ui/marks"
-import { StatusBadge } from "@/components/ui/status-badge"
 import {
   contractModel,
   contractRows,
   settlementModel,
-  settlementRows,
+  type ObjectModel,
+  type ObjectRow,
 } from "@/lib/objects"
-import { contractStatus } from "@/lib/objects/status-map"
+import { demoDataset } from "@/lib/objects/dataset"
+import {
+  ActivityRail,
+  Navigator,
+  Panel,
+  queryView,
+  recordView,
+  spatialView,
+  tableView,
+  traversalView,
+  writeView,
+  type WorkspaceContext,
+  type WorkspaceMode,
+  type WorkspaceView,
+} from "./workspace"
 
 /**
  * Workspace — the object-centric container for working across many
- * records of one or more objects (decision 0026).
+ * records of one or more objects (decisions 0026 + 0029).
  *
- * A Workspace composes three regions: a rail (navigation across
- * collections), a canvas (the current object's spatial or tabular
- * surface), and an inspector (the selected record's detail). This
- * page renders a mock workspace built on the Contract + Settlement
- * stubs from `@/lib/objects`.
+ * Anatomy is IDE-shaped: activity rail → navigator → canvas → dock.
+ * Every region right of the navigator is built from the same two
+ * primitives — `Panel` (an anonymous slot) hosting `WorkspaceView`s
+ * (pure functions of context). The "inspector" is not a component:
+ * it is just the default dock panel, hosting Record + Write views.
  *
  * This is documentation, not the real workspace at `/workspace`. The
  * live workspace demo (an experiment from decision 0018) lives at its
  * own route and remains unchanged. This page teaches the pattern.
  */
+
+interface DockPanelSpec {
+  id: number
+  title: string
+  views: WorkspaceView[]
+  /** When set, the panel is frozen to a snapshot ctx (a pinned inspector). */
+  ctx?: WorkspaceContext
+}
+
+const modeBindings: Record<
+  WorkspaceMode,
+  { model: ObjectModel; rows: ReadonlyArray<ObjectRow> }
+> = {
+  contract: { model: contractModel, rows: demoDataset.contract },
+  settlement: { model: settlementModel, rows: demoDataset.settlement },
+  query: { model: contractModel, rows: demoDataset.contract },
+  // Traversal joins associations through `objectRowsRegistry`, which
+  // holds the stub rows — bind those so the joins resolve.
+  traversal: { model: contractModel, rows: contractRows },
+}
+
+const defaultGroupBy: Record<WorkspaceMode, string> = {
+  contract: "commodity",
+  settlement: "status",
+  query: "status",
+  traversal: "status",
+}
+
 export function WorkspaceObjectSection() {
-  const [selectedId, setSelectedId] = React.useState<string>(
-    contractRows[0]?.id ?? ""
-  )
-  const selected = contractRows.find((r) => r.id === selectedId) ?? contractRows[0]
+  const [mode, setMode] = React.useState<WorkspaceMode>("contract")
+  const [selectedId, setSelectedId] = React.useState<string | null>(null)
+  const [groupBy, setGroupBy] = React.useState<string>(defaultGroupBy.contract)
+  const [dockPanels, setDockPanels] = React.useState<DockPanelSpec[]>([
+    { id: 0, title: "Inspector", views: [recordView, writeView] },
+  ])
+  const nextPanelId = React.useRef(1)
+
+  const { model, rows } = modeBindings[mode]
+  const ctx: WorkspaceContext = {
+    model,
+    rows,
+    selectedId,
+    select: setSelectedId,
+  }
+
+  function handleModeChange(next: WorkspaceMode) {
+    setMode(next)
+    setSelectedId(null)
+    setGroupBy(defaultGroupBy[next])
+  }
+
+  function pinPanel() {
+    if (selectedId == null) return
+    // Snapshot the context: the pinned panel stays on this record even
+    // as the live selection moves on — an independent second inspector.
+    // Spread the live ctx so the snapshot can't drift from the shape
+    // of WorkspaceContext as it grows.
+    const frozen: WorkspaceContext = { ...ctx, select: () => {} }
+    setDockPanels((panels) => [
+      ...panels,
+      {
+        id: nextPanelId.current,
+        title: `Pinned ${selectedId}`,
+        views: [recordView],
+        ctx: frozen,
+      },
+    ])
+    nextPanelId.current += 1
+  }
+
+  function closePanel(id: number) {
+    setDockPanels((panels) => panels.filter((p) => p.id !== id))
+  }
+
+  const canvasViews: WorkspaceView[] =
+    mode === "query"
+      ? [queryView]
+      : mode === "traversal"
+        ? [traversalView]
+        : [spatialView, tableView]
 
   return (
     <Section
       id="obj-workspace"
       eyebrow="Objects · Workspace"
       title="Workspace"
-      lead="A Workspace composes three regions — rail, canvas, inspector — so a user can move across many records of one or more objects. Decision 0026 places Workspace alongside Shell as a container: Shell wraps the surface, Workspace organizes the work inside the body slot."
+      lead="A Workspace composes four regions — activity rail, navigator, canvas, dock — so a user can move across many records of one or more objects. Every region right of the navigator is a Panel hosting views; the anatomy is composition, not fixed chrome (decision 0029)."
     >
       <Subhead id="obj-workspace-anatomy">Anatomy</Subhead>
       <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
-        <li><span className="font-medium text-foreground">Rail</span> — the collections available in this workspace (one entry per object).</li>
-        <li><span className="font-medium text-foreground">Canvas</span> — the current collection rendered as a spatial or tabular surface.</li>
-        <li><span className="font-medium text-foreground">Inspector</span> — the selected record's fields and associations.</li>
+        <li><span className="font-medium text-foreground">Activity rail</span> — icon-only mode selection; each mode owns everything to its right.</li>
+        <li><span className="font-medium text-foreground">Navigator</span> — mode-owned navigation: a grouped tree for object modes, a saved-query list for Query, association links for Traversal.</li>
+        <li><span className="font-medium text-foreground">Canvas</span> — the primary panel: the active collection as a spatial or table view.</li>
+        <li><span className="font-medium text-foreground">Dock</span> — zero or more panels; the default is one "Inspector" panel hosting Record + Write tabs against the live selection.</li>
       </ul>
 
       <Subhead id="obj-workspace-mock">Mock Workspace</Subhead>
       <Demo className="block p-0">
-        <div className="grid h-[420px] w-full grid-cols-[140px_1fr_220px] overflow-hidden rounded-md border">
-          <WorkspaceRail />
-          <WorkspaceCanvas
-            selectedId={selected?.id ?? ""}
-            onSelect={setSelectedId}
+        <div className="grid h-[560px] w-full grid-cols-[48px_220px_1fr_280px] overflow-hidden rounded-md border">
+          <ActivityRail mode={mode} onModeChange={handleModeChange} />
+          <Navigator
+            mode={mode}
+            ctx={ctx}
+            groupBy={groupBy}
+            onGroupByChange={setGroupBy}
           />
-          <WorkspaceInspector row={selected} />
+          <div className="flex min-h-0 flex-col p-2">
+            <Panel key={mode} views={canvasViews} ctx={ctx} className="min-h-0 flex-1" />
+          </div>
+          <div
+            data-slot="workspace-dock"
+            className="flex min-h-0 flex-col gap-2 overflow-auto border-l bg-muted/10 p-2"
+          >
+            <button
+              type="button"
+              onClick={pinPanel}
+              disabled={selectedId == null}
+              className="shrink-0 rounded border bg-card px-2 py-1 text-[11px] font-medium text-foreground disabled:opacity-50"
+            >
+              Pin panel
+            </button>
+            {dockPanels.length === 0 && (
+              <p className="px-1 text-[11px] text-muted-foreground">
+                No panels — select a record and pin one.
+              </p>
+            )}
+            {dockPanels.map((spec) => (
+              <Panel
+                key={spec.id}
+                views={spec.views}
+                ctx={spec.ctx ?? ctx}
+                title={spec.title}
+                onClose={() => closePanel(spec.id)}
+                className="shrink-0"
+              />
+            ))}
+          </div>
         </div>
       </Demo>
+
+      <Subhead id="obj-workspace-composability">Composability</Subhead>
+      <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
+        <li>Views are functions of context — a view renders anywhere it is handed a <code className="font-mono text-[12px]">ctx</code>; it never knows which region hosts it.</li>
+        <li>Panels are anonymous slots — "canvas" and "inspector" are roles this page assigns, not component types. The canvas above is the same <code className="font-mono text-[12px]">Panel</code> as the dock's.</li>
+        <li>The inspector is a panel, not a component — the default dock panel hosts Record + Write as tabs over the live selection.</li>
+        <li>Multiplicity is allowed — pin the current selection to add a second, independent inspector; close any panel, including the default.</li>
+        <li>The navigator is owned by the active mode — object modes get a grouped tree, Query gets a saved-query list, Traversal gets association links.</li>
+      </ul>
     </Section>
   )
 }
-
-function WorkspaceRail() {
-  return (
-    <div className="border-r bg-muted/30 p-2 text-[11px]">
-      <p className="mb-2 px-2 pt-1 font-mono uppercase tracking-wide text-[9.5px] text-muted-foreground">
-        Collections
-      </p>
-      <ul className="space-y-1">
-        <li className="flex items-center justify-between rounded bg-sidebar-accent px-2 py-1 font-medium">
-          <span>{contractModel.plural}</span>
-          <span className="font-mono text-muted-foreground">{contractRows.length}</span>
-        </li>
-        <li className="flex items-center justify-between rounded px-2 py-1 text-muted-foreground">
-          <span>{settlementModel.plural}</span>
-          <span className="font-mono">{settlementRows.length}</span>
-        </li>
-      </ul>
-    </div>
-  )
-}
-
-function WorkspaceCanvas({
-  selectedId,
-  onSelect,
-}: {
-  selectedId: string
-  onSelect: (id: string) => void
-}) {
-  return (
-    <div className="relative bg-muted/10">
-      <div className="flex items-center gap-2 border-b px-3 py-1.5 text-[11px] font-medium">
-        <span>Canvas</span>
-        <span className="ml-auto font-mono text-[10px] text-muted-foreground">
-          spatial view · {contractRows.length} pins
-        </span>
-      </div>
-      <div className="relative h-[calc(100%-28px)]">
-        {contractRows.map((row) => {
-          const isSelected = row.id === selectedId
-          return (
-            <button
-              key={row.id}
-              type="button"
-              onClick={() => onSelect(row.id)}
-              aria-label={`Select ${row.id}`}
-              className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none"
-              style={{ left: `${row.coord.x}%`, top: `${row.coord.y}%` }}
-            >
-              <Plot
-                shape="dot"
-                size={isSelected ? "lg" : "default"}
-                className={isSelected ? "text-primary" : "text-primary/60"}
-              />
-            </button>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-function WorkspaceInspector({
-  row,
-}: {
-  row: (typeof contractRows)[number] | undefined
-}) {
-  if (!row) {
-    return (
-      <div className="border-l p-3 text-xs text-muted-foreground">
-        No record selected.
-      </div>
-    )
-  }
-  return (
-    <div className="border-l p-3 text-xs">
-      <p className="font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
-        {contractModel.label}
-      </p>
-      <p className="mt-1 font-mono text-[12px] font-semibold">{row.id}</p>
-      <StatusBadge className="mt-2" status={contractStatus(row.status)} />
-      <dl className="mt-3 space-y-1.5">
-        <InspectorField label="Counterparty" value={String(row.counterparty ?? "—")} />
-        <InspectorField label="Commodity" value={String(row.commodity ?? "—")} />
-        <InspectorField label="Quantity" value={String(row.quantity ?? "—")} />
-        <InspectorField label="Unit price" value={String(row.unitPrice ?? "—")} />
-      </dl>
-    </div>
-  )
-}
-
-function InspectorField({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="font-mono text-[9.5px] uppercase tracking-wide text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="text-[11.5px]">{value}</dd>
-    </div>
-  )
-}
-

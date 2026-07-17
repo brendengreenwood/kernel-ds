@@ -276,6 +276,18 @@ own route, not a section of one long scroll.
 
 ## Experiments
 
+- **Object-centric IA + workspace anatomy** (Objects/Aspects rail groups,
+  2026-07-17): the object-centric restructure (decisions 0026-0028) merged
+  to main - object pages (Shell, Workspace, Collection, Record, Write,
+  Designs, Substrate) plus Aspects (Query, Traversal), generic _previews,
+  and the shared status-map.ts rule. The /workspace-obj page is rebuilt
+  on IDE anatomy - activity rail > navigator > canvas > dock - over a
+  composable panel/view framework (objects/workspace/) and a deterministic
+  60-contract demo dataset (dataset.ts, registry-separate). Decision 0029
+  records the anatomy + composability doctrine and amends 0026 to
+  build-first, **adapt**-later: legacy pattern/domain pages (Dashboard,
+  Advanced filtering, Origination, Pricing, Modals) are source material to
+  be absorbed into the object system, each as its own future plan.
 - **Workspace shell** (`/workspace` route in kernel-portal, 2026-07-04):
   four-zone AI-era layout — collapsed icon rail · context column
   (menu/list that drives the canvas) · workspace canvas · chat assistant.
