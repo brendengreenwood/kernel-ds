@@ -21,5 +21,6 @@
     /* Linting */
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/__check__.mts", "src/**/__check__.mjs"]
 }

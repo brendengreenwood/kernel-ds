@@ -15,7 +15,7 @@ export type ComponentMeta = {
   name: string
   /** in-page anchor the side rail links to */
   anchor: string
-  group: "component" | "element" | "pattern" | "domain"
+  group: "component" | "element" | "pattern" | "domain" | "object"
   maturity: Maturity
   a11y: "reviewed" | "pending"
   note?: string
