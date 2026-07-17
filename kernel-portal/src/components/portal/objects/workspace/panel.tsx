@@ -37,7 +37,11 @@ export function Panel({ views, ctx, defaultViewKey, title, onClose, className }:
           <span className="px-1 text-[11px] font-medium text-foreground">{title}</span>
         )}
         {views.length > 1 ? (
-          <div className="flex items-center gap-0.5" aria-label={title ? `${title} views` : "Panel views"}>
+          <div
+            role="group"
+            className="flex items-center gap-0.5"
+            aria-label={title ? `${title} views` : "Panel views"}
+          >
             {views.map((v) => (
               <button
                 key={v.key}
