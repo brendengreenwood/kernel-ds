@@ -55,7 +55,7 @@ if (barrel) {
       failed++
     }
   }
-  if (failed === 0 || barrel) console.log("ok index.ts")
+  if (failed === 0) console.log("ok index.ts")
 }
 
 process.exit(failed ? 1 : 0)

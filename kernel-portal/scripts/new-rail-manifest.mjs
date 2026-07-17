@@ -8,11 +8,11 @@
  *
  * `within` values (see amendment A2 — the field name is semantic, not markup literal):
  *   - "h1": target the page's title heading. Portal convention is <h2>
- *     inside <Section>; the walk script maps "h1" to level: 2. Both
- *     legacy pages that ship a real <h1> (overview, studio) also
- *     satisfy the check because getByRole matches the heading role at
- *     any level when narrowed by exact name — but for consistency, the
- *     walk uses level: 2.
+ *     inside <Section>; the walk script maps "h1" to level: 2. Pages that
+ *     ship a real <h1> (overview, studio) will NOT satisfy this — the
+ *     walk filters strictly to level: 2. If a future manifest row points
+ *     at such a page, add a separate `within: "pageTitleLevel1"` mapping
+ *     to the walk (do not silently widen the level filter).
  *   - "main": target any text inside <main>, not the sidebar.
  *
  * Segments 03–06 append rows. Do not reorder existing rows — the walk

@@ -39,10 +39,8 @@ function Pin({
   className,
   variant,
   size,
-  children,
   ...props
-}: React.ComponentProps<"span"> & VariantProps<typeof pinVariants>) {
-  const hasLabel = children !== undefined && children !== null && children !== ""
+}: Omit<React.ComponentProps<"span">, "children"> & VariantProps<typeof pinVariants>) {
   return (
     <span
       data-slot="pin"
@@ -58,11 +56,6 @@ function Pin({
       >
         <path d="M8 1.5c-2.485 0-4.5 2.015-4.5 4.5 0 3.375 4.5 8.5 4.5 8.5s4.5-5.125 4.5-8.5c0-2.485-2.015-4.5-4.5-4.5zM8 7.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5z" />
       </svg>
-      {hasLabel ? (
-        <span className="absolute left-full top-1/2 ml-1 -translate-y-1/2 whitespace-nowrap text-xs font-medium leading-none">
-          {children}
-        </span>
-      ) : null}
     </span>
   )
 }
