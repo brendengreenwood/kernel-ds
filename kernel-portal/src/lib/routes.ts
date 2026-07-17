@@ -30,6 +30,8 @@ export const sectionRoutes: Record<string, string> = {
   contract: "/contract",
   settlement: "/settlement",
   substrate: "/substrate",
+  "obj-shell": "/shell",
+  "obj-workspace": "/workspace-obj",
 }
 
 /** Where a legacy in-page anchor lives in the per-page IA. */
