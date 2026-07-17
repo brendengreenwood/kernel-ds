@@ -38,6 +38,7 @@ const groupLabel = {
   element: "Element",
   pattern: "Pattern",
   domain: "Domain",
+  object: "Object",
 } as const
 
 export function StatusSection() {
