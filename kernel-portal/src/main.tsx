@@ -36,6 +36,9 @@ import { ShellSection } from "@/components/portal/objects/shell"
 import { WorkspaceObjectSection } from "@/components/portal/objects/workspace-obj"
 import { CollectionSection } from "@/components/portal/objects/collection"
 import { RecordSection } from "@/components/portal/objects/record"
+import { WriteSection } from "@/components/portal/objects/write"
+import { QuerySection } from "@/components/portal/objects/query"
+import { TraversalSection } from "@/components/portal/objects/traversal"
 import "./index.css"
 
 /**
@@ -95,6 +98,9 @@ createRoot(document.getElementById("root")!).render(
             <Route path="workspace-obj" element={<WorkspaceObjectSection />} />
             <Route path="collection" element={<CollectionSection />} />
             <Route path="record" element={<RecordSection />} />
+            <Route path="write" element={<WriteSection />} />
+            <Route path="query" element={<QuerySection />} />
+            <Route path="traversal" element={<TraversalSection />} />
             <Route path="studio" element={<StudioPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

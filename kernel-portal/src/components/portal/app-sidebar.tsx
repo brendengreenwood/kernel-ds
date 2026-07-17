@@ -27,6 +27,8 @@ import {
   Shapes,
   Sparkles,
   Gauge,
+  Pencil,
+  Search,
 } from "@/components/ui/icon"
 
 import {
@@ -113,7 +115,15 @@ const nav: { label: string; items: NavItem[] }[] = [
       { title: "Workspace", to: "/workspace-obj", icon: PanelsLeftRight, maturity: "experimental" },
       { title: "Collection", to: "/collection", icon: Table2, maturity: "experimental" },
       { title: "Record", to: "/record", icon: FileText, maturity: "experimental" },
+      { title: "Write", to: "/write", icon: Pencil, maturity: "experimental" },
       { title: "Substrate", to: "/substrate", icon: Shapes, maturity: "experimental" },
+    ],
+  },
+  {
+    label: "Aspects",
+    items: [
+      { title: "Query", to: "/query", icon: Search, maturity: "experimental" },
+      { title: "Traversal", to: "/traversal", icon: Route, maturity: "experimental" },
     ],
   },
 ]

@@ -34,6 +34,9 @@ export const sectionRoutes: Record<string, string> = {
   "obj-workspace": "/workspace-obj",
   "obj-collection": "/collection",
   "obj-record": "/record",
+  "obj-write": "/write",
+  "obj-query": "/query",
+  "obj-traversal": "/traversal",
 }
 
 /** Where a legacy in-page anchor lives in the per-page IA. */
