@@ -100,6 +100,8 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Substrate demo", anchor: "obj-substrate", group: "object", maturity: "experimental", a11y: "pending", note: "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)." },
   { name: "Shell", anchor: "obj-shell", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026" },
   { name: "Workspace", anchor: "obj-workspace", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026" },
+  { name: "Collection", anchor: "obj-collection", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — first Read primitive (many rows of one object)." },
+  { name: "Record", anchor: "obj-record", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — second Read primitive (one row of one object)." },
   { name: "Pin", anchor: "mark-pin", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Positioned single-record marker; caller owns placement." },
   { name: "Plot", anchor: "mark-plot", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Decorative glyph for one datum on a plot or spatial view." },
   { name: "ClusterBadge", anchor: "mark-cluster-badge", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Rolled-up count when marks would overlap." },

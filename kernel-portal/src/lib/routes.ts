@@ -32,6 +32,8 @@ export const sectionRoutes: Record<string, string> = {
   substrate: "/substrate",
   "obj-shell": "/shell",
   "obj-workspace": "/workspace-obj",
+  "obj-collection": "/collection",
+  "obj-record": "/record",
 }
 
 /** Where a legacy in-page anchor lives in the per-page IA. */

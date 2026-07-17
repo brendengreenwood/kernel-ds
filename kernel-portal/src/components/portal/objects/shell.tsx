@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import { Section, Subhead, Demo } from "../section"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { StatusBadge } from "@/components/ui/status-badge"
 import { contractModel, contractRows } from "@/lib/objects"
+import { contractStatus } from "@/lib/objects/status-map"
 
 /**
  * Shell — the outermost container in the object-centric IA (decision 0026).
@@ -97,7 +98,7 @@ function BodySlotCollectionPreview() {
               <td className="py-1">{String(row.counterparty ?? "—")}</td>
               <td className="py-1">{String(row.commodity ?? "—")}</td>
               <td className="py-1">
-                <StatusBadge status={rowStatus(row.status)} />
+                <StatusBadge status={contractStatus(row.status)} />
               </td>
             </tr>
           ))}
@@ -107,10 +108,3 @@ function BodySlotCollectionPreview() {
   )
 }
 
-function rowStatus(v: unknown): Status {
-  const s = String(v ?? "")
-  if (s === "active") return "pending"
-  if (s === "settled") return "settled"
-  if (s === "cancelled") return "cancelled"
-  return "draft"
-}

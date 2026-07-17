@@ -34,6 +34,8 @@ import { StatusSection } from "@/components/portal/status-page"
 import { SubstrateSection } from "@/components/portal/objects/substrate"
 import { ShellSection } from "@/components/portal/objects/shell"
 import { WorkspaceObjectSection } from "@/components/portal/objects/workspace-obj"
+import { CollectionSection } from "@/components/portal/objects/collection"
+import { RecordSection } from "@/components/portal/objects/record"
 import "./index.css"
 
 /**
@@ -91,6 +93,8 @@ createRoot(document.getElementById("root")!).render(
             <Route path="substrate" element={<SubstrateSection />} />
             <Route path="shell" element={<ShellSection />} />
             <Route path="workspace-obj" element={<WorkspaceObjectSection />} />
+            <Route path="collection" element={<CollectionSection />} />
+            <Route path="record" element={<RecordSection />} />
             <Route path="studio" element={<StudioPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

@@ -111,6 +111,8 @@ const nav: { label: string; items: NavItem[] }[] = [
     items: [
       { title: "Shell", to: "/shell", icon: AppWindow, maturity: "experimental" },
       { title: "Workspace", to: "/workspace-obj", icon: PanelsLeftRight, maturity: "experimental" },
+      { title: "Collection", to: "/collection", icon: Table2, maturity: "experimental" },
+      { title: "Record", to: "/record", icon: FileText, maturity: "experimental" },
       { title: "Substrate", to: "/substrate", icon: Shapes, maturity: "experimental" },
     ],
   },

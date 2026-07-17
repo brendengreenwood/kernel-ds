@@ -34,4 +34,14 @@ export const newRailManifest = [
     path: "/workspace-obj",
     assertion: { text: "Workspace", within: "h1" },
   },
+  {
+    slug: "collection",
+    path: "/collection",
+    assertion: { text: "Collection", within: "h1" },
+  },
+  {
+    slug: "record",
+    path: "/record",
+    assertion: { text: "Record", within: "h1" },
+  },
 ]
