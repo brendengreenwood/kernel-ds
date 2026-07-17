@@ -3,13 +3,14 @@
 import * as React from "react"
 import { Section, Subhead, Demo } from "../section"
 import { Plot } from "@/components/ui/marks"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { StatusBadge } from "@/components/ui/status-badge"
 import {
   contractModel,
   contractRows,
   settlementModel,
   settlementRows,
 } from "@/lib/objects"
+import { contractStatus } from "@/lib/objects/status-map"
 
 /**
  * Workspace — the object-centric container for working across many
@@ -138,7 +139,7 @@ function WorkspaceInspector({
         {contractModel.label}
       </p>
       <p className="mt-1 font-mono text-[12px] font-semibold">{row.id}</p>
-      <StatusBadge className="mt-2" status={rowStatus(row.status)} />
+      <StatusBadge className="mt-2" status={contractStatus(row.status)} />
       <dl className="mt-3 space-y-1.5">
         <InspectorField label="Counterparty" value={String(row.counterparty ?? "—")} />
         <InspectorField label="Commodity" value={String(row.commodity ?? "—")} />
@@ -160,10 +161,3 @@ function InspectorField({ label, value }: { label: string; value: string }) {
   )
 }
 
-function rowStatus(v: unknown): Status {
-  const s = String(v ?? "")
-  if (s === "active") return "pending"
-  if (s === "settled") return "settled"
-  if (s === "cancelled") return "cancelled"
-  return "draft"
-}
