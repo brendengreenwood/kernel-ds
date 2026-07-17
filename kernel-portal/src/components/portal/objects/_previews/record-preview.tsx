@@ -1,8 +1,6 @@
-"use client"
-
 import * as React from "react"
 import { StatusBadge } from "@/components/ui/status-badge"
-import type { ObjectModel, ObjectRow } from "@/lib/objects"
+import { objectRegistry, type ObjectModel, type ObjectRow } from "@/lib/objects"
 import { statusForObject } from "@/lib/objects/status-map"
 
 /**
@@ -63,7 +61,11 @@ export function RecordPreview({ model, row }: RecordPreviewProps) {
             </dt>
             <dd className="text-muted-foreground">
               {model.associations
-                .map((a) => `${a.label} → ${a.targetObjectKey}`)
+                .map((a) => {
+                  const target = objectRegistry[a.targetObjectKey as keyof typeof objectRegistry]
+                  const targetLabel = target?.plural ?? target?.label ?? a.targetObjectKey
+                  return `${a.label} → ${targetLabel}`
+                })
                 .join(" · ")}
             </dd>
           </>

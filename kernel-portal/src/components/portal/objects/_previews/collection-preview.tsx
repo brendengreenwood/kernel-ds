@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { StatusBadge } from "@/components/ui/status-badge"
 import type { ObjectModel, ObjectRow } from "@/lib/objects"
