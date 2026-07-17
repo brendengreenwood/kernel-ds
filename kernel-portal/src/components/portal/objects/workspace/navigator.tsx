@@ -124,7 +124,12 @@ function ObjectNavigator({
       </header>
       <ul className="min-h-0 flex-1 overflow-auto p-1.5 text-[11px]">
         {groups.map(([value, rows]) => {
-          const isCollapsed = collapsed[`${activeGroupBy}:${value}`] ?? false
+          // Namespaced by object key: contract and settlement share groupBy
+          // values (e.g. "status"), and this component stays mounted across
+          // object-mode switches — without the namespace, collapse state
+          // would bleed between objects.
+          const collapseKey = `${ctx.model.key}:${activeGroupBy}:${value}`
+          const isCollapsed = collapsed[collapseKey] ?? false
           return (
             <li key={value}>
               <button
@@ -133,7 +138,7 @@ function ObjectNavigator({
                 onClick={() =>
                   setCollapsed((prev) => ({
                     ...prev,
-                    [`${activeGroupBy}:${value}`]: !isCollapsed,
+                    [collapseKey]: !isCollapsed,
                   }))
                 }
                 className="flex w-full items-center justify-between gap-2 rounded px-1.5 py-1 text-left font-medium text-foreground hover:bg-muted/40"
@@ -224,6 +229,31 @@ function TraversalNavigator({ ctx }: { ctx: WorkspaceContext }) {
         )}
       </header>
       <div className="min-h-0 flex-1 overflow-auto p-2.5 text-[11px]">
+        {/* Row picker: mode switches clear the selection, so traversal owns
+            its own way to pick a record — without this the association
+            links below would be unreachable. */}
+        <ul className="mb-2 space-y-0.5">
+          {ctx.rows.map((row) => {
+            const isSelected = String(row.id) === ctx.selectedId
+            return (
+              <li key={String(row.id)}>
+                <button
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => ctx.select(String(row.id))}
+                  className={cn(
+                    "w-full rounded px-1.5 py-0.5 text-left font-mono text-[10.5px]",
+                    isSelected
+                      ? "bg-sidebar-accent font-medium text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {String(row.id)}
+                </button>
+              </li>
+            )
+          })}
+        </ul>
         {!selected ? (
           <p className="text-muted-foreground">
             Select a record to walk its associations.
@@ -247,6 +277,10 @@ function TraversalNavigator({ ctx }: { ctx: WorkspaceContext }) {
           </ul>
         )}
       </div>
+      <p className="shrink-0 border-t px-2.5 py-2 text-[10px] text-muted-foreground">
+        Traversal browses the stub registry rows — association joins resolve
+        through the shared object registry, which the demo dataset stays out of.
+      </p>
     </>
   )
 }

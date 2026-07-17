@@ -92,12 +92,9 @@ export function WorkspaceObjectSection() {
     if (selectedId == null) return
     // Snapshot the context: the pinned panel stays on this record even
     // as the live selection moves on — an independent second inspector.
-    const frozen: WorkspaceContext = {
-      model,
-      rows,
-      selectedId,
-      select: () => {},
-    }
+    // Spread the live ctx so the snapshot can't drift from the shape
+    // of WorkspaceContext as it grows.
+    const frozen: WorkspaceContext = { ...ctx, select: () => {} }
     setDockPanels((panels) => [
       ...panels,
       {
