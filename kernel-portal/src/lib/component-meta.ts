@@ -97,7 +97,6 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 1 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup." },
   { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 2 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup." },
 
-  { name: "Substrate demo", anchor: "obj-substrate", group: "object", maturity: "experimental", a11y: "pending", note: "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)." },
   { name: "Shell", anchor: "obj-shell", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026" },
   { name: "Workspace", anchor: "obj-workspace", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026" },
   { name: "Collection", anchor: "obj-collection", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — first Read primitive (many rows of one object)." },
@@ -105,6 +104,8 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Write", anchor: "obj-write", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — write layer (form + in-place postures)." },
   { name: "Query", anchor: "obj-query", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — Aspect: narrows an object row set with predicates; yields a Collection." },
   { name: "Traversal", anchor: "obj-traversal", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — Aspect: walks declared associations to related object rows." },
+  { name: "Designs", anchor: "obj-designs", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026 — auto-derived surface iterating objectRegistry through every primitive preview." },
+  { name: "Substrate demo", anchor: "obj-substrate", group: "object", maturity: "experimental", a11y: "pending", note: "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)." },
   { name: "Pin", anchor: "mark-pin", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Positioned single-record marker; caller owns placement." },
   { name: "Plot", anchor: "mark-plot", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Decorative glyph for one datum on a plot or spatial view." },
   { name: "ClusterBadge", anchor: "mark-cluster-badge", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Rolled-up count when marks would overlap." },

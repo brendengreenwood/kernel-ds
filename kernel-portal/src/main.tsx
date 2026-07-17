@@ -39,6 +39,7 @@ import { RecordSection } from "@/components/portal/objects/record"
 import { WriteSection } from "@/components/portal/objects/write"
 import { QuerySection } from "@/components/portal/objects/query"
 import { TraversalSection } from "@/components/portal/objects/traversal"
+import { DesignsSection } from "@/components/portal/objects/designs"
 import "./index.css"
 
 /**
@@ -101,6 +102,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="write" element={<WriteSection />} />
             <Route path="query" element={<QuerySection />} />
             <Route path="traversal" element={<TraversalSection />} />
+            <Route path="designs" element={<DesignsSection />} />
             <Route path="studio" element={<StudioPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
