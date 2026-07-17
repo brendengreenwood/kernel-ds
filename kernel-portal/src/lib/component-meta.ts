@@ -96,6 +96,12 @@ export const componentMeta: ComponentMeta[] = [
 
   { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 1 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup." },
   { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 2 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup." },
+
+  { name: "Substrate demo", anchor: "obj-substrate", group: "object", maturity: "experimental", a11y: "pending", note: "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)." },
+  { name: "Pin", anchor: "mark-pin", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Positioned single-record marker; caller owns placement." },
+  { name: "Plot", anchor: "mark-plot", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Decorative glyph for one datum on a plot or spatial view." },
+  { name: "ClusterBadge", anchor: "mark-cluster-badge", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Rolled-up count when marks would overlap." },
+  { name: "LegendSwatch", anchor: "mark-legend-swatch", group: "object", maturity: "ready", a11y: "reviewed", note: "Mark component (decision 0027). Legend row color-key glyph." },
 ]
 
 export const components = componentMeta.filter((c) => c.group === "component")

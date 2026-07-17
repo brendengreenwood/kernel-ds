@@ -29,6 +29,7 @@ export const sectionRoutes: Record<string, string> = {
   modals: "/modals",
   contract: "/contract",
   settlement: "/settlement",
+  substrate: "/substrate",
 }
 
 /** Where a legacy in-page anchor lives in the per-page IA. */

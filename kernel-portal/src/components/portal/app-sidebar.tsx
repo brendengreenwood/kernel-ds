@@ -106,6 +106,12 @@ const nav: { label: string; items: NavItem[] }[] = [
       { title: "Settlement statement", to: "/settlement", icon: Banknote, maturity: "experimental" },
     ],
   },
+  {
+    label: "Objects",
+    items: [
+      { title: "Substrate", to: "/substrate", icon: Shapes, maturity: "experimental" },
+    ],
+  },
 ]
 
 export function AppSidebar() {

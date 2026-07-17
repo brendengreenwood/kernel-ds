@@ -31,6 +31,7 @@ import { ContractDetailSection } from "@/components/portal/contract-detail"
 import { SettlementSection } from "@/components/portal/settlement"
 import { InstallSection } from "@/components/portal/install"
 import { StatusSection } from "@/components/portal/status-page"
+import { SubstrateSection } from "@/components/portal/objects/substrate"
 import "./index.css"
 
 /**
@@ -85,6 +86,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="modals" element={<ModalPatternsSection />} />
             <Route path="contract" element={<ContractDetailSection />} />
             <Route path="settlement" element={<SettlementSection />} />
+            <Route path="substrate" element={<SubstrateSection />} />
             <Route path="studio" element={<StudioPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
