@@ -1,9 +1,8 @@
 import * as React from "react"
 import { StatusBadge } from "@/components/ui/status-badge"
 import {
-  objectRegistry,
-  objectRowsRegistry,
-  type ObjectKey,
+  getObjectModel,
+  getObjectRows,
   type ObjectModel,
   type ObjectRow,
 } from "@/lib/objects"
@@ -29,9 +28,9 @@ export interface TraversalPreviewProps {
 function joinTargetRows(
   sourceModel: ObjectModel,
   sourceRow: ObjectRow,
-  targetKey: ObjectKey
+  targetKey: string
 ): ReadonlyArray<ObjectRow> {
-  const targets = objectRowsRegistry[targetKey]
+  const targets = getObjectRows(targetKey)
   const fkField = `${sourceModel.key}Id`
   return targets.filter((t) => String(t[fkField] ?? "") === String(sourceRow.id))
 }
@@ -54,7 +53,7 @@ function summarizeRow(model: ObjectModel, row: ObjectRow): string {
 }
 
 export function TraversalPreview({ model, rows }: TraversalPreviewProps) {
-  const objectKey = model.key as ObjectKey
+  const objectKey = model.key
   const statusField = model.fields.find((f) => f.type === "status")
   const [selectedId, setSelectedId] = React.useState<string>(String(rows[0]?.id ?? ""))
   const selected = rows.find((r) => String(r.id) === selectedId) ?? rows[0]
@@ -111,8 +110,8 @@ export function TraversalPreview({ model, rows }: TraversalPreviewProps) {
               </div>
             ) : (
               model.associations.map((assoc) => {
-                const targetKey = assoc.targetObjectKey as ObjectKey
-                const target = objectRegistry[targetKey]
+                const targetKey = assoc.targetObjectKey
+                const target = getObjectModel(targetKey)
                 if (!target) return null
                 const targetRows = joinTargetRows(model, selected, targetKey)
                 const targetStatusField = target.fields.find((f) => f.type === "status")

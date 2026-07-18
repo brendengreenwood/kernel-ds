@@ -1,0 +1,195 @@
+/**
+ * Composition contract — the machine-readable manifest of how the object
+ * system composes (decision 0030).
+ *
+ * This file is DATA ONLY: no component imports, no react, no side effects.
+ * It is the source of truth for the rules agents reach for instead of
+ * re-deriving conventions from prose. `scripts/emit-composition.mjs`
+ * serializes it to `public/composition.json` (served by the portal, so an
+ * agent can fetch it); the prose decision records in `docs/decisions/`
+ * remain the *why*.
+ */
+
+/** A generic object primitive an agent can reach for. */
+export interface CompositionPrimitive {
+  key: string
+  label: string
+  /** The prop contract every generic primitive obeys. */
+  propsContract: string
+  /** One-sentence rule for when an agent reaches for this primitive. */
+  when: string
+  /**
+   * Canonical `data-slot` name for the primitive. Workspace regions emit
+   * their slots today; the preview primitives declare theirs here as the
+   * canonical vocabulary — `emitted: false` means the DOM attribute is not
+   * yet rendered (follow-up on the board), so do not write locators
+   * against it yet.
+   */
+  dataSlot: string
+  emitted: boolean
+}
+
+/** A workspace region (decision 0029 anatomy). */
+export interface CompositionRegion {
+  key: string
+  dataSlot: string
+  /** What the region owns. */
+  owns: string
+  /** Resizable via the DS Resizable component (rail is fixed). */
+  resizable: boolean
+  rule: string
+}
+
+/** A doctrine rule with its authoritative source record. */
+export interface CompositionRule {
+  id: string
+  statement: string
+  source: `decision-${string}` | "amendment-A4"
+}
+
+export const primitives: readonly CompositionPrimitive[] = [
+  {
+    key: "shell",
+    label: "Shell",
+    propsContract: "page-level frame (no generic props yet)",
+    when: "Reach for Shell when a surface needs the object-centric page frame before any primitive renders inside it.",
+    dataSlot: "object-shell",
+    emitted: false,
+  },
+  {
+    key: "collection",
+    label: "Collection",
+    propsContract: "({ model, rows }) => JSX",
+    when: "Reach for Collection when the user needs to scan many rows of one object — it renders the model's fields as columns with model-toned status badges.",
+    dataSlot: "object-collection",
+    emitted: false,
+  },
+  {
+    key: "record",
+    label: "Record",
+    propsContract: "({ model, row }) => JSX",
+    when: "Reach for Record when one row is in focus — it renders every field of a single row plus its association targets.",
+    dataSlot: "object-record",
+    emitted: false,
+  },
+  {
+    key: "write",
+    label: "Write",
+    propsContract: "({ model, rows }) => JSX",
+    when: "Reach for Write when the user changes data — it derives a form and in-place editors from the model's field types.",
+    dataSlot: "object-write",
+    emitted: false,
+  },
+  {
+    key: "query",
+    label: "Query",
+    propsContract: "({ model, rows }) => JSX",
+    when: "Reach for Query when the user filters or searches across an object's rows — it derives filter controls from the model's fields and statuses.",
+    dataSlot: "object-query",
+    emitted: false,
+  },
+  {
+    key: "traversal",
+    label: "Traversal",
+    propsContract: "({ model, rows }) => JSX",
+    when: "Reach for Traversal when the user walks associations between objects — it follows the model's association declarations, null-guarding unregistered targets.",
+    dataSlot: "object-traversal",
+    emitted: false,
+  },
+] as const
+
+export const regions: readonly CompositionRegion[] = [
+  {
+    key: "activityRail",
+    dataSlot: "workspace-activity-rail",
+    owns: "mode switching — one icon button per workspace mode, aria-pressed marks the active mode",
+    resizable: false,
+    rule: "The rail is fixed-width and never hosts panels; it only changes which mode owns the navigator and canvas.",
+  },
+  {
+    key: "navigator",
+    dataSlot: "workspace-navigator",
+    owns: "mode-owned navigation — grouped trees with counts for object modes, canned queries for query mode, association walking for traversal mode",
+    resizable: true,
+    rule: "The navigator is a resizable region (DS Resizable panel); its contents are a function of the active mode, never hardcoded per object.",
+  },
+  {
+    key: "canvas",
+    dataSlot: "workspace-panel",
+    owns: "the primary view panel — an anonymous workspace-panel hosting the mode's views (tab strip when more than one)",
+    resizable: true,
+    rule: "The canvas has no dedicated data-slot; it hosts an anonymous workspace-panel (panels-are-anonymous-slots), located as the panel outside workspace-dock. It is a resizable region.",
+  },
+  {
+    key: "dock",
+    dataSlot: "workspace-dock",
+    owns: "zero or more panels — the default inspector is just a panel; users can pin additional frozen panels",
+    resizable: true,
+    rule: "The dock is a resizable region holding an array of anonymous panels; multiplicity is allowed and every panel is closable.",
+  },
+] as const
+
+export const rules: readonly CompositionRule[] = [
+  {
+    id: "views-are-functions-of-context",
+    statement:
+      "A workspace view is a pure function of WorkspaceContext ({ model, rows, selectedId, select }); views never own object-specific state.",
+    source: "decision-0029",
+  },
+  {
+    id: "panels-are-anonymous-slots",
+    statement:
+      "A panel is an anonymous slot that hosts any array of views with a tab strip when more than one; nothing about a panel is object-specific.",
+    source: "decision-0029",
+  },
+  {
+    id: "inspector-is-a-panel",
+    statement:
+      "The inspector is not a special region — it is just a panel in the dock, replaceable and composable like any other.",
+    source: "decision-0029",
+  },
+  {
+    id: "multiplicity-allowed",
+    statement:
+      "The dock holds an array of panels; pinning clones the current context into a frozen panel while the live inspector keeps following selection.",
+    source: "decision-0029",
+  },
+  {
+    id: "regions-resizable",
+    statement:
+      "Navigator, canvas, and dock are resizable regions hosted in the DS Resizable component; the activity rail is fixed.",
+    source: "decision-0029",
+  },
+  {
+    id: "status-via-model-tones",
+    statement:
+      "Status rendering derives from the model's declared StatusTone via toneToStatus (active maps to booked, never pending); no surface hardcodes per-object status switches.",
+    source: "amendment-A4",
+  },
+  {
+    id: "single-tone-map-source",
+    statement:
+      "Exactly one tone-to-Status map exists, in lib/objects/status-map.ts; check-status-map.mjs fails when run (kernel-verify / ship gate) if another file defines one.",
+    source: "decision-0030",
+  },
+  {
+    id: "lib-never-imports-components",
+    statement:
+      "Files under lib/objects/ never import from components/; React may appear only in dedicated hook files (use-*.ts), keeping the object model UI-agnostic.",
+    source: "decision-0030",
+  },
+  {
+    id: "registration-only-via-registerObject",
+    statement:
+      "All object registration flows through registerObject(model, rows); no component mutates objectRegistry or objectRowsRegistry directly.",
+    source: "decision-0030",
+  },
+] as const
+
+/** The whole contract as one object — what emit-composition.mjs serializes. */
+export const compositionContract = {
+  version: 1,
+  primitives,
+  regions,
+  rules,
+} as const

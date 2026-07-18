@@ -36,7 +36,7 @@ function formatCell(field: ObjectModel["fields"][number], value: unknown): React
 }
 
 export function CollectionPreview({ model, rows, maxRows = Infinity }: CollectionPreviewProps) {
-  const objectKey = model.key as Parameters<typeof statusForObject>[0]
+  const objectKey = model.key
   const shown = rows.slice(0, maxRows)
   const nonStatusFields = model.fields.filter((f) => f.type !== "status")
   const statusField = model.fields.find((f) => f.type === "status")

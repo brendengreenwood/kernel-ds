@@ -1,5 +1,5 @@
 import * as React from "react"
-import { objectRegistry, type ObjectRow } from "@/lib/objects"
+import { getObjectModel, type ObjectRow } from "@/lib/objects"
 import { cn } from "@/lib/utils"
 import type { WorkspaceContext, WorkspaceMode } from "./types"
 
@@ -265,7 +265,7 @@ function TraversalNavigator({ ctx }: { ctx: WorkspaceContext }) {
         ) : (
           <ul className="space-y-1">
             {ctx.model.associations.map((a) => {
-              const target = objectRegistry[a.targetObjectKey as keyof typeof objectRegistry]
+              const target = getObjectModel(a.targetObjectKey)
               const targetLabel = target?.plural ?? target?.label ?? a.targetObjectKey
               return (
                 <li key={a.key} className="rounded border border-border/60 bg-card px-2 py-1.5">

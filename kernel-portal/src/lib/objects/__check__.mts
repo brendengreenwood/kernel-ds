@@ -41,7 +41,7 @@ for (const s of settlementRows) {
 }
 
 // Coord validity on every row of every object.
-function checkCoords(rows: ObjectRow[], label: string) {
+function checkCoords(rows: readonly ObjectRow[], label: string) {
   for (const r of rows) {
     assert(
       r.coord && typeof r.coord.x === "number" && typeof r.coord.y === "number",
@@ -78,6 +78,75 @@ try {
   } else {
     throw err
   }
+}
+
+// Phase 3: schema + parseObjectModel asserts.
+{
+  const { parseObjectModel } = await import("./schema.ts")
+
+  const validJson = JSON.stringify({
+    model: {
+      key: "gadget",
+      label: "Gadget",
+      plural: "Gadgets",
+      fields: [{ key: "name", label: "Name", type: "text", sample: "Widget" }],
+      statuses: [{ key: "live", label: "Live", tone: "active" }],
+      associations: [
+        { key: "owner", label: "Owner", targetObjectKey: "not-registered" },
+      ],
+    },
+    rows: [
+      { id: "G-1", name: "Widget" },
+      { id: "G-2", name: "Doodad", coord: { x: 50, y: 50 } },
+    ],
+  })
+
+  // (1) Valid JSON parses to typed model + rows.
+  const { model, rows } = parseObjectModel(validJson)
+  assert(
+    model.key === "gadget" && rows.length === 2,
+    "valid JSON must parse to model + rows",
+  )
+
+  // (2) A model whose status entry omits `tone` fails.
+  let toneRejected = false
+  try {
+    parseObjectModel(
+      JSON.stringify({
+        model: {
+          key: "gadget",
+          label: "Gadget",
+          plural: "Gadgets",
+          fields: [],
+          statuses: [{ key: "live", label: "Live" }],
+          associations: [],
+        },
+        rows: [],
+      }),
+    )
+  } catch {
+    toneRejected = true
+  }
+  assert(toneRejected, "model whose status lacks tone must fail zod parse")
+
+  // (3) A row with no coord gets a derived coord in [5..95], deterministically.
+  const derived = rows[0].coord
+  assert(
+    derived.x >= 5 && derived.x <= 95 && derived.y >= 5 && derived.y <= 95,
+    `derived coord out of [5..95]: ${JSON.stringify(derived)}`,
+  )
+  const again = parseObjectModel(validJson)
+  assert(
+    again.rows[0].coord.x === derived.x && again.rows[0].coord.y === derived.y,
+    "coord derivation must be deterministic",
+  )
+  assert(
+    rows[1].coord.x === 50 && rows[1].coord.y === 50,
+    "explicit coord must be preserved",
+  )
+  console.log(
+    `schema ok (parse, tone-required, derived coord ${derived.x},${derived.y} in [5..95])`,
+  )
 }
 
 console.log("stub ok")

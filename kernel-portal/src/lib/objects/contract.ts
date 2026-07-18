@@ -25,7 +25,7 @@ export const contractModel: ObjectModel = {
     { key: "draft", label: "Draft", tone: "draft" },
     { key: "active", label: "Active", tone: "active" },
     { key: "settled", label: "Settled", tone: "success" },
-    { key: "cancelled", label: "Cancelled", tone: "neutral" },
+    { key: "cancelled", label: "Cancelled", tone: "danger" },
   ],
   associations: [
     { key: "settlements", label: "Settlements", targetObjectKey: "settlement" },
