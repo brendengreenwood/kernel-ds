@@ -1,6 +1,6 @@
 import * as React from "react"
 import { StatusBadge } from "@/components/ui/status-badge"
-import { objectRegistry, type ObjectModel, type ObjectRow } from "@/lib/objects"
+import { getObjectModel, type ObjectModel, type ObjectRow } from "@/lib/objects"
 import { statusForObject } from "@/lib/objects/status-map"
 
 /**
@@ -62,7 +62,7 @@ export function RecordPreview({ model, row }: RecordPreviewProps) {
             <dd className="text-muted-foreground">
               {model.associations
                 .map((a) => {
-                  const target = objectRegistry[a.targetObjectKey as keyof typeof objectRegistry]
+                  const target = getObjectModel(a.targetObjectKey)
                   const targetLabel = target?.plural ?? target?.label ?? a.targetObjectKey
                   return `${a.label} → ${targetLabel}`
                 })

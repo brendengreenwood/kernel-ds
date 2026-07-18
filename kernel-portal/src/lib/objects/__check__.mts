@@ -41,7 +41,7 @@ for (const s of settlementRows) {
 }
 
 // Coord validity on every row of every object.
-function checkCoords(rows: ObjectRow[], label: string) {
+function checkCoords(rows: readonly ObjectRow[], label: string) {
   for (const r of rows) {
     assert(
       r.coord && typeof r.coord.x === "number" && typeof r.coord.y === "number",

@@ -6,24 +6,21 @@ import {
   QueryPreview,
   TraversalPreview,
 } from "./_previews"
-import {
-  objectRegistry,
-  objectRowsRegistry,
-  type ObjectKey,
-  type ObjectModel,
-  type ObjectRow,
-} from "@/lib/objects"
+import { type ObjectModel, type ObjectRow } from "@/lib/objects"
+import { useObjectRegistry } from "@/lib/objects/use-object-registry"
 
 /**
  * Designs — the auto-derived tier described in decision 0026. This page
- * iterates `objectRegistry` and, for every object the model declares,
+ * subscribes to the runtime registry (`useObjectRegistry`) and, for
+ * every registered object,
  * renders every primitive (Collection, Record, Write, Query, Traversal)
  * against that object's rows using the generic preview components built
  * in segments 04 and 05. Add a third object to the registry and its full
  * design surface materializes here with no page-file edits.
  */
 export function DesignsSection() {
-  const keys = Object.keys(objectRegistry) as ObjectKey[]
+  const { models, rows } = useObjectRegistry()
+  const keys = Object.keys(models)
 
   return (
     <Section
@@ -36,8 +33,8 @@ export function DesignsSection() {
         {keys.map((key) => (
           <ObjectDesignSuite
             key={key}
-            model={objectRegistry[key]}
-            rows={objectRowsRegistry[key]}
+            model={models[key]}
+            rows={rows[key]}
           />
         ))}
 
@@ -47,7 +44,7 @@ export function DesignsSection() {
             The five previews (`CollectionPreview`, `RecordPreview`, `WritePreview`,
             `QueryPreview`, `TraversalPreview`) all consume{" "}
             <code className="font-mono text-[12px]">({"{ model, rows }"}) → JSX</code>.
-            Iterating <code className="font-mono text-[12px]">objectRegistry</code> here proves
+            Iterating <code className="font-mono text-[12px]">useObjectRegistry()</code> here proves
             that generic shape.
           </li>
           <li>

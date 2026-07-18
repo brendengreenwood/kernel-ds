@@ -1,5 +1,4 @@
 import type { ObjectRow } from "./types.ts"
-import type { ObjectKey } from "./index.ts"
 
 /**
  * Demo dataset — deterministic generated rows for the Workspace page
@@ -195,4 +194,4 @@ export const demoSettlementRows: ObjectRow[] = generated.settlements
 export const demoDataset = {
   contract: demoContractRows,
   settlement: demoSettlementRows,
-} satisfies Record<ObjectKey, readonly ObjectRow[]>
+} satisfies Record<string, readonly ObjectRow[]>

@@ -2,7 +2,9 @@ import type { Status } from "@/components/ui/status-badge";
 import type { ObjectModel, StatusTone } from "./types.ts";
 import { contractModel } from "./contract.ts";
 import { settlementModel } from "./settlement.ts";
-import { objectRegistry, type ObjectKey } from "./index.ts";
+// Imported via the barrel (not registry.ts directly) so evaluating this
+// module also seeds the static objects into the runtime registry.
+import { getObjectModel } from "./index.ts";
 
 /**
  * The single tone → StatusBadge mapping. Every status badge across the
@@ -54,12 +56,13 @@ export function settlementStatus(value: unknown): Status {
 
 /**
  * Dispatcher used by generic previews that don't know which object they're
- * rendering. Looks the model up in the registry and delegates to the
- * generic path. Every Objects rail preview must go through this helper (or
- * a per-object helper above) — never inline the switch in a page.
+ * rendering. Any registered object key works — the model is looked up in
+ * the runtime registry and delegated to the generic path. Every Objects
+ * rail preview must go through this helper (or a per-object helper above)
+ * — never inline the switch in a page.
  */
-export function statusForObject(objectKey: ObjectKey, value: unknown): Status {
-  const model = objectRegistry[objectKey];
+export function statusForObject(objectKey: string, value: unknown): Status {
+  const model = getObjectModel(objectKey);
   if (!model) return "draft";
   return statusFromModel(model, value);
 }
