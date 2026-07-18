@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StatusBadge } from "@/components/ui/status-badge"
 import type { ObjectModel, ObjectRow } from "@/lib/objects"
-import { statusForObject } from "@/lib/objects/status-map"
+import { statusForObject, statusLabelForObject } from "@/lib/objects/status-map"
 
 /**
  * Collection preview — generic (`{ model, rows }` → JSX) table view of an
@@ -71,7 +71,9 @@ export function CollectionPreview({ model, rows, maxRows = Infinity }: Collectio
                 ))}
                 {statusField && (
                   <td className="px-4 py-2">
-                    <StatusBadge status={statusForObject(objectKey, row[statusField.key])} />
+                    <StatusBadge status={statusForObject(objectKey, row[statusField.key])}>
+                      {statusLabelForObject(objectKey, row[statusField.key])}
+                    </StatusBadge>
                   </td>
                 )}
               </tr>
