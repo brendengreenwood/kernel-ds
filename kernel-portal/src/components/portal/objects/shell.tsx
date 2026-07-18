@@ -4,7 +4,7 @@ import * as React from "react"
 import { Section, Subhead, Demo } from "../section"
 import { StatusBadge } from "@/components/ui/status-badge"
 import { contractModel, contractRows } from "@/lib/objects"
-import { contractStatus } from "@/lib/objects/status-map"
+import { contractStatus, statusLabelFromModel } from "@/lib/objects/status-map"
 
 /**
  * Shell — the outermost container in the object-centric IA (decision 0026).
@@ -98,7 +98,9 @@ function BodySlotCollectionPreview() {
               <td className="py-1">{String(row.counterparty ?? "—")}</td>
               <td className="py-1">{String(row.commodity ?? "—")}</td>
               <td className="py-1">
-                <StatusBadge status={contractStatus(row.status)} />
+                <StatusBadge status={contractStatus(row.status)}>
+                  {statusLabelFromModel(contractModel, row.status)}
+                </StatusBadge>
               </td>
             </tr>
           ))}

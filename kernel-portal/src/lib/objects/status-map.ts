@@ -66,3 +66,31 @@ export function statusForObject(objectKey: string, value: unknown): Status {
   if (!model) return "draft";
   return statusFromModel(model, value);
 }
+
+/**
+ * Label path (decision 0031): the model's declared status label is the
+ * display truth for badge text; tones remain the color truth. Returns
+ * `undefined` for unknown status keys so `StatusBadge` falls back to its
+ * default vocabulary — consistent with the silent-unknown tone fallback
+ * above (recorded follow-up on the board).
+ */
+export function statusLabelFromModel(
+  model: ObjectModel,
+  value: unknown,
+): string | undefined {
+  const entry = model.statuses.find((s) => s.key === value);
+  return entry?.label;
+}
+
+/**
+ * Registry-lookup twin of `statusForObject` for generic previews. Unknown
+ * object keys return `undefined` → badge default label fallback.
+ */
+export function statusLabelForObject(
+  objectKey: string,
+  value: unknown,
+): string | undefined {
+  const model = getObjectModel(objectKey);
+  if (!model) return undefined;
+  return statusLabelFromModel(model, value);
+}

@@ -163,7 +163,7 @@ export const rules: readonly CompositionRule[] = [
   {
     id: "status-via-model-tones",
     statement:
-      "Status rendering derives from the model's declared StatusTone via toneToStatus (active maps to booked, never pending); no surface hardcodes per-object status switches.",
+      "Status colors derive from model-declared tones via the single toneToStatus map (active maps to booked, never pending); badge text derives from model-declared status labels — no surface hardcodes per-object status switches or vocabulary.",
     source: "amendment-A4",
   },
   {

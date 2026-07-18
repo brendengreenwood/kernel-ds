@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StatusBadge } from "@/components/ui/status-badge"
 import { getObjectModel, type ObjectModel, type ObjectRow } from "@/lib/objects"
-import { statusForObject } from "@/lib/objects/status-map"
+import { statusForObject, statusLabelForObject } from "@/lib/objects/status-map"
 
 /**
  * Record preview — generic (`{ model, row }` → JSX) single-record view.
@@ -42,7 +42,9 @@ export function RecordPreview({ model, row }: RecordPreviewProps) {
           <div className="mt-0.5 font-mono text-[13px] font-semibold text-foreground">{String(row.id)}</div>
         </div>
         {statusField && (
-          <StatusBadge status={statusForObject(objectKey, row[statusField.key])} />
+          <StatusBadge status={statusForObject(objectKey, row[statusField.key])}>
+            {statusLabelForObject(objectKey, row[statusField.key])}
+          </StatusBadge>
         )}
       </header>
       <dl className="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 px-4 py-3 text-[13px]">

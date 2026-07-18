@@ -6,7 +6,7 @@ import {
   type ObjectModel,
   type ObjectRow,
 } from "@/lib/objects"
-import { statusForObject } from "@/lib/objects/status-map"
+import { statusForObject, statusLabelForObject } from "@/lib/objects/status-map"
 
 /**
  * Traversal preview — generic association walker for an object.
@@ -80,7 +80,9 @@ export function TraversalPreview({ model, rows }: TraversalPreviewProps) {
                 >
                   <span className="font-mono">{String(row.id)}</span>
                   {statusField && (
-                    <StatusBadge status={statusForObject(objectKey, row[statusField.key])} />
+                    <StatusBadge status={statusForObject(objectKey, row[statusField.key])}>
+                      {statusLabelForObject(objectKey, row[statusField.key])}
+                    </StatusBadge>
                   )}
                 </button>
               </li>
@@ -142,7 +144,9 @@ export function TraversalPreview({ model, rows }: TraversalPreviewProps) {
                             {targetStatusField && (
                               <StatusBadge
                                 status={statusForObject(targetKey, row[targetStatusField.key])}
-                              />
+                              >
+                                {statusLabelForObject(targetKey, row[targetStatusField.key])}
+                              </StatusBadge>
                             )}
                           </li>
                         ))}

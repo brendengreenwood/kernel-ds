@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { StatusBadge } from "@/components/ui/status-badge"
 import type { ObjectModel, ObjectRow } from "@/lib/objects"
-import { statusForObject } from "@/lib/objects/status-map"
+import { statusForObject, statusLabelForObject } from "@/lib/objects/status-map"
 
 /**
  * Query preview — generic filter + search over an object's rows.
@@ -155,7 +155,9 @@ export function QueryPreview({ model, rows }: QueryPreviewProps) {
                     ))}
                     {statusField && (
                       <td className="px-4 py-2">
-                        <StatusBadge status={statusForObject(objectKey, row[statusField.key])} />
+                        <StatusBadge status={statusForObject(objectKey, row[statusField.key])}>
+                          {statusLabelForObject(objectKey, row[statusField.key])}
+                        </StatusBadge>
                       </td>
                     )}
                   </tr>
