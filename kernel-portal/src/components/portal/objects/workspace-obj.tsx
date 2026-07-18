@@ -73,6 +73,16 @@ export function WorkspaceObjectSection() {
     { id: 0, title: "Inspector", views: [recordView, writeView] },
   ])
   const nextPanelId = React.useRef(1)
+  const [fullscreen, setFullscreen] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!fullscreen) return
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setFullscreen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [fullscreen])
 
   const { model, rows } = modeBindings[mode]
   const ctx: WorkspaceContext = {
@@ -135,7 +145,29 @@ export function WorkspaceObjectSection() {
 
       <Subhead id="obj-workspace-mock">Mock Workspace</Subhead>
       <Demo className="block p-0">
-        <div className="grid h-[560px] w-full grid-cols-[48px_220px_1fr_280px] overflow-hidden rounded-md border">
+        <div className={fullscreen ? "fixed inset-0 z-50 bg-background p-3" : undefined}>
+          <div className="flex h-full w-full flex-col overflow-hidden rounded-md border bg-background">
+            <div className="flex shrink-0 items-center justify-between border-b bg-muted/20 px-2 py-1">
+              <span className="text-[11px] font-medium text-muted-foreground">
+                Mock workspace
+              </span>
+              <button
+                type="button"
+                onClick={() => setFullscreen((f) => !f)}
+                aria-pressed={fullscreen}
+                className="rounded border bg-card px-2 py-0.5 text-[11px] font-medium text-foreground hover:bg-accent"
+              >
+                {fullscreen ? "Exit fullscreen (Esc)" : "Fullscreen"}
+              </button>
+            </div>
+            <div
+              className={
+                "grid w-full " +
+                (fullscreen
+                  ? "min-h-0 flex-1 grid-cols-[48px_260px_1fr_340px]"
+                  : "h-[560px] grid-cols-[48px_220px_1fr_280px]")
+              }
+            >
           <ActivityRail mode={mode} onModeChange={handleModeChange} />
           <Navigator
             mode={mode}
@@ -173,6 +205,8 @@ export function WorkspaceObjectSection() {
                 className="shrink-0"
               />
             ))}
+          </div>
+            </div>
           </div>
         </div>
       </Demo>
