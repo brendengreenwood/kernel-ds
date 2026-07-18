@@ -260,6 +260,17 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
+- **Status labels from the model** (branch feat/ds-status-labels,
+  2026-07-18, decision 0031): status badge **text** is now model-driven -
+  statusLabelFromModel/statusLabelForObject in status-map.ts, labels
+  passed as children at all 7 object-layer StatusBadge call sites
+  (status-badge.tsx itself untouched; it already supported children
+  override). The alien-object finding is closed: an open Incident reads
+  "Open", Settlement reads "Confirmed"/"Reversed". Fixture labels were
+  not hand-tuned (models declare their own words; contract-active reads
+  "Active"). **Open follow-up:** tone->color granularity - danger still
+  colors via the cancelled variant (viz-slate), so "Open" renders in
+  slate; board item filed (DS Library, Todo).
 - **Dynamic objects + composition contract** (branch
   feat/ds-dynamic-objects, 2026-07-18): the object system is now
   **runtime-extensible** - objects arrive as JSON validated by
@@ -276,7 +287,8 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   4 regions, 9 doctrine rules) emitted to public/composition.json
   (decision 0030) - agents load the rules instead of re-deriving them.
   Registration is session-scoped (persistence lands with the studio
-  defineObject tool, next plan). **Open finding:** StatusBadge
+  defineObject tool, next plan). The trade-vocabulary finding below is now resolved by decision 0031
+  (label-driven badges, entry above). Original finding: StatusBadge
   vocabulary is trade-shaped (booked/settled/cancelled) - foreign
   domains render semantically odd badge labels with correct tones;
   board item filed (label- or tone-driven badge variant).

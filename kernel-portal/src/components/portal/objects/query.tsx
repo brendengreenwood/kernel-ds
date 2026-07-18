@@ -39,7 +39,7 @@ export function QuerySection() {
       <Subhead id="obj-query-notes">Notes</Subhead>
       <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
         <li>Filter chrome is derived from <code className="font-mono text-[12px]">model.statuses</code>; text search targets every field of type <code className="font-mono text-[12px]">text</code> or <code className="font-mono text-[12px]">ref</code>.</li>
-        <li>Status color flows through <code className="font-mono text-[12px]">statusForObject()</code>; badge text flows through <code className="font-mono text-[12px]">statusLabelForObject()</code> (decision 0031) — the filter chip and the row badge both show the model's declared label, so they always agree.</li>
+        <li>Status color flows through <code className="font-mono text-[12px]">statusForObject()</code>; badge text flows through <code className="font-mono text-[12px]">statusLabelForObject()</code> (decision 0031) while the filter chip reads <code className="font-mono text-[12px]">model.statuses</code> labels directly — same source of truth, so chip and badge always agree.</li>
         <li>Query <em>composes</em> with Collection — the filtered result <em>is</em> the Collection this page renders.</li>
       </ul>
     </Section>
