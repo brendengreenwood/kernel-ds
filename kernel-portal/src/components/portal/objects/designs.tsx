@@ -8,6 +8,7 @@ import {
 } from "./_previews"
 import { type ObjectModel, type ObjectRow } from "@/lib/objects"
 import { useObjectRegistry } from "@/lib/objects/use-object-registry"
+import { rules as compositionRules } from "@/lib/objects/composition"
 
 /**
  * Designs — the auto-derived tier described in decision 0026. This page
@@ -57,6 +58,30 @@ export function DesignsSection() {
             A new object needs a model, rows, and a status mapper entry — that is the entire
             cost of a new design surface.
           </li>
+        </ul>
+
+        <Subhead id="obj-designs-composition">Composition contract</Subhead>
+        <p className="text-sm text-muted-foreground">
+          The doctrine below is rendered from the machine-readable manifest in{" "}
+          <code className="font-mono text-[12px]">@/lib/objects/composition</code> (decision 0030) —
+          also emitted as <code className="font-mono text-[12px]">/composition.json</code> for
+          agents. Humans see the same rules agents do.
+        </p>
+        <ul className="space-y-2">
+          {compositionRules.map((rule) => (
+            <li
+              key={rule.id}
+              className="rounded-md border border-border/60 bg-card px-3 py-2 text-sm"
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <code className="font-mono text-[12px] font-medium">{rule.id}</code>
+                <span className="shrink-0 rounded-full border border-border/60 px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+                  {rule.source}
+                </span>
+              </div>
+              <p className="mt-1 text-muted-foreground">{rule.statement}</p>
+            </li>
+          ))}
         </ul>
       </div>
     </Section>

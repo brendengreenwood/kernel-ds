@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "primitives": [
+    {
+      "key": "shell",
+      "label": "Shell",
+      "propsContract": "page-level frame (no generic props yet)",
+      "when": "Reach for Shell when a surface needs the object-centric page frame before any primitive renders inside it.",
+      "dataSlot": "object-shell",
+      "emitted": false
+    },
+    {
+      "key": "collection",
+      "label": "Collection",
+      "propsContract": "({ model, rows }) => JSX",
+      "when": "Reach for Collection when the user needs to scan many rows of one object — it renders the model's fields as columns with model-toned status badges.",
+      "dataSlot": "object-collection",
+      "emitted": false
+    },
+    {
+      "key": "record",
+      "label": "Record",
+      "propsContract": "({ model, row }) => JSX",
+      "when": "Reach for Record when one row is in focus — it renders every field of a single row plus its association targets.",
+      "dataSlot": "object-record",
+      "emitted": false
+    },
+    {
+      "key": "write",
+      "label": "Write",
+      "propsContract": "({ model, rows }) => JSX",
+      "when": "Reach for Write when the user changes data — it derives a form and in-place editors from the model's field types.",
+      "dataSlot": "object-write",
+      "emitted": false
+    },
+    {
+      "key": "query",
+      "label": "Query",
+      "propsContract": "({ model, rows }) => JSX",
+      "when": "Reach for Query when the user filters or searches across an object's rows — it derives filter controls from the model's fields and statuses.",
+      "dataSlot": "object-query",
+      "emitted": false
+    },
+    {
+      "key": "traversal",
+      "label": "Traversal",
+      "propsContract": "({ model, rows }) => JSX",
+      "when": "Reach for Traversal when the user walks associations between objects — it follows the model's association declarations, null-guarding unregistered targets.",
+      "dataSlot": "object-traversal",
+      "emitted": false
+    }
+  ],
+  "regions": [
+    {
+      "key": "activityRail",
+      "dataSlot": "workspace-activity-rail",
+      "owns": "mode switching — one icon button per workspace mode, aria-pressed marks the active mode",
+      "resizable": false,
+      "rule": "The rail is fixed-width and never hosts panels; it only changes which mode owns the navigator and canvas."
+    },
+    {
+      "key": "navigator",
+      "dataSlot": "workspace-navigator",
+      "owns": "mode-owned navigation — grouped trees with counts for object modes, canned queries for query mode, association walking for traversal mode",
+      "resizable": true,
+      "rule": "The navigator is a resizable region (DS Resizable panel); its contents are a function of the active mode, never hardcoded per object."
+    },
+    {
+      "key": "canvas",
+      "dataSlot": "workspace-panel",
+      "owns": "the primary view panel — an anonymous workspace-panel hosting the mode's views (tab strip when more than one)",
+      "resizable": true,
+      "rule": "The canvas has no dedicated data-slot; it hosts an anonymous workspace-panel (panels-are-anonymous-slots), located as the panel outside workspace-dock. It is a resizable region."
+    },
+    {
+      "key": "dock",
+      "dataSlot": "workspace-dock",
+      "owns": "zero or more panels — the default inspector is just a panel; users can pin additional frozen panels",
+      "resizable": true,
+      "rule": "The dock is a resizable region holding an array of anonymous panels; multiplicity is allowed and every panel is closable."
+    }
+  ],
+  "rules": [
+    {
+      "id": "views-are-functions-of-context",
+      "statement": "A workspace view is a pure function of WorkspaceContext ({ model, rows, selectedId, select }); views never own object-specific state.",
+      "source": "decision-0029"
+    },
+    {
+      "id": "panels-are-anonymous-slots",
+      "statement": "A panel is an anonymous slot that hosts any array of views with a tab strip when more than one; nothing about a panel is object-specific.",
+      "source": "decision-0029"
+    },
+    {
+      "id": "inspector-is-a-panel",
+      "statement": "The inspector is not a special region — it is just a panel in the dock, replaceable and composable like any other.",
+      "source": "decision-0029"
+    },
+    {
+      "id": "multiplicity-allowed",
+      "statement": "The dock holds an array of panels; pinning clones the current context into a frozen panel while the live inspector keeps following selection.",
+      "source": "decision-0029"
+    },
+    {
+      "id": "regions-resizable",
+      "statement": "Navigator, canvas, and dock are resizable regions hosted in the DS Resizable component; the activity rail is fixed.",
+      "source": "decision-0029"
+    },
+    {
+      "id": "status-via-model-tones",
+      "statement": "Status rendering derives from the model's declared StatusTone via toneToStatus (active maps to booked, never pending); no surface hardcodes per-object status switches.",
+      "source": "amendment-A4"
+    },
+    {
+      "id": "single-tone-map-source",
+      "statement": "Exactly one tone-to-Status map exists, in lib/objects/status-map.ts; check-status-map.mjs fails the build if another file defines one.",
+      "source": "decision-0030"
+    },
+    {
+      "id": "lib-never-imports-components",
+      "statement": "Files under lib/objects/ never import from components/; React may appear only in dedicated hook files (use-*.ts), keeping the object model UI-agnostic.",
+      "source": "decision-0030"
+    },
+    {
+      "id": "registration-only-via-registerObject",
+      "statement": "All object registration flows through registerObject(model, rows); no component mutates objectRegistry or objectRowsRegistry directly.",
+      "source": "decision-0030"
+    }
+  ]
+}
