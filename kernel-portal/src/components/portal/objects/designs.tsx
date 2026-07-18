@@ -9,6 +9,10 @@ import {
 import { type ObjectModel, type ObjectRow } from "@/lib/objects"
 import { useObjectRegistry } from "@/lib/objects/use-object-registry"
 import { rules as compositionRules } from "@/lib/objects/composition"
+import { registerObject } from "@/lib/objects/registry"
+import { parseObjectModel } from "@/lib/objects/schema"
+import { incidentJson } from "@/lib/objects/sample-incident.json"
+import { Button } from "@/components/ui/button"
 
 /**
  * Designs — the auto-derived tier described in decision 0026. This page
@@ -31,6 +35,24 @@ export function DesignsSection() {
       lead="Auto-derived from the object registry. For every object the model declares, every primitive renders — Collection, Record, Write, Query, Traversal. Add an object to the registry and its full design surface materializes here with no page-file edits."
     >
       <div className="space-y-14">
+        <div className="flex flex-wrap items-center gap-3 rounded-md border border-border/60 bg-muted/30 px-4 py-3">
+          <Button
+            size="sm"
+            disabled={"incident" in models}
+            onClick={() => {
+              const { model, rows: parsedRows } = parseObjectModel(incidentJson)
+              registerObject(model, parsedRows)
+            }}
+          >
+            Register sample object (Incident, from JSON)
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Registers a non-grain object from a raw JSON string at runtime — validated by{" "}
+            <code className="font-mono text-[11px]">objectModelSchema</code>, coords derived. Its
+            full suite derives below with zero object-specific TSX. Session-scoped; reload resets.
+          </p>
+        </div>
+
         {keys.map((key) => (
           <ObjectDesignSuite
             key={key}
