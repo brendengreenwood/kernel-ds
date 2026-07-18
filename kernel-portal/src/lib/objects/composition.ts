@@ -169,7 +169,7 @@ export const rules: readonly CompositionRule[] = [
   {
     id: "single-tone-map-source",
     statement:
-      "Exactly one tone-to-Status map exists, in lib/objects/status-map.ts; check-status-map.mjs fails the build if another file defines one.",
+      "Exactly one tone-to-Status map exists, in lib/objects/status-map.ts; check-status-map.mjs fails when run (kernel-verify / ship gate) if another file defines one.",
     source: "decision-0030",
   },
   {

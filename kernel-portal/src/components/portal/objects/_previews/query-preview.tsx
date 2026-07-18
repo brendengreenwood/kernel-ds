@@ -31,7 +31,7 @@ function cellText(field: ObjectModel["fields"][number], value: unknown): string 
 }
 
 export function QueryPreview({ model, rows }: QueryPreviewProps) {
-  const objectKey = model.key as Parameters<typeof statusForObject>[0]
+  const objectKey = model.key
   const [q, setQ] = React.useState("")
   const [activeStatus, setActiveStatus] = React.useState<string | null>(null)
 

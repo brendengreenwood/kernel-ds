@@ -30,7 +30,7 @@ function formatValue(field: ObjectModel["fields"][number], value: unknown): Reac
 }
 
 export function RecordPreview({ model, row }: RecordPreviewProps) {
-  const objectKey = model.key as Parameters<typeof statusForObject>[0]
+  const objectKey = model.key
   const statusField = model.fields.find((f) => f.type === "status")
   const detailFields = model.fields.filter((f) => f.type !== "status" && f.key !== "id")
 

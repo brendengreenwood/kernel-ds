@@ -115,7 +115,7 @@ function FormPreview({ model, rows }: { model: ObjectModel; rows: ReadonlyArray<
 function InPlacePreview({ model, rows, maxRows }: { model: ObjectModel; rows: ReadonlyArray<ObjectRow>; maxRows?: number }) {
   const editable = editableFieldsFor(model)
   const statusField = model.fields.find((f) => f.type === "status")
-  const objectKey = model.key as Parameters<typeof statusForObject>[0]
+  const objectKey = model.key
 
   const [localRows, setLocalRows] = React.useState<ObjectRow[]>(() => rows.map((r) => ({ ...r })))
   const [editing, setEditing] = React.useState<{ id: string; key: string } | null>(null)

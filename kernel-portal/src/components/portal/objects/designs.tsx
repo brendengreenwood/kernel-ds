@@ -77,7 +77,7 @@ export function DesignsSection() {
             A4).
           </li>
           <li>
-            A new object needs a model, rows, and a status mapper entry — that is the entire
+            A new object needs a model (with tones on its statuses) and rows — that is the entire
             cost of a new design surface.
           </li>
         </ul>
