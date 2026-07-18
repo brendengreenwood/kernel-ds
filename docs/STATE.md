@@ -260,6 +260,26 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
+- **Dynamic objects + composition contract** (branch
+  feat/ds-dynamic-objects, 2026-07-18): the object system is now
+  **runtime-extensible** - objects arrive as JSON validated by
+  objectModelSchema (zod), register via registerObject
+  (lib/objects/registry.ts, subscriptions via useObjectRegistry() /
+  useSyncExternalStore), and the Designs page derives the full suite
+  (Collection/Record/Write/Query/Traversal) with zero object-specific
+  TSX - proven by an Incident registered from a JSON string at runtime.
+  Statuses derive generically from model-declared tones (single
+  toneToStatus map in status-map.ts; A4 active->booked preserved,
+  enforced by check-status-map.mjs). Rows without coords get
+  deterministic djb2-derived coordinates. The composition rules are
+  machine-readable: lib/objects/composition.ts manifest (6 primitives,
+  4 regions, 9 doctrine rules) emitted to public/composition.json
+  (decision 0030) - agents load the rules instead of re-deriving them.
+  Registration is session-scoped (persistence lands with the studio
+  defineObject tool, next plan). **Open finding:** StatusBadge
+  vocabulary is trade-shaped (booked/settled/cancelled) - foreign
+  domains render semantically odd badge labels with correct tones;
+  board item filed (label- or tone-driven badge variant).
 - **Object-centric IA + workspace anatomy** (Objects/Aspects rail groups,
   2026-07-17): the object-centric restructure (decisions 0026-0028) merged
   to main - object pages (Shell, Workspace, Collection, Record, Write,
