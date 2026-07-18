@@ -1,43 +1,65 @@
 import type { Status } from "@/components/ui/status-badge";
-import type { ObjectKey } from "./index.ts";
+import type { ObjectModel, StatusTone } from "./types.ts";
+import { contractModel } from "./contract.ts";
+import { settlementModel } from "./settlement.ts";
+import { objectRegistry, type ObjectKey } from "./index.ts";
 
 /**
- * Contract row `status` values (`active`, `settled`, `cancelled`, `draft`)
- * do not one-to-one match the shared `StatusBadge` vocabulary. This helper is
- * the single source of truth for that mapping; every Contract preview across
- * the Objects rail must import from here rather than inlining a switch.
+ * The single tone → StatusBadge mapping. Every status badge across the
+ * Objects rail derives from a model-declared `ObjectStatus.tone` through
+ * this map — never from a per-object switch.
  *
- * Amendment A4 (2026-07-17) revises `active → booked` (viz-plum "committed and
- * live") from the earlier `active → pending` (info-blue "waiting"), which read
- * incorrectly for an in-force contract.
+ * Amendment A4 (2026-07-17): `active → booked` (viz-plum "committed and
+ * live"), never `pending` (info-blue "waiting"), which read incorrectly
+ * for an in-force contract.
  */
-export function contractStatus(value: unknown): Status {
-  const s = typeof value === "string" ? value : "";
-  if (s === "active") return "booked";
-  if (s === "settled") return "settled";
-  if (s === "cancelled") return "cancelled";
-  return "draft";
+export const toneToStatus: Record<StatusTone, Status> = {
+  draft: "draft",
+  active: "booked",
+  success: "settled",
+  warning: "pending",
+  danger: "cancelled",
+  neutral: "draft",
+};
+
+/**
+ * Generic status path: resolve a row's raw status value against the
+ * model's declared statuses, then map the declared tone onto the shared
+ * `StatusBadge` vocabulary. Unknown keys fall back to `"draft"` silently
+ * (recorded follow-up on the board — no logging here).
+ */
+export function statusFromModel(model: ObjectModel, value: unknown): Status {
+  const entry = model.statuses.find((s) => s.key === value);
+  if (!entry) return "draft";
+  return toneToStatus[entry.tone];
 }
 
 /**
- * Settlement row `status` values (`pending`, `confirmed`, `reversed`) — mapped
- * onto the shared `StatusBadge` vocabulary. `confirmed → settled` (viz-mint
- * "closed out"), `reversed → cancelled` (danger tone), `pending → pending`.
+ * Contract convenience wrapper — kept so existing callers don't change.
+ * Delegates to the generic path; contract.ts declares `active` with tone
+ * `"active"`, so this still maps active → booked per Amendment A4.
+ */
+export function contractStatus(value: unknown): Status {
+  return statusFromModel(contractModel, value);
+}
+
+/**
+ * Settlement convenience wrapper — kept so existing callers don't change.
+ * settlement.ts declares `confirmed → success` (settled), `reversed →
+ * danger` (cancelled), `pending → warning` (pending).
  */
 export function settlementStatus(value: unknown): Status {
-  const s = typeof value === "string" ? value : "";
-  if (s === "confirmed") return "settled";
-  if (s === "reversed") return "cancelled";
-  if (s === "pending") return "pending";
-  return "draft";
+  return statusFromModel(settlementModel, value);
 }
 
 /**
  * Dispatcher used by generic previews that don't know which object they're
- * rendering. Every Objects rail preview must go through this helper (or a
- * per-object helper above) — never inline the switch in a page.
+ * rendering. Looks the model up in the registry and delegates to the
+ * generic path. Every Objects rail preview must go through this helper (or
+ * a per-object helper above) — never inline the switch in a page.
  */
 export function statusForObject(objectKey: ObjectKey, value: unknown): Status {
-  if (objectKey === "settlement") return settlementStatus(value);
-  return contractStatus(value);
+  const model = objectRegistry[objectKey];
+  if (!model) return "draft";
+  return statusFromModel(model, value);
 }

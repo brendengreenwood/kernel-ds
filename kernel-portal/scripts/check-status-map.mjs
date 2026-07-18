@@ -70,16 +70,17 @@ for (const file of walk(objectsPagesDir, isSource)) {
   });
 }
 
-// Sanity check: the canonical helper still exists and returns `booked` for
-// `active`. This guards against someone silently reverting the helper.
+// Sanity check: the canonical tone → Status map still exists and maps the
+// `active` tone to `booked`. Guards against silently reverting the generic
+// status path (Amendment A4: active → booked, never pending).
 try {
   const canonical = readFileSync(statusMapPath, "utf8");
-  if (!/["']active["']\s*\)\s*return\s+["']booked["']/.test(canonical)) {
+  if (!/toneToStatus[\s\S]{0,400}?\bactive:\s*["']booked["']/.test(canonical)) {
     offenders.push({
-      rule: "A4-helper-missing-active-booked",
+      rule: "A4-tone-map-missing-active-booked",
       file: relative(repoRoot, statusMapPath),
       line: 0,
-      text: "status-map.ts does not map active → booked",
+      text: "status-map.ts toneToStatus does not map active → booked",
     });
   }
 } catch (err) {
@@ -88,6 +89,27 @@ try {
     file: relative(repoRoot, statusMapPath),
     line: 0,
     text: String(err.message || err),
+  });
+}
+
+// Invariant 3 (single tone-map source): no file besides `status-map.ts`
+// may define a tone → Status map. Detected as a `Record<StatusTone, Status>`
+// declaration or a `toneToStatus` definition outside the canonical file.
+const srcDir = resolve(here, "..", "src");
+const toneMapRe = /Record<\s*StatusTone\s*,\s*Status\s*>|(?:const|let|var)\s+toneToStatus/;
+for (const file of walk(srcDir, isSource)) {
+  if (resolve(file) === statusMapPath) continue;
+  const src2 = readFileSync(file, "utf8");
+  const lines = src2.split(/\r?\n/);
+  lines.forEach((line, i) => {
+    if (toneMapRe.test(line)) {
+      offenders.push({
+        rule: "single-tone-map-source",
+        file: relative(repoRoot, file),
+        line: i + 1,
+        text: line.trim(),
+      });
+    }
   });
 }
 
