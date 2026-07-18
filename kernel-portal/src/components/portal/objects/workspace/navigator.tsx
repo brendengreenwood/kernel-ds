@@ -34,7 +34,7 @@ export function Navigator({ mode, ctx, groupBy, onGroupByChange }: NavigatorProp
   return (
     <div
       data-slot="workspace-navigator"
-      className="flex min-h-0 flex-col overflow-hidden border-r bg-muted/20"
+      className="flex h-full min-h-0 flex-col overflow-hidden border-r bg-muted/20"
     >
       {mode === "query" ? (
         <QueryNavigator />

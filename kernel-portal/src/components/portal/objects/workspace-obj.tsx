@@ -1,6 +1,11 @@
 import * as React from "react"
 import { Section, Subhead, Demo } from "../section"
 import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+import {
   contractModel,
   contractRows,
   settlementModel,
@@ -162,50 +167,62 @@ export function WorkspaceObjectSection() {
             </div>
             <div
               className={
-                "grid w-full " +
-                (fullscreen
-                  ? "min-h-0 flex-1 grid-cols-[48px_260px_1fr_340px]"
-                  : "h-[560px] grid-cols-[48px_220px_1fr_280px]")
+                "flex w-full " + (fullscreen ? "min-h-0 flex-1" : "h-[560px]")
               }
             >
-          <ActivityRail mode={mode} onModeChange={handleModeChange} />
-          <Navigator
-            mode={mode}
-            ctx={ctx}
-            groupBy={groupBy}
-            onGroupByChange={setGroupBy}
-          />
-          <div className="flex min-h-0 flex-col p-2">
-            <Panel key={mode} views={canvasViews} ctx={ctx} className="min-h-0 flex-1" />
-          </div>
-          <div
-            data-slot="workspace-dock"
-            className="flex min-h-0 flex-col gap-2 overflow-auto border-l bg-muted/10 p-2"
-          >
-            <button
-              type="button"
-              onClick={pinPanel}
-              disabled={selectedId == null}
-              className="shrink-0 rounded border bg-card px-2 py-1 text-[11px] font-medium text-foreground disabled:opacity-50"
-            >
-              Pin panel
-            </button>
-            {dockPanels.length === 0 && (
-              <p className="px-1 text-[11px] text-muted-foreground">
-                No panels — select a record and pin one.
-              </p>
-            )}
-            {dockPanels.map((spec) => (
-              <Panel
-                key={spec.id}
-                views={spec.views}
-                ctx={spec.ctx ?? ctx}
-                title={spec.title}
-                onClose={() => closePanel(spec.id)}
-                className="shrink-0"
-              />
-            ))}
-          </div>
+              <ActivityRail mode={mode} onModeChange={handleModeChange} />
+              {/* Rule: navigator, canvas, and dock are resizable regions —
+                  drag the handles between them. Sizes are percentages,
+                  not fixed px. */}
+              <ResizablePanelGroup orientation="horizontal" className="min-h-0 flex-1">
+                <ResizablePanel defaultSize={22} minSize={12}>
+                  <Navigator
+                    mode={mode}
+                    ctx={ctx}
+                    groupBy={groupBy}
+                    onGroupByChange={setGroupBy}
+                  />
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+                <ResizablePanel
+                  defaultSize={50}
+                  minSize={30}
+                  className="flex min-h-0 flex-col p-2"
+                >
+                  <Panel key={mode} views={canvasViews} ctx={ctx} className="min-h-0 flex-1" />
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+                <ResizablePanel
+                  defaultSize={28}
+                  minSize={14}
+                  data-slot="workspace-dock"
+                  className="flex min-h-0 flex-col gap-2 overflow-auto border-l bg-muted/10 p-2"
+                >
+                    <button
+                      type="button"
+                      onClick={pinPanel}
+                      disabled={selectedId == null}
+                      className="shrink-0 rounded border bg-card px-2 py-1 text-[11px] font-medium text-foreground disabled:opacity-50"
+                    >
+                      Pin panel
+                    </button>
+                    {dockPanels.length === 0 && (
+                      <p className="px-1 text-[11px] text-muted-foreground">
+                        No panels — select a record and pin one.
+                      </p>
+                    )}
+                    {dockPanels.map((spec) => (
+                      <Panel
+                        key={spec.id}
+                        views={spec.views}
+                        ctx={spec.ctx ?? ctx}
+                        title={spec.title}
+                        onClose={() => closePanel(spec.id)}
+                        className="shrink-0"
+                      />
+                    ))}
+                </ResizablePanel>
+              </ResizablePanelGroup>
             </div>
           </div>
         </div>
