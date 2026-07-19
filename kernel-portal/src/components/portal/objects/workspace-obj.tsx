@@ -14,6 +14,10 @@ import {
   type WorkspacePresetMode,
 } from "@/lib/objects"
 import { demoDataset } from "@/lib/objects/dataset"
+import { registerObject } from "@/lib/objects/registry"
+import { parseObjectModel } from "@/lib/objects/schema"
+import { incidentJson } from "@/lib/objects/sample-incident.json"
+import { incidentWorkspaceJson } from "@/lib/objects/sample-incident-workspace.json"
 import {
   ActivityRail,
   Navigator,
@@ -207,6 +211,27 @@ export function WorkspaceObjectSection() {
     setGroupBy(initialGroupByFor(nextMode))
   }
 
+  /**
+   * Demo control (decision 0032 proof): load a SECOND whole workspace
+   * from JSON — the alien Incident ops preset. Registers the Incident
+   * object first (explicit user action; the only registry write path),
+   * then swaps the preset: rail rebuilds, selection and dock reset to
+   * the new first mode. Session state only — reload restores the
+   * default. Safe to click twice: registerObject is replace-idempotent
+   * and re-parsing yields an identical preset.
+   */
+  function loadIncidentWorkspace() {
+    const { model, rows } = parseObjectModel(incidentJson)
+    registerObject(model, rows)
+    const next = parseWorkspacePreset(incidentWorkspaceJson)
+    setPreset(next)
+    setModeKey(next.modes[0].key)
+    setSelectedId(null)
+    setGroupBy(initialGroupByFor(next.modes[0]))
+    setDockPanels(defaultDockPanelsFor(next.modes[0]))
+    nextPanelId.current = next.modes[0].dockPanels.length
+  }
+
   function pinPanel() {
     if (selectedId == null || ctx == null) return
     // Snapshot the context: the pinned panel stays on this record even
@@ -263,6 +288,19 @@ export function WorkspaceObjectSection() {
               >
                 {fullscreen ? "Exit fullscreen (Esc)" : "Fullscreen"}
               </button>
+            </div>
+            <div className="flex shrink-0 flex-wrap items-center gap-2 border-b bg-muted/10 px-2 py-1">
+              <button
+                type="button"
+                onClick={loadIncidentWorkspace}
+                className="rounded border bg-card px-2 py-0.5 text-[11px] font-medium text-foreground hover:bg-accent"
+              >
+                Load Incident ops workspace (from JSON)
+              </button>
+              <span className="text-[10px] text-muted-foreground">
+                Registers the Incident object and swaps the whole workspace to a
+                second JSON preset — session only; reload restores the default.
+              </span>
             </div>
             <div
               className={
