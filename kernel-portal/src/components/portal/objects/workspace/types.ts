@@ -30,5 +30,8 @@ export interface WorkspaceView {
   render: (ctx: WorkspaceContext) => React.ReactNode
 }
 
-/** Activity-rail modes. Object modes bind a collection; aspect modes bind an idiom. */
-export type WorkspaceMode = "contract" | "settlement" | "query" | "traversal"
+/**
+ * Activity-rail mode key. Modes arrive as preset data (decision 0032),
+ * so the set of keys is open — a preset declares its own modes.
+ */
+export type WorkspaceMode = string
