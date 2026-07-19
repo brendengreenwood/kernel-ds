@@ -236,7 +236,7 @@ export const rules: readonly CompositionRule[] = [
   {
     id: "workspaces-arrive-as-data",
     statement:
-      "A workspace preset is a validated JSON document parsed by parseWorkspacePreset; rail modes, navigator idiom, canvas views, and default dock panels derive from preset data — no surface hardcodes a mode list.",
+      "A workspace preset is a validated JSON document parsed by parseWorkspacePreset; rail modes, navigator idiom, canvas views, and default dock panels derive from preset data — no object-workspace surface hardcodes a mode list.",
     source: "decision-0032",
   },
   {

@@ -10,8 +10,10 @@ A workspace configuration is a **preset**: a JSON document validated by
 `workspacePresetSchema` and parsed by `parseWorkspacePreset`
 (`kernel-portal/src/lib/objects/workspace-preset.ts`). The Mock Workspace at
 `/workspace-obj` derives its entire anatomy — activity rail modes, navigator
-idiom, canvas views, and default dock panels — from a preset. No surface
-hardcodes a mode list.
+idiom, canvas views, and default dock panels — from a preset. No
+object-workspace surface hardcodes a mode list. (The legacy `/workspace`
+experiment page predates this system and is out of scope — decision 0029's
+adapt-later list.)
 
 This is the same move the dynamic-objects plan (decision 0030 arc, PR #58)
 made for objects, one level up: schema → parse → default-as-data → alien
@@ -57,14 +59,23 @@ panel; unknown view keys are skipped with a visible caption.
 ## One preset = one workspace
 
 Loading a preset replaces the whole mode set: the rail rebuilds, selection
-and dock reset, and the first mode of the new preset becomes active. Presets
+and dock reset, and the first mode of the new preset becomes active.
+Within a loaded preset, switching modes resets selection and groupBy but
+the dock **persists** — per-mode `dockPanels` apply on preset load (the
+first mode's declaration), preserving the pre-preset behavior where a
+pinned inspector survives a mode switch. A preset with divergent per-mode
+docks renders its first mode's dock until reloaded; if per-mode dock swap
+becomes a need, it supersedes this decision. Presets
 are session state only — page reload restores the default preset, the same
 lifecycle as runtime object registration (Incident). Persistence is a future
 concern, deliberately out of scope here.
 
 The default four-mode workspace (Contracts / Settlements / Query / Traversal)
 is itself authored as a JSON string and parsed through `parseWorkspacePreset`
-at module scope — the schema's first real consumer. Pixel-parity against the
+at module scope — the schema's first real consumer. (Tradeoff, accepted: a
+schema regression now throws at import time and fails the whole bundle,
+where hardcoded consts could not — `__check__.mts` and the build gate catch
+it before it ships.) Pixel-parity against the
 pre-existing `drive-workspace.mjs` (9/9, script hash-verified unmodified)
 proves the schema can express a real workspace, not just a toy.
 

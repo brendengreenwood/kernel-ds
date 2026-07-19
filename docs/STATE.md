@@ -260,6 +260,25 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
+- **Workspace presets as data** (branch feat/ds-workspace-presets,
+  2026-07-19, decision 0032): workspace configurations are now
+  **validated JSON** - workspacePresetSchema (zod) +
+  parseWorkspacePreset in lib/objects/workspace-preset.ts. A preset
+  declares rail modes (objectKey, navigator idiom, canvas view keys,
+  default dock panels); /workspace-obj derives rail/navigator/canvas/
+  dock entirely from preset data, with the current four modes
+  expressed as the default preset JSON (pixel-parity: unmodified
+  drive-workspace.mjs 9/9). Alien proof: the "Incident ops" preset
+  loads from JSON at runtime and produces a working workspace with
+  zero Incident-specific TSX (drive-preset-workspace.mjs 7/7).
+  Icon keys resolve through a UI-layer railIconRegistry with a
+  fallback glyph; row resolution (associations idiom -> registry rows,
+  else demo dataset, else registry) is demo-host policy, not preset
+  semantics. Generative-UI arc position: objects as data (0030) ->
+  labels from model (0031) -> workspaces as data (0032) -> an agent
+  can now emit a working tool as two JSON documents; the studio
+  defineObject tool is next. Presets are session-scoped (reload
+  restores the default), same lifecycle as Incident registration.
 - **Status labels from the model** (branch feat/ds-status-labels,
   2026-07-18, decision 0031): status badge **text** is now model-driven -
   statusLabelFromModel/statusLabelForObject in status-map.ts, labels
