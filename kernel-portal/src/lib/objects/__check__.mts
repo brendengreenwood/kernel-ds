@@ -149,4 +149,106 @@ try {
   )
 }
 
+// Workspace preset schema asserts (workspace-presets plan, Phase 1).
+{
+  const { parseWorkspacePreset } = await import("./workspace-preset.ts")
+
+  const baseMode = {
+    key: "alpha",
+    label: "Alpha",
+    icon: "table",
+    objectKey: "contract",
+    navigator: {
+      idiom: "grouped",
+      groupByOptions: ["status"],
+      defaultGroupBy: "status",
+    },
+    canvasViews: ["spatial", "table"],
+    dockPanels: [{ title: "Inspector", views: ["record", "write"] }],
+  }
+  const makePreset = (modes: unknown[]) =>
+    JSON.stringify({ key: "demo", label: "Demo", modes })
+
+  function rejects(json: string, msg: string) {
+    let failed = false
+    try {
+      parseWorkspacePreset(json)
+    } catch {
+      failed = true
+    }
+    assert(failed, msg)
+  }
+
+  // (1) A valid preset parses and round-trips mode count.
+  const preset = parseWorkspacePreset(
+    makePreset([
+      baseMode,
+      {
+        ...baseMode,
+        key: "beta",
+        navigator: { idiom: "queries", savedQueries: ["q1"] },
+      },
+    ]),
+  )
+  assert(
+    preset.key === "demo" && preset.modes.length === 2,
+    "valid preset must parse and round-trip mode count",
+  )
+  console.log("preset ok (valid preset parses, 2 modes)")
+
+  // (2) Duplicate mode keys fail.
+  rejects(
+    makePreset([baseMode, { ...baseMode }]),
+    "duplicate mode keys must fail",
+  )
+  console.log("preset ok (duplicate mode keys rejected)")
+
+  // (3) A mode missing canvasViews fails.
+  const noCanvas: Record<string, unknown> = { ...baseMode }
+  delete noCanvas.canvasViews
+  rejects(makePreset([noCanvas]), "mode missing canvasViews must fail")
+  console.log("preset ok (missing canvasViews rejected)")
+
+  // (4) An unknown idiom fails.
+  rejects(
+    makePreset([{ ...baseMode, navigator: { idiom: "spreadsheet" } }]),
+    "unknown idiom must fail",
+  )
+  console.log("preset ok (unknown idiom rejected)")
+
+  // (5) Empty modes fail.
+  rejects(makePreset([]), "empty modes must fail")
+  console.log("preset ok (empty modes rejected)")
+
+  // (6) grouped without groupByOptions fails.
+  rejects(
+    makePreset([{ ...baseMode, navigator: { idiom: "grouped" } }]),
+    "grouped idiom without groupByOptions must fail",
+  )
+  console.log("preset ok (grouped without groupByOptions rejected)")
+
+  // (7) queries without savedQueries fails.
+  rejects(
+    makePreset([{ ...baseMode, navigator: { idiom: "queries" } }]),
+    "queries idiom without savedQueries must fail",
+  )
+  console.log("preset ok (queries without savedQueries rejected)")
+
+  // (8) defaultGroupBy not in groupByOptions fails.
+  rejects(
+    makePreset([
+      {
+        ...baseMode,
+        navigator: {
+          idiom: "grouped",
+          groupByOptions: ["status"],
+          defaultGroupBy: "commodity",
+        },
+      },
+    ]),
+    "defaultGroupBy outside groupByOptions must fail",
+  )
+  console.log("preset ok (defaultGroupBy outside groupByOptions rejected)")
+}
+
 console.log("stub ok")
