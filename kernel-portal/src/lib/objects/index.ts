@@ -30,6 +30,14 @@ export {
   subscribeToRegistry,
   type ObjectRegistrySnapshot,
 } from "./registry.ts"
+export {
+  parseWorkspacePreset,
+  workspacePresetSchema,
+  type WorkspacePreset,
+  type WorkspacePresetMode,
+  type WorkspaceNavigatorIdiom,
+} from "./workspace-preset.ts"
+
 
 import { contractModel, contractRows } from "./contract.ts"
 import { settlementModel, settlementRows } from "./settlement.ts"

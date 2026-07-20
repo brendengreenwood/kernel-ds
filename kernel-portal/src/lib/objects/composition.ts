@@ -129,6 +129,55 @@ export const regions: readonly CompositionRegion[] = [
   },
 ] as const
 
+/**
+ * The workspace preset contract (decision 0032) — how a whole workspace
+ * arrives as data. The zod schema in lib/objects/workspace-preset.ts is the
+ * enforcement; this section is the agent-facing description of its shape.
+ */
+export interface CompositionPresets {
+  /** Module that owns the schema and parser. */
+  schemaModule: string
+  /** The parse entry point and its envelope. */
+  parse: string
+  /** Every field a preset mode declares, with its constraint. */
+  modeFields: readonly string[]
+  /** The navigator idiom enum. */
+  idioms: readonly string[]
+  /** Icon keys the rail resolves to components — UI-layer vocabulary. */
+  iconKeys: readonly string[]
+  /**
+   * Unknown icon keys render the mode label's first letter in a glyph
+   * carrying this data-slot (emitted in the DOM when a foreign icon key
+   * is present — a fallback, not an error).
+   */
+  iconFallbackDataSlot: string
+  /** The demo host's row-resolution policy — host policy, not preset semantics. */
+  hostResolvesRows: string
+}
+
+export const presets: CompositionPresets = {
+  schemaModule: "lib/objects/workspace-preset.ts",
+  parse:
+    "parseWorkspacePreset(json) => WorkspacePreset ({ key, label, modes[] }); zod-validated, mode keys unique, per-idiom coherence enforced at parse time",
+  modeFields: [
+    "key (slug, unique within the preset)",
+    "label (rail button accessible name)",
+    "icon (icon key, resolved by the UI layer — see iconKeys)",
+    "objectKey (slug — which object binds; resolving it to a model and rows is the host's job)",
+    "navigator.idiom (grouped | queries | associations)",
+    "navigator.groupByOptions (required non-empty when idiom is grouped)",
+    "navigator.defaultGroupBy (optional; must be a member of groupByOptions)",
+    "navigator.savedQueries (required non-empty when idiom is queries)",
+    "canvasViews (non-empty view keys resolved through workspaceViews; unknown keys are skipped with a visible caption)",
+    "dockPanels ({ title, views }[] — may be empty; a zero-panel dock is legal)",
+  ],
+  idioms: ["grouped", "queries", "associations"],
+  iconKeys: ["table", "file", "search", "route"],
+  iconFallbackDataSlot: "rail-icon-fallback",
+  hostResolvesRows:
+    "Demo-host policy (not preset semantics): associations idiom binds registry rows so joins resolve through the registry; otherwise demoDataset[objectKey] when present, else registry rows. The model always comes from getObjectModel(objectKey), null-guarded with an empty-state panel when unregistered.",
+} as const
+
 export const rules: readonly CompositionRule[] = [
   {
     id: "views-are-functions-of-context",
@@ -184,6 +233,18 @@ export const rules: readonly CompositionRule[] = [
       "All object registration flows through registerObject(model, rows); no component mutates objectRegistry or objectRowsRegistry directly.",
     source: "decision-0030",
   },
+  {
+    id: "workspaces-arrive-as-data",
+    statement:
+      "A workspace preset is a validated JSON document parsed by parseWorkspacePreset; rail modes, navigator idiom, canvas views, and default dock panels derive from preset data — no object-workspace surface hardcodes a mode list.",
+    source: "decision-0032",
+  },
+  {
+    id: "preset-binds-keys-host-binds-data",
+    statement:
+      "A preset declares objectKey and view keys; resolving keys to models, rows, and views is the host's job — presets stay portable, data topology stays host policy.",
+    source: "decision-0032",
+  },
 ] as const
 
 /** The whole contract as one object — what emit-composition.mjs serializes. */
@@ -192,4 +253,5 @@ export const compositionContract = {
   primitives,
   regions,
   rules,
+  presets,
 } as const

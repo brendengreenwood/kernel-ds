@@ -1,53 +1,57 @@
 import * as React from "react"
 import { getObjectModel, type ObjectRow } from "@/lib/objects"
 import { cn } from "@/lib/utils"
-import type { WorkspaceContext, WorkspaceMode } from "./types"
+import type { WorkspaceContext } from "./types"
 
 /**
  * Navigator — mode-owned navigation (decision 0029, doctrine #5).
- * Object modes render a grouped, collapsible tree with counts; the
- * query aspect renders a saved-query list; the traversal aspect
- * renders the selected record's association links. Different idioms
- * per mode is the point — this is not a generic tree component forced
- * onto every mode.
+ * The active mode declares a navigator idiom (preset data, decision
+ * 0032): `grouped` renders a collapsible tree with counts, `queries`
+ * renders a saved-query list, `associations` renders the selected
+ * record's association links. Different idioms per mode is the point —
+ * this is not a generic tree component forced onto every mode.
  */
 export interface NavigatorProps {
-  mode: WorkspaceMode
+  idiom: "grouped" | "queries" | "associations"
   ctx: WorkspaceContext
   groupBy: string
   onGroupByChange: (groupBy: string) => void
+  /** Group-by field keys for the `grouped` idiom (preset-declared). */
+  groupByOptions: ReadonlyArray<string>
+  /** Saved-query strings for the `queries` idiom (preset-declared). */
+  savedQueries: ReadonlyArray<string>
 }
 
-const groupOptionsByMode: Partial<Record<WorkspaceMode, ReadonlyArray<string>>> = {
-  contract: ["commodity", "counterparty", "status"],
-  settlement: ["status"],
-}
-
-const cannedQueries = [
-  "Active contracts this quarter",
-  "Settlements pending confirmation",
-  "Canola above $15.00",
-  "Cancelled with notes",
-] as const
-
-export function Navigator({ mode, ctx, groupBy, onGroupByChange }: NavigatorProps) {
+export function Navigator({
+  idiom,
+  ctx,
+  groupBy,
+  onGroupByChange,
+  groupByOptions,
+  savedQueries,
+}: NavigatorProps) {
   return (
     <div
       data-slot="workspace-navigator"
       className="flex h-full min-h-0 flex-col overflow-hidden border-r bg-muted/20"
     >
-      {mode === "query" ? (
-        <QueryNavigator />
-      ) : mode === "traversal" ? (
+      {idiom === "queries" ? (
+        <QueryNavigator queries={savedQueries} />
+      ) : idiom === "associations" ? (
         <TraversalNavigator ctx={ctx} />
       ) : (
-        <ObjectNavigator mode={mode} ctx={ctx} groupBy={groupBy} onGroupByChange={onGroupByChange} />
+        <ObjectNavigator
+          ctx={ctx}
+          groupBy={groupBy}
+          onGroupByChange={onGroupByChange}
+          options={groupByOptions}
+        />
       )}
     </div>
   )
 }
 
-// ---------- Object modes: grouped tree ----------
+// ---------- Grouped idiom: collapsible tree ----------
 
 function groupLabelFor(ctx: WorkspaceContext, groupBy: string, value: string): string {
   if (groupBy !== "status") return value || "—"
@@ -62,18 +66,20 @@ function salientFieldKey(ctx: WorkspaceContext): string | null {
 }
 
 function ObjectNavigator({
-  mode,
   ctx,
   groupBy,
   onGroupByChange,
+  options,
 }: {
-  mode: WorkspaceMode
   ctx: WorkspaceContext
   groupBy: string
   onGroupByChange: (groupBy: string) => void
+  options: ReadonlyArray<string>
 }) {
-  const options = groupOptionsByMode[mode] ?? ["status"]
-  const activeGroupBy = options.includes(groupBy) ? groupBy : options[0]
+  // The schema guarantees a grouped mode declares options; the fallback
+  // just keeps a foreign preset from rendering an empty group switcher.
+  const opts = options.length > 0 ? options : ["status"]
+  const activeGroupBy = opts.includes(groupBy) ? groupBy : opts[0]
   const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({})
   const salientKey = salientFieldKey(ctx)
 
@@ -104,7 +110,7 @@ function ObjectNavigator({
           <span className="text-[9.5px] font-mono uppercase tracking-wide text-muted-foreground">
             Group
           </span>
-          {options.map((opt) => (
+          {opts.map((opt) => (
             <button
               key={opt}
               type="button"
@@ -188,16 +194,16 @@ function ObjectNavigator({
   )
 }
 
-// ---------- Query aspect: saved-query list ----------
+// ---------- Queries idiom: saved-query list ----------
 
-function QueryNavigator() {
+function QueryNavigator({ queries }: { queries: ReadonlyArray<string> }) {
   return (
     <>
       <header className="shrink-0 border-b px-2.5 py-2">
         <span className="text-[11px] font-semibold text-foreground">Saved queries</span>
       </header>
       <ul className="min-h-0 flex-1 overflow-auto p-1.5 text-[11px]">
-        {cannedQueries.map((q) => (
+        {queries.map((q) => (
           <li key={q} className="rounded px-1.5 py-1 text-muted-foreground">
             {q}
           </li>
@@ -210,7 +216,7 @@ function QueryNavigator() {
   )
 }
 
-// ---------- Traversal aspect: association links ----------
+// ---------- Associations idiom: association links ----------
 
 function TraversalNavigator({ ctx }: { ctx: WorkspaceContext }) {
   const selected =
