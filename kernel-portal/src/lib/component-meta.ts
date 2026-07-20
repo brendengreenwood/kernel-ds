@@ -97,6 +97,7 @@ export const componentMeta: ComponentMeta[] = [
 
   { name: "Contract detail", anchor: "contract", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 1 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup." },
   { name: "Settlement statement", anchor: "settlement", group: "domain", maturity: "experimental", a11y: "reviewed", note: "Domain pattern 2 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup." },
+  { name: "Shipment schedule", anchor: "shipments", group: "domain", maturity: "experimental", a11y: "pending", note: "Time-of-shipment table: month-grouped delivery windows, ship-by urgency (notification axis), load progress. First screen composed under the 0035/0036 color model." },
 
   { name: "Shell", anchor: "obj-shell", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026" },
   { name: "Workspace", anchor: "obj-workspace", group: "object", maturity: "experimental", a11y: "pending", note: "decision 0026" },

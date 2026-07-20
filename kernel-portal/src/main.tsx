@@ -13,6 +13,7 @@ import { routeForAnchor } from "@/lib/routes"
 import { OverviewSection } from "@/components/portal/overview"
 import { ColorsSection, TypographySection, SpacingSection, ShadowsSection } from "@/components/portal/foundations"
 import { ColorRolesSection } from "@/components/portal/color-roles"
+import { ShipmentScheduleSection } from "@/components/portal/shipments"
 import { MotionSection } from "@/components/portal/motion-foundation"
 import { FormElementsSection } from "@/components/portal/form-elements"
 import { TablesSection } from "@/components/portal/tables"
@@ -96,6 +97,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="modals" element={<ModalPatternsSection />} />
             <Route path="contract" element={<ContractDetailSection />} />
             <Route path="settlement" element={<SettlementSection />} />
+            <Route path="shipments" element={<ShipmentScheduleSection />} />
             <Route path="substrate" element={<SubstrateSection />} />
             <Route path="shell" element={<ShellSection />} />
             <Route path="workspace-obj" element={<WorkspaceObjectSection />} />

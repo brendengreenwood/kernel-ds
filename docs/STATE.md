@@ -76,7 +76,14 @@ own route, not a section of one long scroll.
   ("you are here" as a toggled traversal state); tabs' actives already
   ride `--primary` green. Rule: traversal ink marks where an
   interaction takes you or reveals — never a button fill (0035), never
-  state/outcome (0003). Audit now 76 pairs, 0 AA failures. Open finding: /forms switch demos
+  state/outcome (0003). Audit now 76 pairs, 0 AA failures.
+- **Shipment schedule** (`/shipments`, Domain, experimental,
+  2026-07-20): time-of-shipment table over open contracts —
+  month-grouped delivery windows, ship-by urgency on the notification
+  axis (destructive overdue / warning near / quiet otherwise),
+  loads-shipped progress, one blue lead ("Schedule loads"). First full
+  screen composed under the 0035/0036 model; dogfoods Breadcrumb, Tabs
+  (underline + TabCount), Pagination, Progress, Status/Commodity badges. Open finding: /forms switch demos
   distort the pill via `min-h-11 min-w-11`; the ::after extension used
   on /color-roles is the cleaner mechanism.
 - Component coverage: shadcn registry components themed with Kernel tokens,

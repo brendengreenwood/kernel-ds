@@ -30,6 +30,7 @@ import {
   Pencil,
   Search,
   Eye,
+  Truck,
 } from "@/components/ui/icon"
 
 import {
@@ -108,6 +109,7 @@ const nav: { label: string; items: NavItem[] }[] = [
     items: [
       { title: "Contract detail", to: "/contract", icon: FileText, maturity: "experimental" },
       { title: "Settlement statement", to: "/settlement", icon: Banknote, maturity: "experimental" },
+      { title: "Shipment schedule", to: "/shipments", icon: Truck, maturity: "experimental" },
     ],
   },
   {

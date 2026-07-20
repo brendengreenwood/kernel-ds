@@ -30,6 +30,7 @@ export const sectionRoutes: Record<string, string> = {
   modals: "/modals",
   contract: "/contract",
   settlement: "/settlement",
+  shipments: "/shipments",
   substrate: "/substrate",
   "obj-shell": "/shell",
   "obj-workspace": "/workspace-obj",
