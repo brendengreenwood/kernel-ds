@@ -72,7 +72,7 @@ const commodities: [string, string][] = [
 const commodityTags: Commodity[] = ["corn", "canola", "soybeans", "wheat"]
 
 const pairs = [
-  { name: "Primary", v: "--primary", fg: "--primary-foreground", map: "brand-600 / brand-300" },
+  { name: "Primary", v: "--primary", fg: "--primary-foreground", map: "action-600 / action-400" },
   { name: "Secondary", v: "--secondary", fg: "--secondary-foreground", map: "brand-50 / neutral-800" },
   { name: "Accent", v: "--accent", fg: "--accent-foreground", map: "brand-300" },
   { name: "Destructive", v: "--destructive", fg: "--destructive-foreground", map: "error-500 / error-400" },
@@ -87,10 +87,18 @@ export function ColorsSection() {
       lead="The palette is built in two layers. Scales are the absolute, mode-independent ink — 50→950 ramps (the four notification scales run 50→900), available as bg-brand-500, text-success-700, and so on. Role tokens (primary, background…) point at a scale step and remap per mode."
     >
       <h4 className={cn("mb-4", typeStyles.overline)}>
-        Brand & neutral scales
+        Brand, action & neutral scales
       </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        Two brand roles (decision 0032): the Cargill green is the{" "}
+        <em>traversal</em> color — nav chrome, the sidebar, where-am-I — and
+        the action blue is the <em>interactive</em> color —{" "}
+        <code className="font-mono">--primary</code>, links, focus rings,
+        what-can-I-do. Blue = act, green = go.
+      </p>
       <div className="rounded-lg border bg-card p-8">
-        <Ramp name="Brand" role="green · brand-*" token="brand" steps={STEPS_11} />
+        <Ramp name="Brand" role="traversal green · brand-*" token="brand" steps={STEPS_11} />
+        <Ramp name="Action" role="action blue · action-*" token="action" steps={STEPS_11} />
         <Ramp name="Neutral" role="green-tinted · neutral-*" token="neutral" steps={STEPS_11} />
       </div>
 

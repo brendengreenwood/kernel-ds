@@ -32,7 +32,9 @@
   --card-foreground: oklch(0.2128 0.0209 162.2254);
   --popover: oklch(1.0000 0 0);
   --popover-foreground: oklch(0.2128 0.0209 162.2254);
-  --primary: oklch(0.5364 0.1457 150.5842);
+  /* action role (decision 0032): actions are blue, traversal stays green —
+     --primary/--ring point at the --action-* scale; --sidebar-* keeps brand */
+  --primary: var(--action-600);
   --primary-foreground: oklch(1.0000 0 0);
   --secondary: oklch(0.9758 0.0163 121.7629);
   --secondary-foreground: oklch(0.4373 0.1176 150.8612);
@@ -44,7 +46,7 @@
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.8957 0.0025 165.0685);
   --input: oklch(0.7140 0.0064 170.3662);
-  --ring: oklch(0.5364 0.1457 150.5842);
+  --ring: var(--action-600);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -59,7 +61,8 @@
   --sidebar-accent: oklch(0.9758 0.0163 121.7629);
   --sidebar-accent-foreground: oklch(0.4373 0.1176 150.8612);
   --sidebar-border: oklch(0.8957 0.0025 165.0685);
-  --sidebar-ring: oklch(0.5364 0.1457 150.5842);
+  /* focus is an action signal everywhere, even in the green nav chrome */
+  --sidebar-ring: var(--action-600);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -91,8 +94,10 @@
   --card-foreground: oklch(1.0000 0 0);
   --popover: oklch(0.2128 0.0209 162.2254);
   --popover-foreground: oklch(1.0000 0 0);
-  --primary: oklch(0.8722 0.1272 127.8039);
-  --primary-foreground: oklch(0.2128 0.0209 162.2254);
+  /* action role (decision 0032): dark actions ride action-400 — vivid on
+     dark surfaces — with near-navy action-950 text (7.17:1) */
+  --primary: var(--action-400);
+  --primary-foreground: var(--action-950);
   --secondary: oklch(0.3959 0.0135 167.1419);
   --secondary-foreground: oklch(0.8722 0.1272 127.8039);
   --muted: oklch(0.3959 0.0135 167.1419);
@@ -103,7 +108,7 @@
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.3959 0.0135 167.1419);
   --input: oklch(0.5620 0.0104 161.1304);
-  --ring: oklch(0.8722 0.1272 127.8039);
+  --ring: var(--action-400);
 
   --chart-1: oklch(0.8722 0.1272 127.8039);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -118,7 +123,7 @@
   --sidebar-accent: oklch(0.4373 0.1176 150.8612);
   --sidebar-accent-foreground: oklch(0.8722 0.1272 127.8039);
   --sidebar-border: oklch(0.3959 0.0135 167.1419);
-  --sidebar-ring: oklch(0.8722 0.1272 127.8039);
+  --sidebar-ring: var(--action-400);
 
   --shadow-color: oklch(0 0 0);
   --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
@@ -222,6 +227,25 @@
   --brand-800: oklch(0.375 0.100 151.5);
   --brand-900: oklch(0.300 0.078 152.5);
   --brand-950: oklch(0.225 0.055 153.5);
+
+  /* action blue (decision 0032) — the interactive color: --primary, --ring,
+     links, focus. Hue 254→267 (cobalt), clear of info (245→260) by sitting
+     further from cyan with the highest blue-region chroma (0.190 at 500);
+     light steps ride the sRGB gamut ceiling for blue at high L. */
+  --action-50: oklch(0.975 0.011 254);
+  --action-100: oklch(0.945 0.026 255);
+  --action-200: oklch(0.895 0.050 256);
+  --action-300: oklch(0.825 0.086 257);
+  --action-400: oklch(0.730 0.138 259);
+  --action-500: oklch(0.620 0.190 261);
+  --action-600: oklch(0.536 0.184 262);
+  --action-700: oklch(0.450 0.160 263);
+  --action-800: oklch(0.375 0.130 265);
+  --action-900: oklch(0.300 0.100 266);
+  --action-950: oklch(0.225 0.072 267);
+  --action-light: var(--action-200);
+  --action: var(--action-500);
+  --action-dark: var(--action-700);
 
   --neutral-50: oklch(0.985 0.002 165);
   --neutral-100: oklch(0.967 0.003 165);
@@ -463,6 +487,20 @@
   --color-brand-800: var(--brand-800);
   --color-brand-900: var(--brand-900);
   --color-brand-950: var(--brand-950);
+  --color-action-50: var(--action-50);
+  --color-action-100: var(--action-100);
+  --color-action-200: var(--action-200);
+  --color-action-300: var(--action-300);
+  --color-action-400: var(--action-400);
+  --color-action-500: var(--action-500);
+  --color-action-600: var(--action-600);
+  --color-action-700: var(--action-700);
+  --color-action-800: var(--action-800);
+  --color-action-900: var(--action-900);
+  --color-action-950: var(--action-950);
+  --color-action-light: var(--action-light);
+  --color-action: var(--action);
+  --color-action-dark: var(--action-dark);
   --color-neutral-50: var(--neutral-50);
   --color-neutral-100: var(--neutral-100);
   --color-neutral-200: var(--neutral-200);

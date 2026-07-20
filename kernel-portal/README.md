@@ -163,7 +163,8 @@ defined in `src/index.css`. Zero network requests and instant first paint.
 
 The palette has two layers, both in `src/index.css`:
 
-- **Scales** — absolute, mode-independent ink. `--brand-*` (green) and
+- **Scales** — absolute, mode-independent ink. `--brand-*` (green),
+  `--action-*` (blue), and
   `--neutral-*` ship full 50→950 ramps; the four notification scales
   `--success-*` (emerald), `--warning-*` (wheat), `--error-*` (red),
   `--info-*` (blue) run 50→900. A separate categorical **data-viz** palette — eight hues
@@ -178,7 +179,15 @@ The palette has two layers, both in `src/index.css`:
   it's *semantic*: the hue means the commodity.
 - **Role tokens** — `--primary`, `--background`, `--destructive`, etc. point at
   a scale step and remap between light and dark (e.g. `--primary` =
-  `brand-600` in light, `brand-300` in dark).
+  `action-600` in light, `action-400` in dark).
+- **Two brand roles** (decision 0032) — the Cargill green is the *traversal*
+  color (sidebar/nav chrome, `--sidebar-*`, `--secondary`, `--accent`); the
+  action blue is the *interactive* color (`--primary`, `--ring`, links,
+  focus — including `--sidebar-ring`, since focus is an action signal even
+  in green chrome). The blue (hue 254→267, chroma peaking 0.190) is the most
+  chromatic blue in the system, deliberately above `--info-*` (0.165) and
+  `--viz-sky-*` (0.135) so affordances outrank ambient blues; at 93° from
+  the emerald `--success-*` hue it never approaches the notification green.
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so

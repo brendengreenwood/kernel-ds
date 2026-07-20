@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-15
+> Last touched: 2026-07-20
 
 ## What this project is
 
@@ -39,6 +39,13 @@ own route, not a section of one long scroll.
   notification scales run 50→900 by design — decision 0004),
   12-step type scale, spacing, shadows, radius — defined in
   `kernel-portal/src/index.css`, light + dark.
+- **Two brand roles** (decision 0032, 2026-07-20): **green is traversal,
+  blue is action.** New `--action-*` scale (cobalt, hue 254→267, chroma
+  peak 0.190) drives `--primary`, `--ring`, links, and all focus rings
+  (incl. `--sidebar-ring`); nav chrome, `--secondary`, `--accent`, and
+  `--brand-*` stay Cargill green. Success stays at hue 168 — 93° from the
+  action hue, considered and deliberately unchanged. Contrast audit after
+  the repoint: 70 pairs, 0 AA failures.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of
