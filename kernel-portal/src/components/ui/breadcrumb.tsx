@@ -48,7 +48,8 @@ function BreadcrumbLink({
     defaultTagName: "a",
     props: mergeProps<"a">(
       {
-        className: cn("transition-colors hover:text-foreground", className),
+        /* traversal ink (decision 0036): breadcrumb links are "go here" */
+        className: cn("font-medium text-traversal transition-colors hover:underline", className),
       },
       props
     ),

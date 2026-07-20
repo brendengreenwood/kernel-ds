@@ -257,6 +257,21 @@ for (const { commodity, family } of commodityVariants) {
   });
 }
 
+/* ---- (f) Traversal ink (decision 0036) — breadcrumb links, disclosure
+   chevrons, wayfinding icons ---- */
+for (const mode of ["light", "dark"]) {
+  for (const bg of ["background", "card"]) {
+    check({
+      group: "Traversal ink",
+      label: `--traversal on --${bg}`,
+      mode,
+      fgToken: "traversal",
+      bg: bgOf(mode, bg),
+      bgLabel: `--${bg}`,
+    });
+  }
+}
+
 /* ---- (e) Button primary — the action blue fill (decisions 0033/0035) ---- */
 rows.push({
   group: "Button primary (action blue)",

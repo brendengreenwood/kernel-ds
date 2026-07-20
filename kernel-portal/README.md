@@ -192,9 +192,13 @@ The palette has two layers, both in `src/index.css`:
   (hue 254→267, chroma peaking 0.190 — deliberately above `--info-*`
   0.165 and `--viz-sky-*` 0.135, and 93° from the emerald `--success-*`
   hue) appears nowhere else — not chrome, nav, links, or selection.
-  Traversal ink for green text-links: `brand-700` light / `brand-300`
-  dark. The brand-tinted `variant="secondary"` sits outside the ladder
-  (toned chips / toggled states only).
+  Traversal ink is a role token (decision 0036): `--traversal` →
+  `brand-700` light / `brand-300` dark (`text-traversal`), carried by
+  breadcrumb links, accordion chevrons, and green record links;
+  pagination's active page renders `variant="secondary"` and tabs'
+  active states ride `--primary` green. The brand-tinted
+  `variant="secondary"` sits outside the ladder (toned chips / toggled
+  states / current-place markers only).
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so

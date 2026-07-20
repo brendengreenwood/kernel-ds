@@ -67,7 +67,16 @@ own route, not a section of one long scroll.
   outside the ladder (toned chips/toggled states). Audit gates the fill
   as "Button primary (action blue)": 72 pairs, 0 AA failures.
   Demonstrated on /color-roles ("green world, blue actions") and the
-  Button gallery hierarchy row. Open finding: /forms switch demos
+  Button gallery hierarchy row.
+- **Traversal signifiers are green** (decision 0036, 2026-07-20): new
+  `--traversal` ink role token (brand-700 light / brand-300 dark,
+  `text-traversal`; audited 7.00:1 light, 9.28:1+ dark) carried by the
+  component layer — accordion trigger chevrons, BreadcrumbLink, green
+  record links; pagination's active page renders `variant="secondary"`
+  ("you are here" as a toggled traversal state); tabs' actives already
+  ride `--primary` green. Rule: traversal ink marks where an
+  interaction takes you or reveals — never a button fill (0035), never
+  state/outcome (0003). Audit now 76 pairs, 0 AA failures. Open finding: /forms switch demos
   distort the pill via `min-h-11 min-w-11`; the ::after extension used
   on /color-roles is the cleaner mechanism.
 - Component coverage: shadcn registry components themed with Kernel tokens,

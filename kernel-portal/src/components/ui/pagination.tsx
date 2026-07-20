@@ -46,7 +46,9 @@ function PaginationLink({
 }: PaginationLinkProps) {
   return (
     <Button
-      variant={isActive ? "outline" : "ghost"}
+      /* current page is a traversal "you are here" state (decision 0036) —
+         brand-tinted secondary, the toggled-state license from 0035 */
+      variant={isActive ? "secondary" : "ghost"}
       size={size}
       className={cn(className)}
       nativeButton={false}

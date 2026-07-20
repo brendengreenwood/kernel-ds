@@ -25,13 +25,13 @@ const MENU_DELTA =
   "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
 
 export const componentMeta: ComponentMeta[] = [
-  { name: "Accordion", anchor: "c-accordion", group: "component", maturity: "ready", a11y: "reviewed" },
+  { name: "Accordion", anchor: "c-accordion", group: "component", maturity: "ready", a11y: "reviewed", note: "Trigger chevrons wear the traversal ink (decision 0036) — disclosure is a green 'go' signifier." },
   { name: "Alert", anchor: "c-alert", group: "component", maturity: "ready", a11y: "reviewed", note: "Kernel success/warning/info variants." },
   { name: "Alert Dialog", anchor: "c-dialog", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Aspect Ratio", anchor: "c-separator", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Avatar", anchor: "c-badge", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Badge", anchor: "c-badge", group: "component", maturity: "ready", a11y: "reviewed", note: "Kernel success/warning/info variants." },
-  { name: "Breadcrumb", anchor: "c-breadcrumb", group: "component", maturity: "ready", a11y: "reviewed" },
+  { name: "Breadcrumb", anchor: "c-breadcrumb", group: "component", maturity: "ready", a11y: "reviewed", note: "Links use the traversal ink (text-traversal, decision 0036); the current page stays foreground." },
   { name: "Button", anchor: "c-button", group: "component", maturity: "ready", a11y: "reviewed", note: "Buttons are actions (decision 0035): default fills action blue; the ladder is default / outline / ghost. Green never fills a button." },
   { name: "Calendar", anchor: "c-calendar", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Card", anchor: "c-card", group: "component", maturity: "ready", a11y: "reviewed" },
@@ -54,7 +54,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Label", anchor: "fe-anatomy", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Menubar", anchor: "c-navigation-menu", group: "component", maturity: "ready", a11y: "reviewed", note: MENU_DELTA },
   { name: "Navigation Menu", anchor: "c-navigation-menu", group: "component", maturity: "ready", a11y: "reviewed", note: "Base UI behavior (documented, intended): hover-open delay tuned to 50ms." },
-  { name: "Pagination", anchor: "c-breadcrumb", group: "component", maturity: "ready", a11y: "reviewed" },
+  { name: "Pagination", anchor: "c-breadcrumb", group: "component", maturity: "ready", a11y: "reviewed", note: "Active page renders variant=\"secondary\" (brand-tinted 'you are here'; decision 0036)." },
   { name: "Popover", anchor: "c-popover", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Progress", anchor: "c-progress", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Radio Group", anchor: "c-radio-group", group: "component", maturity: "ready", a11y: "reviewed" },

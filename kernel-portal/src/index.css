@@ -48,6 +48,9 @@
   --border: oklch(0.8957 0.0025 165.0685);
   --input: oklch(0.7140 0.0064 170.3662);
   --ring: oklch(0.5364 0.1457 150.5842);
+  /* traversal ink (decision 0036): the green "go here" signal — breadcrumb
+     links, record links, disclosure chevrons, wayfinding icons */
+  --traversal: var(--brand-700);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -107,6 +110,7 @@
   --border: oklch(0.3959 0.0135 167.1419);
   --input: oklch(0.5620 0.0104 161.1304);
   --ring: oklch(0.8722 0.1272 127.8039);
+  --traversal: var(--brand-300);
 
   --chart-1: oklch(0.8722 0.1272 127.8039);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -154,6 +158,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-traversal: var(--traversal);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);

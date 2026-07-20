@@ -36,9 +36,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-/* Traversal ink (decisions 0032 + 0033): where-am-I / where-can-I-go reads
-   green. Light pairs with the 700 step, dark with 300. */
-const traversalText = "text-brand-700 dark:text-brand-300"
+/* Traversal ink (decision 0036): the --traversal role token — brand-700
+   light / brand-300 dark. Components (breadcrumb, accordion, pagination)
+   now carry it themselves; the demo uses the same utility. */
+const traversalText = "text-traversal"
 const traversalUnderline = "border-brand-600 dark:border-brand-400"
 
 const rail = [
@@ -283,6 +284,11 @@ export function ColorRolesSection() {
               <span className={cn("border-b-2 px-3 py-1.5 font-semibold", traversalUnderline)}>Fills</span>
               <span className="border-b-2 border-transparent px-3 py-1.5 font-medium text-muted-foreground">Terms</span>
               <span className="border-b-2 border-transparent px-3 py-1.5 font-medium text-muted-foreground">Activity</span>
+            </span>
+          </InventoryRow>
+          <InventoryRow name="disclosure chevron">
+            <span className="flex w-full max-w-60 items-center justify-between border-b pb-2 text-sm font-medium">
+              Delivery windows <ChevronDown className="size-4 text-traversal" />
             </span>
           </InventoryRow>
           <InventoryRow name="wizard step, current">
