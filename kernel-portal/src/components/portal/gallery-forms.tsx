@@ -106,16 +106,14 @@ function ButtonCluster() {
           <Button variant="outline">Outline</Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="destructive">Destructive</Button>
-          <Button variant="action">Action</Button>
           <Button variant="link">Link</Button>
         </div>
-        {/* action hierarchy (decision 0034): descending emphasis, right to left */}
+        {/* action ladder (decision 0035): descending emphasis, right to left */}
         <div className="flex flex-wrap items-center gap-4">
           <span className="font-mono text-xs text-muted-foreground">hierarchy →</span>
           <Button variant="ghost">Cancel</Button>
           <Button variant="outline">Save draft</Button>
-          <Button>New contract</Button>
-          <Button variant="action">Post bid</Button>
+          <Button>Post bid</Button>
         </div>
         <div className="flex flex-wrap items-center gap-4">
           <Button size="sm">Small</Button>

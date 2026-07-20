@@ -94,12 +94,12 @@ export function ColorRolesSection() {
     <Section
       id="color-roles"
       eyebrow="Foundations"
-      title="Color in use — mostly green, blue for the decisive action"
-      lead="The system is green (decision 0033): chrome, navigation, buttons, selection, focus — the Cargill brand carries the everyday work. The action blue is surgical: it marks the one decisive action of a view — the commit moment — and nothing else. Because it appears once, it always means “this is the thing to do next.”"
+      title="Color in use — green world, blue actions"
+      lead="Green is the world you move through (decision 0035): chrome, navigation, links, tabs, selection, focus — the Cargill brand. Buttons are actions, so buttons never wear green: the lead action of a region is blue, its supports are white, its quietest siblings are ghost. Blue = do; green = everything around the doing."
     >
       <Subhead>A merchant screen, annotated</Subhead>
       <div className="overflow-hidden rounded-lg border bg-card">
-        {/* top bar — all green: identity, chrome, and the routine create action */}
+        {/* top bar — green identity + chrome; the global create is a white support */}
         <div className="flex items-center gap-3 border-b bg-sidebar px-4 py-2.5">
           <div className="flex items-center gap-2 text-sm font-semibold">
             <span className="grid size-6 place-items-center rounded-sm bg-sidebar-primary text-sidebar-primary-foreground">
@@ -111,7 +111,7 @@ export function ColorRolesSection() {
             <Search className="size-3.5 shrink-0" /> <span className="truncate">Search loads, farms, contracts…</span>
           </div>
           <div className="flex-1" />
-          <Button size="sm"><Plus /> New contract</Button>
+          <Button size="sm" variant="outline"><Plus /> New contract</Button>
           <Avatar className="size-7"><AvatarFallback className="text-[11px]">EM</AvatarFallback></Avatar>
         </div>
         {/* body */}
@@ -138,7 +138,7 @@ export function ColorRolesSection() {
             ))}
           </div>
           <div className="flex min-w-0 flex-col">
-            {/* page header — green breadcrumbs, green routine actions */}
+            {/* page header — green breadcrumbs; the region's lead action is blue */}
             <div className="px-6 py-5">
               <div className="flex items-center gap-1.5 text-xs">
                 <span className={cn("cursor-pointer font-medium hover:underline", traversalText)}>Operations</span>
@@ -224,11 +224,11 @@ export function ColorRolesSection() {
                 </TableBody>
               </Table>
             </div>
-            {/* footer — THE one blue element on this screen: the commit action
-                for the selection. Everything around it stays green/neutral. */}
+            {/* footer — the selection bar's own lead action is blue; its
+                sibling support is ghost */}
             <div className="flex flex-wrap items-center gap-3 border-t px-6 py-3">
               <span className="text-xs text-muted-foreground">1 of 5 selected · 18,400 bu</span>
-              <Button size="sm" variant="action">Price selected</Button>
+              <Button size="sm">Price selected</Button>
               <Button size="sm" variant="ghost">Assign loads</Button>
               <div className="ml-auto flex items-center gap-1 text-xs">
                 <ChevronLeft className="size-3.5 text-muted-foreground" />
@@ -242,14 +242,15 @@ export function ColorRolesSection() {
         </div>
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2.5">
-        <LegendChip tone="green" label="green" desc="chrome · nav · buttons · links · selection · focus — the whole screen" />
-        <LegendChip tone="blue" label="action" desc="one element: the decisive action for the current selection" />
+        <LegendChip tone="green" label="green" desc="chrome · nav · links · tabs · selection · focus — the world" />
+        <LegendChip tone="blue" label="action" desc="buttons — one blue lead per region, white and ghost in support" />
       </div>
 
       <Subhead>Signifier inventory</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
-        Green does all the everyday work — moving around and routine doing.
-        Blue is reserved for one signifier: the decisive action of the view.
+        Green owns everything you move through and the state you set along
+        the way. The moment something is a button — a thing that does — it
+        leaves the green world and joins the blue-led action ladder.
       </p>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {/* traversal card */}
@@ -304,14 +305,10 @@ export function ColorRolesSection() {
             </span>
           </InventoryRow>
         </div>
-        {/* everyday-actions card */}
+        {/* state & feedback card — green interactive state that isn't a button */}
         <div className="rounded-lg border bg-card p-6">
-          <div className="text-sm font-semibold">Everyday actions — green</div>
-          <div className="mb-2 mt-0.5 text-xs text-muted-foreground">Routine doing: create, edit, toggle, select</div>
-          <InventoryRow name="buttons">
-            <Button size="sm"><Plus /> New load</Button>
-            <Button size="sm" variant="outline">Export</Button>
-          </InventoryRow>
+          <div className="text-sm font-semibold">Selection, focus & state — green</div>
+          <div className="mb-2 mt-0.5 text-xs text-muted-foreground">Interactive state that isn't a button stays brand green</div>
           <InventoryRow name="selection">
             <label className="flex items-center gap-2 text-sm"><Checkbox defaultChecked aria-label="Selected" /> Selected</label>
             <label className="flex items-center gap-2 text-sm">{/* keep the pill undistorted; meet 44px via the decision-0007 invisible
@@ -335,63 +332,59 @@ export function ColorRolesSection() {
         </div>
       </div>
 
-      <Subhead>The action hierarchy</Subhead>
+      <Subhead>The action ladder</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
-        Now that the blue marks the decisive moment, the tiers below it are
-        part of the mental model too (decision 0034). Four levels of
-        emphasis, each with its own license — read a button cluster right to
-        left and the ladder descends.
+        Buttons are actions (decision 0035), so every button sits on a
+        three-tier ladder — blue leads, white supports, ghost whispers.
+        Green never fills a button. Read a cluster right to left and the
+        emphasis descends.
       </p>
       <div className="rounded-lg border bg-card p-6">
-        <InventoryRow name="1 · decisive">
-          <Button size="sm" variant="action">Post bid</Button>
-          <span className="text-xs text-muted-foreground">the commit moment — at most one per view</span>
+        <InventoryRow name="1 · primary">
+          <Button size="sm">Post bid</Button>
+          <span className="text-xs text-muted-foreground">the lead action of a region — one blue per cluster</span>
         </InventoryRow>
-        <InventoryRow name="2 · primary">
-          <Button size="sm">New contract</Button>
-          <span className="text-xs text-muted-foreground">the main routine action of a region — brand green</span>
-        </InventoryRow>
-        <InventoryRow name="3 · secondary">
+        <InventoryRow name="2 · secondary">
           <Button size="sm" variant="outline">Export</Button>
           <span className="text-xs text-muted-foreground">white supporting actions — paper in light, raised surface in dark; any number</span>
         </InventoryRow>
-        <InventoryRow name="4 · tertiary">
+        <InventoryRow name="3 · tertiary">
           <Button size="sm" variant="ghost">Cancel</Button>
           <span className="text-xs text-muted-foreground">quietest — dismiss, inline utilities; type does the work</span>
         </InventoryRow>
       </div>
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="rounded-lg border bg-card p-6">
-          <div className="mb-3 font-mono text-xs text-muted-foreground">dialog footer — a decisive moment</div>
+          <div className="mb-3 font-mono text-xs text-muted-foreground">dialog footer — commit cluster</div>
           <div className="flex flex-wrap items-center justify-end gap-2.5 rounded-md border bg-muted/30 px-4 py-3">
             <Button size="sm" variant="ghost">Cancel</Button>
             <Button size="sm" variant="outline">Save draft</Button>
-            <Button size="sm" variant="action">Post bid</Button>
+            <Button size="sm">Post bid</Button>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Tertiary · secondary · decisive. The green tier is skipped —
-            beside a blue commit, routine siblings go white or quiet.
+            Tertiary · secondary · primary. One blue lead; its siblings
+            drop to white and ghost.
           </p>
         </div>
         <div className="rounded-lg border bg-card p-6">
-          <div className="mb-3 font-mono text-xs text-muted-foreground">list header — no decisive moment</div>
+          <div className="mb-3 font-mono text-xs text-muted-foreground">toolbar — no single lead</div>
           <div className="flex flex-wrap items-center justify-end gap-2.5 rounded-md border bg-muted/30 px-4 py-3">
             <Button size="sm" variant="ghost">Import</Button>
+            <Button size="sm" variant="outline">Duplicate</Button>
             <Button size="sm" variant="outline">Export</Button>
-            <Button size="sm"><Plus /> New contract</Button>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            No commit on screen → no blue. The green primary leads, white
-            and ghost support. Adjacent buttons always differ by a tier.
+            Peer actions with no standout → no blue at all. White and ghost
+            carry clusters of equals; blue only appears when one action leads.
           </p>
         </div>
       </div>
       <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-        Rules: one decisive per view; one green primary per region; white
-        and ghost as needed. Never two solids side by side. The brand-tinted{" "}
-        <code className="font-mono">variant="secondary"</code> sits outside
-        this ladder — it's for toned chips and toggled states, not action
-        clusters.
+        Rules: one blue lead per region, never two blues side by side; white
+        and ghost as needed; green never fills a button — it's traversal ink.
+        The brand-tinted <code className="font-mono">variant="secondary"</code>{" "}
+        sits outside this ladder — toned chips and toggled states, not
+        action clusters.
       </p>
 
       <Subhead>The other axes don't move</Subhead>
@@ -411,7 +404,7 @@ export function ColorRolesSection() {
         <CommodityBadge commodity="soybeans" />
         <CommodityBadge commodity="wheat" />
         <span className="mx-1 text-muted-foreground">beside</span>
-        <Button size="sm" variant="action">Settle</Button>
+        <Button size="sm">Settle</Button>
       </div>
     </Section>
   )

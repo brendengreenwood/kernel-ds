@@ -32,8 +32,9 @@
   --card-foreground: oklch(0.2128 0.0209 162.2254);
   --popover: oklch(1.0000 0 0);
   --popover-foreground: oklch(0.2128 0.0209 162.2254);
-  /* primary is the brand green (decision 0033): the system is mostly green.
-     The --action-* blue is surgical — Button variant="action" only. */
+  /* primary stays the brand green (decision 0035): it drives traversal-side
+     interactive state (tabs, selection controls, links). Buttons are
+     actions — the Button component fills with --action-* directly. */
   --primary: oklch(0.5364 0.1457 150.5842);
   --primary-foreground: oklch(1.0000 0 0);
   --secondary: oklch(0.9758 0.0163 121.7629);
@@ -225,11 +226,12 @@
   --brand-900: oklch(0.300 0.078 152.5);
   --brand-950: oklch(0.225 0.055 153.5);
 
-  /* action blue (decisions 0032 + 0033) — the surgical accent for the one
-     decisive action of a view (Button variant="action"); never chrome, nav,
-     or routine controls. Hue 254→267 (cobalt), clear of info (245→260) by
-     sitting further from cyan with the highest blue-region chroma (0.190 at
-     500); light steps ride the sRGB gamut ceiling for blue at high L. */
+  /* action blue (decisions 0032/0033/0035) — buttons are actions: the
+     Button fill (default variant), with white/ghost as the supporting
+     tiers. Never chrome, nav, links, or selection — those are green.
+     Hue 254→267 (cobalt), clear of info (245→260) by sitting further from
+     cyan with the highest blue-region chroma (0.190 at 500); light steps
+     ride the sRGB gamut ceiling for blue at high L. */
   --action-50: oklch(0.975 0.011 254);
   --action-100: oklch(0.945 0.026 255);
   --action-200: oklch(0.895 0.050 256);

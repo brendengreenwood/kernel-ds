@@ -54,15 +54,20 @@ own route, not a section of one long scroll.
   button, signifier inventory, and the surgical doctrine. Traversal ink
   convention: brand-700 light / brand-300 dark text for green links,
   brand-600/400 active-tab underline.
-- **Action hierarchy** (decision 0034, 2026-07-20): four tiers of button
-  emphasis — 1 decisive `action` (blue, one per view) · 2 primary
-  `default` (green, ~one per region) · 3 secondary `outline` (white
-  tier; any number) · 4 tertiary `ghost` (quietest). Adjacent buttons
-  differ by a tier; never two solids side by side; beside a blue commit
-  the green tier is skipped. `variant="secondary"` (brand-tinted) is
-  re-scoped outside the ladder (toned chips/toggled states). Documented
-  on `buttonVariants`, the Button gallery (hierarchy row), and the
-  /color-roles "Action hierarchy" section with two composition demos. Open finding: /forms switch demos
+- **Buttons are actions** (decision 0035, 2026-07-20, superseding the
+  green-button tiers of 0033/0034): green never fills a button. Button
+  `default` fills the action blue directly (light action-600 + white
+  5.32:1, dark action-400 + action-950 7.17:1); the ladder is 1 primary
+  `default` (one blue lead per region) · 2 secondary `outline` (white) ·
+  3 tertiary `ghost`. Never two blues side by side; no-lead clusters are
+  all white/ghost. `--primary` deliberately stays brand green — it
+  drives the non-button interactive state (pill tabs, selection
+  controls, calendar, progress, focus, link-variant text); Button no
+  longer references it. `variant="secondary"` (brand-tinted) remains
+  outside the ladder (toned chips/toggled states). Audit gates the fill
+  as "Button primary (action blue)": 72 pairs, 0 AA failures.
+  Demonstrated on /color-roles ("green world, blue actions") and the
+  Button gallery hierarchy row. Open finding: /forms switch demos
   distort the pill via `min-h-11 min-w-11`; the ::after extension used
   on /color-roles is the cleaner mechanism.
 - Component coverage: shadcn registry components themed with Kernel tokens,

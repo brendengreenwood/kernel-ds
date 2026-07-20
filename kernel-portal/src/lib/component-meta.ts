@@ -32,7 +32,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Avatar", anchor: "c-badge", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Badge", anchor: "c-badge", group: "component", maturity: "ready", a11y: "reviewed", note: "Kernel success/warning/info variants." },
   { name: "Breadcrumb", anchor: "c-breadcrumb", group: "component", maturity: "ready", a11y: "reviewed" },
-  { name: "Button", anchor: "c-button", group: "component", maturity: "ready", a11y: "reviewed", note: "Kernel `action` variant (decision 0033) tops the four-tier action hierarchy: action / default / outline / ghost (decision 0034)." },
+  { name: "Button", anchor: "c-button", group: "component", maturity: "ready", a11y: "reviewed", note: "Buttons are actions (decision 0035): default fills action blue; the ladder is default / outline / ghost. Green never fills a button." },
   { name: "Calendar", anchor: "c-calendar", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Card", anchor: "c-card", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Carousel", anchor: "c-carousel", group: "component", maturity: "ready", a11y: "reviewed" },
@@ -83,7 +83,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Commodity tags", anchor: "colors", group: "element", maturity: "ready", a11y: "reviewed", note: "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)." },
   { name: "Animated number", anchor: "dashboard", group: "element", maturity: "ready", a11y: "reviewed", note: "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable." },
 
-  { name: "Color in use (surgical action blue)", anchor: "color-roles", group: "pattern", maturity: "experimental", a11y: "pending", note: "Annotated merchant screen demonstrating decision 0033: the system is green; blue marks only the one decisive action per view (Button variant=\"action\")." },
+  { name: "Color in use (green world, blue actions)", anchor: "color-roles", group: "pattern", maturity: "experimental", a11y: "pending", note: "Annotated merchant screen demonstrating decision 0035: green is traversal/state; buttons are actions — blue lead, white secondary, ghost tertiary." },
   { name: "App shell", anchor: "appshell", group: "pattern", maturity: "ready", a11y: "reviewed" },
   { name: "Navigation", anchor: "navigation", group: "pattern", maturity: "ready", a11y: "reviewed", note: "Module switcher + nested rail conventions for app-level navigation." },
   { name: "Dashboard", anchor: "dashboard", group: "pattern", maturity: "ready", a11y: "reviewed" },

@@ -90,12 +90,11 @@ export function ColorsSection() {
         Brand, action & neutral scales
       </h4>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
-        The system is <em>mostly green</em> (decision 0033): the Cargill
-        brand carries chrome, navigation, buttons, selection, and focus. The
-        action blue is <em>surgical</em> — reserved for the one decisive
-        action of a view via{" "}
-        <code className="font-mono">Button variant="action"</code>, never
-        chrome or routine controls. See the Color-in-use page.
+        Green is the world (decision 0035): chrome, navigation, links, tabs,
+        selection, and focus ride the Cargill brand. <em>Buttons are
+        actions</em>, so buttons never wear green — the Button ladder is
+        blue lead · white secondary · ghost tertiary, one blue per region.
+        See the Color-in-use page.
       </p>
       <div className="rounded-lg border bg-card p-8">
         <Ramp name="Brand" role="green · brand-*" token="brand" steps={STEPS_11} />

@@ -257,9 +257,9 @@ for (const { commodity, family } of commodityVariants) {
   });
 }
 
-/* ---- (e) Button `action` variant (decision 0033) ---- */
+/* ---- (e) Button primary — the action blue fill (decisions 0033/0035) ---- */
 rows.push({
-  group: "Action button",
+  group: "Button primary (action blue)",
   label: "text-white on bg-action-600",
   mode: "light",
   bgLabel: "action-600",
@@ -268,7 +268,7 @@ rows.push({
   fgToken: "action-600",
 });
 check({
-  group: "Action button",
+  group: "Button primary (action blue)",
   label: "text-action-950 on bg-action-400",
   mode: "dark",
   fgToken: "action-950",

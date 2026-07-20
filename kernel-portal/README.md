@@ -180,24 +180,21 @@ The palette has two layers, both in `src/index.css`:
 - **Role tokens** — `--primary`, `--background`, `--destructive`, etc. point at
   a scale step and remap between light and dark (e.g. `--primary` =
   `brand-600` in light, `brand-300` in dark).
-- **Mostly green, surgical blue** (decision 0033, amending 0032) — the
-  Cargill green carries the system: chrome, navigation, buttons, links,
-  selection, and focus all stay on `--brand-*` roles. The `--action-*` blue
-  (hue 254→267, chroma peaking 0.190 — deliberately above `--info-*` 0.165
-  and `--viz-sky-*` 0.135, and 93° from the emerald `--success-*` hue) is
-  reserved for **one element per view**: the decisive/committing action,
-  rendered with `Button variant="action"` (light `action-600` + white
-  5.32:1, dark `action-400` + `action-950` 7.17:1). Never repoint
-  `--primary` at it, never use it for chrome, navigation, or routine
-  controls. Traversal ink for green text-links: `brand-700` light /
-  `brand-300` dark.
-- **Action hierarchy** (decision 0034) — four tiers of button emphasis:
-  1 decisive `variant="action"` (blue, one per view) · 2 primary
-  `default` (green, ~one per region) · 3 secondary `outline` (white
-  surface; any number) · 4 tertiary `ghost` (quietest). Adjacent buttons
-  differ by a tier; never two solids side by side; beside a blue commit
-  the green tier is skipped. The brand-tinted `variant="secondary"` sits
-  outside the ladder (toned chips / toggled states only).
+- **Green world, blue actions** (decision 0035, superseding 0033/0034's
+  green-button tiers) — green is everything you move through and the
+  state you set: chrome, navigation, links, tabs, selection controls,
+  and focus ride the `--brand-*` roles (`--primary`/`--ring` stay green).
+  **Buttons are actions and never wear green**: the Button ladder is
+  1 primary `default` (fills `action-600` + white 5.32:1 light,
+  `action-400` + `action-950` 7.17:1 dark; one blue lead per region) ·
+  2 secondary `outline` (white surface; any number) · 3 tertiary `ghost`
+  (quietest). Never two blues side by side. The `--action-*` blue
+  (hue 254→267, chroma peaking 0.190 — deliberately above `--info-*`
+  0.165 and `--viz-sky-*` 0.135, and 93° from the emerald `--success-*`
+  hue) appears nowhere else — not chrome, nav, links, or selection.
+  Traversal ink for green text-links: `brand-700` light / `brand-300`
+  dark. The brand-tinted `variant="secondary"` sits outside the ladder
+  (toned chips / toggled states only).
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so
