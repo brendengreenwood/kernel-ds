@@ -179,15 +179,18 @@ The palette has two layers, both in `src/index.css`:
   it's *semantic*: the hue means the commodity.
 - **Role tokens** — `--primary`, `--background`, `--destructive`, etc. point at
   a scale step and remap between light and dark (e.g. `--primary` =
-  `action-600` in light, `action-400` in dark).
-- **Two brand roles** (decision 0032) — the Cargill green is the *traversal*
-  color (sidebar/nav chrome, `--sidebar-*`, `--secondary`, `--accent`); the
-  action blue is the *interactive* color (`--primary`, `--ring`, links,
-  focus — including `--sidebar-ring`, since focus is an action signal even
-  in green chrome). The blue (hue 254→267, chroma peaking 0.190) is the most
-  chromatic blue in the system, deliberately above `--info-*` (0.165) and
-  `--viz-sky-*` (0.135) so affordances outrank ambient blues; at 93° from
-  the emerald `--success-*` hue it never approaches the notification green.
+  `brand-600` in light, `brand-300` in dark).
+- **Mostly green, surgical blue** (decision 0033, amending 0032) — the
+  Cargill green carries the system: chrome, navigation, buttons, links,
+  selection, and focus all stay on `--brand-*` roles. The `--action-*` blue
+  (hue 254→267, chroma peaking 0.190 — deliberately above `--info-*` 0.165
+  and `--viz-sky-*` 0.135, and 93° from the emerald `--success-*` hue) is
+  reserved for **one element per view**: the decisive/committing action,
+  rendered with `Button variant="action"` (light `action-600` + white
+  5.32:1, dark `action-400` + `action-950` 7.17:1). Never repoint
+  `--primary` at it, never use it for chrome, navigation, or routine
+  controls. Traversal ink for green text-links: `brand-700` light /
+  `brand-300` dark.
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so

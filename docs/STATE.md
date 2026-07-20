@@ -39,19 +39,23 @@ own route, not a section of one long scroll.
   notification scales run 50→900 by design — decision 0004),
   12-step type scale, spacing, shadows, radius — defined in
   `kernel-portal/src/index.css`, light + dark.
-- **Two brand roles** (decision 0032, 2026-07-20): **green is traversal,
-  blue is action.** New `--action-*` scale (cobalt, hue 254→267, chroma
-  peak 0.190) drives `--primary`, `--ring`, links, and all focus rings
-  (incl. `--sidebar-ring`); nav chrome, `--secondary`, `--accent`, and
-  `--brand-*` stay Cargill green. Success stays at hue 168 — 93° from the
-  action hue, considered and deliberately unchanged. Contrast audit after
-  the repoint: 70 pairs, 0 AA failures. The split is demonstrated on the
-  **Color in use** page (`/color-roles`, experimental) — an annotated
-  merchant screen + signifier inventory; it also introduces the traversal
-  ink convention (brand-700 light / brand-300 dark text, brand-600/400
-  active-tab underline). Open finding: /forms switch demos distort the
-  pill via `min-h-11 min-w-11`; the ::after extension used on
-  /color-roles is the cleaner mechanism.
+- **Mostly green, surgical action blue** (decision 0033, 2026-07-20,
+  amending 0032): the system is green — `--primary`, `--ring`, chrome,
+  nav, links, selection, and focus all ride the brand roles (pre-0032
+  values restored). The `--action-*` scale (cobalt, hue 254→267, chroma
+  peak 0.190; hue analysis in decision 0032 still stands, incl. success
+  staying at hue 168, 93° away) is reserved for **at most one element
+  per view** — the decisive/committing action — via the new
+  `Button variant="action"` (light action-600 + white 5.32:1, dark
+  action-400 + action-950 7.17:1). contrast-audit gates the variant's
+  pairs in a dedicated "Action button" section: 72 pairs, 0 AA failures.
+  Demonstrated on the **Color in use** page (`/color-roles`,
+  experimental): an all-green merchant screen with a single blue commit
+  button, signifier inventory, and the surgical doctrine. Traversal ink
+  convention: brand-700 light / brand-300 dark text for green links,
+  brand-600/400 active-tab underline. Open finding: /forms switch demos
+  distort the pill via `min-h-11 min-w-11`; the ::after extension used
+  on /color-roles is the cleaner mechanism.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of

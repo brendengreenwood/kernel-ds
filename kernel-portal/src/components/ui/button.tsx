@@ -18,6 +18,10 @@ const buttonVariants = cva(
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
+        // Surgical action blue (decision 0033): the one decisive action of a
+        // view — at most one per screen. Everything routine stays green.
+        action:
+          "bg-action-600 text-white hover:bg-action-700 focus-visible:border-action-400 focus-visible:ring-action-500/40 dark:bg-action-400 dark:text-action-950 dark:hover:bg-action-300 dark:focus-visible:ring-action-400/40",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

@@ -36,8 +36,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-/* Traversal ink (decision 0032): where-am-I / where-can-I-go reads green.
-   Light pairs with the 700 step, dark with 300 — same shape as link blue. */
+/* Traversal ink (decisions 0032 + 0033): where-am-I / where-can-I-go reads
+   green. Light pairs with the 700 step, dark with 300. */
 const traversalText = "text-brand-700 dark:text-brand-300"
 const traversalUnderline = "border-brand-600 dark:border-brand-400"
 
@@ -94,12 +94,12 @@ export function ColorRolesSection() {
     <Section
       id="color-roles"
       eyebrow="Foundations"
-      title="Color in use — traversal vs action"
-      lead="Two brand roles, one rule (decision 0032): green answers “where am I, where can I go” — the traversal chrome you move through. Blue answers “what can I do” — every action, signifier, and affordance. Scan any screen: green is the map, blue is the levers."
+      title="Color in use — mostly green, blue for the decisive action"
+      lead="The system is green (decision 0033): chrome, navigation, buttons, selection, focus — the Cargill brand carries the everyday work. The action blue is surgical: it marks the one decisive action of a view — the commit moment — and nothing else. Because it appears once, it always means “this is the thing to do next.”"
     >
       <Subhead>A merchant screen, annotated</Subhead>
       <div className="overflow-hidden rounded-lg border bg-card">
-        {/* top bar — green identity + traversal chrome, blue global action */}
+        {/* top bar — all green: identity, chrome, and the routine create action */}
         <div className="flex items-center gap-3 border-b bg-sidebar px-4 py-2.5">
           <div className="flex items-center gap-2 text-sm font-semibold">
             <span className="grid size-6 place-items-center rounded-sm bg-sidebar-primary text-sidebar-primary-foreground">
@@ -138,7 +138,7 @@ export function ColorRolesSection() {
             ))}
           </div>
           <div className="flex min-w-0 flex-col">
-            {/* page header — green breadcrumb trail, blue actions */}
+            {/* page header — green breadcrumbs, green routine actions */}
             <div className="px-6 py-5">
               <div className="flex items-center gap-1.5 text-xs">
                 <span className={cn("cursor-pointer font-medium hover:underline", traversalText)}>Operations</span>
@@ -173,19 +173,19 @@ export function ColorRolesSection() {
               </div>
             </div>
             <div className="border-t" />
-            {/* filter row — blue: applied filters are things you did and can undo */}
+            {/* filter row — quiet green-tinted chips; routine, not the moment */}
             <div className="flex flex-wrap items-center gap-2 px-6 py-3">
-              <span className="inline-flex items-center gap-1.5 rounded-md border border-action-300 bg-action-50 px-2 py-1 text-xs font-medium text-action-800 dark:border-action-700 dark:bg-action-900/30 dark:text-action-200">
+              <span className="inline-flex items-center gap-1.5 rounded-md border bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
                 Delivery: Jun–Aug 2026 <X className="size-3 opacity-70" />
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-md border border-action-300 bg-action-50 px-2 py-1 text-xs font-medium text-action-800 dark:border-action-700 dark:bg-action-900/30 dark:text-action-200">
+              <span className="inline-flex items-center gap-1.5 rounded-md border bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
                 Elevator: River terminal <X className="size-3 opacity-70" />
               </span>
-              <span className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium text-primary hover:underline">
+              <span className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground">
                 <Filter className="size-3.5" /> Add filter
               </span>
             </div>
-            {/* table — blue record links + blue selection; status/commodity keep their own axes */}
+            {/* table — green record links (they navigate), green selection */}
             <div className="min-w-0 flex-1 border-t">
               <Table>
                 <TableHeader>
@@ -195,8 +195,8 @@ export function ColorRolesSection() {
                     <TableHead>Farm</TableHead>
                     <TableHead>Commodity</TableHead>
                     <TableHead>
-                      {/* applied sort is an interaction state → blue signifier */}
-                      <span className="inline-flex items-center gap-1 font-semibold text-primary">
+                      {/* applied sort: weight + icon carry it, no accent color */}
+                      <span className="inline-flex items-center gap-1 font-semibold text-foreground">
                         Bushels <ChevronDown className="size-3.5" />
                       </span>
                     </TableHead>
@@ -208,11 +208,11 @@ export function ColorRolesSection() {
                   {rows.map((r) => (
                     <TableRow
                       key={r.id}
-                      className={cn("selected" in r && r.selected && "bg-action-50/60 hover:bg-action-50/80 dark:bg-action-900/15 dark:hover:bg-action-900/25")}
+                      className={cn("selected" in r && r.selected && "bg-brand-50/70 hover:bg-brand-50 dark:bg-brand-900/15 dark:hover:bg-brand-900/25")}
                     >
                       <TableCell className="pl-4"><Checkbox defaultChecked={"selected" in r && !!r.selected} aria-label={`Select ${r.id}`} /></TableCell>
                       <TableCell>
-                        <span className="cursor-pointer font-medium text-primary hover:underline">{r.id}</span>
+                        <span className={cn("cursor-pointer font-medium hover:underline", traversalText)}>{r.id}</span>
                       </TableCell>
                       <TableCell>{r.farm}</TableCell>
                       <TableCell><CommodityBadge commodity={r.commodity} /></TableCell>
@@ -224,11 +224,12 @@ export function ColorRolesSection() {
                 </TableBody>
               </Table>
             </div>
-            {/* footer — bulk actions on the selection are blue; the page you're on is green */}
+            {/* footer — THE one blue element on this screen: the commit action
+                for the selection. Everything around it stays green/neutral. */}
             <div className="flex flex-wrap items-center gap-3 border-t px-6 py-3">
-              <span className="text-xs text-muted-foreground">1 of 5 selected</span>
-              <span className="cursor-pointer text-xs font-medium text-primary hover:underline">Price selected</span>
-              <span className="cursor-pointer text-xs font-medium text-primary hover:underline">Assign loads</span>
+              <span className="text-xs text-muted-foreground">1 of 5 selected · 18,400 bu</span>
+              <Button size="sm" variant="action">Price selected</Button>
+              <Button size="sm" variant="ghost">Assign loads</Button>
               <div className="ml-auto flex items-center gap-1 text-xs">
                 <ChevronLeft className="size-3.5 text-muted-foreground" />
                 <span className="grid size-6 place-items-center rounded-sm bg-brand-100 font-semibold text-brand-800 dark:bg-brand-900/50 dark:text-brand-200">1</span>
@@ -241,15 +242,14 @@ export function ColorRolesSection() {
         </div>
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2.5">
-        <LegendChip tone="green" label="traversal" desc="rail active item · breadcrumb · active tab · current page" />
-        <LegendChip tone="blue" label="action" desc="buttons · record links · selection · applied filters & sort" />
+        <LegendChip tone="green" label="green" desc="chrome · nav · buttons · links · selection · focus — the whole screen" />
+        <LegendChip tone="blue" label="action" desc="one element: the decisive action for the current selection" />
       </div>
 
       <Subhead>Signifier inventory</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
-        The split, element by element. If it moves you somewhere or marks where
-        you already are, it's green. If it does something — or signals that
-        something can be done, is selected, or is applied — it's blue.
+        Green does all the everyday work — moving around and routine doing.
+        Blue is reserved for one signifier: the decisive action of the view.
       </p>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {/* traversal card */}
@@ -268,6 +268,13 @@ export function ColorRolesSection() {
               <span className={cn("font-medium hover:underline", traversalText)}>Contracts</span>
               <ChevronRight className="size-3 text-muted-foreground opacity-50" />
               <span className="whitespace-nowrap font-medium text-foreground">CTR-4471</span>
+            </span>
+          </InventoryRow>
+          <InventoryRow name="link (navigates)">
+            <span className="text-sm">
+              Basis firmed at the{" "}
+              <span className={cn("cursor-pointer font-medium hover:underline", traversalText)}>river terminal</span>{" "}
+              this week.
             </span>
           </InventoryRow>
           <InventoryRow name="tab, active">
@@ -297,26 +304,13 @@ export function ColorRolesSection() {
             </span>
           </InventoryRow>
         </div>
-        {/* action card */}
+        {/* everyday-actions card */}
         <div className="rounded-lg border bg-card p-6">
-          <div className="text-sm font-semibold">Action — blue</div>
-          <div className="mb-2 mt-0.5 text-xs text-muted-foreground">What can I do · what have I done</div>
-          <InventoryRow name="primary action">
-            <Button size="sm">Settle load</Button>
+          <div className="text-sm font-semibold">Everyday actions — green</div>
+          <div className="mb-2 mt-0.5 text-xs text-muted-foreground">Routine doing: create, edit, toggle, select</div>
+          <InventoryRow name="buttons">
+            <Button size="sm"><Plus /> New load</Button>
             <Button size="sm" variant="outline">Export</Button>
-          </InventoryRow>
-          <InventoryRow name="link">
-            <span className="text-sm">
-              Basis firmed at the{" "}
-              <span className="cursor-pointer font-medium text-primary hover:underline">river terminal</span>{" "}
-              this week.
-            </span>
-          </InventoryRow>
-          <InventoryRow name="focus ring">
-            {/* static rendering of the focus-visible treatment every control shares */}
-            <span className="flex h-(--control-h-sm) items-center rounded-md border border-ring bg-background px-3 text-sm ring-[3px] ring-ring/50">
-              18,400
-            </span>
           </InventoryRow>
           <InventoryRow name="selection">
             <label className="flex items-center gap-2 text-sm"><Checkbox defaultChecked aria-label="Selected" /> Selected</label>
@@ -324,20 +318,48 @@ export function ColorRolesSection() {
                 ::after extension (the component's own reaches only ±8px) */}
             <Switch className="after:-inset-y-[13px]" defaultChecked aria-label="Auto-price" /> Auto-price</label>
           </InventoryRow>
+          <InventoryRow name="focus ring">
+            {/* static rendering of the focus-visible treatment every control shares */}
+            <span className="flex h-(--control-h-sm) items-center rounded-md border border-ring bg-background px-3 text-sm ring-[3px] ring-ring/50">
+              18,400
+            </span>
+          </InventoryRow>
           <InventoryRow name="applied filter / sort">
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-action-300 bg-action-50 px-2 py-1 text-xs font-medium text-action-800 dark:border-action-700 dark:bg-action-900/30 dark:text-action-200">
+            <span className="inline-flex items-center gap-1.5 rounded-md border bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
               Corn only <X className="size-3 opacity-70" />
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground">
               Bushels <ChevronDown className="size-3.5" />
             </span>
           </InventoryRow>
         </div>
       </div>
 
+      {/* the surgical blue, on its own */}
+      <div className="mt-4 rounded-lg border bg-card p-6">
+        <div className="text-sm font-semibold">Action blue — surgical</div>
+        <div className="mb-4 mt-0.5 text-xs text-muted-foreground">
+          At most one per view · the commit moment · never navigation, never routine
+        </div>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Button size="sm" variant="outline">Save draft</Button>
+          <Button size="sm" variant="ghost">Cancel</Button>
+          <Button size="sm" variant="action">Post bid</Button>
+          <span className="ml-2 text-sm text-muted-foreground">
+            ← <code className="font-mono text-xs">variant="action"</code> — the one blue thing on the screen
+          </span>
+        </div>
+        <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
+          Reserve it for the action that commits or advances the workflow —
+          Post bid, Price selected, Settle, Confirm. Routine siblings (save
+          draft, export, cancel) stay green or neutral. If a screen has no
+          decisive moment, it has no blue; if everything is blue, nothing is.
+        </p>
+      </div>
+
       <Subhead>The other axes don't move</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
-        The two brand roles never absorb the semantic axes (decisions 0003,
+        The brand roles never absorb the semantic axes (decisions 0003,
         0013): lifecycle state stays on <code className="font-mono">--status-*</code>,
         event outcomes on the notification scales, grain identity on{" "}
         <code className="font-mono">--commodity-*</code>. Blue never colors
@@ -352,7 +374,7 @@ export function ColorRolesSection() {
         <CommodityBadge commodity="soybeans" />
         <CommodityBadge commodity="wheat" />
         <span className="mx-1 text-muted-foreground">beside</span>
-        <Button size="sm">Settle</Button>
+        <Button size="sm" variant="action">Settle</Button>
       </div>
     </Section>
   )

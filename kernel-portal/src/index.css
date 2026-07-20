@@ -32,9 +32,9 @@
   --card-foreground: oklch(0.2128 0.0209 162.2254);
   --popover: oklch(1.0000 0 0);
   --popover-foreground: oklch(0.2128 0.0209 162.2254);
-  /* action role (decision 0032): actions are blue, traversal stays green —
-     --primary/--ring point at the --action-* scale; --sidebar-* keeps brand */
-  --primary: var(--action-600);
+  /* primary is the brand green (decision 0033): the system is mostly green.
+     The --action-* blue is surgical — Button variant="action" only. */
+  --primary: oklch(0.5364 0.1457 150.5842);
   --primary-foreground: oklch(1.0000 0 0);
   --secondary: oklch(0.9758 0.0163 121.7629);
   --secondary-foreground: oklch(0.4373 0.1176 150.8612);
@@ -46,7 +46,7 @@
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.8957 0.0025 165.0685);
   --input: oklch(0.7140 0.0064 170.3662);
-  --ring: var(--action-600);
+  --ring: oklch(0.5364 0.1457 150.5842);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -61,8 +61,7 @@
   --sidebar-accent: oklch(0.9758 0.0163 121.7629);
   --sidebar-accent-foreground: oklch(0.4373 0.1176 150.8612);
   --sidebar-border: oklch(0.8957 0.0025 165.0685);
-  /* focus is an action signal everywhere, even in the green nav chrome */
-  --sidebar-ring: var(--action-600);
+  --sidebar-ring: oklch(0.5364 0.1457 150.5842);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -94,10 +93,8 @@
   --card-foreground: oklch(1.0000 0 0);
   --popover: oklch(0.2128 0.0209 162.2254);
   --popover-foreground: oklch(1.0000 0 0);
-  /* action role (decision 0032): dark actions ride action-400 — vivid on
-     dark surfaces — with near-navy action-950 text (7.17:1) */
-  --primary: var(--action-400);
-  --primary-foreground: var(--action-950);
+  --primary: oklch(0.8722 0.1272 127.8039);
+  --primary-foreground: oklch(0.2128 0.0209 162.2254);
   --secondary: oklch(0.3959 0.0135 167.1419);
   --secondary-foreground: oklch(0.8722 0.1272 127.8039);
   --muted: oklch(0.3959 0.0135 167.1419);
@@ -108,7 +105,7 @@
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.3959 0.0135 167.1419);
   --input: oklch(0.5620 0.0104 161.1304);
-  --ring: var(--action-400);
+  --ring: oklch(0.8722 0.1272 127.8039);
 
   --chart-1: oklch(0.8722 0.1272 127.8039);
   --chart-2: oklch(0.6884 0.1436 127.9082);
@@ -123,7 +120,7 @@
   --sidebar-accent: oklch(0.4373 0.1176 150.8612);
   --sidebar-accent-foreground: oklch(0.8722 0.1272 127.8039);
   --sidebar-border: oklch(0.3959 0.0135 167.1419);
-  --sidebar-ring: var(--action-400);
+  --sidebar-ring: oklch(0.8722 0.1272 127.8039);
 
   --shadow-color: oklch(0 0 0);
   --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
@@ -228,10 +225,11 @@
   --brand-900: oklch(0.300 0.078 152.5);
   --brand-950: oklch(0.225 0.055 153.5);
 
-  /* action blue (decision 0032) — the interactive color: --primary, --ring,
-     links, focus. Hue 254→267 (cobalt), clear of info (245→260) by sitting
-     further from cyan with the highest blue-region chroma (0.190 at 500);
-     light steps ride the sRGB gamut ceiling for blue at high L. */
+  /* action blue (decisions 0032 + 0033) — the surgical accent for the one
+     decisive action of a view (Button variant="action"); never chrome, nav,
+     or routine controls. Hue 254→267 (cobalt), clear of info (245→260) by
+     sitting further from cyan with the highest blue-region chroma (0.190 at
+     500); light steps ride the sRGB gamut ceiling for blue at high L. */
   --action-50: oklch(0.975 0.011 254);
   --action-100: oklch(0.945 0.026 255);
   --action-200: oklch(0.895 0.050 256);

@@ -83,7 +83,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Commodity tags", anchor: "colors", group: "element", maturity: "ready", a11y: "reviewed", note: "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)." },
   { name: "Animated number", anchor: "dashboard", group: "element", maturity: "ready", a11y: "reviewed", note: "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable." },
 
-  { name: "Color in use (traversal vs action)", anchor: "color-roles", group: "pattern", maturity: "experimental", a11y: "pending", note: "Annotated merchant screen demonstrating decision 0032: green = traversal signifiers, blue = action signifiers. Doctrine may tighten as more screens adopt it." },
+  { name: "Color in use (surgical action blue)", anchor: "color-roles", group: "pattern", maturity: "experimental", a11y: "pending", note: "Annotated merchant screen demonstrating decision 0033: the system is green; blue marks only the one decisive action per view (Button variant=\"action\")." },
   { name: "App shell", anchor: "appshell", group: "pattern", maturity: "ready", a11y: "reviewed" },
   { name: "Navigation", anchor: "navigation", group: "pattern", maturity: "ready", a11y: "reviewed", note: "Module switcher + nested rail conventions for app-level navigation." },
   { name: "Dashboard", anchor: "dashboard", group: "pattern", maturity: "ready", a11y: "reviewed" },

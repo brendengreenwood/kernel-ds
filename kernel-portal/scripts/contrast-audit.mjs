@@ -257,6 +257,25 @@ for (const { commodity, family } of commodityVariants) {
   });
 }
 
+/* ---- (e) Button `action` variant (decision 0033) ---- */
+rows.push({
+  group: "Action button",
+  label: "text-white on bg-action-600",
+  mode: "light",
+  bgLabel: "action-600",
+  ratio: contrast(srgb("oklch(1 0 0)"), token(light, "action-600")),
+  suggestion: null,
+  fgToken: "action-600",
+});
+check({
+  group: "Action button",
+  label: "text-action-950 on bg-action-400",
+  mode: "dark",
+  fgToken: "action-950",
+  bg: bgOf("dark", "action-400"),
+  bgLabel: "action-400",
+});
+
 /* ---- report ---- */
 const fmt = (r) => r.toFixed(2) + ":1";
 const mark = (ok) => (ok ? "pass" : "**FAIL**");
