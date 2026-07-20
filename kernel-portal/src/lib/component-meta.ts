@@ -32,7 +32,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Avatar", anchor: "c-badge", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Badge", anchor: "c-badge", group: "component", maturity: "ready", a11y: "reviewed", note: "Kernel success/warning/info variants." },
   { name: "Breadcrumb", anchor: "c-breadcrumb", group: "component", maturity: "ready", a11y: "reviewed" },
-  { name: "Button", anchor: "c-button", group: "component", maturity: "ready", a11y: "reviewed" },
+  { name: "Button", anchor: "c-button", group: "component", maturity: "ready", a11y: "reviewed", note: "Kernel `action` variant (decision 0033) tops the four-tier action hierarchy: action / default / outline / ghost (decision 0034)." },
   { name: "Calendar", anchor: "c-calendar", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Card", anchor: "c-card", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Carousel", anchor: "c-carousel", group: "component", maturity: "ready", a11y: "reviewed" },

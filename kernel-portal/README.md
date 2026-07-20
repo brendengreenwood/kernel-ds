@@ -191,6 +191,13 @@ The palette has two layers, both in `src/index.css`:
   `--primary` at it, never use it for chrome, navigation, or routine
   controls. Traversal ink for green text-links: `brand-700` light /
   `brand-300` dark.
+- **Action hierarchy** (decision 0034) — four tiers of button emphasis:
+  1 decisive `variant="action"` (blue, one per view) · 2 primary
+  `default` (green, ~one per region) · 3 secondary `outline` (white
+  surface; any number) · 4 tertiary `ghost` (quietest). Adjacent buttons
+  differ by a tier; never two solids side by side; beside a blue commit
+  the green tier is skipped. The brand-tinted `variant="secondary"` sits
+  outside the ladder (toned chips / toggled states only).
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so

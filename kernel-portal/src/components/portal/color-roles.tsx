@@ -335,27 +335,64 @@ export function ColorRolesSection() {
         </div>
       </div>
 
-      {/* the surgical blue, on its own */}
-      <div className="mt-4 rounded-lg border bg-card p-6">
-        <div className="text-sm font-semibold">Action blue — surgical</div>
-        <div className="mb-4 mt-0.5 text-xs text-muted-foreground">
-          At most one per view · the commit moment · never navigation, never routine
-        </div>
-        <div className="flex flex-wrap items-center gap-2.5">
-          <Button size="sm" variant="outline">Save draft</Button>
-          <Button size="sm" variant="ghost">Cancel</Button>
+      <Subhead>The action hierarchy</Subhead>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        Now that the blue marks the decisive moment, the tiers below it are
+        part of the mental model too (decision 0034). Four levels of
+        emphasis, each with its own license — read a button cluster right to
+        left and the ladder descends.
+      </p>
+      <div className="rounded-lg border bg-card p-6">
+        <InventoryRow name="1 · decisive">
           <Button size="sm" variant="action">Post bid</Button>
-          <span className="ml-2 text-sm text-muted-foreground">
-            ← <code className="font-mono text-xs">variant="action"</code> — the one blue thing on the screen
-          </span>
-        </div>
-        <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-          Reserve it for the action that commits or advances the workflow —
-          Post bid, Price selected, Settle, Confirm. Routine siblings (save
-          draft, export, cancel) stay green or neutral. If a screen has no
-          decisive moment, it has no blue; if everything is blue, nothing is.
-        </p>
+          <span className="text-xs text-muted-foreground">the commit moment — at most one per view</span>
+        </InventoryRow>
+        <InventoryRow name="2 · primary">
+          <Button size="sm">New contract</Button>
+          <span className="text-xs text-muted-foreground">the main routine action of a region — brand green</span>
+        </InventoryRow>
+        <InventoryRow name="3 · secondary">
+          <Button size="sm" variant="outline">Export</Button>
+          <span className="text-xs text-muted-foreground">white supporting actions — paper in light, raised surface in dark; any number</span>
+        </InventoryRow>
+        <InventoryRow name="4 · tertiary">
+          <Button size="sm" variant="ghost">Cancel</Button>
+          <span className="text-xs text-muted-foreground">quietest — dismiss, inline utilities; type does the work</span>
+        </InventoryRow>
       </div>
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="rounded-lg border bg-card p-6">
+          <div className="mb-3 font-mono text-xs text-muted-foreground">dialog footer — a decisive moment</div>
+          <div className="flex flex-wrap items-center justify-end gap-2.5 rounded-md border bg-muted/30 px-4 py-3">
+            <Button size="sm" variant="ghost">Cancel</Button>
+            <Button size="sm" variant="outline">Save draft</Button>
+            <Button size="sm" variant="action">Post bid</Button>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Tertiary · secondary · decisive. The green tier is skipped —
+            beside a blue commit, routine siblings go white or quiet.
+          </p>
+        </div>
+        <div className="rounded-lg border bg-card p-6">
+          <div className="mb-3 font-mono text-xs text-muted-foreground">list header — no decisive moment</div>
+          <div className="flex flex-wrap items-center justify-end gap-2.5 rounded-md border bg-muted/30 px-4 py-3">
+            <Button size="sm" variant="ghost">Import</Button>
+            <Button size="sm" variant="outline">Export</Button>
+            <Button size="sm"><Plus /> New contract</Button>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            No commit on screen → no blue. The green primary leads, white
+            and ghost support. Adjacent buttons always differ by a tier.
+          </p>
+        </div>
+      </div>
+      <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
+        Rules: one decisive per view; one green primary per region; white
+        and ghost as needed. Never two solids side by side. The brand-tinted{" "}
+        <code className="font-mono">variant="secondary"</code> sits outside
+        this ladder — it's for toned chips and toggled states, not action
+        clusters.
+      </p>
 
       <Subhead>The other axes don't move</Subhead>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">

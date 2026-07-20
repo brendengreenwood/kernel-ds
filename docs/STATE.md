@@ -53,7 +53,16 @@ own route, not a section of one long scroll.
   experimental): an all-green merchant screen with a single blue commit
   button, signifier inventory, and the surgical doctrine. Traversal ink
   convention: brand-700 light / brand-300 dark text for green links,
-  brand-600/400 active-tab underline. Open finding: /forms switch demos
+  brand-600/400 active-tab underline.
+- **Action hierarchy** (decision 0034, 2026-07-20): four tiers of button
+  emphasis — 1 decisive `action` (blue, one per view) · 2 primary
+  `default` (green, ~one per region) · 3 secondary `outline` (white
+  tier; any number) · 4 tertiary `ghost` (quietest). Adjacent buttons
+  differ by a tier; never two solids side by side; beside a blue commit
+  the green tier is skipped. `variant="secondary"` (brand-tinted) is
+  re-scoped outside the ladder (toned chips/toggled states). Documented
+  on `buttonVariants`, the Button gallery (hierarchy row), and the
+  /color-roles "Action hierarchy" section with two composition demos. Open finding: /forms switch demos
   distort the pill via `min-h-11 min-w-11`; the ::after extension used
   on /color-roles is the cleaner mechanism.
 - Component coverage: shadcn registry components themed with Kernel tokens,
