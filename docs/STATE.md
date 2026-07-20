@@ -45,7 +45,13 @@ own route, not a section of one long scroll.
   (incl. `--sidebar-ring`); nav chrome, `--secondary`, `--accent`, and
   `--brand-*` stay Cargill green. Success stays at hue 168 — 93° from the
   action hue, considered and deliberately unchanged. Contrast audit after
-  the repoint: 70 pairs, 0 AA failures.
+  the repoint: 70 pairs, 0 AA failures. The split is demonstrated on the
+  **Color in use** page (`/color-roles`, experimental) — an annotated
+  merchant screen + signifier inventory; it also introduces the traversal
+  ink convention (brand-700 light / brand-300 dark text, brand-600/400
+  active-tab underline). Open finding: /forms switch demos distort the
+  pill via `min-h-11 min-w-11`; the ::after extension used on
+  /color-roles is the cleaner mechanism.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of

@@ -29,6 +29,7 @@ import {
   Gauge,
   Pencil,
   Search,
+  Eye,
 } from "@/components/ui/icon"
 
 import {
@@ -69,6 +70,7 @@ const nav: { label: string; items: NavItem[] }[] = [
     label: "Foundations",
     items: [
       { title: "Color", to: "/colors", icon: Palette },
+      { title: "Color in use", to: "/color-roles", icon: Eye, maturity: "experimental" },
       { title: "Typography", to: "/typography", icon: Type },
       { title: "Spacing & radius", to: "/spacing", icon: Ruler },
       { title: "Elevation", to: "/shadows", icon: Layers },

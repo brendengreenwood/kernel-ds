@@ -8,6 +8,7 @@ export const sectionRoutes: Record<string, string> = {
   install: "/install",
   status: "/status",
   colors: "/colors",
+  "color-roles": "/color-roles",
   typography: "/typography",
   spacing: "/spacing",
   shadows: "/shadows",
