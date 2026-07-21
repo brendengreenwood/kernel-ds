@@ -9,6 +9,7 @@ import ComponentsIndex from "@/pages/components-index"
 import ComponentPage from "@/pages/component-page"
 import StudioPage from "@/pages/studio"
 import { routeForAnchor } from "@/lib/routes"
+import { loadDefinitions } from "@/lib/objects"
 
 import { OverviewSection } from "@/components/portal/overview"
 import { ColorsSection, TypographySection, SpacingSection, ShadowsSection } from "@/components/portal/foundations"
@@ -55,6 +56,12 @@ function LegacyHashRedirect() {
   }
   return null
 }
+
+// Boot: register persisted definitions (objects + workspace presets)
+// from /definitions/ (decision 0033). Fire-and-forget — registry
+// subscriptions propagate arrivals; an absent or empty manifest is a
+// no-op (the shipped manifest lists zero definitions).
+void loadDefinitions()
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
