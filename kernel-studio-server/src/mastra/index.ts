@@ -3,6 +3,7 @@ import { PinoLogger } from "@mastra/loggers";
 import { LibSQLStore } from "@mastra/libsql";
 import { Observability, DefaultExporter, SensitiveDataFilter } from "@mastra/observability";
 import { designAgent } from "./agents/design-agent.js";
+import { toolsmithAgent } from "./agents/toolsmith-agent.js";
 import { cognitiveResearchWorkflow } from "./workflows/cognitive-research-workflow";
 import { artifactWorkflow } from "./workflows/artifact-workflow";
 import { researchAgent } from "./agents/research-agent";
@@ -23,7 +24,7 @@ export { dbReady };
 
 export const mastra = new Mastra({
   workflows: { cognitiveResearchWorkflow, artifactWorkflow },
-  agents: { designAgent, researchAgent, artifactAgent, supervisorAgent },
+  agents: { designAgent, toolsmithAgent, researchAgent, artifactAgent, supervisorAgent },
   scorers: { insightNoveltyScorer, evidenceStrengthScorer, diagramQualityScorer },
   mcpServers: { mcpServer },
   server: {

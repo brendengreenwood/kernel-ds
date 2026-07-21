@@ -46,6 +46,27 @@ export function prototypesDir(): string {
 }
 
 /**
+ * Portal definitions directory (kernel-portal/public/definitions) — where
+ * agent-authored object/workspace JSON documents persist (decision 0033).
+ * Override with STUDIO_DEFINITIONS_DIR (tests use a temp dir).
+ */
+export function definitionsDir(): string {
+  const override = process.env.STUDIO_DEFINITIONS_DIR;
+  if (override) return path.resolve(override);
+  return path.join(repoRoot(), "kernel-portal", "public", "definitions");
+}
+
+/** Portal scripts directory — hosts validate-definition.mjs. */
+export function portalScriptsDir(): string {
+  return path.join(repoRoot(), "kernel-portal", "scripts");
+}
+
+/** Portal public directory — hosts composition.json. */
+export function portalPublicDir(): string {
+  return path.join(repoRoot(), "kernel-portal", "public");
+}
+
+/**
  * Resolve `relative` inside `base` and throw if the result escapes `base`.
  */
 export function resolveInside(base: string, relative: string): string {
