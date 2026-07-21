@@ -77,6 +77,12 @@ own route, not a section of one long scroll.
   ride `--primary` green. Rule: traversal ink marks where an
   interaction takes you or reveals — never a button fill (0035), never
   state/outcome (0003). Audit now 76 pairs, 0 AA failures.
+- **Action-blue concept archived** (2026-07-20): the whole green-world /
+  blue-actions concept (decisions 0032–0036) is preserved in
+  `docs/archive/2026-07-20-action-blue-concept.md` (self-contained: ramp
+  values, rules, proof screenshots, restoration notes, pitch notes) and
+  frozen under git tag `concept/action-blue-2026-07` — adoption is
+  pending an internal sell; nothing is lost either way.
 - **Shipment schedule** (`/shipments`, Domain, experimental,
   2026-07-20): time-of-shipment table over open contracts —
   month-grouped delivery windows, ship-by urgency on the notification
