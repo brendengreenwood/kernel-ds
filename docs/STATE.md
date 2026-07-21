@@ -260,6 +260,29 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
+- **Definition files + studio define tools** (branch feat/ds-define-tool,
+  2026-07-21, decision 0033): agent-authored tools are now **persistent** -
+  the portal boots by loading public/definitions/manifest.json and
+  registering every listed object/workspace JSON document
+  (lib/objects/definitions-loader.ts: per-document failure isolation;
+  SPA-redirect tolerance - non-OK/non-JSON/parse-failure resolve to zero
+  definitions because netlify.toml serves HTML-with-200). The shipped
+  manifest is empty, so default rendered state is unchanged (all five
+  harnesses pass unmodified, hash-verified). Validation is single-sourced:
+  kernel-portal/scripts/validate-definition.mjs (strip-types,
+  cwd-independent) returns schema verdicts from the portal's own zod
+  schemas; kernel-studio-server/src/lib/definitions.ts (node: builtins
+  only, dependency-injected) spawns it via process.execPath and refuses
+  to write an invalid document (throws with verdict errors - enforced by
+  named vitest cases). Studio exposes read-composition-contract /
+  validate-definition / write-definition tools plus a stateless toolsmith
+  agent (contract order: read contract, draft, validate until ok, write
+  object then workspace). Deterministic e2e proof (drive-defined-tool.mjs
+  5/5): a library-book object + library-ops workspace written through the
+  real module derive a working workspace surviving two reloads; cleanup
+  restores the empty manifest. Deferred (decision 0033): live-LLM
+  toolsmith evaluation (board item), definition edit/delete UX,
+  multi-workspace switching UX.
 - **Workspace presets as data** (branch feat/ds-workspace-presets,
   2026-07-19, decision 0032): workspace configurations are now
   **validated JSON** - workspacePresetSchema (zod) +
@@ -277,8 +300,8 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   semantics. Generative-UI arc position: objects as data (0030) ->
   labels from model (0031) -> workspaces as data (0032) -> an agent
   can now emit a working tool as two JSON documents; the studio
-  defineObject tool is next. Presets are session-scoped (reload
-  restores the default), same lifecycle as Incident registration.
+  defineObject tool is next. Demo-button presets are session-scoped; persisted presets now come
+  from definition files (entry above, decision 0033).
 - **Status labels from the model** (branch feat/ds-status-labels,
   2026-07-18, decision 0031): status badge **text** is now model-driven -
   statusLabelFromModel/statusLabelForObject in status-map.ts, labels
@@ -305,8 +328,9 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   machine-readable: lib/objects/composition.ts manifest (6 primitives,
   4 regions, 9 doctrine rules) emitted to public/composition.json
   (decision 0030) - agents load the rules instead of re-deriving them.
-  Registration is session-scoped (persistence lands with the studio
-  defineObject tool, next plan). The trade-vocabulary finding below is now resolved by decision 0031
+  Registration is session-scoped for demo buttons; **persistence landed**
+  with the definition-files loader + studio define tools (entry above,
+  decision 0033). The trade-vocabulary finding below is now resolved by decision 0031
   (label-driven badges, entry above). Original finding: StatusBadge
   vocabulary is trade-shaped (booked/settled/cancelled) - foreign
   domains render semantically odd badge labels with correct tones;
