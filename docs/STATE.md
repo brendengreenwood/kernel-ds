@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-15
+> Last touched: 2026-07-22
 
 ## What this project is
 
@@ -38,7 +38,11 @@ own route, not a section of one long scroll.
 - Full token system: two-layer color tokens (50→950 scales + semantic layer;
   notification scales run 50→900 by design — decision 0004),
   12-step type scale, spacing, shadows, radius — defined in
-  `kernel-portal/src/index.css`, light + dark.
+  `kernel-portal/src/index.css`, light + dark. As of 2026-07-22 the Color
+  foundation page documents the **complete** shadcn semantic layer — the
+  four interactive pairs, surface pairs (background/card/popover/muted),
+  border/input/ring, the sidebar family, and the `--chart-1…5` slots —
+  not just the original four pair cards.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of

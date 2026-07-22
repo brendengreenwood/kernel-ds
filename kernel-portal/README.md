@@ -176,9 +176,16 @@ The palette has two layers, both in `src/index.css`:
   50→950 scale** with the same `-light`/`-dark` aliases — colour-codes
   grain commodities so tags and chart series read at a glance. Unlike viz,
   it's *semantic*: the hue means the commodity.
-- **Role tokens** — `--primary`, `--background`, `--destructive`, etc. point at
-  a scale step and remap between light and dark (e.g. `--primary` =
-  `brand-600` in light, `brand-300` in dark).
+- **Role tokens** — the full shadcn semantic layer, each remapping between
+  light and dark (e.g. `--primary` = `brand-600` in light, `brand-300` in
+  dark): the four interactive pairs (`--primary`, `--secondary`, `--accent`,
+  `--destructive` + `-foreground`), the surface pairs (`--background`,
+  `--card`, `--popover`, `--muted` + `-foreground`), the border/focus trio
+  (`--border`, `--input`, `--ring`), the sidebar family (`--sidebar-*`, so the
+  rail can diverge from the page surface), and the five `--chart-*` slots
+  (a single-hue brand ramp backing shadcn chart defaults — multi-series
+  charts use `--viz-*` instead). All of them are documented as live swatch
+  cards in the Color foundation section.
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so
