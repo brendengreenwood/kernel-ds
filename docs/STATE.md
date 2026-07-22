@@ -38,11 +38,14 @@ own route, not a section of one long scroll.
 - Full token system: two-layer color tokens (50→950 scales + semantic layer;
   notification scales run 50→900 by design — decision 0004),
   12-step type scale, spacing, shadows, radius — defined in
-  `kernel-portal/src/index.css`, light + dark. As of 2026-07-22 the Color
-  foundation page documents the **complete** shadcn semantic layer — the
-  four interactive pairs, surface pairs (background/card/popover/muted),
-  border/input/ring, the sidebar family, and the `--chart-1…5` slots —
-  not just the original four pair cards.
+  `kernel-portal/src/index.css`, light + dark. As of 2026-07-22 the
+  foundation pages document the **complete** token surface: the Color page
+  shows the full shadcn semantic layer (interactive pairs, surface pairs,
+  border/input/ring, sidebar family, `--chart-1…5`) **and** all three
+  color axes including the ten `--status-*` hue cards; Spacing & radius
+  shows the full radius ladder (incl. `xl`) and a Control density block
+  rendering the `--control-h-*` tokens live (decision 0010). Verified
+  complete already: Motion, Elevation, Typography.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of

@@ -212,7 +212,7 @@ four weights, and tabular numerals.
 
 ---
 
-## Component coverage (49 / 49)
+## Component coverage (50 / 50)
 
 Accordion · Alert · Alert Dialog · Aspect Ratio · Avatar · Badge · Breadcrumb ·
 Button · Calendar · Card · Carousel · Chart · Checkbox · Collapsible · Combobox ·
@@ -220,7 +220,7 @@ Command · Context Menu · Data Table · Date Picker · Dialog · Drawer ·
 Dropdown Menu · Form · Hover Card · Input · Input OTP · Label · Menubar ·
 Navigation Menu · Pagination · Popover · Progress · Radio Group · Resizable ·
 Scroll Area · Select · Separator · Sheet · Sidebar · Skeleton · Slider · Sonner ·
-Switch · Table · Tabs · Textarea · Toggle · Toggle Group · Tooltip
+Status Badge · Switch · Table · Tabs · Textarea · Toggle · Toggle Group · Tooltip
 
 `combobox`, `data-table`, and `date-picker` are **compositions** (not single
 registry items) — the portal builds them from `popover` + `command`,
