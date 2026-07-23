@@ -58,6 +58,12 @@ own route, not a section of one long scroll.
   Typography · Spacing & radius · Layout · Elevation · Motion · Icons ·
   Accessibility. Empty-state pattern filed as issue #63 (board, DS
   Library).
+- **Charts page covers the full shadcn set** (2026-07-22): bar, area,
+  line, donut (center label), radar, radial (center label) — all via
+  `ChartContainer`, all in grain-domain copy, with per-chart color
+  choices demonstrating the axis doctrine (--chart-* single-hue, --viz-*
+  multi-hue abstract, --commodity-* commodity splits). recharts 3.8.0
+  already shipped every primitive; no dependency change.
 - **Layout foundation** (decision 0033, 2026-07-22): a `/layout` page
   documents the fluid-layout doctrine — **no fixed column grid**, by
   design. Stock Tailwind breakpoints (with a live viewport indicator on
