@@ -74,7 +74,10 @@ src/
     portal/
       app-sidebar.tsx          ← rail: router links per section + per-component page list
       foundations.tsx          ← Colors · Typography · Spacing · Elevation
+      layout-foundation.tsx    ← Layout: breakpoints · grid rules · measure (0033)
       motion-foundation.tsx    ← Motion: duration/easing tokens + polish primitives (0018)
+      icons-foundation.tsx     ← Icons: searchable MDI-shim glyph grid (0019)
+      a11y-foundation.tsx      ← Accessibility: touch · focus · contrast · zoom · motion contract
       gallery-forms.tsx        ← per-cluster demos + formsClusters (Button · Toggle · Inputs …)
       gallery-data.tsx         ← per-cluster demos + dataClusters (Card · Table · Progress …)
       gallery-overlays.tsx     ← per-cluster demos + overlaysClusters (Alert · Dialog · Sheet …)
@@ -176,9 +179,16 @@ The palette has two layers, both in `src/index.css`:
   50→950 scale** with the same `-light`/`-dark` aliases — colour-codes
   grain commodities so tags and chart series read at a glance. Unlike viz,
   it's *semantic*: the hue means the commodity.
-- **Role tokens** — `--primary`, `--background`, `--destructive`, etc. point at
-  a scale step and remap between light and dark (e.g. `--primary` =
-  `brand-600` in light, `brand-300` in dark).
+- **Role tokens** — the full shadcn semantic layer, each remapping between
+  light and dark (e.g. `--primary` = `brand-600` in light, `brand-300` in
+  dark): the four interactive pairs (`--primary`, `--secondary`, `--accent`,
+  `--destructive` + `-foreground`), the surface pairs (`--background`,
+  `--card`, `--popover`, `--muted` + `-foreground`), the border/focus trio
+  (`--border`, `--input`, `--ring`), the sidebar family (`--sidebar-*`, so the
+  rail can diverge from the page surface), and the five `--chart-*` slots
+  (a single-hue brand ramp backing shadcn chart defaults — multi-series
+  charts use `--viz-*` instead). All of them are documented as live swatch
+  cards in the Color foundation section.
 - **Status tokens** — `--status-*` for the load/contract lifecycle (`draft`,
   `pending`, `booked`, `intransit`, `delivered`, `settled`, `onhold`,
   `rejected`, `cancelled`, `expired`). Each aliases a distinct hue's 500 step so
@@ -205,7 +215,45 @@ four weights, and tabular numerals.
 
 ---
 
-## Component coverage (49 / 49)
+## Layout
+
+Fluid by doctrine (decision 0033) — **no fixed column grid**. Breakpoints are
+Tailwind's defaults (sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536; no
+custom breakpoints). Grids that can sit beside the sidebar derive their
+column count from available space via `repeat(auto-fit, minmax(Npx, 1fr))`;
+responsive grids declare their mobile column explicitly; raw `1fr` in
+arbitrary tracks is `minmax(0,1fr)`; atomic-width rows (tab strips, data
+tables) scroll in place. Prose caps at `max-w-2xl` (~65–75ch) while data
+surfaces take the full width. The `/layout` foundation page documents all of
+it, with a live breakpoint indicator; `scripts/mobile-audit.mjs` enforces the
+grid rules at 390px.
+
+---
+
+## Icons
+
+Material Design Icons (decision 0019) behind a lucide-compatible shim —
+`src/components/ui/icon.tsx` exports lucide-named components backed by
+`@mdi/js` paths (filled, 24×24, `currentColor`; prefer `*Outline` variants).
+Never import from `lucide-react`. Adding a glyph is one
+`lucide name → mdi*` line in the shim. The `/icons` foundation page renders a
+searchable click-to-copy grid enumerated from the shim's runtime exports, so
+it can't drift.
+
+## Accessibility
+
+A stated, audited contract, documented on the `/accessibility` foundation
+page: ≥44px effective touch targets on coarse pointers (visible growth via
+`--control-h-*` or invisible hit extensions — decisions 0007/0009), a global
+focus ring (`outline-ring/50` + 3px control ring), WCAG AA 4.5:1 on every
+rendered pair (`scripts/contrast-audit.mjs`), the 16px phone input floor, and
+a global `prefers-reduced-motion` guard. Per-component reviews: 68/68, in
+`docs/a11y/`; `scripts/mobile-audit.mjs` enforces the ergonomic rules at
+390px.
+
+---
+
+## Component coverage (50 / 50)
 
 Accordion · Alert · Alert Dialog · Aspect Ratio · Avatar · Badge · Breadcrumb ·
 Button · Calendar · Card · Carousel · Chart · Checkbox · Collapsible · Combobox ·
@@ -213,7 +261,7 @@ Command · Context Menu · Data Table · Date Picker · Dialog · Drawer ·
 Dropdown Menu · Form · Hover Card · Input · Input OTP · Label · Menubar ·
 Navigation Menu · Pagination · Popover · Progress · Radio Group · Resizable ·
 Scroll Area · Select · Separator · Sheet · Sidebar · Skeleton · Slider · Sonner ·
-Switch · Table · Tabs · Textarea · Toggle · Toggle Group · Tooltip
+Status Badge · Switch · Table · Tabs · Textarea · Toggle · Toggle Group · Tooltip
 
 `combobox`, `data-table`, and `date-picker` are **compositions** (not single
 registry items) — the portal builds them from `popover` + `command`,

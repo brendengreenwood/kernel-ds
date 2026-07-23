@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-15
+> Last touched: 2026-07-22
 
 ## What this project is
 
@@ -38,7 +38,40 @@ own route, not a section of one long scroll.
 - Full token system: two-layer color tokens (50→950 scales + semantic layer;
   notification scales run 50→900 by design — decision 0004),
   12-step type scale, spacing, shadows, radius — defined in
-  `kernel-portal/src/index.css`, light + dark.
+  `kernel-portal/src/index.css`, light + dark. As of 2026-07-22 the
+  foundation pages document the **complete** token surface: the Color page
+  shows the full shadcn semantic layer (interactive pairs, surface pairs,
+  border/input/ring, sidebar family, `--chart-1…5`) **and** all three
+  color axes including the ten `--status-*` hue cards; Spacing & radius
+  shows the full radius ladder (incl. `xl`) and a Control density block
+  rendering the `--control-h-*` tokens live (decision 0010). Verified
+  complete already: Motion, Elevation, Typography.
+- **Icons + Accessibility foundation pages** (2026-07-22): `/icons` is a
+  searchable click-to-copy grid enumerated from the MDI shim's runtime
+  exports (decision 0019; 97 glyphs) with the never-lucide-react rule and
+  add-a-glyph recipe; `/accessibility` states the audited contract
+  user-facing — 44px touch doctrine (both mechanisms, visualized), focus
+  ring convention, AA contrast + audit, 16px input floor, reduced motion,
+  and the 68/68 review process. Layout page gained a Stacking note (no
+  z-index scale by design); Overview gained a Voice & content card
+  (grain-world copy, no lorem). Foundations rail is now: Color ·
+  Typography · Spacing & radius · Layout · Elevation · Motion · Icons ·
+  Accessibility. Empty-state pattern filed as issue #63 (board, DS
+  Library).
+- **Charts page covers the full shadcn set** (2026-07-22): bar, area,
+  line, donut (center label), radar, radial (center label) — all via
+  `ChartContainer`, all in grain-domain copy, with per-chart color
+  choices demonstrating the axis doctrine (--chart-* single-hue, --viz-*
+  multi-hue abstract, --commodity-* commodity splits). recharts 3.8.0
+  already shipped every primitive; no dependency change.
+- **Layout foundation** (decision 0033, 2026-07-22): a `/layout` page
+  documents the fluid-layout doctrine — **no fixed column grid**, by
+  design. Stock Tailwind breakpoints (with a live viewport indicator on
+  the page), the four grid rules (explicit mobile column, `minmax(0,1fr)`,
+  auto-fit beside the sidebar, overflow-x-auto for atomic rows) now
+  user-facing rather than CLAUDE.md-only, an auto-fit demo, and the
+  `max-w-2xl` prose measure. The mobile audit remains the enforcement
+  mechanism; a future fixed grid would supersede 0033.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of
