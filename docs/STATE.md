@@ -46,6 +46,14 @@ own route, not a section of one long scroll.
   shows the full radius ladder (incl. `xl`) and a Control density block
   rendering the `--control-h-*` tokens live (decision 0010). Verified
   complete already: Motion, Elevation, Typography.
+- **Layout foundation** (decision 0033, 2026-07-22): a `/layout` page
+  documents the fluid-layout doctrine — **no fixed column grid**, by
+  design. Stock Tailwind breakpoints (with a live viewport indicator on
+  the page), the four grid rules (explicit mobile column, `minmax(0,1fr)`,
+  auto-fit beside the sidebar, overflow-x-auto for atomic rows) now
+  user-facing rather than CLAUDE.md-only, an auto-fit demo, and the
+  `max-w-2xl` prose measure. The mobile audit remains the enforcement
+  mechanism; a future fixed grid would supersede 0033.
 - Component coverage: shadcn registry components themed with Kernel tokens,
   form-element toolkit (states/sizes/affixes), CRUD patterns, status badges.
 - Portal runs on **Base UI** (`@base-ui/react`, style `base-nova`) as of

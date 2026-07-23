@@ -74,6 +74,7 @@ src/
     portal/
       app-sidebar.tsx          ← rail: router links per section + per-component page list
       foundations.tsx          ← Colors · Typography · Spacing · Elevation
+      layout-foundation.tsx    ← Layout: breakpoints · grid rules · measure (0033)
       motion-foundation.tsx    ← Motion: duration/easing tokens + polish primitives (0018)
       gallery-forms.tsx        ← per-cluster demos + formsClusters (Button · Toggle · Inputs …)
       gallery-data.tsx         ← per-cluster demos + dataClusters (Card · Table · Progress …)
@@ -209,6 +210,21 @@ custom step, `text-2xs` (11px / 16px), defined in `src/index.css`.
 `foundations.tsx` documents the full ramp, the named semantic styles (Display,
 Page title, Card title, Body, Label, Caption, Overline, Numeric, Code), the
 four weights, and tabular numerals.
+
+---
+
+## Layout
+
+Fluid by doctrine (decision 0033) — **no fixed column grid**. Breakpoints are
+Tailwind's defaults (sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536; no
+custom breakpoints). Grids that can sit beside the sidebar derive their
+column count from available space via `repeat(auto-fit, minmax(Npx, 1fr))`;
+responsive grids declare their mobile column explicitly; raw `1fr` in
+arbitrary tracks is `minmax(0,1fr)`; atomic-width rows (tab strips, data
+tables) scroll in place. Prose caps at `max-w-2xl` (~65–75ch) while data
+surfaces take the full width. The `/layout` foundation page documents all of
+it, with a live breakpoint indicator; `scripts/mobile-audit.mjs` enforces the
+grid rules at 390px.
 
 ---
 

@@ -15,6 +15,7 @@ export const docOrder: DocPage[] = [
   { path: "/colors", title: "Color" },
   { path: "/typography", title: "Typography" },
   { path: "/spacing", title: "Spacing & radius" },
+  { path: "/layout", title: "Layout" },
   { path: "/shadows", title: "Elevation" },
   { path: "/motion", title: "Motion" },
   { path: "/components", title: "Components" },
