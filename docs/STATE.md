@@ -46,6 +46,18 @@ own route, not a section of one long scroll.
   shows the full radius ladder (incl. `xl`) and a Control density block
   rendering the `--control-h-*` tokens live (decision 0010). Verified
   complete already: Motion, Elevation, Typography.
+- **Icons + Accessibility foundation pages** (2026-07-22): `/icons` is a
+  searchable click-to-copy grid enumerated from the MDI shim's runtime
+  exports (decision 0019; 97 glyphs) with the never-lucide-react rule and
+  add-a-glyph recipe; `/accessibility` states the audited contract
+  user-facing — 44px touch doctrine (both mechanisms, visualized), focus
+  ring convention, AA contrast + audit, 16px input floor, reduced motion,
+  and the 68/68 review process. Layout page gained a Stacking note (no
+  z-index scale by design); Overview gained a Voice & content card
+  (grain-world copy, no lorem). Foundations rail is now: Color ·
+  Typography · Spacing & radius · Layout · Elevation · Motion · Icons ·
+  Accessibility. Empty-state pattern filed as issue #63 (board, DS
+  Library).
 - **Layout foundation** (decision 0033, 2026-07-22): a `/layout` page
   documents the fluid-layout doctrine — **no fixed column grid**, by
   design. Stock Tailwind breakpoints (with a live viewport indicator on

@@ -13,6 +13,8 @@ export const sectionRoutes: Record<string, string> = {
   layout: "/layout",
   shadows: "/shadows",
   motion: "/motion",
+  icons: "/icons",
+  accessibility: "/accessibility",
   components: "/components",
   forms: "/forms",
   tables: "/tables",

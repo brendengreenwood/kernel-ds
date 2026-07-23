@@ -14,6 +14,8 @@ import { OverviewSection } from "@/components/portal/overview"
 import { ColorsSection, TypographySection, SpacingSection, ShadowsSection } from "@/components/portal/foundations"
 import { MotionSection } from "@/components/portal/motion-foundation"
 import { LayoutSection } from "@/components/portal/layout-foundation"
+import { IconsSection } from "@/components/portal/icons-foundation"
+import { AccessibilitySection } from "@/components/portal/a11y-foundation"
 import { FormElementsSection } from "@/components/portal/form-elements"
 import { TablesSection } from "@/components/portal/tables"
 import { ChartsSection } from "@/components/portal/charts"
@@ -78,6 +80,8 @@ createRoot(document.getElementById("root")!).render(
             <Route path="layout" element={<LayoutSection />} />
             <Route path="shadows" element={<ShadowsSection />} />
             <Route path="motion" element={<MotionSection />} />
+            <Route path="icons" element={<IconsSection />} />
+            <Route path="accessibility" element={<AccessibilitySection />} />
             <Route path="components" element={<ComponentsIndex />} />
             <Route path="components/:slug" element={<ComponentPage />} />
             <Route path="forms" element={<FormElementsSection />} />

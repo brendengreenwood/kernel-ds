@@ -76,6 +76,8 @@ src/
       foundations.tsx          ← Colors · Typography · Spacing · Elevation
       layout-foundation.tsx    ← Layout: breakpoints · grid rules · measure (0033)
       motion-foundation.tsx    ← Motion: duration/easing tokens + polish primitives (0018)
+      icons-foundation.tsx     ← Icons: searchable MDI-shim glyph grid (0019)
+      a11y-foundation.tsx      ← Accessibility: touch · focus · contrast · zoom · motion contract
       gallery-forms.tsx        ← per-cluster demos + formsClusters (Button · Toggle · Inputs …)
       gallery-data.tsx         ← per-cluster demos + dataClusters (Card · Table · Progress …)
       gallery-overlays.tsx     ← per-cluster demos + overlaysClusters (Alert · Dialog · Sheet …)
@@ -225,6 +227,29 @@ tables) scroll in place. Prose caps at `max-w-2xl` (~65–75ch) while data
 surfaces take the full width. The `/layout` foundation page documents all of
 it, with a live breakpoint indicator; `scripts/mobile-audit.mjs` enforces the
 grid rules at 390px.
+
+---
+
+## Icons
+
+Material Design Icons (decision 0019) behind a lucide-compatible shim —
+`src/components/ui/icon.tsx` exports lucide-named components backed by
+`@mdi/js` paths (filled, 24×24, `currentColor`; prefer `*Outline` variants).
+Never import from `lucide-react`. Adding a glyph is one
+`lucide name → mdi*` line in the shim. The `/icons` foundation page renders a
+searchable click-to-copy grid enumerated from the shim's runtime exports, so
+it can't drift.
+
+## Accessibility
+
+A stated, audited contract, documented on the `/accessibility` foundation
+page: ≥44px effective touch targets on coarse pointers (visible growth via
+`--control-h-*` or invisible hit extensions — decisions 0007/0009), a global
+focus ring (`outline-ring/50` + 3px control ring), WCAG AA 4.5:1 on every
+rendered pair (`scripts/contrast-audit.mjs`), the 16px phone input floor, and
+a global `prefers-reduced-motion` guard. Per-component reviews: 68/68, in
+`docs/a11y/`; `scripts/mobile-audit.mjs` enforces the ergonomic rules at
+390px.
 
 ---
 

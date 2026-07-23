@@ -18,6 +18,8 @@ export const docOrder: DocPage[] = [
   { path: "/layout", title: "Layout" },
   { path: "/shadows", title: "Elevation" },
   { path: "/motion", title: "Motion" },
+  { path: "/icons", title: "Icons" },
+  { path: "/accessibility", title: "Accessibility" },
   { path: "/components", title: "Components" },
   ...galleryClusters.map((c) => ({ path: `/components/${c.slug}`, title: c.title })),
   { path: "/forms", title: "Form elements" },

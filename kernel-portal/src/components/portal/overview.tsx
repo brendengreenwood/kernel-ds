@@ -31,6 +31,16 @@ export function OverviewSection() {
           </span>
         ))}
       </div>
+      <div className="mt-8 max-w-xl rounded-md border bg-card p-4">
+        <div className="text-sm font-semibold">Voice & content</div>
+        <p className="mt-1.5 text-sm text-muted-foreground">
+          Example copy everywhere in this system lives in the grain world —
+          loads, contracts, farms, bushels, basis, settlement. No lorem
+          ipsum, no generic SaaS filler: realistic copy is how a demo proves
+          a component survives real data (long farm names, negative basis,
+          six-digit bushel counts).
+        </p>
+      </div>
     </section>
   )
 }

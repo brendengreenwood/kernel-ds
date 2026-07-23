@@ -138,6 +138,17 @@ export function LayoutSection() {
         ))}
       </div>
 
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>Stacking</h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        There is no z-index scale, deliberately. Overlays (dialogs, popovers,
+        menus, sheets) all sit at Tailwind&apos;s{" "}
+        <code className="font-mono">z-50</code> via shadcn and stack by open
+        order; local layering inside a component stays at{" "}
+        <code className="font-mono">z-10</code> or below. Don&apos;t invent
+        intermediate layers to win a stacking fight — restructure the DOM
+        instead.
+      </p>
+
       <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
         Auto-fit in action
       </h4>
