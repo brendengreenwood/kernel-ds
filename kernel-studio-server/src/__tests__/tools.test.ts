@@ -61,9 +61,9 @@ afterEach(async () => {
 });
 
 describe("ds-bundle tools", () => {
-  it("lists the 48 Kernel general components", async () => {
+  it("lists the 52 Kernel general components", async () => {
     const result = toolResult(await listComponentsTool.execute!({}, dummyContext), listComponentsResultSchema);
-    expect(result.count).toBe(48);
+    expect(result.count).toBe(52);
     expect(result.components).toContain("Button");
     expect(result.components).toContain("Tooltip");
   });

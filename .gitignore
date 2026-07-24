@@ -6,3 +6,6 @@ dist/
 
 # source archive — contents are extracted into the repo
 kernel ds.zip
+
+# ds-bundle — generated build artifact (node kernel-portal/scripts/build-ds-bundle.mjs)
+ds-bundle/
