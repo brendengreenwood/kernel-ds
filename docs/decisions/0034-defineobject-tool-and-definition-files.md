@@ -1,4 +1,4 @@
-# 0033 — The defineObject tool and definition files
+# 0034 — The defineObject tool and definition files
 
 Date: 2026-07-21
 Status: accepted
@@ -108,7 +108,7 @@ existing "not registered" null-guard state.
 ## Arc position
 
 0030 (objects arrive as JSON) → 0031 (labels from model) → 0032
-(workspaces arrive as JSON) → **0033 (definitions persist as files;
+(workspaces arrive as JSON) → **0034 (definitions persist as files;
 agents write through validation)**. The generative-UI loop is closed:
 a studio agent can emit a working tool as two documents, and the portal
 derives a working workspace that survives reload — proven end-to-end by

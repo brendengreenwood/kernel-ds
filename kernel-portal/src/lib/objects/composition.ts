@@ -179,7 +179,7 @@ export const presets: CompositionPresets = {
 } as const
 
 /**
- * The definition-files contract (decision 0033) — how agent-authored tools
+ * The definition-files contract (decision 0034) — how agent-authored tools
  * persist. A persisted tool is two JSON documents (an object model and a
  * workspace preset) under public/definitions/, listed in manifest.json and
  * registered at boot by lib/objects/definitions-loader.ts. Session
@@ -284,13 +284,13 @@ export const rules: readonly CompositionRule[] = [
     id: "definitions-are-files",
     statement:
       "Persisted tools are JSON documents in public/definitions/ (an object model plus a workspace preset), listed in manifest.json and registered at boot by the definitions loader; session registration via registerObject remains available for demos.",
-    source: "decision-0033",
+    source: "decision-0034",
   },
   {
     id: "agents-write-through-validation",
     statement:
       "The only write path for agent-authored definitions is validate-then-write against the portal's own schemas (writeDefinition spawns the validate-definition CLI and throws on an invalid verdict without writing) — enforced by the vitest case 'rejects an invalid document (missing tone): validateDefinition says no, writeDefinition throws without writing', not merely stated.",
-    source: "decision-0033",
+    source: "decision-0034",
   },
 ] as const
 

@@ -4,6 +4,7 @@ import * as React from "react"
 import { toast } from "sonner"
 import { Section } from "./section"
 import { CommodityBadge, type Commodity } from "@/components/ui/commodity-badge"
+import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { typeStyles } from "@/lib/type-styles"
 import { cn } from "@/lib/utils"
 
@@ -71,12 +72,98 @@ const commodities: [string, string][] = [
 
 const commodityTags: Commodity[] = ["corn", "canola", "soybeans", "wheat"]
 
-const pairs = [
+// token key ≠ badge key for the two snake_case statuses (in_transit, on_hold)
+const statuses: { token: string; badge: Status; source: string }[] = [
+  { token: "--status-draft", badge: "draft", source: "neutral-500" },
+  { token: "--status-pending", badge: "pending", source: "info-500" },
+  { token: "--status-booked", badge: "booked", source: "viz-plum-500" },
+  { token: "--status-intransit", badge: "in_transit", source: "warning-500" },
+  { token: "--status-delivered", badge: "delivered", source: "viz-teal-500" },
+  { token: "--status-settled", badge: "settled", source: "success-500" },
+  { token: "--status-onhold", badge: "on_hold", source: "viz-clay-500" },
+  { token: "--status-rejected", badge: "rejected", source: "error-500" },
+  { token: "--status-cancelled", badge: "cancelled", source: "viz-slate-500" },
+  { token: "--status-expired", badge: "expired", source: "viz-rust-500" },
+]
+
+type RolePair = { name: string; v: string; fg: string; map?: string; desc?: string }
+type RoleSwatch = { name: string; v: string; desc: string }
+
+const interactivePairs: RolePair[] = [
   { name: "Primary", v: "--primary", fg: "--primary-foreground", map: "brand-600 / brand-300" },
   { name: "Secondary", v: "--secondary", fg: "--secondary-foreground", map: "brand-50 / neutral-800" },
   { name: "Accent", v: "--accent", fg: "--accent-foreground", map: "brand-300" },
   { name: "Destructive", v: "--destructive", fg: "--destructive-foreground", map: "error-500 / error-400" },
 ]
+
+const surfacePairs: RolePair[] = [
+  { name: "Background", v: "--background", fg: "--foreground", desc: "Page canvas and default ink" },
+  { name: "Card", v: "--card", fg: "--card-foreground", desc: "Raised surfaces — cards, tables, panels" },
+  { name: "Popover", v: "--popover", fg: "--popover-foreground", desc: "Floating layers — menus, dialogs, tooltips" },
+  { name: "Muted", v: "--muted", fg: "--muted-foreground", desc: "Recessed fills and de-emphasized ink" },
+]
+
+const chromeSwatches: RoleSwatch[] = [
+  { name: "Border", v: "--border", desc: "Hairlines — dividers, card edges" },
+  { name: "Input", v: "--input", desc: "Form-control borders (darker than --border for affordance)" },
+  { name: "Ring", v: "--ring", desc: "Focus indicator — tracks --primary" },
+]
+
+const sidebarPairs: RolePair[] = [
+  { name: "Sidebar", v: "--sidebar", fg: "--sidebar-foreground", desc: "Rail canvas and ink" },
+  { name: "Sidebar primary", v: "--sidebar-primary", fg: "--sidebar-primary-foreground", desc: "Active nav item" },
+  { name: "Sidebar accent", v: "--sidebar-accent", fg: "--sidebar-accent-foreground", desc: "Hover and selected fills" },
+]
+
+const sidebarSwatches: RoleSwatch[] = [
+  { name: "Sidebar border", v: "--sidebar-border", desc: "Rail hairlines" },
+  { name: "Sidebar ring", v: "--sidebar-ring", desc: "Rail focus indicator" },
+]
+
+function PairCard({ p }: { p: RolePair }) {
+  return (
+    <button
+      onClick={() => copy(`var(${p.v})`)}
+      className="flex items-center gap-4 rounded-md border bg-card p-3 text-left transition-shadow hover:shadow-md"
+    >
+      <div
+        className="grid h-11 w-24 shrink-0 place-items-center rounded-sm border text-sm font-semibold"
+        style={{ background: `var(${p.v})`, color: `var(${p.fg})` }}
+      >
+        Aa
+      </div>
+      <div className="min-w-0">
+        <div className="text-sm font-semibold">{p.name}</div>
+        <div className="truncate font-mono text-xs text-muted-foreground">
+          {p.v}
+          {p.map ? ` → ${p.map}` : ""}
+        </div>
+        {p.desc ? (
+          <div className="truncate text-xs text-muted-foreground">{p.desc}</div>
+        ) : null}
+      </div>
+    </button>
+  )
+}
+
+function SwatchCard({ s }: { s: RoleSwatch }) {
+  return (
+    <button
+      onClick={() => copy(`var(${s.v})`)}
+      className="flex items-center gap-4 rounded-md border bg-card p-3 text-left transition-shadow hover:shadow-md"
+    >
+      <div
+        className="h-11 w-24 shrink-0 rounded-sm border"
+        style={{ background: `var(${s.v})` }}
+      />
+      <div className="min-w-0">
+        <div className="text-sm font-semibold">{s.name}</div>
+        <div className="truncate font-mono text-xs text-muted-foreground">{s.v}</div>
+        <div className="truncate text-xs text-muted-foreground">{s.desc}</div>
+      </div>
+    </button>
+  )
+}
 
 export function ColorsSection() {
   return (
@@ -143,29 +230,116 @@ export function ColorsSection() {
       </div>
 
       <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
-        Role tokens — semantic pairs
+        Status coding
       </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        The third color axis (decision 0003): a status is the{" "}
+        <em>persistent lifecycle state</em> a load or contract sits in —
+        distinct from notifications, which signal a momentary event outcome.
+        Each <code className="font-mono">--status-*</code> token aliases a
+        distinct hue&apos;s 500 step so a column of statuses stays scannable;{" "}
+        <code className="font-mono">&lt;StatusBadge&gt;</code> derives its dot
+        and soft fill from the same hue.
+      </p>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {pairs.map((p) => (
+        {statuses.map((s) => (
           <button
-            key={p.v}
-            onClick={() => copy(`var(${p.v})`)}
+            key={s.token}
+            onClick={() => copy(`var(${s.token})`)}
             className="flex items-center gap-4 rounded-md border bg-card p-3 text-left transition-shadow hover:shadow-md"
           >
             <div
-              className="grid h-11 w-24 place-items-center rounded-sm text-sm font-semibold"
-              style={{ background: `var(${p.v})`, color: `var(${p.fg})` }}
-            >
-              Aa
-            </div>
+              className="h-11 w-24 shrink-0 rounded-sm border"
+              style={{ background: `var(${s.token})` }}
+            />
             <div className="min-w-0">
-              <div className="text-sm font-semibold">{p.name}</div>
-              <div className="truncate font-mono text-xs text-muted-foreground">
-                {p.v} → {p.map}
+              <StatusBadge status={s.badge} />
+              <div className="mt-1 truncate font-mono text-xs text-muted-foreground">
+                {s.token} → {s.source}
               </div>
             </div>
           </button>
         ))}
+      </div>
+
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
+        Role tokens — interactive pairs
+      </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        The semantic layer the components actually consume — every shadcn role
+        token, each remapping between light and dark. Pairs render their{" "}
+        <code className="font-mono">-foreground</code> ink on their fill, so a
+        card is also a live contrast check.
+      </p>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {interactivePairs.map((p) => (
+          <PairCard key={p.v} p={p} />
+        ))}
+      </div>
+
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
+        Role tokens — surfaces & ink
+      </h4>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {surfacePairs.map((p) => (
+          <PairCard key={p.v} p={p} />
+        ))}
+      </div>
+
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
+        Role tokens — borders & focus
+      </h4>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {chromeSwatches.map((s) => (
+          <SwatchCard key={s.v} s={s} />
+        ))}
+      </div>
+
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
+        Role tokens — sidebar
+      </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        The navigation rail carries its own token family so it can diverge from
+        the page surface (e.g. stay dark in a light app) without touching the
+        global roles.
+      </p>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {sidebarPairs.map((p) => (
+          <PairCard key={p.v} p={p} />
+        ))}
+        {sidebarSwatches.map((s) => (
+          <SwatchCard key={s.v} s={s} />
+        ))}
+      </div>
+
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
+        Role tokens — chart slots
+      </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        shadcn&apos;s five default chart slots, filled with a single-hue brand
+        ramp so out-of-the-box chart components stay on brand. For real
+        multi-series work use the data-viz palette above —{" "}
+        <code className="font-mono">--viz-*</code> stays abstract so a series
+        never reads as a status.
+      </p>
+      <div className="rounded-lg border bg-card p-8">
+        <div className="flex overflow-hidden rounded-md border">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <button
+              key={i}
+              onClick={() => copy(`var(--chart-${i})`)}
+              className="min-w-0 flex-1 cursor-copy"
+            >
+              <div
+                className="h-14"
+                style={{ background: `var(--chart-${i})` }}
+              />
+              <div className="border-t bg-card p-1.5 text-center font-mono text-[10px] font-semibold text-muted-foreground">
+                chart-{i}
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </Section>
   )
@@ -324,14 +498,20 @@ export function SpacingSection() {
     ["sm", "rounded-sm", "r − 4px"],
     ["md", "rounded-md", "r − 2px"],
     ["lg", "rounded-lg", "0.5rem"],
+    ["xl", "rounded-xl", "r + 4px"],
     ["full", "rounded-full", "999px"],
+  ] as const
+  const controls = [
+    ["--control-h-sm", "sm", "32px", "40px", "compact toolbars, dense rows"],
+    ["--control-h", "default", "38px", "44px", "the resting default"],
+    ["--control-h-lg", "lg", "44px", "48px", "hero actions; the touch minimum"],
   ] as const
   return (
     <Section
       id="spacing"
       eyebrow="Foundations"
       title="Spacing & radius"
-      lead="Spacing derives from a --spacing base of 0.24rem; corner radius flows from a single --radius of 0.5rem."
+      lead="Spacing derives from a --spacing base of 0.24rem; corner radius flows from a single --radius of 0.5rem. Control heights come from their own density tokens (decision 0010)."
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="rounded-lg border bg-card p-8">
@@ -362,6 +542,41 @@ export function SpacingSection() {
             ))}
           </div>
         </div>
+      </div>
+
+      <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
+        Control density
+      </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        Buttons, inputs, and select triggers all reference the{" "}
+        <code className="font-mono">--control-h-*</code> tokens — never a
+        hardcoded height (decision 0010). On coarse pointers the tokens
+        themselves grow to 40 / 44 / 48px, so every control meets the touch
+        minimum without per-component overrides. The bars below render from the
+        live tokens.
+      </p>
+      <div className="rounded-lg border bg-card p-8">
+        {controls.map(([token, size, fine, coarse, use]) => (
+          <div
+            key={token}
+            className="grid grid-cols-1 items-center gap-3 border-b py-3 last:border-b-0 sm:grid-cols-[172px_minmax(0,1fr)] sm:gap-4"
+          >
+            <div>
+              <div className="font-mono text-sm font-semibold">{token}</div>
+              <div className="font-mono text-[11px] text-muted-foreground">
+                {size} · {fine} → {coarse} coarse
+              </div>
+            </div>
+            <div className="min-w-0">
+              <div
+                className="flex max-w-72 items-center rounded-md border border-primary bg-primary/15 px-3 text-xs text-muted-foreground"
+                style={{ height: `var(${token})` }}
+              >
+                {use}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </Section>
   )
