@@ -8,9 +8,12 @@ import {
 import {
   getObjectModel,
   getObjectRows,
+  getWorkspacePresets,
   parseWorkspacePreset,
+  subscribeToWorkspacePresets,
   type ObjectModel,
   type ObjectRow,
+  type WorkspacePreset,
   type WorkspacePresetMode,
 } from "@/lib/objects"
 import { demoDataset } from "@/lib/objects/dataset"
@@ -186,6 +189,13 @@ export function WorkspaceObjectSection() {
   )
   const nextPanelId = React.useRef(defaultPreset.modes[0].dockPanels.length)
   const [fullscreen, setFullscreen] = React.useState(false)
+  // Persisted workspace presets registered at boot by the definitions
+  // loader (decision 0033). Empty by default — the affordance below
+  // renders no DOM at all until the studio tool writes definitions.
+  const savedPresets = React.useSyncExternalStore(
+    subscribeToWorkspacePresets,
+    getWorkspacePresets
+  )
 
   React.useEffect(() => {
     if (!fullscreen) return
@@ -220,16 +230,24 @@ export function WorkspaceObjectSection() {
    * default. Safe to click twice: registerObject is replace-idempotent
    * and re-parsing yields an identical preset.
    */
-  function loadIncidentWorkspace() {
-    const { model, rows } = parseObjectModel(incidentJson)
-    registerObject(model, rows)
-    const next = parseWorkspacePreset(incidentWorkspaceJson)
+  /**
+   * Swap the whole workspace to a preset: rail rebuilds, selection and
+   * dock reset to the new first mode. Shared by the Incident demo
+   * button and the persisted "Saved workspaces" affordance.
+   */
+  function applyPreset(next: WorkspacePreset) {
     setPreset(next)
     setModeKey(next.modes[0].key)
     setSelectedId(null)
     setGroupBy(initialGroupByFor(next.modes[0]))
     setDockPanels(defaultDockPanelsFor(next.modes[0]))
     nextPanelId.current = next.modes[0].dockPanels.length
+  }
+
+  function loadIncidentWorkspace() {
+    const { model, rows } = parseObjectModel(incidentJson)
+    registerObject(model, rows)
+    applyPreset(parseWorkspacePreset(incidentWorkspaceJson))
   }
 
   function pinPanel() {
@@ -302,6 +320,29 @@ export function WorkspaceObjectSection() {
                 second JSON preset — session only; reload restores the default.
               </span>
             </div>
+            {/* Persisted presets load through the same applyPreset path
+                as the demo button. Degenerate case (documented, correct
+                behavior): a persisted preset whose objectKey never
+                registered — because its object document failed to load —
+                still lists and loads; the canvas shows the existing
+                "Object … is not registered" null-guard state. */}
+            {savedPresets.length > 0 && (
+              <div className="flex shrink-0 flex-wrap items-center gap-2 border-b bg-muted/10 px-2 py-1">
+                <span className="text-[10px] font-medium text-muted-foreground">
+                  Saved workspaces:
+                </span>
+                {savedPresets.map((p) => (
+                  <button
+                    key={p.key}
+                    type="button"
+                    onClick={() => applyPreset(p)}
+                    className="rounded border bg-card px-2 py-0.5 text-[11px] font-medium text-foreground hover:bg-accent"
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            )}
             <div
               className={
                 "flex w-full " + (fullscreen ? "min-h-0 flex-1" : "h-[560px]")

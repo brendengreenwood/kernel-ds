@@ -251,4 +251,42 @@ try {
   console.log("preset ok (defaultGroupBy outside groupByOptions rejected)")
 }
 
+// Definitions manifest + loader shape (define-tool plan, Phase 2).
+{
+  const { readFileSync } = await import("node:fs")
+  const { fileURLToPath } = await import("node:url")
+  const path = await import("node:path")
+
+  // (1) Shipped manifest exists, parses, and lists ZERO definitions —
+  // the empty default is a do-not-list invariant (pixel parity).
+  const here = path.dirname(fileURLToPath(import.meta.url))
+  const manifestPath = path.resolve(here, "../../../public/definitions/manifest.json")
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as {
+    version?: unknown
+    definitions?: unknown
+  }
+  assert(manifest.version === 1, "definitions manifest version must be 1")
+  assert(
+    Array.isArray(manifest.definitions) && manifest.definitions.length === 0,
+    "shipped definitions manifest must list zero definitions",
+  )
+  console.log("definitions manifest ok (version 1, zero definitions)")
+
+  // (2) Loader imports clean under strip-types and exports exactly the
+  // four runtime symbols the plan names.
+  const loader = await import("./definitions-loader.ts")
+  const exported = Object.keys(loader).sort()
+  const expected = [
+    "getWorkspacePresets",
+    "loadDefinitions",
+    "registerWorkspacePreset",
+    "subscribeToWorkspacePresets",
+  ]
+  assert(
+    JSON.stringify(exported) === JSON.stringify(expected),
+    `definitions-loader must export exactly [${expected.join(", ")}], got [${exported.join(", ")}]`,
+  )
+  console.log("definitions loader ok (4 runtime exports)")
+}
+
 console.log("stub ok")

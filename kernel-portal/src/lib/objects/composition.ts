@@ -178,6 +178,41 @@ export const presets: CompositionPresets = {
     "Demo-host policy (not preset semantics): associations idiom binds registry rows so joins resolve through the registry; otherwise demoDataset[objectKey] when present, else registry rows. The model always comes from getObjectModel(objectKey), null-guarded with an empty-state panel when unregistered.",
 } as const
 
+/**
+ * The definition-files contract (decision 0034) — how agent-authored tools
+ * persist. A persisted tool is two JSON documents (an object model and a
+ * workspace preset) under public/definitions/, listed in manifest.json and
+ * registered at boot by lib/objects/definitions-loader.ts. Session
+ * registration (registerObject at runtime) remains for demos.
+ */
+export interface CompositionDefinitions {
+  /** The manifest the boot loader fetches. */
+  manifest: string
+  /** Directory layout under public/definitions/. */
+  layout: readonly string[]
+  /** Boot-loader policy, including the SPA-redirect tolerance. */
+  loaderPolicy: string
+  /** Per-document failure isolation. */
+  failureIsolation: string
+  /** The only write path for agent-authored definitions. */
+  writePath: string
+}
+
+export const definitions: CompositionDefinitions = {
+  manifest:
+    'public/definitions/manifest.json — { "version": 1, "definitions": [{ "kind": "object" | "workspace", "path": "objects/<key>.json" | "workspaces/<key>.json" }] }; ships empty (zero definitions) so the default rendered state carries no persisted tools',
+  layout: [
+    "objects/<key>.json — an object model document, parsed by parseObjectModel",
+    "workspaces/<key>.json — a workspace preset document, parsed by parseWorkspacePreset",
+  ],
+  loaderPolicy:
+    "loadDefinitions() runs once at portal boot (fire-and-forget from main.tsx); registry subscriptions propagate arrivals. Manifest tolerance is specified behavior: the deployed SPA redirect (/* -> /index.html, status 200) returns HTML-with-200 for a missing manifest, so any of non-OK response, non-JSON content type, or JSON parse failure means zero definitions and returns silently.",
+  failureIsolation:
+    "Per-document errors are caught and collected ({ loaded, failed }); one bad document never takes down boot or the other documents. A preset whose objectKey never registered still lists and loads — the canvas shows the existing not-registered null-guard state.",
+  writePath:
+    "kernel-studio-server/src/lib/definitions.ts writeDefinition: re-validates through the portal's validate-definition CLI subprocess, throws on an invalid verdict without writing, path-guards the target, and rewrites the manifest last (atomic publish).",
+} as const
+
 export const rules: readonly CompositionRule[] = [
   {
     id: "views-are-functions-of-context",
@@ -245,6 +280,18 @@ export const rules: readonly CompositionRule[] = [
       "A preset declares objectKey and view keys; resolving keys to models, rows, and views is the host's job — presets stay portable, data topology stays host policy.",
     source: "decision-0032",
   },
+  {
+    id: "definitions-are-files",
+    statement:
+      "Persisted tools are JSON documents in public/definitions/ (an object model plus a workspace preset), listed in manifest.json and registered at boot by the definitions loader; session registration via registerObject remains available for demos.",
+    source: "decision-0034",
+  },
+  {
+    id: "agents-write-through-validation",
+    statement:
+      "The only write path for agent-authored definitions is validate-then-write against the portal's own schemas (writeDefinition spawns the validate-definition CLI and throws on an invalid verdict without writing) — enforced by the vitest case 'rejects an invalid document (missing tone): validateDefinition says no, writeDefinition throws without writing', not merely stated.",
+    source: "decision-0034",
+  },
 ] as const
 
 /** The whole contract as one object — what emit-composition.mjs serializes. */
@@ -254,4 +301,5 @@ export const compositionContract = {
   regions,
   rules,
   presets,
+  definitions,
 } as const

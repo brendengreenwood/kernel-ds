@@ -37,6 +37,13 @@ export {
   type WorkspacePresetMode,
   type WorkspaceNavigatorIdiom,
 } from "./workspace-preset.ts"
+export {
+  loadDefinitions,
+  registerWorkspacePreset,
+  getWorkspacePresets,
+  subscribeToWorkspacePresets,
+  type DefinitionsLoadResult,
+} from "./definitions-loader.ts"
 
 
 import { contractModel, contractRows } from "./contract.ts"
