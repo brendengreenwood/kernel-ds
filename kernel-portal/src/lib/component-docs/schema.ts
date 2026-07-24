@@ -126,6 +126,13 @@ export const componentDocSchema = z.object({
   summary: z.string(),
   /** lifecycle status, reusing the Maturity taxonomy */
   status: maturitySchema.optional(),
+  /**
+   * Component source file(s) this doc describes, relative to
+   * `src/components/ui/`. Defaults to `${slug}.tsx` when omitted; the
+   * shared-slug case (scroll-area) lists both files. The parity gate reads
+   * these to resolve which source(s) to cross-check.
+   */
+  sourceFiles: z.array(z.string()).optional(),
   /** typed human-facing document blocks */
   docs: z.array(docBlockSchema).default([]),
   /** machine-facing docs (schema-present, content-deferred) */
