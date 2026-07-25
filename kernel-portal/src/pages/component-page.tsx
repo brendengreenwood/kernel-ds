@@ -3,6 +3,8 @@ import { Section, MaturityPill } from "@/components/portal/section"
 import { clusterBySlug } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
 import { ArrowLeft } from "@/components/ui/icon"
+import { getComponentDoc } from "@/lib/component-docs"
+import ComponentDocSections from "@/components/portal/component-doc-sections"
 
 const RANK: Record<Maturity, number> = { deprecated: 3, experimental: 2, ready: 1 }
 function clusterMaturity(anchor: string): Maturity {
@@ -26,6 +28,7 @@ export default function ComponentPage() {
   }
 
   const Demo = cluster.demo
+  const doc = getComponentDoc(cluster.slug)
   const members = componentMeta.filter((c) => c.anchor === cluster.anchor)
 
   return (
@@ -50,6 +53,8 @@ export default function ComponentPage() {
           </div>
         ) : null}
       </div>
+
+      {doc ? <ComponentDocSections doc={doc} /> : null}
 
       <Demo />
     </Section>

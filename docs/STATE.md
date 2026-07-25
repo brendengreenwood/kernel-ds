@@ -247,6 +247,21 @@ own route, not a section of one long scroll.
   `GOOGLE_GENERATIVE_AI_API_KEY` in `.env` alongside `ANTHROPIC_API_KEY`.
   The merged test suite is 104 tests. The old `mastra-ux-research-agent`
   repo is an archive — source of truth is this package now.
+- **Component documentation entities** (decision 0035, 2026-07-24, segment
+  01 of 2). Components now document themselves as typed entities. A
+  DSDS-forked Zod schema (`src/lib/component-docs/schema.ts`) defines a
+  `ComponentDoc` with eight typed doc-block kinds (guidelines, api, variants,
+  anatomy, states, accessibility, useCases, decisions) and three conformance
+  levels. A parity gate (`scripts/check-component-docs.mjs`) cross-checks
+  documented variants/slots/prop-names against the component source and fails
+  CI on drift (exit 1 + offender enumeration); a `--coverage` mode asserts
+  every `ready` component has a doc (enforced at segment-02 ship checks, not
+  yet). Five entities live under `src/lib/component-docs/` (button, tabs,
+  status-badge, card, scroll-area [ScrollArea+Resizable], input);
+  `ComponentDocSections` renders them on the component page with graceful
+  fallback for undocumented components, and ds-bundle prompt-guidance is
+  generated from the same entities. **In flight:** segment 02 authors the
+  remaining `ready` components and turns on coverage enforcement.
 
 ## In flight
 

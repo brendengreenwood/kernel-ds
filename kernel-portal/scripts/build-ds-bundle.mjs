@@ -23,6 +23,19 @@ import { build } from "vite"
 import fs from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { pathToFileURL } from "node:url"
+import { spawnSync } from "node:child_process"
+
+// Doc entities are TypeScript; importing the barrel needs type-stripping.
+// Re-exec under the flag if not already set (mirrors check-component-docs.mjs).
+if (!process.execArgv.some((a) => a.includes("experimental-strip-types"))) {
+  const r = spawnSync(
+    process.execPath,
+    ["--experimental-strip-types", fileURLToPath(import.meta.url), ...process.argv.slice(2)],
+    { stdio: "inherit" },
+  )
+  process.exit(r.status ?? 1)
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, "..")
@@ -141,7 +154,69 @@ async function exportsOf(file) {
   return [...names]
 }
 
+/**
+ * Load the component-docs barrel and index every doc by the basename(s) of
+ * its source file(s). A shared-slug entity (scroll-area documents both
+ * scroll-area.tsx and resizable.tsx) is reachable from either file. Returns
+ * {} if the barrel is absent so the build degrades to generic boilerplate.
+ */
+async function loadDocsByFile() {
+  const barrel = path.resolve(portalRoot, "src", "lib", "component-docs", "index.ts")
+  try {
+    const mod = await import(pathToFileURL(barrel).href)
+    const byFile = {}
+    for (const doc of Object.values(mod.componentDocs ?? {})) {
+      const srcs = doc.sourceFiles && doc.sourceFiles.length > 0 ? doc.sourceFiles : [doc.slug + ".tsx"]
+      for (const f of srcs) byFile[f.replace(/\.tsx$/, "")] = doc
+    }
+    return byFile
+  } catch {
+    return {}
+  }
+}
+
+/** Render structured prompt-guidance markdown from a doc entity. */
+function renderPromptGuidance(name, file, doc, names) {
+  const nl = () => `\n`
+  const out = [`# ${name}`, ``]
+  if (doc.summary) out.push(doc.summary, ``)
+  out.push(`Kernel design-system component. Source: \`kernel-portal/src/components/ui/${file}.tsx\`.`, ``)
+  out.push(`## Exports on window.Kernel`, ``, names.map((n) => `- \`Kernel.${n}\``).join(nl()), ``)
+  for (const b of doc.docs) {
+    if (b.kind === "guidelines") {
+      if (b.dos.length) out.push(`## Do`, ``, b.dos.map((d) => `- ${d}`).join(nl()), ``)
+      if (b.donts.length) out.push(`## Don't`, ``, b.donts.map((d) => `- ${d}`).join(nl()), ``)
+    } else if (b.kind === "useCases") {
+      if (b.use.length) out.push(`## Use when`, ``, b.use.map((d) => `- ${d}`).join(nl()), ``)
+      if (b.dontUse.length) out.push(`## Avoid when`, ``, b.dontUse.map((d) => `- ${d}`).join(nl()), ``)
+    } else if (b.kind === "variants") {
+      if (b.groups.length) {
+        out.push(`## Variants`, ``)
+        for (const g of b.groups) out.push(`- \`${g.axis}\`: ${g.keys.map((k) => (k === g.defaultKey ? k + ' (default)' : k)).join(', ')}`)
+        out.push(``)
+      }
+    } else if (b.kind === "anatomy") {
+      if (b.slots.length) out.push(`## Anatomy (data-slot)`, ``, b.slots.map((sl) => `- \`${sl}\``).join(nl()), ``)
+    } else if (b.kind === "api") {
+      if (b.props.length) {
+        out.push(`## API`, ``)
+        for (const pr of b.props) out.push(`- \`${pr.name}\`: ${pr.type}${pr.default ? ' (default ' + pr.default + ')' : ''}${pr.description ? ' — ' + pr.description : ''}`)
+        out.push(``)
+      }
+    } else if (b.kind === "accessibility") {
+      const ls = []
+      if (b.role) ls.push(`- role: \`${b.role}\``)
+      for (const k of b.keyboardInteractions ?? []) ls.push(`- \`${k.key}\`: ${k.action}`)
+      if (ls.length) out.push(`## Accessibility`, ``, ls.join(nl()), ``)
+    } else if (b.kind === "decisions") {
+      if (b.refs.length) out.push(`## Decisions`, ``, b.refs.map((r) => `- ${String(r.number).padStart(4, '0')}: ${r.title}`).join(nl()), ``)
+    }
+  }
+  return out.join(nl()) + nl()
+}
+
 async function generateComponentDocs(files) {
+  const docsByFile = await loadDocsByFile()
   const generalDir = path.join(bundleDir, "components", "general")
   await fs.mkdir(generalDir, { recursive: true })
   for (const file of files) {
@@ -150,17 +225,17 @@ async function generateComponentDocs(files) {
     await fs.mkdir(dir, { recursive: true })
     const names = await exportsOf(file)
 
-    await fs.writeFile(
-      path.join(dir, `${name}.prompt.md`),
-      `# ${name}\n\n` +
+    const doc = docsByFile[file]
+    const promptMd = doc
+      ? renderPromptGuidance(name, file, doc, names)
+      : `# ${name}\n\n` +
         `Kernel design-system component. Source: \`kernel-portal/src/components/ui/${file}.tsx\`.\n\n` +
         `## Exports on window.Kernel\n\n` +
         names.map((n) => `- \`Kernel.${n}\``).join("\n") +
         `\n\n## Usage\n\n` +
         `Destructure the names you need from \`window.Kernel\`. Style with Kernel CSS custom properties in inline styles ` +
-        `(\`--background\`, \`--foreground\`, \`--card\`, \`--border\`, \`--muted\`, \`--status-*\`, \`--brand-*\`).\n`,
-      "utf8",
-    )
+        `(\`--background\`, \`--foreground\`, \`--card\`, \`--border\`, \`--muted\`, \`--status-*\`, \`--brand-*\`).\n`
+    await fs.writeFile(path.join(dir, `${name}.prompt.md`), promptMd, "utf8")
 
     await fs.writeFile(
       path.join(dir, `${name}.d.ts`),
