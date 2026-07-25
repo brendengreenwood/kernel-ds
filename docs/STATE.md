@@ -247,24 +247,23 @@ own route, not a section of one long scroll.
   `GOOGLE_GENERATIVE_AI_API_KEY` in `.env` alongside `ANTHROPIC_API_KEY`.
   The merged test suite is 104 tests. The old `mastra-ux-research-agent`
   repo is an archive — source of truth is this package now.
-- **Component documentation entities** (decision 0035, 2026-07-24, segment
-  01 of 2). Components now document themselves as typed entities. A
+- **Component documentation entities** (decision 0035, 2026-07-24 -> 2026-07-25,
+  both segments landed). Components now document themselves as typed entities. A
   DSDS-forked Zod schema (`src/lib/component-docs/schema.ts`) defines a
   `ComponentDoc` with eight typed doc-block kinds (guidelines, api, variants,
   anatomy, states, accessibility, useCases, decisions) and three conformance
   levels. A parity gate (`scripts/check-component-docs.mjs`) cross-checks
   documented variants/slots/prop-names against the component source and fails
-  CI on drift (exit 1 + offender enumeration); a `--coverage` mode asserts
-  every `ready` component has a doc (enforced at segment-02 ship checks, not
-  yet). Five entities live under `src/lib/component-docs/` (button, tabs,
-  status-badge, card, scroll-area [ScrollArea+Resizable], input);
-  `ComponentDocSections` renders them on the component page with graceful
-  fallback for undocumented components, and ds-bundle prompt-guidance is
-  generated from the same entities. **In flight:** segment 02 authors the
-  remaining `ready` components and turns on coverage enforcement.
-
-## In flight
-
+  CI on drift (exit 1 + offender enumeration); `--coverage` mode is now a
+  standing gate asserting every `ready` componentMeta entry has a doc entity.
+  **69 entities** live under `src/lib/component-docs/` covering all `ready`
+  entries (43 components, 6 elements, 10 patterns, 4 object marks); pattern
+  entities are documentation-only (`sourceFiles: []`, no parity blocks) and the
+  gate rejects unverifiable variants/anatomy/api on them. `ComponentDocSections`
+  renders entities on the component page with graceful fallback for undocumented
+  components, and ds-bundle prompt-guidance is generated from the same entities
+  (49/52 structured; Input/Icon/InputGroup minimal or non-entity). Parity 69/0,
+  coverage 69/0.
 - **UI pattern library buildout (decision 0008).** Primer-style: each
   pattern is a first-class rail entry with a maturity pill, driven by the
   product's needs (pricing + origination, CRUD core). Landed 2026-07-03:

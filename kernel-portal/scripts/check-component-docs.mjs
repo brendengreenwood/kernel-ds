@@ -61,13 +61,21 @@ if (existsSync(docsBarrel)) {
   }
 }
 
-/** Resolve an entity's source file(s) relative to src/components/ui. */
+/**
+ * Resolve an entity's source file(s) relative to src/components/ui.
+ * An explicitly-empty `sourceFiles: []` marks a documentation-only entity
+ * (a pattern with no single component source) — returns `null` so the caller
+ * skips source parity. An omitted `sourceFiles` defaults to `${slug}.tsx`.
+ */
 function sourceFilesFor(doc) {
-  const files = doc.sourceFiles && doc.sourceFiles.length > 0
-    ? doc.sourceFiles
-    : [`${doc.slug}.tsx`];
+  if (Array.isArray(doc.sourceFiles) && doc.sourceFiles.length === 0) return null;
+  const files =
+    doc.sourceFiles && doc.sourceFiles.length > 0 ? doc.sourceFiles : [`${doc.slug}.tsx`];
   return files.map((f) => resolve(uiDir, f));
 }
+
+/** Parity blocks make claims that must be verified against real source. */
+const PARITY_BLOCK_KINDS = new Set(["variants", "anatomy", "api"]);
 
 /**
  * Extract cva variant axes → keys from a source string using brace-counting
@@ -183,6 +191,24 @@ function extractDataSlots(src) {
  * ------------------------------------------------------------------ */
 for (const [slug, doc] of Object.entries(componentDocs)) {
   const files = sourceFilesFor(doc);
+
+  // Documentation-only entity (explicit `sourceFiles: []`): no source to
+  // cross-check. Such an entity may carry only non-parity blocks — a
+  // variants/anatomy/api claim with no source is unverifiable, so it's an
+  // offender rather than a silent pass.
+  if (files === null) {
+    for (const block of doc.docs ?? []) {
+      if (PARITY_BLOCK_KINDS.has(block.kind)) {
+        offenders.push({
+          rule: "unverifiable-parity-block",
+          entity: slug,
+          detail: `documentation-only entity (sourceFiles: []) cannot carry a "${block.kind}" block — no source to verify against`,
+        });
+      }
+    }
+    continue;
+  }
+
   const missing = files.filter((f) => !existsSync(f));
   if (missing.length > 0) {
     for (const f of missing) {
