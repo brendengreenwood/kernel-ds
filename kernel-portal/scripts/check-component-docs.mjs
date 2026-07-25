@@ -237,7 +237,10 @@ for (const [slug, doc] of Object.entries(componentDocs)) {
           });
           continue;
         }
-        for (const key of group.keys) {
+        for (const rawKey of group.keys) {
+          // A key is either a bare string or { key, description } — the parity
+          // check only compares the key name.
+          const key = typeof rawKey === "string" ? rawKey : rawKey.key;
           if (!sourceKeys.has(key)) {
             offenders.push({
               rule: "variant-key-mismatch",

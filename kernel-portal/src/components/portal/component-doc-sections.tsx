@@ -122,7 +122,11 @@ function UseCasesSection({
 function VariantsSection({
   groups,
 }: {
-  groups: { axis: string; keys: string[]; defaultKey?: string }[]
+  groups: {
+    axis: string
+    keys: (string | { key: string; description: string })[]
+    defaultKey?: string
+  }[]
 }) {
   return (
     <SectionShell kind="variants" title="Variants">
@@ -130,16 +134,24 @@ function VariantsSection({
         {groups.map((g) => (
           <div key={g.axis} className="space-y-2">
             <p className="font-mono text-xs text-muted-foreground">{g.axis}</p>
-            <div className="flex flex-wrap gap-1.5">
-              {g.keys.map((k) => (
-                <Badge
-                  key={k}
-                  variant={k === g.defaultKey ? "default" : "outline"}
-                  className="font-mono"
-                >
-                  {k}
-                </Badge>
-              ))}
+            <div className="space-y-1.5">
+              {g.keys.map((raw) => {
+                const k = typeof raw === "string" ? raw : raw.key
+                const desc = typeof raw === "string" ? null : raw.description
+                return (
+                  <div key={k} className="flex items-baseline gap-2">
+                    <Badge
+                      variant={k === g.defaultKey ? "default" : "outline"}
+                      className="font-mono shrink-0"
+                    >
+                      {k}
+                    </Badge>
+                    {desc ? (
+                      <span className="text-sm text-muted-foreground">{desc}</span>
+                    ) : null}
+                  </div>
+                )
+              })}
             </div>
           </div>
         ))}

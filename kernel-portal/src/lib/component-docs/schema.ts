@@ -41,12 +41,27 @@ const apiBlock = z.object({
   ),
 })
 
+/**
+ * A variant key is either a bare identifier or an object pairing the key with
+ * a one-line purpose (Primer-style per-variant guidance). The parity gate and
+ * renderer normalize via `variantKeyName` so both forms are interchangeable.
+ */
+const variantKey = z.union([
+  z.string(),
+  z.object({ key: z.string(), description: z.string() }),
+])
+
+/** Normalize a variant key (string | {key,description}) to its key string. */
+export function variantKeyName(k: z.infer<typeof variantKey>): string {
+  return typeof k === "string" ? k : k.key
+}
+
 const variantsBlock = z.object({
   kind: z.literal("variants"),
   groups: z.array(
     z.object({
       axis: z.string(),
-      keys: z.array(z.string()),
+      keys: z.array(variantKey),
       defaultKey: z.string().optional(),
     }),
   ),
