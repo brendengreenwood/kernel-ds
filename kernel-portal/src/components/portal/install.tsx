@@ -1,50 +1,8 @@
 "use client"
 
-import * as React from "react"
 import indexCss from "@/index.css?raw"
-import { Check, Copy } from "@/components/ui/icon"
-import { Button } from "@/components/ui/button"
+import { CodeBlock } from "@/components/ui/code-block"
 import { Section } from "./section"
-
-function CodeBlock({
-  lang,
-  code,
-  scroll,
-}: {
-  lang: string
-  code: string
-  scroll?: boolean
-}) {
-  const [copied, setCopied] = React.useState(false)
-  return (
-    <div className="overflow-hidden rounded-md border bg-card">
-      <div className="flex items-center justify-between border-b bg-muted/40 px-3 py-2">
-        <span className="font-mono text-xs text-muted-foreground">{lang}</span>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-7 gap-1.5 font-mono text-xs"
-          onClick={() => {
-            navigator.clipboard?.writeText(code)
-            setCopied(true)
-            setTimeout(() => setCopied(false), 1400)
-          }}
-        >
-          {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-          {copied ? "Copied" : "Copy"}
-        </Button>
-      </div>
-      <pre
-        className={
-          "overflow-x-auto p-4 font-mono text-[13px] leading-relaxed" +
-          (scroll ? " max-h-[420px] overflow-y-auto" : "")
-        }
-      >
-        <code>{code}</code>
-      </pre>
-    </div>
-  )
-}
 
 const setup = `# a Tailwind v4 + shadcn/ui project (components on Base UI, base-nova style)
 npm create vite@latest my-app -- --template react-ts

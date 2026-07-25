@@ -6,7 +6,9 @@ import { parseComponentDoc, type ComponentDoc } from "./schema.ts"
  *
  * Voice exemplar (decision 0036): guidance answers why the component exists,
  * when to reach for it, when not to, and what to pair it with — in Kernel's
- * operational-platform voice with concrete example copy.
+ * operational-platform voice with concrete example copy. The `states` block
+ * follows Primer's bar: each state carries reasoned prose, including the
+ * nuanced disabled-vs-inactive distinction, not a bare label.
  */
 export const buttonDoc: ComponentDoc = parseComponentDoc({
   id: "button",
@@ -76,6 +78,51 @@ export const buttonDoc: ComponentDoc = parseComponentDoc({
         },
       ],
     },
+    {
+      kind: "states",
+      items: [
+        {
+          name: "Default",
+          description:
+            "The resting state. The variant's fill and border carry the emphasis — a filled `default`, a bordered `outline`, or bare `ghost` chrome. This is the state you design the surrounding layout around.",
+        },
+        {
+          name: "Hover",
+          description:
+            "A subtle background shift signals the target is interactive before the click lands. It's a confirmation cue, not new information — never hide an action's meaning behind hover, since touch and keyboard users never see it.",
+        },
+        {
+          name: "Focus-visible",
+          description:
+            "A 3px ring appears when the button is reached by keyboard. Never suppress it: it's the only signal a keyboard or switch user has for where they are, and removing it breaks the page for them while leaving mouse users unaffected — so the regression goes unnoticed.",
+        },
+        {
+          name: "Active / pressed",
+          description:
+            "The button nudges down one pixel on press to confirm the click registered. Overlay triggers (`aria-expanded`) hold the hover fill instead of nudging, so an open menu reads as anchored to its button.",
+        },
+        {
+          name: "Disabled",
+          description:
+            "Reduced to 50% opacity with pointer events off — the action exists but can't fire right now. Reach for this only when the reason is visible nearby (a validation message, a missing field). A disabled button with no stated reason is a dead end the user can't debug.",
+        },
+        {
+          name: "Inactive (accessible alternative)",
+          description:
+            "When an action must stay on the page but truly can't be removed, prefer an inactive treatment over `disabled`: unlike a disabled button, an inactive one still takes focus and can respond — so it can surface *why* it's unavailable in a Tooltip on hover or focus, rather than silently refusing keyboard users.",
+        },
+        {
+          name: "Invalid",
+          description:
+            "`aria-invalid` paints the destructive border and ring, tying a submit button to the form error it triggered. Pair it with an inline message — the color marks the problem, the text names it.",
+        },
+        {
+          name: "Loading",
+          description:
+            "While an operation is in flight, swap the label for a spinner and keep the button's width fixed so the layout doesn't jump. Announce completion for assistive tech rather than relying on the visual alone.",
+        },
+      ],
+    },
     { kind: "anatomy", slots: ["button"] },
     {
       kind: "api",
@@ -94,5 +141,50 @@ export const buttonDoc: ComponentDoc = parseComponentDoc({
         { key: "Space", action: "Activates the button." },
       ],
     },
+    {
+      kind: "examples",
+      items: [
+        {
+          title: "Variants",
+          description: "The six emphasis levels. Spend `default` once per view; reach for `outline` for supporting actions.",
+          language: "tsx",
+          code: `<div className="flex flex-wrap gap-4">
+  <Button>Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="destructive">Destructive</Button>
+  <Button variant="link">Link</Button>
+</div>`,
+        },
+        {
+          title: "Sizes",
+          description: "Match height to context — `sm` in dense tables and toolbars, `lg` for a standout footer action.",
+          language: "tsx",
+          code: `<div className="flex items-center gap-4">
+  <Button size="sm">Small</Button>
+  <Button>Default</Button>
+  <Button size="lg">Large</Button>
+</div>`,
+        },
+        {
+          title: "Icon button",
+          description: "Glyph-only actions must name themselves for assistive tech via `aria-label`.",
+          language: "tsx",
+          code: `<Button size="icon" variant="outline" aria-label="Add item">
+  <Plus />
+</Button>`,
+        },
+        {
+          title: "Button with icon",
+          description: "Pair a leading or trailing glyph with a text label to reinforce the action.",
+          language: "tsx",
+          code: `<Button>
+  Continue <ArrowRight />
+</Button>`,
+        },
+      ],
+    },
   ],
 })
+

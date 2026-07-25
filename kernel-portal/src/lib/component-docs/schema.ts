@@ -102,6 +102,23 @@ const decisionsBlock = z.object({
   refs: z.array(z.object({ number: z.number(), title: z.string() })),
 })
 
+/**
+ * A usage example — a titled, copy-pasteable code snippet. `code` is the
+ * exact source an engineer can paste; `description` frames when to use it.
+ * Machine-readable so the ds-bundle can hand agents real working code.
+ */
+const examplesBlock = z.object({
+  kind: z.literal("examples"),
+  items: z.array(
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      code: z.string(),
+      language: z.string().optional(),
+    }),
+  ),
+})
+
 export const docBlockSchema = z.discriminatedUnion("kind", [
   guidelinesBlock,
   apiBlock,
@@ -111,6 +128,7 @@ export const docBlockSchema = z.discriminatedUnion("kind", [
   accessibilityBlock,
   useCasesBlock,
   decisionsBlock,
+  examplesBlock,
 ])
 export type DocBlock = z.infer<typeof docBlockSchema>
 export type DocBlockKind = DocBlock["kind"]

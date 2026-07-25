@@ -10,7 +10,13 @@ import type {
   DocBlock,
 } from "@/lib/component-docs/schema"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { CheckCircle2, XCircle } from "@/components/ui/icon"
 import {
   Table,
   TableBody,
@@ -19,6 +25,44 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { CodeBlock } from "@/components/ui/code-block"
+
+/**
+ * A one-line eyebrow per block kind, shown above each section title so a
+ * reader scanning the page reads intent, not just section names.
+ */
+const SECTION_EYEBROW: Record<DocBlock["kind"], string> = {
+  useCases: "When to reach for it",
+  guidelines: "Best practices",
+  variants: "Configuration",
+  anatomy: "Structure",
+  api: "Props",
+  states: "Interaction",
+  accessibility: "Inclusive design",
+  decisions: "Rationale",
+  examples: "Usage",
+}
+
+/**
+ * The heading shown for each section. Single source of truth shared by the
+ * section shells and the "On this page" nav so the two never drift.
+ */
+const SECTION_TITLE: Record<DocBlock["kind"], string> = {
+  useCases: "When to use",
+  guidelines: "Guidelines",
+  variants: "Variants",
+  anatomy: "Anatomy",
+  api: "API",
+  states: "States",
+  accessibility: "Accessibility",
+  decisions: "Related decisions",
+  examples: "Examples",
+}
+
+/** The DOM id for a section's Card — the "On this page" nav anchors to it. */
+export function docSectionId(kind: DocBlock["kind"]): string {
+  return `doc-${kind}`
+}
 
 function SectionShell({
   kind,
@@ -30,12 +74,21 @@ function SectionShell({
   children: React.ReactNode
 }) {
   return (
-    <div data-slot={`doc-section-${kind}`} className="space-y-3">
-      <h3 className="text-sm font-semibold tracking-tight text-foreground">
-        {title}
-      </h3>
-      {children}
-    </div>
+    <Card
+      id={docSectionId(kind)}
+      data-slot={`doc-section-${kind}`}
+      className="min-w-0 scroll-mt-24 gap-4 [--card-spacing:--spacing(5)]"
+    >
+      <CardHeader className="gap-0.5">
+        <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground/70">
+          {SECTION_EYEBROW[kind]}
+        </p>
+        <CardTitle className="text-base font-semibold tracking-tight">
+          {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>{children}</CardContent>
+    </Card>
   )
 }
 
@@ -48,33 +101,37 @@ function GuidelinesSection({
 }) {
   return (
     <SectionShell kind="guidelines" title="Guidelines">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wide text-success-700 dark:text-success-300">
+      <div className="grid min-w-0 gap-3 sm:grid-cols-2">
+        <div className="min-w-0 rounded-lg border border-success-500/30 bg-success-500/5 p-4">
+          <p className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-success-700 dark:text-success-300">
+            <CheckCircle2 className="size-3.5" aria-hidden />
             Do
           </p>
-          <ul className="space-y-1.5 text-sm text-muted-foreground">
+          <ul className="space-y-2.5 text-sm leading-relaxed text-foreground/80">
             {dos.map((d) => (
               <li key={d} className="flex gap-2">
-                <span aria-hidden className="text-success-600">
-                  +
-                </span>
-                <span>{d}</span>
+                <CheckCircle2
+                  aria-hidden
+                  className="mt-0.5 size-4 shrink-0 text-success-600 dark:text-success-400"
+                />
+                <span className="min-w-0">{d}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wide text-error-700 dark:text-error-300">
+        <div className="min-w-0 rounded-lg border border-error-500/30 bg-error-500/5 p-4">
+          <p className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-error-700 dark:text-error-300">
+            <XCircle className="size-3.5" aria-hidden />
             Don&apos;t
           </p>
-          <ul className="space-y-1.5 text-sm text-muted-foreground">
+          <ul className="space-y-2.5 text-sm leading-relaxed text-foreground/80">
             {donts.map((d) => (
               <li key={d} className="flex gap-2">
-                <span aria-hidden className="text-error-600">
-                  −
-                </span>
-                <span>{d}</span>
+                <XCircle
+                  aria-hidden
+                  className="mt-0.5 size-4 shrink-0 text-error-600 dark:text-error-400"
+                />
+                <span className="min-w-0">{d}</span>
               </li>
             ))}
           </ul>
@@ -93,24 +150,36 @@ function UseCasesSection({
 }) {
   return (
     <SectionShell kind="useCases" title="When to use">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Use when
+      <div className="grid min-w-0 gap-3 sm:grid-cols-2">
+        <div className="min-w-0 rounded-lg border bg-card p-4">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-success-700 dark:text-success-300">
+            Use for
           </p>
-          <ul className="space-y-1.5 text-sm text-muted-foreground">
+          <ul className="space-y-2.5 text-sm leading-relaxed text-foreground/80">
             {use.map((u) => (
-              <li key={u}>{u}</li>
+              <li key={u} className="flex gap-2.5">
+                <span
+                  aria-hidden
+                  className="mt-1.5 size-1.5 shrink-0 rounded-full bg-success-500"
+                />
+                <span className="min-w-0">{u}</span>
+              </li>
             ))}
           </ul>
         </div>
-        <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Don&apos;t use when
+        <div className="min-w-0 rounded-lg border bg-card p-4">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-error-700 dark:text-error-300">
+            Don&apos;t use for
           </p>
-          <ul className="space-y-1.5 text-sm text-muted-foreground">
+          <ul className="space-y-2.5 text-sm leading-relaxed text-foreground/80">
             {dontUse.map((u) => (
-              <li key={u}>{u}</li>
+              <li key={u} className="flex gap-2.5">
+                <span
+                  aria-hidden
+                  className="mt-1.5 size-1.5 shrink-0 rounded-full bg-error-500"
+                />
+                <span>{u}</span>
+              </li>
             ))}
           </ul>
         </div>
@@ -130,24 +199,39 @@ function VariantsSection({
 }) {
   return (
     <SectionShell kind="variants" title="Variants">
-      <div className="space-y-4">
+      <div className="space-y-5">
         {groups.map((g) => (
           <div key={g.axis} className="space-y-2">
-            <p className="font-mono text-xs text-muted-foreground">{g.axis}</p>
-            <div className="space-y-1.5">
+            <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/70">
+              {g.axis}
+            </p>
+            <div className="overflow-hidden rounded-lg border divide-y divide-border/60">
               {g.keys.map((raw) => {
                 const k = typeof raw === "string" ? raw : raw.key
                 const desc = typeof raw === "string" ? null : raw.description
+                const isDefault = k === g.defaultKey
                 return (
-                  <div key={k} className="flex items-baseline gap-2">
-                    <Badge
-                      variant={k === g.defaultKey ? "default" : "outline"}
-                      className="font-mono shrink-0"
-                    >
-                      {k}
-                    </Badge>
+                  <div
+                    key={k}
+                    className="grid items-baseline gap-1.5 px-3 py-2.5 sm:grid-cols-[9rem_1fr] sm:gap-4"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <Badge
+                        variant={isDefault ? "default" : "outline"}
+                        className="font-mono shrink-0"
+                      >
+                        {k}
+                      </Badge>
+                      {isDefault ? (
+                        <span className="text-[10px] uppercase tracking-wide text-muted-foreground/60">
+                          default
+                        </span>
+                      ) : null}
+                    </div>
                     {desc ? (
-                      <span className="text-sm text-muted-foreground">{desc}</span>
+                      <span className="text-sm text-muted-foreground">
+                        {desc}
+                      </span>
                     ) : null}
                   </div>
                 )
@@ -163,11 +247,17 @@ function VariantsSection({
 function AnatomySection({ slots }: { slots: string[] }) {
   return (
     <SectionShell kind="anatomy" title="Anatomy">
-      <div className="flex flex-wrap gap-1.5">
-        {slots.map((s) => (
-          <Badge key={s} variant="secondary" className="font-mono">
-            {s}
-          </Badge>
+      <div className="overflow-hidden rounded-lg border">
+        {slots.map((s, i) => (
+          <div
+            key={s}
+            className="flex items-center gap-3 border-b px-3 py-2 last:border-b-0"
+          >
+            <span className="flex size-5 shrink-0 items-center justify-center rounded-md bg-muted font-mono text-[11px] text-muted-foreground">
+              {i + 1}
+            </span>
+            <code className="font-mono text-xs text-foreground">{s}</code>
+          </div>
         ))}
       </div>
     </SectionShell>
@@ -186,32 +276,38 @@ function ApiSection({
 }) {
   return (
     <SectionShell kind="api" title="API">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Prop</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Default</TableHead>
-            <TableHead>Description</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {props.map((p) => (
-            <TableRow key={p.name}>
-              <TableCell className="font-mono text-xs">{p.name}</TableCell>
-              <TableCell className="font-mono text-xs text-muted-foreground">
-                {p.type}
-              </TableCell>
-              <TableCell className="font-mono text-xs text-muted-foreground">
-                {p.default ?? "—"}
-              </TableCell>
-              <TableCell className="text-sm text-muted-foreground">
-                {p.description ?? "—"}
-              </TableCell>
+      <div className="overflow-x-auto rounded-lg border">
+        <Table>
+          <TableHeader className="bg-muted/40">
+            <TableRow className="hover:bg-transparent">
+              <TableHead>Prop</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Default</TableHead>
+              <TableHead>Description</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {props.map((p) => (
+              <TableRow key={p.name}>
+                <TableCell>
+                  <code className="rounded border bg-muted/50 px-1.5 py-0.5 font-mono text-xs">
+                    {p.name}
+                  </code>
+                </TableCell>
+                <TableCell className="font-mono text-xs text-muted-foreground">
+                  {p.type}
+                </TableCell>
+                <TableCell className="font-mono text-xs text-muted-foreground">
+                  {p.default ?? "—"}
+                </TableCell>
+                <TableCell className="text-sm text-muted-foreground">
+                  {p.description ?? "—"}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </SectionShell>
   )
 }
@@ -223,15 +319,26 @@ function StatesSection({
 }) {
   return (
     <SectionShell kind="states" title="States">
-      <ul className="space-y-1.5 text-sm text-muted-foreground">
+      <dl className="overflow-hidden rounded-lg border">
         {items.map((i) => (
-          <li key={i.name} className="flex gap-2">
-            <span className="font-mono text-xs text-foreground">{i.name}</span>
-            <span>—</span>
-            <span>{i.description}</span>
-          </li>
+          <div
+            key={i.name}
+            className="grid gap-2 border-b px-3 py-3 last:border-b-0 sm:grid-cols-[12rem_1fr] sm:gap-4"
+          >
+            <dt>
+              <Badge
+                variant="outline"
+                className="h-auto whitespace-normal text-left font-mono leading-snug"
+              >
+                {i.name}
+              </Badge>
+            </dt>
+            <dd className="text-sm leading-relaxed text-muted-foreground">
+              {i.description}
+            </dd>
+          </div>
         ))}
-      </ul>
+      </dl>
     </SectionShell>
   )
 }
@@ -249,37 +356,52 @@ function AccessibilitySection({
     <SectionShell kind="accessibility" title="Accessibility">
       <div className="space-y-3 text-sm text-muted-foreground">
         {role ? (
-          <p>
-            <span className="font-medium text-foreground">Role:</span>{" "}
-            <span className="font-mono text-xs">{role}</span>
-          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Role
+            </span>
+            <Badge variant="secondary" className="font-mono">
+              {role}
+            </Badge>
+          </div>
         ) : null}
         {ariaAttributes && ariaAttributes.length > 0 ? (
-          <div className="flex flex-wrap gap-1.5">
-            {ariaAttributes.map((a) => (
-              <Badge key={a} variant="outline" className="font-mono">
-                {a}
-              </Badge>
-            ))}
+          <div className="space-y-2">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              ARIA attributes
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {ariaAttributes.map((a) => (
+                <Badge key={a} variant="outline" className="font-mono">
+                  {a}
+                </Badge>
+              ))}
+            </div>
           </div>
         ) : null}
         {keyboardInteractions && keyboardInteractions.length > 0 ? (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Key</TableHead>
-                <TableHead>Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {keyboardInteractions.map((k) => (
-                <TableRow key={k.key}>
-                  <TableCell className="font-mono text-xs">{k.key}</TableCell>
-                  <TableCell className="text-sm">{k.action}</TableCell>
+          <div className="overflow-hidden rounded-lg border">
+            <Table>
+              <TableHeader className="bg-muted/40">
+                <TableRow className="hover:bg-transparent">
+                  <TableHead>Key</TableHead>
+                  <TableHead>Action</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {keyboardInteractions.map((k) => (
+                  <TableRow key={k.key}>
+                    <TableCell>
+                      <kbd className="rounded border bg-muted px-2 py-0.5 font-mono text-xs text-foreground shadow-xs">
+                        {k.key}
+                      </kbd>
+                    </TableCell>
+                    <TableCell className="text-sm">{k.action}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         ) : null}
       </div>
     </SectionShell>
@@ -292,17 +414,48 @@ function DecisionsSection({
   refs: { number: number; title: string }[]
 }) {
   return (
-    <SectionShell kind="decisions" title="Decisions">
-      <ul className="space-y-1.5 text-sm text-muted-foreground">
+    <SectionShell kind="decisions" title="Related decisions">
+      <ul className="overflow-hidden rounded-lg border">
         {refs.map((r) => (
-          <li key={r.number} className="flex gap-2">
-            <span className="font-mono text-xs text-foreground">
-              {String(r.number).padStart(4, "0")}
+          <li
+            key={r.number}
+            className="flex items-start gap-3 border-b px-3 py-3 last:border-b-0"
+          >
+            <Badge variant="secondary" className="shrink-0 font-mono">
+              #{String(r.number).padStart(4, "0")}
+            </Badge>
+            <span className="text-sm leading-relaxed text-muted-foreground">
+              {r.title}
             </span>
-            <span>{r.title}</span>
           </li>
         ))}
       </ul>
+    </SectionShell>
+  )
+}
+
+function ExamplesSection({
+  items,
+}: {
+  items: { title: string; description?: string; code: string; language?: string }[]
+}) {
+  return (
+    <SectionShell kind="examples" title="Examples">
+      <div className="grid gap-5">
+        {items.map((ex) => (
+          <div key={ex.title} className="grid gap-2">
+            <div className="grid gap-0.5">
+              <p className="text-sm font-medium text-foreground">{ex.title}</p>
+              {ex.description ? (
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {ex.description}
+                </p>
+              ) : null}
+            </div>
+            <CodeBlock code={ex.code} lang={ex.language ?? "tsx"} />
+          </div>
+        ))}
+      </div>
     </SectionShell>
   )
 }
@@ -346,7 +499,43 @@ function renderBlock(block: DocBlock): React.ReactNode {
     case "decisions":
       if (block.refs.length === 0) return null
       return <DecisionsSection refs={block.refs} />
+    case "examples":
+      if (block.items.length === 0) return null
+      return <ExamplesSection items={block.items} />
   }
+}
+
+/**
+ * Walk a doc's blocks and return only those that actually render, in order,
+ * each paired with its rendered node. Both the page renderer and the
+ * "On this page" nav read from this one function so they can never disagree
+ * about which sections exist.
+ */
+function renderedBlocks(
+  doc: ComponentDoc,
+): { key: string; kind: DocBlock["kind"]; node: React.ReactNode }[] {
+  const out: { key: string; kind: DocBlock["kind"]; node: React.ReactNode }[] =
+    []
+  doc.docs.forEach((block, i) => {
+    const node = renderBlock(block)
+    if (node) out.push({ key: `${block.kind}-${i}`, kind: block.kind, node })
+  })
+  return out
+}
+
+/**
+ * An ordered list of the sections that will actually render for a doc —
+ * `{ kind, title, id }` per section. The "On this page" nav consumes this.
+ * Empty for minimal-conformance entities (the page shows just the demo).
+ */
+export function docSectionNav(
+  doc: ComponentDoc,
+): { kind: DocBlock["kind"]; title: string; id: string }[] {
+  return renderedBlocks(doc).map(({ kind }) => ({
+    kind,
+    title: SECTION_TITLE[kind],
+    id: docSectionId(kind),
+  }))
 }
 
 /**
@@ -355,19 +544,13 @@ function renderBlock(block: DocBlock): React.ReactNode {
  * back to just the demo.
  */
 export default function ComponentDocSections({ doc }: { doc: ComponentDoc }) {
-  const rendered: { key: string; node: React.ReactNode }[] = []
-  doc.docs.forEach((block, i) => {
-    const node = renderBlock(block)
-    if (node) rendered.push({ key: `${block.kind}-${i}`, node })
-  })
-
+  const rendered = renderedBlocks(doc)
   if (rendered.length === 0) return null
 
   return (
-    <div className="mb-10 space-y-8">
-      {rendered.map(({ key, node }, i) => (
-        <div key={key}>
-          {i > 0 ? <Separator className="mb-8" /> : null}
+    <div className="mb-10 grid min-w-0 gap-4">
+      {rendered.map(({ key, node }) => (
+        <div key={key} className="min-w-0">
           {node}
         </div>
       ))}

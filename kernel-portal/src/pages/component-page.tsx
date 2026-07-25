@@ -5,6 +5,7 @@ import { componentMeta, type Maturity } from "@/lib/component-meta"
 import { ArrowLeft } from "@/components/ui/icon"
 import { getComponentDoc } from "@/lib/component-docs"
 import ComponentDocSections from "@/components/portal/component-doc-sections"
+import { OnThisPage } from '@/components/portal/on-this-page';
 
 const RANK: Record<Maturity, number> = { deprecated: 3, experimental: 2, ready: 1 }
 function clusterMaturity(anchor: string): Maturity {
@@ -54,9 +55,25 @@ export default function ComponentPage() {
         ) : null}
       </div>
 
-      {doc ? <ComponentDocSections doc={doc} /> : null}
+      <div className="mb-10 space-y-3">
+        <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground/70">
+          Preview
+        </p>
+        <div className="rounded-xl bg-card p-6 ring-1 ring-foreground/10">
+          <Demo />
+        </div>
+      </div>
 
-      <Demo />
+      {doc ? (
+        <div className="relative">
+          <ComponentDocSections doc={doc} />
+          <div className="pointer-events-none absolute inset-y-0 left-full hidden pl-8 2xl:block">
+            <div className="pointer-events-auto sticky top-24 w-52">
+              <OnThisPage doc={doc} />
+            </div>
+          </div>
+        </div>
+      ) : null}
     </Section>
   )
 }
