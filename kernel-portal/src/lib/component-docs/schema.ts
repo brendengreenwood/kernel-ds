@@ -41,12 +41,27 @@ const apiBlock = z.object({
   ),
 })
 
+/**
+ * A variant key is either a bare identifier or an object pairing the key with
+ * a one-line purpose (Primer-style per-variant guidance). The parity gate and
+ * renderer normalize via `variantKeyName` so both forms are interchangeable.
+ */
+const variantKey = z.union([
+  z.string(),
+  z.object({ key: z.string(), description: z.string() }),
+])
+
+/** Normalize a variant key (string | {key,description}) to its key string. */
+export function variantKeyName(k: z.infer<typeof variantKey>): string {
+  return typeof k === "string" ? k : k.key
+}
+
 const variantsBlock = z.object({
   kind: z.literal("variants"),
   groups: z.array(
     z.object({
       axis: z.string(),
-      keys: z.array(z.string()),
+      keys: z.array(variantKey),
       defaultKey: z.string().optional(),
     }),
   ),
@@ -87,6 +102,23 @@ const decisionsBlock = z.object({
   refs: z.array(z.object({ number: z.number(), title: z.string() })),
 })
 
+/**
+ * A usage example — a titled, copy-pasteable code snippet. `code` is the
+ * exact source an engineer can paste; `description` frames when to use it.
+ * Machine-readable so the ds-bundle can hand agents real working code.
+ */
+const examplesBlock = z.object({
+  kind: z.literal("examples"),
+  items: z.array(
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      code: z.string(),
+      language: z.string().optional(),
+    }),
+  ),
+})
+
 export const docBlockSchema = z.discriminatedUnion("kind", [
   guidelinesBlock,
   apiBlock,
@@ -96,6 +128,7 @@ export const docBlockSchema = z.discriminatedUnion("kind", [
   accessibilityBlock,
   useCasesBlock,
   decisionsBlock,
+  examplesBlock,
 ])
 export type DocBlock = z.infer<typeof docBlockSchema>
 export type DocBlockKind = DocBlock["kind"]

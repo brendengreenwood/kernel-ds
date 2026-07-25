@@ -263,7 +263,22 @@ own route, not a section of one long scroll.
   renders entities on the component page with graceful fallback for undocumented
   components, and ds-bundle prompt-guidance is generated from the same entities
   (49/52 structured; Input/Icon/InputGroup minimal or non-entity). Parity 69/0,
-  coverage 69/0.
+  coverage 69/0. **Prose + presentation (2026-07-25):** a variant key can now carry its own
+  prose (`keys: string | { key, description }`; the gate normalizes both
+  shapes), Button is the voice exemplar (per-key descriptions, states,
+  accessibility, decision cross-refs), and `ComponentDocSections` was
+  redesigned — summary as a lead paragraph, tinted Do/Don't guideline cards,
+    and the live demo moved to the top of the page. **Playbook + nav
+  (2026-07-25, decision 0036):** the doc-page rules are now written down in
+  `docs/component-doc-page-playbook.md` (content structure, canonical block
+  order, conformance ladder, prose/voice bar, layout rules, add/change
+  checklist). An "On this page" section nav (`on-this-page.tsx`) derives its
+  list from the same `renderedBlocks` the renderer uses (`docSectionNav` /
+  `docSectionId` / shared `SECTION_TITLE`), scroll-spies the active section,
+  and floats in a sticky `2xl:` rail. A grid/flex `min-width:auto` overflow
+  bug in the doc sections is fixed with `min-w-0` guards (documented as a
+  required rule in the playbook, with a `scrollWidth === clientWidth`
+  regression check).
 - **UI pattern library buildout (decision 0008).** Primer-style: each
   pattern is a first-class rail entry with a maturity pill, driven by the
   product's needs (pricing + origination, CRUD core). Landed 2026-07-03:
