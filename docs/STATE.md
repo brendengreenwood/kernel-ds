@@ -283,7 +283,7 @@ own route, not a section of one long scroll.
   and floats in a sticky `2xl:` rail. A grid/flex `min-width:auto` overflow
   bug in the doc sections is fixed with `min-w-0` guards (documented as a
   required rule in the playbook, with a `scrollWidth === clientWidth`
-  regression check).
+  regression check). **Full prose rewrite (2026-07-26, branch `feat/ds-prose-rewrite`):** every one of the 69 entities now carries hand-written prose - no auto-authored placeholders remain. Concrete summaries, reasoned dos/donts, and real use-cases across all families (layout, forms, overlays, navigation, data-display, feedback, marks + patterns), plus per-key variant descriptions on the remaining CVA components (badge, alert, toggle, pin, clusterbadge, legendswatch, plot, commodity-tags). `check-prose-quality.mjs` is on the branch and reports 0 placeholders; an rg scan for all six placeholder patterns returns nothing.
 - **UI pattern library buildout (decision 0008).** Primer-style: each
   pattern is a first-class rail entry with a maturity pill, driven by the
   product's needs (pricing + origination, CRUD core). Landed 2026-07-03:

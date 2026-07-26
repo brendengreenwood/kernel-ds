@@ -1,36 +1,41 @@
 import { parseComponentDoc, type ComponentDoc } from "./schema.ts"
 
-/** Advanced filtering — auto-authored pattern doc entity; parity-verified against source. */
+/** Advanced Filtering — pattern doc entity. */
 export const advancedFilteringDoc: ComponentDoc = parseComponentDoc({
-  "id": "advanced-filtering",
-  "name": "Advanced filtering",
-  "slug": "advanced-filtering",
-  "summary": "Advanced filtering — pattern entity.",
-  "status": "ready",
-  "sourceFiles": [],
-  "metadata": {
-    "owner": "ds",
-    "kind": "pattern"
-  },
-  "docs": [
+  id: "advanced-filtering",
+  name: "Advanced Filtering",
+  slug: "advanced-filtering",
+  summary:
+    "The power-user layer on top of basic filtering — composable conditions (field, operator, value), grouped with AND/OR, and saveable as reusable views. Use it when simple facets can't express the query; keep the everyday case simple and let this depth stay opt-in.",
+  status: "ready",
+  sourceFiles: [],
+  metadata: { owner: "ds", kind: "pattern" },
+  docs: [
     {
-      "kind": "guidelines",
-      "dos": [
-        "Use Advanced filtering where its role in the pattern is clear.",
-        "Follow the established pattern conventions when composing Advanced filtering."
+      kind: "guidelines",
+      dos: [
+        "Build conditions from a clear field/operator/value triple so each rule reads as a sentence.",
+        "Let users group conditions and choose AND/OR, and preview the result count before applying.",
+        "Allow saving a filter set as a named view so a complex query can be reused.",
       ],
-      "donts": [
-        "Don't repurpose Advanced filtering for a role another component serves better."
-      ]
+      donts: [
+        "Don't make every user pass through the advanced builder — keep simple filtering the default path.",
+        "Don't expose operators that don't apply to a field's type (no \"greater than\" on a free-text field).",
+        "Don't lose a user's carefully built query on refresh — persist it.",
+      ],
     },
     {
-      "kind": "useCases",
-      "use": [
-        "Use Advanced filtering for its intended pattern role."
+      kind: "useCases",
+      use: [
+        "Composing multi-condition queries over a large collection.",
+        "Saving and reusing named filter views.",
+        "Expressing AND/OR logic simple facets can't.",
       ],
-      "dontUse": [
-        "Don't use Advanced filtering outside its documented purpose."
-      ]
-    }
-  ]
+      dontUse: [
+        "Everyday narrowing by one or two facets — use basic filtering.",
+        "A single-value selection — use a Select.",
+        "Sorting or column visibility — those are table concerns.",
+      ],
+    },
+  ],
 })
