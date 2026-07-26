@@ -4,7 +4,7 @@ import { clusterBySlug } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
 import { ArrowLeft } from "@/components/ui/icon"
 import { getComponentDoc } from "@/lib/component-docs"
-import ComponentDocSections from "@/components/portal/component-doc-sections"
+import ComponentDocSections, { renderInlineCode } from "@/components/portal/component-doc-sections"
 import { OnThisPage } from '@/components/portal/on-this-page';
 
 const RANK: Record<Maturity, number> = { deprecated: 3, experimental: 2, ready: 1 }
@@ -37,9 +37,9 @@ export default function ComponentPage() {
       id={`c-${cluster.slug}`}
       eyebrow={cluster.group}
       title={cluster.title}
-      lead={undefined}
+      lead={doc?.summary ? renderInlineCode(doc.summary) : undefined}
     >
-      <div className="-mt-4 mb-8 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2">
         <Link to="/components" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="size-4" /> All components
         </Link>

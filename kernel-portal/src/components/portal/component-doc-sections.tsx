@@ -28,6 +28,29 @@ import {
 import { CodeBlock } from "@/components/ui/code-block"
 
 /**
+ * Render prose that may contain backtick-delimited terms (`outline`,
+ * `aria-label`) as styled inline <code>, matching the inline-code
+ * convention used across the Foundations and Patterns pages. Splits on
+ * backtick pairs; odd segments are code, even segments are plain text.
+ */
+export function renderInlineCode(text: string): React.ReactNode {
+  const parts = text.split(/`([^`]+)`/g)
+  if (parts.length === 1) return text
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <code
+        key={i}
+        className="rounded bg-muted px-1 py-0.5 font-mono text-[0.85em] text-foreground"
+      >
+        {part}
+      </code>
+    ) : (
+      part
+    )
+  )
+}
+
+/**
  * A one-line eyebrow per block kind, shown above each section title so a
  * reader scanning the page reads intent, not just section names.
  */
@@ -114,7 +137,7 @@ function GuidelinesSection({
                   aria-hidden
                   className="mt-0.5 size-4 shrink-0 text-success-600 dark:text-success-400"
                 />
-                <span className="min-w-0">{d}</span>
+                <span className="min-w-0">{renderInlineCode(d)}</span>
               </li>
             ))}
           </ul>
@@ -162,7 +185,7 @@ function UseCasesSection({
                   aria-hidden
                   className="mt-1.5 size-1.5 shrink-0 rounded-full bg-success-500"
                 />
-                <span className="min-w-0">{u}</span>
+                <span className="min-w-0">{renderInlineCode(u)}</span>
               </li>
             ))}
           </ul>
@@ -178,7 +201,7 @@ function UseCasesSection({
                   aria-hidden
                   className="mt-1.5 size-1.5 shrink-0 rounded-full bg-error-500"
                 />
-                <span>{u}</span>
+                <span>{renderInlineCode(u)}</span>
               </li>
             ))}
           </ul>

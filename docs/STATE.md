@@ -267,8 +267,13 @@ own route, not a section of one long scroll.
   prose (`keys: string | { key, description }`; the gate normalizes both
   shapes), Button is the voice exemplar (per-key descriptions, states,
   accessibility, decision cross-refs), and `ComponentDocSections` was
-  redesigned — summary as a lead paragraph, tinted Do/Don't guideline cards,
-    and the live demo moved to the top of the page. **Playbook + nav
+  redesigned — tinted Do/Don't guideline cards, and the live demo moved
+  to the top of the page. **Summary lead fix (2026-07-25):** the component
+  page passed `lead={undefined}`, so every entity's `summary` — the one
+  sentence orienting the reader — never rendered. It now flows through an
+  exported `renderInlineCode` helper into `Section.lead` (backtick terms
+  render as styled inline code), and the breadcrumb row's compensating
+  `-mt-4` was dropped. **Playbook + nav
   (2026-07-25, decision 0036):** the doc-page rules are now written down in
   `docs/component-doc-page-playbook.md` (content structure, canonical block
   order, conformance ladder, prose/voice bar, layout rules, add/change
