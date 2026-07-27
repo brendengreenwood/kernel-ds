@@ -3,6 +3,8 @@
 import indexCss from "@/index.css?raw"
 import { CodeBlock } from "@/components/ui/code-block"
 import { Section } from "./section"
+import { typeStyles } from "@/lib/type-styles"
+import { cn } from "@/lib/utils"
 
 const setup = `# a Tailwind v4 + shadcn/ui project (components on Base UI, base-nova style)
 npm create vite@latest my-app -- --template react-ts
@@ -46,19 +48,19 @@ export function InstallSection() {
     >
       <div className="space-y-6">
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+          <h4 className={cn("mb-3", typeStyles.overline)}>
             1 · Start from a shadcn/ui project
           </h4>
           <CodeBlock lang="terminal" code={setup} />
         </div>
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+          <h4 className={cn("mb-3", typeStyles.overline)}>
             2 · Drop in the Kernel token layer
           </h4>
           <CodeBlock lang="globals.css" code={tokens} />
         </div>
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+          <h4 className={cn("mb-3", typeStyles.overline)}>
             3 · Add the components
           </h4>
           <CodeBlock lang="terminal" code={add} />
@@ -72,13 +74,13 @@ export function InstallSection() {
           </div>
         </div>
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+          <h4 className={cn("mb-3", typeStyles.overline)}>
             4 · Use tokens by semantic name
           </h4>
           <CodeBlock lang="tsx" code={usage} />
         </div>
         <div>
-          <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+          <h4 className={cn("mb-3", typeStyles.overline)}>
             5 · Complete token reference
           </h4>
           <p className="mb-3 max-w-[68ch] text-[13.5px] leading-relaxed text-muted-foreground">

@@ -5,6 +5,7 @@ import {
   type ChatMessage,
   type UserContentPart,
 } from "./chat"
+import { typeStyles } from "@/lib/type-styles"
 
 /**
  * Chat panel: prompt (text + optional image attachments) → design agent
@@ -134,7 +135,7 @@ export function ChatPanel({ onGenerationComplete }: ChatPanelProps) {
         ) : null}
         {entries.map((entry) => (
           <div key={entry.id} data-testid={`studio-chat-${entry.role}`}>
-            <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <div className={typeStyles.overline}>
               {entry.role === "user" ? "You" : "Design agent"}
               {entry.imageCount ? ` · ${entry.imageCount} image${entry.imageCount > 1 ? "s" : ""}` : ""}
             </div>

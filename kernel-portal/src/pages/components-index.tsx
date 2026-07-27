@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge"
 import { galleryClusters } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
 import { ChevronRight } from "@/components/ui/icon"
+import { typeStyles } from "@/lib/type-styles"
+import { cn } from "@/lib/utils"
 
 const all = [
   "Accordion","Alert","Alert Dialog","Aspect Ratio","Avatar","Badge","Breadcrumb",
@@ -54,7 +56,7 @@ export default function ComponentsIndex() {
       <div className="mt-10 space-y-10">
         {byGroup.map(({ group, items }) => (
           <div key={group}>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+            <h3 className={cn("mb-3", typeStyles.overline)}>
               {group}
             </h3>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">

@@ -12,6 +12,7 @@ import * as React from "react"
 import type { ComponentDoc } from "@/lib/component-docs/schema"
 import { docSectionNav } from "@/components/portal/component-doc-sections"
 import { cn } from "@/lib/utils"
+import { typeStyles } from "@/lib/type-styles"
 
 /** Scroll-spy: track which section id is currently the topmost in view. */
 function useActiveSection(ids: string[]): string | null {
@@ -69,7 +70,7 @@ export function OnThisPage({
       data-slot="on-this-page"
       className={cn("text-sm", className)}
     >
-      <p className="mb-3 text-[11px] font-medium uppercase tracking-wide text-muted-foreground/70">
+      <p className={cn("mb-3", typeStyles.overline)}>
         On this page
       </p>
       <ul className="space-y-0.5 border-l">

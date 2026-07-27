@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
+import { typeStyles } from "@/lib/type-styles"
 import { Section, Subhead } from "./section"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -113,7 +114,7 @@ export function AppShellSection() {
           <div className="flex flex-row flex-wrap items-center gap-0.5 border-b bg-sidebar px-2.5 py-2 md:flex-col md:items-stretch md:border-r md:border-b-0 md:p-2.5">
             {sideNav.map((g) => (
               <React.Fragment key={g.label}>
-                <div className="hidden px-2 pb-1.5 pt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground md:block">{g.label}</div>
+                <div className={cn("hidden px-2 pb-1.5 pt-3 md:block", typeStyles.overline)}>{g.label}</div>
                 {g.items.map((it) => (
                   <div
                     key={it.name}

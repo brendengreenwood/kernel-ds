@@ -36,7 +36,7 @@ function PagerCard({ dir, page }: { dir: "prev" | "next"; page: DocPage }) {
       to={page.path}
       rel={isNext ? "next" : "prev"}
       className={cn(
-        "group flex min-h-14 items-center gap-3 rounded-xl border bg-card px-4 py-3 transition-colors hover:border-ring hover:bg-accent/40 active:bg-accent/60",
+        "group flex min-h-14 items-center gap-3 rounded-lg border bg-card px-4 py-3 transition-colors hover:border-ring hover:bg-accent/40 active:bg-accent/60",
         isNext && "sm:justify-end sm:text-right"
       )}
     >
