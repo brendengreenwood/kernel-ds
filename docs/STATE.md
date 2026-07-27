@@ -27,6 +27,14 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Nested AGENTS.md operational map** (decision 0038, 2026-07-27): adopted
+  Mastra’s nested-AGENTS.md pattern. Root `AGENTS.md` + package-local files
+  (`kernel-portal/AGENTS.md`, `kernel-studio-server/AGENTS.md`) + eight deeper
+  files carry the operational map (per-package build/test/typecheck commands,
+  the verification-gate catalogue, cross-package path facts, source-tree
+  architecture). `CLAUDE.md` keeps the design conventions and points at the
+  AGENTS chain. Every command/path verified against the running repo.
+
 - **Static preview retired** (decision 0022, 2026-07-10): the four root
   preview files are deleted; the portal is the single surface. The
   mirror/parity rituals are obsolete; preview-specific state is archived
@@ -211,10 +219,17 @@ own route, not a section of one long scroll.
   `kernel-norman` (Don Norman usability principles), and `kernel-visual`
   (color · contrast · hierarchy · Gestalt). Generic `shadcn` /
   `migrate-radix-to-base` skills also live there.
-- CI quality gates: GitHub Actions (`.github/workflows/ci.yml`) runs
-  `npm ci` + `tsc -b` + build + lint (oxlint, blocking) for `kernel-portal`
-  on every PR and push to `main`. Branch protection requiring the check
-  must be enabled by the repo owner in GitHub settings.
+- CI quality gates (decision 0039, 2026-07-27): GitHub Actions
+  (`.github/workflows/ci.yml`) runs two jobs on every PR and push to `main`.
+  The `portal` job runs build (tsc -b && vite build) + lint (oxlint) + the full
+  canonical gate sequence (parity, coverage, prose-quality, style-fidelity,
+  status-map, composition, and the three `__check__` runtime assertions); the
+  `studio` job runs `tsc --noEmit` + vitest. Node pinned to 24 (the .mts gates
+  need --experimental-strip-types). Every step was verified locally job-for-job
+  before commit. CodeRabbit (`.coderabbit.yaml`) adds the AI review layer, reading
+  the per-directory AGENTS.md conventions. Branch protection requiring the `portal`
+  and `studio` checks, and installing the CodeRabbit GitHub App, are repo-owner
+  actions in GitHub settings.
 
 - **Kernel Studio** (decision 0024, 2026-07-12): generative
   design-prototyping surface. `kernel-studio-server/` (repo-root package)
