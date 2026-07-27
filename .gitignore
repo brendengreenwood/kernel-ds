@@ -9,3 +9,6 @@ kernel ds.zip
 
 # ds-bundle — generated build artifact (node kernel-portal/scripts/build-ds-bundle.mjs)
 ds-bundle/
+
+# studio dev server logs — session artifacts
+studio-dev.*.log
