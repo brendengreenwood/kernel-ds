@@ -182,5 +182,5 @@ If you add a new block kind, you only touch the renderer (a new `case` +
 5. **New block kind?** Add the `case`, the `SECTION_TITLE`/`SECTION_EYEBROW`
    entries, and — if it carries machine-readable claims — a parity rule in the
    gate. Update §2 of this playbook.
-6. **Ship ritual** (per `docs/README.md`): worklog entry, `STATE.md` update,
+6. **Ship ritual** (per `docs/GUIDE.md`): worklog entry, `STATE.md` update,
    and a decision doc if the change is a convention/architecture shift.

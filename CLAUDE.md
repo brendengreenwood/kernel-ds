@@ -18,7 +18,7 @@ When a **component, form element, or pattern** is added/changed:
 
 When **nav sections** change: update `app-sidebar.tsx` and add the matching route in `main.tsx`. Every rail item is its own page (decision 0011); reuse the old anchor id as the route slug so `routeForAnchor()` keeps legacy `#hash` links working; never reintroduce a single-scroll page or a scrollspy.
 
-## Documentation (part of every change — see `docs/README.md`)
+## Documentation (part of every change — see `docs/GUIDE.md`)
 The `docs/` directory is the project's memory. In the **same turn** as any meaningful change:
 - **Append** a what/why/touched entry to `docs/worklog/YYYY-MM.md` (append-only; never rewrite old entries).
 - **Update** `docs/STATE.md` so it matches reality (current state, in-flight items, open questions).

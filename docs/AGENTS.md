@@ -1,4 +1,4 @@
-The project's memory. Update in the SAME turn as any meaningful change (see README.md)
+The project's memory. Update in the SAME turn as any meaningful change (see GUIDE.md)
 
 worklog/YYYY-MM.md — append-only what/why/touched entries; never rewrite old entries
 STATE.md — current state, in-flight items, open questions; keep it matching reality
