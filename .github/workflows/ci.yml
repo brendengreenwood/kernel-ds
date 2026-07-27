@@ -54,18 +54,32 @@ jobs:
   studio:
     name: studio (typecheck + tests)
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: kernel-studio-server
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: kernel-studio-server/package-lock.json
-      - run: npm ci
+          cache-dependency-path: |
+            kernel-portal/package-lock.json
+            kernel-studio-server/package-lock.json
+
+      # The studio agent reads the generated ds-bundle at runtime, and the
+      # ds-bundle tool tests read it too. It's gitignored, so build it from the
+      # portal (which owns the build script + its vite dependency) before tests.
+      - name: Install portal deps (for bundle build)
+        working-directory: kernel-portal
+        run: npm ci
+      - name: Build ds-bundle
+        working-directory: kernel-portal
+        run: node scripts/build-ds-bundle.mjs
+
+      - name: Install studio deps
+        working-directory: kernel-studio-server
+        run: npm ci
       - name: Typecheck
+        working-directory: kernel-studio-server
         run: npm run check
       - name: Tests
+        working-directory: kernel-studio-server
         run: npm test
