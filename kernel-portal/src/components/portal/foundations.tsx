@@ -497,7 +497,7 @@ export function SpacingSection() {
   const radii = [
     ["sm", "rounded-sm", "r − 4px"],
     ["md", "rounded-md", "r − 2px"],
-    ["lg", "rounded-lg", "0.5rem"],
+    ["lg", "rounded-lg", "0.25rem"],
     ["xl", "rounded-xl", "r + 4px"],
     ["full", "rounded-full", "999px"],
   ] as const
@@ -511,7 +511,7 @@ export function SpacingSection() {
       id="spacing"
       eyebrow="Foundations"
       title="Spacing & radius"
-      lead="Spacing derives from a --spacing base of 0.24rem; corner radius flows from a single --radius of 0.5rem. Control heights come from their own density tokens (decision 0010)."
+      lead="Spacing derives from a --spacing base of 0.24rem; corner radius flows from a single --radius of 0.25rem. Control heights come from their own density tokens (decision 0010)."
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="rounded-lg border bg-card p-8">
@@ -530,7 +530,7 @@ export function SpacingSection() {
         <div className="rounded-lg border bg-card p-8">
           <div className="text-sm font-semibold">Radius scale</div>
           <div className="mb-4 font-mono text-xs text-muted-foreground">
-            base --radius = 0.5rem
+            base --radius = 0.25rem
           </div>
           <div className="grid grid-cols-2 gap-4">
             {radii.map(([name, cls, sub]) => (
@@ -598,7 +598,7 @@ export function ShadowsSection() {
       id="shadows"
       eyebrow="Foundations"
       title="Elevation"
-      lead="A restrained, soft shadow ramp. Black at low opacity keeps elevation subtle in light mode and unobtrusive in dark."
+      lead="A near-flat elevation ramp. The smallest steps carry no shadow at all — surfaces are defined by borders, not lift — while the upper steps add only a whisper of black at low opacity for the rare overlay that needs to float."
     >
       <div className="rounded-lg border bg-card p-8">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">

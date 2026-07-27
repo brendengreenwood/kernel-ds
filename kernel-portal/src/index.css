@@ -10,7 +10,7 @@
    ============================================================ */
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.25rem;
   /* control metrics (decision 0010): the density knob for interactive controls */
   --control-h-sm: 2rem;      /* 32px — compact toolbars, dense rows */
   --control-h: 2.375rem;     /* 38px — the resting default */
@@ -74,13 +74,13 @@
   --spacing: 0.24rem;
   --tracking-normal: 0em;
 
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+  --shadow-2xs: 0 0 0 0 transparent;
+  --shadow-xs: 0 0 0 0 transparent;
+  --shadow-sm: 0 1px 2px 0px hsl(0 0% 0% / 0.04);
+  --shadow: 0 1px 2px 0px hsl(0 0% 0% / 0.04);
+  --shadow-md: 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+  --shadow-lg: 0 4px 8px -2px hsl(0 0% 0% / 0.08);
+  --shadow-xl: 0 8px 16px -4px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
 }
 
@@ -121,13 +121,13 @@
   --sidebar-ring: oklch(0.8722 0.1272 127.8039);
 
   --shadow-color: oklch(0 0 0);
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+  --shadow-2xs: 0 0 0 0 transparent;
+  --shadow-xs: 0 0 0 0 transparent;
+  --shadow-sm: 0 1px 2px 0px hsl(0 0% 0% / 0.04);
+  --shadow: 0 1px 2px 0px hsl(0 0% 0% / 0.04);
+  --shadow-md: 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+  --shadow-lg: 0 4px 8px -2px hsl(0 0% 0% / 0.08);
+  --shadow-xl: 0 8px 16px -4px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
 }
 

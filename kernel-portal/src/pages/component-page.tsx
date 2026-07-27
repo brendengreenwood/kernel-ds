@@ -4,8 +4,9 @@ import { clusterBySlug } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
 import { ArrowLeft } from "@/components/ui/icon"
 import { getComponentDoc } from "@/lib/component-docs"
-import ComponentDocSections from "@/components/portal/component-doc-sections"
+import ComponentDocSections, { renderInlineCode } from "@/components/portal/component-doc-sections"
 import { OnThisPage } from '@/components/portal/on-this-page';
+import { typeStyles } from '@/lib/type-styles';
 
 const RANK: Record<Maturity, number> = { deprecated: 3, experimental: 2, ready: 1 }
 function clusterMaturity(anchor: string): Maturity {
@@ -37,9 +38,9 @@ export default function ComponentPage() {
       id={`c-${cluster.slug}`}
       eyebrow={cluster.group}
       title={cluster.title}
-      lead={undefined}
+      lead={doc?.summary ? renderInlineCode(doc.summary) : undefined}
     >
-      <div className="-mt-4 mb-8 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2">
         <Link to="/components" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="size-4" /> All components
         </Link>
@@ -56,10 +57,10 @@ export default function ComponentPage() {
       </div>
 
       <div className="mb-10 space-y-3">
-        <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground/70">
+        <p className={typeStyles.overline}>
           Preview
         </p>
-        <div className="rounded-xl bg-card p-6 ring-1 ring-foreground/10">
+        <div className="rounded-lg border bg-card p-6">
           <Demo />
         </div>
       </div>

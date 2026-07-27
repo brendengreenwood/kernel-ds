@@ -27,6 +27,14 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Nested AGENTS.md operational map** (decision 0038, 2026-07-27): adopted
+  Mastra’s nested-AGENTS.md pattern. Root `AGENTS.md` + package-local files
+  (`kernel-portal/AGENTS.md`, `kernel-studio-server/AGENTS.md`) + eight deeper
+  files carry the operational map (per-package build/test/typecheck commands,
+  the verification-gate catalogue, cross-package path facts, source-tree
+  architecture). `CLAUDE.md` keeps the design conventions and points at the
+  AGENTS chain. Every command/path verified against the running repo.
+
 - **Static preview retired** (decision 0022, 2026-07-10): the four root
   preview files are deleted; the portal is the single surface. The
   mirror/parity rituals are obsolete; preview-specific state is archived
@@ -211,10 +219,17 @@ own route, not a section of one long scroll.
   `kernel-norman` (Don Norman usability principles), and `kernel-visual`
   (color · contrast · hierarchy · Gestalt). Generic `shadcn` /
   `migrate-radix-to-base` skills also live there.
-- CI quality gates: GitHub Actions (`.github/workflows/ci.yml`) runs
-  `npm ci` + `tsc -b` + build + lint (oxlint, blocking) for `kernel-portal`
-  on every PR and push to `main`. Branch protection requiring the check
-  must be enabled by the repo owner in GitHub settings.
+- CI quality gates (decision 0039, 2026-07-27): GitHub Actions
+  (`.github/workflows/ci.yml`) runs two jobs on every PR and push to `main`.
+  The `portal` job runs build (tsc -b && vite build) + lint (oxlint) + the full
+  canonical gate sequence (parity, coverage, prose-quality, style-fidelity,
+  status-map, composition, and the three `__check__` runtime assertions); the
+  `studio` job runs `tsc --noEmit` + vitest. Node pinned to 24 (the .mts gates
+  need --experimental-strip-types). Every step was verified locally job-for-job
+  before commit. CodeRabbit (`.coderabbit.yaml`) adds the AI review layer, reading
+  the per-directory AGENTS.md conventions. Branch protection requiring the `portal`
+  and `studio` checks, and installing the CodeRabbit GitHub App, are repo-owner
+  actions in GitHub settings.
 
 - **Kernel Studio** (decision 0024, 2026-07-12): generative
   design-prototyping surface. `kernel-studio-server/` (repo-root package)
@@ -267,8 +282,13 @@ own route, not a section of one long scroll.
   prose (`keys: string | { key, description }`; the gate normalizes both
   shapes), Button is the voice exemplar (per-key descriptions, states,
   accessibility, decision cross-refs), and `ComponentDocSections` was
-  redesigned — summary as a lead paragraph, tinted Do/Don't guideline cards,
-    and the live demo moved to the top of the page. **Playbook + nav
+  redesigned — tinted Do/Don't guideline cards, and the live demo moved
+  to the top of the page. **Summary lead fix (2026-07-25):** the component
+  page passed `lead={undefined}`, so every entity's `summary` — the one
+  sentence orienting the reader — never rendered. It now flows through an
+  exported `renderInlineCode` helper into `Section.lead` (backtick terms
+  render as styled inline code), and the breadcrumb row's compensating
+  `-mt-4` was dropped. **Playbook + nav
   (2026-07-25, decision 0036):** the doc-page rules are now written down in
   `docs/component-doc-page-playbook.md` (content structure, canonical block
   order, conformance ladder, prose/voice bar, layout rules, add/change
@@ -278,7 +298,7 @@ own route, not a section of one long scroll.
   and floats in a sticky `2xl:` rail. A grid/flex `min-width:auto` overflow
   bug in the doc sections is fixed with `min-w-0` guards (documented as a
   required rule in the playbook, with a `scrollWidth === clientWidth`
-  regression check).
+  regression check). **Full prose rewrite (2026-07-26, branch `feat/ds-prose-rewrite`):** every one of the 69 entities now carries hand-written prose - no auto-authored placeholders remain. Concrete summaries, reasoned dos/donts, and real use-cases across all families (layout, forms, overlays, navigation, data-display, feedback, marks + patterns), plus per-key variant descriptions on the remaining CVA components (badge, alert, toggle, pin, clusterbadge, legendswatch, plot, commodity-tags). `check-prose-quality.mjs` is on the branch and reports 0 placeholders; an rg scan for all six placeholder patterns returns nothing. **Style fidelity (2026-07-27, decision 0037):** the token baseline is now owned rather than inherited — `--radius` tightened `0.5rem` -> `0.25rem` and the shadow ramp rebuilt as a single-layer low-opacity set (`2xs`/`xs` transparent; `sm`..`xl` a restrained `0.04`-`0.10` ramp; `2xl` the one real lift; surfaces read nearly flat, defined by borders; Foundations "Elevation" section lead updated to match). ~40 hand-rolled uppercase-tracked overline treatments across the doc renderer and portal chrome were routed through `typeStyles.overline` (with `cn(typeStyles.overline, colorOverride)` on the tinted Do/Don't labels), `text-[11px]` -> `text-2xs`, `rounded-xl` -> `rounded-lg`. A new drift guard `scripts/check-style-fidelity.mjs` fails the build on non-`typeStyles.overline` uppercase-tracking and radius hardcodes (allowlisting deliberate one-offs), red/green proven — bringing the standing gate count to 13.
 - **UI pattern library buildout (decision 0008).** Primer-style: each
   pattern is a first-class rail entry with a maturity pill, driven by the
   product's needs (pricing + origination, CRUD core). Landed 2026-07-03:

@@ -1,5 +1,8 @@
 # Kernel design system — project rules
 
+
+> Operational map (build/test/typecheck commands, package layout, architecture) lives in **`AGENTS.md`** — and per-package `kernel-portal/AGENTS.md` / `kernel-studio-server/AGENTS.md`. Read the most specific AGENTS.md for the area you're changing. This file carries the design conventions and shaping decisions.
+
 ## Single surface: the portal
 The design system lives in `kernel-portal/` (React 19 + Vite + shadcn + TypeScript) — it is the only surface (decision 0022; the hand-maintained static preview was retired 2026-07-10). Netlify deploys `kernel-portal/dist`. Whenever we add or change anything, update **all** of the relevant places in the same turn:
 

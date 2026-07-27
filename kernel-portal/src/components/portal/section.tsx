@@ -13,7 +13,7 @@ export function Section({
   id: string
   eyebrow: string
   title: string
-  lead?: string
+  lead?: React.ReactNode
   children: React.ReactNode
 }) {
   return (

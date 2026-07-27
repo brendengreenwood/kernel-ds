@@ -2,6 +2,8 @@ import type { ReactNode } from "react"
 import { TrendingUp, Upload } from "@/components/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
+import { typeStyles } from "@/lib/type-styles"
+import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -69,7 +71,7 @@ function BidWorksheet() {
       <div className="grid gap-x-8 gap-y-4 px-5 py-4 sm:grid-cols-2">
         {/* buy side — the number you post */}
         <div>
-          <div className="mb-1 text-xs font-medium tracking-[0.04em] text-muted-foreground uppercase">
+          <div className={cn("mb-1", typeStyles.overline)}>
             Buy side
           </div>
           <StackRow label="Board futures (ZCZ6)" value="$4.38" tone="muted" />
@@ -87,7 +89,7 @@ function BidWorksheet() {
         </div>
         {/* sell side — where the margin comes from */}
         <div>
-          <div className="mb-1 text-xs font-medium tracking-[0.04em] text-muted-foreground uppercase">
+          <div className={cn("mb-1", typeStyles.overline)}>
             Sell side
           </div>
           <div className="flex items-center justify-between gap-4 py-1.5">

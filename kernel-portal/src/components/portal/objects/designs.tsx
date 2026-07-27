@@ -121,7 +121,7 @@ function ObjectDesignSuite({
   return (
     <section
       aria-labelledby={`designs-${model.key}`}
-      className="rounded-xl border border-border/60 bg-card p-6"
+      className="rounded-lg border border-border/60 bg-card p-6"
     >
       <header className="mb-5 flex items-baseline justify-between gap-3">
         <div>

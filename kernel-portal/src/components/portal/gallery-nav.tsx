@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
+import { typeStyles } from "@/lib/type-styles"
 import { Button } from "@/components/ui/button"
 import {
   Tabs,
@@ -200,7 +201,7 @@ function Labeled({
 }) {
   return (
     <Demo className="block">
-      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+      <p className={cn("mb-4", typeStyles.overline)}>
         {label}
       </p>
       {children}

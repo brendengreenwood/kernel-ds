@@ -6,6 +6,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { Plus, X, ChevronDown } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
+import { typeStyles } from "@/lib/type-styles"
 import { Section, Subhead } from "./section"
 import { Button } from "@/components/ui/button"
 import { AnimatedNumber } from "@/components/ui/animated-number"
@@ -157,15 +158,15 @@ export function MotionSection() {
       </p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <div className="rounded-lg border bg-card p-6">
-          <div className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Animated number</div>
+          <div className={cn("mb-4 font-mono", typeStyles.overline)}>Animated number</div>
           <NumbersDemo />
         </div>
         <div className="rounded-lg border bg-card p-6">
-          <div className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">List transition</div>
+          <div className={cn("mb-4 font-mono", typeStyles.overline)}>List transition</div>
           <ListDemo />
         </div>
         <div className="rounded-lg border bg-card p-6">
-          <div className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Enter / exit</div>
+          <div className={cn("mb-4 font-mono", typeStyles.overline)}>Enter / exit</div>
           <PresenceDemo />
         </div>
       </div>

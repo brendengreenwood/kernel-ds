@@ -5,6 +5,7 @@ import { Section, Subhead, Demo } from "../section"
 import { StatusBadge } from "@/components/ui/status-badge"
 import { contractModel, contractRows } from "@/lib/objects"
 import { contractStatus, statusLabelFromModel } from "@/lib/objects/status-map"
+import { typeStyles } from "@/lib/type-styles"
 
 /**
  * Shell — the outermost container in the object-centric IA (decision 0026).
@@ -79,7 +80,7 @@ function MockShell({ children }: { children: React.ReactNode }) {
 function BodySlotCollectionPreview() {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <p className={typeStyles.overline}>
         {contractModel.plural}
       </p>
       <table className="mt-2 w-full text-[12px]">

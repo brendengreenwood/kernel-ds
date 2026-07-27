@@ -4,6 +4,7 @@ import * as React from "react"
 import { Check, User, Home, Bell, Users, CreditCard } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
+import { typeStyles } from "@/lib/type-styles"
 import { Section, Subhead } from "./section"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -165,7 +166,7 @@ function SettingsPage() {
           <div className="mt-0.5 text-[13px] text-muted-foreground">Choose what Kernel tells you about, and how.</div>
 
           <div className="mt-[18px]">
-            <div className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">Loads &amp; deliveries</div>
+            <div className={cn("mb-0.5", typeStyles.overline)}>Loads &amp; deliveries</div>
             <SettingRow title="Load status changes" desc="When a load moves to in transit, on hold, or rejected.">
               <Switch defaultChecked />
             </SettingRow>
@@ -175,7 +176,7 @@ function SettingsPage() {
           </div>
 
           <div className="mt-[26px]">
-            <div className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">Markets</div>
+            <div className={cn("mb-0.5", typeStyles.overline)}>Markets</div>
             <SettingRow title="Basis alerts" desc="Notify me when basis at my locations crosses a threshold.">
               <Select defaultValue="daily" items={{ daily: "Daily digest", rt: "Real-time", off: "Off" }}>
                 <SelectTrigger className="w-auto min-w-[150px]"><SelectValue /></SelectTrigger>

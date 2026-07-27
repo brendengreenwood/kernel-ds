@@ -1,59 +1,59 @@
 import { parseComponentDoc, type ComponentDoc } from "./schema.ts"
 
-/** Commodity tags — auto-authored element doc entity; parity-verified against source. */
+/** Commodity Tags — element doc entity; parity-verified against source. */
 export const commodityTagsDoc: ComponentDoc = parseComponentDoc({
-  "id": "commodity-tags",
-  "name": "Commodity tags",
-  "slug": "commodity-tags",
-  "summary": "Commodity tags — element entity.",
-  "status": "ready",
-  "sourceFiles": [
-    "commodity-badge.tsx"
-  ],
-  "metadata": {
-    "owner": "ds",
-    "kind": "element"
-  },
-  "docs": [
+  id: "commodity-tags",
+  name: "Commodity Tags",
+  slug: "commodity-tags",
+  summary:
+    "A labeled chip that identifies a commodity by name and its dedicated hue from the 16-commodity palette, so corn always reads corn and canola always reads canola across every view. It's the domain-specific way to show a commodity — a plain Badge wouldn't keep the color meaning consistent.",
+  status: "ready",
+  sourceFiles: ["commodity-badge.tsx"],
+  metadata: { owner: "ds", kind: "element" },
+  docs: [
     {
-      "kind": "guidelines",
-      "dos": [
-        "Use Commodity tags where its role in the pattern is clear.",
-        "Follow the established element conventions when composing Commodity tags."
+      kind: "guidelines",
+      dos: [
+        "Use a Commodity Tag whenever a record's commodity is shown, so the hue is consistent everywhere it appears.",
+        "Let the `commodity` prop drive the color from the palette rather than hardcoding a fill.",
+        "Keep the commodity name visible alongside the hue — the color reinforces, the label identifies.",
       ],
-      "donts": [
-        "Don't repurpose Commodity tags for a role another component serves better."
-      ]
+      donts: [
+        "Don't assign commodity colors by hand; use the palette so corn is the same corn on every screen.",
+        "Don't rely on hue alone — the label must carry the commodity for color-blind users.",
+        "Don't use a Commodity Tag for non-commodity categories — that's a plain Badge.",
+      ],
     },
     {
-      "kind": "variants",
-      "groups": [
+      kind: "variants",
+      groups: [
         {
-          "axis": "commodity",
-          "keys": [
-            "corn",
-            "canola",
-            "soybeans",
-            "wheat"
-          ]
-        }
-      ]
-    },
-    {
-      "kind": "anatomy",
-      "slots": [
-        "commodity-badge",
-        "commodity-label"
-      ]
-    },
-    {
-      "kind": "useCases",
-      "use": [
-        "Use Commodity tags for its intended element role."
+          axis: "commodity",
+          keys: [
+            { key: "corn", description: "The corn hue from the commodity palette." },
+            { key: "canola", description: "The canola hue from the commodity palette." },
+            { key: "soybeans", description: "The soybeans hue from the commodity palette." },
+            { key: "wheat", description: "The wheat hue from the commodity palette." },
+          ],
+        },
       ],
-      "dontUse": [
-        "Don't use Commodity tags outside its documented purpose."
-      ]
-    }
-  ]
+    },
+    {
+      kind: "anatomy",
+      slots: ["commodity-badge", "commodity-label"],
+    },
+    {
+      kind: "useCases",
+      use: [
+        "Tagging a contract, shipment, or position with its commodity.",
+        "Color-coding rows in a table by commodity.",
+        "A legend mapping commodity hues to names.",
+      ],
+      dontUse: [
+        "Non-commodity categories — use a Badge.",
+        "Lifecycle status — use a StatusBadge.",
+        "A spatial marker — use a Pin.",
+      ],
+    },
+  ],
 })
