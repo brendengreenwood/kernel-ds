@@ -16,7 +16,7 @@ Run the narrowest relevant local checks before committing or opening a PR
 ds-bundle/ (repo root) is a generated artifact built by kernel-portal/scripts/build-ds-bundle.mjs — never edit by hand; rebuild it instead. The studio agents read it
 node --experimental-strip-types runs the .mts/.ts gate scripts directly (Node 24)
 
-Docs are part of every change (see docs/README.md and docs/AGENTS.md)
+Docs are part of every change (see docs/GUIDE.md and docs/AGENTS.md)
 Same turn as a meaningful change: append docs/worklog/YYYY-MM.md, update docs/STATE.md, add docs/decisions/ record if a convention/dependency/architecture shifted, archive stale STATE sections to docs/archive/
 Rituals are encoded as skills in .agents/skills/ (kernel-token, kernel-feature, kernel-verify, kernel-ship) — reach for them instead of re-deriving
 

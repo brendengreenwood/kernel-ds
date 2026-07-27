@@ -35,6 +35,12 @@ own route, not a section of one long scroll.
   architecture). `CLAUDE.md` keeps the design conventions and points at the
   AGENTS chain. Every command/path verified against the running repo.
 
+- **Root README + docs guide split** (2026-07-27): added a repo-root
+  `README.md` (what Kernel is, the two-package monorepo, quick start, links).
+  Renamed `docs/README.md` -> `docs/GUIDE.md` so the docs-system guide is not
+  mistaken for the repo README; live pointers updated across `AGENTS.md`,
+  `CLAUDE.md`, `docs/AGENTS.md`, and the playbook.
+
 - **Static preview retired** (decision 0022, 2026-07-10): the four root
   preview files are deleted; the portal is the single surface. The
   mirror/parity rituals are obsolete; preview-specific state is archived
