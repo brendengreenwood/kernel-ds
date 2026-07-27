@@ -26,6 +26,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { CodeBlock } from "@/components/ui/code-block"
+import { typeStyles } from "@/lib/type-styles"
+import { cn } from "@/lib/utils"
 
 /**
  * Render prose that may contain backtick-delimited terms (`outline`,
@@ -103,7 +105,7 @@ function SectionShell({
       className="min-w-0 scroll-mt-24 gap-4 [--card-spacing:--spacing(5)]"
     >
       <CardHeader className="gap-0.5">
-        <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground/70">
+        <p className={typeStyles.overline}>
           {SECTION_EYEBROW[kind]}
         </p>
         <CardTitle className="text-base font-semibold tracking-tight">
@@ -126,7 +128,7 @@ function GuidelinesSection({
     <SectionShell kind="guidelines" title="Guidelines">
       <div className="grid min-w-0 gap-3 sm:grid-cols-2">
         <div className="min-w-0 rounded-lg border border-success-500/30 bg-success-500/5 p-4">
-          <p className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-success-700 dark:text-success-300">
+          <p className={cn("mb-3 flex items-center gap-1.5", typeStyles.overline, "text-success-700 dark:text-success-300")}>
             <CheckCircle2 className="size-3.5" aria-hidden />
             Do
           </p>
@@ -143,7 +145,7 @@ function GuidelinesSection({
           </ul>
         </div>
         <div className="min-w-0 rounded-lg border border-error-500/30 bg-error-500/5 p-4">
-          <p className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-error-700 dark:text-error-300">
+          <p className={cn("mb-3 flex items-center gap-1.5", typeStyles.overline, "text-error-700 dark:text-error-300")}>
             <XCircle className="size-3.5" aria-hidden />
             Don&apos;t
           </p>
@@ -175,7 +177,7 @@ function UseCasesSection({
     <SectionShell kind="useCases" title="When to use">
       <div className="grid min-w-0 gap-3 sm:grid-cols-2">
         <div className="min-w-0 rounded-lg border bg-card p-4">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-success-700 dark:text-success-300">
+          <p className={cn("mb-3", typeStyles.overline, "text-success-700 dark:text-success-300")}>
             Use for
           </p>
           <ul className="space-y-2.5 text-sm leading-relaxed text-foreground/80">
@@ -191,7 +193,7 @@ function UseCasesSection({
           </ul>
         </div>
         <div className="min-w-0 rounded-lg border bg-card p-4">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-error-700 dark:text-error-300">
+          <p className={cn("mb-3", typeStyles.overline, "text-error-700 dark:text-error-300")}>
             Don&apos;t use for
           </p>
           <ul className="space-y-2.5 text-sm leading-relaxed text-foreground/80">
@@ -225,7 +227,7 @@ function VariantsSection({
       <div className="space-y-5">
         {groups.map((g) => (
           <div key={g.axis} className="space-y-2">
-            <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/70">
+            <p className={cn(typeStyles.overline, "font-mono")}>
               {g.axis}
             </p>
             <div className="overflow-hidden rounded-lg border divide-y divide-border/60">
@@ -380,7 +382,7 @@ function AccessibilitySection({
       <div className="space-y-3 text-sm text-muted-foreground">
         {role ? (
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <span className={typeStyles.overline}>
               Role
             </span>
             <Badge variant="secondary" className="font-mono">
@@ -390,7 +392,7 @@ function AccessibilitySection({
         ) : null}
         {ariaAttributes && ariaAttributes.length > 0 ? (
           <div className="space-y-2">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <p className={typeStyles.overline}>
               ARIA attributes
             </p>
             <div className="flex flex-wrap gap-1.5">
