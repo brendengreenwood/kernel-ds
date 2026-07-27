@@ -1,0 +1,54 @@
+# CodeRabbit configuration — https://docs.coderabbit.ai/getting-started/configure-coderabbit
+# AI review layer. Deterministic checks (build, lint, gates, tests) run in CI (.github/workflows/ci.yml);
+# CodeRabbit focuses on judgment: correctness, conventions, and design coherence.
+language: en-US
+
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  # Conventions live in these files — read them to understand the system before reviewing.
+  path_instructions:
+    - path: "kernel-portal/src/components/ui/**"
+      instructions: >-
+        shadcn-derived primitives. Follow src/components/ui/AGENTS.md. Prefer CVA + data-slot
+        conventions; variants must map to design tokens, not hardcoded colors. Radius uses
+        rounded-lg (maps to --radius), never rounded-xl or arbitrary rounded-[..]. Overlines
+        route through typeStyles.overline.
+    - path: "kernel-portal/src/lib/component-docs/**"
+      instructions: >-
+        Doc-entity system (see lib/AGENTS.md). Entities must keep source parity — variants,
+        slots, and props must match the component source (enforced by check-component-docs.mjs).
+        Prose must be concrete, not placeholder/mad-lib (enforced by check-prose-quality.mjs).
+    - path: "kernel-portal/src/lib/objects/**"
+      instructions: >-
+        Object-model runtime (Shell/Workspace/Collection/Record). Schema is Zod-first; changes
+        must keep __check__.mts assertions valid.
+    - path: "kernel-portal/src/**/*.tsx"
+      instructions: >-
+        Portal UI. Overlines use typeStyles.overline; radius uses rounded-lg. Flag hardcoded
+        colors that should be semantic tokens, and any uppercase tracking-* treatments that
+        bypass typeStyles.overline.
+    - path: "kernel-studio-server/src/mastra/**"
+      instructions: >-
+        Mastra agent + tools. Tools read the generated ds-bundle at runtime — never hand-edit
+        ds-bundle. Keep vitest suite (src/__tests__) green.
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+
+# ds-bundle is a generated artifact; docs are prose. Skip AI review noise there.
+path_filters:
+  - "!ds-bundle/**"
+  - "!**/*.md"
+  - "!kernel-portal/dist/**"
+
+chat:
+  auto_reply: true

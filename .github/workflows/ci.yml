@@ -7,6 +7,7 @@ on:
 
 jobs:
   portal:
+    name: portal (build + gates)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,10 +16,56 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: kernel-portal/package-lock.json
       - run: npm ci
-      - run: npx tsc -b
-      - run: npm run build
-      - run: npm run lint
+
+      # Typecheck + build (tsc -b && vite build)
+      - name: Build
+        run: npm run build
+
+      # Lint — 0 errors required (oxlint)
+      - name: Lint
+        run: npm run lint
+
+      # Verification gates (canonical order — see kernel-portal/AGENTS.md)
+      - name: Doc-entity source parity
+        run: node scripts/check-component-docs.mjs
+      - name: Doc coverage
+        run: node scripts/check-component-docs.mjs --coverage
+      - name: Prose quality
+        run: node scripts/check-prose-quality.mjs
+      - name: Style fidelity
+        run: node scripts/check-style-fidelity.mjs
+      - name: Status→tone map integrity
+        run: node scripts/check-status-map.mjs
+      - name: Composition contract
+        run: node scripts/emit-composition.mjs
+
+      # Runtime __check__ assertions (.mts run via --experimental-strip-types, Node 24)
+      - name: Doc schema assertions
+        run: node --experimental-strip-types src/lib/component-docs/__check__.mts
+      - name: Object-model assertions
+        run: node --experimental-strip-types src/lib/objects/__check__.mts
+      - name: Marks assertions
+        run: node src/components/ui/marks/__check__.mjs
+
+  studio:
+    name: studio (typecheck + tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kernel-studio-server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: kernel-studio-server/package-lock.json
+      - run: npm ci
+      - name: Typecheck
+        run: npm run check
+      - name: Tests
+        run: npm test
