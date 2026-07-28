@@ -1,8 +1,6 @@
 import * as React from "react"
 import { Link, Outlet, useLocation } from "react-router-dom"
 import {
-  BarChart3,
-  Banknote,
   ChevronsUpDown,
   FileText,
   Handshake,
@@ -11,7 +9,6 @@ import {
   Search,
   Settings,
   Sprout,
-  Truck,
   Users,
 } from "@/components/ui/icon"
 import {
@@ -37,12 +34,8 @@ type Item = { label: string; to: string; icon: React.ComponentType<{ className?:
 
 const primary: Item[] = [
   { label: "Home", to: "/", icon: LayoutDashboard },
-  { label: "Loads", to: "/loads", icon: Truck },
-  { label: "Contracts", to: "/contracts", icon: FileText },
   { label: "Scenarios", to: "/scenarios", icon: ListChecks },
   { label: "Producers", to: "/producers", icon: Users },
-  { label: "Analytics", to: "/analytics", icon: BarChart3 },
-  { label: "Settlement", to: "/settlement", icon: Banknote },
   { label: "Settings", to: "/settings", icon: Settings },
 ]
 
