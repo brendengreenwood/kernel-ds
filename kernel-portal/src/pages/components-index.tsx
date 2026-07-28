@@ -15,6 +15,7 @@ const all = [
   "Popover","Progress","Radio Group","Resizable","Scroll Area","Select","Separator","Sheet",
   "Sidebar","Skeleton","Slider","Sonner","Switch","Table","Tabs","Textarea","Toggle",
   "Toggle Group","Tooltip",
+  "Attachment","Bubble","Marker","Message","Message Scroller","Spinner",
 ]
 
 /** Sharpest maturity among the components that share a cluster anchor. */
@@ -27,7 +28,7 @@ function clusterMaturity(anchor: string): Maturity {
   )
 }
 
-const groupOrder = ["Actions", "Forms & input", "Data display", "Feedback & overlay", "Navigation", "Menus & command", "Disclosure", "Date & media", "Layout"]
+const groupOrder = ["Actions", "Forms & input", "Data display", "Feedback & overlay", "Navigation", "Menus & command", "Disclosure", "Date & media", "Layout", "AI & chat"]
 
 export default function ComponentsIndex() {
   const byGroup = groupOrder
