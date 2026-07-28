@@ -13,43 +13,43 @@
 
 /* ---- premium dark retune (overrides the DS .dark block) ---- */
 .dark {
-  --background: oklch(0.1500 0.0060 165);
-  --foreground: oklch(0.9850 0.0010 165);
-  --card: oklch(0.1770 0.0080 165);
-  --card-foreground: oklch(0.9850 0.0010 165);
-  --popover: oklch(0.1950 0.0090 165);
-  --popover-foreground: oklch(0.9850 0.0010 165);
+  /* Dark surfaces derive from the DS neutral scale (green-tinted by design) —
+     not hand-picked numbers. -900 for the canvas, -800 for elevated surfaces,
+     -950 only for the recessed sidebar; accents stay on the DS green. */
+  --background: var(--neutral-900);
+  --foreground: var(--neutral-50);
+  --card: var(--neutral-800);
+  --card-foreground: var(--neutral-50);
+  --popover: var(--neutral-800);
+  --popover-foreground: var(--neutral-50);
 
-  --primary: oklch(0.8722 0.1272 127.8039);
-  --primary-foreground: oklch(0.2000 0.0300 150);
-  --secondary: oklch(0.2250 0.0100 165);
-  --secondary-foreground: oklch(0.9200 0.0220 145);
-  --muted: oklch(0.2200 0.0100 165);
-  --muted-foreground: oklch(0.6450 0.0120 168);
-  --accent: oklch(0.2600 0.0300 150);
-  --accent-foreground: oklch(0.9300 0.0420 145);
+  --primary: var(--chart-1);
+  --primary-foreground: var(--neutral-950);
+  --secondary: var(--neutral-800);
+  --secondary-foreground: var(--neutral-100);
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
+  --accent: var(--brand-900);
+  --accent-foreground: var(--neutral-50);
 
-  --destructive: oklch(0.6300 0.1900 25);
-  --destructive-foreground: oklch(0.9850 0.0010 165);
+  --destructive: var(--error-500);
+  --destructive-foreground: var(--neutral-50);
 
-  --border: oklch(0.2620 0.0080 165);
-  --input: oklch(0.3050 0.0100 165);
-  --ring: oklch(0.8722 0.1272 127.8039);
+  --border: var(--neutral-700);
+  --input: var(--neutral-700);
+  --ring: var(--chart-1);
 
-  --chart-1: oklch(0.8722 0.1272 127.8039);
-  --chart-2: oklch(0.7200 0.1400 145);
-  --chart-3: oklch(0.5900 0.1300 155);
-  --chart-4: oklch(0.4600 0.1000 160);
-  --chart-5: oklch(0.7700 0.0900 120);
+  /* --chart-1..5 inherit the DS's dark ramp (already green-forward) — the
+     sparklines and --primary/--ring ride var(--chart-1). No override. */
 
-  --sidebar: oklch(0.1300 0.0055 165);
-  --sidebar-foreground: oklch(0.9850 0.0010 165);
-  --sidebar-primary: oklch(0.8722 0.1272 127.8039);
-  --sidebar-primary-foreground: oklch(0.2000 0.0300 150);
-  --sidebar-accent: oklch(0.2200 0.0220 150);
-  --sidebar-accent-foreground: oklch(0.9600 0.0250 145);
-  --sidebar-border: oklch(0.2350 0.0075 165);
-  --sidebar-ring: oklch(0.8722 0.1272 127.8039);
+  --sidebar: var(--neutral-950);
+  --sidebar-foreground: var(--neutral-50);
+  --sidebar-primary: var(--chart-1);
+  --sidebar-primary-foreground: var(--neutral-950);
+  --sidebar-accent: var(--brand-900);
+  --sidebar-accent-foreground: var(--neutral-50);
+  --sidebar-border: var(--neutral-800);
+  --sidebar-ring: var(--chart-1);
 }
 
 :root {
