@@ -21,6 +21,7 @@ import { borderBeamDoc } from "./border-beam.ts"
 import { breadcrumbDoc } from "./breadcrumb.ts"
 import { bubbleDoc } from "./bubble.ts"
 import { buttonDoc } from "./button.ts"
+import { buttonGroupDoc } from "./button-group.ts"
 import { calendarDoc } from "./calendar.ts"
 import { cardDoc } from "./card.ts"
 import { carouselDoc } from "./carousel.ts"
@@ -40,6 +41,8 @@ import { datePickerDoc } from "./date-picker.ts"
 import { dialogDoc } from "./dialog.ts"
 import { drawerDoc } from "./drawer.ts"
 import { dropdownMenuDoc } from "./dropdown-menu.ts"
+import { emptyDoc } from "./empty.ts"
+import { fieldDoc } from "./field.ts"
 import { filteringDoc } from "./filtering.ts"
 import { flowsDoc } from "./flows.ts"
 import { formDoc } from "./form.ts"
@@ -47,6 +50,8 @@ import { formElementsDoc } from "./form-elements.ts"
 import { hoverCardDoc } from "./hover-card.ts"
 import { inputDoc } from "./input.ts"
 import { inputOtpDoc } from "./input-otp.ts"
+import { itemDoc } from "./item.ts"
+import { kbdDoc } from "./kbd.ts"
 import { labelDoc } from "./label.ts"
 import { legendswatchDoc } from "./legendswatch.ts"
 import { markerDoc } from "./marker.ts"
@@ -54,6 +59,7 @@ import { menubarDoc } from "./menubar.ts"
 import { messageDoc } from "./message.ts"
 import { messageScrollerDoc } from "./message-scroller.ts"
 import { modalsDoc } from "./modals.ts"
+import { nativeSelectDoc } from "./native-select.ts"
 import { navigationDoc } from "./navigation.ts"
 import { navigationMenuDoc } from "./navigation-menu.ts"
 import { originationFlowDoc } from "./origination-flow.ts"
@@ -98,6 +104,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [breadcrumbDoc.slug]: breadcrumbDoc,
   [bubbleDoc.slug]: bubbleDoc,
   [buttonDoc.slug]: buttonDoc,
+  [buttonGroupDoc.slug]: buttonGroupDoc,
   [calendarDoc.slug]: calendarDoc,
   [cardDoc.slug]: cardDoc,
   [carouselDoc.slug]: carouselDoc,
@@ -117,6 +124,8 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [dialogDoc.slug]: dialogDoc,
   [drawerDoc.slug]: drawerDoc,
   [dropdownMenuDoc.slug]: dropdownMenuDoc,
+  [emptyDoc.slug]: emptyDoc,
+  [fieldDoc.slug]: fieldDoc,
   [filteringDoc.slug]: filteringDoc,
   [flowsDoc.slug]: flowsDoc,
   [formDoc.slug]: formDoc,
@@ -124,6 +133,8 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [hoverCardDoc.slug]: hoverCardDoc,
   [inputDoc.slug]: inputDoc,
   [inputOtpDoc.slug]: inputOtpDoc,
+  [itemDoc.slug]: itemDoc,
+  [kbdDoc.slug]: kbdDoc,
   [labelDoc.slug]: labelDoc,
   [legendswatchDoc.slug]: legendswatchDoc,
   [markerDoc.slug]: markerDoc,
@@ -131,6 +142,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [messageDoc.slug]: messageDoc,
   [messageScrollerDoc.slug]: messageScrollerDoc,
   [modalsDoc.slug]: modalsDoc,
+  [nativeSelectDoc.slug]: nativeSelectDoc,
   [navigationDoc.slug]: navigationDoc,
   [navigationMenuDoc.slug]: navigationMenuDoc,
   [originationFlowDoc.slug]: originationFlowDoc,

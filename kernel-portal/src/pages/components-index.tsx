@@ -16,6 +16,7 @@ const all = [
   "Sidebar","Skeleton","Slider","Sonner","Switch","Table","Tabs","Textarea","Toggle",
   "Toggle Group","Tooltip",
   "Attachment","Bubble","Marker","Message","Message Scroller","Spinner",
+  "Button Group","Empty","Field","Item","Kbd","Native Select",
 ]
 
 /** Sharpest maturity among the components that share a cluster anchor. */
