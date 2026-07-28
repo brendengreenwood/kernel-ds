@@ -76,7 +76,7 @@ function Nav({ items }: { items: Item[] }) {
 
 function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar variant="inset">
       <SidebarHeader className="gap-2">
         <div className="flex items-center gap-2 px-1 py-1">
           <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
