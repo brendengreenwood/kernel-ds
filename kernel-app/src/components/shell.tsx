@@ -61,9 +61,10 @@ function Nav({ items }: { items: Item[] }) {
         <SidebarMenuItem key={it.to}>
           <SidebarMenuButton
             isActive={isActive(it.to)}
+            className="h-10 gap-3 text-base [&_svg]:size-5"
             render={
               <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
-                <it.icon className="size-[17px]" />
+                <it.icon />
                 <span>{it.label}</span>
               </Link>
             }
