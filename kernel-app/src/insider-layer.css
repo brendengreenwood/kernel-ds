@@ -47,3 +47,25 @@
     color: var(--secondary-foreground);
   }
 }
+
+/* Data tables read roomier than the DS default (px-2/p-2 hugs the edge).
+   Unlayered + !important so these reliably beat the Tailwind padding
+   utilities (which live in the later `utilities` cascade layer). Edge cells
+   get extra inset so text never sits against the container border. */
+[data-slot="table-head"],
+[data-slot="table-cell"] {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+[data-slot="table-cell"] {
+  padding-top: 0.6875rem !important;
+  padding-bottom: 0.6875rem !important;
+}
+[data-slot="table-head"]:first-child,
+[data-slot="table-cell"]:first-child {
+  padding-left: 1.5rem !important;
+}
+[data-slot="table-head"]:last-child,
+[data-slot="table-cell"]:last-child {
+  padding-right: 1.5rem !important;
+}
