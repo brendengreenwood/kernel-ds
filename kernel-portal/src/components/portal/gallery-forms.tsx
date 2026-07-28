@@ -54,6 +54,21 @@ import {
   NativeSelectOptGroup,
   NativeSelectOption,
 } from "@/components/ui/native-select"
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxValue,
+} from "@/components/ui/combobox"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 
@@ -361,12 +376,81 @@ function ButtonGroupCluster() {
   )
 }
 
+const counterparties = [
+  "Harlan Grain Co.",
+  "Prairie Ridge Cooperative",
+  "Vance Farms",
+  "Halloway Acres",
+  "Cedar Bluff Elevator",
+  "Northline Terminal",
+  "Redwater Milling",
+]
+
+const commodities = ["Corn", "Soybeans", "Wheat", "Sorghum", "Canola", "Barley"]
+
+function ComboboxCluster() {
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Demo className="items-start">
+          <Combobox items={counterparties}>
+            <ComboboxInput placeholder="Search counterparties" className="w-64" showClear />
+            <ComboboxContent>
+              <ComboboxEmpty>No counterparty matches that name.</ComboboxEmpty>
+              <ComboboxList>
+                <ComboboxCollection>
+                  {(item: string) => (
+                    <ComboboxItem key={item} value={item}>
+                      {item}
+                    </ComboboxItem>
+                  )}
+                </ComboboxCollection>
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        </Demo>
+
+        <Demo className="items-start">
+          <Combobox items={commodities} multiple defaultValue={["Corn", "Soybeans"]}>
+            <ComboboxChips className="w-64">
+              <ComboboxValue>
+                {(selected: string[]) =>
+                  selected.map((item) => (
+                    <ComboboxChip key={item}>{item}</ComboboxChip>
+                  ))
+                }
+              </ComboboxValue>
+              <ComboboxChipsInput placeholder="Add commodity" />
+            </ComboboxChips>
+            <ComboboxContent>
+              <ComboboxEmpty>Nothing left to add.</ComboboxEmpty>
+              <ComboboxList>
+                <ComboboxGroup>
+                  <ComboboxLabel>Commodities</ComboboxLabel>
+                  <ComboboxCollection>
+                    {(item: string) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxCollection>
+                </ComboboxGroup>
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        </Demo>
+      </div>
+    </>
+  )
+}
+
 export const formsClusters: GalleryCluster[] = [
   { anchor: "c-button", slug: "button", title: "Button", group: "Actions", demo: ButtonCluster },
   { anchor: "c-button-group", slug: "button-group", title: "Button group", group: "Actions", demo: ButtonGroupCluster },
   { anchor: "c-toggle", slug: "toggle", title: "Toggle · Toggle group", group: "Actions", demo: ToggleCluster },
   { anchor: "c-input", slug: "input", title: "Input · Select · Textarea", group: "Forms & input", demo: InputCluster },
   { anchor: "c-field", slug: "field", title: "Field", group: "Forms & input", demo: FieldCluster },
+  { anchor: "c-combobox", slug: "combobox", title: "Combobox", group: "Forms & input", demo: ComboboxCluster },
   { anchor: "c-native-select", slug: "native-select", title: "Native select", group: "Forms & input", demo: NativeSelectCluster },
   { anchor: "c-radio-group", slug: "radio-group", title: "Radio group", group: "Forms & input", demo: RadioGroupCluster },
   { anchor: "c-slider", slug: "slider", title: "Slider · Input OTP", group: "Forms & input", demo: SliderCluster },

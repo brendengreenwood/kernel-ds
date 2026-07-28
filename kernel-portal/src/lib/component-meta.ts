@@ -42,7 +42,7 @@ export const componentMeta: ComponentMeta[] = [
   { name: "Chart", anchor: "charts", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Checkbox", anchor: "fe-selection", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Collapsible", anchor: "c-accordion", group: "component", maturity: "ready", a11y: "reviewed" },
-  { name: "Combobox", anchor: "c-command", group: "component", maturity: "ready", a11y: "reviewed", note: "Composition: popover + command." },
+  { name: "Combobox", anchor: "c-combobox", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Command", anchor: "c-command", group: "component", maturity: "ready", a11y: "reviewed" },
   { name: "Context Menu", anchor: "c-dropdown-menu", group: "component", maturity: "ready", a11y: "reviewed", note: MENU_DELTA },
   { name: "Data Table", anchor: "c-table", group: "component", maturity: "ready", a11y: "reviewed", note: "Composition: table + @tanstack/react-table." },
