@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import { ModeToggle } from "@/components/mode-toggle"
 
 type Item = { label: string; to: string; icon: React.ComponentType<{ className?: string }> }
@@ -127,12 +128,14 @@ function ScrollTop() {
 
 export function Shell() {
   return (
-    <SidebarProvider>
-      <ScrollTop />
-      <AppSidebar />
-      <SidebarInset className="bg-background">
-        <Outlet />
-      </SidebarInset>
-    </SidebarProvider>
+    <TooltipProvider>
+      <SidebarProvider>
+        <ScrollTop />
+        <AppSidebar />
+        <SidebarInset className="bg-background">
+          <Outlet />
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   )
 }
