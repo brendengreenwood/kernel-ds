@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Shell } from "@app/components/shell"
 import OverviewPage from "@app/pages/overview"
+import ScenariosPage from "@app/pages/scenarios"
 import "./index.css"
 
 // Dark is the app's default identity; light is available via the toggle.
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<Shell />}>
             <Route index element={<OverviewPage />} />
+            <Route path="scenarios" element={<ScenariosPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
