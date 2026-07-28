@@ -121,7 +121,7 @@ export default function ScenariosPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center justify-end gap-1">
-                      <Button variant="ghost" size="icon-sm" aria-label={`Edit ${s.id}`}>
+                      <Button variant="default" size="icon-sm" aria-label={`Edit ${s.id}`}>
                         <Pencil />
                       </Button>
                       <Button
