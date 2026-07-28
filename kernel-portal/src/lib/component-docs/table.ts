@@ -25,6 +25,13 @@ export const tableDoc: ComponentDoc = parseComponentDoc({
       ],
     },
     {
+      kind: "api",
+      props: [
+        { name: "striped", type: "boolean", description: "Zebra-stripe alternating body rows (subtle foreground overlay) for easier row tracking in dense tables." },
+        { name: "className", type: "string", description: "Merged onto the root `table` slot." },
+      ],
+    },
+    {
       kind: "anatomy",
       slots: [
         "table-container",

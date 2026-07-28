@@ -88,7 +88,7 @@ export default function ScenariosPage() {
       {/* object table */}
       <div className="px-6 py-6 md:px-8">
         <div className="overflow-x-auto rounded-lg border border-border bg-card">
-          <Table>
+          <Table striped>
             <TableHeader>
               <TableRow>
                 <TableHead>Futures month</TableHead>
