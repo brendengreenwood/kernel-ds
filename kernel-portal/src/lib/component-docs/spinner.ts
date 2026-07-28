@@ -49,9 +49,7 @@ export const spinnerDoc: ComponentDoc = parseComponentDoc({
     {
       kind: "accessibility",
       role: "status",
-      ariaAttributes: [
-        "aria-label — set by default to \"Loading\"; override it to name the specific work in flight.",
-      ],
+      ariaAttributes: ["aria-label"],
     },
     {
       kind: "useCases",
