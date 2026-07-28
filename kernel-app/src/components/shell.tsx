@@ -15,7 +15,6 @@ import {
   Truck,
   Users,
 } from "@/components/ui/icon"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 
 type Item = { label: string; to: string; icon: React.ComponentType<{ className?: string }> }
@@ -98,9 +97,9 @@ function Sidebar() {
       </div>
       <div className="border-t border-sidebar-border p-2.5">
         <button className="flex w-full items-center gap-2.5 rounded-lg px-1.5 py-1.5 hover:bg-sidebar-accent/60">
-          <Avatar className="size-7 rounded-md">
-            <AvatarFallback className="rounded-md bg-secondary text-[11px] font-medium">RG</AvatarFallback>
-          </Avatar>
+          <span className="grid size-7 shrink-0 place-items-center rounded-md bg-secondary text-[11px] font-medium text-secondary-foreground">
+            RG
+          </span>
           <div className="min-w-0 text-left leading-tight">
             <div className="truncate text-[13px] font-medium">Rivergrain Co.</div>
           </div>

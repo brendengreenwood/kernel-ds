@@ -1,15 +1,13 @@
-/* Kernel Insider — consumes the full design-system token sheet, then overrides
-   the dark theme toward a premium near-black analytics look (the reference).
-   Everything here is a TOKEN override in the app's own layer — the portal's
-   index.css is untouched. We keep Kernel green as primary/accent/chart; only
-   the dark neutral surfaces, borders, and radius move. */
-@import "../../kernel-portal/src/index.css";
+/* Kernel Insider — self-contained. Vendors the full Kernel token sheet
+   (ds-tokens.css, copied verbatim from the design system), then overrides the
+   dark theme toward a premium near-black analytics look. Everything stays on
+   Kernel green; only the dark neutral surfaces, borders, and radius move. */
+@import "./ds-tokens.css";
 
-/* Tailwind v4 auto-scans this app; register the DS source tree too so the
-   utilities its components use are generated. */
-@source "../../kernel-portal/src";
+/* Tailwind v4: scan this app's own source for utility classes. */
+@source ".";
 
-/* ---- premium dark retune (overrides the DS .dark block) ---- */
+/* ---- premium dark retune (overrides the vendored .dark block) ---- */
 .dark {
   /* near-black surfaces on a faint green undertone (hue ~165) */
   --background: oklch(0.1500 0.0060 165);
@@ -55,7 +53,7 @@
   --sidebar-ring: oklch(0.8722 0.1272 127.8039);
 }
 
-/* softer, more generous radius than the portal's tight 4px — the reference
+/* softer, more generous radius than the DS's tight default — the reference
    cards are noticeably rounded */
 :root {
   --radius: 0.875rem;
