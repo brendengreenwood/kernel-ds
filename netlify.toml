@@ -9,7 +9,9 @@
 # every other preview keep building kernel-portal unchanged.
 [context."claude/kernel-insider-portal-fvqfq2"]
   base = "kernel-app"
-  command = "npm run build"
+  # kernel-app consumes the DS at source, so the sibling package's deps must
+  # be installed too (its components resolve @base-ui/react etc. from there).
+  command = "npm install --prefix ../kernel-portal --no-audit --no-fund && npm run build"
   publish = "dist"
 
 [[redirects]]

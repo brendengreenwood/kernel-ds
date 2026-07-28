@@ -1,0 +1,49 @@
+/* ============================================================
+   Insider modification layer
+   Pushes the LIVE Kernel DS components toward the premium dark-analytics
+   look — keyed off shadcn `data-slot` hooks plus two opt-in markers
+   (`data-insider-kpi`, `data-insider-segmented`). No component is forked;
+   delete this file and the app renders stock Kernel components.
+   ============================================================ */
+@layer components {
+  /* Cards read roomier than the DS default (--card-spacing 4u → 24px). */
+  [data-slot="card"] {
+    --card-spacing: 1.5rem;
+  }
+
+  /* KPI cards get a quiet green hover accent so the grid feels alive —
+     via outline so the DS hairline ring underneath is preserved. */
+  [data-insider-kpi] {
+    transition: outline-color var(--duration-base) var(--ease-out);
+    outline: 1px solid transparent;
+    outline-offset: -1px;
+  }
+  [data-insider-kpi]:hover {
+    outline-color: color-mix(in oklch, var(--primary) 32%, transparent);
+  }
+
+  /* Segmented range control: turn the outline ToggleGroup into a filled
+     pill with a highlighted active segment (the reference control). */
+  [data-insider-segmented] {
+    gap: 0.125rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 0.1875rem;
+  }
+  [data-insider-segmented] [data-slot="toggle-group-item"] {
+    border: 0 !important;
+    border-radius: calc(var(--radius) - 0.375rem);
+    background: transparent;
+    color: var(--muted-foreground);
+  }
+  [data-insider-segmented] [data-slot="toggle-group-item"]:hover {
+    background: transparent;
+    color: var(--foreground);
+  }
+  [data-insider-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
+  [data-insider-segmented] [data-slot="toggle-group-item"][data-state="on"] {
+    background: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+}
