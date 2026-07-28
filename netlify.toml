@@ -3,6 +3,15 @@
   command = "npm run build"
   publish = "dist"
 
+# Kernel Insider lives in kernel-app/. On this branch (and its deploy
+# previews) build the app instead of the design-system portal — so the
+# preview shows the app, not the portal. Scoped to the branch, so main and
+# every other preview keep building kernel-portal unchanged.
+[context."claude/kernel-insider-portal-fvqfq2"]
+  base = "kernel-app"
+  command = "npm run build"
+  publish = "dist"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
