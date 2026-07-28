@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
+import { ModeToggle } from "@/components/mode-toggle"
 
 type Item = { label: string; to: string; icon: React.ComponentType<{ className?: string }> }
 
@@ -80,6 +81,9 @@ function AppSidebar() {
             <Sprout className="size-[18px]" />
           </span>
           <span className="text-sm font-semibold tracking-tight">Kernel</span>
+          <div className="ml-auto">
+            <ModeToggle />
+          </div>
         </div>
         <div className="relative px-1">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />

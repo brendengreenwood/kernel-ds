@@ -8,11 +8,13 @@
 # preview shows the app, not the portal. Scoped to the branch, so main and
 # every other preview keep building kernel-portal unchanged.
 [context."claude/kernel-insider-portal-fvqfq2"]
-  base = "kernel-app"
-  # kernel-app consumes the DS at source, so the sibling package's deps must
-  # be installed too (its components resolve @base-ui/react etc. from there).
-  command = "npm install --prefix ../kernel-portal --no-audit --no-fund && npm run build"
-  publish = "dist"
+  # Build from the repo ROOT so both packages are unambiguously present:
+  # kernel-app consumes the DS at source, so its components resolve
+  # @base-ui/react etc. from kernel-portal/node_modules. Install both, build
+  # the app, publish the app's dist.
+  base = "/"
+  command = "npm --prefix kernel-portal install --no-audit --no-fund && npm --prefix kernel-app install --no-audit --no-fund && npm --prefix kernel-app run build"
+  publish = "kernel-app/dist"
 
 [[redirects]]
   from = "/*"
