@@ -47,12 +47,7 @@ export default function ScenariosPage() {
     <div className="flex w-full flex-col">
       {/* page header */}
       <div className="flex flex-wrap items-center gap-3 px-6 pt-6 md:px-8 md:pt-8">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Scenarios</h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Posted and max bids by futures month, shipment, and location.
-          </p>
-        </div>
+        <h1 className="text-2xl font-semibold tracking-tight">Scenarios</h1>
         <Button size="sm" className="ml-auto">
           <Plus /> New scenario
         </Button>
@@ -62,7 +57,8 @@ export default function ScenariosPage() {
       <div className="mt-4 px-6 md:px-8">
         <Tabs value={location} onValueChange={(v) => setLocation(v as string)}>
           <div className="max-w-full overflow-x-auto">
-            <TabsList variant="underline">
+            {/* w-full so the folder tabs' baseline border spans the container */}
+            <TabsList variant="folder" className="w-full">
               <TabsTrigger value="all">All locations</TabsTrigger>
               {locations.map((l) => (
                 <TabsTrigger key={l} value={l}>
