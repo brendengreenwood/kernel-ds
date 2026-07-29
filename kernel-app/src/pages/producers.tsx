@@ -278,12 +278,20 @@ export default function ProducersPage() {
             <TableBody>
               {rows.map((p, i) => (
                 <React.Fragment key={p.id}>
-                  <TableRow className={cn(i % 2 === 1 && "bg-foreground/5")}>
+                  {/* The whole row toggles; the chevron stays a real button so
+                      the control is still keyboard-reachable and labelled. */}
+                  <TableRow
+                    onClick={() => toggle(p.id)}
+                    className={cn("cursor-pointer", i % 2 === 1 && "bg-foreground/5")}
+                  >
                     <TableCell className="pr-0">
                       <Button
                         variant="ghost"
                         size="icon-sm"
-                        onClick={() => toggle(p.id)}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggle(p.id)
+                        }}
                         aria-label={expanded.has(p.id) ? "Collapse" : "Expand"}
                         aria-expanded={expanded.has(p.id)}
                       >

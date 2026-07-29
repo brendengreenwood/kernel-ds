@@ -1,3 +1,4 @@
+import * as React from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -21,11 +22,17 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
+        // An icon carries less visual weight than a text edge, so the side it
+        // sits on gets tighter padding to look optically even. `data-lead-icon`
+        // / `data-trail-icon` are set by the component (CSS can't tell a
+        // leading icon from a trailing one — `:first-child`/`:last-child`
+        // ignore text nodes, so an icon+label button matches both).
+        // `data-icon` on the glyph stays as a manual escape hatch.
         default:
-          "h-(--control-h) gap-1.5 px-3 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5",
-        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-(--control-h-sm) gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-(--control-h-lg) gap-1.5 px-3.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+          "h-(--control-h) gap-1.5 px-3 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 data-lead-icon:pl-2.5 data-trail-icon:pr-2.5",
+        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 data-lead-icon:pl-1.5 data-trail-icon:pr-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-(--control-h-sm) gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 data-lead-icon:pl-1.5 data-trail-icon:pr-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-(--control-h-lg) gap-1.5 px-3.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 data-lead-icon:pl-2 data-trail-icon:pr-2",
         icon: "size-(--control-h)",
         "icon-xs":
           "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
@@ -49,6 +56,17 @@ function Button({
   ...props
 }: ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants> & { borderBeam?: BorderBeamProp }) {
+  // Flag a leading/trailing glyph so the size variants can even out its
+  // optical padding. Only meaningful alongside a label — an icon-only button
+  // is square and has no horizontal padding to correct.
+  const kids =
+    typeof props.children === "function"
+      ? []
+      : React.Children.toArray(props.children)
+  const hasLabel = kids.some((k) => typeof k === "string" || typeof k === "number")
+  const leadIcon = hasLabel && React.isValidElement(kids[0])
+  const trailIcon = hasLabel && React.isValidElement(kids[kids.length - 1])
+
   return (
     <BeamWrap
       beam={borderBeam}
@@ -56,6 +74,8 @@ function Button({
     >
       <ButtonPrimitive
         data-slot="button"
+        data-lead-icon={leadIcon ? "" : undefined}
+        data-trail-icon={trailIcon ? "" : undefined}
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
       />

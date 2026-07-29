@@ -52,6 +52,15 @@
   }
 }
 
+/* --radius (14px) is tuned for the app's roomy cards; at control heights it
+   reads too round, so buttons step down a notch — which also lands them on the
+   same radius as the compact select triggers, so the control row is coherent.
+   Unlayered + !important to beat the `rounded-*` utilities in the size
+   variants; covers every size, icon-only and grouped buttons included. */
+[data-slot="button"] {
+  border-radius: calc(var(--radius) - var(--spacing)) !important;
+}
+
 /* Data tables read roomier than the DS default (px-2/p-2 hugs the edge).
    Unlayered + !important so these beat the Tailwind padding utilities
    (utilities cascade layer). Edge cells get extra inset so text never sits

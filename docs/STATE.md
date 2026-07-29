@@ -369,8 +369,12 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   Three DS containment bugs surfaced and were fixed upstream in the process:
   `Table`'s `striped` selector was descendant-scoped (leaked into nested
   tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
-  the sidebar), and light mode needed the pre-paint theme script. Not merged
-  to main; the DS fixes are the parts worth keeping regardless.
+  the sidebar), and light mode needed the pre-paint theme script. Two more
+  followed: `Button`'s optical icon padding never fired (it keyed off a
+  `data-icon` attribute almost nothing set), and Tabs applied hover styling
+  to the active tab. Not merged to main — **`docs/ds-changes-from-insider.md`
+  is the cherry-pick list** for the DS changes, which are worth rescuing
+  independently of whether Insider itself lands.
 
 - **Definition files + studio define tools** (branch feat/ds-define-tool,
   2026-07-21, decision 0034): agent-authored tools are now **persistent** -
