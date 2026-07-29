@@ -62,7 +62,9 @@ export default function OverviewPage() {
       {/* header */}
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-2xl font-semibold tracking-tight">Overview</h1>
-        <div className="ml-auto flex items-center gap-2">
+        {/* The range control is atomic-width: let the cluster shrink and scroll
+            in place rather than pushing the page wide on phones. */}
+        <div className="ml-auto flex min-w-0 max-w-full items-center gap-2 overflow-x-auto">
           <ToggleGroup defaultValue={["30d"]} variant="outline" size="sm" data-insider-segmented>
             {RANGES.map((r) => (
               <ToggleGroupItem key={r} value={r}>
@@ -70,7 +72,7 @@ export default function OverviewPage() {
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="shrink-0">
             <SlidersHorizontal /> Customize
           </Button>
         </div>

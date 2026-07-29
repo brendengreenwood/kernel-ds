@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronDown, Info, Search } from "@/components/ui/icon"
+import { Ban, Check, ChevronDown, Info, Search } from "@/components/ui/icon"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
@@ -22,7 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { locations, producers, type Dated } from "@app/data/producers"
+import { locations, producers, type Dated, type Offer } from "@app/data/producers"
 
 const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
   { value: "all", label: "All Commodities" },
@@ -50,16 +50,90 @@ function BidsBadge({ n }: { n: number }) {
 }
 
 /** Two-line cell: value + muted secondary. */
-function TwoLine({ top, sub }: { top: string; sub: string }) {
+function TwoLine({ top, sub, strong }: { top: string; sub: string; strong?: boolean }) {
   return (
     <div className="leading-tight">
-      <div className="whitespace-nowrap">{top}</div>
+      <div className={cn("whitespace-nowrap", strong && "font-semibold")}>{top}</div>
       <div className="text-xs text-muted-foreground">{sub}</div>
     </div>
   )
 }
 
 const dateCell = (d: Dated) => <TwoLine top={d.date} sub={d.ago} />
+
+/** Basis values always carry their sign, so a bid reads as an offset. */
+const basis = (n: number) => (n > 0 ? `+${n.toFixed(2)}` : n.toFixed(2))
+
+/** The expanded producer inset: their open bids, and what we can do about them. */
+function OfferInset({ offers }: { offers: Offer[] }) {
+  return (
+    <div className="p-3">
+      <div className="overflow-x-auto rounded-lg border border-border bg-background">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Contract</TableHead>
+              <TableHead className="whitespace-normal leading-tight">Time of Ship.</TableHead>
+              <TableHead>Commodity</TableHead>
+              <TableHead className="whitespace-normal leading-tight">Delivery Location</TableHead>
+              {/* min-widths keep the long labels to two lines instead of stacking word-per-line */}
+              <TableHead className="whitespace-normal text-right leading-tight">Posted Bid</TableHead>
+              <TableHead className="min-w-24 whitespace-normal text-right leading-tight">Producer Max Bid</TableHead>
+              <TableHead className="min-w-24 whitespace-normal text-right leading-tight">Scenario Max Bid</TableHead>
+              <TableHead>Top Comp.</TableHead>
+              <TableHead className="min-w-24 whitespace-normal text-right leading-tight">Top Comp. Bid</TableHead>
+              <TableHead className="min-w-28 whitespace-normal text-right leading-tight">Value over top comp</TableHead>
+              <TableHead>Created</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {offers.map((o) => (
+              <TableRow key={o.id}>
+                <TableCell>
+                  <TwoLine top={o.month} sub={o.symbol} strong />
+                </TableCell>
+                <TableCell>{o.shipment}</TableCell>
+                <TableCell>
+                  <CommodityLabel commodity={o.commodity} />
+                </TableCell>
+                <TableCell>{o.location}</TableCell>
+                <TableCell className="text-right tabular-nums">{basis(o.postedBid)}</TableCell>
+                <TableCell className="text-right tabular-nums">{basis(o.producerMaxBid)}</TableCell>
+                <TableCell className="text-right tabular-nums">{basis(o.scenarioMaxBid)}</TableCell>
+                <TableCell>{o.topComp}</TableCell>
+                <TableCell className="text-right tabular-nums">{basis(o.topCompBid)}</TableCell>
+                {/* What the producer gains by taking our max bid over the best rival. */}
+                <TableCell className="text-right font-medium tabular-nums">
+                  {basis(round2(o.producerMaxBid - o.topCompBid))}
+                </TableCell>
+                <TableCell className="text-muted-foreground">{o.created}</TableCell>
+                <TableCell>
+                  <div className="flex items-center justify-end gap-1.5">
+                    <Button size="sm" aria-label={`Accept ${o.month} bid`}>
+                      <Check /> Accept
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Reject ${o.month} bid`}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <Ban /> Reject
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  )
+}
+
+/** Float math on cent values leaves dust (0.1 + 0.2); snap back to cents. */
+const round2 = (n: number) => Math.round(n * 100) / 100
 
 export default function ProducersPage() {
   const [location, setLocation] = React.useState("all")
@@ -170,7 +244,9 @@ export default function ProducersPage() {
       {/* ranked table */}
       <div className="px-6 py-6 md:px-8">
         <div className="overflow-x-auto rounded-lg border border-border bg-card">
-          <Table striped>
+          {/* Striped by data index rather than the DS `striped` prop: expanded
+              detail rows are extra <tr>s, which would flip nth-child parity. */}
+          <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-8" />
@@ -200,9 +276,9 @@ export default function ProducersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.map((p) => (
+              {rows.map((p, i) => (
                 <React.Fragment key={p.id}>
-                  <TableRow>
+                  <TableRow className={cn(i % 2 === 1 && "bg-foreground/5")}>
                     <TableCell className="pr-0">
                       <Button
                         variant="ghost"
@@ -239,14 +315,8 @@ export default function ProducersPage() {
                   </TableRow>
                   {expanded.has(p.id) && (
                     <TableRow className="hover:bg-transparent">
-                      <TableCell />
-                      <TableCell colSpan={9} className="py-3">
-                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                          <span className="text-muted-foreground">Commodities</span>
-                          {p.commodities.map((c) => (
-                            <CommodityLabel key={c} commodity={c} />
-                          ))}
-                        </div>
+                      <TableCell colSpan={10} data-insider-detail className="bg-foreground/5">
+                        <OfferInset offers={p.offers} />
                       </TableCell>
                     </TableRow>
                   )}

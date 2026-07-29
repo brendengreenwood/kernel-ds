@@ -73,3 +73,25 @@
 [data-slot="table-cell"]:last-child {
   padding-right: calc(var(--spacing) * 6) !important;
 }
+
+/* Expandable-row detail cell: the inset panel carries its own padding, so
+   the roomy cell rules above must not apply to the full-span wrapper. */
+[data-insider-detail] {
+  padding: 0 !important;
+}
+
+/* The detail panel packs twelve columns, so it runs tighter than the roomy
+   top-level tables — still --spacing multiples, just a denser step. */
+[data-insider-detail] [data-slot="table-head"],
+[data-insider-detail] [data-slot="table-cell"] {
+  padding-left: calc(var(--spacing) * 3) !important;
+  padding-right: calc(var(--spacing) * 3) !important;
+}
+[data-insider-detail] [data-slot="table-head"]:first-child,
+[data-insider-detail] [data-slot="table-cell"]:first-child {
+  padding-left: calc(var(--spacing) * 4) !important;
+}
+[data-insider-detail] [data-slot="table-head"]:last-child,
+[data-insider-detail] [data-slot="table-cell"]:last-child {
+  padding-right: calc(var(--spacing) * 4) !important;
+}

@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-27
+> Last touched: 2026-07-29
 
 ## What this project is
 
@@ -347,6 +347,30 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 (visible both modes) instead of the 3px control ring.
 
 ## Experiments
+
+- **Kernel Insider — a second app on the DS** (branch
+  claude/kernel-insider-portal-fvqfq2, 2026-07-29): `kernel-app/` is a
+  separate Vite app that consumes the design system **at source** (`@` alias
+  -> `../kernel-portal/src`, `resolve.dedupe` for react/react-dom/recharts)
+  rather than forking it. It pushes the DS toward a dark premium-analytics
+  look through two layers only: a token override layer
+  (`kernel-app/src/index.css` remaps the semantic role tokens onto DS
+  **scale** tokens — `--background: var(--neutral-900)` etc.; `--chart-*` is
+  left alone so charts keep the Kernel green ramp) and a modification layer
+  (`kernel-app/src/insider-layer.css`, keyed off shadcn `data-slot` hooks;
+  unlayered + `!important` so it beats Tailwind's utilities layer). No
+  component is forked — delete the layer and stock Kernel renders. Pages:
+  Overview (KPI cards + sparklines), Scenarios (folder tabs + striped
+  object table), Producers (ranked prospecting table whose row expander
+  opens a nested open-bids inset with Accept/Reject). Netlify serves this
+  app for the branch via a branch-scoped `[context."…"]` block in
+  `netlify.toml` (root `base`, installs both packages) so the deploy
+  preview shows Insider, not the portal; `main` still builds the portal.
+  Three DS containment bugs surfaced and were fixed upstream in the process:
+  `Table`'s `striped` selector was descendant-scoped (leaked into nested
+  tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
+  the sidebar), and light mode needed the pre-paint theme script. Not merged
+  to main; the DS fixes are the parts worth keeping regardless.
 
 - **Definition files + studio define tools** (branch feat/ds-define-tool,
   2026-07-21, decision 0034): agent-authored tools are now **persistent** -

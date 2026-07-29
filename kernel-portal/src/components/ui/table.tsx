@@ -10,7 +10,8 @@ function Table({
   ...props
 }: React.ComponentProps<"table"> & {
   /** Zebra-stripe alternating body rows for easier row tracking in dense
-      tables. Uses a subtle foreground overlay so it reads on any surface. */
+      tables. Uses a subtle foreground overlay so it reads on any surface.
+      Scoped to this table's own rows, so a nested table stays unstriped. */
   striped?: boolean
 }) {
   return (
@@ -23,7 +24,7 @@ function Table({
         data-striped={striped ? "" : undefined}
         className={cn(
           "w-full caption-bottom text-sm",
-          striped && "[&_tbody_tr:nth-child(even)]:bg-foreground/5",
+          striped && "[&>tbody>tr:nth-child(even)]:bg-foreground/5",
           className
         )}
         {...props}
