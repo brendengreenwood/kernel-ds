@@ -372,9 +372,11 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   the sidebar), and light mode needed the pre-paint theme script. Two more
   followed: `Button`'s optical icon padding never fired (it keyed off a
   `data-icon` attribute almost nothing set), and Tabs applied hover styling
-  to the active tab. Not merged to main — **`docs/ds-changes-from-insider.md`
-  is the cherry-pick list** for the DS changes, which are worth rescuing
-  independently of whether Insider itself lands.
+  to the active tab. Not merged to main — **`docs/insider-drift.md` is the full drift
+  register**: how the app attaches to the DS, every token remapped, every
+  modification-layer rule, all six DS source changes, and the app's own
+  convention departures — with per-item cherry-pick guidance, since the DS
+  bug fixes are worth rescuing independently of whether Insider lands.
 
 - **Definition files + studio define tools** (branch feat/ds-define-tool,
   2026-07-21, decision 0034): agent-authored tools are now **persistent** -
