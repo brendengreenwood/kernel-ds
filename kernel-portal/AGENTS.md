@@ -2,7 +2,7 @@ React 19 + Vite + shadcn + Tailwind v4 + TypeScript. The only shipped surface; N
 Run all commands from kernel-portal/ (npm, not pnpm)
 
 Build: npm run build (tsc -b && vite build)
-Lint: npm run lint (oxlint) — 0 errors is required; warnings are ~57 today, keep the count from climbing
+Lint: npm run lint (oxlint) — 0 errors is required; warnings are 76 today, keep the count from climbing. 73 are react/only-export-components (gallery cluster files export demos alongside their cluster list; several ui primitives co-locate a cva or a hook with their components), 3 are no-unused-expressions in scripts/contrast-audit.mjs
 Dev: npm run dev (vite)
 Typecheck alone: npx tsc -b --noEmit
 
@@ -35,7 +35,7 @@ index.css — design tokens (OKLCH scales, status/commodity/viz, spacing, radius
 main.tsx — router; every rail item is its own page (no single-scroll, no scrollspy)
 components/ui/ — shadcn-derived primitives + local customizations (see components/ui/AGENTS.md)
 components/portal/ — app chrome + doc/gallery/foundations pages + objects/ workspace (see components/portal/AGENTS.md)
-lib/component-docs/ — doc-entity schema, 72 entities, parity/coverage/prose gates (see lib/AGENTS.md)
+lib/component-docs/ — doc-entity schema, 81 entities, parity/coverage/prose gates (see lib/AGENTS.md)
 lib/objects/ — object-model runtime (Shell→Workspace→Collection→Record, Zod schema, registry)
 hooks/ — shared React hooks (useChat SSE, etc.)
 pages/gallery/ — clustered component demos + demos/<slug>-demo.tsx source files

@@ -27,6 +27,34 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Salvaged shadcn primitives ported** (decision 0040, 2026-07-28): the 13
+  component files stranded on the salvage tag `salvage/ds-shadcn-full-parity`
+  (`fb0238b`) are on `main`, each run through the full documentation pipeline
+  rather than merged. Chat and AI primitives — **Message, Message Scroller,
+  Bubble, Attachment, Spinner, Marker** — under a new **"AI & chat"** gallery
+  group (the tenth entry in `groupOrder`; a cluster whose group is missing from
+  that array renders nowhere). Form and layout primitives — **Field, Button
+  Group, Item, Empty, Kbd, Native Select**. `direction.tsx` is a deliberate
+  utility drop-in: a four-line Base UI re-export with no componentMeta entry, no
+  doc entity, and no cluster. **Combobox migrated** from a Popover + Command
+  composition — which had no source file, shared Command's `c-command` anchor,
+  and left `/components/combobox` a dead route — to the Base UI primitive with
+  its own `c-combobox` anchor, a parity-checked doc entity, and the first real
+  combobox cluster; the Command cluster title drops the trailing "Combobox".
+  Adaptations on the way in: three `rounded-xl` -> `rounded-lg`, and Native
+  Select's hardcoded `h-8`/`h-7` -> `--control-h` tokens (it would otherwise
+  have sat 32px beside a 38px Input). One new dependency, `@shadcn/react`
+  pinned exact at `0.2.1`, used only by Message Scroller. Counts: **53 -> 67**
+  primitives, **69 -> 81** doc entities, **81 -> 93** componentMeta entries,
+  **26 -> 39** gallery clusters, **53 -> 67** ds-bundle prompt files. Lint
+  **56 -> 76** warnings, 0 errors — all 20 new ones the existing
+  `react/only-export-components` fast-refresh pattern; the ceiling in
+  `kernel-portal/AGENTS.md` moves to 76 with a breakdown so the next climb stays
+  visible. Two findings recorded but not fixed: `scripts/check-prose-quality.mjs`
+  is a zero-byte file that has been in the gate list and in CI since PR #69 and
+  has never checked anything, and anatomy slots are `z.array(z.string())`
+  despite `lib/AGENTS.md` advertising the enriched `{ name, description }` form.
+
 - **Nested AGENTS.md operational map** (decision 0038, 2026-07-27): adopted
   Mastra’s nested-AGENTS.md pattern. Root `AGENTS.md` + package-local files
   (`kernel-portal/AGENTS.md`, `kernel-studio-server/AGENTS.md`) + eight deeper
@@ -277,14 +305,14 @@ own route, not a section of one long scroll.
   documented variants/slots/prop-names against the component source and fails
   CI on drift (exit 1 + offender enumeration); `--coverage` mode is now a
   standing gate asserting every `ready` componentMeta entry has a doc entity.
-  **69 entities** live under `src/lib/component-docs/` covering all `ready`
-  entries (43 components, 6 elements, 10 patterns, 4 object marks); pattern
+  **81 entities** live under `src/lib/component-docs/` covering all `ready`
+  entries (61 components, 6 elements, 10 patterns, 4 object marks); pattern
   entities are documentation-only (`sourceFiles: []`, no parity blocks) and the
   gate rejects unverifiable variants/anatomy/api on them. `ComponentDocSections`
   renders entities on the component page with graceful fallback for undocumented
   components, and ds-bundle prompt-guidance is generated from the same entities
-  (49/52 structured; Input/Icon/InputGroup minimal or non-entity). Parity 69/0,
-  coverage 69/0. **Prose + presentation (2026-07-25):** a variant key can now carry its own
+  (49/52 structured; Input/Icon/InputGroup minimal or non-entity). Parity 81/0,
+  coverage 81/0. **Prose + presentation (2026-07-25):** a variant key can now carry its own
   prose (`keys: string | { key, description }`; the gate normalizes both
   shapes), Button is the voice exemplar (per-key descriptions, states,
   accessibility, decision cross-refs), and `ComponentDocSections` was

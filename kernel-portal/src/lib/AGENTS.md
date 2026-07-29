@@ -5,7 +5,7 @@ gallery-types.ts — gallery cluster/demo types
 
 component-docs/
 schema.ts — Zod schema for doc entities; 9 typed block kinds (guidelines, variants, anatomy, api, states, accessibility, use-cases, decisions, examples). parseComponentDoc + conformance classifier (minimal/documented/complete)
-<slug>.ts — one entity per component/element/pattern/mark (72 files). index.ts is the barrel — a new entity MUST be imported and mapped there or getComponentDoc(slug) returns undefined
+<slug>.ts — one entity per component/element/pattern/mark (81 files). index.ts is the barrel — a new entity MUST be imported and mapped there or getComponentDoc(slug) returns undefined
 Enriched shapes: variant groups + anatomy slots + ARIA attrs accept string | { key/name, description } (backward-compatible)
 Gates (run from kernel-portal/): node scripts/check-component-docs.mjs (parity + --coverage), node scripts/check-prose-quality.mjs (no placeholders), node --experimental-strip-types src/lib/component-docs/__check__.mts (schema assertions)
 Prose bar: concrete summary, reasoned do/don't, domain-grounded use cases — no mad-lib filler (the prose gate enforces this)

@@ -103,7 +103,7 @@ const frameworks = [
   { value: "vite", label: "Vite" },
 ]
 
-function Combobox() {
+function FrameworkPicker() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("next")
   return (
@@ -356,7 +356,7 @@ function CommandCluster() {
             <CommandSeparator />
           </CommandList>
         </Command>
-        <Combobox />
+        <FrameworkPicker />
       </Demo>
     </>
   )
@@ -367,5 +367,5 @@ export const navClusters: GalleryCluster[] = [
   { anchor: "c-breadcrumb", slug: "breadcrumb", title: "Breadcrumb · Pagination", group: "Navigation", demo: BreadcrumbCluster },
   { anchor: "c-navigation-menu", slug: "navigation-menu", title: "Navigation menu · Menubar", group: "Navigation", demo: NavigationMenuCluster },
   { anchor: "c-dropdown-menu", slug: "dropdown-menu", title: "Dropdown menu · Context menu", group: "Menus & command", demo: DropdownMenuCluster },
-  { anchor: "c-command", slug: "command", title: "Command · Combobox", group: "Menus & command", demo: CommandCluster },
+  { anchor: "c-command", slug: "command", title: "Command", group: "Menus & command", demo: CommandCluster },
 ]

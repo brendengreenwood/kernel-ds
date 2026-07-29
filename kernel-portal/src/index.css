@@ -741,6 +741,7 @@
   [data-slot="toggle"]::after,
   [data-slot="toggle-group-item"]::after,
   [data-slot="pagination-link"]::after,
+  [data-slot="message-scroller-button"]::after,
   [data-slot="menubar-trigger"]::after {
     content: "";
     position: absolute;
