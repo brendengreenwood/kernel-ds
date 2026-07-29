@@ -7,6 +7,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  catalog:
+    name: catalog (types + integrity)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Tests
+        run: npm run catalog:test
+      - name: Typecheck
+        run: npm run catalog:check
+      - name: Catalog integrity
+        run: node kernel-portal/scripts/check-catalog.mjs
+
   portal:
     name: portal (build + gates)
     runs-on: ubuntu-latest

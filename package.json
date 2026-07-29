@@ -1,0 +1,14 @@
+{
+  "name": "kernel-design-system",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "catalog:test": "npm test --workspace @kernel/catalog",
+    "catalog:check": "npm run check --workspace @kernel/catalog",
+    "portal:build": "npm --prefix kernel-portal run build",
+    "studio:test": "npm --prefix kernel-studio-server test"
+  }
+}

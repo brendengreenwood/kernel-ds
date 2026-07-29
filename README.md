@@ -24,11 +24,12 @@ CRUD core throughout (loads, farms, bushels, settlement).
 └────────────────────────────────────────────────────────────────┘
 ```
 
-Two sibling npm packages, no workspace root, no pnpm. Each installs and builds
-on its own — run `npm` commands from inside the package dir.
+A minimal root npm workspace owns `packages/*` only. The portal and Studio remain
+independently installed sibling applications with their own lockfiles and commands.
 
 | Package | What it is |
 |---|---|
+| **`packages/catalog/`** | Canonical typed inventory for components, patterns, elements, objects, and domains. Portal metadata and Studio intelligence migrate to this contract in the productionization stack. |
 | **`kernel-portal/`** | React 19 + Vite + shadcn/ui (Base UI) + Tailwind v4 + TypeScript. The design system, the object-model runtime (Shell → Workspace → Collection → Record), and the derived-UI workspace. The **only shipped surface** (Netlify deploys `kernel-portal/dist`). |
 | **`kernel-studio-server/`** | A Mastra dev server. The **generative design agent** that reads the design system and authors object + workspace definitions the portal renders. Not shipped to users. |
 | **`ds-bundle/`** | A **generated artifact** (built by `kernel-portal/scripts/build-ds-bundle.mjs`) — per-component docs, tokens, and composition rules the studio agents read. Never edit by hand; rebuild it. |

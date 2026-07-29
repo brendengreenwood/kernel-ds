@@ -27,6 +27,8 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Canonical catalog foundation in progress** (decision 0041, 2026-07-29): the repository now has a minimal private npm workspace limited to `packages/*`; `kernel-portal` and `kernel-studio-server` remain independently installed applications with their own lockfiles and commands. `packages/catalog` defines closed entity, lifecycle, accessibility, package, capability, and relationship taxonomies plus the typed catalog contract. Its generated inventory currently preserves all **93 lifecycle entries** and **81 registered documentation records**, with source/docs/AI references derived from the portal lifecycle registry, component-docs barrel, pattern docs, and object composition contract. CI and `check-catalog.mjs` verify schema failures, count parity, source resolution, deterministic generation, and freshness. The portal registry is still the migration input in this phase; the next phase replaces it with a catalog-derived adapter so only one canonical entity list remains.
+
 - **Salvaged shadcn primitives ported** (decision 0040, 2026-07-28): the 13
   component files stranded on the salvage tag `salvage/ds-shadcn-full-parity`
   (`fb0238b`) are on `main`, each run through the full documentation pipeline
