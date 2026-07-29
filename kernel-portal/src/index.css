@@ -734,7 +734,6 @@
   [data-slot="toggle"],
   [data-slot="toggle-group-item"],
   [data-slot="pagination-link"],
-  [data-slot="message-scroller-button"],
   [data-slot="menubar-trigger"] {
     position: relative;
   }
