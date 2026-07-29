@@ -91,8 +91,10 @@ for (const url of urls) {
     const interactive = [...document.querySelectorAll('a[href], button, input, [role="button"], [role="switch"]')]
       .filter((el) => {
         const r = el.getBoundingClientRect()
-        // skip visually-hidden / sr-only controls and off-canvas chrome
-        return r.width > 3 && r.height > 3 && getComputedStyle(el).visibility !== 'hidden'
+        const style = getComputedStyle(el)
+        // skip visually-hidden / sr-only controls, off-canvas chrome, and
+        // controls intentionally removed from interaction in their resting state
+        return r.width > 3 && r.height > 3 && style.visibility !== 'hidden' && style.opacity !== '0' && style.pointerEvents !== 'none'
       })
       .slice(0, 200)
     for (const el of interactive) {
