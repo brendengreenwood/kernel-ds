@@ -48,7 +48,7 @@ deliberately small — six changes, four of them plain bug fixes.
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | no — prototype-specific |
 | 2 | Token drift | 27 tokens + 2 structural inversions | no — that *is* the look |
-| 3 | Modification layer | 9 rule groups | no — prototype-specific |
+| 3 | Modification layer | 10 rule groups | no — prototype-specific |
 | 4 | **DS source changes** | 6 | **yes — 4 are bug fixes** |
 | 5 | App-level convention departures | 6 | n/a — judgment calls to review |
 
@@ -264,7 +264,7 @@ panel 6.76:1 / 5.15:1, all clear of AA.
 
 `kernel-app/src/v2-layer.css`. Restyles live DS components through their
 shadcn `data-slot` hooks plus three opt-in markers the app sets itself
-(`data-v2-kpi`, `data-v2-segmented`, `data-v2-detail`). No
+(`data-v2-kpi`, `data-v2-segmented`, `data-v2-detail`, `data-v2-dense`). No
 component is forked.
 
 Numeric columns in the prototype are **left**-aligned, against the usual
@@ -290,6 +290,7 @@ numbers.
 | 3.7 | first/last cell | edge inset → 6 units, so text never sits on the container border | unlayered `!important` |
 | 3.8 | `[data-v2-detail]` | padding → 0; the inset panel supplies its own | unlayered `!important` |
 | 3.9 | cells inside `[data-v2-detail]` | denser step: 3 units, edges 4 — the panel carries 12 columns | unlayered `!important` |
+| 3.10 | `[data-v2-dense]` tables | condensed step for tables inside a Card: 2 units horizontal, 1.5 vertical, **zero** edge inset so columns align to the card's own padding. Must stay last in the file — equal specificity with 3.9, so source order decides for a dense table nested in a detail row | unlayered `!important` |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the

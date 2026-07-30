@@ -127,18 +127,32 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
             {activity.events.length === 0 ? (
               <Empty>No producer activity in this window.</Empty>
             ) : (
-              <ul className="flex flex-col gap-2.5">
-                {activity.events.map((e) => (
-                  <li key={e.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-                    <span className="min-w-0 flex-1 truncate">{e.producer}</span>
-                    <StatusBadge status={actionStatus[e.action].hue}>
-                      {actionStatus[e.action].label}
-                    </StatusBadge>
-                    <span className="tabular-nums">{usd(e.bid)}</span>
-                    <span className="w-20 shrink-0 text-xs text-muted-foreground">{e.when}</span>
-                  </li>
-                ))}
-              </ul>
+              <div data-v2-dense className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Producer</TableHead>
+                      <TableHead>Action</TableHead>
+                      <TableHead>Bid</TableHead>
+                      <TableHead>When</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {activity.events.map((e) => (
+                      <TableRow key={e.id}>
+                        <TableCell className="max-w-44 truncate">{e.producer}</TableCell>
+                        <TableCell>
+                          <StatusBadge status={actionStatus[e.action].hue}>
+                            {actionStatus[e.action].label}
+                          </StatusBadge>
+                        </TableCell>
+                        <TableCell className="tabular-nums">{usd(e.bid)}</TableCell>
+                        <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -152,31 +166,45 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
             {activity.moves.length === 0 ? (
               <Empty>No competitor movement in this window.</Empty>
             ) : (
-              <ul className="flex flex-col gap-2.5">
-                {activity.moves.map((m) => {
-                  const d = Math.round((m.to - m.from) * 100) / 100
-                  const up = d > 0
-                  return (
-                    <li key={m.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-                      <span className="min-w-0 flex-1 truncate">{m.competitor}</span>
-                      <span className="tabular-nums text-muted-foreground">
-                        {usd(m.from)} → {usd(m.to)}
-                      </span>
-                      {/* Direction is the signal here; a rival raising their bid
-                          is not "success", so this stays off the notification
-                          axis and leans on the arrow instead of colour. */}
-                      <span className="flex w-20 shrink-0 items-center gap-1 tabular-nums">
-                        {d === 0 ? null : up ? (
-                          <TrendingUp className="size-3.5" />
-                        ) : (
-                          <TrendingDown className="size-3.5" />
-                        )}
-                        {delta(d)}
-                      </span>
-                    </li>
-                  )
-                })}
-              </ul>
+              <div data-v2-dense className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Competitor</TableHead>
+                      <TableHead>Movement</TableHead>
+                      <TableHead>Change</TableHead>
+                      <TableHead>When</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {activity.moves.map((m) => {
+                      const d = Math.round((m.to - m.from) * 100) / 100
+                      return (
+                        <TableRow key={m.id}>
+                          <TableCell className="max-w-44 truncate">{m.competitor}</TableCell>
+                          <TableCell className="whitespace-nowrap tabular-nums text-muted-foreground">
+                            {usd(m.from)} → {usd(m.to)}
+                          </TableCell>
+                          {/* Direction is the signal here; a rival raising their
+                              bid is not "success", so this stays off the
+                              notification axis and leans on the arrow, not colour. */}
+                          <TableCell className="whitespace-nowrap tabular-nums">
+                            <span className="flex items-center gap-1">
+                              {d === 0 ? null : d > 0 ? (
+                                <TrendingUp className="size-3.5" />
+                              ) : (
+                                <TrendingDown className="size-3.5" />
+                              )}
+                              {delta(d)}
+                            </span>
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap text-muted-foreground">{m.when}</TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>

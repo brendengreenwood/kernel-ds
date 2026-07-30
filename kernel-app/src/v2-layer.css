@@ -119,3 +119,32 @@
 [data-v2-detail] [data-slot="table-cell"]:last-child {
   padding-right: calc(var(--spacing) * 4) !important;
 }
+
+/* Condensed tables — for lists sitting inside a Card, where the roomy top-level
+   step wastes the card's width. Edge cells lose their horizontal inset entirely
+   so the columns line up with the card's own padding rather than floating in
+   from it.
+
+   These must stay LAST in this file: the detail-panel rules above have equal
+   specificity (0,3,0 for the :first-child/:last-child pair), so source order is
+   what decides which wins for a dense table nested inside a detail row. */
+[data-v2-dense] [data-slot="table-head"],
+[data-v2-dense] [data-slot="table-cell"] {
+  padding-left: calc(var(--spacing) * 2) !important;
+  padding-right: calc(var(--spacing) * 2) !important;
+}
+[data-v2-dense] [data-slot="table-cell"] {
+  padding-top: calc(var(--spacing) * 1.5) !important;
+  padding-bottom: calc(var(--spacing) * 1.5) !important;
+}
+[data-v2-dense] [data-slot="table-head"] {
+  height: calc(var(--spacing) * 7);
+}
+[data-v2-dense] [data-slot="table-head"]:first-child,
+[data-v2-dense] [data-slot="table-cell"]:first-child {
+  padding-left: 0 !important;
+}
+[data-v2-dense] [data-slot="table-head"]:last-child,
+[data-v2-dense] [data-slot="table-cell"]:last-child {
+  padding-right: 0 !important;
+}
