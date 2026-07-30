@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { Section, Subhead } from "@/components/portal/section"
-import { Button } from "@/components/ui/button"
+import { Button } from "@kernel/ui"
 import {
   Dialog,
   DialogBody,
@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@kernel/ui"
 
 /* -- sizes ------------------------------------------------------------------ */
 

@@ -11,7 +11,7 @@
 import * as React from "react"
 import type { ComponentDoc } from "@/lib/component-docs/schema"
 import { docSectionNav } from "@/components/portal/component-doc-sections"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { typeStyles } from "@/lib/type-styles"
 
 /** Scroll-spy: track which section id is currently the topmost in view. */

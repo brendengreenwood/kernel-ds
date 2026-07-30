@@ -28,7 +28,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@kernel/ui"
 import {
   ChartConfig,
   ChartContainer,
@@ -36,7 +36,7 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@kernel/ui"
 import { Section } from "./section"
 
 /* Bar — two series on the single-hue --chart-* ramp */

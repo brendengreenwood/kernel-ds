@@ -36,7 +36,7 @@ if (!process.execArgv.some((a) => a.includes("experimental-strip-types"))) {
 
 const here = dirname(fileURLToPath(import.meta.url));
 const portalRoot = resolve(here, "..");
-const uiDir = resolve(portalRoot, "src", "components", "ui");
+const uiDir = resolve(portalRoot, "..", "packages", "ui", "src", "components", "ui");
 const docsBarrel = resolve(portalRoot, "src", "lib", "component-docs", "index.ts");
 const metaFile = resolve(portalRoot, "src", "lib", "component-meta.ts");
 

@@ -32,7 +32,7 @@ import {
   Gauge,
   Pencil,
   Search,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
 import {
   Sidebar,
@@ -47,7 +47,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@kernel/ui"
 import { galleryClusters } from "@/lib/gallery-registry"
 import { MaturityPill } from "./section"
 

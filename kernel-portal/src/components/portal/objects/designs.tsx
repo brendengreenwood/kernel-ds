@@ -12,7 +12,7 @@ import { rules as compositionRules } from "@/lib/objects/composition"
 import { registerObject } from "@/lib/objects/registry"
 import { parseObjectModel } from "@/lib/objects/schema"
 import { incidentJson } from "@/lib/objects/sample-incident.json"
-import { Button } from "@/components/ui/button"
+import { Button } from "@kernel/ui"
 
 /**
  * Designs — the auto-derived tier described in decision 0026. This page

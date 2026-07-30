@@ -8,7 +8,7 @@ export default defineConfig({
     utils: "src/utils.ts",
   },
   format: ["esm"],
-  dts: false,
+  dts: true,
   clean: true,
   splitting: true,
   sourcemap: false,
@@ -18,7 +18,7 @@ export default defineConfig({
   tsconfig: "tsconfig.json",
   esbuildOptions(options) {
     options.alias = {
-      "@": "../../kernel-portal/src",
+      "@": "./src",
     }
   },
 })

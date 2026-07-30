@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Section, Subhead, Demo } from "../section"
-import { StatusBadge } from "@/components/ui/status-badge"
+import { StatusBadge } from "@kernel/ui"
 import { contractModel, contractRows } from "@/lib/objects"
 import { contractStatus, statusLabelFromModel } from "@/lib/objects/status-map"
 import { typeStyles } from "@/lib/type-styles"

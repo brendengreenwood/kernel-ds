@@ -2,7 +2,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@kernel/ui"
 import PortalLayout from "@/pages/portal-layout"
 import WorkspacePage from "@/pages/workspace"
 import ComponentsIndex from "@/pages/components-index"
@@ -44,7 +44,7 @@ import { WriteSection } from "@/components/portal/objects/write"
 import { QuerySection } from "@/components/portal/objects/query"
 import { TraversalSection } from "@/components/portal/objects/traversal"
 import { DesignsSection } from "@/components/portal/objects/designs"
-import "./index.css"
+import "@kernel/ui/styles.css"
 
 /**
  * A bookmark from the old single-page portal arrives as `/#anchor`

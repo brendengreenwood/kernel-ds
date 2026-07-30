@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom"
-import { ChevronLeft, ChevronRight } from "@/components/ui/icon"
+import { ChevronLeft, ChevronRight } from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { typeStyles } from "@/lib/type-styles"
 import { neighbors, type DocPage } from "@/lib/page-order"
 

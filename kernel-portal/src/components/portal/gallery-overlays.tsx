@@ -2,13 +2,13 @@
 
 import * as React from "react"
 import { toast } from "sonner"
-import { CheckCircle2, AlertTriangle, Info, XCircle, Plus } from "@/components/ui/icon"
+import { CheckCircle2, AlertTriangle, Info, XCircle, Plus } from "@kernel/ui/icon"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { Avatar, AvatarFallback } from "@kernel/ui"
+import { Alert, AlertDescription, AlertTitle } from "@kernel/ui"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +19,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@kernel/ui"
 import {
   Dialog,
   DialogContent,
@@ -28,7 +28,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@kernel/ui"
 import {
   Sheet,
   SheetContent,
@@ -36,7 +36,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@kernel/ui"
 import {
   Drawer,
   DrawerContent,
@@ -45,23 +45,23 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@kernel/ui"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@kernel/ui"
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card"
+} from "@kernel/ui"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 

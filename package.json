@@ -14,5 +14,8 @@
     "ui:check": "npm run check --workspace @kernel/ui",
     "portal:build": "npm --prefix kernel-portal run build",
     "studio:test": "npm --prefix kernel-studio-server test"
+  },
+  "devDependencies": {
+    "react-hook-form": "^7.80.0"
   }
 }

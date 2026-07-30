@@ -1,10 +1,10 @@
 "use client"
 
-import indexCss from "@/index.css?raw"
-import { CodeBlock } from "@/components/ui/code-block"
+import indexCss from "@kernel/ui/styles.css?raw"
+import { CodeBlock } from "@kernel/ui"
 import { Section } from "./section"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 
 const setup = `# a Tailwind v4 + shadcn/ui project (components on Base UI, base-nova style)
 npm create vite@latest my-app -- --template react-ts
@@ -27,7 +27,7 @@ const add = `npx shadcn@latest add accordion alert alert-dialog aspect-ratio ava
 const icons = `// Kernel icons are MDI, not lucide (decision 0019).
 // shadcn generates components that import from "lucide-react" —
 // redirect those to the shim; it exports the same glyph names.
-import { Search, ChevronRight } from "@/components/ui/icon"`
+import { Search, ChevronRight } from "@kernel/ui/icon"`
 
 const usage = `<Button>Book load</Button>                        {/* --primary + --control-h */}
 

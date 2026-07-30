@@ -13,17 +13,17 @@ import {
   Banknote,
   MoreHorizontal,
   Check,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { Section, Subhead } from "./section"
-import { Button } from "@/components/ui/button"
+import { Button } from "@kernel/ui"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@kernel/ui"
 
 /* -- grouped rail with a nested area ------------------------------------ */
 

@@ -1,5 +1,5 @@
 {
-  "extends": "../../kernel-portal/tsconfig.app.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
     "emitDeclarationOnly": true,
@@ -7,15 +7,10 @@
     "declarationMap": false,
     "composite": false,
     "incremental": false,
-    "rootDir": "../../kernel-portal/src",
+    "rootDir": "src",
     "outDir": "dist/types",
-    "tsBuildInfoFile": null,
     "types": ["react", "react-dom"]
   },
-  "include": [
-    "../../kernel-portal/src/components/ui/**/*.ts",
-    "../../kernel-portal/src/components/ui/**/*.tsx",
-    "../../kernel-portal/src/lib/utils.ts"
-  ],
-  "exclude": ["../../kernel-portal/src/**/__check__.mts", "../../kernel-portal/src/**/__check__.mjs"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["src/**/__check__.mts", "src/**/__check__.mjs"]
 }

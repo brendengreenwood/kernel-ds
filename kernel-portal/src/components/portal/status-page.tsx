@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { Section } from "./section"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { routeForAnchor } from "@/lib/routes"
 import {
   Table,
@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@kernel/ui"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
 
 const maturityInk: Record<Maturity, string> = {
