@@ -58,7 +58,7 @@ jobs:
           cache-dependency-path: kernel-portal/package-lock.json
       - name: Install and build local packages
         working-directory: .
-        run: npm ci && npm run ui:build
+        run: npm ci && npm run ui:build && npm run definitions:build
       - run: npm ci
 
       # Typecheck + build (tsc -b && vite build)
@@ -109,7 +109,7 @@ jobs:
       # ds-bundle tool tests read it too. It's gitignored, so build the local
       # packages and then build the bundle from the portal before tests.
       - name: Install and build local packages
-        run: npm ci && npm run ui:build
+        run: npm ci && npm run ui:build && npm run definitions:build
       - name: Install portal deps (for bundle build)
         working-directory: kernel-portal
         run: npm ci
