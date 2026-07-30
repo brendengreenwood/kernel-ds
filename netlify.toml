@@ -1,7 +1,12 @@
 [build]
   base = "kernel-portal"
-  command = "npm run build"
+  # The portal consumes @kernel/ui and @kernel/definitions via file: deps, so the
+  # workspace packages must be built before the portal build (same order as CI).
+  command = "cd .. && npm ci && npm run ui:build && npm run definitions:build && cd kernel-portal && npm ci && npm run build"
   publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
 
 [[redirects]]
   from = "/*"
