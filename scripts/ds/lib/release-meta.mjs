@@ -13,7 +13,8 @@ const metaBlockPattern = /<!--\s*kernel-ds:release-meta\n([\s\S]*?)\n-->/
  * so the file stays fully compatible with @changesets/cli.
  */
 export function parseChangesetFile(path, fileName) {
-  const raw = readFileSync(path, "utf8")
+  // Normalize CRLF so checkouts with core.autocrlf=true parse identically.
+  const raw = readFileSync(path, "utf8").replaceAll("\r\n", "\n")
   const frontmatter = raw.match(/^---\n([\s\S]*?)\n---\n/)
   if (!frontmatter) return { file: fileName, error: "missing changesets frontmatter" }
 

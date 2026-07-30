@@ -16,7 +16,8 @@ export const components = componentMeta.filter((entity) => entity.group === "com
 
 if (checkOnly) {
   const tracked = await readFile(outputFile, "utf8").catch(() => "")
-  if (tracked !== output) {
+  // Normalize CRLF so checkouts with core.autocrlf=true compare identically.
+  if (tracked.replaceAll("\r\n", "\n") !== output) {
     console.error("CATALOG generated-stale: portal lifecycle adapter is stale; run npm run catalog:generate")
     process.exit(1)
   }
