@@ -227,12 +227,15 @@ Two knock-ons the numbers exposed once the rail lightened:
 > Keeping the rail neutral leaves green to mean "this is the thing", and the only
 > colour left in the rail is the brand mark itself. Selection reads by three
 > redundant cues instead of colour: the surface step, the DS's
-> `data-active:font-medium`, and a marker pill on the item's leading edge (a
-> `::before`, so it costs no layout; `left-0` *inside* the button because the DS
-> sets `overflow-hidden` there, which would clip anything in the gutter). The
-> marker is kept when the rail collapses to icons — that is where it earns the
-> most, since the labels are gone. Contrast stays high (active nav text 13.92:1
-> light / 14.34:1 dark).
+> `data-active:font-medium`, and a marker pill in the gutter *outside* the chip,
+> in `--sidebar-primary`. The marker is the one place the rail keeps colour: the
+> chip carries the surface neutrally, the accent just says which item you are on.
+> It hangs off the **item**, not the button — the DS sets `overflow-hidden` on
+> the button, so a gutter marker there gets clipped; the `li` is already
+> `relative` with overflow visible, and the group's 7.68px padding leaves exactly
+> enough room for a pill at `-left-1.5`. The marker survives the collapse to
+> icons, where it earns the most since the labels are gone. Contrast stays high
+> (active nav text 13.92:1 light / 14.34:1 dark).
 >
 > Note the residual chroma if you measure it: Kernel's neutrals are
 > **green-tinted by design** (hue ~162–165), so `--neutral-200`/`-800` are not

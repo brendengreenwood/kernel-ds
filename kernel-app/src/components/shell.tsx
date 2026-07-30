@@ -54,25 +54,28 @@ function Nav({ items }: { items: Item[] }) {
   return (
     <SidebarMenu>
       {items.map((it) => (
-        <SidebarMenuItem key={it.to}>
+        // The active marker lives on the ITEM, not the button: the DS sets
+        // overflow-hidden on the button, so anything in the gutter would be
+        // clipped. The li is already `relative` with overflow visible, and the
+        // group's 7.68px padding leaves room for a pill at -1.5 (5.76px) — out
+        // past the chip's edge with a hair of gap. It is the one place the rail
+        // keeps colour: a neutral chip carries the surface, `--sidebar-primary`
+        // marks which item you are on.
+        <SidebarMenuItem
+          key={it.to}
+          className={cn(
+            "relative",
+            isActive(it.to) &&
+              "before:absolute before:top-1/2 before:-left-1.5 before:h-4 before:w-1 before:-translate-y-1/2 before:rounded-full before:bg-sidebar-primary"
+          )}
+        >
           <SidebarMenuButton
             isActive={isActive(it.to)}
             tooltip={it.label}
             // Collapsed, the DS squares the button to size-8 with p-2, leaving
             // 4 units of content box — so the roomier size-5 glyph steps back
             // to size-4 rather than spilling out of it.
-            //
-            // Active items also carry a marker pill on the leading edge. It is a
-            // ::before rather than an element so it costs no layout, and it sits
-            // at left-0 *inside* the button because the DS sets overflow-hidden
-            // there — anything in the gutter would be clipped. Neutral, like the
-            // rest of the rail.
-            className={cn(
-              "h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:[&_svg]:size-4",
-              "relative data-active:before:absolute data-active:before:top-1/2 data-active:before:left-0",
-              "data-active:before:h-4 data-active:before:w-1 data-active:before:-translate-y-1/2",
-              "data-active:before:rounded-full data-active:before:bg-sidebar-foreground"
-            )}
+            className="h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:[&_svg]:size-4"
             render={
               <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
                 <it.icon />
