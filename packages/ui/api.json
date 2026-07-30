@@ -83,7 +83,7 @@
     },
     {
       "module": "combobox",
-      "catalogBacked": false
+      "catalogBacked": true
     },
     {
       "module": "command",
