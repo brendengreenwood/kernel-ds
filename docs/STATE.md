@@ -16,8 +16,8 @@ see `archive/2026-07-10-static-preview.md`):
 - **`kernel-portal/`** — a runnable Vite 8 + React 19 + TypeScript portal
   using shadcn/ui (Base UI, `base-nova` style — see decision 0005) +
   Tailwind CSS v4 + React Router. Tokens live in
-  `kernel-portal/src/index.css`; components in `src/components/ui/`
-  (shadcn) and `src/components/portal/` (portal sections); entry
+  `packages/ui/src/styles.css`; public components in `packages/ui/src/components/ui/`
+  (shadcn) and portal-only sections in `src/components/portal/`; entry
   `src/main.tsx` → `src/pages/portal-layout.tsx` with a route per rail
   item (decision 0011). Deploys to Netlify (`netlify.toml`: build to
   `dist/`, SPA redirect).
@@ -26,6 +26,8 @@ The portal is **per-page** (decision 0011): every side-rail item is its
 own route, not a section of one long scroll.
 
 ## Current state
+
+- **Definitions package extraction in progress** (decision 0044, 2026-07-30): `packages/definitions` now owns the framework-free object model and workspace preset schemas, parsers, validation APIs, deterministic coordinate helper, composition doctrine, and committed compatibility fixtures. It distributes explicit root/composition/presets entries plus a generated `api.json`. Portal runtime registries, fetching, persistence, and React hooks remain application-owned behind compatibility re-exports while the portal consumes `@kernel/definitions` through a package-local `file:` dependency.
 
 - **UI package extraction in progress** (decision 0042, 2026-07-30): `packages/ui` now owns the canonical UI implementations and distributes `@kernel/ui` as ESM, declarations, CSS, and a catalog-backed `api.json`, with explicit root/marks/icon/utils/style exports. The portal consumes the package through a package-local `file:` dependency; no duplicate implementation tree remains under `kernel-portal`. React and React DOM are peer-only, and package tests reject wildcard exports, private portal-source leakage, bundled or dependency-owned React, undeclared runtime imports, missing public artifacts, and payload files outside the allowlist.
 

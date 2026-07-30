@@ -12,6 +12,9 @@
     "ui:build": "npm run build --workspace @kernel/ui",
     "ui:test": "npm test --workspace @kernel/ui",
     "ui:check": "npm run check --workspace @kernel/ui",
+    "definitions:build": "npm run build --workspace @kernel/definitions",
+    "definitions:test": "npm test --workspace @kernel/definitions",
+    "definitions:check": "npm run check --workspace @kernel/definitions",
     "portal:build": "npm --prefix kernel-portal run build",
     "studio:test": "npm --prefix kernel-studio-server test"
   },
