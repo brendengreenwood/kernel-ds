@@ -31,6 +31,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ModeToggle } from "@/components/mode-toggle"
+import { cn } from "@/lib/utils"
 
 type Item = { label: string; to: string; icon: React.ComponentType<{ className?: string }> }
 
@@ -60,7 +61,18 @@ function Nav({ items }: { items: Item[] }) {
             // Collapsed, the DS squares the button to size-8 with p-2, leaving
             // 4 units of content box — so the roomier size-5 glyph steps back
             // to size-4 rather than spilling out of it.
-            className="h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:[&_svg]:size-4"
+            //
+            // Active items also carry a marker pill on the leading edge. It is a
+            // ::before rather than an element so it costs no layout, and it sits
+            // at left-0 *inside* the button because the DS sets overflow-hidden
+            // there — anything in the gutter would be clipped. Neutral, like the
+            // rest of the rail.
+            className={cn(
+              "h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:[&_svg]:size-4",
+              "relative data-active:before:absolute data-active:before:top-1/2 data-active:before:left-0",
+              "data-active:before:h-4 data-active:before:w-1 data-active:before:-translate-y-1/2",
+              "data-active:before:rounded-full data-active:before:bg-sidebar-foreground"
+            )}
             render={
               <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
                 <it.icon />

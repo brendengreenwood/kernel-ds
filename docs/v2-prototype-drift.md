@@ -225,9 +225,14 @@ Two knock-ons the numbers exposed once the rail lightened:
 > chrome, and a coloured selection there competes with the accent doing real work
 > in the content — primary buttons, active pills, chart series, bid counts.
 > Keeping the rail neutral leaves green to mean "this is the thing", and the only
-> colour left in the rail is the brand mark itself. Selection now reads by
-> surface step plus the DS's `data-active:font-medium`; contrast stays high
-> (active nav text 13.92:1 light / 14.34:1 dark).
+> colour left in the rail is the brand mark itself. Selection reads by three
+> redundant cues instead of colour: the surface step, the DS's
+> `data-active:font-medium`, and a marker pill on the item's leading edge (a
+> `::before`, so it costs no layout; `left-0` *inside* the button because the DS
+> sets `overflow-hidden` there, which would clip anything in the gutter). The
+> marker is kept when the rail collapses to icons — that is where it earns the
+> most, since the labels are gone. Contrast stays high (active nav text 13.92:1
+> light / 14.34:1 dark).
 >
 > Note the residual chroma if you measure it: Kernel's neutrals are
 > **green-tinted by design** (hue ~162–165), so `--neutral-200`/`-800` are not
