@@ -47,7 +47,11 @@
   --sidebar-foreground: var(--neutral-50);
   --sidebar-primary: var(--chart-1);
   --sidebar-primary-foreground: var(--neutral-950);
-  --sidebar-accent: var(--brand-900);
+  /* Nav selection/hover is NEUTRAL, not green. The rail is chrome; a coloured
+     chip there competes with the accent doing real work in the content (primary
+     buttons, active pills, chart series). One rung up from the rail reads as
+     raised without introducing a second green. */
+  --sidebar-accent: var(--neutral-800);
   --sidebar-accent-foreground: var(--neutral-50);
   --sidebar-border: var(--neutral-800);
   --sidebar-ring: var(--chart-1);
@@ -88,11 +92,12 @@
      (0.8957) was tuned against a white rail and reads heavy on this one. */
   --sidebar-border: var(--neutral-200);
 
-  /* The selected nav item must be DARKER than the rail — the DS light
-     --sidebar-accent (0.9758) is lighter than a 0.967 rail, so a selected item
-     would read as a hole rather than a chip. Now that lime is a real family,
-     take the 200 rung: a soft lime chip, clearly present, never shouty. */
-  --sidebar-accent: var(--lime-200);
+  /* Nav selection/hover is NEUTRAL, not green (see the .dark note). It also has
+     to be DARKER than the rail: the DS light --sidebar-accent (0.9758) is
+     lighter than a 0.967 rail, so a selected item would read as a hole rather
+     than a chip. One rung down from the rail. */
+  --sidebar-accent: var(--neutral-200);
+  --sidebar-accent-foreground: var(--neutral-900);
 
   /* --background and --muted stay the DS values. --muted was overridden to
      neutral-200 back when the canvas was itself neutral-100 and a 0.9612 trough

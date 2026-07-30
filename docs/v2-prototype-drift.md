@@ -166,7 +166,7 @@ buttons back down (3.2).
 | `--sidebar-foreground` | white | `--neutral-50` | |
 | `--sidebar-primary`, `--sidebar-ring` | green | `--chart-1` | same colour |
 | `--sidebar-primary-foreground` | `oklch(0.2128 …)` | `--neutral-950` | |
-| `--sidebar-accent` | `oklch(0.4373 …)` | `--brand-900` | |
+| `--sidebar-accent` | `oklch(0.4373 …)` | `--neutral-800` | nav selection/hover — **neutral, not green** |
 | `--sidebar-accent-foreground` | green | `--neutral-50` | de-greened |
 | `--sidebar-border` | `oklch(0.3959 …)` | `--neutral-800` | |
 
@@ -194,7 +194,8 @@ only the frame darkens, and the content panel stays paper-white:
 | `--background` | white (1.000) | *unchanged* | the floating inset panel, paper-white |
 | `--card` / `--popover` | white (1.000) | *unchanged* | same sheet as the canvas |
 | `--sidebar-border` | 0.8957 | `--neutral-200` (0.922) | hairline sized to the lighter rail |
-| `--sidebar-accent` | 0.9758 | `--lime-200` (0.925) | selected nav chip |
+| `--sidebar-accent` | 0.9758 | `--neutral-200` (0.922) | selected nav chip — neutral |
+| `--sidebar-accent-foreground` | green | `--neutral-900` | de-greened |
 | `--muted` | 0.9612 | *unchanged* | pill / segmented trough |
 
 **This is deliberately a different structure from dark.** Dark separates the
@@ -216,10 +217,22 @@ Two knock-ons the numbers exposed once the rail lightened:
 
 - **The selected nav item has to be *darker* than the rail.** The DS light
   `--sidebar-accent` is 0.9758 — lighter than a 0.967 rail, so a selected item
-  would read as a hole rather than a chip. It now takes `--lime-200`, a soft lime
-  that is clearly present without shouting (active nav text 6.1:1, idle 15.95:1 —
-  both AA). This is the first real payoff of the lime family from decision 0041:
-  a semantic step existed to reach for.
+  would read as a hole rather than a chip. It takes one rung down,
+  `--neutral-200`.
+
+> **Nav selection is neutral in both themes, deliberately.** It was tried as a
+> green chip (`--lime-200` light / `--brand-900` dark) and read wrong: the rail is
+> chrome, and a coloured selection there competes with the accent doing real work
+> in the content — primary buttons, active pills, chart series, bid counts.
+> Keeping the rail neutral leaves green to mean "this is the thing", and the only
+> colour left in the rail is the brand mark itself. Selection now reads by
+> surface step plus the DS's `data-active:font-medium`; contrast stays high
+> (active nav text 13.92:1 light / 14.34:1 dark).
+>
+> Note the residual chroma if you measure it: Kernel's neutrals are
+> **green-tinted by design** (hue ~162–165), so `--neutral-200`/`-800` are not
+> hue-zero greys. At 0.017–0.021 chroma they are 4–5× less chromatic than the
+> `lime-200`/`brand-900` chips they replaced, and read as neutral.
 - **A lighter rail needs a lighter hairline** — the DS `--sidebar-border`
   (0.8957) was tuned against a white rail and reads heavy on this one, so it
   steps to `--neutral-200`.
