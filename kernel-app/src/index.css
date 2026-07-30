@@ -64,20 +64,27 @@
    `:not(.dark)` both raises specificity and states the intent.
 
    The DS ships light `--sidebar` and `--background` both at pure white, so the
-   inset panel's `m-2` margin and rounded corners exist but are invisible. Give
-   light the same three-step ladder the dark block uses — rail recessed, canvas
-   in the middle, cards raised — just running up to white instead of down:
+   inset panel's `m-2` margin and rounded corners exist but are invisible. Light
+   gets its contrast from the RAIL dropping instead: only the frame darkens, and
+   the content panel stays paper-white.
 
      rail    --sidebar     neutral-200 (0.922)  ← recessed, frames the panel
-     canvas  --background  neutral-100 (0.967)  ← the floating inset panel
-     card    (DS default)  white       (1.000)  ← raised, now reads as such */
+     canvas  --background  white       (1.000)  ← the floating inset panel
+     card    (DS default)  white       (1.000)  ← same sheet, read by its ring
+
+   That is a different structure from dark, deliberately. Dark separates the
+   three surfaces by lightness (950 / 900 / 800); light puts canvas and card on
+   one white sheet and lets the DS Card's `ring-1 ring-foreground/10` hairline do
+   the work — the conventional light-UI read, and lighter-on-the-eye than tinting
+   a whole page grey to make cards pop. */
 :root:not(.dark) {
   --sidebar: var(--neutral-200);
-  --background: var(--neutral-100);
 
-  /* The DS light --muted (0.9612) lands within 0.006 L of the new canvas, which
-     would collapse pill/segmented containers into it. Step it to the rail's
-     rung so those troughs stay legible. */
+  /* --background stays the DS white. */
+
+  /* The DS light --muted (0.9612) is only 0.039 L off white, which leaves
+     pill/segmented troughs barely there. Step it to the rail's rung so those
+     containers read against the white page. */
   --muted: var(--neutral-200);
 }
 

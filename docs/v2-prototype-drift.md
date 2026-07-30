@@ -177,7 +177,7 @@ buttons back down (3.2).
 > nothing. Any future DS component leaning on `muted` for separation needs the
 > same treatment.
 
-## 2.3 Light mode: the same ladder, running upward
+## 2.3 Light mode: the rail drops, the page stays white
 
 Light was originally left stock-plus-radius. That broke the inset content panel:
 the DS ships light `--sidebar` **and** `--background` both at pure white
@@ -185,17 +185,25 @@ the DS ships light `--sidebar` **and** `--background` both at pure white
 existed with zero contrast — the floating-panel effect was invisible in light
 while working in dark.
 
-Light now mirrors the dark ladder, running up to white instead of down from it:
+Light gets its contrast from the **rail dropping**, not from tinting the page —
+only the frame darkens, and the content panel stays paper-white:
 
 | Role | DS light | Prototype light | Reads as |
 |---|---|---|---|
 | `--sidebar` | white (1.000) | `--neutral-200` (0.922) | recessed rail, frames the panel |
-| `--background` | white (1.000) | `--neutral-100` (0.967) | the floating inset panel |
-| `--card` / `--popover` | white (1.000) | *unchanged* | raised above the canvas |
+| `--background` | white (1.000) | *unchanged* | the floating inset panel, paper-white |
+| `--card` / `--popover` | white (1.000) | *unchanged* | same sheet as the canvas |
 | `--muted` | 0.9612 | `--neutral-200` (0.922) | trough, see below |
 
-`--muted` had to move too: at 0.9612 it lands within 0.006 L of the new canvas,
-which would collapse pill and segmented containers into the page.
+**This is deliberately a different structure from dark.** Dark separates the
+three surfaces by lightness (950 / 900 / 800, cards raised). Light puts canvas
+and card on one white sheet and lets the DS Card's `ring-1 ring-foreground/10`
+hairline do the delineating — the conventional light-UI read, and easier on the
+eye than greying a whole page just to make cards pop. Verified on the
+card-heavy Overview: the KPI cards read clearly on white by their ring alone.
+
+`--muted` still has to move: the DS light value (0.9612) is only 0.039 L off
+white, which leaves pill and segmented troughs barely there against the page.
 
 > **Trap worth remembering: the light block is `:root:not(.dark)`, not `:root`.**
 > A bare `:root` has the *same* specificity as the `.dark` block and sits later
@@ -205,8 +213,10 @@ which would collapse pill and segmented containers into the page.
 > quietly become their light values. The `:not(.dark)` raises specificity and
 > states the intent.
 
-Both themes now resolve distinct rail/panel pairs — dark 0.165 / 0.213, light
-0.922 / 0.967 — with the same 18px radius and 7.68px top/right margin.
+Both themes resolve distinct rail/panel pairs — dark 0.165 / 0.213, light
+0.922 / 1.000 — with the same 18px radius and 7.68px top/right margin. Contrast
+holds in both: table header on card 5.79:1 dark / 5.15:1 light, muted text on
+panel 6.76:1 / 5.15:1, all clear of AA.
 
 ---
 
