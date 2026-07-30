@@ -310,6 +310,32 @@ function tempCopy(fixtureName) {
   assert(publish.status === 1 && publish.stderr.includes("DS-RELEASE-REFUSED") && publish.stderr.includes("NODE_AUTH_TOKEN"), "release publish refuses without credentials", publish.stdout + publish.stderr)
 }
 
+// 17. Release workflow config: dry run is credential-free, publish is protected.
+{
+  const workflowPath = resolve(repoRoot, ".github/workflows/release.yml")
+  assert(existsSync(workflowPath), "release workflow exists")
+  const workflow = readFileSync(workflowPath, "utf8")
+  const publishStart = workflow.indexOf("\n  publish:")
+  assert(publishStart > 0, "release workflow has a publish job")
+  const dryRunSection = workflow.slice(0, publishStart)
+  const publishSection = workflow.slice(publishStart)
+
+  assert(workflow.includes("workflow_dispatch:") && !/\n\s*(push|pull_request):/.test(workflow), "release workflow is manual-only", "no push/pull_request trigger may reach publish")
+  assert(!dryRunSection.includes("NODE_AUTH_TOKEN") && !dryRunSection.includes("secrets."), "release dry run uses no credentials")
+  assert(publishSection.includes("github.event.inputs.mode == 'publish'") && publishSection.includes("github.ref == 'refs/heads/main'"), "publish gated to explicit mode on main")
+  assert(publishSection.includes("environment: release"), "publish uses the protected release environment")
+  assert(publishSection.includes("secrets.KERNEL_DS_PUBLISH_TOKEN") && !/NODE_AUTH_TOKEN:(?!\s*\$\{\{\s*secrets\.)/.test(publishSection), "publish token only from configured secret")
+  assert(!/gh[pos]_[A-Za-z0-9]/.test(workflow), "release workflow contains no literal tokens")
+  assert(publishSection.includes("needs: release-dry-run"), "publish requires the dry-run job")
+  const publishCmd = publishSection.indexOf("changeset publish")
+  assert(publishCmd > 0, "publish invokes changeset publish")
+  for (const gate of ["release:check", "ui:check", "definitions:check", "check-catalog.mjs", "npm run lint", "npm test", "pack-smoke.mjs"]) {
+    const idx = publishSection.indexOf(gate)
+    assert(idx > 0 && idx < publishCmd, `publish runs ${gate} before publishing`)
+  }
+  assert(publishSection.includes("registry-url: https://npm.pkg.github.com"), "publish targets GitHub Packages registry")
+}
+
 // 14. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])
