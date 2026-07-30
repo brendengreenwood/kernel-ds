@@ -1,9 +1,11 @@
 import * as React from "react"
-import { Archive, Pencil, Plus } from "@/components/ui/icon"
+import { Archive, ChevronDown, Pencil, Plus, TrendingDown, TrendingUp } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { cn } from "@/lib/utils"
 import {
   Table,
   TableBody,
@@ -12,7 +14,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { locations, scenarios, type ScenarioStatus } from "@app/data/scenarios"
+import {
+  locations,
+  scenarios,
+  tally,
+  type ActivityRange,
+  type Scenario,
+  type ScenarioStatus,
+} from "@app/data/scenarios"
 
 /** Scenario lifecycle → DS StatusBadge hue + label (StatusBadge is the DS's
     persistent-state axis; children override the label for this domain). */
@@ -33,6 +42,149 @@ const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
 const usd = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 })
 
+/** Signed cents, for a competitor's bid movement. */
+const delta = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${Math.abs(n).toFixed(2)}`
+
+/** Producer accepts/rejects ride the DS status axis — a persistent outcome on
+    the offer, not a momentary notification. */
+const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string }> = {
+  accepted: { hue: "settled", label: "Accepted" },
+  rejected: { hue: "rejected", label: "Rejected" },
+}
+
+function Stat({ n, label }: { n: number; label: string }) {
+  return (
+    <div>
+      <div className="text-2xl font-semibold tabular-nums">{n}</div>
+      <div className="text-xs text-muted-foreground">{label}</div>
+    </div>
+  )
+}
+
+function Empty({ children }: { children: React.ReactNode }) {
+  return <p className="py-2 text-sm text-muted-foreground">{children}</p>
+}
+
+/** A detail row spans every column, so its content is as wide as the TABLE —
+    which here is wider than the screen. Cards laid out in that space put the
+    second one off-view. Pinning the content sticky at the scroll container's
+    left edge, sized to its visible width, keeps the panel in front of the
+    reader while the table still scrolls horizontally underneath. */
+function useVisibleWidth(ref: React.RefObject<HTMLDivElement | null>) {
+  const [width, setWidth] = React.useState<number>()
+  React.useEffect(() => {
+    const el = ref.current
+    const scroller = el?.closest<HTMLElement>("div.overflow-x-auto")
+    if (!el || !scroller) return
+    const measure = () => {
+      // The cell keeps the table's horizontal edge inset, so the visible width
+      // available to the panel is the scroller minus that padding — sizing to
+      // the scroller alone overhangs it by exactly one inset.
+      const cell = el.parentElement
+      const cs = cell ? getComputedStyle(cell) : null
+      const pad = cs ? parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) : 0
+      setWidth(Math.max(0, scroller.clientWidth - pad))
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(scroller)
+    return () => ro.disconnect()
+  }, [ref])
+  return width
+}
+
+/** The expanded scenario row: what producers and rivals did about this bid.
+    The range tabs are per-row — each row is read on its own. */
+function ScenarioDetail({ scenario }: { scenario: Scenario }) {
+  const [range, setRange] = React.useState<ActivityRange>("since")
+  const activity = scenario.activity[range]
+  const counts = tally(activity)
+  const ref = React.useRef<HTMLDivElement>(null)
+  const width = useVisibleWidth(ref)
+
+  return (
+    <div ref={ref} className="sticky left-0 p-4" style={width ? { width } : undefined}>
+      <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)}>
+        <div className="max-w-full overflow-x-auto">
+          <TabsList variant="underline" className="w-full">
+            <TabsTrigger value="since">Since Last Update</TabsTrigger>
+            <TabsTrigger value="all">All Time</TabsTrigger>
+          </TabsList>
+        </div>
+      </Tabs>
+
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Producer activity</CardTitle>
+            <CardDescription>Accepts and rejects against this bid</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <div className="flex gap-8">
+              <Stat n={counts.accepted} label="Accepted" />
+              <Stat n={counts.rejected} label="Rejected" />
+            </div>
+            {activity.events.length === 0 ? (
+              <Empty>No producer activity in this window.</Empty>
+            ) : (
+              <ul className="flex flex-col gap-2.5">
+                {activity.events.map((e) => (
+                  <li key={e.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                    <span className="min-w-0 flex-1 truncate">{e.producer}</span>
+                    <StatusBadge status={actionStatus[e.action].hue}>
+                      {actionStatus[e.action].label}
+                    </StatusBadge>
+                    <span className="tabular-nums">{usd(e.bid)}</span>
+                    <span className="w-20 shrink-0 text-xs text-muted-foreground">{e.when}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Competitor activity</CardTitle>
+            <CardDescription>Posted bid movement at rival buyers</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {activity.moves.length === 0 ? (
+              <Empty>No competitor movement in this window.</Empty>
+            ) : (
+              <ul className="flex flex-col gap-2.5">
+                {activity.moves.map((m) => {
+                  const d = Math.round((m.to - m.from) * 100) / 100
+                  const up = d > 0
+                  return (
+                    <li key={m.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                      <span className="min-w-0 flex-1 truncate">{m.competitor}</span>
+                      <span className="tabular-nums text-muted-foreground">
+                        {usd(m.from)} → {usd(m.to)}
+                      </span>
+                      {/* Direction is the signal here; a rival raising their bid
+                          is not "success", so this stays off the notification
+                          axis and leans on the arrow instead of colour. */}
+                      <span className="flex w-20 shrink-0 items-center gap-1 tabular-nums">
+                        {d === 0 ? null : up ? (
+                          <TrendingUp className="size-3.5" />
+                        ) : (
+                          <TrendingDown className="size-3.5" />
+                        )}
+                        {delta(d)}
+                      </span>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
 export default function ScenariosPage() {
   const [location, setLocation] = React.useState("all")
   const [commodity, setCommodity] = React.useState("all")
@@ -43,6 +195,14 @@ export default function ScenariosPage() {
   const rows = byCommodity.filter((s) => location === "all" || s.location === location)
   const countFor = (loc?: string) =>
     loc ? byCommodity.filter((s) => s.location === loc).length : byCommodity.length
+
+  const [expanded, setExpanded] = React.useState<Set<string>>(new Set())
+  const toggle = (id: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
 
   return (
     <div className="flex w-full flex-col">
@@ -91,9 +251,12 @@ export default function ScenariosPage() {
       {/* object table */}
       <div className="px-6 py-6 md:px-8">
         <div className="overflow-x-auto rounded-lg border border-border bg-card">
-          <Table striped>
+          {/* Striped by data index rather than the DS `striped` prop: expanded
+              detail rows are extra <tr>s, which would flip nth-child parity. */}
+          <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-8" />
                 <TableHead>Futures month</TableHead>
                 <TableHead>Time of shipment</TableHead>
                 <TableHead>Commodity</TableHead>
@@ -107,8 +270,33 @@ export default function ScenariosPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.map((s) => (
-                <TableRow key={s.id}>
+              {rows.map((s, i) => (
+                <React.Fragment key={s.id}>
+                {/* The whole row toggles; the chevron stays a real button so the
+                    control is keyboard-reachable and labelled. */}
+                <TableRow
+                  onClick={() => toggle(s.id)}
+                  className={cn("cursor-pointer", i % 2 === 1 && "bg-foreground/5")}
+                >
+                  <TableCell className="pr-0">
+                    <Button
+                      variant="outline"
+                      size="icon-sm"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        toggle(s.id)
+                      }}
+                      aria-label={expanded.has(s.id) ? "Collapse" : "Expand"}
+                      aria-expanded={expanded.has(s.id)}
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "transition-transform duration-[var(--duration-fast)] ease-[var(--ease-out)]",
+                          expanded.has(s.id) && "rotate-180"
+                        )}
+                      />
+                    </Button>
+                  </TableCell>
                   <TableCell className="font-medium whitespace-nowrap">{s.futuresMonth}</TableCell>
                   <TableCell className="whitespace-nowrap text-muted-foreground">{s.shipment}</TableCell>
                   <TableCell>
@@ -138,10 +326,18 @@ export default function ScenariosPage() {
                     </div>
                   </TableCell>
                 </TableRow>
+                {expanded.has(s.id) && (
+                  <TableRow className="hover:bg-transparent">
+                    <TableCell colSpan={11} data-v2-detail className="bg-foreground/5">
+                      <ScenarioDetail scenario={s} />
+                    </TableCell>
+                  </TableRow>
+                )}
+                </React.Fragment>
               ))}
               {rows.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={10} className="py-10 text-center text-sm text-muted-foreground">
+                  <TableCell colSpan={11} className="py-10 text-center text-sm text-muted-foreground">
                     No scenarios for this location and commodity.
                   </TableCell>
                 </TableRow>
