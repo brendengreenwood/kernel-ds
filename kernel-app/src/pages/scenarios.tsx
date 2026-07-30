@@ -26,6 +26,7 @@ import {
 import {
   locations,
   scenarios,
+  sinceCount,
   tally,
   type ActivityRange,
   type Scenario,
@@ -96,6 +97,25 @@ function PanelHeader({
         </div>
       </div>
     </CardHeader>
+  )
+}
+
+/** Row-level activity flag: how much has landed since this scenario was last
+    touched. Accent-tinted because in this app green means "this is the thing" —
+    here, the thing worth opening. Rows that have been quiet carry nothing at
+    all, so the column stays scannable. */
+function ActivityFlag({ n }: { n: number }) {
+  return (
+    // Explicit rungs off the lime scale rather than a translucent `primary/15`
+    // tint: an alpha fill takes its contrast from whatever happens to be behind
+    // it, and measured 3.93:1 in light — under AA. Opaque steps are the soft-fill
+    // shape the DS's own badges use, and they hold their ratio anywhere.
+    <span
+      data-v2-flag
+      className="inline-flex items-center rounded-full bg-lime-100 px-2 py-0.5 text-xs font-medium text-lime-900 dark:bg-lime-900 dark:text-lime-200"
+    >
+      {n} new
+    </span>
   )
 }
 
@@ -403,7 +423,14 @@ export default function ScenariosPage() {
                   <TableCell className="tabular-nums">{usd(s.postedBid)}</TableCell>
                   <TableCell className="tabular-nums">{usd(s.maxBid)}</TableCell>
                   <TableCell className="font-medium tabular-nums">{usd(s.adjustedMaxBid)}</TableCell>
-                  <TableCell className="whitespace-nowrap text-muted-foreground">{s.updated}</TableCell>
+                  {/* The flag lives beside "Last Updated" because that is
+                      exactly what it is measured against. */}
+                  <TableCell className="whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <span className="text-muted-foreground">{s.updated}</span>
+                      {sinceCount(s) > 0 && <ActivityFlag n={sinceCount(s)} />}
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <StatusBadge status={statusMap[s.status].hue}>{statusMap[s.status].label}</StatusBadge>
                   </TableCell>

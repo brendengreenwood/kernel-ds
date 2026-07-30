@@ -135,9 +135,11 @@ function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activ
     }
   })
 
-  // "Since last update" = the newest slice of the same lists.
-  const sinceEvents = Math.max(1, Math.round(eventCount * 0.4))
-  const sinceMoves = Math.max(1, Math.round(moveCount * 0.5))
+  // "Since last update" = the newest slice of the same lists. Some scenarios
+  // have genuinely been quiet — the slice must be allowed to reach zero, or a
+  // row-level activity flag lights every row and tells the merchant nothing.
+  const sinceEvents = Math.floor(r() * (eventCount * 0.6 + 1))
+  const sinceMoves = Math.floor(r() * (moveCount * 0.7 + 1))
   return {
     all: { events, moves },
     since: { events: events.slice(0, sinceEvents), moves: moves.slice(0, sinceMoves) },
@@ -151,3 +153,8 @@ export const tally = (a: Activity) => ({
   accepted: a.events.filter((e) => e.action === "accepted").length,
   rejected: a.events.filter((e) => e.action === "rejected").length,
 })
+
+/** How much has happened since the merchant last touched this scenario — the
+    number the row-level activity flag reports. */
+export const sinceCount = (s: Scenario) =>
+  s.activity.since.events.length + s.activity.since.moves.length
