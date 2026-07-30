@@ -61,6 +61,16 @@
   border-radius: calc(var(--radius) - var(--spacing)) !important;
 }
 
+/* Column headers recede. The DS sets them `font-medium` in `--foreground`, which
+   gives a label the same visual weight as the data it labels — in a dense grid
+   the header row then competes with the rows for attention. Dropping to normal
+   weight in `--muted-foreground` keeps the header legible as structure while the
+   values stay the figure. Unlayered + !important to beat those two utilities. */
+[data-slot="table-head"] {
+  font-weight: 400 !important;
+  color: var(--muted-foreground) !important;
+}
+
 /* Data tables read roomier than the DS default (px-2/p-2 hugs the edge).
    Unlayered + !important so these beat the Tailwind padding utilities
    (utilities cascade layer). Edge cells get extra inset so text never sits

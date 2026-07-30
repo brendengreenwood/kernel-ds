@@ -77,12 +77,12 @@ function OfferInset({ offers }: { offers: Offer[] }) {
               <TableHead>Commodity</TableHead>
               <TableHead className="whitespace-normal leading-tight">Delivery Location</TableHead>
               {/* min-widths keep the long labels to two lines instead of stacking word-per-line */}
-              <TableHead className="whitespace-normal text-right leading-tight">Posted Bid</TableHead>
-              <TableHead className="min-w-24 whitespace-normal text-right leading-tight">Producer Max Bid</TableHead>
-              <TableHead className="min-w-24 whitespace-normal text-right leading-tight">Scenario Max Bid</TableHead>
+              <TableHead className="whitespace-normal leading-tight">Posted Bid</TableHead>
+              <TableHead className="min-w-24 whitespace-normal leading-tight">Producer Max Bid</TableHead>
+              <TableHead className="min-w-24 whitespace-normal leading-tight">Scenario Max Bid</TableHead>
               <TableHead>Top Comp.</TableHead>
-              <TableHead className="min-w-24 whitespace-normal text-right leading-tight">Top Comp. Bid</TableHead>
-              <TableHead className="min-w-28 whitespace-normal text-right leading-tight">Value over top comp</TableHead>
+              <TableHead className="min-w-24 whitespace-normal leading-tight">Top Comp. Bid</TableHead>
+              <TableHead className="min-w-28 whitespace-normal leading-tight">Value over top comp</TableHead>
               <TableHead>Created</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -98,13 +98,13 @@ function OfferInset({ offers }: { offers: Offer[] }) {
                   <CommodityLabel commodity={o.commodity} />
                 </TableCell>
                 <TableCell>{o.location}</TableCell>
-                <TableCell className="text-right tabular-nums">{basis(o.postedBid)}</TableCell>
-                <TableCell className="text-right tabular-nums">{basis(o.producerMaxBid)}</TableCell>
-                <TableCell className="text-right tabular-nums">{basis(o.scenarioMaxBid)}</TableCell>
+                <TableCell className="tabular-nums">{basis(o.postedBid)}</TableCell>
+                <TableCell className="tabular-nums">{basis(o.producerMaxBid)}</TableCell>
+                <TableCell className="tabular-nums">{basis(o.scenarioMaxBid)}</TableCell>
                 <TableCell>{o.topComp}</TableCell>
-                <TableCell className="text-right tabular-nums">{basis(o.topCompBid)}</TableCell>
+                <TableCell className="tabular-nums">{basis(o.topCompBid)}</TableCell>
                 {/* What the producer gains by taking our max bid over the best rival. */}
-                <TableCell className="text-right font-medium tabular-nums">
+                <TableCell className="font-medium tabular-nums">
                   {basis(round2(o.producerMaxBid - o.topCompBid))}
                 </TableCell>
                 <TableCell className="text-muted-foreground">{o.created}</TableCell>
@@ -256,7 +256,7 @@ export default function ProducersPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-8" />
-                <TableHead className="text-right">
+                <TableHead>
                   <span className="inline-flex items-center gap-1.5">
                     Rank
                     <Tooltip>
@@ -278,7 +278,7 @@ export default function ProducersPage() {
                 <TableHead>Last Delivery</TableHead>
                 <TableHead>Last Contact</TableHead>
                 <TableHead>Contact Type</TableHead>
-                <TableHead className="text-right">Bids</TableHead>
+                <TableHead>Bids</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -309,7 +309,7 @@ export default function ProducersPage() {
                         />
                       </Button>
                     </TableCell>
-                    <TableCell className="text-right font-medium tabular-nums">{p.rank}</TableCell>
+                    <TableCell className="font-medium tabular-nums">{p.rank}</TableCell>
                     <TableCell className="font-medium whitespace-nowrap">{p.name}</TableCell>
                     <TableCell>
                       <Badge variant="outline">{p.accountType}</Badge>
@@ -321,8 +321,8 @@ export default function ProducersPage() {
                     <TableCell>{dateCell(p.lastDelivery)}</TableCell>
                     <TableCell>{dateCell(p.lastContact)}</TableCell>
                     <TableCell className="whitespace-nowrap">{p.contactType}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end">
+                    <TableCell>
+                      <div className="flex">
                         <BidsBadge n={p.bids} />
                       </div>
                     </TableCell>

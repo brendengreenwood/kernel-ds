@@ -98,9 +98,9 @@ export default function ScenariosPage() {
                 <TableHead>Time of shipment</TableHead>
                 <TableHead>Commodity</TableHead>
                 <TableHead>Location</TableHead>
-                <TableHead className="text-right">Posted bid</TableHead>
-                <TableHead className="text-right">Max bid</TableHead>
-                <TableHead className="text-right">Adjusted Max Bid</TableHead>
+                <TableHead>Posted bid</TableHead>
+                <TableHead>Max bid</TableHead>
+                <TableHead>Adjusted Max Bid</TableHead>
                 <TableHead>Last Updated</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -115,9 +115,9 @@ export default function ScenariosPage() {
                     <CommodityLabel commodity={s.commodity} />
                   </TableCell>
                   <TableCell className="whitespace-nowrap">{s.location}</TableCell>
-                  <TableCell className="text-right tabular-nums">{usd(s.postedBid)}</TableCell>
-                  <TableCell className="text-right tabular-nums">{usd(s.maxBid)}</TableCell>
-                  <TableCell className="text-right font-medium tabular-nums">{usd(s.adjustedMaxBid)}</TableCell>
+                  <TableCell className="tabular-nums">{usd(s.postedBid)}</TableCell>
+                  <TableCell className="tabular-nums">{usd(s.maxBid)}</TableCell>
+                  <TableCell className="font-medium tabular-nums">{usd(s.adjustedMaxBid)}</TableCell>
                   <TableCell className="whitespace-nowrap text-muted-foreground">{s.updated}</TableCell>
                   <TableCell>
                     <StatusBadge status={statusMap[s.status].hue}>{statusMap[s.status].label}</StatusBadge>
