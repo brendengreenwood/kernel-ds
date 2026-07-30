@@ -56,13 +56,7 @@ try {
   usage(`cannot read input ${source}: ${err.message}`)
 }
 
-// Location-independent imports: resolved from this file, not cwd.
-const { parseObjectModel } = await import(
-  new URL("../src/lib/objects/schema.ts", import.meta.url).href
-)
-const { parseWorkspacePreset } = await import(
-  new URL("../src/lib/objects/workspace-preset.ts", import.meta.url).href
-)
+const { parseObjectModel, parseWorkspacePreset } = await import("@kernel/definitions")
 
 /** Flatten a thrown validation error into human-readable strings. */
 function errorStrings(err) {

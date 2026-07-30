@@ -35,6 +35,14 @@ export function componentsDir(): string {
   return path.join(dsBundleDir(), "components", "general");
 }
 
+export function catalogPackageDir(): string {
+  return path.join(repoRoot(), "packages", "catalog");
+}
+
+export function definitionsPackageDir(): string {
+  return path.join(repoRoot(), "packages", "definitions");
+}
+
 /**
  * Directory where generated prototypes are written.
  * Override with STUDIO_PROTOTYPES_DIR (tests use a temp dir).
@@ -54,16 +62,6 @@ export function definitionsDir(): string {
   const override = process.env.STUDIO_DEFINITIONS_DIR;
   if (override) return path.resolve(override);
   return path.join(repoRoot(), "kernel-portal", "public", "definitions");
-}
-
-/** Portal scripts directory — hosts validate-definition.mjs. */
-export function portalScriptsDir(): string {
-  return path.join(repoRoot(), "kernel-portal", "scripts");
-}
-
-/** Portal public directory — hosts composition.json. */
-export function portalPublicDir(): string {
-  return path.join(repoRoot(), "kernel-portal", "public");
 }
 
 /**

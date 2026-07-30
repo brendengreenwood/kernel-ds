@@ -26,3 +26,4 @@ export type {
   WorkspacePreset,
   WorkspacePresetMode,
 } from "./workspace.ts"
+export type DefinitionKind = "object" | "workspace"

@@ -1,18 +1,13 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import { compositionContract } from "@kernel/definitions/composition";
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 import { validateDefinition, writeDefinition } from "../../lib/definitions.js";
-import { definitionsDir, portalPublicDir, portalScriptsDir } from "../../lib/paths.js";
+import { definitionsDir } from "../../lib/paths.js";
 
 const kindSchema = z.enum(["object", "workspace"]);
 const keySchema = z
   .string()
   .regex(/^[a-z][a-z0-9-]*$/, "key must be a lowercase slug (a-z, 0-9, -)");
-
-function validateCliPath(): string {
-  return path.join(portalScriptsDir(), "validate-definition.mjs");
-}
 
 const verdictSchema = z.object({
   ok: z.boolean(),
@@ -24,30 +19,25 @@ const verdictSchema = z.object({
 export const readCompositionContractTool = createTool({
   id: "read-composition-contract",
   description:
-    "Read the portal's composition contract (public/composition.json): the primitives, " +
-    "regions, and doctrine rules that agent-authored definitions must respect.",
+    "Read the canonical composition contract: the primitives, regions, and doctrine rules " +
+    "that agent-authored definitions must respect.",
   inputSchema: z.object({}),
   outputSchema: z.object({ contract: z.unknown() }),
-  execute: async () => {
-    const raw = await fs.readFile(path.join(portalPublicDir(), "composition.json"), "utf8");
-    return { contract: JSON.parse(raw) as unknown };
-  },
+  execute: async () => ({ contract: compositionContract }),
 });
 
 export const validateDefinitionTool = createTool({
   id: "validate-definition",
   description:
-    "Validate a candidate definition document against the portal's own zod schemas " +
-    "(object model envelope or workspace preset). Returns { ok: true, kind, key } or " +
-    "{ ok: false, errors }. Validation runs the portal's validate-definition CLI — " +
-    "the portal schemas are the single source of truth.",
+    "Validate a candidate definition document against the canonical @kernel/definitions " +
+    "schemas (object model envelope or workspace preset). Returns { ok: true, kind, key } " +
+    "or { ok: false, errors }.",
   inputSchema: z.object({
     kind: kindSchema,
     document: z.string().describe("The full JSON document as a string"),
   }),
   outputSchema: verdictSchema,
-  execute: async ({ kind, document }) =>
-    validateDefinition({ kind, document, validateCliPath: validateCliPath() }),
+  execute: async ({ kind, document }) => validateDefinition({ kind, document }),
 });
 
 export const writeDefinitionTool = createTool({
@@ -71,7 +61,6 @@ export const writeDefinitionTool = createTool({
       key,
       document,
       definitionsDir: definitionsDir(),
-      validateCliPath: validateCliPath(),
     }),
 });
 

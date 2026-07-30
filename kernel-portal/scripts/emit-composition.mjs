@@ -18,9 +18,7 @@ const here = dirname(fileURLToPath(import.meta.url))
 const portalRoot = join(here, "..")
 const repoRoot = join(portalRoot, "..")
 
-const { compositionContract } = await import(
-  new URL("../src/lib/objects/composition.ts", import.meta.url).href
-)
+const { compositionContract } = await import("@kernel/definitions/composition")
 
 // --- Validate every rules[].source against real records ------------------
 const decisionFiles = readdirSync(join(repoRoot, "docs", "decisions"))
