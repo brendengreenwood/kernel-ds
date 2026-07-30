@@ -25,6 +25,24 @@ jobs:
       - name: Catalog integrity
         run: node kernel-portal/scripts/check-catalog.mjs
 
+  ui-package:
+    name: ui package (build + contract)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Build
+        run: npm run ui:build
+      - name: Tests
+        run: npm run ui:test
+      - name: Package contract
+        run: npm run ui:check
+
   portal:
     name: portal (build + gates)
     runs-on: ubuntu-latest
