@@ -25,6 +25,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { pathToFileURL } from "node:url"
 import { spawnSync } from "node:child_process"
+import { catalog } from "@kernel/catalog"
 
 // Doc entities are TypeScript; importing the barrel needs type-stripping.
 // Re-exec under the flag if not already set (mirrors check-component-docs.mjs).
@@ -125,8 +126,18 @@ async function buildComponents() {
 }
 
 async function listComponentFiles() {
-  const files = await fs.readdir(uiDir)
-  return files.filter((f) => f.endsWith(".tsx")).map((f) => f.replace(/\.tsx$/, ""))
+  const api = JSON.parse(await fs.readFile(path.resolve(portalRoot, "../packages/ui/api.json"), "utf8"))
+  const catalogModules = catalog
+    .filter((entity) => entity.kind === "component" && entity.ai.bundleCategory === "general")
+    .flatMap((entity) => entity.sourceFiles)
+    .filter((sourceFile) => sourceFile.startsWith("packages/ui/src/components/ui/") && sourceFile.endsWith(".tsx"))
+    .map((sourceFile) => path.basename(sourceFile, ".tsx"))
+  const packageModules = api.modules.map(({ module }) => module)
+  const missingFromPackage = catalogModules.filter((module) => !packageModules.includes(module))
+  if (missingFromPackage.length > 0) {
+    throw new Error(`Catalog modules missing from @kernel/ui API: ${missingFromPackage.join(", ")}`)
+  }
+  return [...new Set([...packageModules, "icon"])].sort()
 }
 
 /** camel/pascal display name from a kebab file name (button -> Button, alert-dialog -> AlertDialog). */

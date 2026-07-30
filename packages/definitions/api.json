@@ -1,0 +1,33 @@
+{
+  "package": "@kernel/definitions",
+  "version": "0.0.0",
+  "exports": {
+    ".": [
+      "objectDefinitionSchema",
+      "objectModelSchema",
+      "objectRowsSchema",
+      "parseObjectModel",
+      "validateObjectDefinition",
+      "deriveCoord",
+      "workspacePresetSchema",
+      "parseWorkspacePreset",
+      "validateWorkspacePreset"
+    ],
+    "./composition": [
+      "primitives",
+      "regions",
+      "presets",
+      "rules",
+      "compositionContract"
+    ],
+    "./presets": [
+      "contractModel",
+      "contractRows",
+      "settlementModel",
+      "settlementRows",
+      "demoDataset",
+      "incidentJson",
+      "incidentWorkspaceJson"
+    ]
+  }
+}

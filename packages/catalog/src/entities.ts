@@ -2327,7 +2327,7 @@ export const catalog = [
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
@@ -2335,7 +2335,12 @@ export const catalog = [
     "capabilities": [
       "composition-contract"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "object.workspace"
+      }
+    ],
     "documentation": {
       "portalAnchor": "obj-shell"
     },
@@ -2343,7 +2348,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "composition-contract"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
     "note": "decision 0026"
   },
   {
@@ -2352,7 +2359,7 @@ export const catalog = [
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
@@ -2360,7 +2367,28 @@ export const catalog = [
     "capabilities": [
       "composition-contract"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "object.collection"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.record"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.write"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.query"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.traversal"
+      }
+    ],
     "documentation": {
       "portalAnchor": "obj-workspace"
     },
@@ -2368,7 +2396,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "composition-contract"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
     "note": "decision 0026"
   },
   {
@@ -2377,7 +2407,7 @@ export const catalog = [
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
@@ -2385,7 +2415,12 @@ export const catalog = [
     "capabilities": [
       "composition-contract"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.workspace"
+      }
+    ],
     "documentation": {
       "portalAnchor": "obj-collection"
     },
@@ -2393,7 +2428,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "composition-contract"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
     "note": "decision 0026 \u2014 first Read primitive (many rows of one object)."
   },
   {
@@ -2402,7 +2439,7 @@ export const catalog = [
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
@@ -2410,7 +2447,12 @@ export const catalog = [
     "capabilities": [
       "composition-contract"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.workspace"
+      }
+    ],
     "documentation": {
       "portalAnchor": "obj-record"
     },
@@ -2418,7 +2460,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "composition-contract"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
     "note": "decision 0026 \u2014 second Read primitive (one row of one object)."
   },
   {
@@ -2427,7 +2471,7 @@ export const catalog = [
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
@@ -2435,7 +2479,12 @@ export const catalog = [
     "capabilities": [
       "composition-contract"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      }
+    ],
     "documentation": {
       "portalAnchor": "obj-write"
     },
@@ -2443,7 +2492,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "composition-contract"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
     "note": "decision 0026 \u2014 write layer (form + in-place postures)."
   },
   {
@@ -2452,7 +2503,7 @@ export const catalog = [
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
@@ -2460,7 +2511,12 @@ export const catalog = [
     "capabilities": [
       "composition-contract"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.collection"
+      }
+    ],
     "documentation": {
       "portalAnchor": "obj-query"
     },
@@ -2468,7 +2524,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "composition-contract"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
     "note": "decision 0026 \u2014 Aspect: narrows an object row set with predicates; yields a Collection."
   },
   {
@@ -2477,7 +2535,7 @@ export const catalog = [
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
@@ -2485,7 +2543,12 @@ export const catalog = [
     "capabilities": [
       "composition-contract"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      }
+    ],
     "documentation": {
       "portalAnchor": "obj-traversal"
     },
@@ -2493,7 +2556,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "composition-contract"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
     "note": "decision 0026 \u2014 Aspect: walks declared associations to related object rows."
   },
   {

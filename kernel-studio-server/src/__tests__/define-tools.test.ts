@@ -1,20 +1,8 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { resolveInside, validateDefinition, writeDefinition } from "../lib/definitions.js";
-
-// All paths are passed DIRECTLY as arguments (dependency-injected lib) —
-// no reliance on ambient env. KERNEL_STUDIO_REPO_ROOT is still set
-// programmatically so any paths.ts-level code touched indirectly resolves
-// without the ds-bundle sentinel (absent on this machine).
-const repoRootDir = fileURLToPath(new URL("../../../", import.meta.url));
-const validateCliPath = path.join(repoRootDir, "kernel-portal", "scripts", "validate-definition.mjs");
-
-// Spawning the strip-types CLI costs ~1s per verdict; give spawn-heavy
-// tests explicit headroom over vitest's 5s default.
-const SPAWN_TIMEOUT = 30_000;
 
 let tempDir: string;
 
@@ -60,11 +48,9 @@ const incoherentPresetDocument = JSON.stringify({
 
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "kernel-studio-definitions-"));
-  process.env.KERNEL_STUDIO_REPO_ROOT = repoRootDir;
 });
 
 afterEach(async () => {
-  delete process.env.KERNEL_STUDIO_REPO_ROOT;
   await fs.rm(tempDir, { recursive: true, force: true });
 });
 
@@ -75,7 +61,6 @@ describe("definition write path", () => {
       const verdict = validateDefinition({
         kind: "object",
         document: validObjectDocument,
-        validateCliPath,
       });
       expect(verdict).toEqual({ ok: true, kind: "object", key: "gadget" });
 
@@ -84,7 +69,6 @@ describe("definition write path", () => {
         key: "gadget",
         document: validObjectDocument,
         definitionsDir: tempDir,
-        validateCliPath,
       });
       expect(result.written).toBe("objects/gadget.json");
       expect(result.manifestEntries).toEqual([{ kind: "object", path: "objects/gadget.json" }]);
@@ -97,7 +81,6 @@ describe("definition write path", () => {
         definitions: [{ kind: "object", path: "objects/gadget.json" }],
       });
     },
-    SPAWN_TIMEOUT,
   );
 
   it(
@@ -106,7 +89,6 @@ describe("definition write path", () => {
       const verdict = validateDefinition({
         kind: "object",
         document: missingToneDocument,
-        validateCliPath,
       });
       expect(verdict.ok).toBe(false);
       expect(verdict.errors?.join("\n")).toContain("model.statuses.0.tone");
@@ -117,14 +99,12 @@ describe("definition write path", () => {
           key: "gadget",
           document: missingToneDocument,
           definitionsDir: tempDir,
-          validateCliPath,
         }),
       ).toThrow(/refusing to write invalid object definition "gadget"/);
 
       // Nothing was written: no objects/, no manifest.
       await expect(fs.readdir(tempDir)).resolves.toEqual([]);
     },
-    SPAWN_TIMEOUT,
   );
 
   it("throws on path escapes: non-slug keys and forged ../ paths", () => {
@@ -135,7 +115,6 @@ describe("definition write path", () => {
         key: "../evil",
         document: validObjectDocument,
         definitionsDir: tempDir,
-        validateCliPath,
       }),
     ).toThrow(/lowercase slug/);
 
@@ -154,12 +133,10 @@ describe("definition write path", () => {
       const verdict = validateDefinition({
         kind: "workspace",
         document: incoherentPresetDocument,
-        validateCliPath,
       });
       expect(verdict.ok).toBe(false);
       expect(verdict.errors?.join("\n")).toContain("defaultGroupBy");
     },
-    SPAWN_TIMEOUT,
   );
 
   it(
@@ -170,20 +147,17 @@ describe("definition write path", () => {
         key: "gadget",
         document: validObjectDocument,
         definitionsDir: tempDir,
-        validateCliPath,
       });
       const second = writeDefinition({
         kind: "object",
         key: "gadget",
         document: validObjectDocument,
         definitionsDir: tempDir,
-        validateCliPath,
       });
       expect(first.manifestEntries).toHaveLength(1);
       expect(second.manifestEntries).toHaveLength(1);
       const manifest = JSON.parse(await fs.readFile(path.join(tempDir, "manifest.json"), "utf8"));
       expect(manifest.definitions).toHaveLength(1);
     },
-    SPAWN_TIMEOUT,
   );
 });

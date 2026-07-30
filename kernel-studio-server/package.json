@@ -11,6 +11,7 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@kernel/definitions": "file:../packages/definitions",
     "@ai-sdk/anthropic": "^3.0.0",
     "@hono/node-server": "^1.19.11",
     "@libsql/client": "^0.14.0",
