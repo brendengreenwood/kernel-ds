@@ -28,7 +28,7 @@ No web fonts — --font-sans/--font-mono are native system stacks only
 Overlines use typeStyles.overline (see check-style-fidelity); radius uses rounded-lg not rounded-xl
 Domain copy stays in the grain-buying merchant world (loads, contracts, farms, bushels, basis, settlement)
 
-Wiring a new section/component (decision 0011): route in main.tsx + rail entry in components/portal/app-sidebar.tsx; a component adds its cluster to the relevant gallery-*.tsx list and a component-meta.ts status entry — no separate page file
+Wiring a new section/component (decision 0011): route in main.tsx + rail entry in components/portal/app-sidebar.tsx; a component adds its cluster to the relevant gallery-*.tsx list and canonical @kernel/catalog lifecycle metadata, then runs `npm run catalog:generate` from the repo root — no separate page file and never hand-edit component-meta.generated.ts
 
 Architecture (src/)
 index.css — design tokens (OKLCH scales, status/commodity/viz, spacing, radius, shadows, motion) + @theme maps
