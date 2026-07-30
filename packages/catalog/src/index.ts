@@ -1,4 +1,11 @@
 export { catalog } from "./entities.ts"
+export {
+  selectEntitiesByKind,
+  selectEntitiesByMaturity,
+  selectPortalAnchors,
+  selectPortalLifecycleMeta,
+} from "./selectors.ts"
+export type { PortalLifecycleMeta } from "./selectors.ts"
 export { validateCatalog } from "./schema.ts"
 export type {
   CatalogAiReference,

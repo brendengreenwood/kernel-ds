@@ -287,12 +287,15 @@ The original portal source targeted Next.js App Router. Changes made:
 ## Component status (decision 0006)
 
 Every component/element/pattern carries a lifecycle status —
-`experimental` / `ready` / `deprecated` — tracked in
-`src/lib/component-meta.ts` and rendered as Primer-style side-rail entries
-(maturity pills on non-ready items) plus the **Component status** section
-(`#status`). Adding a component means adding a registry entry; signing off
-an experimental delta means flipping its entry to `ready` and rewriting the
-note to remove stale blocker language. A11y review is a separate column;
+`experimental` / `ready` / `deprecated` — owned by the canonical
+`@kernel/catalog` package and projected into the portal through
+`src/lib/component-meta.generated.ts`. The generated adapter renders
+Primer-style side-rail entries (maturity pills on non-ready items) plus the
+**Component status** section (`#status`). Add or update the catalog entity,
+then run `npm run catalog:generate` from the repository root; never hand-edit
+the generated adapter. Signing off an experimental delta means flipping its
+catalog maturity to `ready` and rewriting the note to remove stale blocker
+language. A11y review is a separate column;
 the 2026-07 component-completeness pass closed the two remaining pending rows
 (Drawer and Form elements) and resolved the experimental sweep: eight rows were
 promoted to ready, while Contract detail and Settlement statement remain

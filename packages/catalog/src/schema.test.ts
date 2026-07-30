@@ -1,6 +1,13 @@
 import assert from "node:assert/strict"
 import test from "node:test"
+import { catalog } from "./entities.ts"
 import { validCatalogFixture } from "./fixtures/valid.ts"
+import {
+  selectEntitiesByKind,
+  selectEntitiesByMaturity,
+  selectPortalAnchors,
+  selectPortalLifecycleMeta,
+} from "./selectors.ts"
 import { validateCatalog, type CatalogEntity } from "./schema.ts"
 
 test("accepts a valid catalog", () => {
@@ -41,4 +48,39 @@ test("rejects relationships to missing entities", () => {
     validateCatalog([missingTarget]).some((issue) => issue.code === "missing-relationship-target"),
     true,
   )
+})
+
+test("sorts portal lifecycle metadata by group and name", () => {
+  const lifecycle = selectPortalLifecycleMeta(catalog)
+  const groups = lifecycle.map((entity) => entity.group)
+  assert.equal(lifecycle.length, 93)
+  assert.deepEqual(lifecycle.slice(0, 3).map((entity) => entity.name), ["Accordion", "Alert", "Alert Dialog"])
+  assert.equal(groups.lastIndexOf("component") < groups.indexOf("element"), true)
+  assert.equal(groups.lastIndexOf("element") < groups.indexOf("pattern"), true)
+  assert.equal(groups.lastIndexOf("pattern") < groups.indexOf("domain"), true)
+  assert.equal(groups.lastIndexOf("domain") < groups.indexOf("object"), true)
+})
+
+test("selects stable group and maturity views", () => {
+  const components = selectEntitiesByKind(catalog, "component")
+  const ready = selectEntitiesByMaturity(catalog, "ready")
+  const experimental = selectEntitiesByMaturity(catalog, "experimental")
+  assert.equal(components.length, 62)
+  assert.equal(ready.length, 82)
+  assert.equal(experimental.length, 11)
+  assert.deepEqual(components.map((entity) => entity.name), [...components].map((entity) => entity.name).sort())
+})
+
+test("returns unique sorted portal anchors", () => {
+  const anchors = selectPortalAnchors(catalog)
+  assert.equal(new Set(anchors).size, anchors.length)
+  assert.deepEqual(anchors, [...anchors].sort())
+})
+
+test("resolves catalog source and documentation references", () => {
+  const entities: readonly CatalogEntity[] = catalog
+  const documented = entities.filter((entity) => entity.documentation.slug)
+  assert.equal(new Set(documented.map((entity) => entity.documentation.slug)).size, 81)
+  assert.equal(documented.every((entity) => entity.documentation.sourceFile?.startsWith("kernel-portal/src/lib/component-docs/")), true)
+  assert.equal(entities.every((entity) => entity.documentation.portalAnchor.length > 0), true)
 })
