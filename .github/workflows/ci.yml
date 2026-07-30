@@ -56,6 +56,9 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: kernel-portal/package-lock.json
+      - name: Install and build local packages
+        working-directory: .
+        run: npm ci && npm run ui:build
       - run: npm ci
 
       # Typecheck + build (tsc -b && vite build)
@@ -86,7 +89,8 @@ jobs:
       - name: Object-model assertions
         run: node --experimental-strip-types src/lib/objects/__check__.mts
       - name: Marks assertions
-        run: node src/components/ui/marks/__check__.mjs
+        working-directory: .
+        run: node packages/ui/src/components/ui/marks/__check__.mjs
 
   studio:
     name: studio (typecheck + tests)
@@ -102,8 +106,10 @@ jobs:
             kernel-studio-server/package-lock.json
 
       # The studio agent reads the generated ds-bundle at runtime, and the
-      # ds-bundle tool tests read it too. It's gitignored, so build it from the
-      # portal (which owns the build script + its vite dependency) before tests.
+      # ds-bundle tool tests read it too. It's gitignored, so build the local
+      # packages and then build the bundle from the portal before tests.
+      - name: Install and build local packages
+        run: npm ci && npm run ui:build
       - name: Install portal deps (for bundle build)
         working-directory: kernel-portal
         run: npm ci
