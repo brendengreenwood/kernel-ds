@@ -226,6 +226,90 @@ function tempCopy(fixtureName) {
   }
 }
 
+// 15. Managed consumers: registry validation, dry-run upgrade planning,
+// refusal matrix, apply/restore semantics, and unmanaged-fork fencing.
+{
+  const consumersFixtures = join(fixturesDir, "consumers")
+  const registryArg = ["--registry", "scripts/ds/__fixtures__/consumers/registry.json"]
+  const rootArg = ["--root", "scripts/ds/__fixtures__/consumers"]
+  const manifestArg = ["--manifest", "scripts/ds/__fixtures__/consumers/impact.json"]
+
+  // Real registry is valid; the invalid fixture reports each violation kind.
+  const realRegistry = ds(["consumers"])
+  assert(realRegistry.status === 0 && realRegistry.stdout.includes("CONSUMERS-CHECK-OK"), "consumers real registry valid", realRegistry.stdout + realRegistry.stderr)
+  const invalid = ds(["consumers", "--registry", "scripts/ds/__fixtures__/consumers/registry-invalid.json"])
+  assert(invalid.status === 1, "consumers invalid registry nonzero", invalid.stdout + invalid.stderr)
+  for (const marker of [
+    "unknown schema",
+    'verification command "rm" is not allowlisted',
+    "duplicate consumer id",
+    "localPath escapes the repository",
+    'localPath targets unmanaged path "kernel-app"',
+    'package "@kernel/catalog" is not publishable',
+    "branch.prefix is required",
+    "optIn must be true or false",
+  ]) {
+    assert(invalid.stderr.includes(marker), `consumers invalid registry reports: ${marker}`, invalid.stderr)
+  }
+
+  // Compatible dry-run: dependency, migration, docs, verification, and branch
+  // output — and no files written.
+  const appManifestPath = join(consumersFixtures, "app/package.json")
+  const appBefore = readFileSync(appManifestPath, "utf8")
+  const dryRun = ds(["upgrade", "--consumer", "fixture-app", "--dry-run", ...registryArg, ...rootArg, ...manifestArg])
+  assert(dryRun.status === 0 && dryRun.stdout.includes("DS-UPGRADE-OK: dry-run plan"), "upgrade dry-run compatible", dryRun.stdout + dryRun.stderr)
+  for (const marker of [
+    "@kernel/ui: ^0.0.0 -> ^1.0.0",
+    "Rename the Button prop `tone` to `variant`",
+    "/components/button",
+    "node -e process.exit(0)",
+    "branch: chore/kernel-ds-upgrade/",
+  ]) {
+    assert(dryRun.stdout.includes(marker), `upgrade dry-run prints: ${marker}`, dryRun.stdout)
+  }
+  assert(readFileSync(appManifestPath, "utf8") === appBefore, "upgrade dry-run writes nothing")
+
+  // No-op, unmanaged fork, unknown id, missing opt-in, missing credentials.
+  const noop = ds(["upgrade", "--consumer", "fixture-noop", "--dry-run", ...registryArg, ...rootArg, ...manifestArg])
+  assert(noop.status === 0 && noop.stdout.includes("DS-UPGRADE-NOOP"), "upgrade no-op detected", noop.stdout + noop.stderr)
+  const fork = ds(["upgrade", "--consumer", "kernel-app", "--dry-run", ...registryArg, ...rootArg, ...manifestArg])
+  assert(fork.status === 1 && fork.stderr.includes("DS-UPGRADE-REFUSED") && fork.stderr.includes("unmanaged"), "upgrade refuses unmanaged fork", fork.stdout + fork.stderr)
+  const forkApply = ds(["upgrade", "--consumer", "kernel-app", "--apply", ...registryArg, ...rootArg, ...manifestArg])
+  assert(forkApply.status === 1 && forkApply.stderr.includes("DS-UPGRADE-REFUSED"), "upgrade refuses unmanaged fork even with --apply", forkApply.stdout + forkApply.stderr)
+  const unknown = ds(["upgrade", "--consumer", "no-such-app", "--dry-run", ...registryArg, ...rootArg, ...manifestArg])
+  assert(unknown.status === 1 && unknown.stderr.includes("DS-UPGRADE-REFUSED"), "upgrade refuses unknown consumer", unknown.stdout + unknown.stderr)
+  const notOpted = ds(["upgrade", "--consumer", "fixture-not-opted", "--apply", "--no-install", ...registryArg, ...rootArg, ...manifestArg])
+  assert(notOpted.status === 1 && notOpted.stderr.includes("not opted in"), "upgrade apply requires opt-in", notOpted.stdout + notOpted.stderr)
+  const remote = ds(["upgrade", "--consumer", "fixture-remote", "--apply", ...registryArg, ...rootArg, ...manifestArg])
+  assert(remote.status === 1 && remote.stderr.includes("credentials"), "upgrade apply refuses remote without credentials", remote.stdout + remote.stderr)
+
+  // Apply on temp copies: success updates dependencies; verification failure
+  // restores the consumer byte-for-byte and blocks.
+  const applyDir = tempCopy("consumers")
+  const applyRegistry = ["--registry", join(applyDir, "registry.json"), "--root", applyDir, "--manifest", join(applyDir, "impact.json")]
+  const applied = ds(["upgrade", "--consumer", "fixture-app", "--apply", "--no-install", ...applyRegistry])
+  assert(applied.status === 0 && applied.stdout.includes("DS-UPGRADE-OK: applied"), "upgrade apply succeeds", applied.stdout + applied.stderr)
+  const appliedManifest = JSON.parse(readFileSync(join(applyDir, "app/package.json"), "utf8"))
+  assert(appliedManifest.dependencies["@kernel/ui"] === "^1.0.0" && appliedManifest.dependencies["@kernel/definitions"] === "^0.1.0", "upgrade apply updates dependencies", JSON.stringify(appliedManifest.dependencies))
+
+  const failingPath = join(applyDir, "failing-app/package.json")
+  const failingBefore = readFileSync(failingPath, "utf8")
+  const blocked = ds(["upgrade", "--consumer", "fixture-failing", "--apply", "--no-install", ...applyRegistry])
+  assert(blocked.status === 1 && blocked.stderr.includes("DS-UPGRADE-BLOCKED"), "upgrade blocks on verification failure", blocked.stdout + blocked.stderr)
+  assert(readFileSync(failingPath, "utf8") === failingBefore, "upgrade failure restores the consumer")
+  rmSync(applyDir, { recursive: true, force: true })
+}
+
+// 16. ds:release publish mode refuses to start without registry credentials.
+{
+  const publish = spawnSync(process.execPath, [cli, "release", "--publish"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+    env: { ...process.env, NODE_AUTH_TOKEN: "" },
+  })
+  assert(publish.status === 1 && publish.stderr.includes("DS-RELEASE-REFUSED") && publish.stderr.includes("NODE_AUTH_TOKEN"), "release publish refuses without credentials", publish.stdout + publish.stderr)
+}
+
 // 14. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])

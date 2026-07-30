@@ -254,3 +254,74 @@ export async function releaseCheck(argv) {
   }
   console.log(`RELEASE-CHECK-OK: ${parsed.length} changeset(s) valid; ${plannedSummary}`)
 }
+
+/**
+ * Release orchestration: gate -> impact manifest -> pack -> release record ->
+ * dry-run upgrade propagation for every opted-in managed consumer. Publishing
+ * is an explicit mode (--publish) and refuses to start without registry
+ * credentials; everything before it works credential-free.
+ */
+export async function releaseRun(argv) {
+  const { flags } = parseFlags(argv, ["publish"])
+  const { fileURLToPath } = await import("node:url")
+  const { runNode } = await import("../lib/context.mjs")
+  const { defaultRegistryFile, loadRegistry, validateRegistry } = await import("../lib/consumers.mjs")
+  const cliFile = resolve(fileURLToPath(import.meta.url), "../../cli.mjs")
+
+  if (flags.publish === true && !process.env.NODE_AUTH_TOKEN) {
+    return fail(
+      "DS-RELEASE-REFUSED",
+      "publish mode requires NODE_AUTH_TOKEN for GitHub Packages; nothing was published (dry-run needs no credentials)",
+    )
+  }
+
+  const registry = loadRegistry(defaultRegistryFile)
+  const registryIssues = validateRegistry(registry)
+  if (registryIssues.length > 0) {
+    for (const issue of registryIssues) console.error(`  - ${issue}`)
+    return fail("DS-RELEASE-BLOCKED", "consumer registry invalid; fix scripts/ds/consumers.json first")
+  }
+
+  const steps = [
+    ["release-check", ["release-check"]],
+    ["release-impact", ["release-impact"]],
+    ["pack", ["pack"]],
+  ]
+  for (const [label, args] of steps) {
+    const result = runNode(cliFile, args)
+    if (result.status !== 0) return fail("DS-RELEASE-BLOCKED", `${label} failed; releasing is not allowed`)
+  }
+
+  const manifestFile = resolve(repoRoot, ".release/impact-manifest.json")
+  const manifest = JSON.parse(readFileSync(manifestFile, "utf8"))
+  const record = {
+    schema: "kernel-ds/release-record@1",
+    mode: flags.publish === true ? "publish" : "dry-run",
+    changesets: manifest.changesets,
+    packages: manifest.packages.map((entry) => ({
+      name: entry.name,
+      version: entry.plannedVersion,
+      registry: entry.registry,
+    })),
+  }
+  const recordFile = resolve(repoRoot, ".release/release-record.json")
+  writeFileSync(recordFile, `${JSON.stringify(record, null, 2)}\n`)
+
+  for (const consumer of registry.consumers.filter((entry) => entry.optIn)) {
+    const propagation = runNode(cliFile, ["upgrade", "--consumer", consumer.id, "--dry-run"])
+    if (propagation.status !== 0) {
+      return fail("DS-RELEASE-BLOCKED", `upgrade propagation plan failed for ${consumer.id}`)
+    }
+  }
+
+  if (flags.publish === true) {
+    const changesetBin = resolve(repoRoot, "node_modules/@changesets/cli/bin.js")
+    const publish = spawnSync(process.execPath, [changesetBin, "publish"], { cwd: repoRoot, stdio: "inherit" })
+    if (publish.status !== 0) return fail("DS-RELEASE-FAILED", "changeset publish failed; see output above")
+    console.log(`DS-RELEASE-OK: published ${record.packages.map((entry) => `${entry.name}@${entry.version}`).join(", ")}`)
+    return
+  }
+  console.log(
+    `DS-RELEASE-OK: dry-run complete — ${record.packages.map((entry) => `${entry.name}@${entry.version}`).join(", ")}; record at ${recordFile}`,
+  )
+}

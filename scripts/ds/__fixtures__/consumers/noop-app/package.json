@@ -1,0 +1,9 @@
+{
+  "name": "fixture-noop",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "@kernel/definitions": "^0.1.0",
+    "@kernel/ui": "^1.0.0"
+  }
+}

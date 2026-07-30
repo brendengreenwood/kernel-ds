@@ -41,7 +41,7 @@ function kernelDeps(appDir) {
 function dsScripts() {
   const manifest = readJson(resolve(repoRoot, "package.json"))
   return Object.keys(manifest.scripts)
-    .filter((name) => ["ds:", "agents:", "skills:", "release:", "changeset:"].some((prefix) => name.startsWith(prefix)))
+    .filter((name) => ["ds:", "agents:", "skills:", "release:", "changeset:", "consumers:"].some((prefix) => name.startsWith(prefix)))
     .sort()
 }
 

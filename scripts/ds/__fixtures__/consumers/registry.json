@@ -1,0 +1,61 @@
+{
+  "schema": "kernel-ds/consumer-registry@1",
+  "consumers": [
+    {
+      "id": "fixture-app",
+      "repository": "local",
+      "localPath": "app",
+      "packages": ["@kernel/definitions", "@kernel/ui"],
+      "branch": { "base": "main", "prefix": "chore/kernel-ds-upgrade" },
+      "verification": ["node -e process.exit(0)"],
+      "optIn": true,
+      "note": "Compatible upgrade fixture."
+    },
+    {
+      "id": "fixture-noop",
+      "repository": "local",
+      "localPath": "noop-app",
+      "packages": ["@kernel/definitions", "@kernel/ui"],
+      "branch": { "base": "main", "prefix": "chore/kernel-ds-upgrade" },
+      "verification": ["node -e process.exit(0)"],
+      "optIn": true,
+      "note": "Already at planned versions."
+    },
+    {
+      "id": "fixture-failing",
+      "repository": "local",
+      "localPath": "failing-app",
+      "packages": ["@kernel/definitions", "@kernel/ui"],
+      "branch": { "base": "main", "prefix": "chore/kernel-ds-upgrade" },
+      "verification": ["node -e process.exit(1)"],
+      "optIn": true,
+      "note": "Verification fails; upgrade must restore and block."
+    },
+    {
+      "id": "fixture-not-opted",
+      "repository": "local",
+      "localPath": "app",
+      "packages": ["@kernel/ui"],
+      "branch": { "base": "main", "prefix": "chore/kernel-ds-upgrade" },
+      "verification": ["node -e process.exit(0)"],
+      "optIn": false,
+      "note": "Dry-run only; has not opted in to applied upgrades."
+    },
+    {
+      "id": "fixture-remote",
+      "repository": "github:kernel-fixtures/remote-consumer",
+      "packages": ["@kernel/ui"],
+      "branch": { "base": "main", "prefix": "chore/kernel-ds-upgrade" },
+      "verification": ["npm test"],
+      "optIn": true,
+      "note": "Remote consumer; applying requires credentials."
+    }
+  ],
+  "unmanaged": [
+    {
+      "id": "kernel-app",
+      "path": "kernel-app",
+      "reason": "Decision 0036 vendored standalone fork; excluded from managed upgrades."
+    }
+  ]
+}

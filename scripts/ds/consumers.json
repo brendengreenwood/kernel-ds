@@ -1,0 +1,22 @@
+{
+  "schema": "kernel-ds/consumer-registry@1",
+  "consumers": [
+    {
+      "id": "proof-consumer",
+      "repository": "local",
+      "localPath": ".mastracode/plans/kernel-ds-productionization.proof/consumer",
+      "packages": ["@kernel/definitions", "@kernel/ui"],
+      "branch": { "base": "main", "prefix": "chore/kernel-ds-upgrade" },
+      "verification": ["npm run typecheck", "npm run build"],
+      "optIn": true,
+      "note": "Local packed-tarball proof consumer from the approved live-proof contract; lives outside version control."
+    }
+  ],
+  "unmanaged": [
+    {
+      "id": "kernel-app",
+      "path": "kernel-app",
+      "reason": "Decision 0036 vendored standalone fork. Excluded from managed upgrades; enrolling requires an explicit user amendment."
+    }
+  ]
+}

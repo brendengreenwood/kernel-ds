@@ -19,7 +19,8 @@ Any change to `@kernel/ui` or `@kernel/definitions` that consumers will receive.
 4. Gate the release: `npm run release:check` — metadata policy, publishable package config, no committed credentials, and a mutation-free `changeset version` dry-run.
 5. Gate the payload: `npm run ds:pack` — dist-only payload plus `package.json`/`api.json`/`README.md`; anything else is a leak.
 6. A release is forbidden unless packed-consumer, catalog parity, package API, portal, and Studio gates all pass (`npm run ds:verify -- --all`).
-7. Publication targets private GitHub Packages (`https://npm.pkg.github.com`, restricted access). Registry auth lives only in the release workflow environment — never in committed files.
+7. Orchestrate end to end with `npm run ds:release` — runs release-check → release-impact → pack, writes `.release/release-record.json`, and produces a dry-run upgrade plan for every opted-in consumer in `scripts/ds/consumers.json`. Publish is an explicit mode (`--publish`) that refuses to start without `NODE_AUTH_TOKEN`.
+8. Publication targets private GitHub Packages (`https://npm.pkg.github.com`, restricted access). Registry auth lives only in the release workflow environment — never in committed files.
 
 ## Verification
 

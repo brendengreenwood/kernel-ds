@@ -29,6 +29,9 @@ const commands = {
   skills: () => import("./commands/skills.mjs").then((module) => module.skills),
   "release-impact": () => import("./commands/release.mjs").then((module) => module.releaseImpact),
   "release-check": () => import("./commands/release.mjs").then((module) => module.releaseCheck),
+  release: () => import("./commands/release.mjs").then((module) => module.releaseRun),
+  consumers: () => import("./commands/consumers.mjs").then((module) => module.consumers),
+  upgrade: () => import("./commands/upgrade.mjs").then((module) => module.upgrade),
 }
 
 const [name, ...args] = process.argv.slice(2)
