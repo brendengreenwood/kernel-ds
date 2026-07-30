@@ -178,6 +178,7 @@ export function ColorsSection() {
       </h4>
       <div className="rounded-lg border bg-card p-8">
         <Ramp name="Brand" role="green · brand-*" token="brand" steps={STEPS_11} />
+        <Ramp name="Lime" role="accent green · lime-*" token="lime" steps={STEPS_11} />
         <Ramp name="Neutral" role="green-tinted · neutral-*" token="neutral" steps={STEPS_11} />
       </div>
 

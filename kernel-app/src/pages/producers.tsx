@@ -292,7 +292,7 @@ export default function ProducersPage() {
                   >
                     <TableCell className="pr-0">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="icon-sm"
                         onClick={(e) => {
                           e.stopPropagation()

@@ -27,6 +27,18 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **`--lime-*` accent scale** (decision 0041, 2026-07-30): the accent lime — the
+  hue on every primary button, focus ring, active pill and first chart series —
+  had been a bare `oklch()` literal repeated **twelve times** across both themes,
+  the only significant colour with no family behind it. It is now a full 50→950
+  scale beside `--brand-*`/`--neutral-*` (with `-light`/base/`-dark` aliases at
+  200/500/700), and all twelve role tokens reference it. Steps 300 and 500 are
+  pinned to the two values already shipped, so the migration is visually inert —
+  resolved values asserted per theme. Sets the rule that a raw `oklch()` in the
+  role layer is a missing family, not a shortcut. Follow-up: light `--secondary`
+  and `--sidebar-accent` sit near `--lime-50` but off by +0.009 L / −6° hue and
+  were left alone.
+
 - **Nested AGENTS.md operational map** (decision 0038, 2026-07-27): adopted
   Mastra’s nested-AGENTS.md pattern. Root `AGENTS.md` + package-local files
   (`kernel-portal/AGENTS.md`, `kernel-studio-server/AGENTS.md`) + eight deeper
