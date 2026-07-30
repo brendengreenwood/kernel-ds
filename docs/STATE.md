@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-27
+> Last touched: 2026-07-30
 
 ## What this project is
 
@@ -26,6 +26,8 @@ The portal is **per-page** (decision 0011): every side-rail item is its
 own route, not a section of one long scroll.
 
 ## Current state
+
+- **DS lifecycle command layer** (decision 0045, 2026-07-30): `scripts/ds/` exposes deterministic, noninteractive root commands — `ds:add`/`ds:tag`/`ds:relate` write the canonical catalog through a shared byte-round-tripping parser with taxonomy validation and no-overwrite refusals; `ds:generate` runs the declared generation order (catalog adapter → `@kernel/ui` → `@kernel/definitions` → ds-bundle); `ds:verify` selects focused gates from changed paths; `ds:doctor` reports catalog, generated-artifact, API-alignment, a11y-readiness, version, and workspace violations; `ds:changeset` writes Changesets-format notes; `ds:pack` verifies the pack payload allowlist. Red/green fixtures and `scripts/ds/__check__.mjs` keep the commands honest.
 
 - **Definitions package extraction in progress** (decision 0044, 2026-07-30): `packages/definitions` now owns the framework-free object model and workspace preset schemas, parsers, validation APIs, deterministic coordinate helper, composition doctrine, and committed compatibility fixtures. It distributes explicit root/composition/presets entries plus a generated `api.json`. Portal runtime registries, fetching, persistence, and React hooks remain application-owned behind compatibility re-exports while the portal consumes `@kernel/definitions` through a package-local `file:` dependency.
 

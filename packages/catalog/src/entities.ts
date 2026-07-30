@@ -1055,7 +1055,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/ui/src/components/ui/marker.tsx"
     ],
-    "note": "Transcript dividers \u2014 date, session, unread."
+    "note": "Transcript dividers — date, session, unread."
   },
   {
     "id": "component.message",
@@ -1701,7 +1701,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/ui/src/components/ui/tabs.tsx"
     ],
-    "note": "Variants pill (primary active, default) \u00b7 underline \u00b7 folder; sizes compact/default/comfortable (control-height tokens); slots for leading icon, <TabCount> badge, <TabDot> notification (decision 0021). Automatic activation (arrows activate; activateOnFocus overridable) \u2014 decision 0023."
+    "note": "Variants pill (primary active, default) · underline · folder; sizes compact/default/comfortable (control-height tokens); slots for leading icon, <TabCount> badge, <TabDot> notification (decision 0021). Automatic activation (arrows activate; activateOnFocus overridable) — decision 0023."
   },
   {
     "id": "component.textarea",
@@ -1994,7 +1994,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/ui/src/components/ui/animated-number.tsx"
     ],
-    "note": "<AnimatedNumber> (@number-flow/react) \u2014 counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable."
+    "note": "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable."
   },
   {
     "id": "pattern.app-shell",
@@ -2241,7 +2241,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [],
-    "note": "Board\u2192basis\u2192cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative."
+    "note": "Board→basis→cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative."
   },
   {
     "id": "pattern.modals",
@@ -2431,7 +2431,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/definitions/src/composition.ts"
     ],
-    "note": "decision 0026 \u2014 first Read primitive (many rows of one object)."
+    "note": "decision 0026 — first Read primitive (many rows of one object)."
   },
   {
     "id": "object.record",
@@ -2463,7 +2463,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/definitions/src/composition.ts"
     ],
-    "note": "decision 0026 \u2014 second Read primitive (one row of one object)."
+    "note": "decision 0026 — second Read primitive (one row of one object)."
   },
   {
     "id": "object.write",
@@ -2495,7 +2495,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/definitions/src/composition.ts"
     ],
-    "note": "decision 0026 \u2014 write layer (form + in-place postures)."
+    "note": "decision 0026 — write layer (form + in-place postures)."
   },
   {
     "id": "object.query",
@@ -2527,7 +2527,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/definitions/src/composition.ts"
     ],
-    "note": "decision 0026 \u2014 Aspect: narrows an object row set with predicates; yields a Collection."
+    "note": "decision 0026 — Aspect: narrows an object row set with predicates; yields a Collection."
   },
   {
     "id": "object.traversal",
@@ -2559,7 +2559,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/definitions/src/composition.ts"
     ],
-    "note": "decision 0026 \u2014 Aspect: walks declared associations to related object rows."
+    "note": "decision 0026 — Aspect: walks declared associations to related object rows."
   },
   {
     "id": "object.designs",
@@ -2584,7 +2584,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "decision 0026 \u2014 auto-derived surface iterating objectRegistry through every primitive preview."
+    "note": "decision 0026 — auto-derived surface iterating objectRegistry through every primitive preview."
   },
   {
     "id": "object.substrate-demo",
@@ -2609,7 +2609,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "Decision 0027 \u2014 DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)."
+    "note": "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)."
   },
   {
     "id": "object.pin",
