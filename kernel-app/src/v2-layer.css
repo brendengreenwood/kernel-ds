@@ -121,9 +121,9 @@
 }
 
 /* Condensed tables — for lists sitting inside a Card, where the roomy top-level
-   step wastes the card's width. Edge cells lose their horizontal inset entirely
-   so the columns line up with the card's own padding rather than floating in
-   from it.
+   step wastes the card's width. These sit in an outlined frame (every table in
+   the app does), so edge cells keep a small inset rather than dropping to zero:
+   text hard against the border reads as a mistake.
 
    These must stay LAST in this file: the detail-panel rules above have equal
    specificity (0,3,0 for the :first-child/:last-child pair), so source order is
@@ -142,9 +142,9 @@
 }
 [data-v2-dense] [data-slot="table-head"]:first-child,
 [data-v2-dense] [data-slot="table-cell"]:first-child {
-  padding-left: 0 !important;
+  padding-left: calc(var(--spacing) * 3) !important;
 }
 [data-v2-dense] [data-slot="table-head"]:last-child,
 [data-v2-dense] [data-slot="table-cell"]:last-child {
-  padding-right: 0 !important;
+  padding-right: calc(var(--spacing) * 3) !important;
 }

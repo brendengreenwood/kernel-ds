@@ -1,5 +1,14 @@
 import * as React from "react"
-import { Archive, ChevronDown, Pencil, Plus, TrendingDown, TrendingUp } from "@/components/ui/icon"
+import {
+  Archive,
+  BarChart3,
+  ChevronDown,
+  Pencil,
+  Plus,
+  TrendingDown,
+  TrendingUp,
+  Users,
+} from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
@@ -52,11 +61,49 @@ const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string
   rejected: { hue: "rejected", label: "Rejected" },
 }
 
-function Stat({ n, label }: { n: number; label: string }) {
+/** A roll-up figure. Three of these head each panel, so the row answers the
+    question before the table has to be read at all. */
+function Tile({ value, label }: { value: React.ReactNode; label: string }) {
   return (
-    <div>
-      <div className="text-2xl font-semibold tabular-nums">{n}</div>
-      <div className="text-xs text-muted-foreground">{label}</div>
+    <div className="rounded-lg border border-border px-3 py-2">
+      <div className="text-xl leading-tight font-semibold tabular-nums">{value}</div>
+      <div className="mt-0.5 text-xs text-muted-foreground">{label}</div>
+    </div>
+  )
+}
+
+/** Card header: a glyph chip, then title over description. */
+function PanelHeader({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  title: string
+  description: string
+}) {
+  return (
+    <CardHeader>
+      <div className="flex items-center gap-3">
+        {/* foreground overlay, not bg-muted: in this theme --muted resolves to
+            the same value as --card, so a muted chip on a card is invisible. */}
+        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-foreground/5 text-muted-foreground">
+          <Icon className="size-4" />
+        </span>
+        <div className="min-w-0">
+          <CardTitle className="text-sm font-medium">{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </div>
+      </div>
+    </CardHeader>
+  )
+}
+
+/** Outlined frame — every table in the app sits in one of these. */
+function TableFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div data-v2-dense className="overflow-x-auto rounded-lg border border-border">
+      {children}
     </div>
   )
 }
@@ -102,6 +149,17 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   const ref = React.useRef<HTMLDivElement>(null)
   const width = useVisibleWidth(ref)
 
+  // Roll-ups are derived from the same lists the tables render, so a tile can
+  // never disagree with the rows beneath it.
+  const totalEvents = counts.accepted + counts.rejected
+  const takeRate = totalEvents === 0 ? 0 : Math.round((counts.accepted / totalEvents) * 100)
+  const topRival = activity.moves.length
+    ? Math.max(...activity.moves.map((m) => m.to))
+    : null
+  const avgChange = activity.moves.length
+    ? Math.round((activity.moves.reduce((sum, m) => sum + (m.to - m.from), 0) / activity.moves.length) * 100) / 100
+    : null
+
   return (
     <div ref={ref} className="sticky left-0 p-4" style={width ? { width } : undefined}>
       <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)}>
@@ -115,19 +173,23 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Producer activity</CardTitle>
-            <CardDescription>Accepts and rejects against this bid</CardDescription>
-          </CardHeader>
+          <PanelHeader
+            icon={Users}
+            title="Producer activity"
+            description="Accepts and rejects against this bid"
+          />
           <CardContent className="flex flex-col gap-4">
-            <div className="flex gap-8">
-              <Stat n={counts.accepted} label="Accepted" />
-              <Stat n={counts.rejected} label="Rejected" />
+            <div className="grid grid-cols-3 gap-2">
+              <Tile value={counts.accepted} label="Accepted" />
+              <Tile value={counts.rejected} label="Rejected" />
+              {/* Take rate is the number a merchant actually reads the other
+                  two for — derived, so it can never disagree with them. */}
+              <Tile value={`${takeRate}%`} label="Take rate" />
             </div>
             {activity.events.length === 0 ? (
               <Empty>No producer activity in this window.</Empty>
             ) : (
-              <div data-v2-dense className="overflow-x-auto">
+              <TableFrame>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -152,21 +214,28 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                     ))}
                   </TableBody>
                 </Table>
-              </div>
+              </TableFrame>
             )}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Competitor activity</CardTitle>
-            <CardDescription>Posted bid movement at rival buyers</CardDescription>
-          </CardHeader>
-          <CardContent>
+          <PanelHeader
+            icon={BarChart3}
+            title="Competitor activity"
+            description="Posted bid movement at rival buyers"
+          />
+          <CardContent className="flex flex-col gap-4">
+            <div className="grid grid-cols-3 gap-2">
+              <Tile value={activity.moves.length} label="Moves" />
+              {/* The number that decides whether this bid is still competitive. */}
+              <Tile value={topRival == null ? "—" : usd(topRival)} label="Top rival bid" />
+              <Tile value={avgChange == null ? "—" : delta(avgChange)} label="Avg change" />
+            </div>
             {activity.moves.length === 0 ? (
               <Empty>No competitor movement in this window.</Empty>
             ) : (
-              <div data-v2-dense className="overflow-x-auto">
+              <TableFrame>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -204,7 +273,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                     })}
                   </TableBody>
                 </Table>
-              </div>
+              </TableFrame>
             )}
           </CardContent>
         </Card>
