@@ -46,7 +46,8 @@ export const doctorChecks = [
         if (!existsSync(expectedFile)) return []
         const generatedFile = resolve(root, "component-meta.generated.ts")
         const generated = existsSync(generatedFile) ? readFileSync(generatedFile, "utf8") : ""
-        if (generated !== readFileSync(expectedFile, "utf8")) {
+        // Normalize CRLF so checkouts with core.autocrlf=true compare identically.
+        if (generated.replaceAll("\r\n", "\n") !== readFileSync(expectedFile, "utf8").replaceAll("\r\n", "\n")) {
           return [{ code: "stale-generated", message: "portal lifecycle adapter is stale; run npm run ds:generate" }]
         }
         return []

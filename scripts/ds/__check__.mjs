@@ -314,7 +314,7 @@ function tempCopy(fixtureName) {
 {
   const workflowPath = resolve(repoRoot, ".github/workflows/release.yml")
   assert(existsSync(workflowPath), "release workflow exists")
-  const workflow = readFileSync(workflowPath, "utf8")
+  const workflow = readFileSync(workflowPath, "utf8").replaceAll("\r\n", "\n")
   const publishStart = workflow.indexOf("\n  publish:")
   assert(publishStart > 0, "release workflow has a publish job")
   const dryRunSection = workflow.slice(0, publishStart)
