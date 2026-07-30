@@ -19,3 +19,11 @@ npm test
 npm run check
 npm pack --dry-run --json
 ```
+
+<!-- kernel-ds:generated:start -->
+## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
+
+- Export entries: ., ./api.json, ./icon, ./marks, ./package.json, ./styles.css, ./utils
+- Root-entry modules: 66 (63 catalog-backed)
+- Catalog entities owned: 60
+<!-- kernel-ds:generated:end -->

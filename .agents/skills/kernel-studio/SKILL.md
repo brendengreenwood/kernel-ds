@@ -23,6 +23,8 @@ only under `vite dev`. The built site has no working studio. Always "run via
 - `ds-bundle/` present at the repo root (untracked synced artifact; the studio
   reads it read-only at runtime).
 
+- Rebuild `ds-bundle/` catalog-driven with `npm run ds:generate` from the repository root — never hand-edit it. Definition schemas/validation come from `@kernel/definitions`; authoring guidance lives in the `kernel-ds-definition` skill.
+
 ## 2. Start both servers
 
 ```bash

@@ -17,6 +17,10 @@ commit** as the code.
 - Retire a dead STATE section to `docs/archive/YYYY-MM-DD-topic.md` instead of deleting it.
 - Update `kernel-portal/README.md` and `CLAUDE.md` if the change alters file map, conventions, or coverage.
 
+## 1b. Package release intent
+
+If the change touches `@kernel/ui` or `@kernel/definitions` public surface, record a changeset in the same commit: `npm run ds:changeset` (see the `kernel-ds-release` skill). Generated artifacts must be fresh — `npm run ds:generate` then a clean diff, and `npm run agents:check` when guidance changed.
+
 ## 2. Commit + branch
 
 Work on the designated branch (currently `claude/local-work-review-2mnbor`); create it from `origin/main` if missing. If its PR was already merged, restart from latest main (`git fetch origin main && git checkout -B <branch> origin/main`) — a merged PR is finished; new work is a **new** PR, never stacked on merged history. If the branch carries unmerged commits beyond merged history, rebase them onto the new base instead of discarding.

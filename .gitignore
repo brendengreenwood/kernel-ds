@@ -12,3 +12,6 @@ ds-bundle/
 
 # studio dev server logs — session artifacts
 studio-dev.*.log
+
+# CI pack-smoke tarball output (ds:pack --write --out .ci-packs)
+.ci-packs/

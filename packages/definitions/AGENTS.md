@@ -14,3 +14,12 @@ Verify from this directory:
 - `npm run build`
 - `npm test`
 - `npm pack --dry-run --json`
+
+<!-- kernel-ds:generated:start -->
+## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
+
+- Export `.`: objectDefinitionSchema, objectModelSchema, objectRowsSchema, parseObjectModel, validateObjectDefinition, deriveCoord, workspacePresetSchema, parseWorkspacePreset, validateWorkspacePreset
+- Export `./composition`: primitives, regions, presets, rules, compositionContract
+- Export `./presets`: contractModel, contractRows, settlementModel, settlementRows, demoDataset, incidentJson, incidentWorkspaceJson
+- Catalog entities owned: 7
+<!-- kernel-ds:generated:end -->

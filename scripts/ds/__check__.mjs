@@ -1,0 +1,193 @@
+/**
+ * Deterministic output and exit-code tests for the DS lifecycle commands.
+ * Mutating commands run against temp copies of __fixtures__ — never the real
+ * catalog. Run via: node scripts/ds/__check__.mjs
+ */
+import { spawnSync } from "node:child_process"
+import { cpSync, mkdtempSync, readFileSync, rmSync, readdirSync, existsSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { dirname, join, resolve } from "node:path"
+import { fileURLToPath } from "node:url"
+
+const scriptsDir = dirname(fileURLToPath(import.meta.url))
+const repoRoot = resolve(scriptsDir, "../..")
+const fixturesDir = join(scriptsDir, "__fixtures__")
+const cli = join(scriptsDir, "cli.mjs")
+
+let checks = 0
+const failures = []
+
+function ds(args) {
+  return spawnSync(process.execPath, [cli, ...args], { cwd: repoRoot, encoding: "utf8" })
+}
+
+function assert(condition, label, detail = "") {
+  checks += 1
+  if (!condition) failures.push(`${label}${detail ? ` — ${detail}` : ""}`)
+}
+
+function tempCopy(fixtureName) {
+  const dir = mkdtempSync(join(tmpdir(), "ds-check-"))
+  cpSync(join(fixturesDir, fixtureName), dir, { recursive: true })
+  return dir
+}
+
+// 1. The real catalog file round-trips byte-for-byte through the shared parser.
+{
+  const { parseCatalogFile, serializeCatalogFile } = await import("./lib/catalog-file.mjs")
+  const path = resolve(repoRoot, "packages/catalog/src/entities.ts")
+  const original = readFileSync(path, "utf8")
+  const roundTripped = serializeCatalogFile(parseCatalogFile(path))
+  assert(roundTripped === original, "catalog round-trip", "serialize(parse(entities.ts)) must be byte-identical")
+}
+
+// 2/3. ds:add success then collision refusal without mutation.
+{
+  const dir = tempCopy("catalog-clean")
+  const catalogFile = join(dir, "entities.ts")
+  const docsDir = join(dir, "docs")
+  const first = ds(["add", "--kind", "component", "--name", "Fixture Meter", "--catalog-file", catalogFile, "--docs-dir", docsDir])
+  assert(first.status === 0 && first.stdout.includes("DS-ADD-OK"), "add success", first.stdout + first.stderr)
+  assert(readFileSync(catalogFile, "utf8").includes('"component.fixture-meter"'), "add registers entity")
+  assert(existsSync(join(docsDir, "fixture-meter.ts")), "add scaffolds docs skeleton")
+
+  const before = readFileSync(catalogFile, "utf8")
+  const second = ds(["add", "--kind", "component", "--name", "Fixture Meter", "--catalog-file", catalogFile, "--docs-dir", docsDir])
+  assert(second.status === 1 && second.stderr.includes("DS-ADD-REFUSED"), "add collision refused", second.stdout + second.stderr)
+  assert(readFileSync(catalogFile, "utf8") === before, "add collision leaves catalog untouched")
+  rmSync(dir, { recursive: true, force: true })
+}
+
+// 4. ds:tag valid write and invalid-taxonomy refusal.
+{
+  const dir = tempCopy("catalog-clean")
+  const catalogFile = join(dir, "entities.ts")
+  const valid = ds(["tag", "--entity", "pattern.fixture-flow", "--tag", "ready", "--catalog-file", catalogFile])
+  assert(valid.status === 0 && valid.stdout.includes("DS-TAG-OK"), "tag valid", valid.stdout + valid.stderr)
+
+  const before = readFileSync(catalogFile, "utf8")
+  const invalid = ds(["tag", "--entity", "pattern.fixture-flow", "--tag", "shiny", "--catalog-file", catalogFile])
+  assert(invalid.status === 1 && invalid.stderr.includes("DS-TAG-REFUSED"), "tag invalid taxonomy refused", invalid.stdout + invalid.stderr)
+  assert(readFileSync(catalogFile, "utf8") === before, "tag refusal leaves catalog untouched")
+  rmSync(dir, { recursive: true, force: true })
+}
+
+// 5. ds:relate valid write and broken-target refusal.
+{
+  const dir = tempCopy("catalog-clean")
+  const catalogFile = join(dir, "entities.ts")
+  const valid = ds(["relate", "--entity", "component.fixture-button", "--type", "recommendedPatterns", "--target", "pattern.fixture-flow", "--catalog-file", catalogFile])
+  assert(valid.status === 0 && valid.stdout.includes("DS-RELATE-OK"), "relate valid", valid.stdout + valid.stderr)
+
+  const before = readFileSync(catalogFile, "utf8")
+  const broken = ds(["relate", "--entity", "component.fixture-button", "--type", "dependsOn", "--target", "component.fixture-missing", "--catalog-file", catalogFile])
+  assert(broken.status === 1 && broken.stderr.includes("DS-RELATE-REFUSED"), "relate broken target refused", broken.stdout + broken.stderr)
+  assert(readFileSync(catalogFile, "utf8") === before, "relate refusal leaves catalog untouched")
+  rmSync(dir, { recursive: true, force: true })
+}
+
+// 6-9. ds:doctor fixture verdicts: clean passes; each red fixture reports its code.
+{
+  const clean = ds(["doctor", "--fixture", join(fixturesDir, "catalog-clean")])
+  assert(clean.status === 0 && clean.stdout.includes("DS-DOCTOR-OK"), "doctor clean fixture", clean.stdout + clean.stderr)
+
+  const redFixtures = [
+    ["catalog-broken-relationship", "missing-relationship-target"],
+    ["catalog-stale-generated", "stale-generated"],
+    ["catalog-partial-registration", "missing-source"],
+  ]
+  for (const [fixture, code] of redFixtures) {
+    const result = ds(["doctor", "--fixture", join(fixturesDir, fixture)])
+    assert(result.status === 1 && result.stderr.includes(code), `doctor detects ${code}`, result.stdout + result.stderr)
+  }
+}
+
+// 10. ds:changeset deterministic write, idempotent rerun, invalid bump refusal.
+{
+  const dir = mkdtempSync(join(tmpdir(), "ds-changeset-"))
+  const args = ["changeset", "--package", "@kernel/ui", "--bump", "minor", "--summary", "Fixture release note", "--dir", dir]
+  const first = ds(args)
+  assert(first.status === 0 && first.stdout.includes("DS-CHANGESET-OK: wrote"), "changeset write", first.stdout + first.stderr)
+  const files = readdirSync(dir)
+  assert(files.length === 1 && /^kernel-ui-minor-[0-9a-f]{8}\.md$/.test(files[0]), "changeset deterministic filename", files.join(", "))
+
+  const rerun = ds(args)
+  assert(rerun.status === 0 && rerun.stdout.includes("no write"), "changeset idempotent rerun", rerun.stdout + rerun.stderr)
+  assert(readdirSync(dir).length === 1, "changeset rerun adds no files")
+
+  const invalid = ds(["changeset", "--package", "@kernel/ui", "--bump", "huge", "--summary", "x", "--dir", dir])
+  assert(invalid.status === 1 && invalid.stderr.includes("DS-CHANGESET-REFUSED"), "changeset invalid bump refused", invalid.stdout + invalid.stderr)
+  rmSync(dir, { recursive: true, force: true })
+}
+
+// 11. AGENTS marker application: prose preserved byte-for-byte, idempotent, appends when absent.
+{
+  const { applyMarkers, START_MARKER, END_MARKER } = await import("./lib/agents-inventory.mjs")
+  const prose = "# Hand-authored\r\n\r\nCurated rules stay curated.\r\n"
+  const appended = applyMarkers(prose, ["alpha 1", "beta 2"])
+  assert(appended.startsWith(prose), "markers append preserves prose prefix")
+  assert(appended.includes(START_MARKER) && appended.includes(END_MARKER), "markers appended")
+
+  const updated = applyMarkers(appended, ["alpha 3"])
+  const prefix = updated.slice(0, updated.indexOf(START_MARKER))
+  assert(appended.slice(0, appended.indexOf(START_MARKER)) === prefix, "marker update preserves prose outside markers")
+  assert(updated.includes("alpha 3") && !updated.includes("beta 2"), "marker section replaced")
+  assert(applyMarkers(updated, ["alpha 3"]) === updated, "marker application idempotent")
+
+  let threw = false
+  try {
+    applyMarkers(`${START_MARKER}\nno end`, ["x"])
+  } catch {
+    threw = true
+  }
+  assert(threw, "unbalanced markers rejected")
+}
+
+// 12. Skills integrity: real skills pass; the red fixture reports each violation kind.
+{
+  const green = ds(["skills"])
+  assert(green.status === 0 && green.stdout.includes("SKILLS-CHECK-OK"), "skills check green", green.stdout + green.stderr)
+
+  const red = ds(["skills", "--dir", "scripts/ds/__fixtures__/skills-invalid", "--fixtures", "scripts/ds/__fixtures__/skills-invalid/none.json"])
+  assert(red.status === 1, "skills red fixture nonzero", red.stdout + red.stderr)
+  for (const marker of ["missing path scripts/ds/removed-command.mjs", "unknown npm script \"ds:frobnicate\"", "unknown catalog entity component.nonexistent-thing", "missing required \"## Verification\" section"]) {
+    assert(red.stderr.includes(marker), `skills red fixture reports: ${marker}`, red.stderr)
+  }
+}
+
+// 13. Verify selection matrix: changed paths map to gates, expanded through
+// transitive dependents so package changes never skip their consumers.
+{
+  const { selectGates } = await import("./commands/verify.mjs")
+  const matrix = [
+    [["scripts/ds/commands/verify.mjs"], ["ds-commands"]],
+    [["package.json"], ["ds-commands"]],
+    [["packages/catalog/src/entities.ts"], ["catalog", "portal", "studio"]],
+    [["packages/ui/src/components/ui/button.tsx"], ["ui", "portal", "studio"]],
+    [["packages/definitions/src/object.ts"], ["definitions", "portal", "studio"]],
+    [["kernel-portal/src/main.tsx"], ["portal", "studio"]],
+    [["kernel-studio-server/src/lib/paths.ts"], ["studio"]],
+    [["docs/STATE.md"], []],
+    [["packages/ui/api.json", "kernel-studio-server/src/lib/paths.ts"], ["ui", "portal", "studio"]],
+  ]
+  for (const [paths, expected] of matrix) {
+    const ids = selectGates(paths).map((gate) => gate.id)
+    assert(
+      ids.join(",") === expected.join(","),
+      `verify selection for ${paths.join("+")}`,
+      `expected [${expected.join(", ")}], got [${ids.join(", ")}]`,
+    )
+  }
+}
+
+// 14. Unknown commands exit nonzero with usage.
+{
+  const unknown = ds(["frobnicate"])
+  assert(unknown.status === 1 && unknown.stderr.includes("DS-USAGE"), "unknown command usage", unknown.stdout + unknown.stderr)
+}
+
+if (failures.length > 0) {
+  for (const failure of failures) console.error(`DS-CHECK-FAILED: ${failure}`)
+  process.exit(1)
+}
+console.log(`DS-CHECK-OK: ${checks} assertions passed`)
