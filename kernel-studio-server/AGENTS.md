@@ -29,3 +29,9 @@ contract/ — schema shared with the portal object model
 __tests__/ — cross-cutting vitest suites (contract, tools, define-tools)
 
 Keep tool contracts stable — the agents and the portal chat bridge call them; changing a tool signature ripples to both
+
+<!-- kernel-ds:generated:start -->
+## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
+
+- Consumes: @kernel/definitions (file:../packages/definitions)
+<!-- kernel-ds:generated:end -->

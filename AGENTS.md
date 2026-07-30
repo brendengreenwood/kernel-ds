@@ -27,3 +27,12 @@ packages/catalog/src — canonical typed entity schema and generated catalog dat
 kernel-portal/src — index.css (tokens: :root/.dark/@theme), main.tsx (routes), components/ (ui shadcn primitives + portal chrome/pages), lib/ (component-docs + objects object-model runtime), pages/ (gallery), scripts/ (verification gates)
 kernel-studio-server/src — mastra/ (agents, tools, workflows, storage, rag, evals, processors), api/ (hono routes), lib/paths.ts (cross-package path resolution), contract/ (shared schema), __tests__/ (vitest)
 kernel-studio-server/prototypes — generated grain-ops workspace prototypes; reference only, do not edit unless asked
+
+<!-- kernel-ds:generated:start -->
+## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
+
+- Catalog: 93 entities (component 62, domain 2, element 6, object 13, pattern 10); 81 documentation records
+- Workspace packages: @kernel/catalog, @kernel/definitions (3 export entries), @kernel/ui (7 export entries)
+- DS lifecycle scripts: agents:check, agents:generate, ds:add, ds:changeset, ds:check, ds:doctor, ds:generate, ds:pack, ds:relate, ds:tag, ds:verify, skills:check
+- Skills: kernel-ds-audit, kernel-ds-component, kernel-ds-definition, kernel-ds-document, kernel-ds-pattern, kernel-ds-release, kernel-ds-upgrade, kernel-ds-use, kernel-ds-verify, kernel-feature, kernel-norman, kernel-ship, kernel-studio, kernel-token, kernel-typesetting, kernel-verify, kernel-visual, migrate-radix-to-base, shadcn
+<!-- kernel-ds:generated:end -->

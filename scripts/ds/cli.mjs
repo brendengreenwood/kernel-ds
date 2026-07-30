@@ -25,6 +25,8 @@ const commands = {
   doctor: () => import("./commands/doctor.mjs").then((module) => module.doctor),
   changeset: () => import("./commands/changeset.mjs").then((module) => module.changeset),
   pack: () => import("./commands/pack.mjs").then((module) => module.pack),
+  agents: () => import("./commands/agents.mjs").then((module) => module.agents),
+  skills: () => import("./commands/skills.mjs").then((module) => module.skills),
 }
 
 const [name, ...args] = process.argv.slice(2)

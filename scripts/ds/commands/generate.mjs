@@ -24,6 +24,11 @@ export const generateSteps = [
     run: () => runNpm(["run", "build", "--workspace", "@kernel/definitions"]),
   },
   {
+    id: "agents-inventories",
+    description: "Refresh bounded generated-inventory sections in AGENTS files",
+    run: () => runNode(resolve(repoRoot, "scripts/ds/cli.mjs"), ["agents"]),
+  },
+  {
     id: "ds-bundle",
     description: "Regenerate ds-bundle from catalog entities and package API metadata",
     run: () => runNode(resolve(repoRoot, "kernel-portal/scripts/build-ds-bundle.mjs"), [], { cwd: resolve(repoRoot, "kernel-portal") }),

@@ -137,6 +137,25 @@ export const doctorChecks = [
     },
   },
   {
+    id: "agents-freshness",
+    fixtureSafe: false,
+    run: async () => {
+      const { collectStaleAgents } = await import("./agents.mjs")
+      return (await collectStaleAgents()).map((file) => ({
+        code: "stale-agents",
+        message: `${file} generated inventory section is stale; run npm run agents:generate`,
+      }))
+    },
+  },
+  {
+    id: "skill-integrity",
+    fixtureSafe: false,
+    run: async () => {
+      const { collectSkillViolations } = await import("./skills.mjs")
+      return collectSkillViolations().map((message) => ({ code: "invalid-skill", message }))
+    },
+  },
+  {
     id: "workspace-membership",
     fixtureSafe: false,
     run: () => {
@@ -160,7 +179,7 @@ export async function doctor(argv) {
   const selected = doctorChecks.filter((check) => (fixture ? check.fixtureSafe : true))
   const violations = []
   for (const check of selected) {
-    for (const violation of check.run({ entities, root, fixture: Boolean(fixture) })) {
+    for (const violation of await check.run({ entities, root, fixture: Boolean(fixture) })) {
       violations.push({ check: check.id, ...violation })
     }
   }

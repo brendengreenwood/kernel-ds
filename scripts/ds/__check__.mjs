@@ -120,7 +120,42 @@ function tempCopy(fixtureName) {
   rmSync(dir, { recursive: true, force: true })
 }
 
-// 11. Unknown commands exit nonzero with usage.
+// 11. AGENTS marker application: prose preserved byte-for-byte, idempotent, appends when absent.
+{
+  const { applyMarkers, START_MARKER, END_MARKER } = await import("./lib/agents-inventory.mjs")
+  const prose = "# Hand-authored\r\n\r\nCurated rules stay curated.\r\n"
+  const appended = applyMarkers(prose, ["alpha 1", "beta 2"])
+  assert(appended.startsWith(prose), "markers append preserves prose prefix")
+  assert(appended.includes(START_MARKER) && appended.includes(END_MARKER), "markers appended")
+
+  const updated = applyMarkers(appended, ["alpha 3"])
+  const prefix = updated.slice(0, updated.indexOf(START_MARKER))
+  assert(appended.slice(0, appended.indexOf(START_MARKER)) === prefix, "marker update preserves prose outside markers")
+  assert(updated.includes("alpha 3") && !updated.includes("beta 2"), "marker section replaced")
+  assert(applyMarkers(updated, ["alpha 3"]) === updated, "marker application idempotent")
+
+  let threw = false
+  try {
+    applyMarkers(`${START_MARKER}\nno end`, ["x"])
+  } catch {
+    threw = true
+  }
+  assert(threw, "unbalanced markers rejected")
+}
+
+// 12. Skills integrity: real skills pass; the red fixture reports each violation kind.
+{
+  const green = ds(["skills"])
+  assert(green.status === 0 && green.stdout.includes("SKILLS-CHECK-OK"), "skills check green", green.stdout + green.stderr)
+
+  const red = ds(["skills", "--dir", "scripts/ds/__fixtures__/skills-invalid", "--fixtures", "scripts/ds/__fixtures__/skills-invalid/none.json"])
+  assert(red.status === 1, "skills red fixture nonzero", red.stdout + red.stderr)
+  for (const marker of ["missing path scripts/ds/removed-command.mjs", "unknown npm script \"ds:frobnicate\"", "unknown catalog entity component.nonexistent-thing", "missing required \"## Verification\" section"]) {
+    assert(red.stderr.includes(marker), `skills red fixture reports: ${marker}`, red.stderr)
+  }
+}
+
+// 13. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])
   assert(unknown.status === 1 && unknown.stderr.includes("DS-USAGE"), "unknown command usage", unknown.stdout + unknown.stderr)
