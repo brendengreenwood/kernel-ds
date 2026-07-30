@@ -1,6 +1,6 @@
 ---
 name: kernel-ds-release
-description: Prepare a design-system release — record changesets, gate the pack payload, and (once release automation lands) version and publish to the private registry. Use for release, versioning, or changeset work.
+description: Prepare a design-system release — record classified changesets, generate impact manifests, gate the pack payload, and version/publish to private GitHub Packages. Use for release, versioning, or changeset work.
 triggers: release, changeset, version bump, publish, cut a release
 user-invocable: true
 ---
@@ -13,14 +13,18 @@ Any change to `@kernel/ui` or `@kernel/definitions` that consumers will receive.
 
 ## Workflow
 
-1. Record intent with every consumer-visible change: `npm run ds:changeset -- --package <name> --bump <patch|minor|major> --summary "<what changed for consumers>"`. Filenames are content-hashed; reruns are idempotent.
+1. Record intent with every consumer-visible change: `npm run ds:changeset -- --package <name> --bump <patch|minor|major> --summary "<what changed for consumers>" --classification <runtime|api|docs|internal>`. Runtime/API changes must add `--entities <catalog ids>` (or `--scope package`); breaking changes must add `--breaking --migration "<how consumers adapt>"`. Filenames are content-hashed; reruns are idempotent.
 2. Bump discipline: breaking export/schema changes are `major`, added surface is `minor`, fixes are `patch`. The serialized definition JSON shape is part of the public contract.
-3. Gate the payload before any release: `npm run ds:pack` — dist-only payload plus `package.json`/`api.json`/`README.md`; anything else is a leak.
-4. A release is forbidden unless packed-consumer, catalog parity, package API, portal, and Studio gates all pass (`npm run ds:verify -- --all`).
-5. Version/publish execution to private GitHub Packages is completed in the release segment; until then, changesets accumulate and `ds:pack` is the payload truth.
+3. Build the impact manifest: `npm run release:impact` — planned versions, relationship-expanded affected entities, migrations, and docs anchors land in `.release/impact-manifest.json`.
+4. Gate the release: `npm run release:check` — metadata policy, publishable package config, no committed credentials, and a mutation-free `changeset version` dry-run.
+5. Gate the payload: `npm run ds:pack` — dist-only payload plus `package.json`/`api.json`/`README.md`; anything else is a leak.
+6. A release is forbidden unless packed-consumer, catalog parity, package API, portal, and Studio gates all pass (`npm run ds:verify -- --all`).
+7. Orchestrate end to end with `npm run ds:release` — runs release-check → release-impact → pack, writes `.release/release-record.json`, and produces a dry-run upgrade plan for every opted-in consumer in `scripts/ds/consumers.json`. Publish is an explicit mode (`--publish`) that refuses to start without `NODE_AUTH_TOKEN`.
+8. Publication targets private GitHub Packages (`https://npm.pkg.github.com`, restricted access). Registry auth lives only in the release workflow environment — never in committed files.
 
 ## Verification
 
+- `npm run release:check` — `RELEASE-CHECK-OK` with planned versions.
+- `npm run release:impact` — `RELEASE-IMPACT-OK` and a schema-valid manifest.
 - `npm run ds:pack` — `DS-PACK-OK` for both packages.
 - `npm run ds:verify -- --all` before any version is cut.
-- Changeset files exist under `.changeset/` for every consumer-visible change.

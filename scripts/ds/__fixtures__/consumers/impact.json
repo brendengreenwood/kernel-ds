@@ -1,0 +1,48 @@
+{
+  "schema": "kernel-ds/impact-manifest@1",
+  "changesets": ["kernel-definitions-minor-fixture.md", "kernel-ui-major-fixture.md"],
+  "packages": [
+    {
+      "name": "@kernel/definitions",
+      "currentVersion": "0.0.0",
+      "bump": "minor",
+      "plannedVersion": "0.1.0",
+      "registry": "https://npm.pkg.github.com",
+      "peerDependencies": {},
+      "verification": ["npm run ds:verify -- --all"],
+      "changes": [
+        {
+          "changeset": "kernel-definitions-minor-fixture.md",
+          "summary": "Add fixture preset export.",
+          "classification": "api",
+          "breaking": false,
+          "migration": null,
+          "entities": ["object.workspace"],
+          "affectedEntities": ["object.workspace"],
+          "docs": ["/objects#workspace"]
+        }
+      ]
+    },
+    {
+      "name": "@kernel/ui",
+      "currentVersion": "0.0.0",
+      "bump": "major",
+      "plannedVersion": "1.0.0",
+      "registry": "https://npm.pkg.github.com",
+      "peerDependencies": { "react": "^19.0.0" },
+      "verification": ["npm run ds:verify -- --all"],
+      "changes": [
+        {
+          "changeset": "kernel-ui-major-fixture.md",
+          "summary": "Rename Button tone prop.",
+          "classification": "runtime",
+          "breaking": true,
+          "migration": "Rename the Button prop `tone` to `variant`; values are unchanged.",
+          "entities": ["component.button"],
+          "affectedEntities": ["component.button"],
+          "docs": ["/components/button"]
+        }
+      ]
+    }
+  ]
+}

@@ -15,3 +15,6 @@ studio-dev.*.log
 
 # CI pack-smoke tarball output (ds:pack --write --out .ci-packs)
 .ci-packs/
+
+# release impact manifests — regenerated from changesets (npm run release:impact)
+.release/

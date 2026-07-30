@@ -1,0 +1,124 @@
+name: Release
+
+# Manual-only release workflow (decision 0048/0050). The default mode is a
+# credential-free dry run: changeset status, release metadata + publishable
+# config checks, a version dry run in a temp worktree, deterministic impact
+# manifest, and packed payload allowlists — with the manifest and tarballs
+# attached as run artifacts. Live publication is an explicit opt-in mode that
+# is protected by the `release` environment, requires the
+# KERNEL_DS_PUBLISH_TOKEN secret, only runs from main, and re-runs every
+# release gate in the same run before `changeset publish` — it can never
+# publish from an unverified commit.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run validates and packs without credentials; publish pushes to GitHub Packages"
+        type: choice
+        default: dry-run
+        options:
+          - dry-run
+          - publish
+
+permissions:
+  contents: read
+
+jobs:
+  release-dry-run:
+    name: release (dry run, no credentials)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Changeset status
+        run: npm run changeset:status
+      - name: Release checks (metadata + config + version dry run)
+        run: npm run release:check
+      - name: Impact manifest
+        run: npm run release:impact
+      - name: Pack payload allowlist
+        run: npm run ds:pack -- --write --out .ci-packs
+      - name: Attach impact manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: impact-manifest
+          path: .release/impact-manifest.json
+      - name: Attach packed tarballs
+        uses: actions/upload-artifact@v4
+        with:
+          name: packed-tarballs
+          path: .ci-packs/*.tgz
+
+  publish:
+    name: publish (protected, gated)
+    if: github.event.inputs.mode == 'publish' && github.ref == 'refs/heads/main'
+    needs: release-dry-run
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+          registry-url: https://npm.pkg.github.com
+      - name: Require configured publish token
+        run: |
+          if [ -z "${{ secrets.KERNEL_DS_PUBLISH_TOKEN }}" ]; then
+            echo "KERNEL_DS_PUBLISH_TOKEN is not configured; refusing to publish." >&2
+            exit 1
+          fi
+      - run: npm ci
+
+      # Full release gates on this exact commit — publication is refused
+      # unless package, catalog, portal, and Studio gates all pass here.
+      - name: DS command self-tests
+        run: npm run ds:check
+      - name: Doctor
+        run: npm run ds:doctor
+      - name: Release checks
+        run: npm run release:check
+      - name: UI package (build + tests + contract)
+        run: npm run ui:build && npm run ui:test && npm run ui:check
+      - name: Definitions package (build + tests + contract)
+        run: npm run definitions:build && npm run definitions:test && npm run definitions:check
+      - name: Catalog integrity
+        run: npm run catalog:test && npm run catalog:check && node kernel-portal/scripts/check-catalog.mjs
+      - name: Portal gates
+        working-directory: kernel-portal
+        run: npm ci && npm run build && npm run lint
+      - name: Studio gates
+        working-directory: kernel-studio-server
+        run: npm ci && npm run check && npm test
+      - name: Pack payload allowlist
+        run: npm run ds:pack -- --write --out .ci-packs
+      - name: Packed consumer smoke
+        run: |
+          mkdir -p /tmp/pack-smoke
+          cd /tmp/pack-smoke
+          npm init -y
+          npm install react@^19 react-dom@^19 react-hook-form "$GITHUB_WORKSPACE"/.ci-packs/*.tgz
+          cp "$GITHUB_WORKSPACE"/scripts/ds/pack-smoke.mjs .
+          node pack-smoke.mjs
+
+      - name: Impact manifest
+        run: npm run release:impact
+      - name: Publish to GitHub Packages
+        run: npx changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.KERNEL_DS_PUBLISH_TOKEN }}
+      - name: Attach impact manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: impact-manifest
+          path: .release/impact-manifest.json

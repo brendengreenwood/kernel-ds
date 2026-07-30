@@ -1,8 +1,13 @@
 {
   "name": "@kernel/definitions",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brendengreenwood/kernel-ds.git",
+    "directory": "packages/definitions"
+  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com", "access": "restricted" },
   "files": ["dist", "api.json", "README.md"],
   "exports": {
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
