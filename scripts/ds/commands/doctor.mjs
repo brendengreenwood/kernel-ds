@@ -113,12 +113,14 @@ export const doctorChecks = [
         if (!entry.isDirectory()) continue
         const manifest = readJson(resolve(packagesDir, entry.name, "package.json"))
         versions.set(manifest.name, manifest.version)
-      }
-      if (new Set(versions.values()).size > 1) {
-        violations.push({
-          code: "version-mismatch",
-          message: `workspace package versions diverge: ${[...versions.entries()].map(([name, version]) => `${name}@${version}`).join(", ")}`,
-        })
+        // Packages version independently through Changesets (segment 5); the
+        // invariant is a valid plain semver version, not identical versions.
+        if (!/^\d+\.\d+\.\d+$/.test(manifest.version ?? "")) {
+          violations.push({
+            code: "version-mismatch",
+            message: `${manifest.name} has invalid version "${manifest.version}"; expected plain semver`,
+          })
+        }
       }
       for (const app of ["kernel-portal", "kernel-studio-server"]) {
         const manifest = readJson(resolve(repoRoot, app, "package.json"))

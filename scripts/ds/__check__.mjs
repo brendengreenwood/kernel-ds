@@ -102,22 +102,68 @@ function tempCopy(fixtureName) {
   }
 }
 
-// 10. ds:changeset deterministic write, idempotent rerun, invalid bump refusal.
+// 10. ds:changeset deterministic write, idempotent rerun, refusal matrix for
+// bump, classification, missing entities, and breaking-without-migration.
 {
   const dir = mkdtempSync(join(tmpdir(), "ds-changeset-"))
-  const args = ["changeset", "--package", "@kernel/ui", "--bump", "minor", "--summary", "Fixture release note", "--dir", dir]
+  const args = ["changeset", "--package", "@kernel/ui", "--bump", "minor", "--summary", "Fixture release note", "--classification", "runtime", "--entities", "component.button", "--dir", dir]
   const first = ds(args)
   assert(first.status === 0 && first.stdout.includes("DS-CHANGESET-OK: wrote"), "changeset write", first.stdout + first.stderr)
   const files = readdirSync(dir)
   assert(files.length === 1 && /^kernel-ui-minor-[0-9a-f]{8}\.md$/.test(files[0]), "changeset deterministic filename", files.join(", "))
+  const written = readFileSync(join(dir, files[0]), "utf8")
+  assert(written.includes("kernel-ds:release-meta") && written.includes('"classification":"runtime"'), "changeset embeds release metadata", written)
 
   const rerun = ds(args)
   assert(rerun.status === 0 && rerun.stdout.includes("no write"), "changeset idempotent rerun", rerun.stdout + rerun.stderr)
   assert(readdirSync(dir).length === 1, "changeset rerun adds no files")
 
-  const invalid = ds(["changeset", "--package", "@kernel/ui", "--bump", "huge", "--summary", "x", "--dir", dir])
-  assert(invalid.status === 1 && invalid.stderr.includes("DS-CHANGESET-REFUSED"), "changeset invalid bump refused", invalid.stdout + invalid.stderr)
+  const refusals = [
+    [["changeset", "--package", "@kernel/ui", "--bump", "huge", "--summary", "x", "--classification", "docs", "--dir", dir], "invalid bump"],
+    [["changeset", "--package", "@kernel/ui", "--bump", "patch", "--summary", "x", "--classification", "vibes", "--dir", dir], "invalid classification"],
+    [["changeset", "--package", "@kernel/ui", "--bump", "patch", "--summary", "x", "--classification", "runtime", "--dir", dir], "runtime without entities or package scope"],
+    [["changeset", "--package", "@kernel/ui", "--bump", "major", "--summary", "x", "--classification", "api", "--scope", "package", "--breaking", "--dir", dir], "breaking without migration"],
+    [["changeset", "--package", "@kernel/ui", "--bump", "patch", "--summary", "x", "--classification", "runtime", "--entities", "component.not-a-thing", "--dir", dir], "unknown catalog entity"],
+  ]
+  for (const [refusalArgs, label] of refusals) {
+    const result = ds(refusalArgs)
+    assert(result.status === 1 && result.stderr.includes("DS-CHANGESET-REFUSED"), `changeset refuses ${label}`, result.stdout + result.stderr)
+  }
+  assert(readdirSync(dir).length === 1, "changeset refusals write nothing")
   rmSync(dir, { recursive: true, force: true })
+}
+
+// 10b. Release impact manifest: schema-valid, deterministic, relationship-
+// expanded, and hard-failing on breaking-without-migration or missing metadata.
+{
+  const outA = join(mkdtempSync(join(tmpdir(), "ds-impact-")), "impact.json")
+  const outB = join(mkdtempSync(join(tmpdir(), "ds-impact-")), "impact.json")
+  const validDir = join(fixturesDir, "changesets-valid")
+  const runA = ds(["release-impact", "--dir", validDir, "--out", outA])
+  const runB = ds(["release-impact", "--dir", validDir, "--out", outB])
+  assert(runA.status === 0 && runA.stdout.includes("RELEASE-IMPACT-OK"), "release-impact green fixture", runA.stdout + runA.stderr)
+  assert(runB.status === 0 && readFileSync(outA, "utf8") === readFileSync(outB, "utf8"), "release-impact deterministic output")
+
+  const manifest = JSON.parse(readFileSync(outA, "utf8"))
+  const { validateImpactManifest } = await import("./lib/release-meta.mjs")
+  assert(validateImpactManifest(manifest).length === 0, "impact manifest schema-valid", validateImpactManifest(manifest).join("; "))
+  const definitions = manifest.packages.find((entry) => entry.name === "@kernel/definitions")
+  assert(definitions.bump === "minor" && definitions.plannedVersion === "0.1.0", "impact plans definitions minor bump", JSON.stringify(definitions))
+  const affected = definitions.changes[0].affectedEntities
+  for (const id of ["object.workspace", "object.collection", "object.shell"]) {
+    assert(affected.includes(id), `impact expands relationships to ${id}`, affected.join(", "))
+  }
+  const uiEntry = manifest.packages.find((entry) => entry.name === "@kernel/ui")
+  assert(uiEntry.changes[0].classification === "docs" && uiEntry.changes[0].affectedEntities.length === 0, "docs classification exempt from entity expansion", JSON.stringify(uiEntry.changes[0]))
+
+  const breaking = ds(["release-impact", "--dir", join(fixturesDir, "changesets-breaking-no-migration"), "--out", outA])
+  assert(breaking.status === 1 && breaking.stderr.includes("migration"), "release-impact fails breaking without migration", breaking.stdout + breaking.stderr)
+  const missing = ds(["release-check", "--dir", join(fixturesDir, "changesets-missing-meta")])
+  assert(missing.status === 1 && missing.stderr.includes("missing kernel-ds:release-meta"), "release-check fails missing metadata", missing.stdout + missing.stderr)
+
+  // Independent version bumps proven through the changesets dry-run worktree.
+  const dryRun = ds(["release-check", "--dir", validDir, "--expect-versions", "@kernel/definitions 0.0.0 -> 0.1.0, @kernel/ui 0.0.0 -> 0.0.1"])
+  assert(dryRun.status === 0 && dryRun.stdout.includes("RELEASE-CHECK-OK"), "release-check dry-run versions independently", dryRun.stdout + dryRun.stderr)
 }
 
 // 11. AGENTS marker application: prose preserved byte-for-byte, idempotent, appends when absent.

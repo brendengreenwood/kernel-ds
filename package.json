@@ -26,11 +26,15 @@
     "ds:changeset": "node scripts/ds/cli.mjs changeset",
     "ds:pack": "node scripts/ds/cli.mjs pack",
     "ds:check": "node scripts/ds/__check__.mjs",
+    "changeset:status": "changeset status --verbose",
+    "release:impact": "node scripts/ds/cli.mjs release-impact",
+    "release:check": "node scripts/ds/cli.mjs release-check",
     "agents:generate": "node scripts/ds/cli.mjs agents",
     "agents:check": "node scripts/ds/cli.mjs agents --check",
     "skills:check": "node scripts/ds/cli.mjs skills"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.1",
     "react-hook-form": "^7.80.0"
   }
 }

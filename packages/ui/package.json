@@ -1,8 +1,16 @@
 {
   "name": "@kernel/ui",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brendengreenwood/kernel-ds.git",
+    "directory": "packages/ui"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
   "sideEffects": [
     "./dist/styles.css"
   ],

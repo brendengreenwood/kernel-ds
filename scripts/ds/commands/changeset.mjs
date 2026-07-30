@@ -3,6 +3,8 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { resolve } from "node:path"
 import { parseFlags, requireFlags } from "../lib/args.mjs"
 import { fail, repoRoot } from "../lib/context.mjs"
+import { parseCatalogFile } from "../lib/catalog-file.mjs"
+import { classifications, metadataClassifications } from "../lib/release-meta.mjs"
 
 const bumps = ["patch", "minor", "major"]
 
@@ -17,13 +19,15 @@ function workspacePackageNames() {
 }
 
 /**
- * Write a Changesets-format release note noninteractively. The filename is a
- * content hash, so reruns are idempotent and distinct changes never collide.
- * Release execution itself lands in Segment 5.
+ * Write a Changesets-format release note noninteractively, carrying kernel-ds
+ * release metadata in an embedded comment block. Runtime/API changes must name
+ * affected catalog entities (or declare whole-package scope); breaking changes
+ * must ship a migration; docs/internal classifications are the explicit
+ * exemption path. The filename is a content hash, so reruns are idempotent.
  */
 export async function changeset(argv) {
-  const { flags } = parseFlags(argv)
-  if (!requireFlags(flags, ["package", "bump", "summary"], "ds:changeset")) return
+  const { flags } = parseFlags(argv, ["breaking"])
+  if (!requireFlags(flags, ["package", "bump", "summary", "classification"], "ds:changeset")) return
 
   const names = workspacePackageNames()
   if (!names.includes(flags.package)) {
@@ -35,8 +39,40 @@ export async function changeset(argv) {
   if (!String(flags.summary).trim()) {
     return fail("DS-CHANGESET-REFUSED", "summary must not be empty")
   }
+  if (!classifications.includes(flags.classification)) {
+    return fail("DS-CHANGESET-REFUSED", `unknown classification "${flags.classification}"; expected one of ${classifications.join(", ")}`)
+  }
 
-  const content = `---\n"${flags.package}": ${flags.bump}\n---\n\n${String(flags.summary).trim()}\n`
+  const breaking = flags.breaking === true
+  const migration = typeof flags.migration === "string" ? flags.migration.trim() : ""
+  if (breaking && !migration) {
+    return fail("DS-CHANGESET-REFUSED", "breaking changes require --migration <description>")
+  }
+
+  const scope = flags.scope === "package" ? "package" : "entities"
+  const entities = typeof flags.entities === "string" ? flags.entities.split(",").map((id) => id.trim()).filter(Boolean) : []
+  if (metadataClassifications.includes(flags.classification) && scope !== "package" && entities.length === 0) {
+    return fail(
+      "DS-CHANGESET-REFUSED",
+      `${flags.classification} changes require --entities <catalog ids> or --scope package; docs/internal classifications are exempt`,
+    )
+  }
+  if (entities.length > 0) {
+    const catalog = parseCatalogFile(resolve(repoRoot, "packages/catalog/src/entities.ts"))
+    const known = new Set(catalog.entities.map((entity) => entity.id))
+    const unknown = entities.filter((id) => !known.has(id))
+    if (unknown.length > 0) {
+      return fail("DS-CHANGESET-REFUSED", `unknown catalog entities: ${unknown.join(", ")}`)
+    }
+  }
+
+  const meta = {
+    classification: flags.classification,
+    breaking,
+    ...(breaking ? { migration } : {}),
+    ...(scope === "package" ? { scope: "package" } : { entities }),
+  }
+  const content = `---\n"${flags.package}": ${flags.bump}\n---\n\n${String(flags.summary).trim()}\n\n<!-- kernel-ds:release-meta\n${JSON.stringify(meta)}\n-->\n`
   const digest = createHash("sha256").update(content).digest("hex").slice(0, 8)
   const slug = flags.package.replaceAll(/[^a-z0-9]+/g, "-").replaceAll(/^-+|-+$/g, "")
   const dir = resolve(repoRoot, flags.dir ?? ".changeset")
