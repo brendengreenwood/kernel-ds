@@ -3,7 +3,7 @@ import { Archive, Pencil, Plus } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Table,
   TableBody,
@@ -37,11 +37,12 @@ export default function ScenariosPage() {
   const [location, setLocation] = React.useState("all")
   const [commodity, setCommodity] = React.useState("all")
 
-  const rows = scenarios.filter(
-    (s) =>
-      (location === "all" || s.location === location) &&
-      (commodity === "all" || s.commodity === commodity)
-  )
+  // Everything except the location filter, so the tab counts predict what
+  // clicking a tab actually yields under the current commodity filter.
+  const byCommodity = scenarios.filter((s) => commodity === "all" || s.commodity === commodity)
+  const rows = byCommodity.filter((s) => location === "all" || s.location === location)
+  const countFor = (loc?: string) =>
+    loc ? byCommodity.filter((s) => s.location === loc).length : byCommodity.length
 
   return (
     <div className="flex w-full flex-col">
@@ -58,11 +59,13 @@ export default function ScenariosPage() {
         <Tabs value={location} onValueChange={(v) => setLocation(v as string)}>
           <div className="max-w-full overflow-x-auto">
             {/* w-full so the folder tabs' baseline border spans the container */}
-            <TabsList variant="folder" className="w-full">
-              <TabsTrigger value="all">All locations</TabsTrigger>
+            <TabsList variant="folder" size="comfortable" className="w-full">
+              <TabsTrigger value="all">
+                All locations <TabCount>{countFor()}</TabCount>
+              </TabsTrigger>
               {locations.map((l) => (
                 <TabsTrigger key={l} value={l}>
-                  {l}
+                  {l} <TabCount>{countFor(l)}</TabCount>
                 </TabsTrigger>
               ))}
             </TabsList>

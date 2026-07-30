@@ -177,9 +177,36 @@ buttons back down (3.2).
 > nothing. Any future DS component leaning on `muted` for separation needs the
 > same treatment.
 
-**Light mode is untouched.** The prototype overrides only `.dark`, so light mode is
-stock Kernel with the larger radius. That is intentional — dark is the app's
-identity — but it does mean the two themes are not equally designed.
+## 2.3 Light mode: the same ladder, running upward
+
+Light was originally left stock-plus-radius. That broke the inset content panel:
+the DS ships light `--sidebar` **and** `--background` both at pure white
+(`oklch(1 0 0)`), so `SidebarInset`'s `m-2` margin and `rounded-xl` corners
+existed with zero contrast — the floating-panel effect was invisible in light
+while working in dark.
+
+Light now mirrors the dark ladder, running up to white instead of down from it:
+
+| Role | DS light | Prototype light | Reads as |
+|---|---|---|---|
+| `--sidebar` | white (1.000) | `--neutral-200` (0.922) | recessed rail, frames the panel |
+| `--background` | white (1.000) | `--neutral-100` (0.967) | the floating inset panel |
+| `--card` / `--popover` | white (1.000) | *unchanged* | raised above the canvas |
+| `--muted` | 0.9612 | `--neutral-200` (0.922) | trough, see below |
+
+`--muted` had to move too: at 0.9612 it lands within 0.006 L of the new canvas,
+which would collapse pill and segmented containers into the page.
+
+> **Trap worth remembering: the light block is `:root:not(.dark)`, not `:root`.**
+> A bare `:root` has the *same* specificity as the `.dark` block and sits later
+> in the file, so it wins in **both** themes — silently flattening dark mode's
+> surfaces. This was caught by asserting the resolved values per theme rather
+> than eyeballing the light screenshot; the dark canvas, rail and muted had all
+> quietly become their light values. The `:not(.dark)` raises specificity and
+> states the intent.
+
+Both themes now resolve distinct rail/panel pairs — dark 0.165 / 0.213, light
+0.922 / 0.967 — with the same 18px radius and 7.68px top/right margin.
 
 ---
 
@@ -403,8 +430,9 @@ responds; row click expands with no chevron double-toggle; button radius
 10.16px; icon padding 6px/10px; nested detail table not striped by the outer
 table's rule.
 
-**Not verified:** light mode is stock-plus-radius and has had far less
-attention than dark. `/settings` is a rail entry with no page.
+**Light mode** now carries a deliberate elevation ladder (2.3) and passes the
+same audits, but it has still had far less design attention than dark — it is
+correct, not tuned. `/settings` is a rail entry with no page.
 
 ---
 
@@ -417,8 +445,9 @@ consumer of the sidebar today. Sanity-check 4.4's blast radius on the portal's
 icon buttons first; it is the only visually non-neutral one.
 
 **If the prototype continues**, the open threads are:
-- Light mode deserves a real pass, or an explicit decision that the prototype is
-  dark-only.
+- Light mode has the elevation ladder and passes the audits, but it is correct
+  rather than tuned — a deliberate pass over its accents and chart colours is
+  still open.
 - The four Producers filter dropdowns are presentational placeholders, pending
   the more advanced filtering planned.
 - `/settings` is unbuilt.

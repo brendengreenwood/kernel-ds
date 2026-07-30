@@ -57,6 +57,30 @@
   --radius: 0.875rem;
 }
 
+/* ---- light retune: mirror the dark elevation ladder ----
+   Scoped `:root:not(.dark)`, NOT plain `:root`. A bare `:root` has the same
+   specificity as the `.dark` block above and sits later in the file, so it
+   would win in BOTH themes and silently flatten dark mode's surfaces. The
+   `:not(.dark)` both raises specificity and states the intent.
+
+   The DS ships light `--sidebar` and `--background` both at pure white, so the
+   inset panel's `m-2` margin and rounded corners exist but are invisible. Give
+   light the same three-step ladder the dark block uses — rail recessed, canvas
+   in the middle, cards raised — just running up to white instead of down:
+
+     rail    --sidebar     neutral-200 (0.922)  ← recessed, frames the panel
+     canvas  --background  neutral-100 (0.967)  ← the floating inset panel
+     card    (DS default)  white       (1.000)  ← raised, now reads as such */
+:root:not(.dark) {
+  --sidebar: var(--neutral-200);
+  --background: var(--neutral-100);
+
+  /* The DS light --muted (0.9612) lands within 0.006 L of the new canvas, which
+     would collapse pill/segmented containers into it. Step it to the rail's
+     rung so those troughs stay legible. */
+  --muted: var(--neutral-200);
+}
+
 html,
 body,
 #root {

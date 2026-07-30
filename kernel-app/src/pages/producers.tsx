@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   Table,
@@ -154,14 +154,18 @@ export default function ProducersPage() {
       return next
     })
 
-  const rows = producers.filter((p) => {
+  // Every filter except location, so the tab counts predict what clicking a
+  // tab actually yields under the current search / commodity / book filters.
+  const preLocation = producers.filter((p) => {
     const q = query.trim().toLowerCase()
     if (q && !p.name.toLowerCase().includes(q)) return false
-    if (location !== "all" && p.location !== location) return false
     if (commodity !== "all" && !p.commodities.includes(commodity as Commodity)) return false
     if (book === "mine" && !p.mine) return false
     return true
   })
+  const rows = preLocation.filter((p) => location === "all" || p.location === location)
+  const countFor = (loc?: string) =>
+    loc ? preLocation.filter((p) => p.location === loc).length : preLocation.length
 
   return (
     <div className="flex w-full flex-col">
@@ -184,11 +188,13 @@ export default function ProducersPage() {
       <div className="mt-4 px-6 md:px-8">
         <Tabs value={location} onValueChange={(v) => setLocation(v as string)}>
           <div className="max-w-full overflow-x-auto">
-            <TabsList variant="folder" className="w-full">
-              <TabsTrigger value="all">All locations</TabsTrigger>
+            <TabsList variant="folder" size="comfortable" className="w-full">
+              <TabsTrigger value="all">
+                All locations <TabCount>{countFor()}</TabCount>
+              </TabsTrigger>
               {locations.map((l) => (
                 <TabsTrigger key={l} value={l}>
-                  {l}
+                  {l} <TabCount>{countFor(l)}</TabCount>
                 </TabsTrigger>
               ))}
             </TabsList>
