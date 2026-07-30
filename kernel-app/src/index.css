@@ -1,11 +1,12 @@
-/* Kernel Insider — consumes the full DS token sheet + components at source,
-   then overrides the dark theme toward a premium near-black analytics look.
-   Everything here is a TOKEN override in the app's own layer; the portal's
-   index.css and components are untouched. Kernel green stays primary/accent/
-   chart — only the dark neutral surfaces, borders, and radius move. */
+/* Kernel v2 prototype — consumes the full DS token sheet + components at
+   source, then overrides the dark theme toward a premium near-black analytics
+   look. Everything here is a TOKEN override in the prototype's own layer; the
+   portal's index.css and components are untouched. Kernel green stays
+   primary/accent/chart — only the dark neutral surfaces, borders, and radius
+   move. See docs/v2-prototype-drift.md for the full register. */
 @import "../../kernel-portal/src/index.css";
 /* The modification layer that pushes DS components toward the look. */
-@import "./insider-layer.css";
+@import "./v2-layer.css";
 
 /* Tailwind v4: scan the DS component source so its utility classes are
    generated (the app renders live Kernel components). */

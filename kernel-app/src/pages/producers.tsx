@@ -323,7 +323,7 @@ export default function ProducersPage() {
                   </TableRow>
                   {expanded.has(p.id) && (
                     <TableRow className="hover:bg-transparent">
-                      <TableCell colSpan={10} data-insider-detail className="bg-foreground/5">
+                      <TableCell colSpan={10} data-v2-detail className="bg-foreground/5">
                         <OfferInset offers={p.offers} />
                       </TableCell>
                     </TableRow>

@@ -348,35 +348,41 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
-- **Kernel Insider — a second app on the DS** (branch
+- **Kernel v2 prototype** (decision 0040; branch
   claude/kernel-insider-portal-fvqfq2, 2026-07-29): `kernel-app/` is a
   separate Vite app that consumes the design system **at source** (`@` alias
   -> `../kernel-portal/src`, `resolve.dedupe` for react/react-dom/recharts)
-  rather than forking it. It pushes the DS toward a dark premium-analytics
-  look through two layers only: a token override layer
-  (`kernel-app/src/index.css` remaps the semantic role tokens onto DS
-  **scale** tokens — `--background: var(--neutral-900)` etc.; `--chart-*` is
-  left alone so charts keep the Kernel green ramp) and a modification layer
-  (`kernel-app/src/insider-layer.css`, keyed off shadcn `data-slot` hooks;
-  unlayered + `!important` so it beats Tailwind's utilities layer). No
-  component is forked — delete the layer and stock Kernel renders. Pages:
-  Overview (KPI cards + sparklines), Scenarios (folder tabs + striped
-  object table), Producers (ranked prospecting table whose row expander
-  opens a nested open-bids inset with Accept/Reject). Netlify serves this
-  app for the branch via a branch-scoped `[context."…"]` block in
-  `netlify.toml` (root `base`, installs both packages) so the deploy
-  preview shows Insider, not the portal; `main` still builds the portal.
-  Three DS containment bugs surfaced and were fixed upstream in the process:
+  rather than forking it. It is a **design sandbox, not a product surface** —
+  it began as "Kernel Insider" (an internal product-insider portal), but none
+  of that content survived and it is now a prototype of Kernel v2 itself. Its
+  screens, copy and data do not define product behaviour and must not be cited
+  as a spec. It pushes the DS toward a dark premium-analytics look through two
+  layers only: a token override layer (`kernel-app/src/index.css` remaps the
+  semantic role tokens onto DS **scale** tokens — `--background:
+  var(--neutral-900)` etc.; `--chart-*` is left alone so charts keep the Kernel
+  green ramp) and a modification layer (`kernel-app/src/v2-layer.css`, keyed
+  off shadcn `data-slot` hooks plus `data-v2-*` markers; unlayered +
+  `!important` so it beats Tailwind's utilities layer). No component is forked
+  — delete the layer and stock Kernel renders. Pages: Overview (KPI cards +
+  sparklines), Scenarios (folder tabs + striped object table), Producers
+  (ranked prospecting table whose row expander opens a nested open-bids inset
+  with Accept/Reject); `/settings` is a rail entry only. Netlify serves the
+  prototype for the branch via a branch-scoped `[context."…"]` block in
+  `netlify.toml` (root `base`, installs both packages) so the deploy preview
+  shows the prototype, not the portal — the branch name is historical and must
+  stay verbatim, since the context block matches it literally; `main` still
+  builds the portal. Five DS defects surfaced and were fixed upstream:
   `Table`'s `striped` selector was descendant-scoped (leaked into nested
   tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
-  the sidebar), and light mode needed the pre-paint theme script. Two more
-  followed: `Button`'s optical icon padding never fired (it keyed off a
-  `data-icon` attribute almost nothing set), and Tabs applied hover styling
-  to the active tab. Not merged to main — **`docs/insider-drift.md` is the full drift
-  register**: how the app attaches to the DS, every token remapped, every
-  modification-layer rule, all six DS source changes, and the app's own
-  convention departures — with per-item cherry-pick guidance, since the DS
-  bug fixes are worth rescuing independently of whether Insider lands.
+  the sidebar), `Button`'s optical icon padding never fired (it keyed off a
+  `data-icon` attribute almost nothing set), Tabs applied hover styling to the
+  active tab, and light mode needed the pre-paint theme script. Not merged to
+  main — **`docs/v2-prototype-drift.md` is the full drift register**: how the
+  prototype attaches to the DS, every token remapped (including the inverted
+  dark elevation model and the 3.5x radius), every modification-layer rule, all
+  six DS source changes, and the prototype's own convention departures — with
+  per-item cherry-pick guidance, since the DS bug fixes are worth rescuing
+  independently of whether the prototype lands.
 
 - **Definition files + studio define tools** (branch feat/ds-define-tool,
   2026-07-21, decision 0034): agent-authored tools are now **persistent** -

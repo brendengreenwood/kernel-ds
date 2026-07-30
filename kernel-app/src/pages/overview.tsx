@@ -36,7 +36,7 @@ function Kpi({
   big?: boolean
 }) {
   return (
-    <Card data-insider-kpi className="justify-between">
+    <Card data-v2-kpi className="justify-between">
       <CardHeader className="pb-0">
         <CardDescription>{kpi.label}</CardDescription>
       </CardHeader>
@@ -65,7 +65,7 @@ export default function OverviewPage() {
         {/* The range control is atomic-width: let the cluster shrink and scroll
             in place rather than pushing the page wide on phones. */}
         <div className="ml-auto flex min-w-0 max-w-full items-center gap-2 overflow-x-auto">
-          <ToggleGroup defaultValue={["30d"]} variant="outline" size="sm" data-insider-segmented>
+          <ToggleGroup defaultValue={["30d"]} variant="outline" size="sm" data-v2-segmented>
             {RANGES.map((r) => (
               <ToggleGroupItem key={r} value={r}>
                 {r}

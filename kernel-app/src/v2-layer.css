@@ -1,9 +1,9 @@
 /* ============================================================
-   Insider modification layer
+   Kernel v2 prototype — modification layer
    Pushes the LIVE Kernel DS components toward the premium dark-analytics
-   look — keyed off shadcn `data-slot` hooks plus two opt-in markers
-   (`data-insider-kpi`, `data-insider-segmented`). No component is forked;
-   delete this file and the app renders stock Kernel components.
+   look — keyed off shadcn `data-slot` hooks plus three opt-in markers
+   (`data-v2-kpi`, `data-v2-segmented`, `data-v2-detail`). No component is
+   forked; delete this file and the prototype renders stock Kernel components.
 
    All lengths derive from DS tokens: spacing from `--spacing`, radius from
    `--radius`, color from the semantic role tokens. No magic numbers.
@@ -17,36 +17,36 @@
 
   /* KPI cards get a quiet green hover accent — via outline so the DS
      hairline ring underneath is preserved. Color + timing from tokens. */
-  [data-insider-kpi] {
+  [data-v2-kpi] {
     transition: outline-color var(--duration-base) var(--ease-out);
     outline: 1px solid transparent;
     outline-offset: -1px;
   }
-  [data-insider-kpi]:hover {
+  [data-v2-kpi]:hover {
     outline-color: color-mix(in oklch, var(--primary) 32%, transparent);
   }
 
   /* Segmented range control: turn the outline ToggleGroup into a filled
      pill with a highlighted active segment. */
-  [data-insider-segmented] {
+  [data-v2-segmented] {
     gap: calc(var(--spacing) * 0.5);
     border-radius: var(--radius);
     border: 1px solid var(--border);
     background: var(--card);
     padding: calc(var(--spacing) * 0.75);
   }
-  [data-insider-segmented] [data-slot="toggle-group-item"] {
+  [data-v2-segmented] [data-slot="toggle-group-item"] {
     border: 0 !important;
     border-radius: calc(var(--radius) - var(--spacing));
     background: transparent;
     color: var(--muted-foreground);
   }
-  [data-insider-segmented] [data-slot="toggle-group-item"]:hover {
+  [data-v2-segmented] [data-slot="toggle-group-item"]:hover {
     background: transparent;
     color: var(--foreground);
   }
-  [data-insider-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
-  [data-insider-segmented] [data-slot="toggle-group-item"][data-state="on"] {
+  [data-v2-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
+  [data-v2-segmented] [data-slot="toggle-group-item"][data-state="on"] {
     background: var(--secondary);
     color: var(--secondary-foreground);
   }
@@ -83,24 +83,29 @@
   padding-right: calc(var(--spacing) * 6) !important;
 }
 
-/* Expandable-row detail cell: the inset panel carries its own padding, so
-   the roomy cell rules above must not apply to the full-span wrapper. */
-[data-insider-detail] {
-  padding: 0 !important;
+/* Expandable-row detail cell. Only the VERTICAL padding is dropped — the panel
+   supplies its own — while the horizontal edge inset above is deliberately
+   kept, so the panel lines up with the row content it belongs to. Written as
+   explicit top/bottom rather than `padding: 0`: the cell always spans every
+   column, so it is both :first-child and :last-child, and those higher-
+   specificity edge rules would beat a shorthand's horizontal half anyway. */
+[data-v2-detail] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 /* The detail panel packs twelve columns, so it runs tighter than the roomy
    top-level tables — still --spacing multiples, just a denser step. */
-[data-insider-detail] [data-slot="table-head"],
-[data-insider-detail] [data-slot="table-cell"] {
+[data-v2-detail] [data-slot="table-head"],
+[data-v2-detail] [data-slot="table-cell"] {
   padding-left: calc(var(--spacing) * 3) !important;
   padding-right: calc(var(--spacing) * 3) !important;
 }
-[data-insider-detail] [data-slot="table-head"]:first-child,
-[data-insider-detail] [data-slot="table-cell"]:first-child {
+[data-v2-detail] [data-slot="table-head"]:first-child,
+[data-v2-detail] [data-slot="table-cell"]:first-child {
   padding-left: calc(var(--spacing) * 4) !important;
 }
-[data-insider-detail] [data-slot="table-head"]:last-child,
-[data-insider-detail] [data-slot="table-cell"]:last-child {
+[data-v2-detail] [data-slot="table-head"]:last-child,
+[data-v2-detail] [data-slot="table-cell"]:last-child {
   padding-right: calc(var(--spacing) * 4) !important;
 }

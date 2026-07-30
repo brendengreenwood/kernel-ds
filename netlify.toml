@@ -3,10 +3,13 @@
   command = "npm run build"
   publish = "dist"
 
-# Kernel Insider lives in kernel-app/. On this branch (and its deploy
-# previews) build the app instead of the design-system portal — so the
-# preview shows the app, not the portal. Scoped to the branch, so main and
-# every other preview keep building kernel-portal unchanged.
+# The Kernel v2 prototype lives in kernel-app/. On this branch (and its
+# deploy previews) build the prototype instead of the design-system portal —
+# so the preview shows the prototype, not the portal. Scoped to the branch, so
+# main and every other preview keep building kernel-portal unchanged.
+# NOTE: the branch name below is historical ("insider") — it predates the
+# reframe to "v2 prototype" and must stay verbatim or the preview silently
+# falls back to building the portal.
 [context."claude/kernel-insider-portal-fvqfq2"]
   # Build from the repo ROOT so both packages are unambiguously present:
   # kernel-app consumes the DS at source, so its components resolve
