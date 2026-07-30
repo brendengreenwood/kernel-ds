@@ -68,7 +68,7 @@
    gets its contrast from the RAIL dropping instead: only the frame darkens, and
    the content panel stays paper-white.
 
-     rail    --sidebar     neutral-200 (0.922)  ← recessed, frames the panel
+     rail    --sidebar     neutral-100 (0.967)  ← recessed, frames the panel
      canvas  --background  white       (1.000)  ← the floating inset panel
      card    (DS default)  white       (1.000)  ← same sheet, read by its ring
 
@@ -76,16 +76,29 @@
    three surfaces by lightness (950 / 900 / 800); light puts canvas and card on
    one white sheet and lets the DS Card's `ring-1 ring-foreground/10` hairline do
    the work — the conventional light-UI read, and lighter-on-the-eye than tinting
-   a whole page grey to make cards pop. */
+   a whole page grey to make cards pop.
+
+   The rail sits ~3% off white, not the 8% of a `neutral-200`: chrome here only
+   has to *frame* the panel (helped by its `shadow-sm`), and a heavier grey reads
+   as a slab competing with the content. */
 :root:not(.dark) {
-  --sidebar: var(--neutral-200);
+  --sidebar: var(--neutral-100);
 
-  /* --background stays the DS white. */
+  /* A lighter rail needs a lighter hairline; the DS light --sidebar-border
+     (0.8957) was tuned against a white rail and reads heavy on this one. */
+  --sidebar-border: var(--neutral-200);
 
-  /* The DS light --muted (0.9612) is only 0.039 L off white, which leaves
-     pill/segmented troughs barely there. Step it to the rail's rung so those
-     containers read against the white page. */
-  --muted: var(--neutral-200);
+  /* The selected nav item must be DARKER than the rail — the DS light
+     --sidebar-accent (0.9758) is lighter than a 0.967 rail, so a selected item
+     would read as a hole rather than a chip. Now that lime is a real family,
+     take the 200 rung: a soft lime chip, clearly present, never shouty. */
+  --sidebar-accent: var(--lime-200);
+
+  /* --background and --muted stay the DS values. --muted was overridden to
+     neutral-200 back when the canvas was itself neutral-100 and a 0.9612 trough
+     would have vanished into it; with the canvas now white, the DS value reads
+     fine — and at the rail's rung the pill/segmented troughs were carrying the
+     same weight as the whole sidebar. */
 }
 
 html,

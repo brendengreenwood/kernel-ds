@@ -190,10 +190,12 @@ only the frame darkens, and the content panel stays paper-white:
 
 | Role | DS light | Prototype light | Reads as |
 |---|---|---|---|
-| `--sidebar` | white (1.000) | `--neutral-200` (0.922) | recessed rail, frames the panel |
+| `--sidebar` | white (1.000) | `--neutral-100` (0.967) | recessed rail, frames the panel |
 | `--background` | white (1.000) | *unchanged* | the floating inset panel, paper-white |
 | `--card` / `--popover` | white (1.000) | *unchanged* | same sheet as the canvas |
-| `--muted` | 0.9612 | `--neutral-200` (0.922) | trough, see below |
+| `--sidebar-border` | 0.8957 | `--neutral-200` (0.922) | hairline sized to the lighter rail |
+| `--sidebar-accent` | 0.9758 | `--lime-200` (0.925) | selected nav chip |
+| `--muted` | 0.9612 | *unchanged* | pill / segmented trough |
 
 **This is deliberately a different structure from dark.** Dark separates the
 three surfaces by lightness (950 / 900 / 800, cards raised). Light puts canvas
@@ -202,8 +204,25 @@ hairline do the delineating — the conventional light-UI read, and easier on th
 eye than greying a whole page just to make cards pop. Verified on the
 card-heavy Overview: the KPI cards read clearly on white by their ring alone.
 
-`--muted` still has to move: the DS light value (0.9612) is only 0.039 L off
-white, which leaves pill and segmented troughs barely there against the page.
+**The rail sits ~3% off white, not 8%.** It was `--neutral-200` (0.922) at
+first — roughly Tailwind `gray-200`, which reads as a *slab* competing with the
+content rather than a frame. Chrome here only has to frame the panel, helped by
+the panel's own `shadow-sm`. `--muted` was overridden to that same 0.922 rung,
+which meant a segmented control in the content carried the same visual weight as
+the entire sidebar; with the canvas now white the DS value (0.9612) reads fine
+on its own, so the override is gone.
+
+Two knock-ons the numbers exposed once the rail lightened:
+
+- **The selected nav item has to be *darker* than the rail.** The DS light
+  `--sidebar-accent` is 0.9758 — lighter than a 0.967 rail, so a selected item
+  would read as a hole rather than a chip. It now takes `--lime-200`, a soft lime
+  that is clearly present without shouting (active nav text 6.1:1, idle 15.95:1 —
+  both AA). This is the first real payoff of the lime family from decision 0041:
+  a semantic step existed to reach for.
+- **A lighter rail needs a lighter hairline** — the DS `--sidebar-border`
+  (0.8957) was tuned against a white rail and reads heavy on this one, so it
+  steps to `--neutral-200`.
 
 > **Trap worth remembering: the light block is `:root:not(.dark)`, not `:root`.**
 > A bare `:root` has the *same* specificity as the `.dark` block and sits later
@@ -214,7 +233,7 @@ white, which leaves pill and segmented troughs barely there against the page.
 > states the intent.
 
 Both themes resolve distinct rail/panel pairs — dark 0.165 / 0.213, light
-0.922 / 1.000 — with the same 18px radius and 7.68px top/right margin. Contrast
+0.967 / 1.000 — with the same 18px radius and 7.68px top/right margin. Contrast
 holds in both: table header on card 5.79:1 dark / 5.15:1 light, muted text on
 panel 6.76:1 / 5.15:1, all clear of AA.
 
