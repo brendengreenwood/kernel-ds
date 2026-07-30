@@ -155,7 +155,32 @@ function tempCopy(fixtureName) {
   }
 }
 
-// 13. Unknown commands exit nonzero with usage.
+// 13. Verify selection matrix: changed paths map to gates, expanded through
+// transitive dependents so package changes never skip their consumers.
+{
+  const { selectGates } = await import("./commands/verify.mjs")
+  const matrix = [
+    [["scripts/ds/commands/verify.mjs"], ["ds-commands"]],
+    [["package.json"], ["ds-commands"]],
+    [["packages/catalog/src/entities.ts"], ["catalog", "portal", "studio"]],
+    [["packages/ui/src/components/ui/button.tsx"], ["ui", "portal", "studio"]],
+    [["packages/definitions/src/object.ts"], ["definitions", "portal", "studio"]],
+    [["kernel-portal/src/main.tsx"], ["portal", "studio"]],
+    [["kernel-studio-server/src/lib/paths.ts"], ["studio"]],
+    [["docs/STATE.md"], []],
+    [["packages/ui/api.json", "kernel-studio-server/src/lib/paths.ts"], ["ui", "portal", "studio"]],
+  ]
+  for (const [paths, expected] of matrix) {
+    const ids = selectGates(paths).map((gate) => gate.id)
+    assert(
+      ids.join(",") === expected.join(","),
+      `verify selection for ${paths.join("+")}`,
+      `expected [${expected.join(", ")}], got [${ids.join(", ")}]`,
+    )
+  }
+}
+
+// 14. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])
   assert(unknown.status === 1 && unknown.stderr.includes("DS-USAGE"), "unknown command usage", unknown.stdout + unknown.stderr)

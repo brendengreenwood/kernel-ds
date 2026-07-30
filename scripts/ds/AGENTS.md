@@ -8,7 +8,7 @@
 - `ds:tag --entity <id> --tag <tag> [--remove]` — add/remove a closed-taxonomy tag; validates before writing.
 - `ds:relate --entity <id> --type <type> --target <id>` — record a typed relationship; validates type and target existence first.
 - `ds:generate [--list|--only ids|--skip ids]` — run generation in declared order: catalog-adapter → ui-package → definitions-package → agents-inventories → ds-bundle.
-- `ds:verify [--all|--base <ref>]` — select and run the focused gates implied by changed paths.
+- `ds:verify [--all|--base <ref>]` — select and run the focused gates implied by changed paths; selection expands through each gate's `dependents` so package changes always re-run their consumers (portal/Studio).
 - `ds:doctor [--fixture <dir>]` — report catalog, generated-artifact, API-alignment, a11y-readiness, version, and workspace violations; nonzero when actionable.
 - `ds:changeset --package <name> --bump <patch|minor|major> --summary <text>` — write a Changesets-format note with a content-hashed filename (release execution lands later).
 - `ds:pack [--package name] [--write --out dir]` — build + pack the distributable packages and verify the pack payload allowlist.
@@ -20,7 +20,8 @@
 - The catalog authoring commands write `packages/catalog/src/entities.ts` through `lib/catalog-file.mjs`; the entity array is strict JSON and must round-trip byte-for-byte (proven by `__check__.mjs`).
 - Mutating command tests operate only on temp copies of `__fixtures__/` — never point them at the real catalog in tests.
 - npm invocations receive internal constant arguments only; never interpolate user input into shell commands.
-- New generation steps append to `generateSteps` in `commands/generate.mjs`; new health checks append to `doctorChecks` in `commands/doctor.mjs`.
+- New generation steps append to `generateSteps` in `commands/generate.mjs`; new health checks append to `doctorChecks` in `commands/doctor.mjs`; new verify gates (with `dependents`) append to `verifyGates` in `commands/verify.mjs` and get a row in the `__check__.mjs` selection matrix.
+- CI (`.github/workflows/ci.yml`) enforces the same commands: the `automation` job runs `ds:check`/`ds:doctor`/`skills:check`/`agents:check` plus generated-artifact freshness (`ds:generate --skip ds-bundle` then `git diff --exit-code`); the `pack-smoke` job packs real tarballs and imports them from a clean consumer via `pack-smoke.mjs`. Keep workflow steps and these commands in lockstep.
 
 ## Verification
 

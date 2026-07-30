@@ -3,31 +3,42 @@ import { resolve } from "node:path"
 import { parseFlags } from "../lib/args.mjs"
 import { repoRoot, runNode, runNpm } from "../lib/context.mjs"
 
-/** Gate registry: changed-path pattern → the focused checks that guard it. */
+/**
+ * Gate registry: changed-path pattern → the focused checks that guard it.
+ * `dependents` lists downstream gates that consume this gate's outputs; they
+ * are selected transitively so a package change never silently skips its
+ * consumers (portal consumes catalog/ui/definitions, Studio consumes the
+ * ds-bundle built from the portal and the packages).
+ */
 export const verifyGates = [
   {
     id: "ds-commands",
     match: /^(scripts\/ds\/|package\.json$)/,
+    dependents: [],
     run: () => [runNode(resolve(repoRoot, "scripts/ds/__check__.mjs"))],
   },
   {
     id: "catalog",
     match: /^packages\/catalog\//,
+    dependents: ["portal", "studio"],
     run: () => [runNpm(["run", "catalog:check"])],
   },
   {
     id: "ui",
     match: /^packages\/ui\//,
+    dependents: ["portal", "studio"],
     run: () => [runNpm(["run", "ui:build"]), runNpm(["run", "ui:test"]), runNpm(["run", "ui:check"])],
   },
   {
     id: "definitions",
     match: /^packages\/definitions\//,
+    dependents: ["portal", "studio"],
     run: () => [runNpm(["run", "definitions:build"]), runNpm(["run", "definitions:test"]), runNpm(["run", "definitions:check"])],
   },
   {
     id: "portal",
     match: /^kernel-portal\//,
+    dependents: ["studio"],
     run: () => [
       runNpm(["run", "build"], { cwd: resolve(repoRoot, "kernel-portal") }),
       runNpm(["run", "lint"], { cwd: resolve(repoRoot, "kernel-portal") }),
@@ -37,12 +48,31 @@ export const verifyGates = [
   {
     id: "studio",
     match: /^kernel-studio-server\//,
+    dependents: [],
     run: () => [
       runNpm(["run", "check"], { cwd: resolve(repoRoot, "kernel-studio-server") }),
       runNpm(["test"], { cwd: resolve(repoRoot, "kernel-studio-server") }),
     ],
   },
 ]
+
+/**
+ * Pure selection: changed paths → gates to run, expanded through `dependents`
+ * so transitive consumers are always included. Returned in registry order.
+ */
+export function selectGates(paths) {
+  const selected = new Set()
+  const enqueue = (id) => {
+    if (selected.has(id)) return
+    selected.add(id)
+    const gate = verifyGates.find((candidate) => candidate.id === id)
+    for (const dependent of gate.dependents) enqueue(dependent)
+  }
+  for (const gate of verifyGates) {
+    if (paths.some((path) => gate.match.test(path))) enqueue(gate.id)
+  }
+  return verifyGates.filter((gate) => selected.has(gate.id))
+}
 
 function changedPaths(base) {
   const args = base ? ["diff", "--name-only", `${base}...HEAD`] : []
@@ -66,7 +96,7 @@ export async function verify(argv) {
     selected = verifyGates
   } else {
     const paths = changedPaths(flags.base)
-    selected = verifyGates.filter((gate) => paths.some((path) => gate.match.test(path)))
+    selected = selectGates(paths)
     if (selected.length === 0) {
       console.log("DS-VERIFY: no gate-mapped changes detected; running catalog baseline")
       selected = verifyGates.filter((gate) => gate.id === "catalog")
