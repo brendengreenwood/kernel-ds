@@ -1,9 +1,9 @@
-import { Banknote, Download, MoreVertical } from "@/components/ui/icon"
+import { Banknote, Download, MoreVertical } from "@kernel/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
-import { Button } from "@/components/ui/button"
-import { StatusBadge } from "@/components/ui/status-badge"
-import { AnimatedNumber } from "@/components/ui/animated-number"
+import { Button } from "@kernel/ui"
+import { StatusBadge } from "@kernel/ui"
+import { AnimatedNumber } from "@kernel/ui"
 import {
   Table,
   TableBody,
@@ -12,7 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@kernel/ui"
 
 const loads: {
   id: string

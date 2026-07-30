@@ -1,19 +1,19 @@
-import { Handshake, Reply, MoreVertical } from "@/components/ui/icon"
+import { Handshake, Reply, MoreVertical } from "@kernel/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
-import { CommodityLabel, commodityFromLabel } from "@/components/ui/commodity-badge"
+import { Badge } from "@kernel/ui"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { StatusBadge, type Status } from "@kernel/ui"
+import { CommodityLabel, commodityFromLabel } from "@kernel/ui"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@kernel/ui"
 import {
   Table,
   TableBody,
@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@kernel/ui"
 
 /* -- offer queue ---------------------------------------------------------- */
 

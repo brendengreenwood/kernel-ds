@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, FileText, Trash2, Sparkles } from "@/components/ui/icon"
+import { CheckIcon, FileText, Trash2, Sparkles } from "@kernel/ui/icon"
 
 import {
   MessageGroup,
@@ -9,13 +9,13 @@ import {
   MessageContent,
   MessageHeader,
   MessageFooter,
-} from "@/components/ui/message"
+} from "@kernel/ui"
 import {
   BubbleGroup,
   Bubble,
   BubbleContent,
   BubbleReactions,
-} from "@/components/ui/bubble"
+} from "@kernel/ui"
 import {
   Attachment,
   AttachmentGroup,
@@ -25,9 +25,9 @@ import {
   AttachmentDescription,
   AttachmentActions,
   AttachmentAction,
-} from "@/components/ui/attachment"
-import { Marker, MarkerIcon, MarkerContent } from "@/components/ui/marker"
-import { Spinner } from "@/components/ui/spinner"
+} from "@kernel/ui"
+import { Marker, MarkerIcon, MarkerContent } from "@kernel/ui"
+import { Spinner } from "@kernel/ui"
 import {
   MessageScrollerProvider,
   MessageScroller,
@@ -35,8 +35,8 @@ import {
   MessageScrollerContent,
   MessageScrollerItem,
   MessageScrollerButton,
-} from "@/components/ui/message-scroller"
-import { Button } from "@/components/ui/button"
+} from "@kernel/ui"
+import { Button } from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 

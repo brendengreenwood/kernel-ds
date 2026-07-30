@@ -13,24 +13,24 @@ import {
   FileText,
   X,
   AlertCircle,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { Section, Subhead, Demo } from "./section"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Switch } from "@/components/ui/switch"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { Textarea } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
+import { Switch } from "@kernel/ui"
+import { RadioGroup, RadioGroupItem } from "@kernel/ui"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@kernel/ui"
 
 /* ---- small composition helpers (build on ui/* primitives) ---- */
 

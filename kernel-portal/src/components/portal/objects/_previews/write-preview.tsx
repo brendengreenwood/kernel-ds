@@ -1,8 +1,8 @@
 import * as React from "react"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { StatusBadge } from "@/components/ui/status-badge"
+import { Input } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { Button } from "@kernel/ui"
+import { StatusBadge } from "@kernel/ui"
 import type { ObjectModel, ObjectRow } from "@/lib/objects"
 import { statusForObject, statusLabelForObject } from "@/lib/objects/status-map"
 

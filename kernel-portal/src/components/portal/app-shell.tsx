@@ -11,13 +11,13 @@ import {
   FileText,
   Home,
   Banknote,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { typeStyles } from "@/lib/type-styles"
 import { Section, Subhead } from "./section"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@kernel/ui"
+import { Avatar, AvatarFallback } from "@kernel/ui"
 
 const sideNav = [
   { label: "Operations", items: [

@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom"
 import { Section, MaturityPill } from "@/components/portal/section"
 import { clusterBySlug } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
-import { ArrowLeft } from "@/components/ui/icon"
+import { ArrowLeft } from "@kernel/ui/icon"
 import { getComponentDoc } from "@/lib/component-docs"
 import ComponentDocSections, { renderInlineCode } from "@/components/portal/component-doc-sections"
 import { OnThisPage } from '@/components/portal/on-this-page';

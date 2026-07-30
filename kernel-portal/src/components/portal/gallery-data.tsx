@@ -9,17 +9,17 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown } from "@/components/ui/icon"
+import { ArrowUpDown } from "@kernel/ui/icon"
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Separator } from "@/components/ui/separator"
-import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@kernel/ui"
+import { Badge } from "@kernel/ui"
+import { StatusBadge, type Status } from "@kernel/ui"
+import { Avatar, AvatarFallback } from "@kernel/ui"
+import { Button } from "@kernel/ui"
+import { Progress } from "@kernel/ui"
+import { Skeleton } from "@kernel/ui"
+import { Separator } from "@kernel/ui"
+import { AspectRatio } from "@kernel/ui"
 import {
   Table,
   TableBody,
@@ -27,7 +27,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 

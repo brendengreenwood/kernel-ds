@@ -1,12 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { Truck, FileText, Banknote, TrendingUp, TrendingDown } from "@/components/ui/icon"
+import { Truck, FileText, Banknote, TrendingUp, TrendingDown } from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { Section, Subhead } from "./section"
-import { type Status } from "@/components/ui/status-badge"
-import { AnimatedNumber } from "@/components/ui/animated-number"
+import { type Status } from "@kernel/ui"
+import { AnimatedNumber } from "@kernel/ui"
 import { type Format } from "@number-flow/react"
 
 function Spark({ points, color }: { points: string; color: string }) {

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { getObjectModel, type ObjectRow } from "@/lib/objects"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import type { WorkspaceContext } from "./types"
 
 /**

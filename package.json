@@ -9,7 +9,13 @@
     "catalog:generate": "node packages/catalog/scripts/generate-portal-adapter.mjs",
     "catalog:test": "npm test --workspace @kernel/catalog",
     "catalog:check": "npm run check --workspace @kernel/catalog && node packages/catalog/scripts/generate-portal-adapter.mjs --check && node kernel-portal/scripts/check-catalog.mjs",
+    "ui:build": "npm run build --workspace @kernel/ui",
+    "ui:test": "npm test --workspace @kernel/ui",
+    "ui:check": "npm run check --workspace @kernel/ui",
     "portal:build": "npm --prefix kernel-portal run build",
     "studio:test": "npm --prefix kernel-studio-server test"
+  },
+  "devDependencies": {
+    "react-hook-form": "^7.80.0"
   }
 }

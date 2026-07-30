@@ -8,7 +8,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -28,7 +28,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/accordion.tsx"
+      "packages/ui/src/components/ui/accordion.tsx"
     ]
   },
   {
@@ -37,7 +37,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -57,7 +57,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/alert.tsx"
+      "packages/ui/src/components/ui/alert.tsx"
     ],
     "note": "Kernel success/warning/info variants."
   },
@@ -67,7 +67,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -87,7 +87,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/alert-dialog.tsx"
+      "packages/ui/src/components/ui/alert-dialog.tsx"
     ]
   },
   {
@@ -96,7 +96,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -116,7 +116,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/aspect-ratio.tsx"
+      "packages/ui/src/components/ui/aspect-ratio.tsx"
     ]
   },
   {
@@ -125,7 +125,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -145,7 +145,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/attachment.tsx"
+      "packages/ui/src/components/ui/attachment.tsx"
     ],
     "note": "Upload lifecycle carried on one `state` prop (idle/uploading/processing/error/done)."
   },
@@ -155,7 +155,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -175,7 +175,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/avatar.tsx"
+      "packages/ui/src/components/ui/avatar.tsx"
     ]
   },
   {
@@ -184,7 +184,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -204,7 +204,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/badge.tsx"
+      "packages/ui/src/components/ui/badge.tsx"
     ],
     "note": "Kernel success/warning/info variants."
   },
@@ -214,7 +214,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -234,7 +234,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/breadcrumb.tsx"
+      "packages/ui/src/components/ui/breadcrumb.tsx"
     ]
   },
   {
@@ -243,7 +243,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -263,7 +263,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/bubble.tsx"
+      "packages/ui/src/components/ui/bubble.tsx"
     ],
     "note": "The filled surface inside a Message; seven tone variants."
   },
@@ -273,7 +273,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -293,7 +293,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/button.tsx"
+      "packages/ui/src/components/ui/button.tsx"
     ]
   },
   {
@@ -302,7 +302,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -322,7 +322,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/button-group.tsx"
+      "packages/ui/src/components/ui/button-group.tsx"
     ]
   },
   {
@@ -331,7 +331,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -351,7 +351,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/calendar.tsx"
+      "packages/ui/src/components/ui/calendar.tsx"
     ]
   },
   {
@@ -360,7 +360,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -380,7 +380,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/card.tsx"
+      "packages/ui/src/components/ui/card.tsx"
     ]
   },
   {
@@ -389,7 +389,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -409,7 +409,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/carousel.tsx"
+      "packages/ui/src/components/ui/carousel.tsx"
     ]
   },
   {
@@ -418,7 +418,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -438,7 +438,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/chart.tsx"
+      "packages/ui/src/components/ui/chart.tsx"
     ]
   },
   {
@@ -447,7 +447,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -467,7 +467,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/checkbox.tsx"
+      "packages/ui/src/components/ui/checkbox.tsx"
     ]
   },
   {
@@ -476,7 +476,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -496,7 +496,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/collapsible.tsx"
+      "packages/ui/src/components/ui/collapsible.tsx"
     ]
   },
   {
@@ -505,7 +505,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -524,7 +524,9 @@ export const catalog = [
       "bundleCategory": "general",
       "guidanceSource": "component-docs"
     },
-    "sourceFiles": []
+    "sourceFiles": [
+      "packages/ui/src/components/ui/combobox.tsx"
+    ]
   },
   {
     "id": "component.command",
@@ -532,7 +534,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -552,7 +554,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/command.tsx"
+      "packages/ui/src/components/ui/command.tsx"
     ]
   },
   {
@@ -561,7 +563,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -581,7 +583,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/context-menu.tsx"
+      "packages/ui/src/components/ui/context-menu.tsx"
     ],
     "note": "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
   },
@@ -611,7 +613,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/table.tsx"
+      "packages/ui/src/components/ui/table.tsx"
     ],
     "note": "Composition: table + @tanstack/react-table."
   },
@@ -641,8 +643,8 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/calendar.tsx",
-      "kernel-portal/src/components/ui/popover.tsx"
+      "packages/ui/src/components/ui/calendar.tsx",
+      "packages/ui/src/components/ui/popover.tsx"
     ],
     "note": "Composition: popover + calendar."
   },
@@ -652,7 +654,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -672,7 +674,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/dialog.tsx"
+      "packages/ui/src/components/ui/dialog.tsx"
     ]
   },
   {
@@ -681,7 +683,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -701,7 +703,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/drawer.tsx"
+      "packages/ui/src/components/ui/drawer.tsx"
     ]
   },
   {
@@ -710,7 +712,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -730,7 +732,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/dropdown-menu.tsx"
+      "packages/ui/src/components/ui/dropdown-menu.tsx"
     ],
     "note": "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
   },
@@ -740,7 +742,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -760,7 +762,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/empty.tsx"
+      "packages/ui/src/components/ui/empty.tsx"
     ]
   },
   {
@@ -769,7 +771,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -789,7 +791,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/field.tsx"
+      "packages/ui/src/components/ui/field.tsx"
     ]
   },
   {
@@ -798,7 +800,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -818,7 +820,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/form.tsx"
+      "packages/ui/src/components/ui/form.tsx"
     ]
   },
   {
@@ -827,7 +829,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -847,7 +849,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/hover-card.tsx"
+      "packages/ui/src/components/ui/hover-card.tsx"
     ]
   },
   {
@@ -856,7 +858,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -876,7 +878,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/input.tsx"
+      "packages/ui/src/components/ui/input.tsx"
     ]
   },
   {
@@ -885,7 +887,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -905,7 +907,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/input-otp.tsx"
+      "packages/ui/src/components/ui/input-otp.tsx"
     ]
   },
   {
@@ -914,7 +916,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -934,7 +936,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/item.tsx"
+      "packages/ui/src/components/ui/item.tsx"
     ]
   },
   {
@@ -943,7 +945,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -963,7 +965,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/kbd.tsx"
+      "packages/ui/src/components/ui/kbd.tsx"
     ]
   },
   {
@@ -972,7 +974,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -992,7 +994,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/label.tsx"
+      "packages/ui/src/components/ui/label.tsx"
     ]
   },
   {
@@ -1001,7 +1003,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1021,7 +1023,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/menubar.tsx"
+      "packages/ui/src/components/ui/menubar.tsx"
     ],
     "note": "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
   },
@@ -1031,7 +1033,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1051,9 +1053,9 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/marker.tsx"
+      "packages/ui/src/components/ui/marker.tsx"
     ],
-    "note": "Transcript dividers — date, session, unread."
+    "note": "Transcript dividers \u2014 date, session, unread."
   },
   {
     "id": "component.message",
@@ -1061,7 +1063,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1081,7 +1083,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/message.tsx"
+      "packages/ui/src/components/ui/message.tsx"
     ]
   },
   {
@@ -1090,7 +1092,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1110,7 +1112,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/message-scroller.tsx"
+      "packages/ui/src/components/ui/message-scroller.tsx"
     ],
     "note": "Autoscroll that yields to the operator; backed by @shadcn/react."
   },
@@ -1120,7 +1122,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1140,7 +1142,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/native-select.tsx"
+      "packages/ui/src/components/ui/native-select.tsx"
     ]
   },
   {
@@ -1149,7 +1151,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1169,7 +1171,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/navigation-menu.tsx"
+      "packages/ui/src/components/ui/navigation-menu.tsx"
     ],
     "note": "Base UI behavior (documented, intended): hover-open delay tuned to 50ms."
   },
@@ -1179,7 +1181,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1199,7 +1201,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/pagination.tsx"
+      "packages/ui/src/components/ui/pagination.tsx"
     ]
   },
   {
@@ -1208,7 +1210,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1228,7 +1230,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/popover.tsx"
+      "packages/ui/src/components/ui/popover.tsx"
     ]
   },
   {
@@ -1237,7 +1239,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1257,7 +1259,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/progress.tsx"
+      "packages/ui/src/components/ui/progress.tsx"
     ]
   },
   {
@@ -1266,7 +1268,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1286,7 +1288,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/radio-group.tsx"
+      "packages/ui/src/components/ui/radio-group.tsx"
     ]
   },
   {
@@ -1295,7 +1297,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1315,8 +1317,8 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/scroll-area.tsx",
-      "kernel-portal/src/components/ui/resizable.tsx"
+      "packages/ui/src/components/ui/scroll-area.tsx",
+      "packages/ui/src/components/ui/resizable.tsx"
     ]
   },
   {
@@ -1325,7 +1327,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1345,8 +1347,8 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/scroll-area.tsx",
-      "kernel-portal/src/components/ui/resizable.tsx"
+      "packages/ui/src/components/ui/scroll-area.tsx",
+      "packages/ui/src/components/ui/resizable.tsx"
     ]
   },
   {
@@ -1355,7 +1357,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1375,7 +1377,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/select.tsx"
+      "packages/ui/src/components/ui/select.tsx"
     ]
   },
   {
@@ -1384,7 +1386,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1404,7 +1406,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/separator.tsx"
+      "packages/ui/src/components/ui/separator.tsx"
     ]
   },
   {
@@ -1413,7 +1415,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1433,7 +1435,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/sheet.tsx"
+      "packages/ui/src/components/ui/sheet.tsx"
     ]
   },
   {
@@ -1442,7 +1444,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1462,7 +1464,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/sidebar.tsx"
+      "packages/ui/src/components/ui/sidebar.tsx"
     ],
     "note": "Demonstrated by this portal's own rail and the app shell."
   },
@@ -1472,7 +1474,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1492,7 +1494,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/skeleton.tsx"
+      "packages/ui/src/components/ui/skeleton.tsx"
     ]
   },
   {
@@ -1501,7 +1503,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1521,7 +1523,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/slider.tsx"
+      "packages/ui/src/components/ui/slider.tsx"
     ]
   },
   {
@@ -1530,7 +1532,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1550,7 +1552,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/sonner.tsx"
+      "packages/ui/src/components/ui/sonner.tsx"
     ]
   },
   {
@@ -1559,7 +1561,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1579,7 +1581,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/spinner.tsx"
+      "packages/ui/src/components/ui/spinner.tsx"
     ],
     "note": "role=\"status\" and an accessible label ship with it."
   },
@@ -1589,7 +1591,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1609,7 +1611,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/status-badge.tsx"
+      "packages/ui/src/components/ui/status-badge.tsx"
     ],
     "note": "Kernel-only; domain lifecycle states (decision 0003)."
   },
@@ -1619,7 +1621,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1639,7 +1641,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/switch.tsx"
+      "packages/ui/src/components/ui/switch.tsx"
     ]
   },
   {
@@ -1648,7 +1650,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1668,7 +1670,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/table.tsx"
+      "packages/ui/src/components/ui/table.tsx"
     ]
   },
   {
@@ -1677,7 +1679,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1697,9 +1699,9 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/tabs.tsx"
+      "packages/ui/src/components/ui/tabs.tsx"
     ],
-    "note": "Variants pill (primary active, default) · underline · folder; sizes compact/default/comfortable (control-height tokens); slots for leading icon, <TabCount> badge, <TabDot> notification (decision 0021). Automatic activation (arrows activate; activateOnFocus overridable) — decision 0023."
+    "note": "Variants pill (primary active, default) \u00b7 underline \u00b7 folder; sizes compact/default/comfortable (control-height tokens); slots for leading icon, <TabCount> badge, <TabDot> notification (decision 0021). Automatic activation (arrows activate; activateOnFocus overridable) \u2014 decision 0023."
   },
   {
     "id": "component.textarea",
@@ -1707,7 +1709,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1727,7 +1729,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/textarea.tsx"
+      "packages/ui/src/components/ui/textarea.tsx"
     ]
   },
   {
@@ -1736,7 +1738,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1756,7 +1758,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/toggle.tsx"
+      "packages/ui/src/components/ui/toggle.tsx"
     ]
   },
   {
@@ -1765,7 +1767,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1785,7 +1787,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/toggle-group.tsx"
+      "packages/ui/src/components/ui/toggle-group.tsx"
     ]
   },
   {
@@ -1794,7 +1796,7 @@ export const catalog = [
     "kind": "component",
     "maturity": "ready",
     "accessibility": "reviewed",
-    "package": "kernel-portal",
+    "package": "@kernel/ui",
     "tags": [
       "component",
       "ready"
@@ -1814,7 +1816,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/tooltip.tsx"
+      "packages/ui/src/components/ui/tooltip.tsx"
     ]
   },
   {
@@ -1843,7 +1845,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/form.tsx"
+      "packages/ui/src/components/ui/form.tsx"
     ]
   },
   {
@@ -1872,7 +1874,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/table.tsx"
+      "packages/ui/src/components/ui/table.tsx"
     ]
   },
   {
@@ -1901,7 +1903,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/chart.tsx"
+      "packages/ui/src/components/ui/chart.tsx"
     ]
   },
   {
@@ -1930,7 +1932,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/border-beam.tsx"
+      "packages/ui/src/components/ui/border-beam.tsx"
     ],
     "note": "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card."
   },
@@ -1960,7 +1962,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/commodity-badge.tsx"
+      "packages/ui/src/components/ui/commodity-badge.tsx"
     ],
     "note": "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)."
   },
@@ -1990,9 +1992,9 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/animated-number.tsx"
+      "packages/ui/src/components/ui/animated-number.tsx"
     ],
-    "note": "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable."
+    "note": "<AnimatedNumber> (@number-flow/react) \u2014 counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable."
   },
   {
     "id": "pattern.app-shell",
@@ -2239,7 +2241,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [],
-    "note": "Board→basis→cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative."
+    "note": "Board\u2192basis\u2192cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative."
   },
   {
     "id": "pattern.modals",
@@ -2392,7 +2394,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "decision 0026 — first Read primitive (many rows of one object)."
+    "note": "decision 0026 \u2014 first Read primitive (many rows of one object)."
   },
   {
     "id": "object.record",
@@ -2417,7 +2419,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "decision 0026 — second Read primitive (one row of one object)."
+    "note": "decision 0026 \u2014 second Read primitive (one row of one object)."
   },
   {
     "id": "object.write",
@@ -2442,7 +2444,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "decision 0026 — write layer (form + in-place postures)."
+    "note": "decision 0026 \u2014 write layer (form + in-place postures)."
   },
   {
     "id": "object.query",
@@ -2467,7 +2469,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "decision 0026 — Aspect: narrows an object row set with predicates; yields a Collection."
+    "note": "decision 0026 \u2014 Aspect: narrows an object row set with predicates; yields a Collection."
   },
   {
     "id": "object.traversal",
@@ -2492,7 +2494,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "decision 0026 — Aspect: walks declared associations to related object rows."
+    "note": "decision 0026 \u2014 Aspect: walks declared associations to related object rows."
   },
   {
     "id": "object.designs",
@@ -2517,7 +2519,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "decision 0026 — auto-derived surface iterating objectRegistry through every primitive preview."
+    "note": "decision 0026 \u2014 auto-derived surface iterating objectRegistry through every primitive preview."
   },
   {
     "id": "object.substrate-demo",
@@ -2542,7 +2544,7 @@ export const catalog = [
       "guidanceSource": "composition-contract"
     },
     "sourceFiles": [],
-    "note": "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)."
+    "note": "Decision 0027 \u2014 DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)."
   },
   {
     "id": "object.pin",
@@ -2571,7 +2573,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/marks/pin.tsx"
+      "packages/ui/src/components/ui/marks/pin.tsx"
     ],
     "note": "Mark component (decision 0027). Positioned single-record marker; caller owns placement."
   },
@@ -2602,7 +2604,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/marks/plot.tsx"
+      "packages/ui/src/components/ui/marks/plot.tsx"
     ],
     "note": "Mark component (decision 0027). Decorative glyph for one datum on a plot or spatial view."
   },
@@ -2633,7 +2635,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/marks/cluster-badge.tsx"
+      "packages/ui/src/components/ui/marks/cluster-badge.tsx"
     ],
     "note": "Mark component (decision 0027). Rolled-up count when marks would overlap."
   },
@@ -2664,7 +2666,7 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/ui/marks/legend-swatch.tsx"
+      "packages/ui/src/components/ui/marks/legend-swatch.tsx"
     ],
     "note": "Mark component (decision 0027). Legend row color-key glyph."
   }

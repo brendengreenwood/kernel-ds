@@ -5,31 +5,31 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { toast } from "sonner"
-import { Bold, Italic, Underline, ArrowRight, Plus, ChevronDown } from "@/components/ui/icon"
+import { Bold, Italic, Underline, ArrowRight, Plus, ChevronDown } from "@kernel/ui/icon"
 
-import { Button } from "@/components/ui/button"
-import { Toggle } from "@/components/ui/toggle"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Switch } from "@/components/ui/switch"
-import { Slider } from "@/components/ui/slider"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Button } from "@kernel/ui"
+import { Toggle } from "@kernel/ui"
+import { ToggleGroup, ToggleGroupItem } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Textarea } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
+import { Switch } from "@kernel/ui"
+import { Slider } from "@kernel/ui"
+import { RadioGroup, RadioGroupItem } from "@kernel/ui"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@kernel/ui"
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@/components/ui/input-otp"
+} from "@kernel/ui"
 import {
   Form,
   FormControl,
@@ -38,8 +38,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { ButtonGroup, ButtonGroupText } from "@/components/ui/button-group"
+} from "@kernel/ui"
+import { ButtonGroup, ButtonGroupText } from "@kernel/ui"
 import {
   Field,
   FieldContent,
@@ -48,12 +48,12 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field"
+} from "@kernel/ui"
 import {
   NativeSelect,
   NativeSelectOptGroup,
   NativeSelectOption,
-} from "@/components/ui/native-select"
+} from "@kernel/ui"
 import {
   Combobox,
   ComboboxChip,
@@ -68,7 +68,7 @@ import {
   ComboboxLabel,
   ComboboxList,
   ComboboxValue,
-} from "@/components/ui/combobox"
+} from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 

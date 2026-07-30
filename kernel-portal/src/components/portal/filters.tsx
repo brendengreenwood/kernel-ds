@@ -1,22 +1,22 @@
 "use client"
 
 import * as React from "react"
-import { Search, Plus, X } from "@/components/ui/icon"
+import { Search, Plus, X } from "@kernel/ui/icon"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { autoAnimateConfig } from "@/lib/motion"
 import { Section, Subhead } from "./section"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@kernel/ui"
 
 type Chip = { id: string; k: string; v: string }
 

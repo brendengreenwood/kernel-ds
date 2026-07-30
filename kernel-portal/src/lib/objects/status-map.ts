@@ -1,4 +1,4 @@
-import type { Status } from "@/components/ui/status-badge";
+import type { Status } from "@kernel/ui";
 import type { ObjectModel, StatusTone } from "./types.ts";
 import { contractModel } from "./contract.ts";
 import { settlementModel } from "./settlement.ts";

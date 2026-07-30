@@ -3,13 +3,13 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
-import { Plus, X, ChevronDown } from "@/components/ui/icon"
+import { Plus, X, ChevronDown } from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { typeStyles } from "@/lib/type-styles"
 import { Section, Subhead } from "./section"
-import { Button } from "@/components/ui/button"
-import { AnimatedNumber } from "@/components/ui/animated-number"
+import { Button } from "@kernel/ui"
+import { AnimatedNumber } from "@kernel/ui"
 import { autoAnimateConfig } from "@/lib/motion"
 
 /** A track whose dot travels on click, timed by a duration + easing token. */

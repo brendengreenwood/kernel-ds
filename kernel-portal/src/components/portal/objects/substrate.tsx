@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Section, Subhead, Demo } from "../section"
-import { Pin, Plot, ClusterBadge, LegendSwatch } from "@/components/ui/marks"
+import { Pin, Plot, ClusterBadge, LegendSwatch } from "@kernel/ui/marks"
 import { contractRows } from "@/lib/objects"
 
 /**

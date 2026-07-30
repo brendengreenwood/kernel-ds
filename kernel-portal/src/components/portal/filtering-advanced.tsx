@@ -1,28 +1,28 @@
 "use client"
 
 import * as React from "react"
-import { Plus, X, Columns3, GripVertical } from "@/components/ui/icon"
+import { Plus, X, Columns3, GripVertical } from "@kernel/ui/icon"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { autoAnimateConfig } from "@/lib/motion"
 import { Section, Subhead } from "./section"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
+import { Label } from "@kernel/ui"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@kernel/ui"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@kernel/ui"
 
 /* -- filter builder ------------------------------------------------------ */
 

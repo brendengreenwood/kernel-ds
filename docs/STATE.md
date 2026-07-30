@@ -27,6 +27,8 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **UI package extraction in progress** (decision 0042, 2026-07-30): `packages/ui` now owns the canonical UI implementations and distributes `@kernel/ui` as ESM, declarations, CSS, and a catalog-backed `api.json`, with explicit root/marks/icon/utils/style exports. The portal consumes the package through a package-local `file:` dependency; no duplicate implementation tree remains under `kernel-portal`. React and React DOM are peer-only, and package tests reject wildcard exports, private portal-source leakage, bundled or dependency-owned React, undeclared runtime imports, missing public artifacts, and payload files outside the allowlist.
+
 - **Canonical catalog foundation in progress** (decision 0041, 2026-07-29): the repository now has a minimal private npm workspace limited to `packages/*`; `kernel-portal` and `kernel-studio-server` remain independently installed applications with their own lockfiles and commands. `packages/catalog` owns the single canonical inventory of **93 lifecycle entries** and **81 registered documentation records**, with closed taxonomies plus source, docs, and AI references. Catalog selectors generate the portal's stable `componentMeta`/`components` adapter in deterministic group-and-name order; the former hand-maintained portal registry is gone. Root `catalog:generate` and `catalog:check` commands, catalog tests, and CI enforce selector behavior, anchor uniqueness, source/doc resolution, adapter freshness, and catalog integrity without rewriting tracked files during checks.
 
 - **Salvaged shadcn primitives ported** (decision 0040, 2026-07-28): the 13

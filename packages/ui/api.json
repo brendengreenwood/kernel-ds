@@ -1,0 +1,269 @@
+{
+  "entry": ".",
+  "modules": [
+    {
+      "module": "accordion",
+      "catalogBacked": true
+    },
+    {
+      "module": "alert-dialog",
+      "catalogBacked": true
+    },
+    {
+      "module": "alert",
+      "catalogBacked": true
+    },
+    {
+      "module": "animated-number",
+      "catalogBacked": true
+    },
+    {
+      "module": "aspect-ratio",
+      "catalogBacked": true
+    },
+    {
+      "module": "attachment",
+      "catalogBacked": true
+    },
+    {
+      "module": "avatar",
+      "catalogBacked": true
+    },
+    {
+      "module": "badge",
+      "catalogBacked": true
+    },
+    {
+      "module": "border-beam",
+      "catalogBacked": true
+    },
+    {
+      "module": "breadcrumb",
+      "catalogBacked": true
+    },
+    {
+      "module": "bubble",
+      "catalogBacked": true
+    },
+    {
+      "module": "button-group",
+      "catalogBacked": true
+    },
+    {
+      "module": "button",
+      "catalogBacked": true
+    },
+    {
+      "module": "calendar",
+      "catalogBacked": true
+    },
+    {
+      "module": "card",
+      "catalogBacked": true
+    },
+    {
+      "module": "carousel",
+      "catalogBacked": true
+    },
+    {
+      "module": "chart",
+      "catalogBacked": true
+    },
+    {
+      "module": "checkbox",
+      "catalogBacked": true
+    },
+    {
+      "module": "code-block",
+      "catalogBacked": false
+    },
+    {
+      "module": "collapsible",
+      "catalogBacked": true
+    },
+    {
+      "module": "combobox",
+      "catalogBacked": true
+    },
+    {
+      "module": "command",
+      "catalogBacked": true
+    },
+    {
+      "module": "commodity-badge",
+      "catalogBacked": true
+    },
+    {
+      "module": "context-menu",
+      "catalogBacked": true
+    },
+    {
+      "module": "dialog",
+      "catalogBacked": true
+    },
+    {
+      "module": "direction",
+      "catalogBacked": false
+    },
+    {
+      "module": "drawer",
+      "catalogBacked": true
+    },
+    {
+      "module": "dropdown-menu",
+      "catalogBacked": true
+    },
+    {
+      "module": "empty",
+      "catalogBacked": true
+    },
+    {
+      "module": "field",
+      "catalogBacked": true
+    },
+    {
+      "module": "form",
+      "catalogBacked": true
+    },
+    {
+      "module": "hover-card",
+      "catalogBacked": true
+    },
+    {
+      "module": "input-group",
+      "catalogBacked": false
+    },
+    {
+      "module": "input-otp",
+      "catalogBacked": true
+    },
+    {
+      "module": "input",
+      "catalogBacked": true
+    },
+    {
+      "module": "item",
+      "catalogBacked": true
+    },
+    {
+      "module": "kbd",
+      "catalogBacked": true
+    },
+    {
+      "module": "label",
+      "catalogBacked": true
+    },
+    {
+      "module": "marker",
+      "catalogBacked": true
+    },
+    {
+      "module": "menubar",
+      "catalogBacked": true
+    },
+    {
+      "module": "message-scroller",
+      "catalogBacked": true
+    },
+    {
+      "module": "message",
+      "catalogBacked": true
+    },
+    {
+      "module": "native-select",
+      "catalogBacked": true
+    },
+    {
+      "module": "navigation-menu",
+      "catalogBacked": true
+    },
+    {
+      "module": "pagination",
+      "catalogBacked": true
+    },
+    {
+      "module": "popover",
+      "catalogBacked": true
+    },
+    {
+      "module": "progress",
+      "catalogBacked": true
+    },
+    {
+      "module": "radio-group",
+      "catalogBacked": true
+    },
+    {
+      "module": "resizable",
+      "catalogBacked": true
+    },
+    {
+      "module": "scroll-area",
+      "catalogBacked": true
+    },
+    {
+      "module": "select",
+      "catalogBacked": true
+    },
+    {
+      "module": "separator",
+      "catalogBacked": true
+    },
+    {
+      "module": "sheet",
+      "catalogBacked": true
+    },
+    {
+      "module": "sidebar",
+      "catalogBacked": true
+    },
+    {
+      "module": "skeleton",
+      "catalogBacked": true
+    },
+    {
+      "module": "slider",
+      "catalogBacked": true
+    },
+    {
+      "module": "sonner",
+      "catalogBacked": true
+    },
+    {
+      "module": "spinner",
+      "catalogBacked": true
+    },
+    {
+      "module": "status-badge",
+      "catalogBacked": true
+    },
+    {
+      "module": "switch",
+      "catalogBacked": true
+    },
+    {
+      "module": "table",
+      "catalogBacked": true
+    },
+    {
+      "module": "tabs",
+      "catalogBacked": true
+    },
+    {
+      "module": "textarea",
+      "catalogBacked": true
+    },
+    {
+      "module": "toggle-group",
+      "catalogBacked": true
+    },
+    {
+      "module": "toggle",
+      "catalogBacked": true
+    },
+    {
+      "module": "tooltip",
+      "catalogBacked": true
+    }
+  ]
+}

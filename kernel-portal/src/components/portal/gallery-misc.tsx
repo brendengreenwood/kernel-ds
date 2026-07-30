@@ -2,40 +2,40 @@
 
 import * as React from "react"
 import { format } from "date-fns"
-import { ChevronsUpDown, Calendar as CalendarIcon, FileText, Truck } from "@/components/ui/icon"
+import { ChevronsUpDown, Calendar as CalendarIcon, FileText, Truck } from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@kernel/ui/utils"
+import { Button } from "@kernel/ui"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@kernel/ui"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { Calendar } from "@/components/ui/calendar"
+} from "@kernel/ui"
+import { Calendar } from "@kernel/ui"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@kernel/ui"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from "@kernel/ui"
+import { ScrollArea } from "@kernel/ui"
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable"
+} from "@kernel/ui"
 import {
   Empty,
   EmptyContent,
@@ -43,7 +43,7 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@/components/ui/empty"
+} from "@kernel/ui"
 import {
   Item,
   ItemActions,
@@ -52,8 +52,8 @@ import {
   ItemGroup,
   ItemMedia,
   ItemTitle,
-} from "@/components/ui/item"
-import { Kbd, KbdGroup } from "@/components/ui/kbd"
+} from "@kernel/ui"
+import { Kbd, KbdGroup } from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 

@@ -3,10 +3,10 @@
 import * as React from "react"
 import { toast } from "sonner"
 import { Section } from "./section"
-import { Input } from "@/components/ui/input"
-import * as AllIcons from "@/components/ui/icon"
+import { Input } from "@kernel/ui"
+import * as AllIcons from "@kernel/ui/icon"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 
 /**
  * Icons foundation (decision 0019): the MDI shim is the icon library.
@@ -20,7 +20,7 @@ type IconComponent = React.ComponentType<AllIcons.IconProps>
 const glyphs = Object.entries(AllIcons) as [string, IconComponent][]
 
 function copyImport(name: string) {
-  const line = `import { ${name} } from "@/components/ui/icon"`
+  const line = `import { ${name} } from "@kernel/ui/icon"`
   navigator.clipboard?.writeText(line)
   toast.success("Copied", { description: line })
 }
@@ -38,14 +38,14 @@ export function IconsSection() {
       id="icons"
       eyebrow="Foundations"
       title="Icons"
-      lead="Icons are Material Design Icons (decision 0019), served through a lucide-compatible shim — never import from lucide-react or another icon package. Every glyph below is a named export of @/components/ui/icon; click one to copy its import."
+      lead="Icons are Material Design Icons (decision 0019), served through a lucide-compatible shim — never import from lucide-react or another icon package. Every glyph below is a named export of @kernel/ui/icon; click one to copy its import."
     >
       <h4 className={cn("mb-4", typeStyles.overline)}>Usage</h4>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="rounded-md border bg-card p-4">
           <div className="text-sm font-semibold">Import from the shim</div>
           <div className="my-2 overflow-x-auto rounded-sm bg-muted px-2.5 py-1.5 font-mono text-xs">
-            {'import { Truck } from "@/components/ui/icon"'}
+            {'import { Truck } from "@kernel/ui/icon"'}
           </div>
           <div className="text-xs text-muted-foreground">
             Lucide-named components backed by <code className="font-mono">@mdi/js</code> paths

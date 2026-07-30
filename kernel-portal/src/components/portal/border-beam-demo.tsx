@@ -2,11 +2,11 @@
 
 import * as React from "react"
 import { Section, Subhead, Demo } from "./section"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { Switch } from "@kernel/ui"
 import type { BorderBeamColorVariant } from "border-beam"
 
 const VARIANTS: BorderBeamColorVariant[] = ["colorful", "ocean", "sunset", "mono"]

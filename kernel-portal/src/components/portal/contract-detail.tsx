@@ -3,12 +3,12 @@ import {
   FileText,
   FileSignature,
   MoreVertical,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { Button } from "@kernel/ui"
+import { Progress } from "@kernel/ui"
+import { StatusBadge, type Status } from "@kernel/ui"
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@kernel/ui"
 
 const terms: [string, React.ReactNode, boolean][] = [
   ["Commodity", "Corn · #2 Yellow", false],

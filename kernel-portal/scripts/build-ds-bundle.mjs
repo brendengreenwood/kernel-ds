@@ -40,7 +40,7 @@ if (!process.execArgv.some((a) => a.includes("experimental-strip-types"))) {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, "..")
 const bundleDir = path.resolve(portalRoot, "..", "ds-bundle")
-const uiDir = path.resolve(portalRoot, "src/components/ui")
+const uiDir = path.resolve(portalRoot, "../packages/ui/src/components/ui")
 
 const log = (...a) => console.log("[build-ds-bundle]", ...a)
 
@@ -96,8 +96,8 @@ async function entryExports() {
   }
   const decl = /export\s+(?:function|const)\s+(\w+)/g
   while ((m = decl.exec(src)) !== null) names.add(m[1])
-  // `export * from "./components/ui/icon"` — include every icon symbol.
-  if (/export\s+\*\s+from\s+["']\.\/components\/ui\/icon["']/.test(src)) {
+  // `export * from "@kernel/ui/icon"` — include every icon symbol.
+  if (/export\s+\*\s+from\s+["']@kernel\/ui\/icon["']/.test(src)) {
     for (const n of await exportsOf("icon")) names.add(n)
   }
   return [...names].sort()
@@ -180,7 +180,7 @@ function renderPromptGuidance(name, file, doc, names) {
   const nl = () => `\n`
   const out = [`# ${name}`, ``]
   if (doc.summary) out.push(doc.summary, ``)
-  out.push(`Kernel design-system component. Source: \`kernel-portal/src/components/ui/${file}.tsx\`.`, ``)
+  out.push(`Kernel design-system component. Source: \`packages/ui/src/components/ui/${file}.tsx\`.`, ``)
   out.push(`## Exports on window.Kernel`, ``, names.map((n) => `- \`Kernel.${n}\``).join(nl()), ``)
   for (const b of doc.docs) {
     if (b.kind === "guidelines") {
@@ -229,7 +229,7 @@ async function generateComponentDocs(files) {
     const promptMd = doc
       ? renderPromptGuidance(name, file, doc, names)
       : `# ${name}\n\n` +
-        `Kernel design-system component. Source: \`kernel-portal/src/components/ui/${file}.tsx\`.\n\n` +
+        `Kernel design-system component. Source: \`packages/ui/src/components/ui/${file}.tsx\`.\n\n` +
         `## Exports on window.Kernel\n\n` +
         names.map((n) => `- \`Kernel.${n}\``).join("\n") +
         `\n\n## Usage\n\n` +
@@ -240,7 +240,7 @@ async function generateComponentDocs(files) {
     await fs.writeFile(
       path.join(dir, `${name}.d.ts`),
       `// Type declarations for ${name} (kernel ds-bundle).\n` +
-        `// Full source: kernel-portal/src/components/ui/${file}.tsx\n` +
+        `// Full source: packages/ui/src/components/ui/${file}.tsx\n` +
         `import type * as React from "react"\n\n` +
         names
           .map((n) => `export declare const ${n}: React.FC<Record<string, unknown>> & Record<string, unknown>`)
