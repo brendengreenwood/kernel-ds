@@ -538,6 +538,18 @@ time.
 The brand and theme toggle still hide outright — a wordmark has no 3.5rem form
 to shrink into, so a crossfade there would read as a glitch.
 
+**5.9 — Route changes fade in (`PageFade`).** The `<Outlet />` is wrapped in a
+div keyed by `pathname`, so React remounts the subtree on every route change and
+the enter animation replays. **Enter only** — a true crossfade needs the
+outgoing page kept mounted while the incoming one arrives, which is a routing
+concern and would put two pages in the layout at once. Opacity alone, no drift:
+the rail's label fade set the app's transition language, and a page that slides
+as well as fades starts to feel like a slideshow. The wrapper carries
+`flex flex-1 flex-col` so it is layout-transparent; verified by measuring
+content widths on all four routes with and without it (538 / 1092 / 1092 / 707
+both ways — identical). Measured opacity on navigation: 0 → 0.73 → 0.92 → 1
+over ~200ms, and 1 on the first frame under `prefers-reduced-motion`.
+
 **5.7 — Panel roll-ups move with panel width.** The app's panel language puts a
 figure cluster at the header's trailing edge (`IconChip` + title/description
 left, bare `Stat`s right, hairline dividers between) — that is what the

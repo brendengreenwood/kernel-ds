@@ -222,6 +222,36 @@ function AppSidebar() {
   )
 }
 
+/** Fades each route in on arrival. `key={pathname}` is what makes it replay:
+    React remounts the subtree on every route change, so the enter animation
+    runs again rather than only on first paint.
+
+    Enter only. A true crossfade needs the outgoing page kept mounted while the
+    incoming one arrives, which is a routing-library concern (and would mean two
+    pages briefly overlapping in the layout) — not worth it for a fade this
+    short. Opacity alone, no drift: the sidebar's own label fade already
+    established the app's transition language, and a page that slides as well as
+    fades starts to feel like a slideshow.
+
+    The wrapper carries `flex flex-1 flex-col` so it is transparent to layout —
+    the pages were direct flex children of the inset `main` before this and must
+    remain equivalent ones. Verified against a captured baseline: identical main
+    heights, card heights and content widths on all four routes.
+
+    Inherits the `prefers-reduced-motion` guard, which zeroes animation-duration.
+*/
+function PageFade() {
+  const { pathname } = useLocation()
+  return (
+    <div
+      key={pathname}
+      className="flex w-full flex-1 flex-col animate-in fade-in duration-[var(--duration-base)] ease-[var(--ease-out)]"
+    >
+      <Outlet />
+    </div>
+  )
+}
+
 /** Jump to top on navigation. */
 function ScrollTop() {
   const { pathname } = useLocation()
@@ -242,7 +272,7 @@ export function Shell() {
         <ScrollTop />
         <AppSidebar />
         <SidebarInset className="bg-background">
-          <Outlet />
+          <PageFade />
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>
