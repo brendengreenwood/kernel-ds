@@ -1,4 +1,4 @@
-import { Plot } from "@/components/ui/marks"
+import { Plot } from "@kernel/ui/marks"
 import {
   CollectionPreview,
   QueryPreview,

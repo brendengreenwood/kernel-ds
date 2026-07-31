@@ -1,0 +1,26 @@
+{
+  "name": "@kernel/definitions",
+  "version": "0.0.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brendengreenwood/kernel-ds.git",
+    "directory": "packages/definitions"
+  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com", "access": "restricted" },
+  "files": ["dist", "api.json", "README.md"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./composition": { "types": "./dist/composition.d.ts", "import": "./dist/composition.js" },
+    "./presets": { "types": "./dist/presets.d.ts", "import": "./dist/presets.js" },
+    "./api.json": "./api.json",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/generate-api.mjs",
+    "check": "tsc --noEmit && node scripts/check-package.mjs",
+    "test": "node --experimental-strip-types --test src/package.test.ts"
+  },
+  "dependencies": { "zod": "^4.4.3" },
+  "devDependencies": { "tsup": "^8.5.1", "typescript": "^6.0.3", "@types/node": "^24.13.3" }
+}

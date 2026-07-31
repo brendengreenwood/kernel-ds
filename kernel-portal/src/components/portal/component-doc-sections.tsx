@@ -9,14 +9,14 @@ import type {
   ComponentDoc,
   DocBlock,
 } from "@/lib/component-docs/schema"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@kernel/ui"
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { CheckCircle2, XCircle } from "@/components/ui/icon"
+} from "@kernel/ui"
+import { CheckCircle2, XCircle } from "@kernel/ui/icon"
 import {
   Table,
   TableBody,
@@ -24,10 +24,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { CodeBlock } from "@/components/ui/code-block"
+} from "@kernel/ui"
+import { CodeBlock } from "@kernel/ui"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 
 /**
  * Render prose that may contain backtick-delimited terms (`outline`,

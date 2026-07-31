@@ -16,12 +16,12 @@ import {
   MoreVertical,
   X,
   ArrowLeft,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { cn } from "@kernel/ui/utils"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { StatusBadge, type Status } from "@kernel/ui"
 
 /* ============================================================================
    Workspace shell experiment — four zones:

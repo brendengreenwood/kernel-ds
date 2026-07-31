@@ -12,11 +12,11 @@ single-scroll page or scrollspy.
 
 ## Portal (real build — `kernel-portal/`)
 
-1. **Component**: a shadcn wrapper in `src/components/ui/` (customize minimally; keep `data-slot`) or a portal section in `src/components/portal/*.tsx`. Reuse tokens — never hardcode a control height (use `h-(--control-h)`; decision 0010) or a raw color (`bg-primary`, `bg-commodity-corn-500`, not raw hex).
+1. **Component**: a canonical primitive in `packages/ui/src/components/ui/` (owned by `@kernel/ui`; decision 0043 — customize minimally; keep `data-slot`) or a portal section in `src/components/portal/*.tsx`. Reuse tokens — never hardcode a control height (use `h-(--control-h)`; decision 0010) or a raw color (`bg-primary`, `bg-commodity-corn-500`, not raw hex). For package-owned components, start from the `kernel-ds-component` skill.
 2. **Wire it as a route**:
    - A **section** (rail item): add a `<Route path="…" element={<XSection />}/>` in `src/main.tsx`, a rail entry in `src/components/portal/app-sidebar.tsx`, and its slug to `src/lib/routes.ts` (`sectionRoutes`). Reuse the old anchor id as the slug so `routeForAnchor()` keeps legacy `#hash` links working.
    - A **component** (one of the 49): add its cluster to the relevant `src/components/portal/gallery-{forms,data,overlays,nav,misc}.tsx` exported list — `galleryClusters` + both nav surfaces read from it; the `/components/:slug` page renders automatically. No separate page file.
-3. **Lifecycle**: add/adjust the `src/lib/component-meta.ts` entry (`experimental` until signed off; `note` says what's settling). New patterns start `experimental`.
+3. **Lifecycle**: scaffold the canonical entity with `npm run ds:add` from the repository root (`experimental` until signed off; `note` says what's settling); tags/relationships go through `npm run ds:tag` / `npm run ds:relate`. Then regenerate with `npm run ds:generate`. Never edit `src/lib/component-meta.generated.ts` by hand. New patterns start `experimental`.
 
 ## Keep example copy in-domain
 

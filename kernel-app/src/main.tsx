@@ -1,7 +1,7 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@app/components/theme-provider"
 import { Shell } from "@app/components/shell"
 import OverviewPage from "@app/pages/overview"
 import ScenariosPage from "@app/pages/scenarios"

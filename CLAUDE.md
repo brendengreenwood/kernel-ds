@@ -13,7 +13,7 @@ When **tokens** change (color scales, status, type, spacing, shadows, radius):
 
 When a **component, form element, or pattern** is added/changed:
 - The matching `kernel-portal/src/components/portal/*.tsx` (and any `src/components/ui/*.tsx` customizations)
-- Wire it in as a **route** (decision 0011): a section adds a `<Route>` in `kernel-portal/src/main.tsx` + a rail entry in `src/components/portal/app-sidebar.tsx`; a component adds its cluster to the relevant `gallery-*.tsx` exported list (`galleryClusters` and the nav read from it — no separate page file needed). Record its status in `component-meta.ts`.
+- Wire it in as a **route** (decision 0011): a section adds a `<Route>` in `kernel-portal/src/main.tsx` + a rail entry in `src/components/portal/app-sidebar.tsx`; a component adds its cluster to the relevant `gallery-*.tsx` exported list (`galleryClusters` and the nav read from it — no separate page file needed). Record lifecycle metadata in the canonical `@kernel/catalog` source, then run `npm run catalog:generate` from the repository root; never hand-edit `component-meta.generated.ts`.
 - `kernel-portal/README.md` (file map, component coverage, customized-components notes)
 
 When **nav sections** change: update `app-sidebar.tsx` and add the matching route in `main.tsx`. Every rail item is its own page (decision 0011); reuse the old anchor id as the route slug so `routeForAnchor()` keeps legacy `#hash` links working; never reintroduce a single-scroll page or a scrollspy.

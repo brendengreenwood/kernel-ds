@@ -1,0 +1,11 @@
+[
+  { "request": "install @kernel/ui in a new consumer app", "expect": "kernel-ds-use" },
+  { "request": "add a component to the design system", "expect": "kernel-ds-component" },
+  { "request": "add a pattern and relate entities in the catalog", "expect": "kernel-ds-pattern" },
+  { "request": "author a workspace definition for incident ops", "expect": "kernel-ds-definition" },
+  { "request": "fix doc coverage and fill the docs blocks for badge", "expect": "kernel-ds-document" },
+  { "request": "run gates and reproduce ci for my change", "expect": "kernel-ds-verify" },
+  { "request": "cut a release with a version bump", "expect": "kernel-ds-release" },
+  { "request": "upgrade the consumer to the latest tarballs", "expect": "kernel-ds-upgrade" },
+  { "request": "audit the system for drift and stale inventory", "expect": "kernel-ds-audit" }
+]

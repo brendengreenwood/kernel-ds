@@ -1,0 +1,43 @@
+{
+  "name": "kernel-design-system",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "catalog:generate": "node packages/catalog/scripts/generate-portal-adapter.mjs",
+    "catalog:test": "npm test --workspace @kernel/catalog",
+    "catalog:check": "npm run check --workspace @kernel/catalog && node packages/catalog/scripts/generate-portal-adapter.mjs --check && node kernel-portal/scripts/check-catalog.mjs",
+    "ui:build": "npm run build --workspace @kernel/ui",
+    "ui:test": "npm test --workspace @kernel/ui",
+    "ui:check": "npm run check --workspace @kernel/ui",
+    "definitions:build": "npm run build --workspace @kernel/definitions",
+    "definitions:test": "npm test --workspace @kernel/definitions",
+    "definitions:check": "npm run check --workspace @kernel/definitions",
+    "portal:build": "npm --prefix kernel-portal run build",
+    "studio:test": "npm --prefix kernel-studio-server test",
+    "ds:add": "node scripts/ds/cli.mjs add",
+    "ds:tag": "node scripts/ds/cli.mjs tag",
+    "ds:relate": "node scripts/ds/cli.mjs relate",
+    "ds:generate": "node scripts/ds/cli.mjs generate",
+    "ds:verify": "node scripts/ds/cli.mjs verify",
+    "ds:doctor": "node scripts/ds/cli.mjs doctor",
+    "ds:changeset": "node scripts/ds/cli.mjs changeset",
+    "ds:pack": "node scripts/ds/cli.mjs pack",
+    "ds:upgrade": "node scripts/ds/cli.mjs upgrade",
+    "ds:release": "node scripts/ds/cli.mjs release",
+    "ds:check": "node scripts/ds/__check__.mjs",
+    "consumers:check": "node scripts/ds/cli.mjs consumers",
+    "changeset:status": "changeset status --verbose",
+    "release:impact": "node scripts/ds/cli.mjs release-impact",
+    "release:check": "node scripts/ds/cli.mjs release-check",
+    "agents:generate": "node scripts/ds/cli.mjs agents",
+    "agents:check": "node scripts/ds/cli.mjs agents --check",
+    "skills:check": "node scripts/ds/cli.mjs skills"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.1",
+    "react-hook-form": "^7.80.0"
+  }
+}

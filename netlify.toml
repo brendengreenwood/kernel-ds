@@ -1,7 +1,12 @@
 [build]
   base = "kernel-portal"
-  command = "npm run build"
+  # The portal consumes @kernel/ui and @kernel/definitions via file: deps, so the
+  # workspace packages must be built before the portal build (same order as CI).
+  command = "cd .. && npm ci && npm run ui:build && npm run definitions:build && cd kernel-portal && npm ci && npm run build"
   publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
 
 # The Kernel v2 prototype lives in kernel-app/. On this branch (and its
 # deploy previews) build the prototype instead of the design-system portal —
@@ -11,12 +16,13 @@
 # reframe to "v2 prototype" and must stay verbatim or the preview silently
 # falls back to building the portal.
 [context."claude/kernel-insider-portal-fvqfq2"]
-  # Build from the repo ROOT so both packages are unambiguously present:
-  # kernel-app consumes the DS at source, so its components resolve
-  # @base-ui/react etc. from kernel-portal/node_modules. Install both, build
-  # the app, publish the app's dist.
+  # Build from the repo ROOT. kernel-app consumes the DS at source from
+  # packages/ui, whose own deps (@base-ui/react, @mdi/js, …) are workspace
+  # dependencies — so the root install is what makes them resolvable. The app
+  # itself is deliberately NOT a workspace (decision 0036 fences it as
+  # unmanaged), hence its separate install.
   base = "/"
-  command = "npm --prefix kernel-portal install --no-audit --no-fund && npm --prefix kernel-app install --no-audit --no-fund && npm --prefix kernel-app run build"
+  command = "npm ci --no-audit --no-fund && npm --prefix kernel-app install --no-audit --no-fund && npm --prefix kernel-app run build"
   publish = "kernel-app/dist"
 
 [[redirects]]

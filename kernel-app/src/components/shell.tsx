@@ -30,7 +30,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { ModeToggle } from "@/components/mode-toggle"
+import { ModeToggle } from "@app/components/mode-toggle"
 import { cn } from "@/lib/utils"
 
 type Item = { label: string; to: string; icon: React.ComponentType<{ className?: string }> }

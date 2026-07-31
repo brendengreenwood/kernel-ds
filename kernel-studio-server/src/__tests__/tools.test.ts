@@ -61,11 +61,14 @@ afterEach(async () => {
 });
 
 describe("ds-bundle tools", () => {
-  it("lists the 53 Kernel general components", async () => {
+  it("lists the 67 Kernel general components", async () => {
     const result = toolResult(await listComponentsTool.execute!({}, dummyContext), listComponentsResultSchema);
-    expect(result.count).toBe(53);
+    expect(result.count).toBe(67);
     expect(result.components).toContain("Button");
     expect(result.components).toContain("Tooltip");
+    expect(result.components).toContain("Combobox");
+    expect(result.components).toContain("Field");
+    expect(result.components).toContain("MessageScroller");
   });
 
   it("exposes real bundle exports, including subcomponents docs never mention", async () => {

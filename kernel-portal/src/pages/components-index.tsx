@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom"
 import { Section, MaturityPill } from "@/components/portal/section"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@kernel/ui"
 import { galleryClusters } from "@/lib/gallery-registry"
 import { componentMeta, type Maturity } from "@/lib/component-meta"
-import { ChevronRight } from "@/components/ui/icon"
+import { ChevronRight } from "@kernel/ui/icon"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 
 const all = [
   "Accordion","Alert","Alert Dialog","Aspect Ratio","Avatar","Badge","Breadcrumb",
@@ -15,6 +15,8 @@ const all = [
   "Popover","Progress","Radio Group","Resizable","Scroll Area","Select","Separator","Sheet",
   "Sidebar","Skeleton","Slider","Sonner","Switch","Table","Tabs","Textarea","Toggle",
   "Toggle Group","Tooltip",
+  "Attachment","Bubble","Marker","Message","Message Scroller","Spinner",
+  "Button Group","Empty","Field","Item","Kbd","Native Select",
 ]
 
 /** Sharpest maturity among the components that share a cluster anchor. */
@@ -27,7 +29,7 @@ function clusterMaturity(anchor: string): Maturity {
   )
 }
 
-const groupOrder = ["Actions", "Forms & input", "Data display", "Feedback & overlay", "Navigation", "Menus & command", "Disclosure", "Date & media", "Layout"]
+const groupOrder = ["Actions", "Forms & input", "Data display", "Feedback & overlay", "Navigation", "Menus & command", "Disclosure", "Date & media", "Layout", "AI & chat"]
 
 export default function ComponentsIndex() {
   const byGroup = groupOrder

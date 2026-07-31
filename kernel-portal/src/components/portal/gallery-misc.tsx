@@ -2,40 +2,58 @@
 
 import * as React from "react"
 import { format } from "date-fns"
-import { ChevronsUpDown, Calendar as CalendarIcon } from "@/components/ui/icon"
+import { ChevronsUpDown, Calendar as CalendarIcon, FileText, Truck } from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@kernel/ui/utils"
+import { Button } from "@kernel/ui"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@kernel/ui"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { Calendar } from "@/components/ui/calendar"
+} from "@kernel/ui"
+import { Calendar } from "@kernel/ui"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@kernel/ui"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from "@kernel/ui"
+import { ScrollArea } from "@kernel/ui"
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable"
+} from "@kernel/ui"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@kernel/ui"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@kernel/ui"
+import { Kbd, KbdGroup } from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 
@@ -200,9 +218,92 @@ function ScrollAreaCluster() {
   )
 }
 
+function EmptyCluster() {
+  return (
+    <>
+      <Demo className="justify-center">
+        <Empty className="max-w-sm border">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <FileText />
+            </EmptyMedia>
+            <EmptyTitle>No open contracts</EmptyTitle>
+            <EmptyDescription>
+              Contracts you draft with a counterparty show up here until they settle.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Button size="sm">Draft a contract</Button>
+          </EmptyContent>
+        </Empty>
+      </Demo>
+    </>
+  )
+}
+
+const loads = [
+  { id: "LD-4471", farm: "Vance Farms", detail: "1,200 bu corn · scaled 08:14" },
+  { id: "LD-4472", farm: "Prairie Ridge", detail: "980 bu soybeans · in transit" },
+  { id: "LD-4473", farm: "Halloway Acres", detail: "1,450 bu corn · awaiting probe" },
+]
+
+function ItemCluster() {
+  return (
+    <>
+      <Demo>
+        <ItemGroup className="max-w-md">
+          {loads.map((load) => (
+            <Item key={load.id} variant="outline">
+              <ItemMedia variant="icon">
+                <Truck />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>
+                  {load.id} · {load.farm}
+                </ItemTitle>
+                <ItemDescription>{load.detail}</ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Button variant="ghost" size="sm">
+                  Open
+                </Button>
+              </ItemActions>
+            </Item>
+          ))}
+        </ItemGroup>
+      </Demo>
+    </>
+  )
+}
+
+function KbdCluster() {
+  return (
+    <>
+      <Demo className="justify-center">
+        <div className="flex flex-col items-center gap-3 text-sm text-muted-foreground">
+          <p>
+            Press{" "}
+            <KbdGroup>
+              <Kbd>⌘</Kbd>
+              <Kbd>K</Kbd>
+            </KbdGroup>{" "}
+            to open the command palette.
+          </p>
+          <p>
+            Press <Kbd>Esc</Kbd> to dismiss it.
+          </p>
+        </div>
+      </Demo>
+    </>
+  )
+}
+
 export const miscClusters: GalleryCluster[] = [
   { anchor: "c-accordion", slug: "accordion", title: "Accordion · Collapsible", group: "Disclosure", demo: AccordionCluster },
   { anchor: "c-calendar", slug: "calendar", title: "Calendar · Date picker", group: "Date & media", demo: CalendarCluster },
   { anchor: "c-carousel", slug: "carousel", title: "Carousel", group: "Date & media", demo: CarouselCluster },
+  { anchor: "c-empty", slug: "empty", title: "Empty", group: "Feedback & overlay", demo: EmptyCluster },
   { anchor: "c-scroll-area", slug: "scroll-area", title: "Scroll area · Resizable", group: "Layout", demo: ScrollAreaCluster },
+  { anchor: "c-item", slug: "item", title: "Item", group: "Layout", demo: ItemCluster },
+  { anchor: "c-kbd", slug: "kbd", title: "Kbd", group: "Layout", demo: KbdCluster },
 ]

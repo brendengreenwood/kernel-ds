@@ -3,10 +3,10 @@
 import * as React from "react"
 import { toast } from "sonner"
 import { Section } from "./section"
-import { CommodityBadge, type Commodity } from "@/components/ui/commodity-badge"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { CommodityBadge, type Commodity } from "@kernel/ui"
+import { StatusBadge, type Status } from "@kernel/ui"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 
 function copy(token: string) {
   navigator.clipboard?.writeText(token)

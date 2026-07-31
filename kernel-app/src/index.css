@@ -4,13 +4,13 @@
    portal's index.css and components are untouched. Kernel green stays
    primary/accent/chart — only the dark neutral surfaces, borders, and radius
    move. See docs/v2-prototype-drift.md for the full register. */
-@import "../../kernel-portal/src/index.css";
+@import "../../packages/ui/src/styles.css";
 /* The modification layer that pushes DS components toward the look. */
 @import "./v2-layer.css";
 
 /* Tailwind v4: scan the DS component source so its utility classes are
    generated (the app renders live Kernel components). */
-@source "../../kernel-portal/src";
+@source "../../packages/ui/src";
 
 /* ---- premium dark retune (overrides the DS .dark block) ---- */
 .dark {

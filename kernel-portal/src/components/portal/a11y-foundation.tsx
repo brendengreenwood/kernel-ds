@@ -3,14 +3,14 @@
 import * as React from "react"
 import { Link } from "react-router-dom"
 import { Section } from "./section"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Switch } from "@/components/ui/switch"
-import { Badge } from "@/components/ui/badge"
-import { StatusBadge } from "@/components/ui/status-badge"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
+import { Switch } from "@kernel/ui"
+import { Badge } from "@kernel/ui"
+import { StatusBadge } from "@kernel/ui"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 
 /**
  * Accessibility foundation: the contract the audits enforce, stated

@@ -1,14 +1,14 @@
 import type { ReactNode } from "react"
-import { TrendingUp, Upload } from "@/components/ui/icon"
+import { TrendingUp, Upload } from "@kernel/ui/icon"
 
 import { Section, Subhead } from "@/components/portal/section"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { CommodityLabel } from "@/components/ui/commodity-badge"
+import { cn } from "@kernel/ui/utils"
+import { Badge } from "@kernel/ui"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { CommodityLabel } from "@kernel/ui"
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@kernel/ui"
 
 /* -- bid worksheet --------------------------------------------------------- */
 

@@ -16,8 +16,8 @@ see `archive/2026-07-10-static-preview.md`):
 - **`kernel-portal/`** — a runnable Vite 8 + React 19 + TypeScript portal
   using shadcn/ui (Base UI, `base-nova` style — see decision 0005) +
   Tailwind CSS v4 + React Router. Tokens live in
-  `kernel-portal/src/index.css`; components in `src/components/ui/`
-  (shadcn) and `src/components/portal/` (portal sections); entry
+  `packages/ui/src/styles.css`; public components in `packages/ui/src/components/ui/`
+  (shadcn) and portal-only sections in `src/components/portal/`; entry
   `src/main.tsx` → `src/pages/portal-layout.tsx` with a route per rail
   item (decision 0011). Deploys to Netlify (`netlify.toml`: build to
   `dist/`, SPA redirect).
@@ -55,6 +55,55 @@ own route, not a section of one long scroll.
   role layer is a missing family, not a shortcut. Follow-up: light `--secondary`
   and `--sidebar-accent` sit near `--lime-50` but off by +0.009 L / −6° hue and
   were left alone.
+- Portal styling restored (2026-07-30): `@kernel/ui` styles.css now carries `@source "./";` so Tailwind v4 scans the packaged component code from consumers' node_modules (decision 0052). Portal CI gate `check-portal-css.mjs` asserts component-utility sentinels in the built CSS, between Build and boot smoke.
+
+- **Portal boot is a gate** (decision 0051, 2026-07-30): kernel-portal deduplicates every dependency shared with @kernel/ui via resolve.dedupe in vite.config.ts - the file: symlink otherwise resolves bare imports to the repo-root node_modules and bundles a second React, crashing boot with a blank #root (the 2026-07-30 white-screen production incident). scripts/check-portal-boot.mjs drives headless Chromium at the built site (vite preview or a deployed URL) and fails on console errors or an empty #root; it runs in the portal CI job after the build.
+
+- **Protected release workflow** (decision 0050, 2026-07-30): `.github/workflows/release.yml` is manual-only with a `mode` input. Dry-run (default) is credential-free — changeset status, `release:check`, `release:impact`, `ds:pack` — with manifest + tarballs as run artifacts. Publish is explicit, main-only, in the protected `release` environment, refuses without the `KERNEL_DS_PUBLISH_TOKEN` secret, and re-runs every release gate (packages, catalog, portal, Studio, pack smoke) on the exact commit before `changeset publish`. Workflow safety is statically enforced by `scripts/ds/__check__.mjs`; rollback/yank/deprecation guidance lives in `docs/release-runbook.md`.
+
+- **Managed consumers + verified upgrades** (decision 0049, 2026-07-30): upgrade propagation targets only `scripts/ds/consumers.json` (schema `kernel-ds/consumer-registry@1`, validated by `consumers:check`): opt-in entries with repository identity, repo-relative paths, subscribed publishable packages, branch strategy, and allowlisted (`npm`/`npx`/`node`) verification commands. `ds:upgrade` plans from the impact manifest (dry-run default: dependency diff, migrations, docs anchors, suggested branch) and applies only for opted-in local consumers - install + registered verification, restoring the consumer on failure. `ds:release` orchestrates check -> impact -> pack -> release record -> per-consumer dry-run plans; `--publish` refuses without `NODE_AUTH_TOKEN`. The decision-0036 `kernel-app` fork is fenced as unmanaged and cannot be targeted. Upgrade proof: `upgrade-demo.mjs` -> `upgrade.txt` ends `PROOF: GREEN`.
+
+- **Changesets versioning + release impact** (decision 0048, 2026-07-30): `@kernel/ui` and `@kernel/definitions` version independently through `@changesets/cli` and publish (when authorized) to private GitHub Packages (`publishConfig.registry: npm.pkg.github.com`, restricted); `@kernel/catalog` stays private. `ds:changeset` embeds a `kernel-ds:release-meta` block — runtime/API changes must name catalog entities or whole-package scope, breaking changes must carry a migration, docs/internal are the explicit exemptions. `release:impact` emits a deterministic catalog-linked manifest (`.release/impact-manifest.json`, schema `kernel-ds/impact-manifest@1`); `release:check` gates metadata policy, publish config, committed credentials, and runs `changeset version` in a temp worktree (never mutating the repo). Runbook: `docs/release-runbook.md`.
+
+- **CI enforces DS automation gates** (decision 0047, 2026-07-30): `.github/workflows/ci.yml` gained an `automation` job (`ds:check`, `ds:doctor`, `skills:check`, `agents:check`, then generated-artifact freshness via `ds:generate --skip ds-bundle` + `git diff --exit-code`), a `definitions-package` job (build + tests + contract, mirroring `ui-package`), and a `pack-smoke` job that packs the real tarballs and imports every public entry point from a clean consumer through `scripts/ds/pack-smoke.mjs`. `ds:verify` selection now expands through per-gate `dependents` (packages → portal + studio; portal → studio) with a pure `selectGates` covered by a changed-path matrix in `scripts/ds/__check__.mjs`; portal and Studio CI jobs are unchanged.
+
+- **Generated agent guidance** (decision 0046, 2026-07-30): AGENTS.md facts (catalog counts, package export entries, DS scripts, skills, command registries) are generated only inside bounded `kernel-ds:generated` marker sections via `npm run agents:generate` / checked by `agents:check`; hand-authored prose is never generated over. Nine DS lifecycle skills (`kernel-ds-*`) encode use/component/pattern/definition/document/verify/release/upgrade/audit rituals and are statically validated by `npm run skills:check`; legacy kernel skills delegate to the DS commands. `agents-freshness` and `skill-integrity` run in `ds:doctor`; `agents-inventories` runs in `ds:generate`.
+
+- **DS lifecycle command layer** (decision 0045, 2026-07-30): `scripts/ds/` exposes deterministic, noninteractive root commands — `ds:add`/`ds:tag`/`ds:relate` write the canonical catalog through a shared byte-round-tripping parser with taxonomy validation and no-overwrite refusals; `ds:generate` runs the declared generation order (catalog adapter → `@kernel/ui` → `@kernel/definitions` → ds-bundle); `ds:verify` selects focused gates from changed paths; `ds:doctor` reports catalog, generated-artifact, API-alignment, a11y-readiness, version, and workspace violations; `ds:changeset` writes Changesets-format notes; `ds:pack` verifies the pack payload allowlist. Red/green fixtures and `scripts/ds/__check__.mjs` keep the commands honest.
+
+- **Definitions package extraction in progress** (decision 0044, 2026-07-30): `packages/definitions` now owns the framework-free object model and workspace preset schemas, parsers, validation APIs, deterministic coordinate helper, composition doctrine, and committed compatibility fixtures. It distributes explicit root/composition/presets entries plus a generated `api.json`. Portal runtime registries, fetching, persistence, and React hooks remain application-owned behind compatibility re-exports while the portal consumes `@kernel/definitions` through a package-local `file:` dependency.
+
+- **UI package extraction in progress** (decision 0042, 2026-07-30): `packages/ui` now owns the canonical UI implementations and distributes `@kernel/ui` as ESM, declarations, CSS, and a catalog-backed `api.json`, with explicit root/marks/icon/utils/style exports. The portal consumes the package through a package-local `file:` dependency; no duplicate implementation tree remains under `kernel-portal`. React and React DOM are peer-only, and package tests reject wildcard exports, private portal-source leakage, bundled or dependency-owned React, undeclared runtime imports, missing public artifacts, and payload files outside the allowlist.
+
+- **Canonical catalog foundation in progress** (decision 0041, 2026-07-29): the repository now has a minimal private npm workspace limited to `packages/*`; `kernel-portal` and `kernel-studio-server` remain independently installed applications with their own lockfiles and commands. `packages/catalog` owns the single canonical inventory of **93 lifecycle entries** and **81 registered documentation records**, with closed taxonomies plus source, docs, and AI references. Catalog selectors generate the portal's stable `componentMeta`/`components` adapter in deterministic group-and-name order; the former hand-maintained portal registry is gone. Root `catalog:generate` and `catalog:check` commands, catalog tests, and CI enforce selector behavior, anchor uniqueness, source/doc resolution, adapter freshness, and catalog integrity without rewriting tracked files during checks.
+
+- **Salvaged shadcn primitives ported** (decision 0040, 2026-07-28): the 13
+  component files stranded on the salvage tag `salvage/ds-shadcn-full-parity`
+  (`fb0238b`) are on `main`, each run through the full documentation pipeline
+  rather than merged. Chat and AI primitives — **Message, Message Scroller,
+  Bubble, Attachment, Spinner, Marker** — under a new **"AI & chat"** gallery
+  group (the tenth entry in `groupOrder`; a cluster whose group is missing from
+  that array renders nowhere). Form and layout primitives — **Field, Button
+  Group, Item, Empty, Kbd, Native Select**. `direction.tsx` is a deliberate
+  utility drop-in: a four-line Base UI re-export with no componentMeta entry, no
+  doc entity, and no cluster. **Combobox migrated** from a Popover + Command
+  composition — which had no source file, shared Command's `c-command` anchor,
+  and left `/components/combobox` a dead route — to the Base UI primitive with
+  its own `c-combobox` anchor, a parity-checked doc entity, and the first real
+  combobox cluster; the Command cluster title drops the trailing "Combobox".
+  Adaptations on the way in: three `rounded-xl` -> `rounded-lg`, and Native
+  Select's hardcoded `h-8`/`h-7` -> `--control-h` tokens (it would otherwise
+  have sat 32px beside a 38px Input). One new dependency, `@shadcn/react`
+  pinned exact at `0.2.1`, used only by Message Scroller. Counts: **53 -> 67**
+  primitives, **69 -> 81** doc entities, **81 -> 93** componentMeta entries,
+  **26 -> 39** gallery clusters, **53 -> 67** ds-bundle prompt files. Lint
+  **56 -> 76** warnings, 0 errors — all 20 new ones the existing
+  `react/only-export-components` fast-refresh pattern; the ceiling in
+  `kernel-portal/AGENTS.md` moves to 76 with a breakdown so the next climb stays
+  visible. Two findings recorded but not fixed: `scripts/check-prose-quality.mjs`
+  is a zero-byte file that has been in the gate list and in CI since PR #69 and
+  has never checked anything, and anatomy slots are `z.array(z.string())`
+  despite `lib/AGENTS.md` advertising the enriched `{ name, description }` form.
 
 - **Nested AGENTS.md operational map** (decision 0038, 2026-07-27): adopted
   Mastra’s nested-AGENTS.md pattern. Root `AGENTS.md` + package-local files
@@ -306,14 +355,14 @@ own route, not a section of one long scroll.
   documented variants/slots/prop-names against the component source and fails
   CI on drift (exit 1 + offender enumeration); `--coverage` mode is now a
   standing gate asserting every `ready` componentMeta entry has a doc entity.
-  **69 entities** live under `src/lib/component-docs/` covering all `ready`
-  entries (43 components, 6 elements, 10 patterns, 4 object marks); pattern
+  **81 entities** live under `src/lib/component-docs/` covering all `ready`
+  entries (61 components, 6 elements, 10 patterns, 4 object marks); pattern
   entities are documentation-only (`sourceFiles: []`, no parity blocks) and the
   gate rejects unverifiable variants/anatomy/api on them. `ComponentDocSections`
   renders entities on the component page with graceful fallback for undocumented
   components, and ds-bundle prompt-guidance is generated from the same entities
-  (49/52 structured; Input/Icon/InputGroup minimal or non-entity). Parity 69/0,
-  coverage 69/0. **Prose + presentation (2026-07-25):** a variant key can now carry its own
+  (49/52 structured; Input/Icon/InputGroup minimal or non-entity). Parity 81/0,
+  coverage 81/0. **Prose + presentation (2026-07-25):** a variant key can now carry its own
   prose (`keys: string | { key, description }`; the gate normalizes both
   shapes), Button is the voice exemplar (per-key descriptions, states,
   accessibility, decision cross-refs), and `ComponentDocSections` was

@@ -1,13 +1,13 @@
 import * as React from "react"
 import { Outlet, useLocation } from "react-router-dom"
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@kernel/ui"
+import { Separator } from "@kernel/ui"
 import { AppSidebar } from "@/components/portal/app-sidebar"
 import { DocPager } from "@/components/portal/doc-pager"
 import { ModeToggle } from "@/components/mode-toggle"
-import { buttonVariants } from "@/components/ui/button"
-import { Github } from "@/components/ui/icon"
-import { cn } from "@/lib/utils"
+import { buttonVariants } from "@kernel/ui"
+import { Github } from "@kernel/ui/icon"
+import { cn } from "@kernel/ui/utils"
 
 /** On navigation, jump to top (or to the in-page anchor when the URL has a hash). */
 function ScrollManager() {

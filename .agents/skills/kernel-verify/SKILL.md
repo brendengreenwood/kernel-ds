@@ -8,6 +8,15 @@ user-invocable: true
 
 Drive the actual UI; don't trust tsc alone. Run these before `/kernel-ship`.
 
+## 0. DS gates (repository root)
+
+```bash
+npm run ds:verify   # focused gates selected from changed paths (--all for the full matrix)
+npm run ds:doctor   # catalog/generated/API/a11y health — 0 violations expected
+```
+
+The `kernel-ds-verify` skill documents the gate layer in detail.
+
 ## 1. Type-check + build (portal)
 
 ```bash

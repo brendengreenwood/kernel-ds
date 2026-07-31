@@ -8,14 +8,14 @@ import {
   ChevronsUpDown,
   BarChart3,
   AlertTriangle,
-} from "@/components/ui/icon"
-import { cn } from "@/lib/utils"
+} from "@kernel/ui/icon"
+import { cn } from "@kernel/ui/utils"
 import { Section, Subhead } from "./section"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Skeleton } from "@/components/ui/skeleton"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
-import { CommodityLabel, commodityFromLabel } from "@/components/ui/commodity-badge"
+import { Avatar, AvatarFallback } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
+import { Skeleton } from "@kernel/ui"
+import { StatusBadge, type Status } from "@kernel/ui"
+import { CommodityLabel, commodityFromLabel } from "@kernel/ui"
 
 /* ---- shared bits ---- */
 

@@ -1,5 +1,5 @@
-import { FileText, Route, Search, Table2 } from "@/components/ui/icon"
-import { cn } from "@/lib/utils"
+import { FileText, Route, Search, Table2 } from "@kernel/ui/icon"
+import { cn } from "@kernel/ui/utils"
 import type { WorkspaceMode } from "./types"
 
 /**

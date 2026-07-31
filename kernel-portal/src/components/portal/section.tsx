@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { typeStyles } from "@/lib/type-styles"
 
 /** Section wrapper — eyebrow, title, lead, then content. */

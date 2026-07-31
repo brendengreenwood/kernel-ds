@@ -16,11 +16,11 @@ import {
   Banknote,
   Sprout,
   AlertTriangle,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { typeStyles } from "@/lib/type-styles"
-import { Button } from "@/components/ui/button"
+import { Button } from "@kernel/ui"
 import {
   Tabs,
   TabsContent,
@@ -28,7 +28,7 @@ import {
   TabsTrigger,
   TabCount,
   TabDot,
-} from "@/components/ui/tabs"
+} from "@kernel/ui"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -36,7 +36,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@kernel/ui"
 import {
   Pagination,
   PaginationContent,
@@ -45,7 +45,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@kernel/ui"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -53,7 +53,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+} from "@kernel/ui"
 import {
   Menubar,
   MenubarContent,
@@ -61,7 +61,7 @@ import {
   MenubarMenu,
   MenubarSeparator,
   MenubarTrigger,
-} from "@/components/ui/menubar"
+} from "@kernel/ui"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -71,14 +71,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@kernel/ui"
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu"
+} from "@kernel/ui"
 import {
   Command,
   CommandEmpty,
@@ -87,12 +87,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command"
+} from "@kernel/ui"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 
@@ -103,7 +103,7 @@ const frameworks = [
   { value: "vite", label: "Vite" },
 ]
 
-function Combobox() {
+function FrameworkPicker() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("next")
   return (
@@ -356,7 +356,7 @@ function CommandCluster() {
             <CommandSeparator />
           </CommandList>
         </Command>
-        <Combobox />
+        <FrameworkPicker />
       </Demo>
     </>
   )
@@ -367,5 +367,5 @@ export const navClusters: GalleryCluster[] = [
   { anchor: "c-breadcrumb", slug: "breadcrumb", title: "Breadcrumb · Pagination", group: "Navigation", demo: BreadcrumbCluster },
   { anchor: "c-navigation-menu", slug: "navigation-menu", title: "Navigation menu · Menubar", group: "Navigation", demo: NavigationMenuCluster },
   { anchor: "c-dropdown-menu", slug: "dropdown-menu", title: "Dropdown menu · Context menu", group: "Menus & command", demo: DropdownMenuCluster },
-  { anchor: "c-command", slug: "command", title: "Command · Combobox", group: "Menus & command", demo: CommandCluster },
+  { anchor: "c-command", slug: "command", title: "Command", group: "Menus & command", demo: CommandCluster },
 ]

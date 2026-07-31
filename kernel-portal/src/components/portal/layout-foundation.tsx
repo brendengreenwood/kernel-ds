@@ -2,7 +2,7 @@
 
 import { Section } from "./section"
 import { typeStyles } from "@/lib/type-styles"
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 
 /**
  * Layout foundation (decision 0033): Kernel has no fixed column grid.

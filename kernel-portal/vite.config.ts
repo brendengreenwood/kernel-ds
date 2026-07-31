@@ -89,5 +89,40 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    // @kernel/ui is a file: symlink into ../packages/ui. Vite resolves through
+    // the symlink to the real path, where bare imports ("react", "next-themes",
+    // ...) resolve to the repo-root node_modules instead of ours — bundling a
+    // second copy of React and of every context provider, which crashes the app
+    // on boot (invalid hook call → blank #root). Dedupe every dependency shared
+    // between this app and @kernel/ui so exactly one copy ships. If @kernel/ui
+    // gains a shared dependency, add it here.
+    dedupe: [
+      "react",
+      "react-dom",
+      "react-hook-form",
+      "@base-ui/react",
+      "@formkit/auto-animate",
+      "@mdi/js",
+      "@number-flow/react",
+      "@shadcn/react",
+      "@tanstack/react-table",
+      "border-beam",
+      "class-variance-authority",
+      "clsx",
+      "cmdk",
+      "date-fns",
+      "embla-carousel-react",
+      "input-otp",
+      "motion",
+      "next-themes",
+      "react-day-picker",
+      "react-resizable-panels",
+      "recharts",
+      "sonner",
+      "shadcn",
+      "tailwind-merge",
+      "tw-animate-css",
+      "vaul",
+    ],
   },
 })

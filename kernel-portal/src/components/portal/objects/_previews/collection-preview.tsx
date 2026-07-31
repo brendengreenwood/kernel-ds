@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StatusBadge } from "@/components/ui/status-badge"
+import { StatusBadge } from "@kernel/ui"
 import type { ObjectModel, ObjectRow } from "@/lib/objects"
 import { statusForObject, statusLabelForObject } from "@/lib/objects/status-map"
 

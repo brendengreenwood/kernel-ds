@@ -25,6 +25,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { pathToFileURL } from "node:url"
 import { spawnSync } from "node:child_process"
+import { catalog } from "@kernel/catalog"
 
 // Doc entities are TypeScript; importing the barrel needs type-stripping.
 // Re-exec under the flag if not already set (mirrors check-component-docs.mjs).
@@ -40,7 +41,7 @@ if (!process.execArgv.some((a) => a.includes("experimental-strip-types"))) {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, "..")
 const bundleDir = path.resolve(portalRoot, "..", "ds-bundle")
-const uiDir = path.resolve(portalRoot, "src/components/ui")
+const uiDir = path.resolve(portalRoot, "../packages/ui/src/components/ui")
 
 const log = (...a) => console.log("[build-ds-bundle]", ...a)
 
@@ -96,8 +97,8 @@ async function entryExports() {
   }
   const decl = /export\s+(?:function|const)\s+(\w+)/g
   while ((m = decl.exec(src)) !== null) names.add(m[1])
-  // `export * from "./components/ui/icon"` — include every icon symbol.
-  if (/export\s+\*\s+from\s+["']\.\/components\/ui\/icon["']/.test(src)) {
+  // `export * from "@kernel/ui/icon"` — include every icon symbol.
+  if (/export\s+\*\s+from\s+["']@kernel\/ui\/icon["']/.test(src)) {
     for (const n of await exportsOf("icon")) names.add(n)
   }
   return [...names].sort()
@@ -125,8 +126,18 @@ async function buildComponents() {
 }
 
 async function listComponentFiles() {
-  const files = await fs.readdir(uiDir)
-  return files.filter((f) => f.endsWith(".tsx")).map((f) => f.replace(/\.tsx$/, ""))
+  const api = JSON.parse(await fs.readFile(path.resolve(portalRoot, "../packages/ui/api.json"), "utf8"))
+  const catalogModules = catalog
+    .filter((entity) => entity.kind === "component" && entity.ai.bundleCategory === "general")
+    .flatMap((entity) => entity.sourceFiles)
+    .filter((sourceFile) => sourceFile.startsWith("packages/ui/src/components/ui/") && sourceFile.endsWith(".tsx"))
+    .map((sourceFile) => path.basename(sourceFile, ".tsx"))
+  const packageModules = api.modules.map(({ module }) => module)
+  const missingFromPackage = catalogModules.filter((module) => !packageModules.includes(module))
+  if (missingFromPackage.length > 0) {
+    throw new Error(`Catalog modules missing from @kernel/ui API: ${missingFromPackage.join(", ")}`)
+  }
+  return [...new Set([...packageModules, "icon"])].sort()
 }
 
 /** camel/pascal display name from a kebab file name (button -> Button, alert-dialog -> AlertDialog). */
@@ -180,7 +191,7 @@ function renderPromptGuidance(name, file, doc, names) {
   const nl = () => `\n`
   const out = [`# ${name}`, ``]
   if (doc.summary) out.push(doc.summary, ``)
-  out.push(`Kernel design-system component. Source: \`kernel-portal/src/components/ui/${file}.tsx\`.`, ``)
+  out.push(`Kernel design-system component. Source: \`packages/ui/src/components/ui/${file}.tsx\`.`, ``)
   out.push(`## Exports on window.Kernel`, ``, names.map((n) => `- \`Kernel.${n}\``).join(nl()), ``)
   for (const b of doc.docs) {
     if (b.kind === "guidelines") {
@@ -229,7 +240,7 @@ async function generateComponentDocs(files) {
     const promptMd = doc
       ? renderPromptGuidance(name, file, doc, names)
       : `# ${name}\n\n` +
-        `Kernel design-system component. Source: \`kernel-portal/src/components/ui/${file}.tsx\`.\n\n` +
+        `Kernel design-system component. Source: \`packages/ui/src/components/ui/${file}.tsx\`.\n\n` +
         `## Exports on window.Kernel\n\n` +
         names.map((n) => `- \`Kernel.${n}\``).join("\n") +
         `\n\n## Usage\n\n` +
@@ -240,7 +251,7 @@ async function generateComponentDocs(files) {
     await fs.writeFile(
       path.join(dir, `${name}.d.ts`),
       `// Type declarations for ${name} (kernel ds-bundle).\n` +
-        `// Full source: kernel-portal/src/components/ui/${file}.tsx\n` +
+        `// Full source: packages/ui/src/components/ui/${file}.tsx\n` +
         `import type * as React from "react"\n\n` +
         names
           .map((n) => `export declare const ${n}: React.FC<Record<string, unknown>> & Record<string, unknown>`)

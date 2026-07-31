@@ -11,23 +11,23 @@ import {
   MoreVertical,
   Pencil,
   Truck,
-} from "@/components/ui/icon"
+} from "@kernel/ui/icon"
 
 import { Section, Subhead } from "./section"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { Textarea } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
+import { Badge } from "@kernel/ui"
+import { StatusBadge, type Status } from "@kernel/ui"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@kernel/ui"
 import {
   Table,
   TableBody,
@@ -35,14 +35,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@kernel/ui"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@kernel/ui"
 import {
   Pagination,
   PaginationContent,
@@ -51,7 +51,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@kernel/ui"
 import {
   Dialog,
   DialogContent,
@@ -60,7 +60,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@kernel/ui"
 
 type Load = {
   id: string

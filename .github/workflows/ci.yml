@@ -7,6 +7,113 @@ on:
   workflow_dispatch:
 
 jobs:
+  catalog:
+    name: catalog (types + integrity)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Tests
+        run: npm run catalog:test
+      - name: Typecheck
+        run: npm run catalog:check
+      - name: Catalog integrity
+        run: node kernel-portal/scripts/check-catalog.mjs
+
+  ui-package:
+    name: ui package (build + contract)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Build
+        run: npm run ui:build
+      - name: Tests
+        run: npm run ui:test
+      - name: Package contract
+        run: npm run ui:check
+
+  definitions-package:
+    name: definitions package (build + contract)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Build
+        run: npm run definitions:build
+      - name: Tests
+        run: npm run definitions:test
+      - name: Package contract
+        run: npm run definitions:check
+
+  automation:
+    name: automation (ds gates + generated freshness)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: DS command self-tests
+        run: npm run ds:check
+      - name: Doctor
+        run: npm run ds:doctor
+      - name: Skills integrity
+        run: npm run skills:check
+      - name: AGENTS inventory freshness
+        run: npm run agents:check
+      # Regenerate every tracked generated artifact (adapter, package entry
+      # points, api.json, AGENTS inventories) and require a clean tree. The
+      # ds-bundle step is skipped here because the bundle is gitignored; the
+      # studio job builds it fresh on every run.
+      - name: Generated artifact freshness
+        run: |
+          npm run ds:generate -- --skip ds-bundle
+          git diff --exit-code
+
+  pack-smoke:
+    name: packages (pack payload + consumer smoke)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Pack payload allowlist
+        run: npm run ds:pack -- --write --out .ci-packs
+      # Install the actual tarballs into a clean throwaway consumer and import
+      # the public entry points — proves the packed payload resolves outside
+      # the workspace with peer React supplied by the consumer.
+      - name: Packed consumer smoke
+        run: |
+          mkdir -p /tmp/pack-smoke
+          cd /tmp/pack-smoke
+          npm init -y
+          npm install react@^19 react-dom@^19 react-hook-form "$GITHUB_WORKSPACE"/.ci-packs/*.tgz
+          cp "$GITHUB_WORKSPACE"/scripts/ds/pack-smoke.mjs .
+          node pack-smoke.mjs
+
   portal:
     name: portal (build + gates)
     runs-on: ubuntu-latest
@@ -20,11 +127,28 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: kernel-portal/package-lock.json
+      - name: Install and build local packages
+        working-directory: .
+        run: npm ci && npm run ui:build && npm run definitions:build
       - run: npm ci
 
       # Typecheck + build (tsc -b && vite build)
       - name: Build
         run: npm run build
+
+      # Boot smoke — the build alone cannot catch resolution-level failures
+      # (e.g. a second React bundled through the symlinked @kernel/* deps),
+      # which crash at runtime with a blank #root. Prove the built site mounts.
+      # CSS content — the boot smoke passes on unstyled DOM. Prove the built
+      # stylesheet contains @kernel/ui component utilities (Tailwind must be
+      # scanning the packaged components via the @source registration).
+      - name: CSS content (component utilities present)
+        run: node scripts/check-portal-css.mjs
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Boot smoke (built site renders)
+        run: node scripts/check-portal-boot.mjs
 
       # Lint — 0 errors required (oxlint)
       - name: Lint
@@ -50,7 +174,8 @@ jobs:
       - name: Object-model assertions
         run: node --experimental-strip-types src/lib/objects/__check__.mts
       - name: Marks assertions
-        run: node src/components/ui/marks/__check__.mjs
+        working-directory: .
+        run: node packages/ui/src/components/ui/marks/__check__.mjs
 
   studio:
     name: studio (typecheck + tests)
@@ -66,15 +191,16 @@ jobs:
             kernel-studio-server/package-lock.json
 
       # The studio agent reads the generated ds-bundle at runtime, and the
-      # ds-bundle tool tests read it too. It's gitignored, so build it from the
-      # portal (which owns the build script + its vite dependency) before tests.
+      # ds-bundle tool tests read it too. It's gitignored, so build the local
+      # packages and then build the bundle from the portal before tests.
+      - name: Install and build local packages
+        run: npm ci && npm run ui:build && npm run definitions:build
       - name: Install portal deps (for bundle build)
         working-directory: kernel-portal
         run: npm ci
       - name: Build ds-bundle
         working-directory: kernel-portal
         run: node scripts/build-ds-bundle.mjs
-
       - name: Install studio deps
         working-directory: kernel-studio-server
         run: npm ci

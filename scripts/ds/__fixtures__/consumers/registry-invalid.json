@@ -1,0 +1,39 @@
+{
+  "schema": "kernel-ds/consumer-registry@2",
+  "consumers": [
+    {
+      "id": "bad-commands",
+      "repository": "local",
+      "localPath": "app",
+      "packages": ["@kernel/ui", "@kernel/catalog"],
+      "branch": { "base": "main", "prefix": "chore/upgrade" },
+      "verification": ["rm -rf node_modules", "npm install"],
+      "optIn": true
+    },
+    {
+      "id": "bad-commands",
+      "repository": "local",
+      "localPath": "../outside-the-repo",
+      "packages": ["@kernel/ui"],
+      "branch": { "base": "main", "prefix": "chore/upgrade" },
+      "verification": ["npm test"],
+      "optIn": true
+    },
+    {
+      "id": "fork-grab",
+      "repository": "local",
+      "localPath": "kernel-app/vendored",
+      "packages": ["@kernel/ui"],
+      "branch": { "base": "main" },
+      "verification": ["npm test"],
+      "optIn": "yes"
+    }
+  ],
+  "unmanaged": [
+    {
+      "id": "kernel-app",
+      "path": "kernel-app",
+      "reason": "Decision 0036 vendored standalone fork."
+    }
+  ]
+}

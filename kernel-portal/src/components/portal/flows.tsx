@@ -1,24 +1,24 @@
 "use client"
 
 import * as React from "react"
-import { Check, User, Home, Bell, Users, CreditCard } from "@/components/ui/icon"
+import { Check, User, Home, Bell, Users, CreditCard } from "@kernel/ui/icon"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@kernel/ui/utils"
 import { typeStyles } from "@/lib/type-styles"
 import { Section, Subhead } from "./section"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Switch } from "@/components/ui/switch"
+import { Button } from "@kernel/ui"
+import { Input } from "@kernel/ui"
+import { Label } from "@kernel/ui"
+import { Checkbox } from "@kernel/ui"
+import { Switch } from "@kernel/ui"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+} from "@kernel/ui"
+import { ToggleGroup, ToggleGroupItem } from "@kernel/ui"
 
 type StepState = "done" | "active" | "todo"
 const steps: { t: string; d: string; state: StepState }[] = [
