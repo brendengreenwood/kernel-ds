@@ -297,7 +297,8 @@ numbers.
 | 3.14 | `[data-v2-dense]` tables | condensed step for tables inside a Card or an expanded row: **3 units horizontal, 2.5 vertical, edges 4, 36px header** — one step below the top-level table (4/3, edges 6), not as tight as it goes. It started at 2/1.5: the rows crowded their own text and the frame read as a spreadsheet rather than a panel. Must stay last in the file — equal specificity with 3.9, so source order decides for a dense table nested in a detail row | unlayered `!important` |
 | 3.15 | `[data-slot="card"]`, `[data-v2-frame]` | **the elevation pass.** Cards take an opaque `--border` hairline (replacing the DS's `ring-1 ring-foreground/10` — an alpha edge takes its contrast from whatever sits behind it, and at 10% it was the faintest thing on the page; `--border` measures 1.44:1 dark / 1.37:1 light against the card), a 1px top lip so the plate reads as bevelled toward a light source above, and a resting cast from `var(--shadow-lg)`. Frames nested in a card take the lip and a fill one step off the card (`--elev-plate`, measured 1.08:1 dark / 1.06:1 light) but **no** cast — a shadow at both levels reads as upholstery. Text on the new plate re-measured: `--foreground` 13.2 dark / 16.5 light, `--muted-foreground` 5.34 / 4.86, all AA | unlayered `!important` (card), unlayered (frame) |
 | 3.16 | `[data-slot="sidebar-inset"]` | **the page plate.** The DS gives the inset `m-2` on three sides and `ml-0` on the fourth, so the app's largest surface was welded to the rail along its whole height — a plate touching its surround on one edge cannot read as floating. Uniform gutter at 4 units, plus the lip, plus `--shadow-2xl`. Its edge is `--elev-edge-page`, **not** `--border`: around the page plate the hairline is the longest line on screen and sits against the darkest surround, so in dark it runs one rung darker (`--neutral-800`, 1.168:1 against the plate vs `--border`'s 1.444:1) — otherwise it reads as a drawn outline rather than an edge. Light keeps `--border` (1.365:1), where the edge is load-bearing: a cast alone cannot define a white plate against a near-white rail. Scoped to `min-width: 48rem`, matching the DS's own `md:` inset styling: below that the panel is full-bleed and a gutter would only cost content width. Verified 0 horizontal overflow at 1440/1024/768/767 and the gutter present on all four sides when scrolled to the page bottom | unlayered `!important` |
-| 3.17 | `[data-v2-dense] tbody tr:hover` | dense rows need their own hover — the DS's `hover:bg-muted/50` is invisible because this theme resolves `--muted` to the same value as `--card`, the surface these tables sit on. 4% foreground mix, like every other on-card overlay | unlayered |
+| 3.17 | `[data-slot="sidebar-menu-button"] > span:last-child` | **rail label crossfade.** The DS transitions the rail's width and the button's width/height/padding, but the label was only ever clipped by the button's `overflow-hidden` — sliced off by a moving edge rather than leaving. Now an opacity transition with **asymmetric timing**, because the two directions are different events: collapsing fades over `--duration-fast` with no delay so the label is gone before the rail closes over it; expanding waits out that fast step then comes up over `--duration-base`, because a label that fades in immediately does so inside a rail still too narrow to hold it. Measured on expand: rail 134px → label still 0, rail 226px → 0.58, rail 256px → 0.95 | unlayered |
+| 3.18 | `[data-v2-dense] tbody tr:hover` | dense rows need their own hover — the DS's `hover:bg-muted/50` is invisible because this theme resolves `--muted` to the same value as `--card`, the surface these tables sit on. 4% foreground mix, like every other on-card overlay | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -448,6 +449,24 @@ and scaling alpha ~4–7× in dark, plus continuing the doubling progression to
 a pure token fix in `kernel-portal/src/index.css` plus the foundation page's
 copy; nothing in the prototype is required for it.
 
+## 4.9 The reduced-motion guard let delays through
+
+`index.css`, the `prefers-reduced-motion: reduce` block. The guard zeroed
+`animation-duration` and `transition-duration` but not the matching **delays**,
+so a delayed transition under reduced motion still waited out its full delay and
+then snapped — a dead pause with no animation to explain it, which reads as a
+stutter rather than as reduced motion. That contradicts decision 0018's stated
+intent ("near-instant, no bounce"), so this is a bug fix to 0018 rather than a
+new decision.
+
+Caught by the rail label above, which uses a 120ms delay on expand. Measured
+before: 30ms into the expand the label was still at opacity 0, appearing only
+once the delay elapsed. After adding `animation-delay: 0s` and
+`transition-delay: 0s`: opacity 1 at 30ms.
+
+**Cherry-pick priority: high.** Two lines, no dependencies, and it affects every
+delayed transition in the system — not just this one.
+
 ---
 
 # Part 5 — Where the app departs from project convention
@@ -493,6 +512,20 @@ three-axis rule reserves notification colour for *momentary event outcome*; a
 trend delta is arguably a measurement, so this stretches the axis. It reads
 correctly and is conventional for dashboards, but it is the one place the
 prototype bends the colour *rules* rather than the colour *values*.
+
+**5.8 — The collapsed rail is 3.5rem, not the DS's 3rem.** Collapsing was
+resizing the rail's contents: the DS forces `size-8!` + `p-2!` on a collapsed
+menu button, leaving a 16.6px content box, which forced the app's `size-5`
+glyph down to `size-4` and dropped the row height. So icons changed size
+mid-animation. The button now keeps its 38.4px and simply becomes square
+(padding 2.5 units → a 19.2px content box, exactly the `size-5` glyph), and
+`--sidebar-width-icon` widens to 3.5rem so it clears the group's own 2-unit
+padding (38.4 + 2×7.68 = 53.8px; 3rem left only 32.6px, which is *why* the DS
+shrinks the button). Passed via `SidebarProvider`'s `style` prop, which spreads
+after the DS defaults — the seam the DS already provides, not a CSS override.
+The header brand, search field and theme toggle still hide outright rather than
+fading: they have no 3.5rem form to shrink into, so a crossfade there would read
+as a glitch.
 
 **5.7 — Panel roll-ups move with panel width.** The app's panel language puts a
 figure cluster at the header's trailing edge (`IconChip` + title/description

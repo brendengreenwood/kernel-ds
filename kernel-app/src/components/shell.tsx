@@ -72,10 +72,16 @@ function Nav({ items }: { items: Item[] }) {
           <SidebarMenuButton
             isActive={isActive(it.to)}
             tooltip={it.label}
-            // Collapsed, the DS squares the button to size-8 with p-2, leaving
-            // 4 units of content box — so the roomier size-5 glyph steps back
-            // to size-4 rather than spilling out of it.
-            className="h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:[&_svg]:size-4"
+            // Collapsing must not resize anything: the DS squares the button
+            // to size-8 with p-2, which left a 16.6px content box and forced
+            // the size-5 glyph down to size-4 — so the rail's icons changed
+            // size mid-animation and the row height jumped. Here the button
+            // keeps its 38.4px (h-10 at --spacing 0.24rem) and simply becomes
+            // square, with padding at 2.5 units (9.6px) leaving a 19.2px
+            // content box — exactly the size-5 glyph, which is also 19.2px.
+            // The collapsed rail widens to match (see SidebarProvider below);
+            // `!` because the DS's collapsed rules are themselves !important.
+            className="h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:p-2.5!"
             render={
               <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
                 <it.icon />
@@ -98,9 +104,12 @@ function AppSidebar() {
           py-1 make up the rest). Below md the sidebar is offcanvas, so there is
           nothing to align to and the DS default stands. */}
       <SidebarHeader className="gap-2 md:pt-6">
-        {/* Collapsed the rail is 3rem — one slot wide. The brand and theme
+        {/* Collapsed the rail is 3.5rem — one slot wide. The brand and theme
             toggle stand down and the trigger takes the slot, so the way back
-            out is always visible (Cmd/Ctrl+B and the rail edge also work). */}
+            out is always visible (Cmd/Ctrl+B and the rail edge also work).
+            These three hide outright rather than fading like the nav labels do:
+            a wordmark and a search field have no 3.5rem form to shrink into, so
+            a crossfade would read as a glitch rather than as a transition. */}
         <div className="flex items-center gap-2 px-1 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground group-data-[collapsible=icon]:hidden">
             <Sprout className="size-[18px]" />
@@ -165,7 +174,13 @@ function ScrollTop() {
 export function Shell() {
   return (
     <TooltipProvider>
-      <SidebarProvider>
+      {/* The collapsed rail widens from the DS's 3rem to 3.5rem so the 38.4px
+          button clears the group's own 2-unit padding (38.4 + 2×7.68 = 53.8px;
+          3rem left only 32.6px, which is why the DS shrinks the button to fit).
+          Passed as a style prop rather than forced in CSS: SidebarProvider
+          spreads `style` after its own defaults, so this is the seam the DS
+          already provides. */}
+      <SidebarProvider style={{ "--sidebar-width-icon": "3.5rem" } as React.CSSProperties}>
         <ScrollTop />
         <AppSidebar />
         <SidebarInset className="bg-background">

@@ -295,6 +295,31 @@
   }
 }
 
+/* ---- Rail label crossfade ----
+   The DS transitions the rail's width and the button's width/height/padding,
+   but the label inside is only ever clipped by the button's `overflow-hidden` —
+   so the text was sliced off by a moving edge rather than leaving.
+
+   The timings are deliberately ASYMMETRIC, because the two directions are not
+   the same event. Collapsing, the label should be gone before the rail closes
+   over it: fade fast, no delay, finishing well inside the DS's 200ms width
+   transition. Expanding, a label that fades in immediately does so inside a
+   rail still too narrow to hold it — so it waits out the fast step first, then
+   comes up over the base duration as the rail finishes opening.
+
+   `[data-collapsible="icon"]` is the DS's own state hook on the sidebar
+   wrapper; it is the empty string when expanded, so this matches collapsed
+   only. The mobile sheet renders a different branch without that wrapper, so
+   labels there are unaffected. Both rules inherit the file's
+   `prefers-reduced-motion` guard for free. */
+[data-slot="sidebar-menu-button"] > span:last-child {
+  transition: opacity var(--duration-base) var(--ease-out) var(--duration-fast);
+}
+[data-collapsible="icon"] [data-slot="sidebar-menu-button"] > span:last-child {
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out) 0s;
+}
+
 /* ---- Cards in flex columns ----
    The DS Card carries `h-full` for equal-height grid galleries. In a flex
    COLUMN whose height resolves as definite (our page wrappers inside the inset

@@ -412,13 +412,16 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   `netlify.toml` (root `base`, installs both packages) so the deploy preview
   shows the prototype, not the portal — the branch name is historical and must
   stay verbatim, since the context block matches it literally; `main` still
-  builds the portal. Seven DS defects surfaced and were fixed upstream:
+  builds the portal. Eight DS defects surfaced and were fixed upstream:
   `Table`'s `striped` selector was descendant-scoped (leaked into nested
   tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
   the sidebar), `Button`'s optical icon padding never fired (it keyed off a
   `data-icon` attribute almost nothing set), Tabs applied hover styling to the
   active tab, light mode needed the pre-paint theme script, the elevation ramp
   had no dark-mode retune and a non-monotonic top rung (decision 0042), and the
+  the `prefers-reduced-motion` guard zeroed animation/transition *durations* but
+  not their **delays**, so a delayed transition still waited out its delay and
+  snapped (contradicting decision 0018's "near-instant" intent), and the
   coarse-pointer hit extensions (decisions 0007 + 0009) omitted
   `select-trigger` — a compact select grew to 40px visibly but never got the
   `::after` extension that carries the effective target to 44px, because it is
