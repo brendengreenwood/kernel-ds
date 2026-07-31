@@ -94,6 +94,7 @@ import {
   PopoverTrigger,
 } from "@kernel/ui"
 import { Demo } from "./section"
+import { SidebarCluster } from "./sidebar-cluster"
 import type { GalleryCluster } from "@/lib/gallery-types"
 
 const frameworks = [
@@ -363,6 +364,7 @@ function CommandCluster() {
 }
 
 export const navClusters: GalleryCluster[] = [
+  { anchor: "c-sidebar", slug: "sidebar", title: "Sidebar", group: "Navigation", demo: SidebarCluster },
   { anchor: "c-tabs", slug: "tabs", title: "Tabs", group: "Navigation", demo: TabsCluster },
   { anchor: "c-breadcrumb", slug: "breadcrumb", title: "Breadcrumb · Pagination", group: "Navigation", demo: BreadcrumbCluster },
   { anchor: "c-navigation-menu", slug: "navigation-menu", title: "Navigation menu · Menubar", group: "Navigation", demo: NavigationMenuCluster },

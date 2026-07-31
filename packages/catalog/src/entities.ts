@@ -1457,7 +1457,7 @@ export const catalog = [
     "documentation": {
       "slug": "sidebar",
       "sourceFile": "kernel-portal/src/lib/component-docs/sidebar.ts",
-      "portalAnchor": "appshell"
+      "portalAnchor": "c-sidebar"
     },
     "ai": {
       "bundleCategory": "general",
@@ -1466,7 +1466,7 @@ export const catalog = [
     "sourceFiles": [
       "packages/ui/src/components/ui/sidebar.tsx"
     ],
-    "note": "Demonstrated by this portal's own rail and the app shell."
+    "note": "Demonstrated on its dedicated component page and by the portal rail."
   },
   {
     "id": "component.skeleton",
