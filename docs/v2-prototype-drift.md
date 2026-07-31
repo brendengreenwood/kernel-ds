@@ -295,7 +295,8 @@ numbers.
 | 3.12 | `[data-v2-filter]` selects | the Producers filter triggers join the pill family: full-round, `--muted` trough, no hairline, 4% foreground hover | unlayered `!important` |
 | 3.13 | `main [data-slot="card"]` | `height: auto` + `flex-shrink: 0` — the DS Card's `h-full` becomes a flex-basis of 100% of a definite-height flex column, and the flex algorithm then shrinks every stacked card proportionally (one clips its footer, a sibling pads out empty). Grids still stretch cards via alignment, which ignores `height` | unlayered `!important` |
 | 3.14 | `[data-v2-dense]` tables | condensed step for tables inside a Card or an expanded row: **3 units horizontal, 2.5 vertical, edges 4, 36px header** — one step below the top-level table (4/3, edges 6), not as tight as it goes. It started at 2/1.5: the rows crowded their own text and the frame read as a spreadsheet rather than a panel. Must stay last in the file — equal specificity with 3.9, so source order decides for a dense table nested in a detail row | unlayered `!important` |
-| 3.15 | `[data-v2-dense] tbody tr:hover` | dense rows need their own hover — the DS's `hover:bg-muted/50` is invisible because this theme resolves `--muted` to the same value as `--card`, the surface these tables sit on. 4% foreground mix, like every other on-card overlay | unlayered |
+| 3.15 | `[data-slot="card"]`, `[data-v2-frame]` | **the elevation pass.** Cards take an opaque `--border` hairline (replacing the DS's `ring-1 ring-foreground/10` — an alpha edge takes its contrast from whatever sits behind it, and at 10% it was the faintest thing on the page; `--border` measures 1.44:1 dark / 1.37:1 light against the card), a 1px top lip so the plate reads as bevelled toward a light source above, and a resting cast from `var(--shadow-lg)`. Frames nested in a card take the lip and a fill one step off the card (`--elev-plate`, measured 1.08:1 dark / 1.06:1 light) but **no** cast — a shadow at both levels reads as upholstery. Text on the new plate re-measured: `--foreground` 13.2 dark / 16.5 light, `--muted-foreground` 5.34 / 4.86, all AA | unlayered `!important` (card), unlayered (frame) |
+| 3.16 | `[data-v2-dense] tbody tr:hover` | dense rows need their own hover — the DS's `hover:bg-muted/50` is invisible because this theme resolves `--muted` to the same value as `--card`, the surface these tables sit on. 4% foreground mix, like every other on-card overlay | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -423,6 +424,28 @@ chevron is a flex child — so `position: relative` changes nothing visually.
 `mobile-audit` on `/producers` went from **1 sub-44px hit area to 0**; it is
 the gate that surfaced this. Any compact select anywhere in the DS gets the
 fix, not just the prototype's filter row.
+
+## 4.8 The elevation ramp had no dark mode, and an inverted top rung
+
+Decision 0042, `index.css` both theme blocks + the Elevation foundation page.
+The single largest DS find of this branch, and the only one a *user* caught
+before the tooling did.
+
+`--shadow-*` was declared once in `:root` and repeated **byte for byte** in
+`.dark`. On the dark card (rgb 31,41,36) the light ramp's 4–10% black resolves
+to under one 8-bit level of difference — dark mode was shipping an elevation
+ramp that could not produce a visible shadow at any rung, and
+`/foundations/elevation` rendered eight identical swatches while documenting it
+as working. Separately, light `--shadow-2xl` was `0 1px 3px / 0.25` — tighter
+than `md`, so the top of the ramp cast the *smallest* shadow in the set.
+
+Fixed by sharing geometry across themes (so `lg` means one thing everywhere)
+and scaling alpha ~4–7× in dark, plus continuing the doubling progression to
+`0 16px 32px -8px` at `2xl`. Full table and rationale in decision 0042.
+
+**Cherry-pick priority: high, and independent of everything else here.** It is
+a pure token fix in `kernel-portal/src/index.css` plus the foundation page's
+copy; nothing in the prototype is required for it.
 
 ---
 

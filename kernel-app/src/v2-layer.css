@@ -214,6 +214,50 @@
   background: color-mix(in oklch, var(--muted), var(--foreground) 4%) !important;
 }
 
+/* ---- Elevation: panels as physical plates ----
+   Three cues, in order of how much they carry:
+
+   1. An OPAQUE hairline from `--border`, replacing the DS Card's
+      `ring-1 ring-foreground/10`. An alpha edge takes its contrast from
+      whatever happens to sit behind it — the same trap the activity flag hit —
+      and at 10% it was the faintest thing on the page. `--border` is a real
+      scale rung: measured 1.44:1 against the card in dark, 1.37:1 in light.
+   2. A TOP LIP — 1px of light along the upper edge, so the plate reads as
+      bevelled toward a light source above. Carries dark; in light there is
+      nothing for a white lip to add, so it resolves to transparent.
+   3. A resting CAST — `--shadow-lg`, straight off the DS ramp. That ramp was
+      the reason this pass started: dark shipped a verbatim copy of the light
+      values, so at 4-10% black on a 0.16-lightness canvas every rung resolved
+      to under one 8-bit level and dark mode had no elevation at all. Fixed
+      upstream in the DS (decision 0042), which is why nothing here invents a
+      shadow value.
+
+   Written as one box-shadow because it is one property — which is also why it
+   is confined to non-focusable containers: on a control this would overwrite
+   the focus ring, which rides the same property. */
+[data-slot="card"] {
+  box-shadow:
+    inset 0 0 0 1px var(--border),
+    inset 0 1px 0 var(--elev-lip),
+    var(--elev-cast) !important;
+}
+
+/* A frame nested INSIDE a card is a plate on a plate: it takes the lip and a
+   fill one step off the card, but no cast. A drop shadow at both levels is how
+   an interface starts to look upholstered — surface + edge is enough
+   separation. Its own `border-border` supplies the hairline. */
+[data-v2-frame] {
+  background: var(--elev-plate);
+  box-shadow: inset 0 1px 0 var(--elev-lip);
+}
+
+/* The pinned cell paints its own opaque fill so scrolled columns cannot ghost
+   through it — that fill has to track the plate it sits on, or the pin reads as
+   a darker patch stuck to the table's right edge. */
+[data-v2-frame] [data-v2-pin] {
+  background: var(--elev-plate);
+}
+
 /* ---- Cards in flex columns ----
    The DS Card carries `h-full` for equal-height grid galleries. In a flex
    COLUMN whose height resolves as definite (our page wrappers inside the inset

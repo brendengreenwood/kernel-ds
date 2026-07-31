@@ -27,6 +27,23 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Elevation ramp works in dark, and climbs** (decision 0042, 2026-07-31):
+  `--shadow-*` had been declared in `:root` and repeated **byte for byte** in
+  `.dark` — on the dark card (rgb 31,41,36) the light ramp's 4–10% black
+  resolves to under one 8-bit level, so dark mode shipped an elevation ramp
+  that could not produce a visible shadow at any rung, while
+  `/foundations/elevation` rendered eight identical swatches and documented it
+  as working. Light `--shadow-2xl` was separately non-monotonic
+  (`0 1px 3px / 0.25`, tighter than `md`), so the top of the ramp cast the
+  smallest shadow in the set. Now: geometry shared across themes so `lg` means
+  one thing everywhere, alpha scaled ~4–7× in dark (0.28→0.55 vs 0.04→0.14),
+  and `2xl` continued to `0 16px 32px -8px`. The doubling progression
+  (1/2 → 2/4 → 4/8 → 8/16 → 16/32, spread −blur/4) is the ramp's stated
+  contract: every rung larger than the one below on every axis. The two
+  smallest rungs stay transparent by design (borders, not lift) — the ramp is
+  effectively six steps, which the foundation page now says out loud. Surfaced
+  by the v2 prototype needing a resting cast and finding no working token.
+
 - **`--lime-*` accent scale** (decision 0041, 2026-07-30): the accent lime — the
   hue on every primary button, focus ring, active pill and first chart series —
   had been a bare `oklch()` literal repeated **twelve times** across both themes,
@@ -390,12 +407,13 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   `netlify.toml` (root `base`, installs both packages) so the deploy preview
   shows the prototype, not the portal — the branch name is historical and must
   stay verbatim, since the context block matches it literally; `main` still
-  builds the portal. Six DS defects surfaced and were fixed upstream:
+  builds the portal. Seven DS defects surfaced and were fixed upstream:
   `Table`'s `striped` selector was descendant-scoped (leaked into nested
   tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
   the sidebar), `Button`'s optical icon padding never fired (it keyed off a
   `data-icon` attribute almost nothing set), Tabs applied hover styling to the
-  active tab, light mode needed the pre-paint theme script, and the
+  active tab, light mode needed the pre-paint theme script, the elevation ramp
+  had no dark-mode retune and a non-monotonic top rung (decision 0042), and the
   coarse-pointer hit extensions (decisions 0007 + 0009) omitted
   `select-trigger` — a compact select grew to 40px visibly but never got the
   `::after` extension that carries the effective target to 44px, because it is

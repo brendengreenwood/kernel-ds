@@ -74,6 +74,14 @@
   --spacing: 0.24rem;
   --tracking-normal: 0em;
 
+  /* Elevation ramp. The two smallest rungs are transparent BY DESIGN — small
+     surfaces are defined by their border, not by lift. From `sm` up, geometry
+     doubles each step (offset 1→2→4→8→16, blur 2→4→8→16→32, spread -blur/4)
+     and alpha climbs with it. That doubling is the ramp's contract: every rung
+     must be larger than the one below it on every axis. `2xl` used to be
+     `0 1px 3px / 0.25` — tighter than `xl` and even than `md`, so the top of
+     the ramp cast the smallest shadow in the set and read as a dark hairline
+     rather than as maximum lift. */
   --shadow-2xs: 0 0 0 0 transparent;
   --shadow-xs: 0 0 0 0 transparent;
   --shadow-sm: 0 1px 2px 0px hsl(0 0% 0% / 0.04);
@@ -81,7 +89,7 @@
   --shadow-md: 0 2px 4px -1px hsl(0 0% 0% / 0.06);
   --shadow-lg: 0 4px 8px -2px hsl(0 0% 0% / 0.08);
   --shadow-xl: 0 8px 16px -4px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --shadow-2xl: 0 16px 32px -8px hsl(0 0% 0% / 0.14);
 }
 
 .dark {
@@ -121,14 +129,22 @@
   --sidebar-ring: var(--lime-300);
 
   --shadow-color: oklch(0 0 0);
+
+  /* Dark keeps the light ramp's GEOMETRY — the same offset/blur/spread at every
+     rung, so "lg" means one thing in both themes — but not its alpha. A shadow
+     is occlusion of ambient light, and on a 0.21-lightness card there is far
+     less of it to occlude: at the light ramp's 4-10% black, every rung here
+     resolved to a difference of under one 8-bit level. Dark shipped a verbatim
+     copy of the light values, so it had no working elevation at all. Alphas are
+     scaled ~4-7x, keeping the same climb. */
   --shadow-2xs: 0 0 0 0 transparent;
   --shadow-xs: 0 0 0 0 transparent;
-  --shadow-sm: 0 1px 2px 0px hsl(0 0% 0% / 0.04);
-  --shadow: 0 1px 2px 0px hsl(0 0% 0% / 0.04);
-  --shadow-md: 0 2px 4px -1px hsl(0 0% 0% / 0.06);
-  --shadow-lg: 0 4px 8px -2px hsl(0 0% 0% / 0.08);
-  --shadow-xl: 0 8px 16px -4px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --shadow-sm: 0 1px 2px 0px hsl(0 0% 0% / 0.28);
+  --shadow: 0 1px 2px 0px hsl(0 0% 0% / 0.28);
+  --shadow-md: 0 2px 4px -1px hsl(0 0% 0% / 0.34);
+  --shadow-lg: 0 4px 8px -2px hsl(0 0% 0% / 0.40);
+  --shadow-xl: 0 8px 16px -4px hsl(0 0% 0% / 0.46);
+  --shadow-2xl: 0 16px 32px -8px hsl(0 0% 0% / 0.55);
 }
 
 @theme inline {

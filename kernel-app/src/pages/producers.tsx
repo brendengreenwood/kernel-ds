@@ -282,7 +282,7 @@ export default function ProducersPage() {
 
       {/* ranked table */}
       <div className="px-6 py-6 md:px-8">
-        <div className="overflow-x-auto rounded-lg border border-border bg-card">
+        <TableFrame dense={false}>
           {/* Striped by data index rather than the DS `striped` prop: expanded
               detail rows are extra <tr>s, which would flip nth-child parity. */}
           <Table>
@@ -382,7 +382,7 @@ export default function ProducersPage() {
               )}
             </TableBody>
           </Table>
-        </div>
+        </TableFrame>
       </div>
     </div>
   )

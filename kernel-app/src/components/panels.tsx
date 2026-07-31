@@ -9,7 +9,9 @@ import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
     question before the table has to be read at all. */
 export function Tile({ value, label }: { value: React.ReactNode; label: string }) {
   return (
-    <div className="rounded-lg border border-border px-3 py-2">
+    /* Same plate marker as TableFrame: a tile and the table below it are the
+       same kind of object, so they take the same fill and lip. */
+    <div data-v2-frame className="rounded-lg border border-border px-3 py-2">
       <div className="text-xl leading-tight font-semibold tabular-nums">{value}</div>
       <div className="mt-0.5 text-xs text-muted-foreground">{label}</div>
     </div>
@@ -80,12 +82,24 @@ export function ActivityFlag({ n }: { n: number }) {
   )
 }
 
-/** Outlined frame — every table in the app sits in one of these. `bg-card`
-    keeps the table on the raised surface even when the frame sits in a
-    recessed well; on a card it matches the card and costs nothing. */
-export function TableFrame({ children }: { children: React.ReactNode }) {
+/** Outlined frame — every table in the app sits in one of these. `data-v2-frame`
+    is the app's plate marker: it carries the fill one step off the card plus the
+    top lip, so a framed table reads as placed ON the panel rather than drawn
+    into it. `dense` is the default; the two top-level object tables pass
+    `dense={false}` to keep the roomier step. */
+export function TableFrame({
+  children,
+  dense = true,
+}: {
+  children: React.ReactNode
+  dense?: boolean
+}) {
   return (
-    <div data-v2-dense className="overflow-x-auto rounded-lg border border-border bg-card">
+    <div
+      data-v2-frame
+      data-v2-dense={dense ? "" : undefined}
+      className="overflow-x-auto rounded-lg border border-border"
+    >
       {children}
     </div>
   )
