@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Ban, Check, ChevronDown, Info, Search } from "@/components/ui/icon"
+import { Ban, Check, ChevronDown, Handshake, Info, Search } from "@/components/ui/icon"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
@@ -22,7 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { useVisibleWidth } from "@app/components/panels"
+import { IconChip, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
 import { locations, producers, type Dated, type Offer } from "@app/data/producers"
 
 const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
@@ -66,19 +66,42 @@ const dateCell = (d: Dated) => <TwoLine top={d.date} sub={d.ago} />
 const basis = (n: number) => (n > 0 ? `+${n.toFixed(2)}` : n.toFixed(2))
 
 /** The expanded producer inset: their open bids, and what we can do about them.
-    The panel is pinned to the visible width (the outer table scrolls under it),
-    and the Actions column is pinned to the panel's right edge — the decision is
-    always on screen while the bid columns scroll beneath it. */
-function OfferInset({ offers }: { offers: Offer[] }) {
+    Same flat-panel language as the scenario detail — header row with bare
+    figures, one raised framed table. The panel is pinned to the visible width
+    (the outer table scrolls under it), and the Actions column is pinned to the
+    panel's right edge — the decision is always on screen while the bid columns
+    scroll beneath it. */
+function OfferInset({ producer, offers }: { producer: string; offers: Offer[] }) {
   const ref = React.useRef<HTMLDivElement>(null)
   const width = useVisibleWidth(ref)
+  // The strongest card in the hand: the offer with the biggest edge over the
+  // top competitor. Derived from the same rows the table renders.
+  const bestEdge = offers.length
+    ? Math.max(...offers.map((o) => round2(o.producerMaxBid - o.topCompBid)))
+    : null
   return (
     <div
       ref={ref}
-      className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-3 duration-[var(--duration-base)] ease-[var(--ease-out)]"
+      className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-5 duration-[var(--duration-base)] ease-[var(--ease-out)]"
       style={width ? { width } : undefined}
     >
-      <div className="overflow-x-auto rounded-lg border border-border bg-background">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+        <div className="flex items-center gap-3">
+          <IconChip icon={Handshake} />
+          <div className="min-w-0">
+            <div className="text-sm font-medium">Open bids</div>
+            <div className="text-sm text-muted-foreground">
+              What {producer} has on the table, and your edge over the top competitor
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-6 pr-1">
+          <Stat value={offers.length} label="Open bids" />
+          <div aria-hidden className="h-8 w-px bg-border" />
+          <Stat value={bestEdge == null ? "—" : basis(bestEdge)} label="Best edge" />
+        </div>
+      </div>
+      <TableFrame>
         <Table>
           <TableHeader>
             <TableRow>
@@ -137,7 +160,7 @@ function OfferInset({ offers }: { offers: Offer[] }) {
             ))}
           </TableBody>
         </Table>
-      </div>
+      </TableFrame>
     </div>
   )
 }
@@ -344,7 +367,7 @@ export default function ProducersPage() {
                   {expanded.has(p.id) && (
                     <TableRow className="hover:bg-transparent">
                       <TableCell colSpan={10} data-v2-detail className="bg-foreground/5">
-                        <OfferInset offers={p.offers} />
+                        <OfferInset producer={p.name} offers={p.offers} />
                       </TableCell>
                     </TableRow>
                   )}

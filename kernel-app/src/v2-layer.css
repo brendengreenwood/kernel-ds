@@ -180,13 +180,21 @@
 /* ---- Pinned action column ----
    Inside a horizontally scrolling frame, the cell that carries the row's
    actions stays at the right edge while the data columns scroll beneath it —
-   the decision is always on screen. Solid --background (the inset frame's
-   surface): a translucent fill would let scrolled columns ghost through. The
-   inset left shadow appears only while there is content underneath to hint at. */
+   the decision is always on screen. Solid --card (the TableFrame surface): a
+   translucent fill would let scrolled columns ghost through. The inset left
+   shadow appears only while there is content underneath to hint at. */
 [data-v2-pin] {
   position: sticky;
   right: 0;
-  background: var(--background);
+  background: var(--card);
   box-shadow: inset calc(var(--spacing) * 2) 0 calc(var(--spacing) * 2) calc(var(--spacing) * -1.5)
     color-mix(in oklch, var(--foreground) 12%, transparent);
+}
+
+/* Dense-table rows need their own hover: the DS's `hover:bg-muted/50` is
+   invisible here because this theme resolves --muted to the same value as
+   --card — the surface these tables now sit on. Foreground mix, like every
+   other on-card overlay in the app. */
+[data-v2-dense] tbody [data-slot="table-row"]:hover {
+  background: color-mix(in oklch, var(--foreground) 4%, transparent);
 }
