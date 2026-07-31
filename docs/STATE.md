@@ -402,6 +402,11 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   preferences). Every collection in the app renders inside the same outlined
   `TableFrame`, and every panel heads with an `IconChip` + title/description;
   the shared furniture lives in `kernel-app/src/components/panels.tsx`.
+  Elevation follows one plate ladder — page inset `2xl` > card `lg` > nested
+  frame (none) — with an opaque `--border` edge and a 1px top lip at every
+  level. Note for anyone tuning it: in dark the cast contributes almost
+  nothing (a black shadow on the `--neutral-950` rail moves ~3 of 255 levels),
+  so dark floats on edge contrast and gutter while light floats on the cast.
   Netlify serves the
   prototype for the branch via a branch-scoped `[context."…"]` block in
   `netlify.toml` (root `base`, installs both packages) so the deploy preview
