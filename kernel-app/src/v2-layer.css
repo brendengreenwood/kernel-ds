@@ -277,6 +277,11 @@
      and the plate reads as lifted along its whole height, not just outlined.
    - No edge and no lip, while every smaller container had both.
 
+   The edge uses `--elev-edge-page`, not `--border`: around the page plate the
+   hairline is the longest line on screen and sits against the darkest surround,
+   so in dark it runs one rung darker than every other container's. Light keeps
+   `--border` — there the edge is doing real work. See the token's note.
+
    Scoped to the same breakpoint as the DS's own inset styling: below `md` the
    panel is full-bleed with no margin or radius, and a gutter there would just
    cost content width on a phone. */
@@ -284,7 +289,7 @@
   [data-slot="sidebar-inset"] {
     margin: calc(var(--spacing) * 4) !important;
     box-shadow:
-      inset 0 0 0 1px var(--border),
+      inset 0 0 0 1px var(--elev-edge-page),
       inset 0 1px 0 var(--elev-lip),
       var(--shadow-2xl) !important;
   }

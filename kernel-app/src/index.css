@@ -63,6 +63,13 @@
      on a 0.16-lightness canvas is arithmetically invisible. */
   --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
   --elev-cast: var(--shadow-lg);
+  /* The page plate's edge runs one rung darker than every other container's.
+     `--border` (neutral-700, 0.370) is tuned to separate a card from the page;
+     drawn around the page plate itself it becomes the longest line on screen,
+     against the darkest surround, and reads as a drawn outline rather than an
+     edge. neutral-800 (0.270) still sits clear of the 0.213 plate but stops
+     announcing itself. Dark only — see the light block. */
+  --elev-edge-page: var(--neutral-800);
   --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
 }
 
@@ -121,6 +128,12 @@
      a light UI, so a white lip has nothing to add and stays transparent. */
   --elev-lip: transparent;
   --elev-cast: var(--shadow-lg);
+  /* Light keeps `--border` here. The dark plate needed softening because its
+     edge is a light line on a near-black surround — the highest-contrast
+     element on the page. In light the same edge is a dark line on white, and
+     it is doing real work: the cast alone cannot define a white plate's
+     boundary against a near-white rail. */
+  --elev-edge-page: var(--border);
   --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
 }
 
