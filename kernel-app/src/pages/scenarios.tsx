@@ -1,14 +1,5 @@
 import * as React from "react"
-import {
-  Archive,
-  BarChart3,
-  ChevronDown,
-  Pencil,
-  Plus,
-  TrendingDown,
-  TrendingUp,
-  Users,
-} from "@/components/ui/icon"
+import { Archive, ChevronDown, Pencil, Plus, Users } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
@@ -52,8 +43,6 @@ const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
 const usd = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 })
 
-/** Signed cents, for a competitor's bid movement. */
-const delta = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${Math.abs(n).toFixed(2)}`
 
 /** Producer accepts/rejects ride the DS status axis — a persistent outcome on
     the offer, not a momentary notification. */
@@ -160,8 +149,10 @@ function useVisibleWidth(ref: React.RefObject<HTMLDivElement | null>) {
   return width
 }
 
-/** The expanded scenario row: what producers and rivals did about this bid.
-    The range tabs are per-row — each row is read on its own. */
+/** The expanded scenario row: what producers did about this bid. The range tabs
+    are per-row — each row is read on its own. (A competitor-movement panel lived
+    here too; it is shelved, and its data still generates — see the note in
+    data/scenarios.ts.) */
 function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   const [range, setRange] = React.useState<ActivityRange>("since")
   const activity = scenario.activity[range]
@@ -173,12 +164,6 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   // never disagree with the rows beneath it.
   const totalEvents = counts.accepted + counts.rejected
   const takeRate = totalEvents === 0 ? 0 : Math.round((counts.accepted / totalEvents) * 100)
-  const topRival = activity.moves.length
-    ? Math.max(...activity.moves.map((m) => m.to))
-    : null
-  const avgChange = activity.moves.length
-    ? Math.round((activity.moves.reduce((sum, m) => sum + (m.to - m.from), 0) / activity.moves.length) * 100) / 100
-    : null
 
   return (
     <div ref={ref} className="sticky left-0 p-4" style={width ? { width } : undefined}>
@@ -191,7 +176,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
         </div>
       </Tabs>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="mt-4">
         <Card>
           <PanelHeader
             icon={Users}
@@ -232,65 +217,6 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                         <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
                       </TableRow>
                     ))}
-                  </TableBody>
-                </Table>
-              </TableFrame>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <PanelHeader
-            icon={BarChart3}
-            title="Competitor activity"
-            description="Posted bid movement at rival buyers"
-          />
-          <CardContent className="flex flex-col gap-4">
-            <div className="grid grid-cols-3 gap-2">
-              <Tile value={activity.moves.length} label="Moves" />
-              {/* The number that decides whether this bid is still competitive. */}
-              <Tile value={topRival == null ? "—" : usd(topRival)} label="Top rival bid" />
-              <Tile value={avgChange == null ? "—" : delta(avgChange)} label="Avg change" />
-            </div>
-            {activity.moves.length === 0 ? (
-              <Empty>No competitor movement in this window.</Empty>
-            ) : (
-              <TableFrame>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Competitor</TableHead>
-                      <TableHead>Movement</TableHead>
-                      <TableHead>Change</TableHead>
-                      <TableHead>When</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {activity.moves.map((m) => {
-                      const d = Math.round((m.to - m.from) * 100) / 100
-                      return (
-                        <TableRow key={m.id}>
-                          <TableCell className="max-w-44 truncate">{m.competitor}</TableCell>
-                          <TableCell className="whitespace-nowrap tabular-nums text-muted-foreground">
-                            {usd(m.from)} → {usd(m.to)}
-                          </TableCell>
-                          {/* Direction is the signal here; a rival raising their
-                              bid is not "success", so this stays off the
-                              notification axis and leans on the arrow, not colour. */}
-                          <TableCell className="whitespace-nowrap tabular-nums">
-                            <span className="flex items-center gap-1">
-                              {d === 0 ? null : d > 0 ? (
-                                <TrendingUp className="size-3.5" />
-                              ) : (
-                                <TrendingDown className="size-3.5" />
-                              )}
-                              {delta(d)}
-                            </span>
-                          </TableCell>
-                          <TableCell className="whitespace-nowrap text-muted-foreground">{m.when}</TableCell>
-                        </TableRow>
-                      )
-                    })}
                   </TableBody>
                 </Table>
               </TableFrame>

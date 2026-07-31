@@ -155,6 +155,9 @@ export const tally = (a: Activity) => ({
 })
 
 /** How much has happened since the merchant last touched this scenario — the
-    number the row-level activity flag reports. */
-export const sinceCount = (s: Scenario) =>
-  s.activity.since.events.length + s.activity.since.moves.length
+    number the row-level activity flag reports.
+
+    Producer events only: the competitor-movement panel is shelved, and a flag
+    that counted moves would promise more than the opened row shows. `moves` is
+    still generated so the panel can come back without re-deriving the data. */
+export const sinceCount = (s: Scenario) => s.activity.since.events.length
