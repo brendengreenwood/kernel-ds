@@ -176,3 +176,17 @@
   background: var(--primary);
   border-radius: 0 9999px 9999px 0;
 }
+
+/* ---- Pinned action column ----
+   Inside a horizontally scrolling frame, the cell that carries the row's
+   actions stays at the right edge while the data columns scroll beneath it —
+   the decision is always on screen. Solid --background (the inset frame's
+   surface): a translucent fill would let scrolled columns ghost through. The
+   inset left shadow appears only while there is content underneath to hint at. */
+[data-v2-pin] {
+  position: sticky;
+  right: 0;
+  background: var(--background);
+  box-shadow: inset calc(var(--spacing) * 2) 0 calc(var(--spacing) * 2) calc(var(--spacing) * -1.5)
+    color-mix(in oklch, var(--foreground) 12%, transparent);
+}

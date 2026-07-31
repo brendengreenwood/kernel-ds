@@ -6,7 +6,7 @@ import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
-import { ActivityFlag, Empty, PanelHeader, TableFrame, Tile } from "@app/components/panels"
+import { ActivityFlag, Empty, PanelHeader, TableFrame, Tile, useVisibleWidth } from "@app/components/panels"
 import {
   Table,
   TableBody,
@@ -55,34 +55,6 @@ const signed = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${Math.abs(n).
 const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string }> = {
   accepted: { hue: "settled", label: "Accepted" },
   rejected: { hue: "rejected", label: "Rejected" },
-}
-
-/** A detail row spans every column, so its content is as wide as the TABLE —
-    which here is wider than the screen. Cards laid out in that space put the
-    second one off-view. Pinning the content sticky at the scroll container's
-    left edge, sized to its visible width, keeps the panel in front of the
-    reader while the table still scrolls horizontally underneath. */
-function useVisibleWidth(ref: React.RefObject<HTMLDivElement | null>) {
-  const [width, setWidth] = React.useState<number>()
-  React.useEffect(() => {
-    const el = ref.current
-    const scroller = el?.closest<HTMLElement>("div.overflow-x-auto")
-    if (!el || !scroller) return
-    const measure = () => {
-      // The cell keeps the table's horizontal edge inset, so the visible width
-      // available to the panel is the scroller minus that padding — sizing to
-      // the scroller alone overhangs it by exactly one inset.
-      const cell = el.parentElement
-      const cs = cell ? getComputedStyle(cell) : null
-      const pad = cs ? parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) : 0
-      setWidth(Math.max(0, scroller.clientWidth - pad))
-    }
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(scroller)
-    return () => ro.disconnect()
-  }, [ref])
-  return width
 }
 
 /** The expanded scenario row: what producers did about this bid. The range tabs

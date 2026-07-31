@@ -74,3 +74,30 @@ export function TableFrame({ children }: { children: React.ReactNode }) {
 export function Empty({ children }: { children: React.ReactNode }) {
   return <p className="py-2 text-sm text-muted-foreground">{children}</p>
 }
+
+/** A detail row spans every column, so its content is as wide as the TABLE —
+    often wider than the screen. Size the panel to the scroll container's
+    visible width (minus the cell's own edge inset) and pin it `sticky left-0`,
+    so it stays in front of the reader while the table scrolls underneath. */
+export function useVisibleWidth(ref: React.RefObject<HTMLDivElement | null>) {
+  const [width, setWidth] = React.useState<number>()
+  React.useEffect(() => {
+    const el = ref.current
+    const scroller = el?.closest<HTMLElement>("div.overflow-x-auto")
+    if (!el || !scroller) return
+    const measure = () => {
+      // The cell keeps the table's horizontal edge inset, so the visible width
+      // available to the panel is the scroller minus that padding — sizing to
+      // the scroller alone overhangs it by exactly one inset.
+      const cell = el.parentElement
+      const cs = cell ? getComputedStyle(cell) : null
+      const pad = cs ? parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) : 0
+      setWidth(Math.max(0, scroller.clientWidth - pad))
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(scroller)
+    return () => ro.disconnect()
+  }, [ref])
+  return width
+}

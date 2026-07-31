@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
+import { useVisibleWidth } from "@app/components/panels"
 import { locations, producers, type Dated, type Offer } from "@app/data/producers"
 
 const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
@@ -64,10 +65,19 @@ const dateCell = (d: Dated) => <TwoLine top={d.date} sub={d.ago} />
 /** Basis values always carry their sign, so a bid reads as an offset. */
 const basis = (n: number) => (n > 0 ? `+${n.toFixed(2)}` : n.toFixed(2))
 
-/** The expanded producer inset: their open bids, and what we can do about them. */
+/** The expanded producer inset: their open bids, and what we can do about them.
+    The panel is pinned to the visible width (the outer table scrolls under it),
+    and the Actions column is pinned to the panel's right edge — the decision is
+    always on screen while the bid columns scroll beneath it. */
 function OfferInset({ offers }: { offers: Offer[] }) {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const width = useVisibleWidth(ref)
   return (
-    <div className="animate-in fade-in slide-in-from-top-2 p-3 duration-[var(--duration-base)] ease-[var(--ease-out)]">
+    <div
+      ref={ref}
+      className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-3 duration-[var(--duration-base)] ease-[var(--ease-out)]"
+      style={width ? { width } : undefined}
+    >
       <div className="overflow-x-auto rounded-lg border border-border bg-background">
         <Table>
           <TableHeader>
@@ -84,7 +94,7 @@ function OfferInset({ offers }: { offers: Offer[] }) {
               <TableHead className="min-w-24 whitespace-normal leading-tight">Top Comp. Bid</TableHead>
               <TableHead className="min-w-28 whitespace-normal leading-tight">Value over top comp</TableHead>
               <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead data-v2-pin className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -108,7 +118,7 @@ function OfferInset({ offers }: { offers: Offer[] }) {
                   {basis(round2(o.producerMaxBid - o.topCompBid))}
                 </TableCell>
                 <TableCell className="text-muted-foreground">{o.created}</TableCell>
-                <TableCell>
+                <TableCell data-v2-pin>
                   <div className="flex items-center justify-end gap-1.5">
                     <Button size="sm" aria-label={`Accept ${o.month} bid`}>
                       <Check /> Accept
