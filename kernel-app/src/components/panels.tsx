@@ -16,6 +16,28 @@ export function Tile({ value, label }: { value: React.ReactNode; label: string }
   )
 }
 
+/** The glyph chip that leads a panel header. */
+export function IconChip({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
+  return (
+    /* foreground overlay, not bg-muted: in this theme --muted resolves to the
+       same value as --card, so a muted chip on a card is invisible. */
+    <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-foreground/5 text-muted-foreground">
+      <Icon className="size-4" />
+    </span>
+  )
+}
+
+/** A bare roll-up figure for a header cluster — no box, just the number over
+    its label. Boxed variant is `Tile`. */
+export function Stat({ value, label }: { value: React.ReactNode; label: string }) {
+  return (
+    <div>
+      <div className="text-2xl leading-none font-semibold tabular-nums">{value}</div>
+      <div className="mt-1 text-xs text-muted-foreground">{label}</div>
+    </div>
+  )
+}
+
 /** Card header: a glyph chip, then title over description, with an optional
     action floated to the end. */
 export function PanelHeader({
@@ -32,11 +54,7 @@ export function PanelHeader({
   return (
     <CardHeader>
       <div className="flex items-center gap-3">
-        {/* foreground overlay, not bg-muted: in this theme --muted resolves to
-            the same value as --card, so a muted chip on a card is invisible. */}
-        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-foreground/5 text-muted-foreground">
-          <Icon className="size-4" />
-        </span>
+        <IconChip icon={Icon} />
         <div className="min-w-0">
           <CardTitle className="text-sm font-medium">{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
@@ -62,10 +80,12 @@ export function ActivityFlag({ n }: { n: number }) {
   )
 }
 
-/** Outlined frame — every table in the app sits in one of these. */
+/** Outlined frame — every table in the app sits in one of these. `bg-card`
+    keeps the table on the raised surface even when the frame sits in a
+    recessed well; on a card it matches the card and costs nothing. */
 export function TableFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div data-v2-dense className="overflow-x-auto rounded-lg border border-border">
+    <div data-v2-dense className="overflow-x-auto rounded-lg border border-border bg-card">
       {children}
     </div>
   )

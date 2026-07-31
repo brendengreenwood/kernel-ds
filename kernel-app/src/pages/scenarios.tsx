@@ -1,12 +1,11 @@
 import * as React from "react"
 import { Archive, ChevronDown, Pencil, Plus, Users } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
-import { ActivityFlag, Empty, PanelHeader, TableFrame, Tile, useVisibleWidth } from "@app/components/panels"
+import { ActivityFlag, Empty, IconChip, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
 import {
   Table,
   TableBody,
@@ -44,11 +43,6 @@ const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
 const usd = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 })
 
-const bu = (n: number) => `${n.toLocaleString("en-US")} bu`
-
-/** Signed cents — how a fill price reads against the posted bid. */
-const signed = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${Math.abs(n).toFixed(2)}`
-
 
 /** Producer accepts/rejects ride the DS status axis — a persistent outcome on
     the offer, not a momentary notification. */
@@ -68,27 +62,31 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   const ref = React.useRef<HTMLDivElement>(null)
   const width = useVisibleWidth(ref)
 
-  // Roll-ups are derived from the same lists the tables render, so a tile can
-  // never disagree with the rows beneath it.
-  const totalEvents = counts.accepted + counts.rejected
-  const takeRate = totalEvents === 0 ? 0 : Math.round((counts.accepted / totalEvents) * 100)
-  const fills = activity.events.filter((e) => e.action === "accepted")
-  const bushelsBought = fills.reduce((sum, e) => sum + e.bushels, 0)
-  // Bushel-weighted, not a simple mean — a 30k-bu accept moves the book more
-  // than a 5k one. vs Posted is the fill quality: negative = bought under the
-  // posted bid.
-  const avgFill = bushelsBought
-    ? Math.round((fills.reduce((sum, e) => sum + e.bid * e.bushels, 0) / bushelsBought) * 100) / 100
-    : null
-  const vsPosted = avgFill == null ? null : Math.round((avgFill - scenario.postedBid) * 100) / 100
-
   return (
     <div
       ref={ref}
-      className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-4 duration-[var(--duration-base)] ease-[var(--ease-out)]"
+      className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-5 duration-[var(--duration-base)] ease-[var(--ease-out)]"
       style={width ? { width } : undefined}
     >
-      <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)}>
+      {/* Flat panel — no card-in-well nesting. The well is the surface; the
+          header row carries the roll-up figures as bare numbers, and the framed
+          table is the one raised element. */}
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+        <div className="flex items-center gap-3">
+          <IconChip icon={Users} />
+          <div className="min-w-0">
+            <div className="text-sm font-medium">Producer activity</div>
+            <div className="text-sm text-muted-foreground">Accepts and rejects against this bid</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-6 pr-1">
+          <Stat value={counts.accepted} label="Accepted" />
+          <div aria-hidden className="h-8 w-px bg-border" />
+          <Stat value={counts.rejected} label="Rejected" />
+        </div>
+      </div>
+
+      <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)} className="mt-4">
         <div className="max-w-full overflow-x-auto">
           <TabsList variant="underline" size="compact" className="w-full">
             <TabsTrigger value="since">Since Last Update</TabsTrigger>
@@ -98,57 +96,38 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
       </Tabs>
 
       <div className="mt-4">
-        <Card>
-          <PanelHeader
-            icon={Users}
-            title="Producer activity"
-            description="Accepts and rejects against this bid"
-          />
-          <CardContent className="flex flex-col gap-4">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-              <Tile value={counts.accepted} label="Accepted" />
-              <Tile value={counts.rejected} label="Rejected" />
-              {/* Take rate is the number a merchant actually reads the other
-                  two for — derived, so it can never disagree with them. */}
-              <Tile value={`${takeRate}%`} label="Take rate" />
-              <Tile value={bushelsBought ? bu(bushelsBought) : "—"} label="Bushels bought" />
-              <Tile value={avgFill == null ? "—" : usd(avgFill)} label="Avg fill" />
-              <Tile value={vsPosted == null ? "—" : signed(vsPosted)} label="vs Posted" />
-            </div>
-            {activity.events.length === 0 ? (
-              <Empty>No producer activity in this window.</Empty>
-            ) : (
-              <TableFrame>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Producer</TableHead>
-                      <TableHead>Action</TableHead>
-                      <TableHead>Bid</TableHead>
-                      <TableHead>Bushels</TableHead>
-                      <TableHead>When</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {activity.events.map((e) => (
-                      <TableRow key={e.id}>
-                        <TableCell className="max-w-44 truncate">{e.producer}</TableCell>
-                        <TableCell>
-                          <StatusBadge status={actionStatus[e.action].hue}>
-                            {actionStatus[e.action].label}
-                          </StatusBadge>
-                        </TableCell>
-                        <TableCell className="tabular-nums">{usd(e.bid)}</TableCell>
-                        <TableCell className="whitespace-nowrap tabular-nums">{e.bushels.toLocaleString("en-US")}</TableCell>
-                        <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableFrame>
-            )}
-          </CardContent>
-        </Card>
+        {activity.events.length === 0 ? (
+          <Empty>No producer activity in this window.</Empty>
+        ) : (
+          <TableFrame>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Producer</TableHead>
+                  <TableHead>Action</TableHead>
+                  <TableHead>Bid</TableHead>
+                  <TableHead>Bushels</TableHead>
+                  <TableHead>When</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {activity.events.map((e) => (
+                  <TableRow key={e.id}>
+                    <TableCell className="max-w-44 truncate">{e.producer}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={actionStatus[e.action].hue}>
+                        {actionStatus[e.action].label}
+                      </StatusBadge>
+                    </TableCell>
+                    <TableCell className="tabular-nums">{usd(e.bid)}</TableCell>
+                    <TableCell className="whitespace-nowrap tabular-nums">{e.bushels.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableFrame>
+        )}
       </div>
     </div>
   )
