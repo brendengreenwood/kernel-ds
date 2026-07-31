@@ -5,7 +5,7 @@ import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
-import { ActivityFlag, Empty, IconChip, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
+import { ActivityFlag, Empty, IconChip, PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
 import {
   Table,
   TableBody,
@@ -154,12 +154,15 @@ export default function ScenariosPage() {
 
   return (
     <div className="flex w-full flex-col">
-      {/* page header */}
-      <div className="flex flex-wrap items-center gap-3 px-6 pt-6 md:px-8 md:pt-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Scenarios</h1>
-        <Button size="sm" className="ml-auto">
-          <Plus /> New scenario
-        </Button>
+      <div className="px-6 pt-6 md:px-8 md:pt-8">
+        <PageHeader
+          title="Scenarios"
+          action={
+            <Button size="sm">
+              <Plus /> New scenario
+            </Button>
+          }
+        />
       </div>
 
       {/* location tabs (underline) */}

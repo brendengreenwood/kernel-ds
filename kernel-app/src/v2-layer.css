@@ -9,12 +9,6 @@
    `--radius`, color from the semantic role tokens. No magic numbers.
    ============================================================ */
 @layer components {
-  /* Cards read roomier than the DS default (--card-spacing is 4 spacing
-     units; bump to 6). */
-  [data-slot="card"] {
-    --card-spacing: calc(var(--spacing) * 6);
-  }
-
   /* KPI cards get a quiet green hover accent — via outline so the DS
      hairline ring underneath is preserved. Color + timing from tokens. */
   [data-v2-kpi] {
@@ -197,4 +191,36 @@
    other on-card overlay in the app. */
 [data-v2-dense] tbody [data-slot="table-row"]:hover {
   background: color-mix(in oklch, var(--foreground) 4%, transparent);
+}
+
+/* ---- Filter selects ----
+   The recency/bid filter row sits directly under the pill tabs, so its
+   triggers take the same family: full-round, muted trough, no hairline. The
+   cva utilities (border-input, bg-transparent, rounded-lg, dark:bg-input/30)
+   sit in the utilities layer, hence unlayered + !important. Hover steps the
+   trough toward the foreground the same 4% every on-surface overlay uses. */
+[data-v2-filter] {
+  border-color: transparent !important;
+  border-radius: 9999px !important;
+  background: var(--muted) !important;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+[data-v2-filter]:hover {
+  background: color-mix(in oklch, var(--muted), var(--foreground) 4%) !important;
+}
+
+/* ---- Cards in flex columns ----
+   The DS Card carries `h-full` for equal-height grid galleries. In a flex
+   COLUMN whose height resolves as definite (our page wrappers inside the inset
+   main), h-full becomes a flex-basis of 100% of the wrapper — the layout
+   over-allocates, and the flex algorithm shrinks every card proportionally:
+   one card clips its footer mid-button while its sibling pads out with empty
+   space, the pair summing to exactly the available height. Content height is
+   the right answer everywhere in this app: grids still stretch cards to equal
+   row height via alignment, which ignores `height`, so the galleries-style
+   layouts lose nothing. shrink-0 guards the same failure re-entering when a
+   page grows past the viewport. !important to beat the h-full utility. */
+main [data-slot="card"] {
+  height: auto !important;
+  flex-shrink: 0;
 }

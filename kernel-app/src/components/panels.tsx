@@ -91,6 +91,17 @@ export function TableFrame({ children }: { children: React.ReactNode }) {
   )
 }
 
+/** Page title row — one definition so every page's header carries the same
+    type and rhythm. Pages keep their own outer padding. */
+export function PageHeader({ title, action }: { title: string; action?: React.ReactNode }) {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+      <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+      {action ? <div className="flex min-w-0 items-center gap-2">{action}</div> : null}
+    </div>
+  )
+}
+
 export function Empty({ children }: { children: React.ReactNode }) {
   return <p className="py-2 text-sm text-muted-foreground">{children}</p>
 }

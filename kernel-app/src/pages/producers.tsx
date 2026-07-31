@@ -22,7 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { IconChip, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
+import { IconChip, PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
 import { locations, producers, type Dated, type Offer } from "@app/data/producers"
 
 const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
@@ -204,7 +204,7 @@ export default function ProducersPage() {
     <div className="flex w-full flex-col">
       {/* header + big search */}
       <div className="flex flex-col gap-4 px-6 pt-6 md:px-8 md:pt-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Producers</h1>
+        <PageHeader title="Producers" />
         <div className="relative">
           <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -265,7 +265,7 @@ export default function ProducersPage() {
               onValueChange={(v) => setFilters((f) => ({ ...f, [d.key]: v as string }))}
               items={items}
             >
-              <SelectTrigger size="sm" className="w-auto min-w-44">
+              <SelectTrigger data-v2-filter size="sm" className="w-auto min-w-44">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

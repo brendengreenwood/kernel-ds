@@ -79,10 +79,14 @@ for (const url of urls) {
     }
     out.clipped = out.clipped.slice(0, 20)
 
-    // 3. sub-16px text controls
+    // 3. sub-16px text controls. Skip inputs the user can never type in —
+    // Base UI form-syncs each Select through a visually-hidden aria-hidden
+    // input (tabindex -1), which is not an iOS zoom target and was producing
+    // false positives on every default-size select.
     for (const el of document.querySelectorAll(
       'input:not([type=checkbox]):not([type=radio]):not([type=range]), select, textarea'
     )) {
+      if (el.getAttribute('aria-hidden') === 'true' || el.tabIndex === -1) continue
       const r = el.getBoundingClientRect()
       if (r.width && r.height && parseFloat(getComputedStyle(el).fontSize) < 16) out.smallFonts++
     }
