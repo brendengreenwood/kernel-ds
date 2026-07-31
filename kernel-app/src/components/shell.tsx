@@ -51,7 +51,7 @@ const secondary: Item[] = [
    search slot — they have to agree exactly or the rail's rhythm breaks at one
    width and not the other. See the note at its use site in Nav. */
 const RAIL_CONTROL =
-  "h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:p-2.5!"
+  "h-10 gap-3 text-base [&_svg]:size-5 [&_svg]:text-[var(--rail-icon)] group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:p-2.5!"
 
 /** Search occupies a rail slot at BOTH widths — a field when there is room for
     one, a square icon control when there isn't. It used to simply vanish on
@@ -140,7 +140,10 @@ function Nav({ items }: { items: Item[] }) {
             // content box — exactly the size-5 glyph, which is also 19.2px.
             // The collapsed rail widens to match (see SidebarProvider below);
             // `!` because the DS's collapsed rules are themselves !important.
-            className={RAIL_CONTROL}
+            // Glyphs sit at neutral-300 rather than the rail's near-white
+            // foreground; the ACTIVE item's steps back up, so the icon carries
+            // some of the selected state instead of leaving it all to the chip.
+            className={cn(RAIL_CONTROL, isActive(it.to) && "[&_svg]:text-sidebar-foreground")}
             render={
               <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
                 <it.icon />

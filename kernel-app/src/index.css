@@ -137,6 +137,19 @@
   --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
 }
 
+/* Rail glyphs sit a step off the rail's own ink rather than at full
+   `--sidebar-foreground`, so the icon column reads as quieter than the labels
+   and the ACTIVE item's glyph (which stays at full foreground) stands out.
+
+   Written as a mix toward the rail rather than a scale rung: `text-neutral-300`
+   was the first attempt and it measured 12.58:1 in dark but **1.39:1 in light**,
+   because the `--neutral-*` scales are absolute and mode-independent by design —
+   only role tokens remap per theme. Mixing foreground toward background is the
+   same instruction in both themes and needs no per-theme value. */
+:root {
+  --rail-icon: color-mix(in oklch, var(--sidebar-foreground) 78%, var(--sidebar));
+}
+
 html,
 body,
 #root {
