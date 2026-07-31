@@ -47,6 +47,65 @@ const secondary: Item[] = [
   { label: "Documentation", to: "/docs", icon: FileText },
 ]
 
+/* One definition of a rail control's geometry, shared by the nav items and the
+   search slot — they have to agree exactly or the rail's rhythm breaks at one
+   width and not the other. See the note at its use site in Nav. */
+const RAIL_CONTROL =
+  "h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:p-2.5!"
+
+/** Search occupies a rail slot at BOTH widths — a field when there is room for
+    one, a square icon control when there isn't. It used to simply vanish on
+    collapse, which dropped ~43px out of the header and yanked every nav item
+    up the page. Collapsed, clicking it reopens the rail and puts the cursor in
+    the field, so the control still does its job at 3.5rem.
+
+    The field is 38px (`--control-h`, the Input default) against the nav
+    button's 38.4px — the two forms are the same slot to within half a pixel,
+    so the swap costs no vertical movement. */
+function SearchSlot() {
+  const { state, setOpen } = useSidebar()
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  const wantFocus = React.useRef(false)
+
+  // Focus after the rail has actually expanded, not on click: while collapsed
+  // the field is `display: none`, and a hidden element cannot take focus.
+  React.useEffect(() => {
+    if (state === "expanded" && wantFocus.current) {
+      wantFocus.current = false
+      inputRef.current?.focus()
+    }
+  }, [state])
+
+  return (
+    <>
+      <div className="relative px-1 group-data-[collapsible=icon]:hidden">
+        <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          ref={inputRef}
+          placeholder="Search…"
+          className="border-sidebar-border bg-background/40 pl-9 text-[13px]"
+          aria-label="Search"
+        />
+      </div>
+      <SidebarMenu className="hidden group-data-[collapsible=icon]:block">
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            tooltip="Search"
+            aria-label="Search"
+            className={RAIL_CONTROL}
+            onClick={() => {
+              wantFocus.current = true
+              setOpen(true)
+            }}
+          >
+            <Search />
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </>
+  )
+}
+
 function Nav({ items }: { items: Item[] }) {
   const { pathname } = useLocation()
   const { isMobile, setOpenMobile } = useSidebar()
@@ -81,7 +140,7 @@ function Nav({ items }: { items: Item[] }) {
             // content box — exactly the size-5 glyph, which is also 19.2px.
             // The collapsed rail widens to match (see SidebarProvider below);
             // `!` because the DS's collapsed rules are themselves !important.
-            className="h-10 gap-3 text-base [&_svg]:size-5 group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:p-2.5!"
+            className={RAIL_CONTROL}
             render={
               <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
                 <it.icon />
@@ -107,10 +166,16 @@ function AppSidebar() {
         {/* Collapsed the rail is 3.5rem — one slot wide. The brand and theme
             toggle stand down and the trigger takes the slot, so the way back
             out is always visible (Cmd/Ctrl+B and the rail edge also work).
-            These three hide outright rather than fading like the nav labels do:
-            a wordmark and a search field have no 3.5rem form to shrink into, so
-            a crossfade would read as a glitch rather than as a transition. */}
-        <div className="flex items-center gap-2 px-1 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+            Those two hide outright rather than fading like the nav labels do: a
+            wordmark has no 3.5rem form to shrink into, so a crossfade would read
+            as a glitch rather than a transition. Search is the opposite case —
+            it does have one, so it keeps its slot (see SearchSlot). */}
+        {/* min-h-12 = one rail slot (38.4px) plus this row's own py-1 (7.68px),
+            because min-height is border-box. Without it the row is sized by its
+            tallest child, which collapsed means the trigger rather than the
+            theme toggle — 6px shorter, and every nav item below shifted by that
+            much. Pinning the row makes the header identical at both widths. */}
+        <div className="flex min-h-12 items-center gap-2 px-1 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground group-data-[collapsible=icon]:hidden">
             <Sprout className="size-[18px]" />
           </span>
@@ -122,14 +187,7 @@ function AppSidebar() {
           </div>
           <SidebarTrigger className="text-muted-foreground hover:text-foreground group-data-[collapsible=icon]:ml-0" />
         </div>
-        <div className="relative px-1 group-data-[collapsible=icon]:hidden">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search…"
-            className="h-9 border-sidebar-border bg-background/40 pl-9 text-[13px]"
-            aria-label="Search"
-          />
-        </div>
+        <SearchSlot />
       </SidebarHeader>
 
       <SidebarContent>

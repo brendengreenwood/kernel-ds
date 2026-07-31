@@ -296,28 +296,52 @@
 }
 
 /* ---- Rail label crossfade ----
-   The DS transitions the rail's width and the button's width/height/padding,
-   but the label inside is only ever clipped by the button's `overflow-hidden` —
-   so the text was sliced off by a moving edge rather than leaving.
+   Getting a label to *fade* takes three rules, because an opacity transition
+   alone is invisible here — two other things were removing the text first, both
+   faster than any fade worth seeing. Measured frame by frame on collapse:
 
-   The timings are deliberately ASYMMETRIC, because the two directions are not
-   the same event. Collapsing, the label should be gone before the rail closes
-   over it: fade fast, no delay, finishing well inside the DS's 200ms width
-   transition. Expanding, a label that fades in immediately does so inside a
-   rail still too narrow to hold it — so it waits out the fast step first, then
-   comes up over the base duration as the rail finishes opening.
+     t=11ms  button 225px  span 47px  opacity 1
+     t=61ms  button 115px  span 47px  opacity 0.18   ← fade already 82% done
+     t=117ms button  46px  span  0px  opacity 0.01   ← span squeezed to nothing
 
-   `[data-collapsible="icon"]` is the DS's own state hook on the sidebar
-   wrapper; it is the empty string when expanded, so this matches collapsed
-   only. The mobile sheet renders a different branch without that wrapper, so
-   labels there are unaffected. Both rules inherit the file's
-   `prefers-reduced-motion` guard for free. */
+   1. `flex: none` — the span is a flex child with `truncate` (so `min-width`
+      resolves to 0) and was being COMPRESSED to zero width as the button
+      narrowed. That is a squeeze, not a fade, and it finished in ~117ms.
+   2. `overflow: visible` on the button — the button collapses much faster than
+      the rail does (it is the rail minus three levels of padding), and its
+      `overflow-hidden` clip edge crossed the text's right edge at ~75ms. No
+      fade can be perceived in 75ms. With the button not clipping, the rail's
+      own `overflow-hidden` does it instead, at the rail's slower rate — by
+      which point the fade has already carried the text away.
+   3. `linear`, not `--ease-out`. Ease-out front-loads: 31% of the fade was
+      spent in the first 28ms. For a dissolve the change has to be spread
+      evenly, which is exactly what linear is for.
+
+   Symmetric in both directions and matched to the DS's own 200ms rail
+   transition, so opening and closing are mirror images. Measured after:
+   collapsing, the text holds 100% visible through opacity 1 → 0.83 → 0.5 and
+   only meets the rail's clip edge at 173ms, by which point it is at 0.17.
+
+   Caveat of `flex: none`: the span no longer shrinks, so the DS's `truncate`
+   cannot bind and a label longer than the expanded rail would spill rather than
+   ellipsise. Nav labels are short by nature (the longest here, "Documentation",
+   is 123px inside a 225px button) and `mobile-audit` fails on overflow, so this
+   is bounded rather than unbounded — but it is the reason not to reuse these
+   rules on arbitrary-length text.
+
+   `[data-collapsible="icon"]` is the DS's state hook on the sidebar wrapper; it
+   is the empty string when expanded, so this matches collapsed only. The mobile
+   sheet renders a different branch without that wrapper, so labels there are
+   unaffected. Inherits the `prefers-reduced-motion` guard for free. */
+[data-slot="sidebar-menu-button"] {
+  overflow: visible;
+}
 [data-slot="sidebar-menu-button"] > span:last-child {
-  transition: opacity var(--duration-base) var(--ease-out) var(--duration-fast);
+  flex: none;
+  transition: opacity var(--duration-base) linear;
 }
 [data-collapsible="icon"] [data-slot="sidebar-menu-button"] > span:last-child {
   opacity: 0;
-  transition: opacity var(--duration-fast) var(--ease-out) 0s;
 }
 
 /* ---- Cards in flex columns ----
