@@ -44,6 +44,11 @@ const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
 const usd = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 })
 
+const bu = (n: number) => `${n.toLocaleString("en-US")} bu`
+
+/** Signed cents — how a fill price reads against the posted bid. */
+const signed = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${Math.abs(n).toFixed(2)}`
+
 
 /** Producer accepts/rejects ride the DS status axis — a persistent outcome on
     the offer, not a momentary notification. */
@@ -95,12 +100,25 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   // never disagree with the rows beneath it.
   const totalEvents = counts.accepted + counts.rejected
   const takeRate = totalEvents === 0 ? 0 : Math.round((counts.accepted / totalEvents) * 100)
+  const fills = activity.events.filter((e) => e.action === "accepted")
+  const bushelsBought = fills.reduce((sum, e) => sum + e.bushels, 0)
+  // Bushel-weighted, not a simple mean — a 30k-bu accept moves the book more
+  // than a 5k one. vs Posted is the fill quality: negative = bought under the
+  // posted bid.
+  const avgFill = bushelsBought
+    ? Math.round((fills.reduce((sum, e) => sum + e.bid * e.bushels, 0) / bushelsBought) * 100) / 100
+    : null
+  const vsPosted = avgFill == null ? null : Math.round((avgFill - scenario.postedBid) * 100) / 100
 
   return (
-    <div ref={ref} className="sticky left-0 p-4" style={width ? { width } : undefined}>
+    <div
+      ref={ref}
+      className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-4 duration-[var(--duration-base)] ease-[var(--ease-out)]"
+      style={width ? { width } : undefined}
+    >
       <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)}>
         <div className="max-w-full overflow-x-auto">
-          <TabsList variant="underline" className="w-full">
+          <TabsList variant="underline" size="compact" className="w-full">
             <TabsTrigger value="since">Since Last Update</TabsTrigger>
             <TabsTrigger value="all">All Time</TabsTrigger>
           </TabsList>
@@ -115,12 +133,15 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
             description="Accepts and rejects against this bid"
           />
           <CardContent className="flex flex-col gap-4">
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
               <Tile value={counts.accepted} label="Accepted" />
               <Tile value={counts.rejected} label="Rejected" />
               {/* Take rate is the number a merchant actually reads the other
                   two for — derived, so it can never disagree with them. */}
               <Tile value={`${takeRate}%`} label="Take rate" />
+              <Tile value={bushelsBought ? bu(bushelsBought) : "—"} label="Bushels bought" />
+              <Tile value={avgFill == null ? "—" : usd(avgFill)} label="Avg fill" />
+              <Tile value={vsPosted == null ? "—" : signed(vsPosted)} label="vs Posted" />
             </div>
             {activity.events.length === 0 ? (
               <Empty>No producer activity in this window.</Empty>
@@ -132,6 +153,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                       <TableHead>Producer</TableHead>
                       <TableHead>Action</TableHead>
                       <TableHead>Bid</TableHead>
+                      <TableHead>Bushels</TableHead>
                       <TableHead>When</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -145,6 +167,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                           </StatusBadge>
                         </TableCell>
                         <TableCell className="tabular-nums">{usd(e.bid)}</TableCell>
+                        <TableCell className="whitespace-nowrap tabular-nums">{e.bushels.toLocaleString("en-US")}</TableCell>
                         <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
                       </TableRow>
                     ))}
@@ -250,7 +273,11 @@ export default function ScenariosPage() {
                     control is keyboard-reachable and labelled. */}
                 <TableRow
                   onClick={() => toggle(s.id)}
-                  className={cn("cursor-pointer", i % 2 === 1 && "bg-foreground/5")}
+                  className={cn(
+                    "cursor-pointer",
+                    i % 2 === 1 && "bg-foreground/5",
+                    expanded.has(s.id) && "border-b-transparent bg-foreground/5"
+                  )}
                 >
                   <TableCell className="pr-0">
                     <Button

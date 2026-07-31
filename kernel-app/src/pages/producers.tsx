@@ -67,7 +67,7 @@ const basis = (n: number) => (n > 0 ? `+${n.toFixed(2)}` : n.toFixed(2))
 /** The expanded producer inset: their open bids, and what we can do about them. */
 function OfferInset({ offers }: { offers: Offer[] }) {
   return (
-    <div className="p-3">
+    <div className="animate-in fade-in slide-in-from-top-2 p-3 duration-[var(--duration-base)] ease-[var(--ease-out)]">
       <div className="overflow-x-auto rounded-lg border border-border bg-background">
         <Table>
           <TableHeader>
@@ -288,7 +288,11 @@ export default function ProducersPage() {
                       the control is still keyboard-reachable and labelled. */}
                   <TableRow
                     onClick={() => toggle(p.id)}
-                    className={cn("cursor-pointer", i % 2 === 1 && "bg-foreground/5")}
+                    className={cn(
+                      "cursor-pointer",
+                      i % 2 === 1 && "bg-foreground/5",
+                      expanded.has(p.id) && "border-b-transparent bg-foreground/5"
+                    )}
                   >
                     <TableCell className="pr-0">
                       <Button

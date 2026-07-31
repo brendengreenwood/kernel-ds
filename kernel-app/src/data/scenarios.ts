@@ -12,6 +12,9 @@ export type ProducerEvent = {
   action: "accepted" | "rejected"
   /** The bid they acted on. */
   bid: number
+  /** The offer's quantity. An accept books these bushels; a reject is the
+      quantity that walked. */
+  bushels: number
   when: string
 }
 
@@ -115,12 +118,18 @@ function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activ
   const ageOffset = fnv(s.id + "t") % 4
 
   const eventCount = 4 + Math.floor(r() * 5) // 4–8 all-time
+  // Cycle farms from a per-scenario offset, like the competitors: per-event
+  // hashing can collide into the same farm several times in a row, which reads
+  // as a bug ("Heartland accepted four times in 40 minutes"), not as data.
+  const fOffset = fnv(s.id + "f") % farms.length
   const events: ProducerEvent[] = Array.from({ length: eventCount }, (_, i) => ({
     id: `${s.id}-E${i + 1}`,
-    producer: farms[(fnv(s.id + i) + i) % farms.length],
+    producer: farms[(fOffset + i) % farms.length],
     // Accepts outnumber rejects, which is what a working scenario looks like.
     action: r() < 0.68 ? "accepted" : "rejected",
     bid: round2(s.postedBid + (r() * 0.1 - 0.04)),
+    // 5,000–35,000 bu in 500-bu steps — truck-lot sized offers.
+    bushels: (10 + Math.floor(r() * 61)) * 500,
     when: agesAll[ageOffset + i],
   }))
 

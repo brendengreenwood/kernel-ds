@@ -70,6 +70,7 @@ function BookActivity() {
                   <TableHead>Producer</TableHead>
                   <TableHead>Action</TableHead>
                   <TableHead>Bid</TableHead>
+                  <TableHead>Bushels</TableHead>
                   <TableHead>Commodity</TableHead>
                   <TableHead>Scenario</TableHead>
                   <TableHead>When</TableHead>
@@ -85,6 +86,7 @@ function BookActivity() {
                       </StatusBadge>
                     </TableCell>
                     <TableCell className="tabular-nums">{usd(e.bid)}</TableCell>
+                    <TableCell className="whitespace-nowrap tabular-nums">{e.bushels.toLocaleString("en-US")}</TableCell>
                     <TableCell>
                       <CommodityLabel commodity={e.commodity} />
                     </TableCell>
