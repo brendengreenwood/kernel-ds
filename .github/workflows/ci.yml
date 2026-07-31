@@ -139,6 +139,12 @@ jobs:
       # Boot smoke — the build alone cannot catch resolution-level failures
       # (e.g. a second React bundled through the symlinked @kernel/* deps),
       # which crash at runtime with a blank #root. Prove the built site mounts.
+      # CSS content — the boot smoke passes on unstyled DOM. Prove the built
+      # stylesheet contains @kernel/ui component utilities (Tailwind must be
+      # scanning the packaged components via the @source registration).
+      - name: CSS content (component utilities present)
+        run: node scripts/check-portal-css.mjs
+
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Boot smoke (built site renders)

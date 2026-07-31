@@ -5,6 +5,8 @@ check-prose-quality.mjs — flags placeholder/mad-lib prose in doc entities (sel
 check-style-fidelity.mjs — overlines must route through typeStyles.overline; no rounded-xl/2xl/[ radius hardcodes; has an allowlist for deliberate one-offs
 check-status-map.mjs — status→tone map integrity (Amendment A4: active never maps to pending under objects/)
 emit-composition.mjs — validates the composition contract rules, prints EMIT-OK
+check-portal-css.mjs — built dist CSS contains @kernel/ui component-utility sentinels (--sidebar-width, group-data-, peer-data-); catches Tailwind not scanning the packaged components
+check-portal-boot.mjs — serves dist/ (or takes a URL) and proves the app mounts with 0 console errors (Playwright)
 contrast-audit.mjs <url> — WCAG AA contrast against a running dev server
 mobile-audit.mjs <url> — 390px scan: overflow, clipped content, sub-16px inputs, effective hit areas
 build-ds-bundle.mjs — regenerates the repo-root ds-bundle/ (the studio agents read it); the bundle is a generated artifact, never hand-edit it
