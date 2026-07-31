@@ -294,7 +294,8 @@ numbers.
 | 3.11 | `[data-v2-pin]` cells | inside a scrolling table, the actions cell pins `sticky right-0` on a solid `--background` with an inset left shadow — the decision stays on screen while data columns scroll beneath | unlayered |
 | 3.12 | `[data-v2-filter]` selects | the Producers filter triggers join the pill family: full-round, `--muted` trough, no hairline, 4% foreground hover | unlayered `!important` |
 | 3.13 | `main [data-slot="card"]` | `height: auto` + `flex-shrink: 0` — the DS Card's `h-full` becomes a flex-basis of 100% of a definite-height flex column, and the flex algorithm then shrinks every stacked card proportionally (one clips its footer, a sibling pads out empty). Grids still stretch cards via alignment, which ignores `height` | unlayered `!important` |
-| 3.14 | `[data-v2-dense]` tables | condensed step for tables inside a Card: 2 units horizontal, 1.5 vertical, **zero** edge inset so columns align to the card's own padding. Must stay last in the file — equal specificity with 3.9, so source order decides for a dense table nested in a detail row | unlayered `!important` |
+| 3.14 | `[data-v2-dense]` tables | condensed step for tables inside a Card or an expanded row: **3 units horizontal, 2.5 vertical, edges 4, 36px header** — one step below the top-level table (4/3, edges 6), not as tight as it goes. It started at 2/1.5: the rows crowded their own text and the frame read as a spreadsheet rather than a panel. Must stay last in the file — equal specificity with 3.9, so source order decides for a dense table nested in a detail row | unlayered `!important` |
+| 3.15 | `[data-v2-dense] tbody tr:hover` | dense rows need their own hover — the DS's `hover:bg-muted/50` is invisible because this theme resolves `--muted` to the same value as `--card`, the surface these tables sit on. 4% foreground mix, like every other on-card overlay | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -405,6 +406,24 @@ Verified: active pill colour unchanged on hover, inactive pills still respond.
 `Archive` → `mdiArchiveArrowDownOutline`, `Ban` → `mdiCancel`. One line each,
 per the shim convention. Zero risk.
 
+## 4.7 Coarse-pointer hit extensions reach `select-trigger`
+
+`index.css`, the `@media (pointer: coarse)` block. Decisions 0007 + 0009
+compose like this: a control either grows visibly to 44px, or it stays compact
+and an invisible `::after` extension carries it to a ≥44px *effective* target.
+`select-trigger` had only half of that — it grew to 44px at the default size
+(and 40px at `size="sm"`), but it was absent from the extension list, so a
+compact select's effective target stayed 40px. It is not a
+`[data-slot="button"]` (Base UI's Trigger renders its own element), so the
+button rule never reached it.
+
+Added `[data-slot="select-trigger"]` to both the `position: relative` list and
+the `::after` list. The trigger has no absolutely-positioned children — its
+chevron is a flex child — so `position: relative` changes nothing visually.
+`mobile-audit` on `/producers` went from **1 sub-44px hit area to 0**; it is
+the gate that surfaced this. Any compact select anywhere in the DS gets the
+fix, not just the prototype's filter row.
+
 ---
 
 # Part 5 — Where the app departs from project convention
@@ -451,13 +470,22 @@ trend delta is arguably a measurement, so this stretches the axis. It reads
 correctly and is conventional for dashboards, but it is the one place the
 prototype bends the colour *rules* rather than the colour *values*.
 
+**5.7 — Panel roll-ups move with panel width.** The app's panel language puts a
+figure cluster at the header's trailing edge (`IconChip` + title/description
+left, bare `Stat`s right, hairline dividers between) — that is what the
+Scenarios detail and the Producers inset do. In a *narrow* panel there is no
+room beside the title, and the same cluster just crowds it, so narrow panels
+(the Overview's Revenue card) carry the figure in the content instead, directly
+above the chart. Same pieces, placement chosen by available width. Not encoded
+in `panels.tsx` — `PanelHeader`'s `action` slot simply goes unused.
+
 ---
 
 # Part 6 — What the prototype actually is
 
 | Route | Page | Built from |
 |---|---|---|
-| `/` | Overview — KPI cards, sparklines, latest orders | `Card`, `Badge`, `StatusBadge`, `ToggleGroup`, `Button` + recharts |
+| `/` | Overview — KPI cards, book-wide producer activity, revenue trend, latest orders, cash position | `Card`, `Badge`, `StatusBadge`, `CommodityLabel`, `ToggleGroup`, `Table`, `Button` + recharts |
 | `/scenarios` | Scenarios — folder tabs, striped object table | `Tabs` (folder + pill), `Table striped`, `StatusBadge`, `CommodityLabel`, `Button` |
 | `/producers` | Producers — ranked prospecting table with an open-bids inset | `Table`, `Tabs`, `Select`, `Input`, `Tooltip`, `Badge`, `CommodityLabel`, `Button` |
 | `/settings` | Settings — organization + notification preferences | `Card`, `Input`, `Select`, `Switch`, `Label`, `Button`, panel furniture |
@@ -485,10 +513,13 @@ Gates run against this branch (from `kernel-portal/` unless noted):
 - app `tsc` + `vite build` — clean
 - `contrast-audit` — unchanged (the prototype adds no new colour pairs; it re-points
   roles at existing audited scales)
-- `mobile-audit` at 390px on `/`, `/producers`, `/scenarios` — **0 horizontal
-  overflow, 0 clipped, 0 sub-16px inputs**. One sub-44px hit area remains: a
-  compact select trigger at 40px, which decision-0007 explicitly sanctions
-  ("compact sizes 40px").
+- `mobile-audit` at 390px on `/`, `/scenarios`, `/producers`, `/settings` —
+  **0 horizontal overflow, 0 clipped, 0 sub-16px inputs, 0 sub-44px hit
+  areas** on all four. The one sub-44px target that used to remain (a compact
+  select trigger at 40px) was *not* sanctioned by decision 0007 after all —
+  0007 sanctions a 40px *visible* size only when an extension carries the
+  effective target to 44px, and the trigger was missing from the extension
+  list. Fixed upstream; see 4.7.
 
 Runtime-verified by hand: active-pill hover inert while inactive still
 responds; row click expands with no chevron double-toggle; button radius

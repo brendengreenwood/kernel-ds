@@ -764,7 +764,12 @@
     --control-h: 2.75rem;
     --control-h-lg: 3rem;
   }
+  /* select-trigger is here for the same reason as button: at `size="sm"` it
+     rests at the compact 40px below, so without an extension its effective
+     target misses the 44px floor. It is NOT a [data-slot="button"] — it renders
+     its own button element — so the button rule above never reached it. */
   [data-slot="button"],
+  [data-slot="select-trigger"],
   [data-slot="toggle"],
   [data-slot="toggle-group-item"],
   [data-slot="pagination-link"],
@@ -772,6 +777,7 @@
     position: relative;
   }
   [data-slot="button"]::after,
+  [data-slot="select-trigger"]::after,
   [data-slot="toggle"]::after,
   [data-slot="toggle-group-item"]::after,
   [data-slot="pagination-link"]::after,

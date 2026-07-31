@@ -55,4 +55,10 @@ export const latestOrders = [
   { id: "#4460", who: "Hartmann Farms", status: "rejected" as const, amount: "—", when: "2h ago" },
 ]
 
-export const availableBalance = "$492,441"
+/** Cash position. "Available" only means something next to what is NOT
+    available, so the panel carries the two holds alongside it. */
+export const balance = {
+  available: "$492,441",
+  inSettlement: "$118,700",
+  held: "$74,325",
+}

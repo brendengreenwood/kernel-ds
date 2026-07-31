@@ -114,33 +114,38 @@
   padding-right: calc(var(--spacing) * 4) !important;
 }
 
-/* Condensed tables — for lists sitting inside a Card, where the roomy top-level
-   step wastes the card's width. These sit in an outlined frame (every table in
-   the app does), so edge cells keep a small inset rather than dropping to zero:
-   text hard against the border reads as a mistake.
+/* Condensed tables — for lists sitting inside a Card or an expanded row, where
+   the roomy top-level step wastes the width. These sit in an outlined frame
+   (every table in the app does), so edge cells keep a small inset rather than
+   dropping to zero: text hard against the border reads as a mistake.
+
+   "Condensed" is one step below the top-level table (16/12, edge 24), not as
+   tight as it will go: at 8/6 the rows crowded their own text and the frame
+   read as a spreadsheet rather than a panel. 12/10 with a 36px header keeps the
+   density advantage while the rows still breathe.
 
    These must stay LAST in this file: the detail-panel rules above have equal
    specificity (0,3,0 for the :first-child/:last-child pair), so source order is
    what decides which wins for a dense table nested inside a detail row. */
 [data-v2-dense] [data-slot="table-head"],
 [data-v2-dense] [data-slot="table-cell"] {
-  padding-left: calc(var(--spacing) * 2) !important;
-  padding-right: calc(var(--spacing) * 2) !important;
+  padding-left: calc(var(--spacing) * 3) !important;
+  padding-right: calc(var(--spacing) * 3) !important;
 }
 [data-v2-dense] [data-slot="table-cell"] {
-  padding-top: calc(var(--spacing) * 1.5) !important;
-  padding-bottom: calc(var(--spacing) * 1.5) !important;
+  padding-top: calc(var(--spacing) * 2.5) !important;
+  padding-bottom: calc(var(--spacing) * 2.5) !important;
 }
 [data-v2-dense] [data-slot="table-head"] {
-  height: calc(var(--spacing) * 7);
+  height: calc(var(--spacing) * 9);
 }
 [data-v2-dense] [data-slot="table-head"]:first-child,
 [data-v2-dense] [data-slot="table-cell"]:first-child {
-  padding-left: calc(var(--spacing) * 3) !important;
+  padding-left: calc(var(--spacing) * 4) !important;
 }
 [data-v2-dense] [data-slot="table-head"]:last-child,
 [data-v2-dense] [data-slot="table-cell"]:last-child {
-  padding-right: calc(var(--spacing) * 3) !important;
+  padding-right: calc(var(--spacing) * 4) !important;
 }
 
 /* ---- Expanded-row well ----

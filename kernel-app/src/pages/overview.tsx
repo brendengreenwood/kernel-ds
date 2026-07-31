@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link } from "react-router-dom"
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-import { SlidersHorizontal, TrendingDown, TrendingUp, Users } from "@/components/ui/icon"
+import { Banknote, LineChart, SlidersHorizontal, TrendingDown, TrendingUp, Truck, Users } from "@/components/ui/icon"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -19,7 +19,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Sparkline } from "@app/components/sparkline"
 import { Empty, PanelHeader, TableFrame, Tile } from "@app/components/panels"
 import {
-  availableBalance,
+  balance,
   kpis,
   latestOrders,
   range,
@@ -107,6 +107,12 @@ function BookActivity() {
 
 const RANGES = ["All Time", "12m", "3m", "30d", "Today"]
 
+/* The revenue panel's roll-up is read off the series it plots, not typed in
+   beside it — the header can't drift from the curve. Series values are $k. */
+const revLatest = revenue3mo[revenue3mo.length - 1].v
+const revDelta =
+  Math.round(((revLatest - revenue3mo[revenue3mo.length - 2].v) / revenue3mo[revenue3mo.length - 2].v) * 1000) / 10
+
 function Delta({ v }: { v: number }) {
   const up = v >= 0
   return (
@@ -183,23 +189,32 @@ export default function OverviewPage() {
       <BookActivity />
 
       {/* bottom strip */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.9fr)_minmax(0,0.85fr)]">
         <Card>
-          <CardHeader className="flex-row items-center justify-between pb-0">
-            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-            <CardDescription>Last 3 Months</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-40">
+          {/* Narrow panels carry their roll-up in the CONTENT, not the header:
+              a header-right figure cluster (the wide-panel convention) has no
+              room to sit beside a title here and just crowds it. */}
+          <PanelHeader icon={LineChart} title="Revenue" description="Last 3 months" />
+          <CardContent className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-2xl leading-none font-semibold tracking-tight tabular-nums">
+                ${revLatest}k
+              </span>
+              <Delta v={revDelta} />
+            </div>
+            <div className="h-36">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={revenue3mo} margin={{ top: 6, right: 0, bottom: 0, left: 0 }}>
+                {/* Side margins so the first/last tick labels aren't sheared
+                    off by the plot edge; only those two are drawn, which is all
+                    a three-month trend needs to be readable. */}
+                <AreaChart data={revenue3mo} margin={{ top: 6, right: 16, bottom: 0, left: 16 }}>
                   <defs>
                     <linearGradient id="rev3mo" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.3} />
                       <stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <XAxis dataKey="d" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} interval={2} />
+                  <XAxis dataKey="d" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} interval="preserveStartEnd" ticks={[revenue3mo[0].d, revenue3mo[revenue3mo.length - 1].d]} />
                   <YAxis hide domain={["dataMin - 40", "dataMax + 20"]} />
                   <Area type="monotone" dataKey="v" stroke="var(--chart-1)" strokeWidth={2} fill="url(#rev3mo)" dot={false} isAnimationActive={false} />
                 </AreaChart>
@@ -209,31 +224,74 @@ export default function OverviewPage() {
         </Card>
 
         <Card>
-          <CardHeader className="flex-row items-center justify-between pb-0">
-            <CardTitle className="text-sm font-medium">Latest Orders</CardTitle>
-            <Button variant="link" size="sm" className="h-auto p-0 text-xs">
-              View All
-            </Button>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-3">
-            {latestOrders.map((o) => (
-              <div key={o.id} className="flex items-center gap-3 text-sm">
-                <span className="font-mono text-xs text-muted-foreground">{o.id}</span>
-                <span className="min-w-0 flex-1 truncate">{o.who}</span>
-                <StatusBadge status={o.status} />
-                <span className="shrink-0 tabular-nums text-muted-foreground">{o.amount}</span>
-              </div>
-            ))}
+          <PanelHeader
+            icon={Truck}
+            title="Latest orders"
+            description="Newest loads across your elevators"
+            action={
+              <Button variant="outline" size="sm">
+                View all
+              </Button>
+            }
+          />
+          <CardContent>
+            <TableFrame>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Order</TableHead>
+                    <TableHead>Producer</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>When</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {latestOrders.map((o) => (
+                    <TableRow key={o.id}>
+                      <TableCell className="font-mono text-xs text-muted-foreground">{o.id}</TableCell>
+                      <TableCell className="max-w-44 truncate">{o.who}</TableCell>
+                      <TableCell>
+                        <StatusBadge status={o.status} />
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap tabular-nums">{o.amount}</TableCell>
+                      <TableCell className="whitespace-nowrap text-muted-foreground">{o.when}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableFrame>
           </CardContent>
         </Card>
 
-        <Card className="justify-between">
-          <CardHeader className="pb-0">
-            <CardDescription>Available balance</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-1">
-            <div className="text-3xl font-semibold tracking-tight tabular-nums">{availableBalance}</div>
-            <div className="text-xs text-muted-foreground">Cleared, ready to disburse</div>
+        <Card>
+          <PanelHeader
+            icon={Banknote}
+            title="Available balance"
+            description="Ready to disburse"
+          />
+          {/* This card holds far less than the two beside it, so the slack the
+              grid hands it is pushed into ONE gap: the figure stays with its
+              header, the holds seat at the base, level with the neighbouring
+              table's last row. Trailing dead space reads as unfinished; a
+              deliberate gap reads as composition. */}
+          <CardContent className="flex flex-1 flex-col justify-between gap-4">
+            <div className="text-3xl leading-none font-semibold tracking-tight tabular-nums">
+              {balance.available}
+            </div>
+            {/* The holds sit in the same outlined frame the tables use — this is
+                a two-row table in everything but markup. */}
+            <dl className="divide-y divide-border rounded-lg border border-border">
+              {[
+                { label: "In settlement", value: balance.inSettlement },
+                { label: "On contracts", value: balance.held },
+              ].map((r) => (
+                <div key={r.label} className="flex items-center justify-between gap-3 px-3 py-2">
+                  <dt className="min-w-0 truncate text-sm text-muted-foreground">{r.label}</dt>
+                  <dd className="shrink-0 text-sm tabular-nums">{r.value}</dd>
+                </div>
+              ))}
+            </dl>
           </CardContent>
         </Card>
       </div>

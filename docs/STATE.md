@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-29
+> Last touched: 2026-07-31
 
 ## What this project is
 
@@ -376,23 +376,35 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   off shadcn `data-slot` hooks plus `data-v2-*` markers; unlayered +
   `!important` so it beats Tailwind's utilities layer). No component is forked
   — delete the layer and stock Kernel renders. Pages: Overview (KPI cards +
-  sparklines), Scenarios (folder tabs + striped object table), Producers
-  (ranked prospecting table whose row expander opens a nested open-bids inset
-  with Accept/Reject); `/settings` is a rail entry only. Netlify serves the
+  sparklines, a book-wide producer-activity feed, and a bottom strip of
+  revenue trend / latest orders / cash position), Scenarios (folder tabs +
+  object table whose rows expand into a producer-activity panel with a
+  Since-Last-Update / All-Time underline nav and a row-level activity flag),
+  Producers (ranked prospecting table whose row expander opens a nested
+  open-bids inset with Accept/Reject), Settings (organization + notification
+  preferences). Every collection in the app renders inside the same outlined
+  `TableFrame`, and every panel heads with an `IconChip` + title/description;
+  the shared furniture lives in `kernel-app/src/components/panels.tsx`.
+  Netlify serves the
   prototype for the branch via a branch-scoped `[context."…"]` block in
   `netlify.toml` (root `base`, installs both packages) so the deploy preview
   shows the prototype, not the portal — the branch name is historical and must
   stay verbatim, since the context block matches it literally; `main` still
-  builds the portal. Five DS defects surfaced and were fixed upstream:
+  builds the portal. Six DS defects surfaced and were fixed upstream:
   `Table`'s `striped` selector was descendant-scoped (leaked into nested
   tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
   the sidebar), `Button`'s optical icon padding never fired (it keyed off a
   `data-icon` attribute almost nothing set), Tabs applied hover styling to the
-  active tab, and light mode needed the pre-paint theme script. Not merged to
+  active tab, light mode needed the pre-paint theme script, and the
+  coarse-pointer hit extensions (decisions 0007 + 0009) omitted
+  `select-trigger` — a compact select grew to 40px visibly but never got the
+  `::after` extension that carries the effective target to 44px, because it is
+  not a `[data-slot="button"]`. `mobile-audit` had flagged it for several
+  rounds; the register had wrongly written it off as sanctioned. Not merged to
   main — **`docs/v2-prototype-drift.md` is the full drift register**: how the
   prototype attaches to the DS, every token remapped (including the inverted
   dark elevation model and the 3.5x radius), every modification-layer rule, all
-  six DS source changes, and the prototype's own convention departures — with
+  seven DS source changes, and the prototype's own convention departures — with
   per-item cherry-pick guidance, since the DS bug fixes are worth rescuing
   independently of whether the prototype lands.
 
