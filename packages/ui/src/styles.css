@@ -2,6 +2,12 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Consumers resolve this stylesheet from node_modules, which Tailwind v4
+   excludes from automatic content detection. Explicitly register the
+   packaged component code so component-only utilities (Sidebar data-attr
+   variants, --sidebar-width, etc.) are generated in every consumer. */
+@source "./";
+
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================

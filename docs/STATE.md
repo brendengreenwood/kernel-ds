@@ -27,6 +27,8 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- Portal styling restored (2026-07-30): `@kernel/ui` styles.css now carries `@source "./";` so Tailwind v4 scans the packaged component code from consumers' node_modules (decision 0052). Portal CI gate `check-portal-css.mjs` asserts component-utility sentinels in the built CSS, between Build and boot smoke.
+
 - **Portal boot is a gate** (decision 0051, 2026-07-30): kernel-portal deduplicates every dependency shared with @kernel/ui via resolve.dedupe in vite.config.ts - the file: symlink otherwise resolves bare imports to the repo-root node_modules and bundles a second React, crashing boot with a blank #root (the 2026-07-30 white-screen production incident). scripts/check-portal-boot.mjs drives headless Chromium at the built site (vite preview or a deployed URL) and fails on console errors or an empty #root; it runs in the portal CI job after the build.
 
 - **Protected release workflow** (decision 0050, 2026-07-30): `.github/workflows/release.yml` is manual-only with a `mode` input. Dry-run (default) is credential-free — changeset status, `release:check`, `release:impact`, `ds:pack` — with manifest + tarballs as run artifacts. Publish is explicit, main-only, in the protected `release` environment, refuses without the `KERNEL_DS_PUBLISH_TOKEN` secret, and re-runs every release gate (packages, catalog, portal, Studio, pack smoke) on the exact commit before `changeset publish`. Workflow safety is statically enforced by `scripts/ds/__check__.mjs`; rollback/yank/deprecation guidance lives in `docs/release-runbook.md`.

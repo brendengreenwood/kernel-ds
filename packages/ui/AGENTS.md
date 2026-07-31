@@ -10,6 +10,7 @@
 - Canonical UI implementations live in `src/components/ui/`; the portal consumes only the package's explicit public entries.
 - Preserve the primitive conventions documented in the portal UI AGENTS file: MDI shim icons, tokenized control heights, tokenized motion, CVA variant parity, and literal `data-slot` anatomy.
 - `src/index.ts` and `api.json` are generated. Do not edit them directly.
+- `src/styles.css` must keep its `@source "./";` directive (decision 0052) — it is what makes Tailwind scan the packaged component code from inside a consumer's `node_modules`. Removing it silently unstyles every consumer.
 
 ## Verification
 

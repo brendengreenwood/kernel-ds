@@ -13,6 +13,8 @@ node scripts/check-prose-quality.mjs — no placeholder/mad-lib prose in doc ent
 node scripts/check-style-fidelity.mjs — overlines route through typeStyles.overline; no rounded-xl/[ radius hardcodes
 node scripts/check-status-map.mjs — status→tone map integrity (Amendment A4)
 node scripts/emit-composition.mjs — composition contract rules (EMIT-OK)
+node scripts/check-portal-css.mjs — built CSS contains @kernel/ui component utilities (after npm run build)
+node scripts/check-portal-boot.mjs — built site mounts with 0 console errors (after npm run build)
 node scripts/contrast-audit.mjs <url> — WCAG AA contrast on a running page
 node scripts/mobile-audit.mjs <url> — 390px overflow / clipped content / sub-16px inputs / hit areas
 node --experimental-strip-types src/lib/component-docs/__check__.mts — doc schema assertions
