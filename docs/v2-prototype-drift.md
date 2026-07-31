@@ -434,7 +434,11 @@ the pattern survives.
 `Kpi`, `OfferInset`, `Sparkline`. All are compositions of DS primitives or
 trivial layout, not re-implementations of DS components — but `BidsBadge` (a
 circular count) and `TwoLine` (a two-line table cell) are generic enough to be
-DS candidates if reused.
+DS candidates if reused. The panel furniture (`Tile`, `PanelHeader`,
+`TableFrame`, `ActivityFlag`, `Empty`) *has* been promoted to a shared module,
+`src/components/panels.tsx`, once the Overview needed the same pieces as the
+Scenarios detail — the app-wide framed-table + tile + flag conventions live
+there now.
 
 **5.6 — `Delta` uses notification colour for a measurement.** A KPI's
 percentage change renders as `Badge variant="success" | "destructive"`. The

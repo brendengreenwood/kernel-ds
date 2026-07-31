@@ -6,6 +6,7 @@ import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
+import { ActivityFlag, Empty, PanelHeader, TableFrame, Tile } from "@app/components/panels"
 import {
   Table,
   TableBody,
@@ -49,76 +50,6 @@ const usd = (n: number) =>
 const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string }> = {
   accepted: { hue: "settled", label: "Accepted" },
   rejected: { hue: "rejected", label: "Rejected" },
-}
-
-/** A roll-up figure. Three of these head each panel, so the row answers the
-    question before the table has to be read at all. */
-function Tile({ value, label }: { value: React.ReactNode; label: string }) {
-  return (
-    <div className="rounded-lg border border-border px-3 py-2">
-      <div className="text-xl leading-tight font-semibold tabular-nums">{value}</div>
-      <div className="mt-0.5 text-xs text-muted-foreground">{label}</div>
-    </div>
-  )
-}
-
-/** Card header: a glyph chip, then title over description. */
-function PanelHeader({
-  icon: Icon,
-  title,
-  description,
-}: {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
-  description: string
-}) {
-  return (
-    <CardHeader>
-      <div className="flex items-center gap-3">
-        {/* foreground overlay, not bg-muted: in this theme --muted resolves to
-            the same value as --card, so a muted chip on a card is invisible. */}
-        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-foreground/5 text-muted-foreground">
-          <Icon className="size-4" />
-        </span>
-        <div className="min-w-0">
-          <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </div>
-      </div>
-    </CardHeader>
-  )
-}
-
-/** Row-level activity flag: how much has landed since this scenario was last
-    touched. Accent-tinted because in this app green means "this is the thing" —
-    here, the thing worth opening. Rows that have been quiet carry nothing at
-    all, so the column stays scannable. */
-function ActivityFlag({ n }: { n: number }) {
-  return (
-    // Explicit rungs off the lime scale rather than a translucent `primary/15`
-    // tint: an alpha fill takes its contrast from whatever happens to be behind
-    // it, and measured 3.93:1 in light — under AA. Opaque steps are the soft-fill
-    // shape the DS's own badges use, and they hold their ratio anywhere.
-    <span
-      data-v2-flag
-      className="inline-flex items-center rounded-full bg-lime-100 px-2 py-0.5 text-xs font-medium text-lime-900 dark:bg-lime-900 dark:text-lime-200"
-    >
-      {n} new
-    </span>
-  )
-}
-
-/** Outlined frame — every table in the app sits in one of these. */
-function TableFrame({ children }: { children: React.ReactNode }) {
-  return (
-    <div data-v2-dense className="overflow-x-auto rounded-lg border border-border">
-      {children}
-    </div>
-  )
-}
-
-function Empty({ children }: { children: React.ReactNode }) {
-  return <p className="py-2 text-sm text-muted-foreground">{children}</p>
 }
 
 /** A detail row spans every column, so its content is as wide as the TABLE —

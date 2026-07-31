@@ -104,11 +104,15 @@ const farms = [
   "Valley Crest Ag",
 ] as const
 
-/** Newest first, so slicing the front gives "since last update". */
-const agesAll = ["4 min ago", "22 min ago", "1 h ago", "3 h ago", "6 h ago", "yesterday", "2 days ago", "3 days ago", "5 days ago"]
+/** Newest first, so slicing the front gives "since last update". Long enough
+    that a per-scenario stagger never wraps — a wrap would break the ordering. */
+const agesAll = ["4 min ago", "12 min ago", "22 min ago", "37 min ago", "1 h ago", "2 h ago", "3 h ago", "6 h ago", "9 h ago", "yesterday", "2 days ago", "3 days ago", "4 days ago", "5 days ago", "6 days ago"]
 
 function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activity> {
   const r = lcg(fnv(s.id))
+  // Stagger each scenario's clock so the book-wide feed doesn't read as one
+  // burst of simultaneous events. Offset + index never exceeds agesAll.
+  const ageOffset = fnv(s.id + "t") % 4
 
   const eventCount = 4 + Math.floor(r() * 5) // 4–8 all-time
   const events: ProducerEvent[] = Array.from({ length: eventCount }, (_, i) => ({
@@ -117,7 +121,7 @@ function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activ
     // Accepts outnumber rejects, which is what a working scenario looks like.
     action: r() < 0.68 ? "accepted" : "rejected",
     bid: round2(s.postedBid + (r() * 0.1 - 0.04)),
-    when: agesAll[i % agesAll.length],
+    when: agesAll[ageOffset + i],
   }))
 
   const moveCount = 3 + Math.floor(r() * 3) // 3–5 all-time
@@ -131,7 +135,7 @@ function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activ
       competitor: competitors[(cOffset + i) % competitors.length],
       from,
       to: round2(from + (r() * 0.1 - 0.045)),
-      when: agesAll[i % agesAll.length],
+      when: agesAll[ageOffset + i],
     }
   })
 
@@ -161,3 +165,28 @@ export const tally = (a: Activity) => ({
     that counted moves would promise more than the opened row shows. `moves` is
     still generated so the panel can come back without re-deriving the data. */
 export const sinceCount = (s: Scenario) => s.activity.since.events.length
+
+/** A producer event with the scenario it happened against — the shape the
+    book-wide feed on the Overview renders. */
+export type BookEvent = ProducerEvent & {
+  scenarioId: string
+  futuresMonth: string
+  location: string
+  commodity: Commodity
+}
+
+/** Everything that has happened across the book since last update, newest
+    first. Derived from the same per-scenario slices the row flags count, so the
+    Overview feed, the flags, and the opened rows can never disagree. */
+export const bookActivity: BookEvent[] = scenarios
+  .flatMap((s) =>
+    s.activity.since.events.map((e) => ({
+      ...e,
+      scenarioId: s.id,
+      futuresMonth: s.futuresMonth,
+      location: s.location,
+      commodity: s.commodity,
+    }))
+  )
+  // `when` values all come from agesAll, which is ordered newest-first.
+  .sort((a, b) => agesAll.indexOf(a.when) - agesAll.indexOf(b.when))

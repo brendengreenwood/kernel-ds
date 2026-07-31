@@ -1,12 +1,23 @@
 import * as React from "react"
+import { Link } from "react-router-dom"
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-import { SlidersHorizontal, TrendingDown, TrendingUp } from "@/components/ui/icon"
+import { SlidersHorizontal, TrendingDown, TrendingUp, Users } from "@/components/ui/icon"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { StatusBadge } from "@/components/ui/status-badge"
+import { CommodityLabel } from "@/components/ui/commodity-badge"
+import { StatusBadge, type Status } from "@/components/ui/status-badge"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Sparkline } from "@app/components/sparkline"
+import { Empty, PanelHeader, TableFrame, Tile } from "@app/components/panels"
 import {
   availableBalance,
   kpis,
@@ -14,6 +25,83 @@ import {
   range,
   revenue3mo,
 } from "@app/data/overview"
+import { bookActivity } from "@app/data/scenarios"
+
+const usd = (n: number) =>
+  n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 })
+
+/** Same status-axis mapping the Scenarios detail uses. */
+const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string }> = {
+  accepted: { hue: "settled", label: "Accepted" },
+  rejected: { hue: "rejected", label: "Rejected" },
+}
+
+/** What has happened across the whole book since last update — the first thing
+    the merchant should see. Derived from the same slices the Scenarios row
+    flags count, so this feed and those flags can never disagree. */
+function BookActivity() {
+  const accepted = bookActivity.filter((e) => e.action === "accepted").length
+  const rejected = bookActivity.length - accepted
+  return (
+    <Card>
+      <PanelHeader
+        icon={Users}
+        title="Producer activity"
+        description="Across your book since last update"
+        action={
+          <Button variant="outline" size="sm" render={<Link to="/scenarios" />}>
+            View scenarios
+          </Button>
+        }
+      />
+      <CardContent className="flex flex-col gap-4">
+        <div className="grid grid-cols-3 gap-2 sm:max-w-md">
+          <Tile value={bookActivity.length} label="New" />
+          <Tile value={accepted} label="Accepted" />
+          <Tile value={rejected} label="Rejected" />
+        </div>
+        {bookActivity.length === 0 ? (
+          <Empty>Nothing new across the book.</Empty>
+        ) : (
+          <TableFrame>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Producer</TableHead>
+                  <TableHead>Action</TableHead>
+                  <TableHead>Bid</TableHead>
+                  <TableHead>Commodity</TableHead>
+                  <TableHead>Scenario</TableHead>
+                  <TableHead>When</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {bookActivity.map((e) => (
+                  <TableRow key={e.id}>
+                    <TableCell className="max-w-44 truncate">{e.producer}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={actionStatus[e.action].hue}>
+                        {actionStatus[e.action].label}
+                      </StatusBadge>
+                    </TableCell>
+                    <TableCell className="tabular-nums">{usd(e.bid)}</TableCell>
+                    <TableCell>
+                      <CommodityLabel commodity={e.commodity} />
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap text-muted-foreground">
+                      {e.futuresMonth} · {e.location}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableFrame>
+        )}
+      </CardContent>
+    </Card>
+  )
+}
 
 const RANGES = ["All Time", "12m", "3m", "30d", "Today"]
 
@@ -88,6 +176,9 @@ export default function OverviewPage() {
         <Kpi kpi={kpis.costPerBushel} />
         <Kpi kpi={kpis.grossMargin} />
       </div>
+
+      {/* what's happening across the book */}
+      <BookActivity />
 
       {/* bottom strip */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)_minmax(0,1fr)]">
