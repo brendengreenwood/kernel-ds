@@ -633,6 +633,21 @@ dot computed to `top: 0; bottom: 0` and rendered at the top of the circle. Any
 pseudo-element decoration on a DS Button has to use `::before`; worth knowing
 before someone rediscovers it.
 
+**The chip is a plate too.** It takes the nested-surface treatment the app uses
+wherever a surface sits on another surface — an opaque hairline plus the top
+lip, and **no cast**: a cast at this size, inside an element that already casts,
+is the upholstered look the elevation ladder exists to avoid.
+
+Its hairline is a step off the chip's *own* fill, not a fixed token, because
+both candidates fail in one theme: `--sidebar-border` is `--neutral-800` in
+dark, identical to the chip fill, and `--border` sits at 0.8957 against a 0.922
+chip in light — measured 1.09:1, invisible. Mixing the fill 14% toward the
+foreground moves the right way in both (lighter on a dark chip, darker on a
+light one): measured **1.44:1 dark / 1.38:1 light**, matching the ~1.37 an edge
+reads at elsewhere. Same relative construction as `--rail-icon`, for the same
+reason — this is the fourth time on this branch that a fixed token was neutral
+in one theme and wrong in the other.
+
 **The chip slides.** It is one element that travels between tabs, not a
 background on each button — a per-button fill can only cross-fade, and what
 reads as *the selection moved* is a single object in motion. Position and width

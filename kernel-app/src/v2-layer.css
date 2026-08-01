@@ -379,6 +379,25 @@
     var(--shadow-xl) !important;
 }
 
+/* The nav's travelling chip is a raised pill ON the chrome bar, so it takes the
+   nested-plate treatment the app uses everywhere a surface sits on another
+   surface: an opaque hairline plus the top lip, and no cast — a cast at this
+   size, inside an element that already casts, is the upholstered look the
+   elevation ladder exists to avoid.
+
+   The hairline is a step off the CHIP's own fill, not a fixed token. Both
+   candidates fail in one theme: `--sidebar-border` is `--neutral-800` in dark,
+   identical to the chip fill; `--border` sits at 0.8957 against a 0.922 chip in
+   light, measuring 1.09:1 — invisible. Mixing the fill toward the foreground
+   moves the right direction in both themes (lighter on a dark chip, darker on a
+   light one) and lands near the 1.37:1 an edge reads at elsewhere. Same relative
+   construction as `--rail-icon`, for the same reason. */
+[data-v2-chip] {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--sidebar-accent), var(--foreground) 14%),
+    inset 0 1px 0 var(--elev-lip);
+}
+
 /* The floating mobile nav is `fixed`, so it reserves no layout space — the page
    has to leave room or the last row of every table sits under it. One bar
    height (53.8px) plus its own bottom offset and the safe-area inset. Scoped to

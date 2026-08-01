@@ -111,6 +111,7 @@ export function BottomNav() {
         {chip && (
           <span
             aria-hidden
+            data-v2-chip
             className="absolute top-1.5 bottom-1.5 left-0 rounded-full bg-sidebar-accent transition-[transform,width] duration-[var(--duration-base)] ease-[var(--ease-out)] after:absolute after:bottom-2 after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-sidebar-primary"
             style={{ transform: `translateX(${chip.x}px)`, width: chip.w }}
           />
