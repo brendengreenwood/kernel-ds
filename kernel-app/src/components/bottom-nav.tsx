@@ -23,6 +23,12 @@ import { cn } from "@/lib/utils"
    a destination — it opens the sheet, which is what makes the search field and
    org switcher reachable on a phone at all.
 
+   Icon-only, so the accessible name comes from `aria-label` rather than visible
+   text. Worth being clear-eyed: dropping the labels trades a signifier for the
+   compact dock shape, and four of these five glyphs are conventional enough to
+   carry it — `MoreHorizontal` least so, which is the one to watch if anyone
+   reports confusion.
+
    Built from DS primitives rather than styled elements: `Card` is the floating
    surface (so it inherits the app's plate edge + lip + cast from the
    modification layer for free, exactly like every other raised thing here), and
@@ -40,12 +46,12 @@ const tabs: Tab[] = [
   { label: "Settings", to: "/settings", icon: Settings },
 ]
 
-/** Stacked icon-over-label, which the DS button sizes do not cover (they are
-    horizontal), so layout is overridden while everything else about the
-    primitive is kept. `h-auto` releases the size variant's fixed height; the
-    padding below still clears the 44px touch floor on its own. */
-const TAB =
-  "h-auto min-w-0 flex-1 flex-col gap-1 rounded-full! px-1 py-2 text-[11px] leading-none font-normal"
+/** Icon-only, so each tab is a circle rather than a stacked column. `size-12`
+    is 46.1px at this `--spacing` — chosen to clear the 44px touch floor on its
+    own rather than leaning on the coarse-pointer `min-height` from decision
+    0009, which would leave the tab under-sized for anyone on a touchscreen
+    laptop. `rounded-full!` beats the layer's button-radius rule. */
+const TAB = "size-12 shrink-0 rounded-full! p-0"
 
 export function BottomNav() {
   const { pathname } = useLocation()
@@ -67,7 +73,7 @@ export function BottomNav() {
           clear of the curve. */}
       <Card
         data-v2-chrome
-        className="h-auto w-full max-w-md flex-row items-stretch gap-1 rounded-full px-2 py-1.5"
+        className="h-auto w-auto max-w-full flex-row items-center gap-1 rounded-full p-1.5"
       >
         {tabs.map((t) => (
           <Button
@@ -84,17 +90,32 @@ export function BottomNav() {
                  overrides `--sidebar-accent` to a neutral for exactly this
                  reason; the bar borrows it so both agree in both themes.
 
-                 The marker mirrors the rail's `--sidebar-primary` bar, moved to
-                 the top edge since a bottom bar is entered from above. Colour
-                 marks position only. */
+                 Without labels the tabs are circles, and the rail's bar-shaped
+                 marker does not sit on one — it reads as a notch floating off
+                 the curve. It becomes a dot under the glyph instead, which is
+                 the same idea in a shape a circle can hold.
+
+                 The dot is not decoration: the chip alone measures 1.281:1
+                 against the bar in dark and only **1.145:1 in light**. The rail
+                 gets away with that same pairing because its green pill carries
+                 the state; strip the marker here and the active tab is a barely
+                 perceptible change of grey.
+
+                 It has to be `::before`. Decision 0007's coarse-pointer hit
+                 extension already owns `[data-slot="button"]::after` — it sets
+                 top/bottom/left/right to pad small controls out to 44px — and
+                 that rule is unlayered, so it beats a utility. An `after:` dot
+                 computed to `top: 0; bottom: 0` and rendered at the top of the
+                 circle. Any pseudo-element decoration on a DS Button has to use
+                 `::before`. */
               isActive(t.to)
-                ? "relative bg-sidebar-accent text-sidebar-accent-foreground before:absolute before:inset-x-3 before:top-0 before:h-0.5 before:rounded-full before:bg-sidebar-primary"
+                ? "relative bg-sidebar-accent text-sidebar-accent-foreground before:absolute before:bottom-1.5 before:left-1/2 before:size-1 before:-translate-x-1/2 before:rounded-full before:bg-sidebar-primary"
                 : "text-[var(--rail-icon)]"
             )}
+            aria-label={t.label}
             render={<Link to={t.to} />}
           >
             <t.icon className="size-5" />
-            <span className="max-w-full truncate">{t.label}</span>
           </Button>
         ))}
         <Button
@@ -104,7 +125,6 @@ export function BottomNav() {
           className={cn(TAB, "text-[var(--rail-icon)]")}
         >
           <MoreHorizontal className="size-5" />
-          <span>More</span>
         </Button>
       </Card>
     </nav>

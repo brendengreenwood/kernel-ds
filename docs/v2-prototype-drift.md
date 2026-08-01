@@ -602,6 +602,26 @@ one more card rather than as chrome. Its cast steps up to `--shadow-xl`: unlike
 a card it genuinely floats over scrolling content, and the ladder should say so.
 Measured fill matches `--sidebar` exactly in both themes.
 
+**Icon-only.** Labels are dropped, so the bar hugs its content (257×58,
+centred) and each tab is a 46.1px circle — sized to clear the 44px floor on its
+own rather than leaning on decision 0009's coarse-pointer `min-height`, which
+would leave the tab under-sized for a touchscreen laptop. Accessible names come
+from `aria-label`; every tab is still reachable by name (verified by driving
+`getByRole('link', { name: 'Producers' })`). The trade is real: a label is a
+signifier, and `MoreHorizontal` is the glyph least able to carry meaning alone.
+
+The active marker becomes a **dot beneath the glyph** — the rail's bar shape
+does not sit on a circle. It is load-bearing, not decoration: the chip alone
+measures 1.281:1 against the bar in dark and only **1.145:1 in light**. The rail
+survives that same pairing because its green pill carries the state.
+
+The dot must be `::before`. **Decision 0007's coarse-pointer hit extension owns
+`[data-slot="button"]::after`** — it sets top/bottom/left/right to pad small
+controls out to 44px — and being unlayered it beats a utility, so an `after:`
+dot computed to `top: 0; bottom: 0` and rendered at the top of the circle. Any
+pseudo-element decoration on a DS Button has to use `::before`; worth knowing
+before someone rediscovers it.
+
 The active chip is the rail's `--sidebar-accent`, **not** the button's
 `secondary` variant. Those resolve to the same neutral in dark, which is why the
 variant looked right — but in light `--secondary` is the pale lime, so the chip
