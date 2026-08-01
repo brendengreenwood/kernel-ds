@@ -79,6 +79,7 @@ export const legacyRoutes = [
   { slug: "c-dialog", path: "/components/dialog", assertion: { text: "Dialog · Alert dialog", within: "h1" } },
   { slug: "c-popover", path: "/components/popover", assertion: { text: "Popover · Hover card", within: "h1" } },
   { slug: "c-sheet", path: "/components/sheet", assertion: { text: "Sheet · Drawer", within: "h1" } },
+  { slug: "c-sidebar", path: "/components/sidebar", assertion: { text: "Sidebar", within: "h1" } },
   { slug: "c-tabs", path: "/components/tabs", assertion: { text: "Tabs", within: "h1" } },
   { slug: "c-breadcrumb", path: "/components/breadcrumb", assertion: { text: "Breadcrumb · Pagination", within: "h1" } },
   { slug: "c-navigation-menu", path: "/components/navigation-menu", assertion: { text: "Navigation menu · Menubar", within: "h1" } },

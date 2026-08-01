@@ -493,6 +493,8 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   from the docs rail ("Workspace demo ↗"). Route-level experiment only
   until/unless it graduates to a pattern.
 
+- **Sidebar component page** (`/components/sidebar`, 2026-08-01): the ready `@kernel/ui` Sidebar is now discoverable under Navigation in the Components rail and index. Its contained demo uses an inner `SidebarProvider`, so collapse and mobile-sheet interactions do not affect the portal shell. The catalog anchor is `c-sidebar`, existing Sidebar guidance renders on the page, and the legacy route proof preserves the dedicated route.
+
 ## Open questions
 
 *(none currently)*
