@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-31
+> Last touched: 2026-08-01
 
 ## What this project is
 
@@ -26,6 +26,8 @@ The portal is **per-page** (decision 0011): every side-rail item is its
 own route, not a section of one long scroll.
 
 ## Current state
+
+- **Kernel-styled portal toasts** (2026-08-01): the packaged Sonner wrapper now overrides Sonner 2.0.7's runtime-injected default chrome with Kernel popover, border, shadow, muted-description, primary-action, cancel, and focus-ring tokens. The shared `Toaster` keeps its existing theme and behavior contract while every portal toast call inherits the design-system treatment.
 
 - **Elevation ramp works in dark, and climbs** (decision 0042, 2026-07-31):
   `--shadow-*` had been declared in `:root` and repeated **byte for byte** in
