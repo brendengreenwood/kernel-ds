@@ -495,6 +495,13 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   from the docs rail ("Workspace demo ↗"). Route-level experiment only
   until/unless it graduates to a pattern.
 
+- **Official DSDS interoperability** (decision 0054, in progress 2026-08-01):
+  Kernel keeps its catalog and component-documentation schema canonical while
+  generating schema-valid official DSDS artifacts. The versioned compatibility
+  contract maps component/element to DSDS component and pattern/object/domain to
+  DSDS pattern, preserving canonical identity and relationships under
+  `extensions.com.kernel.catalog`.
+
 ## Open questions
 
 *(none currently)*

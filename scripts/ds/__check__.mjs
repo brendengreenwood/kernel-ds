@@ -336,7 +336,33 @@ function tempCopy(fixtureName) {
   assert(publishSection.includes("registry-url: https://npm.pkg.github.com"), "publish targets GitHub Packages registry")
 }
 
-// 14. Unknown commands exit nonzero with usage.
+// 18. The DSDS compatibility contract maps every Kernel kind explicitly and
+// preserves canonical identity and relationship metadata losslessly.
+{
+  const { mapCatalogEntityContract } = await import("./lib/dsds-contract.mjs")
+  const fixture = JSON.parse(readFileSync(join(fixturesDir, "dsds", "mapping-contract.json"), "utf8"))
+
+  for (const entity of fixture.entities) {
+    const mapped = mapCatalogEntityContract(entity)
+    const kernel = mapped.extensions["com.kernel.catalog"]
+    assert(mapped.kind === fixture.expectedKinds[entity.kind], `DSDS maps ${entity.kind} explicitly`)
+    assert(mapped.identifier === entity.id, `DSDS keeps ${entity.kind} identifier stable`)
+    assert(kernel.kind === entity.kind && kernel.entityId === entity.id, `DSDS preserves ${entity.kind} identity`)
+    assert(kernel.package === entity.package && kernel.portalAnchor === entity.documentation.portalAnchor, `DSDS preserves ${entity.kind} ownership and anchor`)
+    assert(JSON.stringify(kernel.sourceFiles) === JSON.stringify(entity.sourceFiles), `DSDS preserves ${entity.kind} source files`)
+    assert(JSON.stringify(kernel.relationships) === JSON.stringify(entity.relationships), `DSDS preserves ${entity.kind} relationships`)
+  }
+
+  let unsupportedError = ""
+  try {
+    mapCatalogEntityContract(fixture.unsupportedEntity)
+  } catch (error) {
+    unsupportedError = error.message
+  }
+  assert(unsupportedError.includes("Unsupported Kernel catalog kind: widget"), "DSDS refuses unknown Kernel kinds", unsupportedError)
+}
+
+// 19. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])
   assert(unknown.status === 1 && unknown.stderr.includes("DS-USAGE"), "unknown command usage", unknown.stdout + unknown.stderr)
