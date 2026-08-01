@@ -1,4 +1,4 @@
-export const DSDS_COMPATIBILITY_CONTRACT_VERSION = 1
+export const DSDS_COMPATIBILITY_CONTRACT_VERSION = 2
 
 export const kernelKindToDsdsKind = Object.freeze({
   component: "component",
@@ -14,10 +14,15 @@ export function mapCatalogEntityContract(entity) {
     throw new Error(`Unsupported Kernel catalog kind: ${entity.kind}`)
   }
 
+  const identifier = entity.id.split(".").slice(1).join(".")
+  if (!/^[a-z][a-z0-9-]*$/.test(identifier)) {
+    throw new Error(`Kernel entity ID cannot produce a valid DSDS identifier: ${entity.id}`)
+  }
+
   return {
     kind,
-    identifier: entity.id,
-    extensions: {
+    identifier,
+    $extensions: {
       "com.kernel.catalog": {
         contractVersion: DSDS_COMPATIBILITY_CONTRACT_VERSION,
         kind: entity.kind,
