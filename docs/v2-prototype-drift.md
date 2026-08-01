@@ -633,6 +633,25 @@ dot computed to `top: 0; bottom: 0` and rendered at the top of the circle. Any
 pseudo-element decoration on a DS Button has to use `::before`; worth knowing
 before someone rediscovers it.
 
+**The chip slides.** It is one element that travels between tabs, not a
+background on each button — a per-button fill can only cross-fade, and what
+reads as *the selection moved* is a single object in motion. Position and width
+are measured off the active tab rather than computed from an index, because the
+tabs are `flex-1` and their width depends on the viewport; a `ResizeObserver`
+keeps it correct through rotation. `useLayoutEffect`, not `useEffect`: with the
+latter the chip paints at its old position for a frame and then jumps. The
+marker dot rides on the chip so it travels too.
+
+Measured on a Home → Settings tap: x = 18 → 105 (50ms) → 193 (100ms) → 233, a
+real 200ms traverse with intermediate positions rather than a jump. Under
+`prefers-reduced-motion` the duration resolves to `1e-05s` and the chip snaps to
+233 as soon as React commits.
+
+*Probe note:* a first check sampling two `requestAnimationFrame`s after the tap
+reported "no movement" under reduced motion. That was the probe, not the code —
+React had not committed the route change yet. Sampling at fixed millisecond
+offsets showed the correct behaviour.
+
 The active chip is the rail's `--sidebar-accent`, **not** the button's
 `secondary` variant. Those resolve to the same neutral in dark, which is why the
 variant looked right — but in light `--secondary` is the pale lime, so the chip

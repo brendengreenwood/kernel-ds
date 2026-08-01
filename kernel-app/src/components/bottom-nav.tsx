@@ -1,3 +1,4 @@
+import * as React from "react"
 import { Link, useLocation } from "react-router-dom"
 import {
   LayoutDashboard,
@@ -53,12 +54,38 @@ const tabs: Tab[] = [
     pointers, leaving a touchscreen laptop short). `rounded-full!` beats the
     layer's button-radius rule; at this aspect the tabs are stadiums rather than
     circles, which is what filling the width costs and it reads fine. */
-const TAB = "h-14 min-w-0 flex-1 rounded-full! p-0"
+const TAB = "relative h-14 min-w-0 flex-1 rounded-full! p-0"
 
 export function BottomNav() {
   const { pathname } = useLocation()
   const { setOpenMobile } = useSidebar()
   const isActive = (to: string) => (to === "/" ? pathname === "/" : pathname.startsWith(to))
+
+  /* The chip is ONE element that slides between tabs, not a background on each
+     button — a per-button fill can only cross-fade, and what reads as "the
+     selection moved" is a single object travelling. It is measured off the
+     active tab rather than computed from an index: the tabs are `flex-1`, so
+     their width depends on the viewport, and measuring survives that without
+     duplicating the layout maths.
+
+     `useLayoutEffect` so the position is committed before paint — with a plain
+     effect the chip would paint at its old position for a frame and then jump.
+     The observer keeps it right through rotation and width changes. */
+  const barRef = React.useRef<HTMLDivElement>(null)
+  const [chip, setChip] = React.useState<{ x: number; w: number } | null>(null)
+
+  React.useLayoutEffect(() => {
+    const bar = barRef.current
+    if (!bar) return
+    const measure = () => {
+      const el = bar.querySelector<HTMLElement>('[aria-current="page"]')
+      setChip(el ? { x: el.offsetLeft, w: el.offsetWidth } : null)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(bar)
+    return () => ro.disconnect()
+  }, [pathname])
 
   return (
     <nav
@@ -74,9 +101,20 @@ export function BottomNav() {
           as a floating control rather than a panel; `px-2` keeps the outer tabs
           clear of the curve. */}
       <Card
+        ref={barRef}
         data-v2-chrome
-        className="h-auto w-full flex-row items-center gap-1 rounded-full p-1.5"
+        className="relative h-auto w-full flex-row items-center gap-1 rounded-full p-1.5"
       >
+        {/* The travelling chip. `aria-hidden` because `aria-current` on the tab
+            already states the selection — this is its visual form only. Inset
+            top/bottom by the card's own padding so it sits exactly on a tab. */}
+        {chip && (
+          <span
+            aria-hidden
+            className="absolute top-1.5 bottom-1.5 left-0 rounded-full bg-sidebar-accent transition-[transform,width] duration-[var(--duration-base)] ease-[var(--ease-out)] after:absolute after:bottom-2 after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-sidebar-primary"
+            style={{ transform: `translateX(${chip.x}px)`, width: chip.w }}
+          />
+        )}
         {tabs.map((t) => (
           <Button
             key={t.to}
@@ -84,34 +122,15 @@ export function BottomNav() {
             aria-current={isActive(t.to) ? "page" : undefined}
             className={cn(
               TAB,
-              /* The active chip is the RAIL's `--sidebar-accent`, not the
-                 button's `secondary` variant. Those are the same neutral in
-                 dark, which is why the variant looked correct — but in light
-                 `--secondary` is the pale lime, so the chip and its label came
-                 out green and colour crept into chrome. The rail already
-                 overrides `--sidebar-accent` to a neutral for exactly this
-                 reason; the bar borrows it so both agree in both themes.
-
-                 Without labels the tabs are circles, and the rail's bar-shaped
-                 marker does not sit on one — it reads as a notch floating off
-                 the curve. It becomes a dot under the glyph instead, which is
-                 the same idea in a shape a circle can hold.
-
-                 The dot is not decoration: the chip alone measures 1.281:1
-                 against the bar in dark and only **1.145:1 in light**. The rail
-                 gets away with that same pairing because its green pill carries
-                 the state; strip the marker here and the active tab is a barely
-                 perceptible change of grey.
-
-                 It has to be `::before`. Decision 0007's coarse-pointer hit
-                 extension already owns `[data-slot="button"]::after` — it sets
-                 top/bottom/left/right to pad small controls out to 44px — and
-                 that rule is unlayered, so it beats a utility. An `after:` dot
-                 computed to `top: 0; bottom: 0` and rendered at the top of the
-                 circle. Any pseudo-element decoration on a DS Button has to use
-                 `::before`. */
+              /* Only the ink changes per tab now — the fill and the marker dot
+                 both live on the travelling chip above, which is what lets them
+                 slide. The chip colour is the RAIL's `--sidebar-accent`, not the
+                 button's `secondary` variant: those are the same neutral in
+                 dark, which is why the variant looked correct, but in light
+                 `--secondary` is the pale lime, so the chip came out green and
+                 colour crept into chrome. */
               isActive(t.to)
-                ? "relative bg-sidebar-accent text-sidebar-accent-foreground before:absolute before:bottom-2 before:left-1/2 before:size-1 before:-translate-x-1/2 before:rounded-full before:bg-sidebar-primary"
+                ? "text-sidebar-accent-foreground"
                 : "text-[var(--rail-icon)]"
             )}
             aria-label={t.label}
