@@ -602,13 +602,24 @@ one more card rather than as chrome. Its cast steps up to `--shadow-xl`: unlike
 a card it genuinely floats over scrolling content, and the ladder should say so.
 Measured fill matches `--sidebar` exactly in both themes.
 
-**Icon-only.** Labels are dropped, so the bar hugs its content (257×58,
-centred) and each tab is a 46.1px circle — sized to clear the 44px floor on its
-own rather than leaning on decision 0009's coarse-pointer `min-height`, which
-would leave the tab under-sized for a touchscreen laptop. Accessible names come
-from `aria-label`; every tab is still reachable by name (verified by driving
-`getByRole('link', { name: 'Producers' })`). The trade is real: a label is a
-signifier, and `MoreHorizontal` is the glyph least able to carry meaning alone.
+**Icon-only, filling the width.** Labels are dropped and the bar spans the
+available width inside its 12px inset, with tabs dividing it evenly rather than
+sitting at a fixed size — so the whole strip is tappable. Measured across phone
+widths: tabs 54px at 320, 68px at 390, 76px at 430, all 53.8px tall, 0
+horizontal overflow at every width. They clear the 44px floor on their own
+rather than leaning on decision 0009's coarse-pointer `min-height`, which only
+fires on coarse pointers and would leave a touchscreen laptop short. Glyphs are
+23px. At this aspect the tabs are stadiums rather than circles — what filling
+the width costs, and it reads fine.
+
+Accessible names come from `aria-label`; every tab is still reachable by name
+(verified by driving `getByRole('link', { name: 'Producers' })` rather than
+clicking coordinates). The trade is real: a label is a signifier, and
+`MoreHorizontal` is the glyph least able to carry meaning alone.
+
+*Watch item:* the fill is uncapped, so just under the `md` breakpoint (767px)
+each tab stretches to ~143px. Rare for this app, and capping it would contradict
+"fill the width" — but it is the width where the bar looks most stretched.
 
 The active marker becomes a **dot beneath the glyph** — the rail's bar shape
 does not sit on a circle. It is load-bearing, not decoration: the chip alone

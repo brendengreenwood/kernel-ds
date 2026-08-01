@@ -46,12 +46,14 @@ const tabs: Tab[] = [
   { label: "Settings", to: "/settings", icon: Settings },
 ]
 
-/** Icon-only, so each tab is a circle rather than a stacked column. `size-12`
-    is 46.1px at this `--spacing` — chosen to clear the 44px touch floor on its
-    own rather than leaning on the coarse-pointer `min-height` from decision
-    0009, which would leave the tab under-sized for anyone on a touchscreen
-    laptop. `rounded-full!` beats the layer's button-radius rule. */
-const TAB = "size-12 shrink-0 rounded-full! p-0"
+/** Tabs divide the bar's width evenly rather than sitting at a fixed size, so
+    the whole strip is tappable — at 390px that is ~68×53.8px each, well past
+    the 44px floor and clearing it on their own rather than leaning on the
+    coarse-pointer `min-height` from decision 0009 (which only fires on coarse
+    pointers, leaving a touchscreen laptop short). `rounded-full!` beats the
+    layer's button-radius rule; at this aspect the tabs are stadiums rather than
+    circles, which is what filling the width costs and it reads fine. */
+const TAB = "h-14 min-w-0 flex-1 rounded-full! p-0"
 
 export function BottomNav() {
   const { pathname } = useLocation()
@@ -73,7 +75,7 @@ export function BottomNav() {
           clear of the curve. */}
       <Card
         data-v2-chrome
-        className="h-auto w-auto max-w-full flex-row items-center gap-1 rounded-full p-1.5"
+        className="h-auto w-full flex-row items-center gap-1 rounded-full p-1.5"
       >
         {tabs.map((t) => (
           <Button
@@ -109,13 +111,13 @@ export function BottomNav() {
                  circle. Any pseudo-element decoration on a DS Button has to use
                  `::before`. */
               isActive(t.to)
-                ? "relative bg-sidebar-accent text-sidebar-accent-foreground before:absolute before:bottom-1.5 before:left-1/2 before:size-1 before:-translate-x-1/2 before:rounded-full before:bg-sidebar-primary"
+                ? "relative bg-sidebar-accent text-sidebar-accent-foreground before:absolute before:bottom-2 before:left-1/2 before:size-1 before:-translate-x-1/2 before:rounded-full before:bg-sidebar-primary"
                 : "text-[var(--rail-icon)]"
             )}
             aria-label={t.label}
             render={<Link to={t.to} />}
           >
-            <t.icon className="size-5" />
+            <t.icon className="size-6" />
           </Button>
         ))}
         <Button
@@ -124,7 +126,7 @@ export function BottomNav() {
           onClick={() => setOpenMobile(true)}
           className={cn(TAB, "text-[var(--rail-icon)]")}
         >
-          <MoreHorizontal className="size-5" />
+          <MoreHorizontal className="size-6" />
         </Button>
       </Card>
     </nav>
