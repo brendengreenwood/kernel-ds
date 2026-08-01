@@ -44,7 +44,8 @@ const tabs: Tab[] = [
     horizontal), so layout is overridden while everything else about the
     primitive is kept. `h-auto` releases the size variant's fixed height; the
     padding below still clears the 44px touch floor on its own. */
-const TAB = "h-auto min-w-0 flex-1 flex-col gap-1 px-1 py-2 text-[11px] leading-none font-normal"
+const TAB =
+  "h-auto min-w-0 flex-1 flex-col gap-1 rounded-full! px-1 py-2 text-[11px] leading-none font-normal"
 
 export function BottomNav() {
   const { pathname } = useLocation()
@@ -60,20 +61,34 @@ export function BottomNav() {
          bottom padding in the modification layer so nothing hides underneath. */
       className="fixed inset-x-0 bottom-0 z-30 flex justify-center px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] md:hidden"
     >
-      <Card className="h-auto w-full max-w-md flex-row items-stretch gap-1 rounded-2xl p-1.5">
+      {/* `data-v2-chrome` swaps the card's content-plate fill and hairline for
+          the rail's — see the modification layer. Fully round, so the bar reads
+          as a floating control rather than a panel; `px-2` keeps the outer tabs
+          clear of the curve. */}
+      <Card
+        data-v2-chrome
+        className="h-auto w-full max-w-md flex-row items-stretch gap-1 rounded-full px-2 py-1.5"
+      >
         {tabs.map((t) => (
           <Button
             key={t.to}
-            variant={isActive(t.to) ? "secondary" : "ghost"}
+            variant="ghost"
             aria-current={isActive(t.to) ? "page" : undefined}
             className={cn(
               TAB,
-              /* The active marker mirrors the rail's `--sidebar-primary` bar,
-                 moved to the top edge since a bottom bar is entered from above.
-                 Colour marks position only; the chrome stays neutral, which is
-                 the rule the rail set. */
+              /* The active chip is the RAIL's `--sidebar-accent`, not the
+                 button's `secondary` variant. Those are the same neutral in
+                 dark, which is why the variant looked correct — but in light
+                 `--secondary` is the pale lime, so the chip and its label came
+                 out green and colour crept into chrome. The rail already
+                 overrides `--sidebar-accent` to a neutral for exactly this
+                 reason; the bar borrows it so both agree in both themes.
+
+                 The marker mirrors the rail's `--sidebar-primary` bar, moved to
+                 the top edge since a bottom bar is entered from above. Colour
+                 marks position only. */
               isActive(t.to)
-                ? "relative before:absolute before:inset-x-3 before:top-0 before:h-0.5 before:rounded-full before:bg-sidebar-primary"
+                ? "relative bg-sidebar-accent text-sidebar-accent-foreground before:absolute before:inset-x-3 before:top-0 before:h-0.5 before:rounded-full before:bg-sidebar-primary"
                 : "text-[var(--rail-icon)]"
             )}
             render={<Link to={t.to} />}

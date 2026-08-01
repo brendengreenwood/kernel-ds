@@ -595,7 +595,20 @@ entered from above. Colour marks position; the chrome stays neutral, per the
 rail's rule.
 
 Floating: `fixed`, inset 12px from three edges with a 12px gap below (plus the
-safe-area inset), radius 16px. Because `fixed` reserves no layout space, the
+safe-area inset), **fully round**. It carries the RAIL's surface, not the card's
+— `data-v2-chrome` swaps the inherited content plate for `--sidebar` fill and a
+`--sidebar-border` hairline, because as a `Card` on a page of cards it read as
+one more card rather than as chrome. Its cast steps up to `--shadow-xl`: unlike
+a card it genuinely floats over scrolling content, and the ladder should say so.
+Measured fill matches `--sidebar` exactly in both themes.
+
+The active chip is the rail's `--sidebar-accent`, **not** the button's
+`secondary` variant. Those resolve to the same neutral in dark, which is why the
+variant looked right — but in light `--secondary` is the pale lime, so the chip
+and its label came out green and colour crept into chrome. The rail already
+overrides `--sidebar-accent` to a neutral for exactly this reason (2.2); the bar
+borrows it so both agree in both themes. Measured: chip matches the rail token
+exactly, active label 14.34:1 dark / 13.92:1 light, inactive 10.45 / 9.10. Because `fixed` reserves no layout space, the
 inset panel takes a matching `padding-bottom` below `md` — otherwise the last
 row of every table sits under the bar. Measured: tabs 68×51.4px (clear of the
 44px floor with no pseudo-element extension), card bottom 12px clear of the
