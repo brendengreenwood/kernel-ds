@@ -44,6 +44,17 @@ own route, not a section of one long scroll.
   effectively six steps, which the foundation page now says out loud. Surfaced
   by the v2 prototype needing a resting cast and finding no working token.
 
+- **Shadows are tinted; `--shadow-color` is load-bearing** (decision 0043,
+  2026-07-31): the token had been declared in both theme blocks since the token
+  sheet was written and **nothing referenced it** — the ramp hardcoded
+  `hsl(0 0% 0%)`, so the one knob for shadow hue was inert. Every rung now
+  derives from it via `color-mix`; light is `oklch(0.16 0.022 165)`, dark
+  `oklch(0.04 0.018 165)` (deeper, since it must darken a 0.165 rail). Kernel's
+  surfaces are green-tinted neutrals and occlusion stays in the surface's hue
+  family, so a neutral-black cast read as a foreign smudge. Tinting costs 0.3 of
+  an 8-bit level of depth in dark, which is affordable because dark's cast was
+  never carrying elevation — edge contrast and gutter do that.
+
 - **`--lime-*` accent scale** (decision 0041, 2026-07-30): the accent lime — the
   hue on every primary button, focus ring, active pill and first chart series —
   had been a bare `oklch()` literal repeated **twelve times** across both themes,
