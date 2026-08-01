@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-30
+> Last touched: 2026-08-01
 
 ## What this project is
 
@@ -26,6 +26,8 @@ The portal is **per-page** (decision 0011): every side-rail item is its
 own route, not a section of one long scroll.
 
 ## Current state
+
+- **Kernel-styled portal toasts** (2026-08-01): the packaged Sonner wrapper now overrides Sonner 2.0.7's runtime-injected default chrome with Kernel popover, border, shadow, muted-description, primary-action, cancel, and focus-ring tokens. The shared `Toaster` keeps its existing theme and behavior contract while every portal toast call inherits the design-system treatment.
 
 - Portal styling restored (2026-07-30): `@kernel/ui` styles.css now carries `@source "./";` so Tailwind v4 scans the packaged component code from consumers' node_modules (decision 0052). Portal CI gate `check-portal-css.mjs` asserts component-utility sentinels in the built CSS, between Build and boot smoke.
 
