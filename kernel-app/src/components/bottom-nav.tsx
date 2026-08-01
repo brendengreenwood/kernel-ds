@@ -6,6 +6,8 @@ import {
   Settings,
   Users,
 } from "@/components/ui/icon"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { useSidebar } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
 
@@ -16,13 +18,18 @@ import { cn } from "@/lib/utils"
    to leave the page you landed on. `mobile-audit` passed the whole time because
    it measures overflow, clipping and hit areas, not reachability.
 
-   A bottom bar rather than a hamburger because every destination is a peer:
-   four routes, all top-level, all frequently switched between. A hamburger
-   would hide a four-item list behind a tap for no benefit.
+   A bar rather than a hamburger because every destination is a peer: four
+   routes, all top-level, all frequently switched between. The fifth slot is not
+   a destination — it opens the sheet, which is what makes the search field and
+   org switcher reachable on a phone at all.
 
-   The fifth slot opens the sheet. It is not a destination — it is what makes
-   the sheet reachable at all, and with it the search field and org switcher
-   that otherwise exist only on the rail. */
+   Built from DS primitives rather than styled elements: `Card` is the floating
+   surface (so it inherits the app's plate edge + lip + cast from the
+   modification layer for free, exactly like every other raised thing here), and
+   each tab is a `Button` — `render={<Link/>}` for the destinations, which is
+   the app's existing pattern for a button that navigates. That inheritance is
+   the point: the bar picks up focus rings, coarse-pointer sizing and the
+   elevation recipe without restating any of them. */
 
 type Tab = { label: string; to: string; icon: React.ComponentType<{ className?: string }> }
 
@@ -33,19 +40,11 @@ const tabs: Tab[] = [
   { label: "Settings", to: "/settings", icon: Settings },
 ]
 
-/** Shared by the links and the sheet trigger so the row stays even. `h-14`
-    (53.8px at this --spacing) clears the 44px touch floor on its own — no
-    pseudo-element extension needed, unlike the compact controls in
-    decision 0007. */
-const TAB =
-  "relative flex h-14 min-w-0 flex-1 flex-col items-center justify-center gap-1 text-[11px] leading-none"
-
-/** The active marker mirrors the rail's: a `--sidebar-primary` bar on the
-    leading edge — the top edge here, since a bottom bar is entered from above.
-    Colour stays out of the label itself, which keeps the rail's rule that the
-    chrome is neutral and green marks position only. */
-const ACTIVE_MARKER =
-  "before:absolute before:inset-x-4 before:top-0 before:h-0.5 before:rounded-full before:bg-sidebar-primary"
+/** Stacked icon-over-label, which the DS button sizes do not cover (they are
+    horizontal), so layout is overridden while everything else about the
+    primitive is kept. `h-auto` releases the size variant's fixed height; the
+    padding below still clears the 44px touch floor on its own. */
+const TAB = "h-auto min-w-0 flex-1 flex-col gap-1 px-1 py-2 text-[11px] leading-none font-normal"
 
 export function BottomNav() {
   const { pathname } = useLocation()
@@ -55,37 +54,44 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      /* `sticky` rather than `fixed`: the inset panel is the scroll container's
-         content, and a fixed bar would sit over the page plate's bottom gutter
-         instead of below it. Safe-area padding keeps the row clear of the home
-         indicator on notched phones. */
-      className="sticky bottom-0 z-30 flex border-t border-sidebar-border bg-sidebar pb-[env(safe-area-inset-bottom)] md:hidden"
+      /* Floating: `fixed` so the bar rides above the content rather than
+         sitting at the end of it, inset from all three edges, and clear of the
+         home indicator via the safe-area inset. The page reserves matching
+         bottom padding in the modification layer so nothing hides underneath. */
+      className="fixed inset-x-0 bottom-0 z-30 flex justify-center px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] md:hidden"
     >
-      {tabs.map((t) => (
-        <Link
-          key={t.to}
-          to={t.to}
-          aria-current={isActive(t.to) ? "page" : undefined}
-          className={cn(
-            TAB,
-            isActive(t.to)
-              ? cn("text-sidebar-foreground", ACTIVE_MARKER)
-              : "text-[var(--rail-icon)]"
-          )}
+      <Card className="h-auto w-full max-w-md flex-row items-stretch gap-1 rounded-2xl p-1.5">
+        {tabs.map((t) => (
+          <Button
+            key={t.to}
+            variant={isActive(t.to) ? "secondary" : "ghost"}
+            aria-current={isActive(t.to) ? "page" : undefined}
+            className={cn(
+              TAB,
+              /* The active marker mirrors the rail's `--sidebar-primary` bar,
+                 moved to the top edge since a bottom bar is entered from above.
+                 Colour marks position only; the chrome stays neutral, which is
+                 the rule the rail set. */
+              isActive(t.to)
+                ? "relative before:absolute before:inset-x-3 before:top-0 before:h-0.5 before:rounded-full before:bg-sidebar-primary"
+                : "text-[var(--rail-icon)]"
+            )}
+            render={<Link to={t.to} />}
+          >
+            <t.icon className="size-5" />
+            <span className="max-w-full truncate">{t.label}</span>
+          </Button>
+        ))}
+        <Button
+          variant="ghost"
+          aria-label="More"
+          onClick={() => setOpenMobile(true)}
+          className={cn(TAB, "text-[var(--rail-icon)]")}
         >
-          <t.icon className="size-5" />
-          <span className="max-w-full truncate">{t.label}</span>
-        </Link>
-      ))}
-      <button
-        type="button"
-        onClick={() => setOpenMobile(true)}
-        aria-label="More"
-        className={cn(TAB, "text-[var(--rail-icon)]")}
-      >
-        <MoreHorizontal className="size-5" />
-        <span>More</span>
-      </button>
+          <MoreHorizontal className="size-5" />
+          <span>More</span>
+        </Button>
+      </Card>
     </nav>
   )
 }

@@ -579,12 +579,28 @@ through the catch-all) plus a fifth slot that opens the sheet, which is what
 makes the search field and org switcher reachable on a phone at all. A bar
 rather than a hamburger because the destinations are peers: four top-level
 routes, frequently switched between, and hiding a four-item list behind a tap
-buys nothing. The active marker mirrors the rail's `--sidebar-primary` bar,
-moved to the top edge since a bottom bar is entered from above — colour marks
-position, the chrome stays neutral, per the rail's rule. `sticky` rather than
-`fixed` so it sits below the page plate's gutter rather than over it. Measured:
-tabs 78×53.8px (clear of the 44px floor with no pseudo-element extension),
-pinned to the viewport bottom at every scroll position, absent above `md`.
+buys nothing.
+
+**Composed from DS primitives, not styled elements.** `Card` is the floating
+surface, so the bar inherits the app's plate edge + lip + cast from the
+modification layer for free — the same elevation recipe as every other raised
+thing here, restated nowhere. Each tab is a `Button`: `render={<Link/>}` for the
+destinations (the app's existing pattern for a button that navigates), a plain
+one for the sheet trigger. Only the stacked icon-over-label layout is
+overridden, because the DS button sizes are horizontal; focus rings,
+coarse-pointer sizing and state variants all come from the primitive. Active
+state is `variant="secondary"` — the same neutral chip the rail uses — plus the
+rail's `--sidebar-primary` marker moved to the top edge, since a bottom bar is
+entered from above. Colour marks position; the chrome stays neutral, per the
+rail's rule.
+
+Floating: `fixed`, inset 12px from three edges with a 12px gap below (plus the
+safe-area inset), radius 16px. Because `fixed` reserves no layout space, the
+inset panel takes a matching `padding-bottom` below `md` — otherwise the last
+row of every table sits under the bar. Measured: tabs 68×51.4px (clear of the
+44px floor with no pseudo-element extension), card bottom 12px clear of the
+viewport at every scroll position, last table row clear of the bar, absent above
+`md` with the reserved padding dropping to 0.
 
 **5.10 — Two app-level token overrides that exist to pay for the plate.** Light
 `--muted-foreground` steps one rung darker (`--neutral-600`): the DS value

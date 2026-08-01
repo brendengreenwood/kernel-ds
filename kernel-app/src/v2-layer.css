@@ -360,6 +360,16 @@
   border-color: transparent !important;
 }
 
+/* The floating mobile nav is `fixed`, so it reserves no layout space — the page
+   has to leave room or the last row of every table sits under it. One bar
+   height (53.8px) plus its own bottom offset and the safe-area inset. Scoped to
+   the breakpoint the bar itself uses. */
+@media (max-width: 47.999rem) {
+  [data-slot="sidebar-inset"] {
+    padding-bottom: calc(var(--spacing) * 14 + 0.75rem + env(safe-area-inset-bottom));
+  }
+}
+
 /* ---- Cards in flex columns ----
    The DS Card carries `h-full` for equal-height grid galleries. In a flex
    COLUMN whose height resolves as definite (our page wrappers inside the inset
