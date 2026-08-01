@@ -30,6 +30,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { BottomNav } from "@app/components/bottom-nav"
 import { ModeToggle } from "@app/components/mode-toggle"
 import { cn } from "@/lib/utils"
 
@@ -280,6 +281,7 @@ export function Shell() {
         <AppSidebar />
         <SidebarInset className="bg-background">
           <PageFade />
+          <BottomNav />
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>

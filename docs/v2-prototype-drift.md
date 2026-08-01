@@ -559,6 +559,33 @@ trend delta is arguably a measurement, so this stretches the axis. It reads
 correctly and is conventional for dashboards, but it is the one place the
 prototype bends the colour *rules* rather than the colour *values*.
 
+**5.11 — A bottom tab bar, because mobile had no navigation at all.** Below
+`md` the DS renders the sidebar as an off-canvas Sheet, and the only control
+that opens it — `SidebarTrigger` — lives inside `SidebarHeader`, i.e. *inside
+the sheet*. So on a phone there was no hamburger, no rail, and no way to leave
+whatever page you landed on. This violated decision 0007's "navigation at every
+width", and `mobile-audit` passed throughout because it measures overflow,
+clipping and hit areas — **not reachability**.
+
+`BottomNav` (`kernel-app/src/components/bottom-nav.tsx`) is app-level, not a DS
+component: the pattern is unproven here and adding it to `packages/ui` would
+mean a catalog entry, a portal page and the docs-parity gate committing the
+system to it. **It is a DS candidate** — the same status `BidsBadge` and
+`TwoLine` hold in 5.5 — and promoting it is a deliberate follow-up, not a
+side effect.
+
+Shape: four destination tabs (every real route — `/support` and `/docs` fall
+through the catch-all) plus a fifth slot that opens the sheet, which is what
+makes the search field and org switcher reachable on a phone at all. A bar
+rather than a hamburger because the destinations are peers: four top-level
+routes, frequently switched between, and hiding a four-item list behind a tap
+buys nothing. The active marker mirrors the rail's `--sidebar-primary` bar,
+moved to the top edge since a bottom bar is entered from above — colour marks
+position, the chrome stays neutral, per the rail's rule. `sticky` rather than
+`fixed` so it sits below the page plate's gutter rather than over it. Measured:
+tabs 78×53.8px (clear of the 44px floor with no pseudo-element extension),
+pinned to the viewport bottom at every scroll position, absent above `md`.
+
 **5.10 — Two app-level token overrides that exist to pay for the plate.** Light
 `--muted-foreground` steps one rung darker (`--neutral-600`): the DS value
 measures 5.15:1 on a plain white card but **4.86:1 on the prototype's plate** —
