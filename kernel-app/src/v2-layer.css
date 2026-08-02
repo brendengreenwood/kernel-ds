@@ -535,11 +535,18 @@
    in a card it DOES cast, because here it is the only thing standing off a
    recess. Lip, edge, cast: the full plate treatment.
 
-   Its halo is a slow outward BLOOM off all four edges, in --primary: the panel
-   does not just stand in the recess, it lights it. Two layers, because a glow
-   with no edge is a smudge — a 1px coloured ring hugging the border, and a wide
-   soft bleed behind it. Both ride under the resting cast: the bloom is light,
-   the cast is weight, and an object standing off a floor wants both.
+   Its edge carries a --primary ring that breathes. The bleed behind it is gone:
+   a wide soft glow around a panel this size reads as a smudge on the well, and
+   at any alpha strong enough to see it also announced the row like a
+   notification. What is left is the border itself, 8% at rest and 20% at the
+   top of the swell — enough that the edge is warm rather than grey, not enough
+   to be a state.
+
+   The cycle is deliberately not a sine. A symmetrical fade in and out at a
+   steady interval is a heartbeat, and a heartbeat means something is waiting on
+   you. This one rests for most of its 7 seconds, swells slowly, then settles
+   back faster than it rose — closer to something cooling than something
+   signalling.
 
    The DS's border-beam mark does this shape (`pulse-outside`), but its palettes
    are colourful / mono / ocean / sunset — none of them this app's. Rebuilt as a
@@ -552,30 +559,33 @@
   box-shadow:
     inset 0 1px 0 var(--elev-lip),
     var(--elev-cast),
-    0 0 0 1px var(--v2-bloom-edge-rest),
-    0 0 calc(var(--spacing) * 7) calc(var(--spacing) * -1) var(--v2-bloom-rest);
-  animation: v2-bloom var(--v2-bloom-cycle) var(--ease-in-out) infinite;
+    0 0 0 1px var(--v2-edge-rest);
+  animation: v2-edge var(--v2-edge-cycle) linear infinite;
 }
 
 /* 0% and 100% restate the resting shadow rather than omitting it, so the
    reduced-motion guard — which cuts this to a single 0.01ms pass — lands the
    panel back on exactly the shadow the base rule declares. Reduced motion gets
-   the bloom, just not the breathing. */
-@keyframes v2-bloom {
+   the warm edge, just not the breathing.
+
+   The stops carry the shape: a third of the cycle held at rest, a long climb to
+   the peak, then a shorter release. The timing function is linear because the
+   easing is in where the stops sit, and layering a curve on top of them would
+   flatten the asymmetry back into a sine. */
+@keyframes v2-edge {
   0%,
+  32%,
   100% {
     box-shadow:
       inset 0 1px 0 var(--elev-lip),
       var(--elev-cast),
-      0 0 0 1px var(--v2-bloom-edge-rest),
-      0 0 calc(var(--spacing) * 7) calc(var(--spacing) * -1) var(--v2-bloom-rest);
+      0 0 0 1px var(--v2-edge-rest);
   }
-  50% {
+  68% {
     box-shadow:
       inset 0 1px 0 var(--elev-lip),
       var(--elev-cast),
-      0 0 0 1px var(--v2-bloom-edge-peak),
-      0 0 calc(var(--spacing) * 11) 0 var(--v2-bloom-peak);
+      0 0 0 1px var(--v2-edge-peak);
   }
 }
 
