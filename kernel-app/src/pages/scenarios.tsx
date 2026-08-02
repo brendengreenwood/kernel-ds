@@ -121,24 +121,24 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
             </Button>
           }
         />
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <Tile
             lg
             value={bushelsShort(summary.bushels)}
             label="Bushels bought"
-            chart={<Sparkline data={lines.bushels} height={64} xKey="t" curve="stepAfter" frame />}
+            chart={<Sparkline data={lines.bushels} height={92} xKey="t" curve="stepAfter" frame />}
           />
           <Tile
             lg
             value={summary.avgBasis === null ? "—" : basis(summary.avgBasis)}
             label="Avg basis"
-            chart={<Sparkline data={lines.avgBasis} height={64} xKey="t" frame />}
+            chart={<Sparkline data={lines.avgBasis} height={92} xKey="t" frame />}
           />
           <Tile
             lg
             value={summary.accepted}
             label="Accepted"
-            chart={<Sparkline data={lines.accepted} height={64} xKey="t" curve="stepAfter" frame />}
+            chart={<Sparkline data={lines.accepted} height={92} xKey="t" curve="stepAfter" frame />}
           />
           {/* Rejects are the one figure where up is bad, so the line does not
               ride the accent the other three share. */}
@@ -149,7 +149,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
             chart={
               <Sparkline
                 data={lines.rejected}
-                height={64}
+                height={92}
                 xKey="t"
                 curve="stepAfter"
                 frame
