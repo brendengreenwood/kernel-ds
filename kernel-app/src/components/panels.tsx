@@ -16,6 +16,12 @@ import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
     number is the object and a fill behind it would be a box around a headline;
     the hairline is there to group the four, not to raise them.
 
+    It is also padded like a card rather than like a cell: a 36px figure needs
+    air around it before the hairline, or the tile reads as a number that was
+    cropped to fit. The chart keeps a smaller inset than the text does — an axis
+    label is already inset from its own plot edge, so matching the text's
+    padding would double it.
+
     Its figure is sized off the tile, not off the page: a row of four is read
     across half a width in one place and a whole width in another, and a fixed
     36px that fits the wide one overflows the narrow one. `cqw` makes the
@@ -36,8 +42,8 @@ export function Tile({
 }) {
   if (lg) {
     return (
-      <div className="@container overflow-hidden rounded-[var(--radius)] border border-border pt-3">
-        <div className="px-3.5">
+      <div className="@container overflow-hidden rounded-[var(--radius)] border border-border pt-5">
+        <div className="px-5">
           <div className="text-[clamp(1.5rem,26cqw,2.25rem)] leading-none font-semibold tracking-tight tabular-nums">
             {value}
           </div>
@@ -51,11 +57,11 @@ export function Tile({
             a baseline running into the tile's own border is two lines meeting
             at nothing. */}
         {chart ? (
-          <div className="mt-3 px-2 pb-2" aria-hidden>
+          <div className="mt-4 px-3 pb-3" aria-hidden>
             {chart}
           </div>
         ) : (
-          <div className="pb-3" />
+          <div className="pb-5" />
         )}
       </div>
     )
