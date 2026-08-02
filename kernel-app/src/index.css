@@ -28,6 +28,10 @@
   --primary-foreground: var(--neutral-950);
   --secondary: var(--neutral-800);
   --secondary-foreground: var(--neutral-100);
+  /* Segmented selection is the accent. --secondary cannot do it — in dark it is
+     the same value as --card, so a segment filled with it vanishes on a panel. */
+  --v2-seg-active: var(--primary);
+  --v2-seg-active-foreground: var(--primary-foreground);
   --muted: var(--neutral-800);
   --muted-foreground: var(--neutral-400);
   --accent: var(--brand-900);
@@ -71,6 +75,17 @@
      announcing itself. Dark only — see the light block. */
   --elev-edge-page: var(--neutral-800);
   --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
+
+  /* ---- the expanded-row well ----
+     A recess has to be DARKER than anything the table paints, or it reads as
+     another row. The table's darkest surface in dark is the plate itself
+     (--card + 3.5%, since the zebra stripe LIGHTENS here); two rungs below
+     --card lands on neutral-950 — the same rung as the rail, which is already
+     this app's "recessed" surface. The shade is mixed toward black rather than
+     --foreground: a foreground mix in dark is a near-white glow, and a well is
+     shaded, not lit. */
+  --v2-well: var(--neutral-950);
+  --v2-well-shade: color-mix(in oklch, black 55%, transparent);
 }
 
 :root {
@@ -102,6 +117,8 @@
    has to *frame* the panel (helped by its `shadow-sm`), and a heavier grey reads
    as a slab competing with the content. */
 :root:not(.dark) {
+  --v2-seg-active: var(--primary);
+  --v2-seg-active-foreground: var(--primary-foreground);
   --sidebar: var(--neutral-100);
 
   /* A lighter rail needs a lighter hairline; the DS light --sidebar-border
@@ -135,6 +152,15 @@
      boundary against a near-white rail. */
   --elev-edge-page: var(--border);
   --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
+
+  /* Light inverts which stripe is darkest: `bg-foreground/5` DARKENS here, so
+     the table's darkest surface is the striped row (~neutral-100). Two rungs
+     below that is neutral-200 — still clearly a recess against a white-ish
+     table, without the charcoal slab a straight port of the dark well would
+     drop into a light page. Here the shade mixes toward --foreground; light
+     shadows are grey, not black. */
+  --v2-well: var(--neutral-200);
+  --v2-well-shade: color-mix(in oklch, var(--foreground) 12%, transparent);
 }
 
 /* Rail glyphs sit a step off the rail's own ink rather than at full

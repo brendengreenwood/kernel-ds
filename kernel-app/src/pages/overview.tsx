@@ -26,9 +26,7 @@ import {
   revenue3mo,
 } from "@app/data/overview"
 import { bookActivity } from "@app/data/scenarios"
-
-const usd = (n: number) =>
-  n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 })
+import { basis } from "@app/lib/format"
 
 /** Same status-axis mapping the Scenarios detail uses. */
 const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string }> = {
@@ -85,7 +83,7 @@ function BookActivity() {
                         {actionStatus[e.action].label}
                       </StatusBadge>
                     </TableCell>
-                    <TableCell className="tabular-nums">{usd(e.bid)}</TableCell>
+                    <TableCell className="tabular-nums">{basis(e.bid)}</TableCell>
                     <TableCell className="whitespace-nowrap tabular-nums">{e.bushels.toLocaleString("en-US")}</TableCell>
                     <TableCell>
                       <CommodityLabel commodity={e.commodity} />
@@ -157,7 +155,7 @@ export default function OverviewPage() {
     <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 p-6 md:p-8">
       {/* header */}
       <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-2xl font-semibold tracking-tight">Overview</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Overview</h1>
         {/* The range control is atomic-width: let the cluster shrink and scroll
             in place rather than pushing the page wide on phones. */}
         <div className="ml-auto flex min-w-0 max-w-full items-center gap-2 overflow-x-auto">

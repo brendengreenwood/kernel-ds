@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Bell, Users } from "@/components/ui/icon"
+import { Bell, Settings as SettingsGlyph, Users } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -47,7 +47,7 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-6 md:p-8">
-      <PageHeader title="Settings" />
+      <PageHeader icon={SettingsGlyph} title="Settings" />
 
       <Card>
         <PanelHeader

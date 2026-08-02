@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Ban, Check, ChevronDown, Handshake, Info, Search } from "@/components/ui/icon"
+import { Ban, Check, ChevronDown, Handshake, Info, Search, Users } from "@/components/ui/icon"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
+import { basis } from "@app/lib/format"
 import { IconChip, PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
 import { locations, producers, type Dated, type Offer } from "@app/data/producers"
 
@@ -62,8 +63,6 @@ function TwoLine({ top, sub, strong }: { top: string; sub: string; strong?: bool
 
 const dateCell = (d: Dated) => <TwoLine top={d.date} sub={d.ago} />
 
-/** Basis values always carry their sign, so a bid reads as an offset. */
-const basis = (n: number) => (n > 0 ? `+${n.toFixed(2)}` : n.toFixed(2))
 
 /** The expanded producer inset: their open bids, and what we can do about them.
     Same flat-panel language as the scenario detail — header row with bare
@@ -204,7 +203,7 @@ export default function ProducersPage() {
     <div className="flex w-full flex-col">
       {/* header + big search */}
       <div className="flex flex-col gap-4 px-6 pt-6 md:px-8 md:pt-8">
-        <PageHeader title="Producers" />
+        <PageHeader icon={Users} title="Producers" />
         <div className="relative">
           <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -217,11 +216,11 @@ export default function ProducersPage() {
         </div>
       </div>
 
-      {/* location folder tabs */}
-      <div className="mt-4 px-6 md:px-8">
+      {/* location folder tabs — baseline runs the full plate, see data-v2-bleed */}
+      <div className="mt-4">
         <Tabs value={location} onValueChange={(v) => setLocation(v as string)}>
           <div className="max-w-full overflow-x-auto">
-            <TabsList variant="folder" size="comfortable" className="w-full">
+            <TabsList variant="folder" size="comfortable" data-v2-bleed className="w-full">
               <TabsTrigger value="all">
                 All locations <TabCount>{countFor()}</TabCount>
               </TabsTrigger>
@@ -285,7 +284,7 @@ export default function ProducersPage() {
         <TableFrame dense={false}>
           {/* Striped by data index rather than the DS `striped` prop: expanded
               detail rows are extra <tr>s, which would flip nth-child parity. */}
-          <Table>
+          <Table data-v2-rowstripe>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-8" />
@@ -321,10 +320,11 @@ export default function ProducersPage() {
                       the control is still keyboard-reachable and labelled. */}
                   <TableRow
                     onClick={() => toggle(p.id)}
+                    data-state={expanded.has(p.id) ? "selected" : undefined}
                     className={cn(
                       "cursor-pointer",
                       i % 2 === 1 && "bg-foreground/5",
-                      expanded.has(p.id) && "border-b-transparent bg-foreground/5"
+                      expanded.has(p.id) && "border-b-transparent"
                     )}
                   >
                     <TableCell className="pr-0">

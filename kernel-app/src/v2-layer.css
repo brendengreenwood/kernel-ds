@@ -41,8 +41,8 @@
   }
   [data-v2-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
   [data-v2-segmented] [data-slot="toggle-group-item"][data-state="on"] {
-    background: var(--secondary);
-    color: var(--secondary-foreground);
+    background: var(--v2-seg-active);
+    color: var(--v2-seg-active-foreground);
   }
 }
 
@@ -55,7 +55,113 @@
   border-radius: calc(var(--radius) - var(--spacing)) !important;
 }
 
-/* Column headers recede. The DS sets them `font-medium` in `--foreground`, which
+/* ---- The pill tab becomes a real segmented control ----
+   The DS's pill variant is a padded track (`bg-muted`, 5px inset) holding a
+   floating rounded active pill. Two things break it here: --muted resolves to
+   the same value as --card in this theme, so the track is invisible and the
+   active pill floats unattached; and a rounded chip inside a rounded track is
+   two radii doing the same job at two scales.
+
+   One container, divided. The track keeps the stadium end but loses its
+   padding, so segments run edge to edge and the dividers — not gaps — say where
+   one choice stops. The active segment is a filled block that reaches the
+   container's border on every side, and the end segments inherit the stadium
+   curve, so the fill ends in the shape of the container rather than in a shape
+   of its own. Fill and text are --v2-seg-active / --v2-seg-active-foreground:
+   the strongest neutral the theme has, inverted — near-black on white in light,
+   near-white on the panel in dark. --secondary cannot do this job in dark,
+   where it resolves to the same value as --card.
+
+   A divider next to the block would cut into it, so the block clears the
+   dividers on both of its own edges. The border is never removed, only made
+   transparent, so nothing shifts by a pixel when the selection moves.
+
+   No `overflow: hidden` on the track — it would clip the focus ring, which is a
+   box-shadow. The ends are rounded per segment instead. Unlayered + !important
+   to beat the variant's utilities. */
+[data-slot="tabs-list"][data-variant="pill"] {
+  align-items: stretch;
+  gap: 0 !important;
+  padding: 0 !important;
+  border-radius: 9999px !important;
+  border: 1px solid var(--border);
+  background: transparent;
+}
+[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"] {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding-inline: calc(var(--spacing) * 3.5) !important;
+}
+[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] {
+  border-inline-start: 1px solid var(--border);
+}
+[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"]:first-child {
+  border-start-start-radius: 9999px !important;
+  border-end-start-radius: 9999px !important;
+}
+[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"]:last-child {
+  border-start-end-radius: 9999px !important;
+  border-end-end-radius: 9999px !important;
+}
+[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"]:not([data-active]):hover {
+  background: color-mix(in oklch, var(--foreground) 4%, transparent);
+  color: var(--foreground);
+}
+[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"][data-active] {
+  background: var(--v2-seg-active) !important;
+  color: var(--v2-seg-active-foreground) !important;
+  border-inline-start-color: transparent;
+}
+[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"][data-active] + [data-slot="tabs-trigger"] {
+  border-inline-start-color: transparent;
+}
+
+/* ---- Tabs run one step larger than the DS control scale. Tabs are not toolbar
+   controls in this app — they are the page's primary way of moving between
+   slices of the same table, so they carry the weight of navigation rather than
+   the weight of a button. The DS sizes (32 / 44) sit them below the search field
+   they share a column with; 36 / 48 puts the folder strip level with it. */
+[data-slot="tabs-list"][data-size="compact"] [data-slot="tabs-trigger"] {
+  height: calc(var(--spacing) * 9) !important;
+  font-size: 0.875rem !important;
+}
+[data-slot="tabs-list"][data-size="comfortable"] [data-slot="tabs-trigger"] {
+  height: calc(var(--spacing) * 12) !important;
+  font-size: 1rem !important;
+}
+
+/* ---- Count badges sat their digits half a pixel low and squeezed them into
+   3.84px of side padding. The low sit is not a bug in the badge: a line box is
+   centred on the font's em box, and this face hangs more descender space below
+   the baseline than cap space above it, so centring the BOX leaves the ink low.
+   `text-box: trim-both cap alphabetic` trims the line box to the ink itself, so
+   the flex centring then has the digits to centre rather than the em box. */
+[data-slot="tab-count"] {
+  height: calc(var(--spacing) * 5);
+  min-width: calc(var(--spacing) * 5);
+  padding-inline: calc(var(--spacing) * 1.5);
+  font-size: 0.75rem;
+  /* text-box: trim-both cap alphabetic is the clean fix, but the badge is a flex
+     container and the trim does not reach text inside one. A 1px bottom pad does
+     the same job here: centring splits the free space, so the digits ride half a
+     pixel up and land on the badge's optical centre. */
+  padding-block-end: 1px;
+}
+
+/* ---- The folder strip's baseline is the page's rule, not the tab group's. It
+   divides everything above it from everything below it across the full plate, so
+   it runs to the plate's edges while the tabs themselves stay on the page's
+   text inset — the list carries the page padding, the border does not. */
+[data-slot="tabs-list"][data-variant="folder"][data-v2-bleed] {
+  padding-inline: calc(var(--spacing) * 6);
+}
+@media (min-width: 48rem) {
+  [data-slot="tabs-list"][data-variant="folder"][data-v2-bleed] {
+    padding-inline: calc(var(--spacing) * 8);
+  }
+}
+
+/* ---- Column headers recede. The DS sets them `font-medium` in `--foreground`, which
    gives a label the same visual weight as the data it labels — in a dense grid
    the header row then competes with the rows for attention. Dropping to normal
    weight in `--muted-foreground` keeps the header legible as structure while the
@@ -63,6 +169,30 @@
 [data-slot="table-head"] {
   font-weight: 400 !important;
   color: var(--muted-foreground) !important;
+}
+
+/* ---- The open row is a selected row ----
+   The DS already has the state — TableRow carries `data-[state=selected]:bg-muted`
+   — but in this theme --muted resolves to the same value as --card, so a selected
+   row on a card is invisible (the same trap IconChip works around). The state
+   stays the DS's; only the fill is retuned, one clear step above the zebra stripe
+   so an open row outranks the stripe under it. */
+[data-slot="table-row"][data-state="selected"] {
+  background-color: color-mix(in oklch, var(--foreground) 9%, transparent);
+}
+
+/* ---- Zebra stripes are the default ----
+   The DS ships striping as an opt-in `striped` prop, so in practice a table
+   either got it or was forgotten. In this app every table stripes: these are
+   wide financial grids read across, and row tracking is not a per-table style
+   choice. Opt OUT with `data-v2-rowstripe`, which the two object tables set
+   because they stripe by DATA index instead — their expanded detail rows are
+   extra <tr>s that would flip nth-child parity.
+
+   `:not(:hover)` so the row's hover fill still reads on a striped row; the DS
+   hover is a --muted overlay of similar weight and the two would cancel. */
+[data-slot="table"]:not([data-v2-rowstripe]) > tbody > tr:nth-child(even):not(:hover) {
+  background-color: color-mix(in oklch, var(--foreground) 5%, transparent);
 }
 
 /* Data tables read roomier than the DS default (px-2/p-2 hugs the edge).
@@ -153,17 +283,32 @@
    flat slab: hairlines top and bottom seat it against the rows, an inset shading
    pass darkens the carve, and a primary-coloured bar on the leading edge ties
    the open row to the app's selection language (the rail's active marker).
-   All colour is token-derived; the carve uses a foreground mix so it reads in
-   both themes. */
+
+   The well now carries a FILL (--v2-well) two rungs below the table's darkest
+   stripe, not just shading over the row's own colour. Two reasons: an unfilled
+   carve borrowed the striped/unstriped colour of whichever row happened to be
+   open, so the same panel changed value row to row; and the content inside it
+   had nothing to be raised ABOVE. With a fill, the activity panel can cast onto
+   something, which is what makes it the focus of the row.
+
+   The shading is a true inset shadow off all four edges — top and bottom
+   heaviest, sides just enough to close the corners — and it is mixed toward
+   black in dark rather than toward --foreground, which in dark is a near-white
+   glow. A well is shaded, not lit. See the tokens in index.css. */
 [data-v2-detail] {
   position: relative;
+  background: var(--v2-well);
   box-shadow:
     inset 0 1px 0 var(--border),
     inset 0 -1px 0 var(--border),
-    inset 0 calc(var(--spacing) * 2.5) calc(var(--spacing) * 3) calc(var(--spacing) * -2)
-      color-mix(in oklch, var(--foreground) 6%, transparent),
-    inset 0 calc(var(--spacing) * -2.5) calc(var(--spacing) * 3) calc(var(--spacing) * -2)
-      color-mix(in oklch, var(--foreground) 6%, transparent);
+    inset 0 calc(var(--spacing) * 3) calc(var(--spacing) * 4) calc(var(--spacing) * -2.5)
+      var(--v2-well-shade),
+    inset 0 calc(var(--spacing) * -3) calc(var(--spacing) * 4) calc(var(--spacing) * -2.5)
+      var(--v2-well-shade),
+    inset calc(var(--spacing) * 3) 0 calc(var(--spacing) * 4) calc(var(--spacing) * -3)
+      var(--v2-well-shade),
+    inset calc(var(--spacing) * -3) 0 calc(var(--spacing) * 4) calc(var(--spacing) * -3)
+      var(--v2-well-shade);
 }
 [data-v2-detail]::before {
   content: "";
@@ -249,6 +394,61 @@
 [data-v2-frame] {
   background: var(--elev-plate);
   box-shadow: inset 0 1px 0 var(--elev-lip);
+}
+
+/* Light only: filling the well cost the muted role its headroom. On the old
+   unfilled carve --muted-foreground measured 4.93:1; on neutral-200 it is
+   4.10:1 — under AA for the subtitle and the Stat labels, which are the only
+   muted text sitting directly on the well. Rather than pick a colour here, the
+   ROLE resolves one rung darker on this surface: 5.65:1 on the well, and 6.47:1
+   in the panel it holds, which inherits the override and only gains contrast.
+   Dark needs none of this — there the same text measures 7.43:1. */
+:root:not(.dark) [data-v2-detail] {
+  --muted-foreground: var(--neutral-600);
+}
+
+/* ---- The activity panel ----
+   The one raised object in the well: the range tabs and the table they filter
+   share a SINGLE surface, so the tabs read as that panel's own header rather
+   than as controls floating on the well above a separate frame. It sits at
+   --card — the rung the object table's rows sit at — and unlike a frame nested
+   in a card it DOES cast, because here it is the only thing standing off a
+   recess. Lip, edge, cast: the full plate treatment.
+
+   Its table keeps `data-v2-dense`, the app's tightest step, so the panel shows
+   the most activity per pixel of an already-secondary row. */
+[data-v2-panel] {
+  background: var(--card);
+  box-shadow:
+    inset 0 1px 0 var(--elev-lip),
+    var(--elev-cast);
+}
+
+/* The tab strip is part of the panel's surface, so it takes the panel's fill
+   and its own bottom hairline is the only thing dividing it from the table. */
+[data-v2-panel] [data-slot="tabs-list"] {
+  background: transparent;
+}
+
+/* A table in the activity panel is a FULL-SIZE table, not a squeezed detail
+   list. It was on the dense step by inheritance from the detail row; now that
+   the panel is the focus of the open row, the rows it holds get the same step
+   as the object table above them — same edge inset, same row height, so the
+   reader's eye does not change gear crossing into the panel. These come after
+   the [data-v2-detail] tightening on purpose: equal specificity (0,3,0), so
+   source order is what decides. */
+[data-v2-panel] [data-slot="table-head"],
+[data-v2-panel] [data-slot="table-cell"] {
+  padding-left: calc(var(--spacing) * 4) !important;
+  padding-right: calc(var(--spacing) * 4) !important;
+}
+[data-v2-panel] [data-slot="table-head"]:first-child,
+[data-v2-panel] [data-slot="table-cell"]:first-child {
+  padding-left: calc(var(--spacing) * 6) !important;
+}
+[data-v2-panel] [data-slot="table-head"]:last-child,
+[data-v2-panel] [data-slot="table-cell"]:last-child {
+  padding-right: calc(var(--spacing) * 6) !important;
 }
 
 /* The pinned cell paints its own opaque fill so scrolled columns cannot ghost

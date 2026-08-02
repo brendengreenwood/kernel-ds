@@ -106,11 +106,30 @@ export function TableFrame({
 }
 
 /** Page title row — one definition so every page's header carries the same
-    type and rhythm. Pages keep their own outer padding. */
-export function PageHeader({ title, action }: { title: string; action?: React.ReactNode }) {
+    type and rhythm. Pages keep their own outer padding.
+
+    The glyph repeats the rail's icon for the route: arriving on a page, the mark
+    you clicked is the mark at the top of what you got. Same chip language as
+    `IconChip`, one size up — a page title outranks a panel title. */
+export function PageHeader({
+  icon: Icon,
+  title,
+  action,
+}: {
+  icon?: React.ComponentType<{ className?: string }>
+  title: string
+  action?: React.ReactNode
+}) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-      <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+      <div className="flex min-w-0 items-center gap-3">
+        {Icon ? (
+          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-foreground/5 text-muted-foreground">
+            <Icon className="size-5" />
+          </span>
+        ) : null}
+        <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+      </div>
       {action ? <div className="flex min-w-0 items-center gap-2">{action}</div> : null}
     </div>
   )
