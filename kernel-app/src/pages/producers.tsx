@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 import { basis } from "@app/lib/format"
-import { PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
+import { PageHeader, Stat, TableFrame, TwoLine, useVisibleWidth } from "@app/components/panels"
 import { locations, producers, type Dated, type Offer } from "@app/data/producers"
 
 const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
@@ -48,16 +48,6 @@ function BidsBadge({ n }: { n: number }) {
     <span className="grid size-6 shrink-0 place-items-center rounded-full bg-primary text-xs font-medium tabular-nums text-primary-foreground">
       {n}
     </span>
-  )
-}
-
-/** Two-line cell: value + muted secondary. */
-function TwoLine({ top, sub, strong }: { top: string; sub: string; strong?: boolean }) {
-  return (
-    <div className="leading-tight">
-      <div className={cn("whitespace-nowrap", strong && "font-semibold")}>{top}</div>
-      <div className="text-xs text-muted-foreground">{sub}</div>
-    </div>
   )
 }
 

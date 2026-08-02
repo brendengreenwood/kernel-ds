@@ -6,7 +6,7 @@ import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import { basis, bushelsShort } from "@app/lib/format"
-import { ActivityFlag, Empty, PageHeader, TableFrame, Tile, useVisibleWidth } from "@app/components/panels"
+import { ActivityFlag, Empty, PageHeader, TableFrame, Tile, TwoLine, useVisibleWidth } from "@app/components/panels"
 import { Sparkline } from "@app/components/sparkline"
 import {
   Table,
@@ -42,13 +42,6 @@ const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
   { value: "corn", label: "Corn", key: "corn" },
   { value: "wheat", label: "Wheat", key: "wheat" },
 ]
-
-/** Producer accepts/rejects ride the DS status axis — a persistent outcome on
-    the offer, not a momentary notification. */
-const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string }> = {
-  accepted: { hue: "settled", label: "Accepted" },
-  rejected: { hue: "rejected", label: "Rejected" },
-}
 
 /** A value that does not exist for this row, as opposed to one that is
     missing. Muted, and hidden from screen readers — "em dash" read aloud in
@@ -202,10 +195,8 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Producer</TableHead>
-                    <TableHead>Action</TableHead>
-                    <TableHead>Accepted bid</TableHead>
-                    <TableHead>Bushels</TableHead>
-                    <TableHead>Reject reason</TableHead>
+                    <TableHead>Accepted</TableHead>
+                    <TableHead>Rejected</TableHead>
                     <TableHead>When</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -213,21 +204,25 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                   {activity.events.map((e) => (
                     <TableRow key={e.id}>
                       <TableCell className="max-w-44 truncate">{e.producer}</TableCell>
-                      <TableCell>
-                        <StatusBadge status={actionStatus[e.action].hue}>
-                          {actionStatus[e.action].label}
-                        </StatusBadge>
-                      </TableCell>
-                      {/* One of these two cells is always empty: a reject has
-                          no accepted bid, an accept has no reason. The dash is
-                          the column saying so — a blank cell reads as data that
-                          failed to load. */}
+                      {/* Exactly one of these two carries the event, and which
+                          one it is IS the action — a badge saying so was a third
+                          statement of the same fact. Each side takes its own
+                          bushels underneath: booked on the left, walked on the
+                          right. The dash holds the empty side, because a blank
+                          cell reads as data that failed to load. */}
                       <TableCell className="tabular-nums">
-                        {e.action === "accepted" ? basis(e.bid) : <Dash />}
+                        {e.action === "accepted" ? (
+                          <TwoLine top={basis(e.bid)} sub={`${e.bushels.toLocaleString("en-US")} bu`} />
+                        ) : (
+                          <Dash />
+                        )}
                       </TableCell>
-                      <TableCell className="whitespace-nowrap tabular-nums">{e.bushels.toLocaleString("en-US")}</TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {e.reason ?? <Dash />}
+                      <TableCell className="tabular-nums">
+                        {e.action === "rejected" ? (
+                          <TwoLine top={e.reason} sub={`${e.bushels.toLocaleString("en-US")} bu walked`} />
+                        ) : (
+                          <Dash />
+                        )}
                       </TableCell>
                       <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
                     </TableRow>

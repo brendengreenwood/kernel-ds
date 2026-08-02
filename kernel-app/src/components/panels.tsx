@@ -1,9 +1,21 @@
 import * as React from "react"
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 
 /* Shared panel furniture — the app-wide conventions for activity/detail cards.
    Lifted out of pages/scenarios.tsx once the Overview needed the same pieces:
    one source for the framed-table + tile + flag treatment everywhere. */
+
+/** Two-line cell: a value and the quantity behind it. The sub carries its own
+    unit — with no column head above it, a bare number is a number of nothing. */
+export function TwoLine({ top, sub, strong }: { top: React.ReactNode; sub?: string; strong?: boolean }) {
+  return (
+    <div className="leading-tight">
+      <div className={cn("whitespace-nowrap", strong && "font-semibold")}>{top}</div>
+      {sub ? <div className="text-xs text-muted-foreground">{sub}</div> : null}
+    </div>
+  )
+}
 
 /** A roll-up figure. A row of these heads a panel, so the row answers the
     question before the table has to be read at all.
