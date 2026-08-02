@@ -24,7 +24,8 @@ import {
 import { cn } from "@/lib/utils"
 import { basis } from "@app/lib/format"
 import { PageHeader, Stat, TableFrame, TwoLine, useVisibleWidth } from "@app/components/panels"
-import { locations, producers, type Dated, type Offer } from "@app/data/producers"
+import { locations, producers, type Dated, type Offer, type Producer } from "@app/data/producers"
+import { AcceptBidDialog } from "@app/components/accept-bid-dialog"
 
 const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
   { value: "all", label: "All Commodities" },
@@ -60,9 +61,14 @@ const dateCell = (d: Dated) => <TwoLine top={d.date} sub={d.ago} />
     (the outer table scrolls under it), and the Actions column is pinned to the
     panel's right edge — the decision is always on screen while the bid columns
     scroll beneath it. */
-function OfferInset({ producer, offers }: { producer: string; offers: Offer[] }) {
+function OfferInset({ producer, offers }: { producer: Producer; offers: Offer[] }) {
   const ref = React.useRef<HTMLDivElement>(null)
   const width = useVisibleWidth(ref)
+  /* The offer stays in state after the dialog closes so the panel plays its
+     exit with its content intact — clearing it on close empties the box a
+     frame before it leaves. */
+  const [active, setActive] = React.useState<Offer | null>(null)
+  const [accepting, setAccepting] = React.useState(false)
   // The strongest card in the hand: the offer with the biggest edge over the
   // top competitor. Derived from the same rows the table renders.
   const bestEdge = offers.length
@@ -79,7 +85,7 @@ function OfferInset({ producer, offers }: { producer: string; offers: Offer[] })
           condensed
           icon={Handshake}
           title="Open bids"
-          description={`What ${producer} has on the table, and your edge over the top competitor`}
+          description={`What ${producer.name} has on the table, and your edge over the top competitor`}
         />
       <div className="mt-4 flex items-center gap-6">
         <Stat value={offers.length} label="Open bids" />
@@ -129,7 +135,14 @@ function OfferInset({ producer, offers }: { producer: string; offers: Offer[] })
                 <TableCell className="text-muted-foreground">{o.created}</TableCell>
                 <TableCell data-v2-pin>
                   <div className="flex items-center justify-end gap-1.5">
-                    <Button size="sm" aria-label={`Accept ${o.month} bid`}>
+                    <Button
+                      size="sm"
+                      aria-label={`Accept ${o.month} bid`}
+                      onClick={() => {
+                        setActive(o)
+                        setAccepting(true)
+                      }}
+                    >
                       <Check /> Accept
                     </Button>
                     <Button
@@ -147,6 +160,12 @@ function OfferInset({ producer, offers }: { producer: string; offers: Offer[] })
           </TableBody>
         </Table>
       </TableFrame>
+      <AcceptBidDialog
+        producer={producer}
+        offer={active}
+        open={accepting}
+        onOpenChange={setAccepting}
+      />
     </div>
   )
 }
@@ -367,7 +386,7 @@ export default function ProducersPage() {
                   {expanded.has(p.id) && (
                     <TableRow className="hover:bg-transparent">
                       <TableCell colSpan={10} data-v2-detail className="bg-foreground/5">
-                        <OfferInset producer={p.name} offers={p.offers} />
+                        <OfferInset producer={p} offers={p.offers} />
                       </TableCell>
                     </TableRow>
                   )}
