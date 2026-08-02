@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Archive, ChevronDown, ListChecks, Pencil, Plus, Users } from "@/components/ui/icon"
+import { Archive, ChevronDown, Gauge, ListChecks, Pencil, Plus, Users } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
@@ -93,8 +93,13 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           bushels at that basis, split those ways — so a second line would break
           the sentence in half. Half a width fit them, but a charted tile needs
           about 150px before its dates stop colliding, and a dateless chart is
-          the trace we already had. The edit control goes above rather than
-          alongside; the figures size themselves to the cell they land in.
+          the trace we already had.
+
+          The tiles get a header of their own for the same reason the activity
+          table has one: four numbers with no name over them are a status bar,
+          and this is the scenario's own summary. It carries the edit control at
+          the end of its title row — the action belongs to the scenario the
+          header names, not to the row of figures under it.
 
           Each tile carries the same figure over time. A roll-up says where the
           scenario ended up; the line says whether it got there steadily or in
@@ -102,15 +107,21 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           one that worked once. Decorative, in the accessibility sense: every
           point it draws is in the table below. */}
       <div className="mb-8">
-        <div className="mb-3 flex justify-end">
-          {/* The row's own edit control is an icon in a 38px cell at the end of
-              a long table. Opened, there is room for the real thing. */}
-          <Button size="lg" aria-label={`Edit ${scenario.id}`}>
-            <Pencil />
-            Edit scenario
-          </Button>
-        </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <PageHeader
+          condensed
+          icon={Gauge}
+          title="Scenario summary"
+          description="Everything this bid has bought, over its whole life"
+          action={
+            /* The row's own edit control is an icon in a 38px cell at the end
+               of a long table. Opened, there is room for the real thing. */
+            <Button size="lg" aria-label={`Edit ${scenario.id}`}>
+              <Pencil />
+              Edit scenario
+            </Button>
+          }
+        />
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Tile
             lg
             value={bushelsShort(summary.bushels)}
