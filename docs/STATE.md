@@ -508,4 +508,10 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Open questions
 
-*(none currently)*
+- **Registry publishing home** (decision 0053, 2026-07-30): live publish of
+  `@kernel/ui` / `@kernel/definitions` is deferred until an external consumer
+  exists. Blocked on the scope decision (GitHub Packages needs the `@kernel`
+  scope to match the repo owner): create a `kernel` org, rescope to
+  `@brendengreenwood/*`, or publish to npmjs.com. When decided: add
+  `KERNEL_DS_PUBLISH_TOKEN` to the `release` environment and run the release
+  workflow in publish mode.
