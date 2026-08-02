@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-07-31
+> Last touched: 2026-08-01
 
 ## What this project is
 
@@ -27,6 +27,8 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Kernel-styled portal toasts** (2026-08-01): the packaged Sonner wrapper now overrides Sonner 2.0.7's runtime-injected default chrome with Kernel popover, border, shadow, muted-description, primary-action, cancel, and focus-ring tokens. The shared `Toaster` keeps its existing theme and behavior contract while every portal toast call inherits the design-system treatment.
+
 - **Elevation ramp works in dark, and climbs** (decision 0042, 2026-07-31):
   `--shadow-*` had been declared in `:root` and repeated **byte for byte** in
   `.dark` — on the dark card (rgb 31,41,36) the light ramp's 4–10% black
@@ -43,6 +45,17 @@ own route, not a section of one long scroll.
   smallest rungs stay transparent by design (borders, not lift) — the ramp is
   effectively six steps, which the foundation page now says out loud. Surfaced
   by the v2 prototype needing a resting cast and finding no working token.
+
+- **Shadows are tinted; `--shadow-color` is load-bearing** (decision 0043,
+  2026-07-31): the token had been declared in both theme blocks since the token
+  sheet was written and **nothing referenced it** — the ramp hardcoded
+  `hsl(0 0% 0%)`, so the one knob for shadow hue was inert. Every rung now
+  derives from it via `color-mix`; light is `oklch(0.16 0.022 165)`, dark
+  `oklch(0.04 0.018 165)` (deeper, since it must darken a 0.165 rail). Kernel's
+  surfaces are green-tinted neutrals and occlusion stays in the surface's hue
+  family, so a neutral-black cast read as a foreign smudge. Tinting costs 0.3 of
+  an 8-bit level of depth in dark, which is affordable because dark's cast was
+  never carrying elevation — edge contrast and gutter do that.
 
 - **`--lime-*` accent scale** (decision 0041, 2026-07-30): the accent lime — the
   hue on every primary button, focus ring, active pill and first chart series —

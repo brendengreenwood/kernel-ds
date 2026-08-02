@@ -96,6 +96,14 @@
   --v2-edge-cycle: 7s;
   --v2-edge-rest: color-mix(in oklch, var(--primary) 8%, transparent);
   --v2-edge-peak: color-mix(in oklch, var(--primary) 20%, transparent);
+  /* Trough — the inverse of the plate: a control carved INTO the recessed rail.
+     Dark's fill stays at the rail itself, because there is nowhere darker to
+     go: one shared formula (mix 22% toward --shadow-color) moved light by
+     1.758:1 and dark by 1.036:1, since the rail sits at opposite ends of the
+     range in the two themes. Same lesson as the page plate — dark cannot signal
+     depth with fill, so the inset carve and hairline do all of it here. */
+  --trough-fill: var(--sidebar);
+  --trough-cast: color-mix(in oklch, var(--shadow-color) 55%, transparent);
 }
 
 :root {
@@ -148,6 +156,14 @@
      fine — and at the rail's rung the pill/segmented troughs were carrying the
      same weight as the whole sidebar. */
 
+  /* The plate fill costs a little contrast on every muted label sitting on it:
+     the DS light `--muted-foreground` (0.535) measures 5.15:1 on a plain white
+     card but **4.86:1 on the plate** — passing, but the tightest ratio in the
+     app and the first thing that would break if the plate ever deepened. The
+     prototype introduced the plate, so the prototype absorbs the cost rather
+     than moving a DS value the portal is perfectly happy with. One rung down. */
+  --muted-foreground: var(--neutral-600);
+
   /* ---- elevation recipe ----
      A white card on a white canvas measures 1.000:1 — it exists only by its
      hairline, which is why it read as printed-on rather than placed-on. Here
@@ -176,6 +192,11 @@
      smear on a white panel where on black it reads as light. */
   --v2-edge-rest: color-mix(in oklch, var(--primary) 6%, transparent);
   --v2-edge-peak: color-mix(in oklch, var(--primary) 15%, transparent);
+  /* Light CAN darken, so it does — but modestly. At 22% toward --shadow-color
+     the well read as a grey slab (1.758:1 against the rail) and pushed the
+     placeholder to 3.68:1, under the AA floor. 6% is a well, not a slab. */
+  --trough-fill: color-mix(in oklch, var(--sidebar), var(--shadow-color) 6%);
+  --trough-cast: color-mix(in oklch, var(--shadow-color) 18%, transparent);
 }
 
 /* Rail glyphs sit a step off the rail's own ink rather than at full

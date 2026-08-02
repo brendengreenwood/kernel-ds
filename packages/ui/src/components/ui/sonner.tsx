@@ -38,7 +38,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          toast:
+            "group toast !border-border !bg-popover !text-popover-foreground !shadow-md focus-visible:!ring-2 focus-visible:!ring-foreground/20",
+          description: "!text-muted-foreground",
+          actionButton: "!bg-primary !text-primary-foreground",
+          cancelButton: "!bg-muted !text-muted-foreground",
         },
       }}
       {...props}

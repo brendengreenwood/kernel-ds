@@ -51,7 +51,7 @@ exactly three mechanisms, in increasing order of intrusiveness:
 |---|---|---|---|
 | 1. Token override | `kernel-app/src/index.css` | Remap semantic role tokens | deleting the `.dark` block |
 | 2. Modification layer | `kernel-app/src/v2-layer.css` | Restyle components via `data-slot` | deleting the file |
-| 3. DS source edits | `kernel-portal/src/**` | Change the system itself | listed in Part 4 |
+| 3. DS source edits | `packages/ui/src/**` | Change the system itself | listed in Part 4 |
 
 Layers 1–2 fork nothing: delete them and the prototype renders stock Kernel.
 Layer 3 is the only part that touches the shared system, and it is
@@ -71,7 +71,7 @@ matter of moving it down a layer, not translating it.
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
-| 3 | Modification layer | 22 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
+| 3 | Modification layer | 23 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
 | 4 | **DS source changes** | 6 | **promote** — 4 already landed as fixes |
 | 5 | App-level convention departures | 11 | mixed — see each entry |
 
@@ -86,24 +86,24 @@ the prototype renders the live one.
 
 | # | Where | What |
 |---|---|---|
-| 1.1 | `vite.config.ts` | `@` → `../kernel-portal/src`, `@app` → `./src`. So `@/components/ui/table` in the prototype *is* the portal's Table. |
+| 1.1 | `vite.config.ts` | `@` → `../packages/ui/src`, `@app` → `./src`. So `@/components/ui/table` in the prototype *is* the DS's Table. (Was `../kernel-portal/src` until main split the DS into a workspace package — see 1.8.) |
 | 1.2 | `vite.config.ts` | `resolve.dedupe: ["react", "react-dom", "recharts"]` — two `node_modules` trees are in play, and React breaks if instantiated twice. |
 | 1.3 | `vite.config.ts` | `server.fs.allow` widened to the repo root so Vite may read outside the app dir. |
 | 1.4 | `tsconfig.json` | Mirrors the aliases, and **pins `react`/`react-dom` types to the app's own `@types`** — otherwise the two trees produce duplicate-identifier errors. |
-| 1.5 | `src/index.css` | `@import` of the portal's `index.css` (all DS tokens) + `@source "../../kernel-portal/src"` so Tailwind v4 scans DS component source and generates their utilities. |
+| 1.5 | `src/index.css` | `@import` of `packages/ui/src/styles.css` (all DS tokens) + `@source "../../packages/ui/src"` so Tailwind v4 scans DS component source and generates their utilities. |
 
 The prototype installs only `react`, `react-dom`, `react-router-dom`, `recharts`.
-Everything the DS components need (`@base-ui/react`, `@mdi/js`, …) resolves
-from `kernel-portal/node_modules`. **This is why the Netlify build installs
-both packages** (1.6).
+Everything the DS components need (`@base-ui/react`, `@mdi/js`, …) are workspace
+dependencies of `packages/ui` and resolve from the **root** `node_modules`.
+**This is why the Netlify build runs a root install** (1.6).
 
 **1.6 — Deploy routing** (`netlify.toml`, repo root). A branch-scoped context
 overrides the build so the preview serves the prototype instead of the portal:
 
 ```toml
 [context."claude/kernel-insider-portal-fvqfq2"]
-  base = "/"                       # build from the repo ROOT, both packages present
-  command = "npm --prefix kernel-portal install … && npm --prefix kernel-app install … && npm --prefix kernel-app run build"
+  base = "/"                       # build from the repo ROOT so the workspace resolves
+  command = "npm ci … && npm --prefix kernel-app install … && npm --prefix kernel-app run build"
   publish = "kernel-app/dist"
 ```
 
@@ -113,6 +113,29 @@ the prototype's client routes work on a hard load with no extra config.
 
 > Watch item: this block names the branch literally. Renaming the branch
 > silently reverts the preview to the portal.
+
+**1.8 — The DS moved, and the attachment moved with it.** Main split the design
+system into a workspace package (decisions 0047–0052): tokens to
+`packages/ui/src/styles.css`, all 69 components to
+`packages/ui/src/components/ui/`. The prototype was wired to
+`kernel-portal/src` and the PR went `mergeable_state: dirty` — which is also
+why CI stopped running on it, since GitHub will not run `pull_request`
+workflows when it cannot compute a merge commit.
+
+The migration was one line, because the DS components' own internal imports are
+still `@/components/ui/*` and `@/lib/utils` **relative to their new home** — so
+repointing the app's `@` alias was the whole job; tsconfig paths and the CSS
+`@import`/`@source` just follow it. Two consequences worth knowing:
+
+- `mode-toggle` and `theme-provider` live in the portal **application**, not the
+  DS. Importing them meant the prototype was coupled to a sibling app rather
+  than to the design system. Both are thin, and the app owns them now
+  (`@app/components/*`), so the only thing this app reaches into is
+  `packages/ui`.
+- `packages/ui`'s dependencies are *workspace* dependencies and resolve from the
+  ROOT `node_modules`, so the Netlify branch context runs a root `npm ci`
+  instead of a `kernel-portal` install. The app itself stays out of the
+  workspace deliberately — decision 0036 fences it as unmanaged.
 
 **1.7 — Pre-paint theme script** (`index.html`). Dark is the prototype's default
 identity, so `<html class="dark">` is set in the markup and a small inline
@@ -326,6 +349,7 @@ numbers.
 | 3.20 | `[data-slot="table"]` | **zebra stripes are the default, not a prop.** The DS ships striping as opt-in (`striped`, 4.1), so in practice a table either got it or was forgotten. Every table in the app stripes: `tr:nth-child(even)` at 5% foreground, with `:not(:hover)` so the row hover still reads (the DS hover is a `--muted` overlay of similar weight and the two cancel). Opt out with `data-v2-rowstripe`, which the two object tables set because they stripe by *data* index instead (5.1) | unlayered |
 | 3.21 | `[data-slot="table-row"][data-state="selected"]` | **the open row is a selected row.** The parent row of an expanded detail used to paint its own `bg-foreground/5` — the same value as the zebra stripe, so an open row on an even index was indistinguishable from a closed one. It now sets the DS's own `data-state="selected"`; only the *fill* is retuned here, to 9% foreground, because the DS's `data-[state=selected]:bg-muted` is invisible in this theme (`--muted` resolves to `--card`, the surface the table sits on — the same trap `IconChip` works around, and 3.18) | unlayered |
 | 3.22 | tables inside `[data-v2-panel]` | the panel's table takes the **top-level** step back (4 units horizontal, 6 at the edges) rather than the detail-row tightening of 3.9 or the dense step of 3.14. Once the panel is the focus of the open row, its rows should not change gear from the object table above them. Equal specificity with 3.9 and 3.14 (0,3,0), so these rules must stay after both — source order is the whole mechanism | unlayered `!important` |
+| 3.23 | `[data-v2-trough]` | **rail controls are troughs, not plates** — the inverse of the elevation recipe: inset shading, a hairline, and no cast at all, because the rail is recessed chrome and a control carved into it should read as a depression. Carried by a WRAPPER, never the input: `box-shadow` is one property and the DS puts the focus ring on it, so styling the input directly would either lose the ring or be overwritten by it. Per-theme fills, because one shared formula (mix 22% toward `--shadow-color`) moved light by 1.758:1 and dark by 1.036:1 — the rail sits at opposite ends of the range. Light darkens 6% (1.156:1, a well not a slab); dark's fill stays *at* the rail and the carve does all of it. Measured: placeholder 5.60:1 light / 7.42:1 dark | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -473,7 +497,7 @@ and scaling alpha ~4–7× in dark, plus continuing the doubling progression to
 `0 16px 32px -8px` at `2xl`. Full table and rationale in decision 0042.
 
 **Cherry-pick priority: high, and independent of everything else here.** It is
-a pure token fix in `kernel-portal/src/index.css` plus the foundation page's
+a pure token fix in `packages/ui/src/styles.css` plus the foundation page's
 copy; nothing in the prototype is required for it.
 
 ## 4.9 The reduced-motion guard let delays through
@@ -493,6 +517,28 @@ once the delay elapsed. After adding `animation-delay: 0s` and
 
 **Cherry-pick priority: high.** Two lines, no dependencies, and it affects every
 delayed transition in the system — not just this one.
+
+## 4.10 Shadows are tinted, and `--shadow-color` finally does something
+
+Decision 0043, `packages/ui/src/styles.css`. `--shadow-color` had been declared
+in both theme blocks since the beginning and **nothing referenced it** — the
+ramp hardcoded `hsl(0 0% 0%)`. So the one token whose job was to make shadow
+hue tunable was inert, and every cast was neutral black.
+
+Every surface in Kernel is a green-tinted neutral, and occlusion on a tinted
+surface stays in that surface's hue family; a pure-black cast reads as a foreign
+grey smudge laid over the page. The ramp now derives every rung from
+`--shadow-color` via `color-mix`, and each theme sets its own: light
+`oklch(0.16 0.022 165)`, dark `oklch(0.04 0.018 165)` — deeper, because it has
+to darken a 0.165 rail.
+
+Measured cost of tinting versus pure black: the dark rail darkens by **4.7**
+8-bit levels instead of 5.0. Affordable precisely because dark's cast was never
+doing the heavy lifting (4.8); light is where it earns its keep, at 18.7 levels.
+
+**Cherry-pick priority: medium.** Strictly an improvement and self-contained,
+but unlike 4.8 it is a look change rather than a bug fix — worth eyeballing
+against the portal before taking it.
 
 ---
 
@@ -543,6 +589,139 @@ three-axis rule reserves notification colour for *momentary event outcome*; a
 trend delta is arguably a measurement, so this stretches the axis. It reads
 correctly and is conventional for dashboards, but it is the one place the
 prototype bends the colour *rules* rather than the colour *values*.
+
+**5.11 — A bottom tab bar, because mobile had no navigation at all.** Below
+`md` the DS renders the sidebar as an off-canvas Sheet, and the only control
+that opens it — `SidebarTrigger` — lives inside `SidebarHeader`, i.e. *inside
+the sheet*. So on a phone there was no hamburger, no rail, and no way to leave
+whatever page you landed on. This violated decision 0007's "navigation at every
+width", and `mobile-audit` passed throughout because it measures overflow,
+clipping and hit areas — **not reachability**.
+
+`BottomNav` (`kernel-app/src/components/bottom-nav.tsx`) is app-level, not a DS
+component: the pattern is unproven here and adding it to `packages/ui` would
+mean a catalog entry, a portal page and the docs-parity gate committing the
+system to it. **It is a DS candidate** — the same status `BidsBadge` and
+`TwoLine` hold in 5.5 — and promoting it is a deliberate follow-up, not a
+side effect.
+
+Shape: four destination tabs (every real route — `/support` and `/docs` fall
+through the catch-all) plus a fifth slot that opens the sheet, which is what
+makes the search field and org switcher reachable on a phone at all. A bar
+rather than a hamburger because the destinations are peers: four top-level
+routes, frequently switched between, and hiding a four-item list behind a tap
+buys nothing.
+
+**Composed from DS primitives, not styled elements.** `Card` is the floating
+surface, so the bar inherits the app's plate edge + lip + cast from the
+modification layer for free — the same elevation recipe as every other raised
+thing here, restated nowhere. Each tab is a `Button`: `render={<Link/>}` for the
+destinations (the app's existing pattern for a button that navigates), a plain
+one for the sheet trigger. Only the stacked icon-over-label layout is
+overridden, because the DS button sizes are horizontal; focus rings,
+coarse-pointer sizing and state variants all come from the primitive. Active
+state is `variant="secondary"` — the same neutral chip the rail uses — plus the
+rail's `--sidebar-primary` marker moved to the top edge, since a bottom bar is
+entered from above. Colour marks position; the chrome stays neutral, per the
+rail's rule.
+
+Floating: `fixed`, inset 12px from three edges with a 12px gap below (plus the
+safe-area inset), **fully round**. It carries the RAIL's surface, not the card's
+— `data-v2-chrome` swaps the inherited content plate for `--sidebar` fill and a
+`--sidebar-border` hairline, because as a `Card` on a page of cards it read as
+one more card rather than as chrome. Its cast steps up to `--shadow-xl`: unlike
+a card it genuinely floats over scrolling content, and the ladder should say so.
+Measured fill matches `--sidebar` exactly in both themes.
+
+**Icon-only, filling the width.** Labels are dropped and the bar spans the
+available width inside its 12px inset, with tabs dividing it evenly rather than
+sitting at a fixed size — so the whole strip is tappable. Measured across phone
+widths: tabs 54px at 320, 68px at 390, 76px at 430, all 53.8px tall, 0
+horizontal overflow at every width. They clear the 44px floor on their own
+rather than leaning on decision 0009's coarse-pointer `min-height`, which only
+fires on coarse pointers and would leave a touchscreen laptop short. Glyphs are
+23px. At this aspect the tabs are stadiums rather than circles — what filling
+the width costs, and it reads fine.
+
+Accessible names come from `aria-label`; every tab is still reachable by name
+(verified by driving `getByRole('link', { name: 'Producers' })` rather than
+clicking coordinates). The trade is real: a label is a signifier, and
+`MoreHorizontal` is the glyph least able to carry meaning alone.
+
+*Watch item:* the fill is uncapped, so just under the `md` breakpoint (767px)
+each tab stretches to ~143px. Rare for this app, and capping it would contradict
+"fill the width" — but it is the width where the bar looks most stretched.
+
+The active marker becomes a **dot beneath the glyph** — the rail's bar shape
+does not sit on a circle. It is load-bearing, not decoration: the chip alone
+measures 1.281:1 against the bar in dark and only **1.145:1 in light**. The rail
+survives that same pairing because its green pill carries the state.
+
+The dot must be `::before`. **Decision 0007's coarse-pointer hit extension owns
+`[data-slot="button"]::after`** — it sets top/bottom/left/right to pad small
+controls out to 44px — and being unlayered it beats a utility, so an `after:`
+dot computed to `top: 0; bottom: 0` and rendered at the top of the circle. Any
+pseudo-element decoration on a DS Button has to use `::before`; worth knowing
+before someone rediscovers it.
+
+**The chip is a plate too.** It takes the nested-surface treatment the app uses
+wherever a surface sits on another surface — an opaque hairline plus the top
+lip, and **no cast**: a cast at this size, inside an element that already casts,
+is the upholstered look the elevation ladder exists to avoid.
+
+Its hairline is a step off the chip's *own* fill, not a fixed token, because
+both candidates fail in one theme: `--sidebar-border` is `--neutral-800` in
+dark, identical to the chip fill, and `--border` sits at 0.8957 against a 0.922
+chip in light — measured 1.09:1, invisible. Mixing the fill 14% toward the
+foreground moves the right way in both (lighter on a dark chip, darker on a
+light one): measured **1.44:1 dark / 1.38:1 light**, matching the ~1.37 an edge
+reads at elsewhere. Same relative construction as `--rail-icon`, for the same
+reason — this is the fourth time on this branch that a fixed token was neutral
+in one theme and wrong in the other.
+
+**The chip slides.** It is one element that travels between tabs, not a
+background on each button — a per-button fill can only cross-fade, and what
+reads as *the selection moved* is a single object in motion. Position and width
+are measured off the active tab rather than computed from an index, because the
+tabs are `flex-1` and their width depends on the viewport; a `ResizeObserver`
+keeps it correct through rotation. `useLayoutEffect`, not `useEffect`: with the
+latter the chip paints at its old position for a frame and then jumps. The
+marker dot rides on the chip so it travels too.
+
+Measured on a Home → Settings tap: x = 18 → 105 (50ms) → 193 (100ms) → 233, a
+real 200ms traverse with intermediate positions rather than a jump. Under
+`prefers-reduced-motion` the duration resolves to `1e-05s` and the chip snaps to
+233 as soon as React commits.
+
+*Probe note:* a first check sampling two `requestAnimationFrame`s after the tap
+reported "no movement" under reduced motion. That was the probe, not the code —
+React had not committed the route change yet. Sampling at fixed millisecond
+offsets showed the correct behaviour.
+
+The active chip is the rail's `--sidebar-accent`, **not** the button's
+`secondary` variant. Those resolve to the same neutral in dark, which is why the
+variant looked right — but in light `--secondary` is the pale lime, so the chip
+and its label came out green and colour crept into chrome. The rail already
+overrides `--sidebar-accent` to a neutral for exactly this reason (2.2); the bar
+borrows it so both agree in both themes. Measured: chip matches the rail token
+exactly, active label 14.34:1 dark / 13.92:1 light, inactive 10.45 / 9.10. Because `fixed` reserves no layout space, the
+inset panel takes a matching `padding-bottom` below `md` — otherwise the last
+row of every table sits under the bar. Measured: tabs 68×51.4px (clear of the
+44px floor with no pseudo-element extension), card bottom 12px clear of the
+viewport at every scroll position, last table row clear of the bar, absent above
+`md` with the reserved padding dropping to 0.
+
+**5.10 — Two app-level token overrides that exist to pay for the plate.** Light
+`--muted-foreground` steps one rung darker (`--neutral-600`): the DS value
+measures 5.15:1 on a plain white card but **4.86:1 on the prototype's plate** —
+passing, but the tightest ratio in the app. The prototype introduced the plate,
+so the prototype absorbs the cost rather than moving a DS value the portal is
+perfectly happy with (now 6.70:1). And `--rail-icon` puts nav glyphs a step off
+the rail's own ink; the first attempt used `text-neutral-300`, a *scale* rung,
+which measured 12.58:1 dark and **1.39:1 light** — the `--neutral-*` scales are
+absolute and mode-independent by design, so a scale rung in a component class
+silently opts out of theming. Rewritten as a mix of `--sidebar-foreground`
+toward `--sidebar`: 10.45:1 / 9.10:1.
 
 **5.8 — The collapsed rail is 3.5rem, not the DS's 3rem.** Collapsing was
 resizing the rail's contents: the DS forces `size-8!` + `p-2!` on a collapsed

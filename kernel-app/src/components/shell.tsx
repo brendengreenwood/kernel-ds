@@ -30,6 +30,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { BottomNav } from "@app/components/bottom-nav"
 import { ModeToggle } from "@app/components/mode-toggle"
 import { cn } from "@/lib/utils"
 
@@ -78,14 +79,18 @@ function SearchSlot() {
 
   return (
     <>
-      <div className="relative px-1 group-data-[collapsible=icon]:hidden">
-        <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          ref={inputRef}
-          placeholder="Search…"
-          className="border-sidebar-border bg-background/40 pl-9 text-[13px]"
-          aria-label="Search"
-        />
+      <div className="px-1 group-data-[collapsible=icon]:hidden">
+        {/* The trough sits on this inner wrapper so it hugs the field exactly —
+            the outer div's px-1 would otherwise stretch the well past it. */}
+        <div data-v2-trough className="relative rounded-lg">
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            ref={inputRef}
+            placeholder="Search…"
+            className="pl-9 text-[13px]"
+            aria-label="Search"
+          />
+        </div>
       </div>
       <SidebarMenu className="hidden group-data-[collapsible=icon]:block">
         <SidebarMenuItem>
@@ -281,6 +286,7 @@ export function Shell() {
         <AppSidebar />
         <SidebarInset className="bg-background">
           <PageFade />
+          <BottomNav />
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>

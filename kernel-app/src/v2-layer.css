@@ -725,6 +725,70 @@
   opacity: 0;
 }
 
+/* ---- Rail trough ----
+   Carried by the WRAPPER, never the input. `box-shadow` is one property, and
+   the DS puts the focus ring on it — styling the input directly would either
+   lose the ring or be overwritten by it. The wrapper takes the well; the input
+   goes transparent and keeps its own focus behaviour intact. */
+[data-v2-trough] {
+  background: var(--trough-fill);
+  box-shadow:
+    inset 0 1px 2px 0 var(--trough-cast),
+    inset 0 0 0 1px color-mix(in oklch, var(--sidebar-border) 60%, transparent);
+}
+[data-v2-trough] [data-slot="input"] {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+/* ---- Chrome surfaces ----
+   The floating mobile nav is a `Card`, so by default it inherits the CONTENT
+   plate: `--card` fill and a `--border` hairline. That is the wrong family — it
+   is navigation chrome, and on a page of cards it read as one more card. It
+   takes the rail's surface instead: `--sidebar` fill and `--sidebar-border`
+   hairline, the same pairing the rail itself uses, so the app has one chrome
+   colour wherever navigation lives.
+
+   Its cast steps up a rung too, to `--shadow-xl`: unlike a card, this thing
+   genuinely floats over scrolling content rather than resting in the page, and
+   the ladder should say so. Keeps the lip, like every other raised surface. */
+[data-v2-chrome] {
+  background: var(--sidebar) !important;
+  box-shadow:
+    inset 0 0 0 1px var(--sidebar-border),
+    inset 0 1px 0 var(--elev-lip),
+    var(--shadow-xl) !important;
+}
+
+/* The nav's travelling chip is a raised pill ON the chrome bar, so it takes the
+   nested-plate treatment the app uses everywhere a surface sits on another
+   surface: an opaque hairline plus the top lip, and no cast — a cast at this
+   size, inside an element that already casts, is the upholstered look the
+   elevation ladder exists to avoid.
+
+   The hairline is a step off the CHIP's own fill, not a fixed token. Both
+   candidates fail in one theme: `--sidebar-border` is `--neutral-800` in dark,
+   identical to the chip fill; `--border` sits at 0.8957 against a 0.922 chip in
+   light, measuring 1.09:1 — invisible. Mixing the fill toward the foreground
+   moves the right direction in both themes (lighter on a dark chip, darker on a
+   light one) and lands near the 1.37:1 an edge reads at elsewhere. Same relative
+   construction as `--rail-icon`, for the same reason. */
+[data-v2-chip] {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--sidebar-accent), var(--foreground) 14%),
+    inset 0 1px 0 var(--elev-lip);
+}
+
+/* The floating mobile nav is `fixed`, so it reserves no layout space — the page
+   has to leave room or the last row of every table sits under it. One bar
+   height (53.8px) plus its own bottom offset and the safe-area inset. Scoped to
+   the breakpoint the bar itself uses. */
+@media (max-width: 47.999rem) {
+  [data-slot="sidebar-inset"] {
+    padding-bottom: calc(var(--spacing) * 14 + 0.75rem + env(safe-area-inset-bottom));
+  }
+}
+
 /* ---- Cards in flex columns ----
    The DS Card carries `h-full` for equal-height grid galleries. In a flex
    COLUMN whose height resolves as definite (our page wrappers inside the inset
