@@ -16,11 +16,14 @@ import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
     number is the object and a fill behind it would be a box around a headline;
     the hairline is there to group the four, not to raise them.
 
-    It is also padded like a card rather than like a cell: a 48px figure needs
-    air around it before the hairline, or the tile reads as a number that was
-    cropped to fit. The chart keeps a smaller inset than the text does — an axis
-    label is already inset from its own plot edge, so matching the text's
-    padding would double it.
+    It is also padded like a card rather than like a cell: a figure this size
+    needs air around it before the hairline, or the tile reads as a number that
+    was cropped to fit. The inset is 12 spacing units, which is the header
+    chip plus its gap — so a card's label starts on the same vertical as the
+    title of the header above the row, and the four cards read as a block
+    hanging off that line rather than as a band starting somewhere else. The
+    chart keeps a smaller inset than the text: an axis label is already inset
+    from its own plot edge, so matching the text's padding would double it.
 
     It takes the panel's own corner rather than the control radius: these are
     the largest objects in the opened row, and a card the size of a panel that
@@ -46,8 +49,8 @@ export function Tile({
 }) {
   if (lg) {
     return (
-      <div className="@container overflow-hidden rounded-[var(--v2-panel-radius)] border border-border pt-6">
-        <div className="px-6">
+      <div className="@container overflow-hidden rounded-[var(--v2-panel-radius)] border border-border pt-8">
+        <div className="px-12">
           {/* Label over figure. A caption under a number is a footnote to it;
               above, it is the question the number answers — and the four
               questions line up across the row at a constant height, which a
@@ -55,7 +58,7 @@ export function Tile({
           <div className="text-sm leading-tight font-medium whitespace-normal text-muted-foreground">
             {label}
           </div>
-          <div className="mt-1.5 text-[clamp(2rem,32cqw,3rem)] leading-none font-semibold tracking-tight tabular-nums">
+          <div className="mt-2.5 text-[clamp(1.75rem,22cqw,3rem)] leading-none font-semibold tracking-tight tabular-nums">
             {value}
           </div>
         </div>
@@ -63,11 +66,11 @@ export function Tile({
             a baseline running into the tile's own border is two lines meeting
             at nothing. */}
         {chart ? (
-          <div className="mt-5 px-3 pb-4" aria-hidden>
+          <div className="mt-7 px-8 pb-6" aria-hidden>
             {chart}
           </div>
         ) : (
-          <div className="pb-6" />
+          <div className="pb-8" />
         )}
       </div>
     )
