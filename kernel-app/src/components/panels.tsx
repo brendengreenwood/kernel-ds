@@ -10,7 +10,11 @@ import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
     Two sizes, like PageHeader: the default heads a panel inside a page, `lg`
     heads the thing itself. An opened scenario row is read before anything
-    around it, and a 20px figure in a 16px column of chrome does not lead. */
+    around it, and a 20px figure in a 16px column of chrome does not lead.
+
+    The large size is unfilled — outline only, no plate. At this figure size the
+    number is the object and a fill behind it would be a box around a headline;
+    the hairline is there to group the four, not to raise them. */
 export function Tile({
   value,
   label,
@@ -20,25 +24,20 @@ export function Tile({
   label: string
   lg?: boolean
 }) {
+  if (lg) {
+    return (
+      <div className="rounded-[var(--radius)] border border-border px-4 py-3.5">
+        <div className="text-4xl leading-none font-semibold tracking-tight tabular-nums">{value}</div>
+        <div className="mt-2 text-xs text-muted-foreground">{label}</div>
+      </div>
+    )
+  }
   return (
     /* Same plate marker as TableFrame: a tile and the table below it are the
        same kind of object, so they take the same fill and lip. */
-    <div
-      data-v2-frame
-      className={lg ? "rounded-[var(--radius)] border border-border px-4 py-3" : "rounded-lg border border-border px-3 py-2"}
-    >
-      <div
-        className={
-          lg
-            ? "text-2xl leading-none font-semibold tabular-nums"
-            : "text-xl leading-tight font-semibold tabular-nums"
-        }
-      >
-        {value}
-      </div>
-      <div className={lg ? "mt-1.5 text-xs text-muted-foreground" : "mt-0.5 text-xs text-muted-foreground"}>
-        {label}
-      </div>
+    <div data-v2-frame className="rounded-lg border border-border px-3 py-2">
+      <div className="text-xl leading-tight font-semibold tabular-nums">{value}</div>
+      <div className="mt-0.5 text-xs text-muted-foreground">{label}</div>
     </div>
   )
 }

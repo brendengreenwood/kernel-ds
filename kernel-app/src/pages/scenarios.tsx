@@ -82,20 +82,15 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           leads — the counts say how many producers acted, the bushels say how
           much of the book moved.
 
-          Tiles rather than bare figures: on the well these are the first raised
-          objects the eye finds, and four numbers in a line with rules between
-          them read as a status bar, not as the row's subject. */}
-      <div className="mb-8">
-        <div className="mb-3 flex items-center justify-between gap-4">
-          <p className="text-xs font-medium text-muted-foreground">All time</p>
-          {/* The row's own edit control is an icon in a 38px cell at the end of
-              a long table. Opened, there is room for the real thing. */}
-          <Button size="lg" aria-label={`Edit ${scenario.id}`}>
-            <Pencil />
-            Edit scenario
-          </Button>
-        </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          Four outlined tiles rather than a line of bare figures: figures with
+          rules between them read as a status bar under the row, not as the
+          row's subject.
+
+          They hold half the width and stack two by two. Across the full width
+          each figure would sit in a column too narrow to grow, and 36px is the
+          size that makes them the first thing read. */}
+      <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+        <div className="grid w-full grid-cols-2 gap-3 md:w-[calc(50%-0.5rem)]">
           <Tile lg value={summary.bushels.toLocaleString("en-US")} label="Bushels bought" />
           <Tile
             lg
@@ -105,6 +100,12 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           <Tile lg value={summary.accepted} label="Accepted" />
           <Tile lg value={summary.rejected} label="Rejected" />
         </div>
+        {/* The row's own edit control is an icon in a 38px cell at the end of a
+            long table. Opened, there is room for the real thing. */}
+        <Button size="lg" aria-label={`Edit ${scenario.id}`}>
+          <Pencil />
+          Edit scenario
+        </Button>
       </div>
 
       {/* The panel's header sits on the well, outside the panel — same shape as
