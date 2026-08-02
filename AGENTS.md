@@ -31,7 +31,7 @@ kernel-studio-server/prototypes — generated grain-ops workspace prototypes; re
 <!-- kernel-ds:generated:start -->
 ## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
 
-- Catalog: 93 entities (component 62, domain 2, element 6, object 13, pattern 10); 81 documentation records
+- Catalog: 95 entities (component 62, domain 2, element 6, object 15, pattern 10); 83 documentation records
 - Workspace packages: @kernel/catalog, @kernel/definitions (3 export entries), @kernel/ui (7 export entries)
 - DS lifecycle scripts: agents:check, agents:generate, changeset:status, consumers:check, ds:add, ds:changeset, ds:check, ds:doctor, ds:generate, ds:pack, ds:relate, ds:release, ds:tag, ds:upgrade, ds:verify, release:check, release:impact, skills:check
 - Skills: kernel-ds-audit, kernel-ds-component, kernel-ds-definition, kernel-ds-document, kernel-ds-pattern, kernel-ds-release, kernel-ds-upgrade, kernel-ds-use, kernel-ds-verify, kernel-feature, kernel-norman, kernel-ship, kernel-studio, kernel-token, kernel-typesetting, kernel-verify, kernel-visual, migrate-radix-to-base, shadcn

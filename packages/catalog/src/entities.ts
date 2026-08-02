@@ -2285,7 +2285,16 @@ export const catalog = [
     "capabilities": [
       "accessibility-reviewed"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "element.tables"
+      },
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      }
+    ],
     "documentation": {
       "portalAnchor": "contract"
     },
@@ -2293,7 +2302,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "lifecycle-metadata"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/contract-detail.tsx"
+    ],
     "note": "Domain pattern 1 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup."
   },
   {
@@ -2310,7 +2321,24 @@ export const catalog = [
     "capabilities": [
       "accessibility-reviewed"
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "element.tables"
+      },
+      {
+        "type": "composedWith",
+        "target": "element.form-elements"
+      },
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.expandable-row"
+      }
+    ],
     "documentation": {
       "portalAnchor": "settlement"
     },
@@ -2318,7 +2346,9 @@ export const catalog = [
       "bundleCategory": "design",
       "guidanceSource": "lifecycle-metadata"
     },
-    "sourceFiles": [],
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/settlement.tsx"
+    ],
     "note": "Domain pattern 2 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup."
   },
   {
@@ -2734,5 +2764,65 @@ export const catalog = [
       "packages/ui/src/components/ui/marks/legend-swatch.tsx"
     ],
     "note": "Mark component (decision 0027). Legend row color-key glyph."
+  },
+  {
+    "id": "object.expandable-row",
+    "name": "Expandable row",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "element.tables"
+      }
+    ],
+    "documentation": {
+      "slug": "expandable-row",
+      "portalAnchor": "tables"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/tables.tsx"
+    ]
+  },
+  {
+    "id": "object.page-section",
+    "name": "Page section",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "pattern.app-shell"
+      }
+    ],
+    "documentation": {
+      "slug": "page-section",
+      "portalAnchor": "sections"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/section.tsx"
+    ]
   }
 ] as const satisfies readonly CatalogEntity[]
