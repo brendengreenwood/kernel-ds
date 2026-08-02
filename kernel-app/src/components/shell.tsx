@@ -258,7 +258,12 @@ function PageFade() {
 /** Jump to top on navigation. */
 function ScrollTop() {
   const { pathname } = useLocation()
-  React.useEffect(() => window.scrollTo(0, 0), [pathname])
+  // Block body on purpose: in Chrome 151+ `scrollTo` returns a scroll-completion
+  // Promise, and a concise body would hand that Promise to React as the effect's
+  // cleanup function ("destroy is not a function" on the next navigation).
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
   return null
 }
 
