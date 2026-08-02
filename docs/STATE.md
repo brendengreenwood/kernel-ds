@@ -479,9 +479,38 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   main — **`docs/v2-prototype-drift.md` is the full drift register**: how the
   prototype attaches to the DS, every token remapped (including the inverted
   dark elevation model and the 3.5x radius), every modification-layer rule, all
-  seven DS source changes, and the prototype's own convention departures — with
-  per-item cherry-pick guidance, since the DS bug fixes are worth rescuing
-  independently of whether the prototype lands.
+  seven DS source changes, and the prototype's own convention departures.
+  **Decision 0056 (2026-08-02) reframed what that register is for**: the
+  prototype is the design system's *forward track*, not a sandbox to be
+  abandoned cleanly, and the register is the **promotion queue** back into the
+  DS. It amends 0040's "fixes flow upstream, styling does not" — which had
+  filed every token and pattern the prototype discovered as "styling," meaning
+  it could never return. Entries now carry a promotion status (`promote` /
+  `prototype-only` / `undecided`) rather than a merge-worthiness verdict.
+  Ready to promote now: Part 4's bug fixes (4.3 `SidebarInset min-w-0`
+  regardless of the prototype's fate). Cheapest next: the panel furniture
+  (5.5) and rail collapse behaviour (5.8), both additive. The large open
+  question is Part 2's token drift — that *is* the v2 look, so promoting it is
+  a direction call for the DS, not a cherry-pick.
+
+- **Prototype branch hygiene** (2026-08-02): the branch is 51+ commits ahead
+  of main and carries **three duplicate decision numbers** — 0040, 0041 and
+  0042 each exist twice (prototype + main), coexisting since the merge in
+  f87d311. New records on this branch skip to 0056 to avoid a fourth
+  collision (`feat/dsds-contract-tooling` has minted through 0055), but the
+  existing three still need a renumber-or-accept call before this branch
+  merges. Under 0056 the branch is longer-lived than 0040 assumed, so
+  promoting in slices is now worth more than it was.
+
+- **A browser release can break a passing build** (2026-08-02): Chrome 151
+  made `window.scrollTo` return a scroll-completion Promise. A concise-arrow
+  effect (`useEffect(() => window.scrollTo(0, 0), [deps])`) therefore hands
+  React a Promise as its cleanup function, and the tree unmounts with
+  `TypeError: destroy is not a function`. It blanked the prototype's dev
+  server while `tsc`, `vite build` and every audit stayed green. Repo audited
+  — all other `scrollTo`/`scrollIntoView` call sites use block bodies. The
+  general hazard stands: an effect whose concise body calls a DOM method is
+  one browser release from the same crash, and no gate we run catches it.
 
 - **Definition files + studio define tools** (branch feat/ds-define-tool,
   2026-07-21, decision 0034): agent-authored tools are now **persistent** -

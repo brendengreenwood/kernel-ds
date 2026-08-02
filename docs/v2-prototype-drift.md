@@ -4,10 +4,15 @@
 workflow screens rendered in a different visual register — dark,
 premium-analytics, soft-cornered — on top of the live design system.
 
-It is a **design sandbox, not a product surface.** Its screens, copy and data
-do not define product behaviour: the Producers filter dropdowns are
-presentational, `/settings` is unbuilt, and the sample book is invented.
-Nothing here should be cited as a spec.
+It is **where the next version of the design system gets designed** (decision
+0056) — the place tokens, components and patterns are pushed past what the
+portal currently expresses, with the divergence written down as it happens.
+
+It is still **not a product surface.** Its screens, copy and data do not
+define product behaviour: the Producers filter dropdowns are presentational,
+`/settings` is unbuilt, and the sample book is invented. Nothing here should
+be cited as a spec. *Design* direction promotes upstream; *product* behaviour
+does not.
 
 > **Naming.** This started as "Kernel Insider", an internal product-insider
 > portal. None of that content survived, and the thing is now a v2 prototype of
@@ -22,10 +27,22 @@ This file is the **complete record of how the prototype differs from the design
 system** — every token remapped, every component restyled, every DS source
 change, and every place it knowingly departs from a project convention.
 
-It exists because **the branch may never merge.** Each entry says what
-changed, why, and whether it is worth keeping on its own. Its real value is as
-a pressure test: being a second live consumer of the DS is what surfaced the
-six changes in Part 4, four of them latent bugs the portal shared.
+It is a **promotion queue.** Every entry is drift the DS may eventually want,
+so each one carries a status:
+
+| Status | Means |
+|---|---|
+| **promote** | belongs in the DS; needs the affected consumers' gates run |
+| **prototype-only** | real, but specific to this app or its build wiring |
+| **undecided** | needs a call — a legitimate resting state |
+
+The register's job is to keep the decision *available*, not to force it
+early. Entries move between statuses; nothing is promoted by editing this
+file.
+
+That this doubles as a pressure test is a bonus and not the point: being a
+second live consumer of the DS is what surfaced the Part 4 changes, four of
+them latent bugs the portal shared.
 
 **Nothing here is hidden inside components.** The prototype changes the DS through
 exactly three mechanisms, in increasing order of intrusiveness:
@@ -40,17 +57,23 @@ Layers 1–2 fork nothing: delete them and the prototype renders stock Kernel.
 Layer 3 is the only part that touches the shared system, and it is
 deliberately small — six changes, four of them plain bug fixes.
 
+The layers are also what make the drift **consumable**, which is why the
+discipline is worth its friction. Each layer is already written in the DS's
+own vocabulary: a token override names a role token, a modification-layer
+rule names a component part via `data-slot`. Promoting an entry is usually a
+matter of moving it down a layer, not translating it.
+
 ---
 
 ## Summary
 
-| Part | Area | Count | Merge-worthy on its own? |
+| Part | Area | Count | Promotion status |
 |---|---|---|---|
-| 1 | Attachment / build wiring | 7 | no — prototype-specific |
-| 2 | Token drift | 27 tokens + 2 structural inversions | no — that *is* the look |
-| 3 | Modification layer | 13 rule groups | no — prototype-specific |
-| 4 | **DS source changes** | 6 | **yes — 4 are bug fixes** |
-| 5 | App-level convention departures | 6 | n/a — judgment calls to review |
+| 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
+| 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
+| 3 | Modification layer | 13 rule groups | **undecided** — component and pattern proposals |
+| 4 | **DS source changes** | 6 | **promote** — 4 already landed as fixes |
+| 5 | App-level convention departures | 10 | mixed — see each entry |
 
 ---
 
@@ -471,8 +494,12 @@ delayed transition in the system — not just this one.
 
 # Part 5 — Where the app departs from project convention
 
-Judgment calls inside `kernel-app/`. None are DS changes; all are places a
-reviewer might reasonably push back.
+Judgment calls inside `kernel-app/`. None are DS changes *yet* —
+these are the app-level patterns, and the question for each is whether it
+should be promoted into the DS, kept local, or retired. Several (the panel
+furniture in 5.5, the rail slot in 5.8) are the strongest promotion
+candidates in the register, because they were built twice before they were
+extracted.
 
 **5.1 — Producers stripes by data index, not the `striped` prop.** Expanded
 detail rows are extra `<tr>`s that flip `nth-child` parity mid-table, so the
@@ -559,6 +586,32 @@ room beside the title, and the same cluster just crowds it, so narrow panels
 above the chart. Same pieces, placement chosen by available width. Not encoded
 in `panels.tsx` — `PanelHeader`'s `action` slot simply goes unused.
 
+**5.10 — `ScrollTop` needs a block body, and that is not a style
+preference.** The route-scroll effect was written
+`React.useEffect(() => window.scrollTo(0, 0), [pathname])`. In Chrome 151
+`window.scrollTo` returns a scroll-completion Promise, so the concise arrow
+body handed that Promise to React as the effect's *cleanup function* and React
+threw `TypeError: destroy is not a function` — the tree unmounted and the app
+painted a blank page. Fixed by giving the effect a block body, so it returns
+`undefined` again.
+
+Two things about it are worth keeping. **It escaped every gate we have.**
+StrictMode double-invokes effects, so the crash lands on *mount* in dev — the
+dev server was blank from the first paint — while the production build
+survives mount and would have thrown on the first *navigation* instead. That
+is why `tsc`, `vite build` and all of Part 7 stayed green: the type is
+correct, the bundle is fine, and nothing we run drives a route change in a
+current browser. **And it is a browser change, not a code change** — the line
+was correct when written and became a crash when Chrome shipped scroll
+completion promises.
+
+This one is prototype-local: the portal's `ScrollManager`
+(`kernel-portal/src/pages/portal-layout.tsx`) and the two other `scrollTo`
+call sites already use block bodies, so **Part 4 gains nothing from it**. The
+hazard is not local, though — any effect whose concise body calls a DOM method
+is one browser release away from the same failure, and the symptom (blank
+page, no error boundary, no build failure) points nowhere near the cause.
+
 ---
 
 # Part 6 — What the prototype actually is
@@ -606,21 +659,41 @@ responds; row click expands with no chevron double-toggle; button radius
 10.16px; icon padding 6px/10px; nested detail table not striped by the outer
 table's rule.
 
+**Browser:** runtime checks above were made in Chrome 151. Both dev and
+production builds render, and `/`, `/scenarios` and `/producers` navigate
+clean — which is a check worth naming, because the 5.10 crash fired only on
+route change and every static gate passed while the app was unusable.
+
 **Light mode** now carries a deliberate elevation ladder (2.3) and passes the
 same audits, but it has still had far less design attention than dark — it is
 correct, not tuned. `/settings` is a rail entry with no page.
 
 ---
 
-# Part 8 — If we pick this up
+# Part 8 — Promotion path
 
-**If the prototype is abandoned**, take Part 4 items **4.2–4.5**. They are bug
-fixes, they stand alone, and they need nothing from the prototype. **4.3
-(`SidebarInset min-w-0`) is the one to take regardless** — it affects every
-consumer of the sidebar today. Sanity-check 4.4's blast radius on the portal's
-icon buttons first; it is the only visually non-neutral one.
+Per decision 0056 the prototype is the DS's forward track, so the question is
+no longer *whether* this comes back but *in what order*.
 
-**If the prototype continues**, the open threads are:
+**Ready now.** Part 4 items **4.2–4.5** are bug fixes, they stand alone, and
+they need nothing from the prototype. **4.3 (`SidebarInset min-w-0`) is the
+one to take regardless** — it affects every consumer of the sidebar today.
+Sanity-check 4.4's blast radius on the portal's icon buttons first; it is the
+only visually non-neutral one.
+
+**Next, and cheapest to promote:** the Part 5 patterns that already proved
+themselves twice — the panel furniture (5.5) and the rail's collapse
+behaviour (5.8). Both are additive to the DS and neither changes an existing
+component's default.
+
+**The large open question is Part 2.** The token drift *is* the v2 look, so
+promoting it is a question about the design system's direction rather than a
+cherry-pick — particularly the two structural inversions (2.1), which change
+what the model *means* rather than what any value is. That is a decision to
+take deliberately, with `contrast-audit` run across both themes, not by
+draining this register entry by entry.
+
+**Still open in the prototype itself:**
 - Light mode has the elevation ladder and passes the audits, but it is correct
   rather than tuned — a deliberate pass over its accents and chart colours is
   still open.
