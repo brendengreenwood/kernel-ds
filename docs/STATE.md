@@ -488,7 +488,15 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   `select-trigger` — a compact select grew to 40px visibly but never got the
   `::after` extension that carries the effective target to 44px, because it is
   not a `[data-slot="button"]`. `mobile-audit` had flagged it for several
-  rounds; the register had wrongly written it off as sanctioned. Not merged to
+  rounds; the register had wrongly written it off as sanctioned. The same shape
+  turned up again on **tabs** (2026-08-02, register 4.11): `tabs-trigger`
+  appears in *no* list in the coarse-pointer block — neither growth nor
+  extension — so a compact tab strip anywhere in the DS was a 40px target on
+  touch, and 34.5px in the prototype, whose layer pins tab heights with an
+  `!important` height. Fixed with `min-height: 2.75rem`, which is applied after
+  `height` when the used value resolves and so lifts consumers who have pinned
+  their own. Two instances now say the same thing: **that block is a list a new
+  control has to be added to by hand, and nothing checks that it was.** Not merged to
   main — **`docs/v2-prototype-drift.md` is the full drift register**: how the
   prototype attaches to the DS, every token remapped (including the inverted
   dark elevation model and the 3.5x radius), every modification-layer rule, all
@@ -622,4 +630,12 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Open questions
 
-*(none currently)*
+- **`mobile-audit` measures comfort, not reachability** (2026-08-02). It checks
+  overflow, clipping, sub-16px inputs and hit areas — and it reported 0/0/0/0
+  throughout the period the prototype had *no navigation at all* below `md`
+  (the only control that opens the sidebar sheet lives inside the sheet). The
+  same failure would pass again tomorrow. The cheap version of the fix is an
+  assertion that at 390px every audited page exposes at least one visible link
+  to another route; the honest version has to say something about whether the
+  chrome that owns navigation is reachable, which is harder to state generally.
+  Open because the assertion's shape is undecided, not because it is unwanted.

@@ -116,6 +116,11 @@
   border: 0;
   background: transparent;
   color: var(--muted-foreground);
+}
+/* Scoped off :focus-visible — see the note on the pill strip below: an
+   unconditional `box-shadow: none` erases the focus ring along with the
+   active segment's lift, because both are box-shadows. */
+[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"]:not(:focus-visible) {
   box-shadow: none;
 }
 [data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"]:hover {
@@ -173,8 +178,17 @@
 }
 [data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] {
   border-radius: 0 !important;
-  box-shadow: none !important;
   padding-inline: calc(var(--spacing) * 3.5) !important;
+}
+/* The shadow this clears is the DS pill's `data-active:shadow-sm` — a lifted
+   active segment, which is wrong for a strip that reads as one etched track.
+   `:not(:focus-visible)` because the focus ring is ALSO a box-shadow (that is
+   how Tailwind's `ring` is built), so clearing the property unconditionally
+   took the keyboard indicator with it and left these tabs with no focus state
+   at all. Same reason the segmented control below is scoped this way. */
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented])
+  [data-slot="tabs-trigger"]:not(:focus-visible) {
+  box-shadow: none !important;
 }
 [data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] {
   border-inline-start: 1px solid var(--border);
