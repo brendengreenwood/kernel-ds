@@ -71,9 +71,9 @@ matter of moving it down a layer, not translating it.
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
-| 3 | Modification layer | 13 rule groups | **undecided** — component and pattern proposals |
+| 3 | Modification layer | 22 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
 | 4 | **DS source changes** | 6 | **promote** — 4 already landed as fixes |
-| 5 | App-level convention departures | 10 | mixed — see each entry |
+| 5 | App-level convention departures | 11 | mixed — see each entry |
 
 ---
 
@@ -313,7 +313,7 @@ numbers.
 | 3.7 | first/last cell | edge inset → 6 units, so text never sits on the container border | unlayered `!important` |
 | 3.8 | `[data-v2-detail]` | padding → 0; the inset panel supplies its own | unlayered `!important` |
 | 3.9 | cells inside `[data-v2-detail]` | denser step: 3 units, edges 4 — the panel carries 12 columns | unlayered `!important` |
-| 3.10 | `[data-v2-detail]` well | expanded rows read as a recessed well: top/bottom hairlines, an inset carve (foreground mix, theme-agnostic), and a `--primary` bar on the leading edge echoing the rail's active marker | unlayered |
+| 3.10 | `[data-v2-detail]` well | **rebuilt.** Expanded rows read as a recessed well: top/bottom hairlines, a `--primary` bar on the leading edge echoing the rail's active marker, and now a real **fill** (`--v2-well`) two rungs below the darkest zebra stripe — dark `--neutral-950` (RGB 6,17,12), light `--neutral-200` (227,230,228) — plus a four-edge inset shadow. The first version carved with a *foreground* mix, which in dark meant a white glow in a recess; `--v2-well-shade` mixes toward black in dark and toward foreground in light, which is where the light actually comes from in each theme. Muted text resolves one rung darker inside the well (5.65:1 light) — on `--neutral-200` the standard `--muted-foreground` measured 4.09:1, under AA | unlayered |
 | 3.11 | `[data-v2-pin]` cells | inside a scrolling table, the actions cell pins `sticky right-0` on a solid `--background` with an inset left shadow — the decision stays on screen while data columns scroll beneath | unlayered |
 | 3.12 | `[data-v2-filter]` selects | the Producers filter triggers join the pill family: full-round, `--muted` trough, no hairline, 4% foreground hover | unlayered `!important` |
 | 3.13 | `main [data-slot="card"]` | `height: auto` + `flex-shrink: 0` — the DS Card's `h-full` becomes a flex-basis of 100% of a definite-height flex column, and the flex algorithm then shrinks every stacked card proportionally (one clips its footer, a sibling pads out empty). Grids still stretch cards via alignment, which ignores `height` | unlayered `!important` |
@@ -322,6 +322,10 @@ numbers.
 | 3.16 | `[data-slot="sidebar-inset"]` | **the page plate.** The DS gives the inset `m-2` on three sides and `ml-0` on the fourth, so the app's largest surface was welded to the rail along its whole height — a plate touching its surround on one edge cannot read as floating. Uniform gutter at 4 units, plus the lip, plus `--shadow-2xl`. Its edge is `--elev-edge-page`, **not** `--border`: around the page plate the hairline is the longest line on screen and sits against the darkest surround, so in dark it runs one rung darker (`--neutral-800`, 1.168:1 against the plate vs `--border`'s 1.444:1) — otherwise it reads as a drawn outline rather than an edge. Light keeps `--border` (1.365:1), where the edge is load-bearing: a cast alone cannot define a white plate against a near-white rail. Scoped to `min-width: 48rem`, matching the DS's own `md:` inset styling: below that the panel is full-bleed and a gutter would only cost content width. Verified 0 horizontal overflow at 1440/1024/768/767 and the gutter present on all four sides when scrolled to the page bottom | unlayered `!important` |
 | 3.17 | `[data-slot="sidebar-menu-button"] > span:last-child` | **rail label crossfade.** The DS transitions the rail's width and the button's width/height/padding, but the label was only ever clipped by the button's `overflow-hidden` — sliced off by a moving edge rather than leaving. An opacity transition alone was **invisible**, because two other things removed the text first: the span is a flex child with `truncate` (so `min-width` resolves to 0) and was being *compressed* to zero width by ~117ms, and the button — which collapses faster than the rail, being the rail minus three levels of padding — clipped the text's right edge at ~75ms. No fade is perceptible in 75ms. Fixed with three rules: `flex: none` (stop the squeeze), `overflow: visible` on the button (let the rail clip instead, at its slower rate), and `linear` rather than `--ease-out`, which front-loaded 31% of the fade into the first 28ms. Symmetric, matched to the DS's 200ms rail transition. Measured after: text holds 100% visible through opacity 1 → 0.83 → 0.5, first meeting the clip edge at 173ms when already at 0.17. Caveat: with `flex: none` the DS's `truncate` cannot bind, so these rules suit short nav labels only | unlayered |
 | 3.18 | `[data-v2-dense] tbody tr:hover` | dense rows need their own hover — the DS's `hover:bg-muted/50` is invisible because this theme resolves `--muted` to the same value as `--card`, the surface these tables sit on. 4% foreground mix, like every other on-card overlay | unlayered |
+| 3.19 | `[data-v2-panel]` | **the lit panel.** The expanded row's content — roll-up figures, range tabs, activity table — is one surface: `--card` fill, the 1px lip, and `--elev-cast`, the only lit object in the well. This **deliberately breaks 3.15's "nested frames take no cast"**: 3.15 governs a frame nested on a card, where the card is already lifted; here the surround is a recess, and a plate in a recess without a cast reads as painted on the floor. The tab strip takes the panel fill and its own underline is the only divider between control and data | unlayered |
+| 3.20 | `[data-slot="table"]` | **zebra stripes are the default, not a prop.** The DS ships striping as opt-in (`striped`, 4.1), so in practice a table either got it or was forgotten. Every table in the app stripes: `tr:nth-child(even)` at 5% foreground, with `:not(:hover)` so the row hover still reads (the DS hover is a `--muted` overlay of similar weight and the two cancel). Opt out with `data-v2-rowstripe`, which the two object tables set because they stripe by *data* index instead (5.1) | unlayered |
+| 3.21 | `[data-slot="table-row"][data-state="selected"]` | **the open row is a selected row.** The parent row of an expanded detail used to paint its own `bg-foreground/5` — the same value as the zebra stripe, so an open row on an even index was indistinguishable from a closed one. It now sets the DS's own `data-state="selected"`; only the *fill* is retuned here, to 9% foreground, because the DS's `data-[state=selected]:bg-muted` is invisible in this theme (`--muted` resolves to `--card`, the surface the table sits on — the same trap `IconChip` works around, and 3.18) | unlayered |
+| 3.22 | tables inside `[data-v2-panel]` | the panel's table takes the **top-level** step back (4 units horizontal, 6 at the edges) rather than the detail-row tightening of 3.9 or the dense step of 3.14. Once the panel is the focus of the open row, its rows should not change gear from the object table above them. Equal specificity with 3.9 and 3.14 (0,3,0), so these rules must stay after both — source order is the whole mechanism | unlayered `!important` |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -585,6 +589,23 @@ room beside the title, and the same cluster just crowds it, so narrow panels
 (the Overview's Revenue card) carry the figure in the content instead, directly
 above the chart. Same pieces, placement chosen by available width. Not encoded
 in `panels.tsx` — `PanelHeader`'s `action` slot simply goes unused.
+
+Updated 2026-08-02: in the Scenarios detail the cluster no longer floats on the
+well — it sits at the top of the panel, above the tabs. The figures count the
+table directly beneath them, so putting them on a different surface from that
+table was the wrong grouping; the well is now recess only, and everything that
+is content is on the one plate. The Producers inset (`OfferInset`) still has the
+old arrangement — the same object built twice, again (5.5).
+
+**5.11 — Every bid is quoted in basis.** The Producers inset always showed
+basis (`+0.03`, `-0.28` — cents over or under the futures month). The Scenarios
+board and the Overview book showed flat cash prices (`$4.52`) for the same
+quantity, so two screens described one number two ways. The scenario seed data
+is now basis, and the single formatter lives in `kernel-app/src/lib/format.ts`
+— a positive value keeps its `+`, because the sign is which side of the board
+the bid sits on. Nothing about this is DS drift; it is the prototype's domain
+language becoming consistent, and it is here because a reader comparing the two
+screens would otherwise assume one of them is wrong.
 
 **5.10 — `ScrollTop` needs a block body, and that is not a style
 preference.** The route-scroll effect was written
