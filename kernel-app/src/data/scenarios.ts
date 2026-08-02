@@ -12,6 +12,8 @@ export type ProducerEvent = {
   action: "accepted" | "rejected"
   /** The bid they acted on. */
   bid: number
+  /** Why they passed. Rejects only — an accept has no reason to give. */
+  reason?: string
   /** The offer's quantity. An accept books these bushels; a reject is the
       quantity that walked. */
   bushels: number
@@ -95,6 +97,19 @@ const competitors = [
   "Harvest Union",
 ] as const
 
+/** Why a producer passed. Short enough to sit in a table cell, specific
+    enough to be worth a column: a book of "Declined" tells the merchant
+    nothing, and the difference between "sold elsewhere" and "holding for
+    higher" is the difference between a lost bushel and a later one. */
+const rejectReasons = [
+  "Basis too low",
+  "Sold elsewhere",
+  "Holding for higher",
+  "Delivery window",
+  "Freight too far",
+  "Quality spec",
+] as const
+
 const farms = [
   "Cedar Bluff Farms",
   "Greenwood Family Farms",
@@ -123,16 +138,23 @@ function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activ
   // hashing can collide into the same farm several times in a row, which reads
   // as a bug ("Heartland accepted four times in 40 minutes"), not as data.
   const fOffset = fnv(s.id + "f") % farms.length
-  const events: ProducerEvent[] = Array.from({ length: eventCount }, (_, i) => ({
-    id: `${s.id}-E${i + 1}`,
-    producer: farms[(fOffset + i) % farms.length],
+  const events: ProducerEvent[] = Array.from({ length: eventCount }, (_, i) => {
+    const id = `${s.id}-E${i + 1}`
     // Accepts outnumber rejects, which is what a working scenario looks like.
-    action: r() < 0.68 ? "accepted" : "rejected",
-    bid: round2(s.postedBid + (r() * 0.1 - 0.04)),
-    // 5,000–35,000 bu in 500-bu steps — truck-lot sized offers.
-    bushels: (10 + Math.floor(r() * 61)) * 500,
-    when: agesAll[ageOffset + i],
-  }))
+    const action = r() < 0.68 ? "accepted" : "rejected"
+    return {
+      id,
+      producer: farms[(fOffset + i) % farms.length],
+      action,
+      bid: round2(s.postedBid + (r() * 0.1 - 0.04)),
+      // 5,000–35,000 bu in 500-bu steps — truck-lot sized offers.
+      bushels: (10 + Math.floor(r() * 61)) * 500,
+      // Hashed off the event id rather than drawn from `r`, so adding a reason
+      // does not reshuffle every number already on screen.
+      reason: action === "rejected" ? rejectReasons[fnv(id + "r") % rejectReasons.length] : undefined,
+      when: agesAll[ageOffset + i],
+    }
+  })
 
   const moveCount = 3 + Math.floor(r() * 3) // 3–5 all-time
   // Cycle rather than sample: a rival buyer should appear once in the list, or
@@ -162,11 +184,31 @@ function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activ
 
 export const scenarios: Scenario[] = seeds.map((s) => ({ ...s, activity: activityFor(s) }))
 
-/** Accept/reject tallies for a slice — derived, never stored. */
-export const tally = (a: Activity) => ({
-  accepted: a.events.filter((e) => e.action === "accepted").length,
-  rejected: a.events.filter((e) => e.action === "rejected").length,
-})
+/** What a slice of activity did to the book — derived, never stored.
+
+    An accept books its bushels, so bought is the sum over accepts only. The
+    average is volume-weighted: a merchant's average basis is what the bushels
+    cost, not what the offers averaged, and a 5,000 bu accept must not move it
+    as far as a 35,000 bu one.
+
+    `avgBasis` is null when nothing was bought. There is no average of nothing,
+    and 0.00 would read as a flat bid rather than as an absence. */
+export const tally = (a: Activity) => {
+  const accepted = a.events.filter((e) => e.action === "accepted")
+  const rejected = a.events.filter((e) => e.action === "rejected")
+  const bushels = accepted.reduce((n, e) => n + e.bushels, 0)
+  return {
+    accepted: accepted.length,
+    rejected: rejected.length,
+    bushels,
+    /** What walked: the quantity on the rejects. */
+    walked: rejected.reduce((n, e) => n + e.bushels, 0),
+    avgBasis:
+      bushels === 0
+        ? null
+        : accepted.reduce((n, e) => n + e.bid * e.bushels, 0) / bushels,
+  }
+}
 
 /** How much has happened since the merchant last touched this scenario — the
     number the row-level activity flag reports.

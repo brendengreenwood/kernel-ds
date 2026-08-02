@@ -48,6 +48,15 @@ const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string
   rejected: { hue: "rejected", label: "Rejected" },
 }
 
+/** A value that does not exist for this row, as opposed to one that is
+    missing. Muted, and hidden from screen readers — "em dash" read aloud in
+    every other cell is noise, and the empty cell already says nothing. */
+const Dash = () => (
+  <span aria-hidden className="text-muted-foreground">
+    —
+  </span>
+)
+
 /** The expanded scenario row: what producers did about this bid. The range tabs
     are per-row — each row is read on its own. (A competitor-movement panel lived
     here too; it is shelved, and its data still generates — see the note in
@@ -55,7 +64,9 @@ const actionStatus: Record<"accepted" | "rejected", { hue: Status; label: string
 function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   const [range, setRange] = React.useState<ActivityRange>("since")
   const activity = scenario.activity[range]
-  const counts = tally(activity)
+  // The roll-up is fixed to "since last update" — that is the question the row
+  // is opened to answer. The range control below filters the table it sits in.
+  const summary = tally(scenario.activity.since)
   const ref = React.useRef<HTMLDivElement>(null)
   const width = useVisibleWidth(ref)
 
@@ -65,23 +76,44 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
       className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-5 duration-[var(--duration-base)] ease-[var(--ease-out)]"
       style={width ? { width } : undefined}
     >
-      {/* The header sits on the well, outside the panel — same shape as the
-          producer inset. It names what the panel is; it is not one of the
-          panel's parts, and a title inside the box it titles reads as the
-          box's first row. The roll-up figures follow it for the same reason:
-          they are the header's summary of the table, not a band across it. */}
+      {/* What the row is opened to find out, before any of the detail: what
+          this bid bought since it was last touched, what it paid, and how the
+          offers split. Volume leads — the counts say how many producers acted,
+          the bushels say how much of the book moved. */}
+      <div className="mb-8 flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">Since last update</p>
+          <div className="mt-2 flex items-center gap-6">
+            <Stat value={summary.bushels.toLocaleString("en-US")} label="Bushels bought" />
+            <div aria-hidden className="h-8 w-px bg-border" />
+            <Stat
+              value={summary.avgBasis === null ? "—" : basis(summary.avgBasis)}
+              label="Avg basis"
+            />
+            <div aria-hidden className="h-8 w-px bg-border" />
+            <Stat value={summary.accepted} label="Accepted" />
+            <div aria-hidden className="h-8 w-px bg-border" />
+            <Stat value={summary.rejected} label="Rejected" />
+          </div>
+        </div>
+        {/* The row's own edit control is an icon in a 38px cell at the end of a
+            long table. Opened, there is room for the real thing. */}
+        <Button size="lg" aria-label={`Edit ${scenario.id}`}>
+          <Pencil />
+          Edit scenario
+        </Button>
+      </div>
+
+      {/* The panel's header sits on the well, outside the panel — same shape as
+          the producer inset. It names what the panel is; a title inside the box
+          it titles reads as the box's first row. */}
       <div className="mb-4">
         <PageHeader
           condensed
           icon={Users}
           title="Producer activity"
-          description="Accepts and rejects against this bid"
+          description="Every accept and reject against this bid"
         />
-        <div className="mt-4 flex items-center gap-6">
-          <Stat value={counts.accepted} label="Accepted" />
-          <div aria-hidden className="h-8 w-px bg-border" />
-          <Stat value={counts.rejected} label="Rejected" />
-        </div>
       </div>
 
       {/* What is left is the panel proper: a control and the table it filters,
@@ -115,8 +147,9 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                   <TableRow>
                     <TableHead>Producer</TableHead>
                     <TableHead>Action</TableHead>
-                    <TableHead>Bid</TableHead>
+                    <TableHead>Accepted bid</TableHead>
                     <TableHead>Bushels</TableHead>
+                    <TableHead>Reject reason</TableHead>
                     <TableHead>When</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -129,8 +162,17 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                           {actionStatus[e.action].label}
                         </StatusBadge>
                       </TableCell>
-                      <TableCell className="tabular-nums">{basis(e.bid)}</TableCell>
+                      {/* One of these two cells is always empty: a reject has
+                          no accepted bid, an accept has no reason. The dash is
+                          the column saying so — a blank cell reads as data that
+                          failed to load. */}
+                      <TableCell className="tabular-nums">
+                        {e.action === "accepted" ? basis(e.bid) : <Dash />}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap tabular-nums">{e.bushels.toLocaleString("en-US")}</TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {e.reason ?? <Dash />}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap text-muted-foreground">{e.when}</TableCell>
                     </TableRow>
                   ))}
