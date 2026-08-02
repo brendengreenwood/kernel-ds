@@ -109,31 +109,64 @@ export function TableFrame({
     type and rhythm. Pages keep their own outer padding.
 
     The glyph repeats the rail's icon for the route: arriving on a page, the mark
-    you clicked is the mark at the top of what you got. Same chip language as
-    `IconChip`, one size up — a page title outranks a panel title. */
+    you clicked is the mark at the top of what you got.
+
+    Two sizes. The default heads a route. `condensed` heads a panel that is the
+    subject of its own surface — an expanded row's activity panel is a page in
+    miniature, and it was being built by hand out of a chip, a 14px bold line and
+    a muted line under it. Same object, one step down: 36px chip, 20px title,
+    and the description the full size does not carry (a route's subject is the
+    route; a panel has to say what it is showing).
+
+    Condensed titles are h2: they sit inside a page that already has its h1. */
 export function PageHeader({
   icon: Icon,
   title,
+  description,
   action,
+  condensed = false,
 }: {
   icon?: React.ComponentType<{ className?: string }>
   title: string
+  description?: string
   action?: React.ReactNode
+  condensed?: boolean
 }) {
+  const Heading = condensed ? "h2" : "h1"
   return (
     <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
       <div className="flex min-w-0 items-center gap-3">
         {Icon ? (
-          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-foreground/5 text-muted-foreground">
-            <Icon className="size-5" />
+          <span
+            data-v2-pagechip
+            data-condensed={condensed ? "" : undefined}
+            className={condensed ? CHIP_SM : CHIP_LG}
+          >
+            <Icon className={condensed ? "size-5" : "size-6"} />
           </span>
         ) : null}
-        <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+        <div className="min-w-0">
+          <Heading
+            className={
+              condensed
+                ? "text-xl font-semibold tracking-tight"
+                : "text-3xl font-semibold tracking-tight"
+            }
+          >
+            {title}
+          </Heading>
+          {description ? (
+            <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
+          ) : null}
+        </div>
       </div>
       {action ? <div className="flex min-w-0 items-center gap-2">{action}</div> : null}
     </div>
   )
 }
+
+const CHIP_LG = "grid size-11 shrink-0 place-items-center"
+const CHIP_SM = "grid size-9 shrink-0 place-items-center"
 
 export function Empty({ children }: { children: React.ReactNode }) {
   return <p className="py-2 text-sm text-muted-foreground">{children}</p>

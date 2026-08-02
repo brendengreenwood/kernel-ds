@@ -46,6 +46,86 @@
   }
 }
 
+/* ---- The activity panel's concentric inner surface ----
+   One padding value on all four sides (3 units), so the inner surface can be
+   concentric: outer radius − inset = inner radius, and an inset that differs by
+   side leaves no single radius that follows the outer curve. 20 − 12 = 8.
+
+   The panel's radius steps UP from --radius rather than reusing it. --radius is
+   tuned for the app's cards; a container that holds another rounded container
+   has to be rounder than the thing inside it or the corners read as one thick
+   corner. The inner surface takes the frame recipe every other block-on-a-card
+   here takes — fill one step off the surface, a 1px top lip, no cast. */
+:root {
+  --v2-panel-radius: calc(var(--radius) + var(--spacing) * 1.5);
+  --v2-panel-inset: calc(var(--spacing) * 3);
+}
+[data-v2-panel-inner] {
+  border-radius: calc(var(--v2-panel-radius) - var(--v2-panel-inset));
+  background: var(--elev-plate);
+  box-shadow: inset 0 1px 0 0 var(--elev-lip);
+  /* The table already carries 6 units at its outer cells, so the surface's
+     horizontal inset is 23px to the first glyph. Vertically it carried the
+     cell's 3 and nothing else, which put the header's cap and the last row's
+     baseline hard against a curve. 3 units here lands the block inset on the
+     same 23px the sides use — a surface with one inset, not three. */
+  padding-block: calc(var(--spacing) * 3);
+}
+/* Rules and stripes stop at the padding now, so nothing runs into a corner —
+   except the last row's rule, which would hang in the block's bottom air. */
+[data-v2-panel-inner] [data-slot="table-body"] [data-slot="table-row"]:last-child {
+  border-bottom: 0;
+}
+
+/* ---- The folder tab's panel ----
+   Two steps up off the page plate, in the app's own overlay units: every other
+   surface step here is a foreground mix (zebra 5%, row hover 4%, selected 9%),
+   so a tab panel that stepped by neutral rungs instead would be the one surface
+   in the app measuring itself against a different ruler. 4% twice = 8%.
+
+   It carries no edge of its own. The folder strip's baseline already draws the
+   top, and the plate draws the sides — a second hairline inside them would be
+   two lines describing one boundary. */
+[data-v2-tabpanel] {
+  background: color-mix(in oklch, var(--foreground) 8%, transparent);
+}
+
+/* ---- Segmented tabs ----
+   The same control as the Overview's range group, driven off the same marker,
+   so `data-v2-segmented` means one thing in this app whether the segments are
+   toggle-group items or tab triggers.
+
+   A quiet track and a quiet chip. The DS pill hands the active segment
+   --primary, which is right for a filter the reader SET and wrong for a range
+   that merely defaults to something: a green block on a panel's first line
+   reads as the panel's subject, not as one of two states of a control.
+
+   Both fills are foreground overlays rather than palette rungs, because this
+   control sits on --card inside the panel and on the page plate on Overview,
+   and an overlay carries the same step off either. Track 4%, chip 10%: the
+   chip has to clear the track it sits in, not the surface underneath. */
+[data-slot="tabs-list"][data-v2-segmented] {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: color-mix(in oklch, var(--foreground) 4%, transparent);
+  padding: calc(var(--spacing) * 0.75);
+  gap: calc(var(--spacing) * 0.5);
+}
+[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"] {
+  border-radius: calc(var(--radius) - var(--spacing));
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  box-shadow: none;
+}
+[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"]:hover {
+  color: var(--foreground);
+}
+[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"][data-active] {
+  background: color-mix(in oklch, var(--foreground) 10%, transparent);
+  color: var(--foreground);
+}
+
 /* --radius (14px) is tuned for the app's roomy cards; at control heights it
    reads too round, so buttons step down a notch — which also lands them on the
    same radius as the compact select triggers, so the control row is coherent.
@@ -78,8 +158,12 @@
 
    No `overflow: hidden` on the track — it would clip the focus ring, which is a
    box-shadow. The ends are rounded per segment instead. Unlayered + !important
-   to beat the variant's utilities. */
-[data-slot="tabs-list"][data-variant="pill"] {
+   to beat the variant's utilities.
+
+   `:not([data-v2-segmented])` throughout: a list carrying the segmented marker
+   is the Overview's range control, not this one, and these rules would win on
+   !important alone if they were allowed to match it. */
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) {
   align-items: stretch;
   gap: 0 !important;
   padding: 0 !important;
@@ -87,32 +171,32 @@
   border: 1px solid var(--border);
   background: transparent;
 }
-[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"] {
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] {
   border-radius: 0 !important;
   box-shadow: none !important;
   padding-inline: calc(var(--spacing) * 3.5) !important;
 }
-[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] {
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] {
   border-inline-start: 1px solid var(--border);
 }
-[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"]:first-child {
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:first-child {
   border-start-start-radius: 9999px !important;
   border-end-start-radius: 9999px !important;
 }
-[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"]:last-child {
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:last-child {
   border-start-end-radius: 9999px !important;
   border-end-end-radius: 9999px !important;
 }
-[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"]:not([data-active]):hover {
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:not([data-active]):hover {
   background: color-mix(in oklch, var(--foreground) 4%, transparent);
   color: var(--foreground);
 }
-[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"][data-active] {
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"][data-active] {
   background: var(--v2-seg-active) !important;
   color: var(--v2-seg-active-foreground) !important;
   border-inline-start-color: transparent;
 }
-[data-slot="tabs-list"][data-variant="pill"] [data-slot="tabs-trigger"][data-active] + [data-slot="tabs-trigger"] {
+[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"][data-active] + [data-slot="tabs-trigger"] {
   border-inline-start-color: transparent;
 }
 
@@ -146,6 +230,42 @@
      the same job here: centring splits the free space, so the digits ride half a
      pixel up and land on the badge's optical centre. */
   padding-block-end: 1px;
+}
+
+/* ---- The page header's glyph chip is a TILE, not a wash. As a flat 5% fill it
+   had no edge, no lip and no relation to the elevation language every other
+   object on the plate speaks, so it read as a smudge behind the glyph rather
+   than a thing holding it. It now takes the same recipe as a frame on a card:
+   fill one step off the surface, a hairline for structure (light leans on the
+   edge), a 1px top lip (dark leans on the lip, having no light source).
+
+   Radius is `--radius` rather than the `rounded-xl` it started with. The glyph
+   is 23px in a 42px box, so it sits in ~10px of padding; a 24px MDI glyph reads
+   with roughly a 4px corner, and 4 + 10 lands on 14px — the concentric answer
+   and the system's own `--radius` at the same time.
+
+   The glyph itself moved from --muted-foreground to --foreground and from 19.2px
+   to 23px (0.45 → 0.55 of the box). A page title is the loudest text on the
+   screen; a muted glyph at 45% of its chip beside 30px semibold read as a
+   placeholder for an icon rather than an icon.
+
+   The 1px translate is optical: centring puts the chip on the line box's centre,
+   but the eye reads the title's CAP centre, which sits 1px lower. */
+[data-v2-pagechip] {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: color-mix(in oklch, var(--foreground) 5%, transparent);
+  box-shadow: inset 0 1px 0 0 var(--elev-lip);
+  color: var(--foreground);
+  translate: 0 1px;
+}
+
+/* The condensed chip runs the same recipe at a smaller box, so its radius has
+   to step down with it or the corner reads rounder than the big one: 20px glyph
+   in a 36px box is 8px of padding, and 4 + 8 lands two units under --radius.
+   Same concentric arithmetic as the full size, same answer in the same units. */
+[data-v2-pagechip][data-condensed] {
+  border-radius: calc(var(--radius) - var(--spacing) * 0.5);
 }
 
 /* ---- The folder strip's baseline is the page's rule, not the tab group's. It
@@ -415,13 +535,48 @@
    in a card it DOES cast, because here it is the only thing standing off a
    recess. Lip, edge, cast: the full plate treatment.
 
+   Its halo is a slow outward BLOOM off all four edges, in --primary: the panel
+   does not just stand in the recess, it lights it. Two layers, because a glow
+   with no edge is a smudge — a 1px coloured ring hugging the border, and a wide
+   soft bleed behind it. Both ride under the resting cast: the bloom is light,
+   the cast is weight, and an object standing off a floor wants both.
+
+   The DS's border-beam mark does this shape (`pulse-outside`), but its palettes
+   are colourful / mono / ocean / sunset — none of them this app's. Rebuilt as a
+   box-shadow so it takes --primary and moves when the theme does.
+
    Its table keeps `data-v2-dense`, the app's tightest step, so the panel shows
    the most activity per pixel of an already-secondary row. */
 [data-v2-panel] {
   background: var(--card);
   box-shadow:
     inset 0 1px 0 var(--elev-lip),
-    var(--elev-cast);
+    var(--elev-cast),
+    0 0 0 1px var(--v2-bloom-edge-rest),
+    0 0 calc(var(--spacing) * 7) calc(var(--spacing) * -1) var(--v2-bloom-rest);
+  animation: v2-bloom var(--v2-bloom-cycle) var(--ease-in-out) infinite;
+}
+
+/* 0% and 100% restate the resting shadow rather than omitting it, so the
+   reduced-motion guard — which cuts this to a single 0.01ms pass — lands the
+   panel back on exactly the shadow the base rule declares. Reduced motion gets
+   the bloom, just not the breathing. */
+@keyframes v2-bloom {
+  0%,
+  100% {
+    box-shadow:
+      inset 0 1px 0 var(--elev-lip),
+      var(--elev-cast),
+      0 0 0 1px var(--v2-bloom-edge-rest),
+      0 0 calc(var(--spacing) * 7) calc(var(--spacing) * -1) var(--v2-bloom-rest);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 0 var(--elev-lip),
+      var(--elev-cast),
+      0 0 0 1px var(--v2-bloom-edge-peak),
+      0 0 calc(var(--spacing) * 11) 0 var(--v2-bloom-peak);
+  }
 }
 
 /* The tab strip is part of the panel's surface, so it takes the panel's fill
@@ -558,4 +713,68 @@
 main [data-slot="card"] {
   height: auto !important;
   flex-shrink: 0;
+}
+
+/* ---- The row-toggle cell ----
+   The cell IS the control: the button is absolutely positioned to the cell's
+   own box, so the hit area is the whole cell rather than a 32px box drawn
+   inside it, and no padding of the cell's can shrink it.
+
+   Last in the file on purpose. The table-cell padding rules above are
+   !important — they have to be, to beat the DS's utilities — so this cell can
+   only opt out by matching them on specificity and winning on source order.
+
+   Hover lives on the row, so the cell adds only a colour change; a second
+   fill inside a highlighted row reads as a nested target. The focus ring is
+   inset for the same reason an outset one would be wrong here: the control
+   has no margin of its own to show a ring in. */
+[data-slot="table-cell"][data-v2-rowtoggle] {
+  position: relative;
+  padding: 0 !important;
+}
+[data-v2-rowtoggle] > button {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+[data-v2-rowtoggle] > button:hover {
+  color: var(--foreground);
+}
+[data-v2-rowtoggle] > button:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ring);
+}
+[data-v2-rowtoggle] > button > svg {
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+}
+
+/* The rank column's own inset. The table's edge rule gives cell 2 the full
+   6-unit gutter on its left because it follows the toggle cell, which has no
+   padding to speak of — that inset belongs to the row, not to this column, and
+   at this width it pushes the digits off centre under their label. Last in the
+   file for the same reason as the toggle cell: the padding rules it overrides
+   are !important. */
+[data-slot="table-head"][data-v2-rankcol],
+[data-slot="table-cell"][data-v2-rankcol] {
+  padding-left: calc(var(--spacing) * 3) !important;
+  padding-right: calc(var(--spacing) * 3) !important;
+}
+
+/* The well's own inset. The detail cell inherited the table's edge gutter on
+   its sides and nothing on top or bottom, so the recess was 42px in from the
+   left and 28 from the top — a frame with two different margins. The cell now
+   carries the same 6 units on every side, which the inset panel's own 5-unit
+   padding then sits inside evenly.
+
+   Last in the file, and matched on [data-slot] so it outranks the edge-cell
+   rules it is undoing; those are !important because they have to beat the DS
+   utilities, so specificity and order are the only levers left. */
+[data-slot="table-cell"][data-v2-detail] {
+  padding-block: calc(var(--spacing) * 6) !important;
 }

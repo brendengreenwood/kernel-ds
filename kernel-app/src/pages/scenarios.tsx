@@ -6,7 +6,7 @@ import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import { basis } from "@app/lib/format"
-import { ActivityFlag, Empty, IconChip, PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
+import { ActivityFlag, Empty, PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
 import {
   Table,
   TableBody,
@@ -65,47 +65,51 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
       className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-5 duration-[var(--duration-base)] ease-[var(--ease-out)]"
       style={width ? { width } : undefined}
     >
-      {/* Header, tabs and table on ONE surface: the roll-up figures belong to the
-          table they count, the range control belongs to the table it filters, and
-          the three together are the panel that the well exists to raise. Nothing
-          floats on the well any more — the well is recess, the panel is content. */}
+      {/* The header sits on the well, outside the panel — same shape as the
+          producer inset. It names what the panel is; it is not one of the
+          panel's parts, and a title inside the box it titles reads as the
+          box's first row. The roll-up figures follow it for the same reason:
+          they are the header's summary of the table, not a band across it. */}
+      <div className="mb-4">
+        <PageHeader
+          condensed
+          icon={Users}
+          title="Producer activity"
+          description="Accepts and rejects against this bid"
+        />
+        <div className="mt-4 flex items-center gap-6">
+          <Stat value={counts.accepted} label="Accepted" />
+          <div aria-hidden className="h-8 w-px bg-border" />
+          <Stat value={counts.rejected} label="Rejected" />
+        </div>
+      </div>
+
+      {/* What is left is the panel proper: a control and the table it filters,
+          with one padding value on every side and between them. Even padding is
+          what lets the inner surface be concentric — an inset that differs by
+          side has no single radius that can follow it. */}
       <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)}>
-        <div data-v2-panel className="overflow-hidden rounded-lg border border-border">
-          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 pt-5 pb-6">
-            <div className="flex items-center gap-3">
-              <IconChip icon={Users} />
-              <div className="min-w-0">
-                <div className="text-sm font-medium">Producer activity</div>
-                <div className="text-sm text-muted-foreground">Accepts and rejects against this bid</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-6 pr-1">
-              <Stat value={counts.accepted} label="Accepted" />
-              <div aria-hidden className="h-8 w-px bg-border" />
-              <Stat value={counts.rejected} label="Rejected" />
-            </div>
-          </div>
-          {/* Same segmented control as the page's commodity and book filters: a
-              range filter is a range filter wherever it sits. The underline it
-              replaces was doubling as the divider under the panel header, so the
-              row carries that hairline itself now. */}
-          <div className="max-w-full overflow-x-auto border-b border-border px-6 pb-4">
-            <TabsList variant="pill" size="compact">
+        <div data-v2-panel className="flex flex-col gap-3 rounded-[var(--v2-panel-radius)] border border-border p-3">
+          {/* The Overview's range control, exactly: same marker, same rules. A
+              range filter is a range filter wherever it sits, and this one was
+              the loudest thing in the panel — a filled primary chip announcing
+              a default nobody chose. No divider under it: the inner surface's
+              own edge already says where the table starts. */}
+          <div className="max-w-full overflow-x-auto">
+            <TabsList variant="pill" size="compact" data-v2-segmented>
               <TabsTrigger value="since">Since Last Update</TabsTrigger>
               <TabsTrigger value="all">All Time</TabsTrigger>
             </TabsList>
           </div>
 
           {activity.events.length === 0 ? (
-            <div className="px-6 pb-2">
+            <div data-v2-panel-inner className="px-4 py-2">
               <Empty>No producer activity in this window.</Empty>
             </div>
           ) : (
-            /* The table is a block ON the panel, not the panel's whole body:
-               air above it separates it from the tabs that filter it, and the
-               bottom pad keeps the last row off the panel's edge — without it
-               the final row read as cut rather than ended. */
-            <div className="overflow-x-auto pt-3 pb-4">
+            /* The table gets its own surface inside the panel, cornered to the
+               panel's own curve less the padding it sits in. */
+            <div data-v2-panel-inner className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -194,6 +198,12 @@ export default function ScenariosPage() {
         </Tabs>
       </div>
 
+      {/* Everything under the folder line is that tab's PANEL, and it says so
+          with a surface: the strip's baseline is the top edge of a container
+          that runs to the plate's edges and to the bottom of the page. Without
+          it the line was a rule with content after it; with it the line is the
+          seam where the folder's contents begin. */}
+      <div data-v2-tabpanel className="flex flex-1 flex-col">
       {/* commodity pills */}
       <div className="px-6 pt-4 md:px-8">
         <Tabs value={commodity} onValueChange={(v) => setCommodity(v as string)}>
@@ -234,8 +244,7 @@ export default function ScenariosPage() {
             <TableBody>
               {rows.map((s, i) => (
                 <React.Fragment key={s.id}>
-                {/* The whole row toggles; the chevron stays a real button so the
-                    control is keyboard-reachable and labelled. */}
+                {/* The whole row toggles; the first cell is the control. */}
                 <TableRow
                   onClick={() => toggle(s.id)}
                   data-state={expanded.has(s.id) ? "selected" : undefined}
@@ -245,10 +254,15 @@ export default function ScenariosPage() {
                     expanded.has(s.id) && "border-b-transparent"
                   )}
                 >
-                  <TableCell className="pr-0">
-                    <Button
-                      variant="outline"
-                      size="icon-sm"
+                  {/* The cell IS the control: a button filling it edge to edge, with no
+                      chrome of its own. An outlined icon button in the first column was a
+                      second thing to aim at inside a row that already toggles, and it drew
+                      a box around a chevron that never needed one. Still a real button —
+                      tabbable, labelled, and carrying aria-expanded — so the row's click
+                      handler stays the shortcut and this stays the control. */}
+                  <TableCell data-v2-rowtoggle className="p-0">
+                    <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation()
                         toggle(s.id)
@@ -262,7 +276,7 @@ export default function ScenariosPage() {
                           expanded.has(s.id) && "rotate-180"
                         )}
                       />
-                    </Button>
+                    </button>
                   </TableCell>
                   <TableCell className="font-medium whitespace-nowrap">{s.futuresMonth}</TableCell>
                   <TableCell className="whitespace-nowrap text-muted-foreground">{s.shipment}</TableCell>
@@ -319,6 +333,7 @@ export default function ScenariosPage() {
             </TableBody>
           </Table>
         </TableFrame>
+      </div>
       </div>
     </div>
   )

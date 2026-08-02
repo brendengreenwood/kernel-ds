@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 import { basis } from "@app/lib/format"
-import { IconChip, PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
+import { PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
 import { locations, producers, type Dated, type Offer } from "@app/data/producers"
 
 const commodityFilters: { value: string; label: string; key?: Commodity }[] = [
@@ -84,21 +84,18 @@ function OfferInset({ producer, offers }: { producer: string; offers: Offer[] })
       className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-5 duration-[var(--duration-base)] ease-[var(--ease-out)]"
       style={width ? { width } : undefined}
     >
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-        <div className="flex items-center gap-3">
-          <IconChip icon={Handshake} />
-          <div className="min-w-0">
-            <div className="text-sm font-medium">Open bids</div>
-            <div className="text-sm text-muted-foreground">
-              What {producer} has on the table, and your edge over the top competitor
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-6 pr-1">
-          <Stat value={offers.length} label="Open bids" />
-          <div aria-hidden className="h-8 w-px bg-border" />
-          <Stat value={bestEdge == null ? "—" : basis(bestEdge)} label="Best edge" />
-        </div>
+      <div className="mb-4">
+        <PageHeader
+          condensed
+          icon={Handshake}
+          title="Open bids"
+          description={`What ${producer} has on the table, and your edge over the top competitor`}
+        />
+      <div className="mt-4 flex items-center gap-6">
+        <Stat value={offers.length} label="Open bids" />
+        <div aria-hidden className="h-8 w-px bg-border" />
+        <Stat value={bestEdge == null ? "—" : basis(bestEdge)} label="Best edge" />
+      </div>
       </div>
       <TableFrame>
         <Table>
@@ -288,7 +285,11 @@ export default function ProducersPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-8" />
-                <TableHead>
+                {/* The column is as wide as its label and no wider: rank values are
+                    one or two digits, so the header is the widest thing in it, and a
+                    column sized to its content should stop there. w-0 + nowrap is how
+                    a table column asks for its minimum. */}
+                <TableHead data-v2-rankcol className="w-0 whitespace-nowrap">
                   <span className="inline-flex items-center gap-1.5">
                     Rank
                     <Tooltip>
@@ -316,8 +317,7 @@ export default function ProducersPage() {
             <TableBody>
               {rows.map((p, i) => (
                 <React.Fragment key={p.id}>
-                  {/* The whole row toggles; the chevron stays a real button so
-                      the control is still keyboard-reachable and labelled. */}
+                  {/* The whole row toggles; the first cell is the control. */}
                   <TableRow
                     onClick={() => toggle(p.id)}
                     data-state={expanded.has(p.id) ? "selected" : undefined}
@@ -327,10 +327,15 @@ export default function ProducersPage() {
                       expanded.has(p.id) && "border-b-transparent"
                     )}
                   >
-                    <TableCell className="pr-0">
-                      <Button
-                        variant="outline"
-                        size="icon-sm"
+                    {/* The cell IS the control: a button filling it edge to edge, with no
+                        chrome of its own. An outlined icon button in the first column was a
+                        second thing to aim at inside a row that already toggles, and it drew
+                        a box around a chevron that never needed one. Still a real button —
+                        tabbable, labelled, and carrying aria-expanded — so the row's click
+                        handler stays the shortcut and this stays the control. */}
+                    <TableCell data-v2-rowtoggle className="p-0">
+                      <button
+                        type="button"
                         onClick={(e) => {
                           e.stopPropagation()
                           toggle(p.id)
@@ -344,9 +349,14 @@ export default function ProducersPage() {
                             expanded.has(p.id) && "rotate-180"
                           )}
                         />
-                      </Button>
+                      </button>
                     </TableCell>
-                    <TableCell className="font-medium tabular-nums">{p.rank}</TableCell>
+                    {/* Centred under the label rather than ranged left: in a column
+                        this narrow the digits are a marker, not a number to compare
+                        down the column. */}
+                    <TableCell data-v2-rankcol className="text-center font-medium tabular-nums">
+                      {p.rank}
+                    </TableCell>
                     <TableCell className="font-medium whitespace-nowrap">{p.name}</TableCell>
                     <TableCell>
                       <Badge variant="outline">{p.accountType}</Badge>

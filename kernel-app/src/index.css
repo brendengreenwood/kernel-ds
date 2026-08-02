@@ -86,6 +86,18 @@
      shaded, not lit. */
   --v2-well: var(--neutral-950);
   --v2-well-shade: color-mix(in oklch, black 55%, transparent);
+
+  /* The open row's panel breathes a coloured bloom outward. It is --primary,
+     not a new hue: the leading-edge bar on the well is already --primary, so
+     the bloom is that same selection signal spread across the panel's whole
+     edge rather than a second colour introduced to decorate one. Dark carries
+     more of it — a lime bloom on a near-black recess has room that a green one
+     on white does not. */
+  --v2-bloom-cycle: 4.5s;
+  --v2-bloom-rest: color-mix(in oklch, var(--primary) 10%, transparent);
+  --v2-bloom-peak: color-mix(in oklch, var(--primary) 28%, transparent);
+  --v2-bloom-edge-rest: color-mix(in oklch, var(--primary) 14%, transparent);
+  --v2-bloom-edge-peak: color-mix(in oklch, var(--primary) 34%, transparent);
 }
 
 :root {
@@ -161,6 +173,13 @@
      shadows are grey, not black. */
   --v2-well: var(--neutral-200);
   --v2-well-shade: color-mix(in oklch, var(--foreground) 12%, transparent);
+
+  /* Light runs about two-thirds of dark's alphas: the same mix reads as a
+     smear on a white panel where on black it reads as light. */
+  --v2-bloom-rest: color-mix(in oklch, var(--primary) 7%, transparent);
+  --v2-bloom-peak: color-mix(in oklch, var(--primary) 17%, transparent);
+  --v2-bloom-edge-rest: color-mix(in oklch, var(--primary) 10%, transparent);
+  --v2-bloom-edge-peak: color-mix(in oklch, var(--primary) 22%, transparent);
 }
 
 /* Rail glyphs sit a step off the rail's own ink rather than at full
