@@ -6,7 +6,7 @@ import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import { basis } from "@app/lib/format"
-import { ActivityFlag, Empty, PageHeader, Stat, TableFrame, useVisibleWidth } from "@app/components/panels"
+import { ActivityFlag, Empty, PageHeader, TableFrame, Tile, useVisibleWidth } from "@app/components/panels"
 import {
   Table,
   TableBody,
@@ -64,9 +64,10 @@ const Dash = () => (
 function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   const [range, setRange] = React.useState<ActivityRange>("since")
   const activity = scenario.activity[range]
-  // The roll-up is fixed to "since last update" — that is the question the row
-  // is opened to answer. The range control below filters the table it sits in.
-  const summary = tally(scenario.activity.since)
+  // The roll-up is the scenario's whole life, not the recent tail: it is what
+  // this bid has bought, and a number that changed when a tab moved would be a
+  // second range control wearing a different face. The tabs filter the table.
+  const summary = tally(scenario.activity.all)
   const ref = React.useRef<HTMLDivElement>(null)
   const width = useVisibleWidth(ref)
 
@@ -77,31 +78,33 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
       style={width ? { width } : undefined}
     >
       {/* What the row is opened to find out, before any of the detail: what
-          this bid bought since it was last touched, what it paid, and how the
-          offers split. Volume leads — the counts say how many producers acted,
-          the bushels say how much of the book moved. */}
-      <div className="mb-8 flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
-        <div>
-          <p className="text-xs font-medium text-muted-foreground">Since last update</p>
-          <div className="mt-2 flex items-center gap-6">
-            <Stat value={summary.bushels.toLocaleString("en-US")} label="Bushels bought" />
-            <div aria-hidden className="h-8 w-px bg-border" />
-            <Stat
-              value={summary.avgBasis === null ? "—" : basis(summary.avgBasis)}
-              label="Avg basis"
-            />
-            <div aria-hidden className="h-8 w-px bg-border" />
-            <Stat value={summary.accepted} label="Accepted" />
-            <div aria-hidden className="h-8 w-px bg-border" />
-            <Stat value={summary.rejected} label="Rejected" />
-          </div>
+          this bid has bought, what it paid, and how the offers split. Volume
+          leads — the counts say how many producers acted, the bushels say how
+          much of the book moved.
+
+          Tiles rather than bare figures: on the well these are the first raised
+          objects the eye finds, and four numbers in a line with rules between
+          them read as a status bar, not as the row's subject. */}
+      <div className="mb-8">
+        <div className="mb-3 flex items-center justify-between gap-4">
+          <p className="text-xs font-medium text-muted-foreground">All time</p>
+          {/* The row's own edit control is an icon in a 38px cell at the end of
+              a long table. Opened, there is room for the real thing. */}
+          <Button size="lg" aria-label={`Edit ${scenario.id}`}>
+            <Pencil />
+            Edit scenario
+          </Button>
         </div>
-        {/* The row's own edit control is an icon in a 38px cell at the end of a
-            long table. Opened, there is room for the real thing. */}
-        <Button size="lg" aria-label={`Edit ${scenario.id}`}>
-          <Pencil />
-          Edit scenario
-        </Button>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Tile lg value={summary.bushels.toLocaleString("en-US")} label="Bushels bought" />
+          <Tile
+            lg
+            value={summary.avgBasis === null ? "—" : basis(summary.avgBasis)}
+            label="Avg basis"
+          />
+          <Tile lg value={summary.accepted} label="Accepted" />
+          <Tile lg value={summary.rejected} label="Rejected" />
+        </div>
       </div>
 
       {/* The panel's header sits on the well, outside the panel — same shape as

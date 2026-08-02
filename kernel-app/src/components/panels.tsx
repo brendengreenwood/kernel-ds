@@ -6,14 +6,39 @@ import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
    one source for the framed-table + tile + flag treatment everywhere. */
 
 /** A roll-up figure. A row of these heads a panel, so the row answers the
-    question before the table has to be read at all. */
-export function Tile({ value, label }: { value: React.ReactNode; label: string }) {
+    question before the table has to be read at all.
+
+    Two sizes, like PageHeader: the default heads a panel inside a page, `lg`
+    heads the thing itself. An opened scenario row is read before anything
+    around it, and a 20px figure in a 16px column of chrome does not lead. */
+export function Tile({
+  value,
+  label,
+  lg = false,
+}: {
+  value: React.ReactNode
+  label: string
+  lg?: boolean
+}) {
   return (
     /* Same plate marker as TableFrame: a tile and the table below it are the
        same kind of object, so they take the same fill and lip. */
-    <div data-v2-frame className="rounded-lg border border-border px-3 py-2">
-      <div className="text-xl leading-tight font-semibold tabular-nums">{value}</div>
-      <div className="mt-0.5 text-xs text-muted-foreground">{label}</div>
+    <div
+      data-v2-frame
+      className={lg ? "rounded-[var(--radius)] border border-border px-4 py-3" : "rounded-lg border border-border px-3 py-2"}
+    >
+      <div
+        className={
+          lg
+            ? "text-2xl leading-none font-semibold tabular-nums"
+            : "text-xl leading-tight font-semibold tabular-nums"
+        }
+      >
+        {value}
+      </div>
+      <div className={lg ? "mt-1.5 text-xs text-muted-foreground" : "mt-0.5 text-xs text-muted-foreground"}>
+        {label}
+      </div>
     </div>
   )
 }
