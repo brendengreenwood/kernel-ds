@@ -364,6 +364,22 @@
   padding-right: calc(var(--spacing) * 4) !important;
 }
 
+/* A charted tile narrower than ~150px has no room for dated ticks: the labels
+   collide, then abbreviate themselves into noise. The grid and the baseline
+   stay — they are what makes a trace a chart — and the dates come back on
+   their own when the tile is given the width. */
+@container (max-width: 150px) {
+  .recharts-xAxis .recharts-cartesian-axis-tick text {
+    display: none;
+  }
+}
+
+/* Chart furniture takes the app's hairline, not Recharts' defaults. */
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line {
+  stroke: var(--border);
+}
+
 /* Condensed tables — for lists sitting inside a Card or an expanded row, where
    the roomy top-level step wastes the width. These sit in an outlined frame
    (every table in the app does), so edge cells keep a small inset rather than

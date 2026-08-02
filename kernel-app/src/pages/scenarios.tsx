@@ -5,8 +5,9 @@ import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
 import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
-import { basis } from "@app/lib/format"
+import { basis, bushelsShort } from "@app/lib/format"
 import { ActivityFlag, Empty, PageHeader, TableFrame, Tile, useVisibleWidth } from "@app/components/panels"
+import { Sparkline } from "@app/components/sparkline"
 import {
   Table,
   TableBody,
@@ -20,6 +21,7 @@ import {
   scenarios,
   sinceCount,
   tally,
+  trend,
   type ActivityRange,
   type Scenario,
   type ScenarioStatus,
@@ -68,6 +70,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   // this bid has bought, and a number that changed when a tab moved would be a
   // second range control wearing a different face. The tabs filter the table.
   const summary = tally(scenario.activity.all)
+  const lines = trend(scenario.activity.all)
   const ref = React.useRef<HTMLDivElement>(null)
   const width = useVisibleWidth(ref)
 
@@ -86,26 +89,64 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           rules between them read as a status bar under the row, not as the
           row's subject.
 
-          They hold half the width and stack two by two. Across the full width
-          each figure would sit in a column too narrow to grow, and 36px is the
-          size that makes them the first thing read. */}
-      <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
-        <div className="grid w-full grid-cols-2 gap-3 md:w-[calc(50%-0.5rem)]">
-          <Tile lg value={summary.bushels.toLocaleString("en-US")} label="Bushels bought" />
+          One row of four across the full width. The four are read together —
+          bushels at that basis, split those ways — so a second line would break
+          the sentence in half. Half a width fit them, but a charted tile needs
+          about 150px before its dates stop colliding, and a dateless chart is
+          the trace we already had. The edit control goes above rather than
+          alongside; the figures size themselves to the cell they land in.
+
+          Each tile carries the same figure over time. A roll-up says where the
+          scenario ended up; the line says whether it got there steadily or in
+          one morning, which is the difference between a bid that is working and
+          one that worked once. Decorative, in the accessibility sense: every
+          point it draws is in the table below. */}
+      <div className="mb-8">
+        <div className="mb-3 flex justify-end">
+          {/* The row's own edit control is an icon in a 38px cell at the end of
+              a long table. Opened, there is room for the real thing. */}
+          <Button size="lg" aria-label={`Edit ${scenario.id}`}>
+            <Pencil />
+            Edit scenario
+          </Button>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Tile
+            lg
+            value={bushelsShort(summary.bushels)}
+            label="Bushels bought"
+            chart={<Sparkline data={lines.bushels} height={64} xKey="t" curve="stepAfter" frame />}
+          />
           <Tile
             lg
             value={summary.avgBasis === null ? "—" : basis(summary.avgBasis)}
             label="Avg basis"
+            chart={<Sparkline data={lines.avgBasis} height={64} xKey="t" frame />}
           />
-          <Tile lg value={summary.accepted} label="Accepted" />
-          <Tile lg value={summary.rejected} label="Rejected" />
+          <Tile
+            lg
+            value={summary.accepted}
+            label="Accepted"
+            chart={<Sparkline data={lines.accepted} height={64} xKey="t" curve="stepAfter" frame />}
+          />
+          {/* Rejects are the one figure where up is bad, so the line does not
+              ride the accent the other three share. */}
+          <Tile
+            lg
+            value={summary.rejected}
+            label="Rejected"
+            chart={
+              <Sparkline
+                data={lines.rejected}
+                height={64}
+                xKey="t"
+                curve="stepAfter"
+                frame
+                colorVar="--muted-foreground"
+              />
+            }
+          />
         </div>
-        {/* The row's own edit control is an icon in a 38px cell at the end of a
-            long table. Opened, there is room for the real thing. */}
-        <Button size="lg" aria-label={`Edit ${scenario.id}`}>
-          <Pencil />
-          Edit scenario
-        </Button>
       </div>
 
       {/* The panel's header sits on the well, outside the panel — same shape as

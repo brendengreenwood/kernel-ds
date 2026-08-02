@@ -1,4 +1,5 @@
 import type { Commodity } from "@/components/ui/commodity-badge"
+import type { Point } from "@app/data/overview"
 
 export type ScenarioStatus = "active" | "draft" | "paused" | "expired"
 
@@ -208,6 +209,60 @@ export const tally = (a: Activity) => {
         ? null
         : accepted.reduce((n, e) => n + e.bid * e.bushels, 0) / bushels,
   }
+}
+
+/** The relative ages the events carry, back into minutes before now. The
+    display strings are the source of truth in this prototype — a real feed
+    would carry timestamps — so the parse is deliberately narrow and throws
+    nothing: an unrecognised age lands at now, where a new event belongs. */
+const minutesAgo = (age: string) => {
+  if (age === "yesterday") return 24 * 60
+  const m = /^(\d+)\s+(min|h|day)/.exec(age)
+  if (!m) return 0
+  const n = Number(m[1])
+  return m[2] === "min" ? n : m[2] === "h" ? n * 60 : n * 1440
+}
+
+/** The same four figures, drawn over the scenario's life: each point is the
+    running value after one more event, oldest first. A tile's line is the
+    number it prints on its way to being that number — not a second dataset
+    that could disagree with it.
+
+    Plotted against the clock, not against event order. `t` is days before now,
+    so the x axis is elapsed time: four accepts in one morning draw a cliff and
+    four across a week draw a ramp. Spaced evenly they would draw the same line,
+    which is the one thing the tile is being added to say.
+
+    Basis starts at the first accept. Before one, the running average is not
+    zero, it does not exist, and a line rising off zero would read as a bid
+    climbing from nothing. */
+export type TrendPoint = Point & { t: number }
+
+export const trend = (a: Activity) => {
+  const chron = [...a.events].reverse()
+  const bushels: TrendPoint[] = []
+  const avgBasis: TrendPoint[] = []
+  const accepted: TrendPoint[] = []
+  const rejected: TrendPoint[] = []
+  let bu = 0
+  let cost = 0
+  let acc = 0
+  let rej = 0
+  for (const e of chron) {
+    const t = -minutesAgo(e.when) / 1440
+    if (e.action === "accepted") {
+      acc++
+      bu += e.bushels
+      cost += e.bid * e.bushels
+    } else {
+      rej++
+    }
+    bushels.push({ d: e.when, t, v: bu })
+    if (bu > 0) avgBasis.push({ d: e.when, t, v: cost / bu })
+    accepted.push({ d: e.when, t, v: acc })
+    rejected.push({ d: e.when, t, v: rej })
+  }
+  return { bushels, avgBasis, accepted, rejected }
 }
 
 /** How much has happened since the merchant last touched this scenario — the
