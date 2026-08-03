@@ -81,6 +81,24 @@ export function revealRow(row: HTMLElement | null) {
 export function useRevealOnOpen(id: string | null, attr: string) {
   React.useLayoutEffect(() => {
     if (!id) return
-    revealRow(document.querySelector<HTMLElement>(`[${attr}="${CSS.escape(id)}"]`))
+    const row = document.querySelector<HTMLElement>(`[${attr}="${CSS.escape(id)}"]`)
+    revealRow(row)
+
+    /* Then once more on the next frame, because the panel is not its final
+       height yet on the pass above. `useVisibleWidth` pins the inset's width
+       from a post-commit effect, and the content rewraps when it lands —
+       measured at 602.5px on the layout pass against 651.9px settled, so the
+       first reveal scrolled 49px short and left the panel's bottom under the
+       bottom bar. The row that opened it looked *already visible* in one case
+       and was skipped by the early return entirely, then grew past the bar.
+
+       Both calls, rather than moving the whole thing to a frame later: the
+       layout-effect pass is what keeps the correction off-screen in the common
+       case, and `revealRow`'s own "already visible" early return makes this
+       second call free whenever the first one was right. Cancelled on cleanup
+       so a close that lands within the frame cannot scroll after it — closing
+       must never move the page. */
+    const frame = requestAnimationFrame(() => revealRow(row))
+    return () => cancelAnimationFrame(frame)
   }, [id, attr])
 }
