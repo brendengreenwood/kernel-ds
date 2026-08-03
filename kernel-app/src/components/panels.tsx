@@ -28,18 +28,24 @@ export function TwoLine({ top, sub, strong }: { top: React.ReactNode; sub?: stri
     number is the object and a fill behind it would be a box around a headline;
     the hairline is there to group the four, not to raise them.
 
-    It is also padded like a card rather than like a cell: a figure this size
-    needs air around it before the hairline, or the tile reads as a number that
-    was cropped to fit. The inset is 12 spacing units, which is the header
-    chip plus its gap — so a card's label starts on the same vertical as the
-    title of the header above the row, and the four cards read as a block
-    hanging off that line rather than as a band starting somewhere else. The
-    chart keeps a smaller inset than the text: an axis label is already inset
-    from its own plot edge, so matching the text's padding would double it.
+    It is padded like a card rather than like a cell: a figure this size needs
+    air around it before the hairline, or the tile reads as a number that was
+    cropped to fit. The inset used to be 12 units — the header chip plus its
+    gap — so that a label started on the same vertical as the title of a header
+    floating above the row. That alignment was doing the work a box does. Now
+    that the header and the tiles are in one panel, the panel's own padding is
+    the left rule they share, and the tile is free to be padded for its
+    contents: 12 units inside a 190px card left 94px of text column, which
+    wrapped "Bushels bought" onto two lines and dropped its figure off the row's
+    line. The chart keeps a smaller inset than the text: an axis label is
+    already inset from its own plot edge, so matching the text's padding would
+    double it.
 
-    It takes the panel's own corner rather than the control radius: these are
-    the largest objects in the opened row, and a card the size of a panel that
-    is rounded like a button reads as a button that grew.
+    Its corner is the panel's, less the padding it sits in — the same
+    arithmetic the activity table's inner surface runs, because it is the same
+    relationship. A card sharing its container's radius makes the two corners
+    read as one thick corner; a card this size wearing the control radius reads
+    as a button that grew. Outer minus inset is the answer to both.
 
     Its figure is sized off the tile, not off the page: a row of four is read
     across half a width in one place and a whole width in another, and a fixed
@@ -71,8 +77,8 @@ export function Tile({
 }) {
   if (lg) {
     return (
-      <div className="@container overflow-hidden rounded-[var(--v2-panel-radius)] border border-border pt-7">
-        <div className="px-12">
+      <div className="@container overflow-hidden rounded-[calc(var(--v2-panel-radius)-var(--v2-panel-inset))] border border-border pt-7">
+        <div className="px-5">
           {/* Label over figure. A caption under a number is a footnote to it;
               above, it is the question the number answers — and the four
               questions line up across the row at a constant height, which a
@@ -117,11 +123,17 @@ export function IconChip({ icon: Icon }: { icon: React.ComponentType<{ className
 }
 
 /** A bare roll-up figure for a header cluster — no box, just the number over
-    its label. Boxed variant is `Tile`. */
+    its label. Boxed variant is `Tile`.
+
+    It sizes off the header it sits in, not off the page. A figure in a header's
+    action slot is an aside to that header's title, and a 24px number beside a
+    16px `section` title inverts them — the aside becomes the loudest thing in
+    the panel and the title reads as its caption. `text-lg` against `text-base`
+    keeps the figure the larger of the two without taking the title's job. */
 export function Stat({ value, label }: { value: React.ReactNode; label: string }) {
   return (
     <div>
-      <div className="text-2xl leading-none font-semibold tabular-nums">{value}</div>
+      <div className="text-lg leading-none font-semibold tabular-nums">{value}</div>
       <div className="mt-1 text-xs text-muted-foreground">{label}</div>
     </div>
   )
@@ -198,52 +210,50 @@ export function TableFrame({
     The glyph repeats the rail's icon for the route: arriving on a page, the mark
     you clicked is the mark at the top of what you got.
 
-    Two sizes. The default heads a route. `condensed` heads a panel that is the
-    subject of its own surface — an expanded row's activity panel is a page in
-    miniature, and it was being built by hand out of a chip, a 14px bold line and
-    a muted line under it. Same object, one step down: 36px chip, 20px title,
-    and the description the full size does not carry (a route's subject is the
-    route; a panel has to say what it is showing).
+    Three sizes, because there are three depths at which something gets named.
 
-    Condensed titles are h2: they sit inside a page that already has its h1. */
+    `page` heads a route. `panel` heads a surface that is the subject of its own
+    box — an opened row's summary is a page in miniature, and it was being built
+    by hand out of a chip, a 14px bold line and a muted line under it. `section`
+    heads a block INSIDE such a panel: it is the third name down and has to read
+    as subordinate to the one above it, or the panel appears to hold two equal
+    titles and the reader has to work out which owns which.
+
+    The steps are 44/30, 36/20, 28/16 — chip and title falling together, so each
+    size keeps the same relationship between the mark and the words rather than
+    shrinking the type against a fixed chip.
+
+    Heading LEVEL does not follow size. `page` is the h1; both smaller sizes are
+    h2, because the panels of an opened row are peer sections of that row and a
+    level chosen for its type size is how a document grows a heading hierarchy
+    that does not match its structure. */
 export function PageHeader({
   icon: Icon,
   title,
   description,
   action,
-  condensed = false,
+  size = "page",
 }: {
   icon?: React.ComponentType<{ className?: string }>
   title: string
   description?: string
   action?: React.ReactNode
-  condensed?: boolean
+  size?: "page" | "panel" | "section"
 }) {
-  const Heading = condensed ? "h2" : "h1"
+  const Heading = size === "page" ? "h1" : "h2"
+  const s = SIZES[size]
   return (
     <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
       <div className="flex min-w-0 items-center gap-3">
         {Icon ? (
-          <span
-            data-v2-pagechip
-            data-condensed={condensed ? "" : undefined}
-            className={condensed ? CHIP_SM : CHIP_LG}
-          >
-            <Icon className={condensed ? "size-5" : "size-6"} />
+          <span data-v2-pagechip data-size={size} className={s.chip}>
+            <Icon className={s.glyph} />
           </span>
         ) : null}
         <div className="min-w-0">
-          <Heading
-            className={
-              condensed
-                ? "text-xl font-semibold tracking-tight"
-                : "text-3xl font-semibold tracking-tight"
-            }
-          >
-            {title}
-          </Heading>
+          <Heading className={`${s.title} font-semibold tracking-tight`}>{title}</Heading>
           {description ? (
-            <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
+            <p className={`mt-0.5 ${s.description} text-muted-foreground`}>{description}</p>
           ) : null}
         </div>
       </div>
@@ -252,8 +262,26 @@ export function PageHeader({
   )
 }
 
-const CHIP_LG = "grid size-11 shrink-0 place-items-center"
-const CHIP_SM = "grid size-9 shrink-0 place-items-center"
+const SIZES = {
+  page: {
+    chip: "grid size-11 shrink-0 place-items-center",
+    glyph: "size-6",
+    title: "text-3xl",
+    description: "text-sm",
+  },
+  panel: {
+    chip: "grid size-9 shrink-0 place-items-center",
+    glyph: "size-5",
+    title: "text-xl",
+    description: "text-sm",
+  },
+  section: {
+    chip: "grid size-7 shrink-0 place-items-center",
+    glyph: "size-4",
+    title: "text-base",
+    description: "text-xs",
+  },
+} as const
 
 export function Empty({ children }: { children: React.ReactNode }) {
   return <p className="py-2 text-sm text-muted-foreground">{children}</p>

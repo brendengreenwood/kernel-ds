@@ -113,9 +113,12 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           words, which is all a decorative trace needs — decorative in the
           accessibility sense, since every point it draws is in the table
           below. */}
-      <div className="mb-8">
+      <div
+        data-v2-panel
+        className="mb-4 rounded-[var(--v2-panel-radius)] border border-border p-3"
+      >
         <PageHeader
-          condensed
+          size="panel"
           icon={Gauge}
           title="Scenario summary"
           description="Everything this bid has bought, over its whole life"
@@ -147,29 +150,28 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
         {/* The scale, stated once. It reads as a caption to the row rather
             than as a rule under it, because it is true of both traces and of
             neither tile in particular. */}
-        <div className="mt-2.5 px-12 text-xs text-muted-foreground">
+        <div className="mt-2.5 px-5 text-xs text-muted-foreground">
           Trend lines cover {spanLabel(lines.bushels)}
         </div>
       </div>
 
-      {/* The panel's header sits on the well, outside the panel — same shape as
-          the producer inset. It names what the panel is; a title inside the box
-          it titles reads as the box's first row. */}
-      <div className="mb-4">
-        <PageHeader
-          condensed
-          icon={Users}
-          title="Producer activity"
-          description="Every accept and reject against this bid"
-        />
-      </div>
-
-      {/* What is left is the panel proper: a control and the table it filters,
+      {/* The panel proper: its own header, a control, and the table it filters,
           with one padding value on every side and between them. Even padding is
           what lets the inner surface be concentric — an inset that differs by
           side has no single radius that can follow it. */}
       <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)}>
         <div data-v2-panel className="flex flex-col gap-3 rounded-[var(--v2-panel-radius)] border border-border p-3">
+          {/* Inside the panel now, and a size down from the summary's header.
+              Two panels stacked in the well would otherwise carry two titles of
+              equal weight, and the reader would have to work out which names
+              which. */}
+          <PageHeader
+            size="section"
+            icon={Users}
+            title="Producer activity"
+            description="Every accept and reject against this bid"
+          />
+
           {/* The Overview's range control, exactly: same marker, same rules. A
               range filter is a range filter wherever it sits, and this one was
               the loudest thing in the panel — a filled primary chip announcing

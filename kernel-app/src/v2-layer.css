@@ -286,12 +286,17 @@
   translate: 0 1px;
 }
 
-/* The condensed chip runs the same recipe at a smaller box, so its radius has
-   to step down with it or the corner reads rounder than the big one: 20px glyph
-   in a 36px box is 8px of padding, and 4 + 8 lands two units under --radius.
-   Same concentric arithmetic as the full size, same answer in the same units. */
-[data-v2-pagechip][data-condensed] {
+/* The smaller chips run the same recipe at smaller boxes, so their radii step
+   down with them or the corners read rounder than the big one. Same concentric
+   arithmetic each time — glyph corner (~4px) plus the padding around it:
+
+     panel   20px glyph in a 36px box →  8px padding → half a unit under --radius
+     section 16px glyph in a 28px box →  6px padding → a full unit under it */
+[data-v2-pagechip][data-size="panel"] {
   border-radius: calc(var(--radius) - var(--spacing) * 0.5);
+}
+[data-v2-pagechip][data-size="section"] {
+  border-radius: calc(var(--radius) - var(--spacing));
 }
 
 /* ---- The folder strip's baseline is the page's rule, not the tab group's. It
@@ -629,6 +634,18 @@
       var(--elev-cast),
       0 0 0 1px var(--v2-edge-peak);
   }
+}
+
+/* One ring, not two. The pulse is an arrival signal — it says this content was
+   not here a moment ago — and an opened row now stacks two panels, which would
+   state that once per box. Two rings breathing in unison is one message drawn
+   twice, the same fault as four tiles redrawing one axis (5.15). The first panel
+   carries it because that is where the row lands: reveal.ts scrolls the row to
+   the top, so the summary is what enters the view. Later panels keep the resting
+   ring, which is the warm edge without the breathing. */
+[data-v2-panel] ~ [data-v2-panel],
+[data-v2-panel] ~ * [data-v2-panel] {
+  animation: none;
 }
 
 /* The tab strip is part of the panel's surface, so it takes the panel's fill

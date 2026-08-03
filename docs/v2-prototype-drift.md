@@ -71,9 +71,9 @@ matter of moving it down a layer, not translating it.
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
-| 3 | Modification layer | 31 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
+| 3 | Modification layer | 32 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
 | 4 | **DS source changes** | 11 | **promote** — 8 are bug fixes |
-| 5 | App-level convention departures | 18 | mixed — see each entry |
+| 5 | App-level convention departures | 19 | mixed — see each entry |
 
 ---
 
@@ -386,7 +386,7 @@ numbers.
 | 3.21 | `[data-slot="table-row"][data-state="selected"]` | **the open row is a selected row.** The parent row of an expanded detail used to paint its own `bg-foreground/5` — the same value as the zebra stripe, so an open row on an even index was indistinguishable from a closed one. It now sets the DS's own `data-state="selected"`; only the *fill* is retuned here, to 9% foreground, because the DS's `data-[state=selected]:bg-muted` is invisible in this theme (`--muted` resolves to `--card`, the surface the table sits on — the same trap `IconChip` works around, and 3.18) | unlayered |
 | 3.22 | tables inside `[data-v2-panel]` | the panel's table takes the **top-level** step back (4 units horizontal, 6 at the edges) rather than the detail-row tightening of 3.9 or the dense step of 3.14. Once the panel is the focus of the open row, its rows should not change gear from the object table above them. Equal specificity with 3.9 and 3.14 (0,3,0), so these rules must stay after both — source order is the whole mechanism | unlayered `!important` |
 | 3.23 | `[data-v2-trough]` | **rail controls are troughs, not plates** — the inverse of the elevation recipe: inset shading, a hairline, and no cast at all, because the rail is recessed chrome and a control carved into it should read as a depression. Carried by a WRAPPER, never the input: `box-shadow` is one property and the DS puts the focus ring on it, so styling the input directly would either lose the ring or be overwritten by it. Per-theme fills, because one shared formula (mix 22% toward `--shadow-color`) moved light by 1.758:1 and dark by 1.036:1 — the rail sits at opposite ends of the range. Light darkens 6% (1.156:1, a well not a slab); dark's fill stays *at* the rail and the carve does all of it. Measured: placeholder 5.60:1 light / 7.42:1 dark | unlayered |
-| 3.24 | `[data-v2-pagechip]` | **the header glyph gets a plate.** A page or panel header's icon sits on the frame recipe rather than loose on the surface: `--radius` corner, `--border` hairline, a 5% foreground fill and the 1px lip. Its glyph is `--foreground` at 0.55 of the box, not `--muted-foreground` — a muted glyph beside a 30px semibold title read as a placeholder (measured 14.6:1 dark / 15.77:1 light). Nudged `translate: 0 1px`, because the eye reads a title's cap centre slightly below its line box. The condensed variant steps the corner down half a unit: reusing 14px on a 35px chip makes the small chip read *rounder* than the large one | unlayered |
+| 3.24 | `[data-v2-pagechip]` | **the header glyph gets a plate.** A page or panel header's icon sits on the frame recipe rather than loose on the surface: `--radius` corner, `--border` hairline, a 5% foreground fill and the 1px lip. Its glyph is `--foreground` at 0.55 of the box, not `--muted-foreground` — a muted glyph beside a 30px semibold title read as a placeholder (measured 14.6:1 dark / 15.77:1 light). Nudged `translate: 0 1px`, because the eye reads a title's cap centre slightly below its line box. Three sizes now (`[data-size]`), each stepping its corner down with its box, because reusing one radius on a smaller chip makes the small chip read *rounder* than the large one: 42px/14px, 35px/12.08px, 27px/10.16px — glyph corner plus the padding around it, every time | unlayered |
 | 3.25 | `[data-slot="tabs-list"][data-variant="folder"][data-v2-bleed]` | the folder strip carries the page padding itself (6 units, 8 above `md`) instead of sitting inside it, so its baseline runs the full width of the plate. The list carries the page inset; the border does not | unlayered |
 | 3.26 | `[data-v2-panel-inner]` | **the concentric inner surface.** A container holding a rounded container must be rounder than what it holds, so the corner is derived, not chosen: `calc(var(--v2-panel-radius) - var(--v2-panel-inset))` — the panel corner less its own inset, ≈8px from the 14px base. Takes the frame recipe (`--elev-plate` fill, 1px lip, no cast; measured 1.08:1 off the panel). Its `padding-block` exists because the block inherited only the cell's 3 units vertically against 6 horizontally, which put the header's cap and the last row's baseline hard against a curve. A second rule zeroes the last row's bottom rule — a square border drawn across a rounded corner is the one thing that gives the curve away | unlayered |
 | 3.27 | `[data-v2-tabpanel]` | the surface under the folder tabs lifts 8% toward the foreground — two of the app's own 4% overlay steps (zebra is 5%, hover 4%, selected 9%). No hairline of its own: the folder strip's baseline draws its top and the page plate draws its sides, and a third line would describe a boundary already drawn | unlayered |
@@ -394,6 +394,7 @@ numbers.
 | 3.29 | `[data-slot="table-cell"][data-v2-rowtoggle]` | **the cell is the control.** The expand affordance was a `Button` inside a padded cell — a 32px target inside a 58px cell, with the dead margin also clickable via the row handler, so the two disagreed about what had been aimed at. The cell now hands its padding to the button (`padding: 0`), which fills it absolutely. It stays a real control: `aria-expanded`, an Expand/Collapse label, tab order. Its focus ring is an **inset** `box-shadow` — an outset ring on a full-bleed control is clipped by the row's own overflow. No hover style of its own, because the row already carries one and a second highlight inside a highlighted row reads as a nested target | unlayered `!important` |
 | 3.30 | `[data-v2-rankcol]` | the rank column asks for its minimum (`w-0` + nowrap in the markup) and gets an even 3-unit gutter here. It needs its own because it follows the toggle cell, so 3.7's edge rule was handing it the full 6-unit page inset on one side only. Measured 72.6px: a 49.6px label with 11.5px of slack each side, digits centred 0.00px off the header | unlayered `!important` |
 | 3.31 | `[data-v2-chip]` | the bottom bar's sliding chip takes the nested-surface treatment — hairline plus lip, no cast. Its hairline is a step off the chip's *own* fill rather than a token, because both candidates vanish in one theme; see 5.11 for the measurements | unlayered |
+| 3.32 | `[data-v2-panel] ~ [data-v2-panel]` | **only the first panel breathes.** The edge pulse (3.28) is an arrival signal, and an opened row now stacks two panels — running it on both states one message twice, the same fault as four tiles redrawing one axis (5.15). Sibling panels keep the resting ring and drop the animation. The *first* one carries it because that is where the row lands: `reveal.ts` (5.18) scrolls the row to the top, so the summary is what enters the view | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -896,23 +897,24 @@ hazard is not local, though — any effect whose concise body calls a DOM method
 is one browser release away from the same failure, and the symptom (blank
 page, no error boundary, no build failure) points nowhere near the cause.
 
-**5.14 — An expanded row is a page in miniature, with named sections.** The
-open scenario row started as one panel holding everything and grew two
-labelled halves: a *Scenario summary* header over four roll-up cards, then a
-*Producer activity* header over the event table. Both headers sit **outside**
-the panel they name. A title inside the box it titles reads as the box's first
-row; outside, it names the thing — and once the lower half had a header, the
-upper half read as unlabelled, which is what forced the pair.
+**5.14 — An expanded row is a page in miniature, with named sections.**
+*Superseded in part by 5.19: the headers moved back inside the panels they
+name. Kept for the reasoning that still holds.* The open scenario row started
+as one panel holding everything and grew two labelled halves: a *Scenario
+summary* header over four roll-up cards, then a *Producer activity* header over
+the event table. Once the lower half had a header, the upper half read as
+unlabelled, which is what forced the pair.
 
-The headers are the same `PageHeader` in its `condensed` size (36px chip, 20px
-`h2`, optional description) — `h2` and not `h1` because the page already has
-one and several rows can be open at once. The primary action lives in the
-header's action slot rather than in the panel: *Edit scenario* at `lg` (44px)
-flush to the header's right edge, on the title's own line.
+The headers are the same `PageHeader` one step down from the page size (36px
+chip, 20px `h2`, optional description) — `h2` and not `h1` because the page
+already has one and several rows can be open at once. The primary action lives
+in the header's action slot rather than in the panel: *Edit scenario* at `lg`
+(44px) flush to the header's right edge, on the title's own line.
 
-Moving the header out is what buys the concentric corner in 3.26: an inset that
-differs by side has no single radius that can follow the outer curve, so the
-even inset and the derived corner are one change, not two.
+The claim that has not survived is *outside*. Both headers sat on the well,
+outside the panel they named, on the argument that a title inside the box it
+titles reads as the box's first row. That argument was answered by giving the
+title its own size rather than its own position — see 5.19.
 
 **5.15 — The roll-up is four cards over the scenario's whole life, and they are
 the largest thing in the row.** Bushels bought, average basis, accepted,
@@ -1064,6 +1066,57 @@ exists on one of them is a bug on the other.
 
 *Promotion:* the DS has no expanding-row object to hang this on. If 5.5 is ever
 promoted, this is part of what that object does, not a page's local flourish.
+
+**5.19 — Every block in an opened row is in a box, and headers have three
+sizes.** `kernel-app/src/components/panels.tsx`,
+`kernel-app/src/pages/scenarios.tsx`. Supersedes the *outside* half of 5.14.
+
+Two headers floating on the well with two panels under them is four objects
+whose relationships are carried entirely by vertical gaps. It reads while it is
+small and stops reading the moment anything else is added — nothing on the well
+says which header owns which panel except how close they are, and the well is
+where every future block will also want to float. Boxes state the grouping
+structurally, so the layout survives the next block instead of being retuned by
+it.
+
+So the *Producer activity* header moved inside the panel it names, and the
+summary — header, edit control, four cards, caption — got a panel of its own.
+The opened row is now two boxes, each holding its own title.
+
+A title inside the box it titles does read as the box's first row *when it is
+the same size as everything else in there*. The answer is a third header size
+rather than a position: `PageHeader` takes `size` — `page` (44px chip, 30px
+`h1`), `panel` (36px, 20px), `section` (28px, 16px) — replacing the
+`condensed` boolean, which could not carry a third step. Chip and title fall
+together at each step, so the mark keeps its relationship to the words instead
+of shrinking against a fixed chip. *Scenario summary* takes `panel`; *Producer
+activity*, one level deeper, takes `section`.
+
+Heading level does not follow size: `page` is the `h1`, both smaller sizes are
+`h2`. The two panels of an opened row are peer sections of that row, and
+choosing a level for its type size is how a document grows a heading hierarchy
+that does not match its structure.
+
+Two consequences fell out of putting the tiles in a box:
+
+- The tile corner is now `--v2-panel-radius` **minus** `--v2-panel-inset`, the
+  same arithmetic as the activity table's inner surface (3.26), because it is
+  the same relationship: a card sharing its container's radius makes the two
+  corners read as one thick corner.
+- The tiles' 12-unit text inset went to 5. That inset existed to align a card's
+  label with the title of a header floating above it — alignment doing a box's
+  job. Inside a panel, the panel's padding is the left rule they share, and 12
+  units inside a 190px card left a 94px text column that wrapped *Bushels
+  bought* onto two lines and knocked its figure off the row's line.
+
+Measured: panel over well 1.28:1 dark / 1.26:1 light, tile hairline on panel
+1.44:1 / 1.36:1, section title 14.34:1 / 17.5:1, its description and the caption
+5.79:1 / 7.11:1. Chip ladder 42/35/27px at 14/12.08/10.16px radius, titles
+30/20/16px, all four tile figures back on one line.
+
+*Promotion:* `PageHeader`'s three sizes are the promotable part — the DS has no
+header object, and every consumer eventually needs the same three depths. The
+panel-per-block layout is 5.5's expanding-row object, still unextracted.
 
 ---
 

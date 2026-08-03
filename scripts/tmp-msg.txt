@@ -1,0 +1,48 @@
+Floating content goes in boxes, and headers get a third size
+
+Two headers floating on the well over two panels is four objects whose
+relationships are carried entirely by vertical gaps. It reads while it is small
+and stops reading the moment anything else is added: nothing on the well says
+which header owns which panel except how close they are, and the well is where
+every future block will also want to float. Boxes state the grouping
+structurally, so the layout survives the next block instead of being retuned by
+it.
+
+This reverses the "outside" half of register 5.14, recorded as a supersede
+rather than an edit. That entry's argument -- a title inside the box it titles
+reads as the box's first row -- is right, but it is answered by giving the title
+its own size rather than its own position.
+
+So PageHeader takes a size: page 44/30, panel 36/20, section 28/16, chip and
+title falling together so the mark keeps its relationship to the words. The
+condensed boolean could not carry a third step and is gone. Heading level does
+not follow size -- page is the h1 and both smaller sizes are h2, because the
+panels of an opened row are peer sections of that row, and choosing a level for
+its type size is how a document grows a heading hierarchy that does not match
+its structure.
+
+Three things fell out of it. Only the first panel breathes: the edge pulse is an
+arrival signal, and two panels running it states one message twice. The tiles'
+corner became panel-radius minus panel-inset, the same arithmetic as the
+activity table's inner surface, because it is now the same relationship. And the
+tiles' 12-unit text inset went to 5 -- that inset existed to align a card's
+label with a header floating above it, which was alignment doing a box's job,
+and inside a panel it left a 94px text column that wrapped "Bushels bought" and
+knocked its figure off the row's line.
+
+Producers' OfferInset gets the same treatment. The register calls these two the
+same object built twice, so a layout only one of them has is a difference nobody
+chose. Its figures moved into the header's action slot and dropped from 24px to
+18px: a 24px figure beside a 16px section title inverts them and the aside
+becomes the loudest thing in the panel.
+
+Measured: panel over well 1.28:1 dark and 1.26:1 light, tile hairline on panel
+1.44 and 1.36, section title 14.34 and 17.5, description and caption 5.79 and
+7.11, chips 42/35/27px at 14/12.08/10.16px radius, titles 30/20/16, all four
+tile figures back on one line.
+
+check-drift-register refused both new rows for being inserted above their
+predecessors, which is the third time it has caught a numbering fault before a
+merge did.
+
+Co-Authored-By: Mastra Code (anthropic/claude-opus-5) <noreply@mastra.ai>

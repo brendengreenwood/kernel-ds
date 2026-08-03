@@ -81,19 +81,27 @@ function OfferInset({ producer, offers }: { producer: Producer; offers: Offer[] 
       className="sticky left-0 animate-in fade-in slide-in-from-top-2 p-5 duration-[var(--duration-base)] ease-[var(--ease-out)]"
       style={width ? { width } : undefined}
     >
-      <div className="mb-4">
+      {/* Same shape as an opened scenario row (5.19): the block is a panel and
+          its header is inside it, rather than a title floating on the well above
+          a box. These two insets are the same object built twice, so a layout
+          that only one of them has is a difference nobody chose. */}
+      <div
+        data-v2-panel
+        className="flex flex-col gap-3 rounded-[var(--v2-panel-radius)] border border-border p-3"
+      >
         <PageHeader
-          condensed
+          size="section"
           icon={Handshake}
           title="Open bids"
           description={`What ${producer.name} has on the table, and your edge over the top competitor`}
+          action={
+            <div className="flex items-center gap-6">
+              <Stat value={offers.length} label="Open bids" />
+              <div aria-hidden className="h-8 w-px bg-border" />
+              <Stat value={bestEdge == null ? "—" : basis(bestEdge)} label="Best edge" />
+            </div>
+          }
         />
-      <div className="mt-4 flex items-center gap-6">
-        <Stat value={offers.length} label="Open bids" />
-        <div aria-hidden className="h-8 w-px bg-border" />
-        <Stat value={bestEdge == null ? "—" : basis(bestEdge)} label="Best edge" />
-      </div>
-      </div>
       <TableFrame>
         <Table>
           <TableHeader>
@@ -161,6 +169,7 @@ function OfferInset({ producer, offers }: { producer: Producer; offers: Offer[] 
           </TableBody>
         </Table>
       </TableFrame>
+      </div>
       <AcceptBidDialog
         producer={producer}
         offer={active}
