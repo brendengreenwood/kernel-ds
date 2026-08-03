@@ -27,6 +27,25 @@ const TOP_GAP = 16
 /** Room left below the panel, so its bottom edge is not the screen's. */
 const BOTTOM_GAP = 24
 
+/** The bottom of the space a reader can actually see into.
+
+    On a phone the floating bottom nav sits over the last ~77px of the viewport,
+    so scrolling a panel's bottom edge to `innerHeight - BOTTOM_GAP` parks it
+    behind the bar — measured at 53px of the panel hidden, on a reveal that had
+    not reached the end of the page (where the layer's reserved padding would
+    have covered it). The usable edge is the bar's top edge.
+
+    Measured rather than tokenised because the bar's height is its content's:
+    it is `md:hidden`, and a `display: none` element measures as an all-zero
+    rect — which would read as a usable bottom of 0 and scroll the page to
+    nowhere. Hence the height check rather than a null check. */
+function usableBottom() {
+  const rect = document
+    .querySelector<HTMLElement>("[data-v2-bottom-nav]")
+    ?.getBoundingClientRect()
+  return rect && rect.height > 0 ? rect.top : window.innerHeight
+}
+
 export function revealRow(row: HTMLElement | null) {
   if (!row) return
   const panel = row.nextElementSibling
@@ -34,7 +53,7 @@ export function revealRow(row: HTMLElement | null) {
 
   const top = row.getBoundingClientRect().top
   const bottom = panel.getBoundingClientRect().bottom
-  const view = window.innerHeight
+  const view = usableBottom()
 
   if (top >= 0 && bottom <= view) return
 

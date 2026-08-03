@@ -90,6 +90,11 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
+      /* Marker, not the aria-label, is the hook anything else measures this by
+         — see `usableBottom` in lib/reveal.ts. An accessible name is for the
+         reader; a layout contract should not be able to break because the name
+         was reworded. */
+      data-v2-bottom-nav
       /* Floating: `fixed` so the bar rides above the content rather than
          sitting at the end of it, inset from all three edges, and clear of the
          home indicator via the safe-area inset. The page reserves matching
