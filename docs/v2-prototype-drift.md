@@ -1058,6 +1058,27 @@ in 5.13. Second instance of the same shape, which is why the hook carries the
 warning in its own comment rather than leaving it to be rediscovered a third
 time.
 
+**The viewport's bottom is not the visible bottom.** The first version measured
+against `window.innerHeight`, which on a phone is *behind* the floating bottom
+bar (5.11) — so the reveal parked the panel's bottom edge under the chrome and
+"scrolled it into view" left **53px of it hidden**, on a reveal that had not
+reached the end of the page and so got no help from the layer's reserved bottom
+padding. `usableBottom()` now measures the bar and uses its top edge, falling
+back to `innerHeight` when the bar is not rendered. Two details worth keeping:
+it keys off a `data-v2-bottom-nav` marker rather than the nav's `aria-label`,
+because an accessible name is written for the reader and should stay free to be
+reworded without breaking a layout contract; and it tests the measured
+`height > 0` rather than the element for null, because the bar is `md:hidden`
+and a `display: none` element measures as an all-zero rect — a null check would
+have accepted a usable bottom of `0` and scrolled the page to nowhere on
+desktop. Measured after: 24.5px of clearance below the panel on a phone (the
+gap the code asks for, now taken from the bar's edge), 24.4px on desktop where
+the fallback applies — the desktop path unchanged.
+
+This is the general shape of the cost of 5.11: a fixed bar over the content
+means every "scroll something into view" in the app has a bottom that is not
+the viewport's. `usableBottom` is the one place that should know it.
+
 Both row tables use it — `data-scenario-row` and `data-producer-row` — because
 the two tables are the same object built twice (5.5), and a behaviour that
 exists on one of them is a bug on the other.
