@@ -94,11 +94,24 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           the end of its title row — the action belongs to the scenario the
           header names, not to the row of figures under it.
 
-          Each tile carries the same figure over time. A roll-up says where the
+          Two of the four carry the figure over time. A roll-up says where the
           scenario ended up; the line says whether it got there steadily or in
           one morning, which is the difference between a bid that is working and
-          one that worked once. Decorative, in the accessibility sense: every
-          point it draws is in the table below. */}
+          one that worked once. Bushels and basis moved through values to get
+          here and have that story. The two counts do not: accepted has been 0,
+          then 1, then 2, and a three-step staircase drawn at chart size reads
+          as a spike — it renders an event as a trend and puts the most
+          alarming shape on the page under the smallest number on it.
+
+          The traces carry no axis of their own. Four tiles each redrawing the
+          same 9h · 6h · 3h · now scale for the same eight events is the scale
+          stated four times, and it cannot be stated once positionally instead:
+          the plots sit in separate tiles with separate left and right edges, so
+          a rule under the row would put its "now" at the row's edge and not at
+          the end of any trace on it. The span is named once underneath in
+          words, which is all a decorative trace needs — decorative in the
+          accessibility sense, since every point it draws is in the table
+          below. */}
       <div className="mb-8">
         <PageHeader
           condensed
@@ -119,37 +132,22 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
             lg
             value={bushelsShort(summary.bushels)}
             label="Bushels bought"
-            chart={<Sparkline data={lines.bushels} height={92} xKey="t" curve="stepAfter" frame />}
+            chart={<Sparkline data={lines.bushels} height={48} xKey="t" curve="stepAfter" />}
           />
           <Tile
             lg
             value={summary.avgBasis === null ? "—" : basis(summary.avgBasis)}
             label="Avg basis"
-            chart={<Sparkline data={lines.avgBasis} height={92} xKey="t" frame />}
+            chart={<Sparkline data={lines.avgBasis} height={48} xKey="t" />}
           />
-          <Tile
-            lg
-            value={summary.accepted}
-            label="Accepted"
-            chart={<Sparkline data={lines.accepted} height={92} xKey="t" curve="stepAfter" frame />}
-          />
-          {/* Rejects are the one figure where up is bad, so the line does not
-              ride the accent the other three share. */}
-          <Tile
-            lg
-            value={summary.rejected}
-            label="Rejected"
-            chart={
-              <Sparkline
-                data={lines.rejected}
-                height={92}
-                xKey="t"
-                curve="stepAfter"
-                frame
-                colorVar="--muted-foreground"
-              />
-            }
-          />
+          <Tile lg value={summary.accepted} label="Accepted" />
+          <Tile lg value={summary.rejected} label="Rejected" />
+        </div>
+        {/* The scale, stated once. It reads as a caption to the row rather
+            than as a rule under it, because it is true of both traces and of
+            neither tile in particular. */}
+        <div className="mt-2.5 px-12 text-xs text-muted-foreground">
+          Trend lines cover {spanLabel(lines.bushels)}
         </div>
       </div>
 
@@ -430,4 +428,16 @@ export default function ScenariosPage() {
       </div>
     </div>
   )
+}/** The window a set of trend points covers, in words. The axis printed this
+    as ticks; with the ticks gone the row still has to say how long "over its
+    whole life" has been, and a scenario opened an afternoon after it was
+    posted is a different read from one opened a fortnight later. */
+function spanLabel(points: { t: number }[]) {
+  const days = -Math.min(...points.map((p) => p.t))
+  if (days < 1 / 24) return "the last hour"
+  if (days < 1) return `the last ${Math.round(days * 24)} h`
+  if (days < 14) return `the last ${Math.round(days)} d`
+  return `the last ${Math.round(days / 7)} w`
 }
+
+

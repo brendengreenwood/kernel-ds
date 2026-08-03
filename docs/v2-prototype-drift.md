@@ -948,10 +948,32 @@ span (`now`, `3h`, `9h`, then `Nd`) so an afternoon-old scenario does not get
 four ticks all reading `0d`. The charts are `aria-hidden` decoration: every
 point they draw is in the table below.
 
-*Open:* four cards each redraw the same axis, and `Rejected: 1` charts as a
-single spike on a flat line, which reads as a rendering fault rather than as
-data. One shared axis under the row, or charts only on the two figures that
-actually move, is the likely correction.
+*Corrected.* Both halves of that correction, taken together.
+
+Only bushels and average basis are charted now. Those two moved through values
+on the way to the figure printed above them; the two counts did not. Accepted
+has been 0, then 1, then 2 — a three-step staircase, and a staircase drawn at
+chart size reads as a spike. It renders an event as a trend, and it put the
+most alarming shape on the page underneath the smallest number on it.
+
+The traces lost their axes rather than gaining a shared one. Four tiles each
+redrawing `9h · 6h · 3h · now` is the same scale stated four times for the same
+eight events, but it cannot simply be stated once *positionally* instead: the
+plots sit in separate tiles with separate left and right edges, so a rule drawn
+under the row would put its `now` at the row's edge and not at the end of any
+trace above it. A shared axis was the wrong half of the proposal — it is only
+shareable when the plots share a plot area, and these do not. The span is named
+once underneath the row in words instead ("Trend lines cover the last 9 h"),
+which is all a decorative trace needs; the dated axis and its tick logic stay in
+`Sparkline` behind the `frame` prop, unused here and still correct for a chart
+that owns its own width.
+
+The tile now reserves the trace's room whether or not it draws one, so the four
+bottoms land on one line — a row of cards with ragged bottoms reads as two that
+failed to load rather than as two that count and two that move.
+
+Cards fell from 244px to 176px as a result, which was the other reason to do it:
+the roll-up had grown tall enough to push the evidence for it off the screen.
 
 **5.16 — An event lands in the column that is its outcome.** The activity table
 was Producer · Action · Accepted bid · Bushels · Reject reason · When, with a

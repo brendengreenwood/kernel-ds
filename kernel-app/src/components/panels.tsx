@@ -45,7 +45,12 @@ export function TwoLine({ top, sub, strong }: { top: React.ReactNode; sub?: stri
     across half a width in one place and a whole width in another, and a fixed
     36px that fits the wide one overflows the narrow one. `cqw` makes the
     number as large as its own cell can hold, floored so it never falls under
-    the panel's body text. */
+    the panel's body text.
+
+    Not every figure earns a trace, so the tile reserves the trace's room
+    either way. A row of cards whose bottoms do not line up reads as four
+    cards that failed to load rather than as two figures that move and two
+    that count. */
 export function Tile({
   value,
   label,
@@ -56,12 +61,17 @@ export function Tile({
   label: string
   lg?: boolean
   /** A sparkline of how the figure got here. Large tiles only — the small tile
-      is 20px of type in a header row and a line under it is a smudge. */
+      is 20px of type in a header row and a line under it is a smudge.
+
+      Optional on purpose: a trace is worth its space only where the figure
+      moved through values on its way here. A count that has been 0, then 1,
+      draws a step, and a step drawn at chart size reads as a spike — an
+      event rendered as a trend. */
   chart?: React.ReactNode
 }) {
   if (lg) {
     return (
-      <div className="@container overflow-hidden rounded-[var(--v2-panel-radius)] border border-border pt-8">
+      <div className="@container overflow-hidden rounded-[var(--v2-panel-radius)] border border-border pt-7">
         <div className="px-12">
           {/* Label over figure. A caption under a number is a footnote to it;
               above, it is the question the number answers — and the four
@@ -70,20 +80,18 @@ export function Tile({
           <div className="text-sm leading-tight font-medium whitespace-normal text-muted-foreground">
             {label}
           </div>
-          <div className="mt-2.5 text-[clamp(1.75rem,22cqw,3rem)] leading-none font-semibold tracking-tight tabular-nums">
+          <div className="mt-2.5 text-[clamp(1.5rem,20cqw,2.25rem)] leading-none font-semibold tracking-tight tabular-nums">
             {value}
           </div>
         </div>
         {/* A framed chart is inset: an axis needs a margin to be an axis, and
             a baseline running into the tile's own border is two lines meeting
             at nothing. */}
-        {chart ? (
-          <div className="mt-7 px-8 pb-6" aria-hidden>
-            {chart}
-          </div>
-        ) : (
-          <div className="pb-8" />
-        )}
+        <div className="mt-5 px-8 pb-5" aria-hidden>
+          {/* The height is the tile's, not the chart's: an untraced tile holds
+              the same room open so the four bottoms land on one line. */}
+          <div className="h-12">{chart}</div>
+        </div>
       </div>
     )
   }
