@@ -1081,6 +1081,37 @@ This is the general shape of the cost of 5.11: a fixed bar over the content
 means every "scroll something into view" in the app has a bottom that is not
 the viewport's. `usableBottom` is the one place that should know it.
 
+**And the panel is not its final height on the layout pass.** After the panel
+gained its own header box (5.19) the reveal went short again — every row on
+Producers landed with ~25px of panel under the bar, including rows whose panel
+fits the screen with room to spare, which ruled out the tall-panel rule as the
+explanation. Instrumenting `revealRow`'s real inputs settled it: it measured
+the panel at **602.5px** against **651.9px** settled. `useVisibleWidth` pins the
+inset's width from a post-commit effect, and the content rewraps when it lands,
+so the layout-effect pass reads a panel that has not finished growing. One row
+was worse than short — it measured as *already visible*, took the early return,
+and then grew past the bar with no scroll at all.
+
+The hook now reveals twice: once on the layout pass, once on the next frame.
+Not a straight move to `requestAnimationFrame`, because the layout-effect pass
+is what keeps the correction off-screen when the first measurement is already
+right — and `revealRow`'s own "already visible" early return makes the second
+call free in exactly that case. The frame is cancelled in cleanup, so a close
+landing inside it cannot scroll after the fact.
+
+Measured across all 13 producer rows at 390×844: **12 of 13 land at ~24px of
+clearance below the bar** (the gap the code asks for), from ~-25px on every row
+before. The thirteenth is the one whose row + panel is 774px against 751px of
+usable height — it correctly falls back to row-at-top, which is the tall-panel
+rule doing its job rather than the bug. Scenarios is that case for every row on
+a phone: its panel alone is 1074px. Desktop unchanged at 24.4px.
+
+Worth being explicit that closing still moves the page in one case, and that it
+is not this code: collapsing a row near the end of a long list shortens the
+document below the current scroll offset, and the browser clamps `scrollY` to
+the new maximum. Measured 828 → 567, where 567 is exactly the collapsed page's
+`scrollHeight - innerHeight`. Nothing calls `scrollTo` on close.
+
 Both row tables use it — `data-scenario-row` and `data-producer-row` — because
 the two tables are the same object built twice (5.5), and a behaviour that
 exists on one of them is a bug on the other.
