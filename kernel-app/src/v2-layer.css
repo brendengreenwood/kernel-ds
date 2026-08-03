@@ -1,9 +1,21 @@
 /* ============================================================
    Kernel v2 prototype — modification layer
    Pushes the LIVE Kernel DS components toward the premium dark-analytics
-   look — keyed off shadcn `data-slot` hooks plus three opt-in markers
-   (`data-v2-kpi`, `data-v2-segmented`, `data-v2-detail`). No component is
-   forked; delete this file and the prototype renders stock Kernel components.
+   look — keyed off shadcn `data-slot` hooks plus the app's own opt-in markers.
+   No component is forked; delete this file and the prototype renders stock
+   Kernel components.
+
+   Markers, by what they mark:
+     surfaces   data-v2-detail (the well) · data-v2-panel (the lit panel)
+                data-v2-panel-inner · data-v2-tabpanel · data-v2-frame
+                data-v2-trough · data-v2-chrome · data-v2-chip
+     controls   data-v2-segmented · data-v2-filter · data-v2-rowtoggle
+     tables     data-v2-dense · data-v2-rowstripe · data-v2-pin · data-v2-rankcol
+     furniture  data-v2-kpi · data-v2-pagechip · data-v2-bleed
+
+   data-v2-flag and data-v2-meter are set in the markup but carry no rule here:
+   anatomy hooks whose styling is still utilities. Listed so the marker set
+   stays one list rather than two.
 
    All lengths derive from DS tokens: spacing from `--spacing`, radius from
    `--radius`, color from the semantic role tokens. No magic numbers.

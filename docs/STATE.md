@@ -506,14 +506,40 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   question is Part 2's token drift — that *is* the v2 look, so promoting it is
   a direction call for the DS, not a cherry-pick.
 
-- **Prototype branch hygiene** (2026-08-02): the branch is 51+ commits ahead
-  of main and carries **three duplicate decision numbers** — 0040, 0041 and
-  0042 each exist twice (prototype + main), coexisting since the merge in
-  f87d311. New records on this branch skip to 0056 to avoid a fourth
-  collision (`feat/dsds-contract-tooling` has minted through 0055), but the
-  existing three still need a renumber-or-accept call before this branch
-  merges. Under 0056 the branch is longer-lived than 0040 assumed, so
-  promoting in slices is now worth more than it was.
+  **Current as of 2026-08-03**: 31 modification-layer rule groups, 17
+  app-level entries, and a new **2.4** collecting the tokens the prototype
+  *invented* (`--elev-*`, `--v2-*`, `--trough-*`) as opposed to the DS tokens
+  it re-points — that table is the surface any promotion of the elevation
+  ladder would have to adopt. A marker audit now cross-checks every
+  `data-v2-*` in `v2-layer.css` against the register; it found eight
+  undocumented before this pass. Newly triaged for promotion: 3.26 (the
+  derived concentric corner, arithmetic the DS could own), 3.29 (cell-as-
+  control, which belongs on `Table` if it survives), 3.24 (header chip, rides
+  with the elevation ladder). 3.28's breathing panel edge is the one to be
+  most sceptical of — a flourish with no second use, and animation in a design
+  system is a commitment.
+
+- **Parallel tracks keep colliding on numbers** (2026-08-03, was branch
+  hygiene 2026-08-02): three separate instances now. (1) **Decision numbers** —
+  0040, 0041 and 0042 each exist twice (prototype + main), coexisting since
+  the merge in f87d311; new records here skip to 0056 (`feat/dsds-contract-
+  tooling` has minted through 0055), but the existing three still need a
+  renumber-or-accept call before this branch merges. (2) **Register rows** —
+  reconciling with origin found both sides claiming 3.18, though it was the
+  same rule renumbered on one side; the newcomer took the next free number
+  because 3.21 cites 3.18 by number. (3) **Part 5 entries** — both tracks
+  minted a 5.10 and a 5.11 while apart; the published numbers held and the
+  local pair moved to 5.12/5.13.
+
+  The rule that fell out of it: **a number already pushed is a citation**, so
+  the side that has not published renumbers. Worth a cheap mechanism (a gate
+  that fails on duplicate `N.M` headings) rather than a fourth manual
+  reconciliation.
+
+  The branch is reconciled with origin as of 2026-08-03 (merge 98e8765, all
+  seven CI gates green) and its deploy preview renders again — the
+  `window.scrollTo` fix below had been sitting unpushed while the preview was
+  broken in current Chrome.
 
 - **A browser release can break a passing build** (2026-08-02): Chrome 151
   made `window.scrollTo` return a scroll-completion Promise. A concise-arrow

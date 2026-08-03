@@ -71,9 +71,9 @@ matter of moving it down a layer, not translating it.
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
-| 3 | Modification layer | 23 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
+| 3 | Modification layer | 31 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
 | 4 | **DS source changes** | 6 | **promote** — 4 already landed as fixes |
-| 5 | App-level convention departures | 11 | mixed — see each entry |
+| 5 | App-level convention departures | 17 | mixed — see each entry |
 
 ---
 
@@ -304,14 +304,50 @@ Both themes resolve distinct rail/panel pairs — dark 0.165 / 0.213, light
 holds in both: table header on card 5.79:1 dark / 5.15:1 light, muted text on
 panel 6.76:1 / 5.15:1, all clear of AA.
 
----
+## 2.4 Tokens the prototype invented
 
+Everything above re-points a DS token at a different value. These are *new*
+names, defined in `kernel-app/src/index.css` and consumed by the modification
+layer. They are listed together because they are the promotion surface: if the
+elevation ladder goes to the DS, these names go with it.
+
+| Token | Dark | Light | What it is for |
+|---|---|---|---|
+| `--elev-lip` | `--neutral-50` at 7% | `transparent` | the 1px top bevel that makes a plate read as lit from above. **Light has no lip** — a white highlight on a white surface is nothing, so light carries elevation on its edge and cast instead |
+| `--elev-cast` | `--shadow-lg` | `--shadow-lg` | the resting drop of a card. One rung for every plate, so nesting cannot compound it |
+| `--elev-plate` | `--card` + 3.5% fg | `--card` + 2.5% fg | a surface sitting *on* a card — frames, inner panels, tiles. Measured ~1.08:1 dark / 1.06:1 light off its parent: a step, not a slab |
+| `--elev-edge-page` | `--neutral-800` | `--border` | the page plate's hairline, which is the longest line on screen and needs to run darker than a card's in dark (3.16) |
+| `--v2-well` | `--neutral-950` | `--neutral-200` | the recess an expanded row opens into — two rungs below the darkest zebra stripe |
+| `--v2-well-shade` | `black` at 55% | `--foreground` at 12% | the well's inset shading. Mixes toward **black** in dark and toward the foreground in light, because that is where the light comes from in each theme; the first version mixed toward the foreground in both and produced a white glow inside a recess |
+| `--v2-edge-rest` / `--v2-edge-peak` | `--primary` at 8% / 20% | 6% / 15% | the open panel's breathing ring (3.28). Light runs about two-thirds of dark: what reads as light on a near-black recess reads as a smear on a white panel |
+| `--v2-edge-cycle` | `7s` | — | one dial for the pulse's tempo |
+| `--v2-panel-radius` | `--radius` + 1.5 units | same | the open panel's corner, from which the inner surface's corner is derived (3.26) |
+| `--v2-panel-inset` | 3 units | same | the panel's even inset — the other half of that derivation |
+| `--v2-seg-active` / `-foreground` | `--primary` / `--primary-foreground` | same | one indirection for the segmented control's active fill, so the question *should a filter wear the brand colour* is answered in one place |
+| `--trough-fill` / `--trough-cast` | `--sidebar` / shadow at 55% | `--sidebar` + 6% shadow / 18% | rail controls as depressions rather than plates (3.23) |
+
+Two of these encode the same finding: **dark and light do not carry depth the
+same way.** Dark can shade a recess and highlight a lip; light has almost no
+room below its surfaces (`--trough-fill` at 22% toward the shadow measured a
+grey slab and pushed placeholder text under AA, so it settled at 6%) and must
+spend its edge instead. Any promotion of the ladder inherits that asymmetry —
+it is not a light-mode bug to be tidied up later.
+
+---
 # Part 3 — The modification layer
 
 `kernel-app/src/v2-layer.css`. Restyles live DS components through their
-shadcn `data-slot` hooks plus three opt-in markers the app sets itself
-(`data-v2-kpi`, `data-v2-segmented`, `data-v2-detail`, `data-v2-dense`). No
-component is forked.
+shadcn `data-slot` hooks plus the app's own opt-in markers — `data-v2-kpi`,
+`data-v2-segmented`, `data-v2-detail`, `data-v2-dense`, `data-v2-panel`,
+`data-v2-panel-inner`, `data-v2-tabpanel`, `data-v2-pagechip`, `data-v2-bleed`,
+`data-v2-rowtoggle`, `data-v2-rankcol`, `data-v2-rowstripe`, `data-v2-pin`,
+`data-v2-filter`, `data-v2-frame`, `data-v2-trough`, `data-v2-chrome`,
+`data-v2-chip`. No component is forked.
+
+Two markers carry no rule in this file: `data-v2-flag` and `data-v2-meter` are
+set in the markup as anatomy hooks — named parts a probe or a future rule can
+address — while their styling is still utilities. They are listed here so the
+marker set stays one list rather than two.
 
 Numeric columns in the prototype are **left**-aligned, against the usual
 convention: with `tabular-nums` the digits still line up, and these columns hold
@@ -330,7 +366,7 @@ numbers.
 | 3.1 | ~~`--card-spacing` 4 → 6~~ | **removed as dead code** — the DS's own `[--card-spacing:--spacing(4)]` arbitrary-property utility (utilities layer) always outranked the `@layer components` rule, so the bump never applied; the approved look is the DS default | — |
 | 3.2 | `[data-slot="button"]` | radius → `calc(var(--radius) - var(--spacing))` = **10.16px**, down from 14px | unlayered `!important` |
 | 3.3 | `[data-v2-kpi]` | green hover accent via `outline` (not `border`, so the DS hairline ring survives); `--duration-base` / `--ease-out` | components |
-| 3.4 | `[data-v2-segmented]` | outline ToggleGroup → filled pill with highlighted active segment | components |
+| 3.4 | `[data-v2-segmented]` | **the range control.** One bordered container, `--radius` corner, zero padding, segments edge-to-edge divided by 1px `--border` rules; the active segment clears the dividers on its own edges by making them transparent rather than removing them, so nothing shifts a pixel as selection moves. No `overflow: hidden` — it would clip the focus ring. Fills are foreground overlays (track 4%, segment 10%) rather than `--muted`/`--secondary`: those resolve to `--card` in this theme, which put the active segment at **1.00:1** against its track, and an overlay carries the same step off either surface, which this control needs because it sits on a card inside a panel *and* on the page plate. It deliberately does **not** take a `--primary` fill — that is right for a filter someone set and wrong for a range that merely defaults. The nine stadium-pill rules are scoped `:not([data-v2-segmented])` to let it out; those carry `!important`, so specificity was the only lever | components |
 | 3.5 | `[data-slot="table-head"]` | weight 500 → 400, colour → `--muted-foreground` so headers recede behind the data (5.79:1 dark / 5.15:1 light, both AA) | unlayered `!important` |
 | 3.6 | table head/cell | horizontal padding → 4 units; vertical → 3 units | unlayered `!important` |
 | 3.7 | first/last cell | edge inset → 6 units, so text never sits on the container border | unlayered `!important` |
@@ -350,6 +386,14 @@ numbers.
 | 3.21 | `[data-slot="table-row"][data-state="selected"]` | **the open row is a selected row.** The parent row of an expanded detail used to paint its own `bg-foreground/5` — the same value as the zebra stripe, so an open row on an even index was indistinguishable from a closed one. It now sets the DS's own `data-state="selected"`; only the *fill* is retuned here, to 9% foreground, because the DS's `data-[state=selected]:bg-muted` is invisible in this theme (`--muted` resolves to `--card`, the surface the table sits on — the same trap `IconChip` works around, and 3.18) | unlayered |
 | 3.22 | tables inside `[data-v2-panel]` | the panel's table takes the **top-level** step back (4 units horizontal, 6 at the edges) rather than the detail-row tightening of 3.9 or the dense step of 3.14. Once the panel is the focus of the open row, its rows should not change gear from the object table above them. Equal specificity with 3.9 and 3.14 (0,3,0), so these rules must stay after both — source order is the whole mechanism | unlayered `!important` |
 | 3.23 | `[data-v2-trough]` | **rail controls are troughs, not plates** — the inverse of the elevation recipe: inset shading, a hairline, and no cast at all, because the rail is recessed chrome and a control carved into it should read as a depression. Carried by a WRAPPER, never the input: `box-shadow` is one property and the DS puts the focus ring on it, so styling the input directly would either lose the ring or be overwritten by it. Per-theme fills, because one shared formula (mix 22% toward `--shadow-color`) moved light by 1.758:1 and dark by 1.036:1 — the rail sits at opposite ends of the range. Light darkens 6% (1.156:1, a well not a slab); dark's fill stays *at* the rail and the carve does all of it. Measured: placeholder 5.60:1 light / 7.42:1 dark | unlayered |
+| 3.24 | `[data-v2-pagechip]` | **the header glyph gets a plate.** A page or panel header's icon sits on the frame recipe rather than loose on the surface: `--radius` corner, `--border` hairline, a 5% foreground fill and the 1px lip. Its glyph is `--foreground` at 0.55 of the box, not `--muted-foreground` — a muted glyph beside a 30px semibold title read as a placeholder (measured 14.6:1 dark / 15.77:1 light). Nudged `translate: 0 1px`, because the eye reads a title's cap centre slightly below its line box. The condensed variant steps the corner down half a unit: reusing 14px on a 35px chip makes the small chip read *rounder* than the large one | unlayered |
+| 3.25 | `[data-slot="tabs-list"][data-variant="folder"][data-v2-bleed]` | the folder strip carries the page padding itself (6 units, 8 above `md`) instead of sitting inside it, so its baseline runs the full width of the plate. The list carries the page inset; the border does not | unlayered |
+| 3.26 | `[data-v2-panel-inner]` | **the concentric inner surface.** A container holding a rounded container must be rounder than what it holds, so the corner is derived, not chosen: `calc(var(--v2-panel-radius) - var(--v2-panel-inset))` — the panel corner less its own inset, ≈8px from the 14px base. Takes the frame recipe (`--elev-plate` fill, 1px lip, no cast; measured 1.08:1 off the panel). Its `padding-block` exists because the block inherited only the cell's 3 units vertically against 6 horizontally, which put the header's cap and the last row's baseline hard against a curve. A second rule zeroes the last row's bottom rule — a square border drawn across a rounded corner is the one thing that gives the curve away | unlayered |
+| 3.27 | `[data-v2-tabpanel]` | the surface under the folder tabs lifts 8% toward the foreground — two of the app's own 4% overlay steps (zebra is 5%, hover 4%, selected 9%). No hairline of its own: the folder strip's baseline draws its top and the page plate draws its sides, and a third line would describe a boundary already drawn | unlayered |
+| 3.28 | `@keyframes v2-edge` on `[data-v2-panel]` | **the open panel breathes at its edge.** A 1px `--primary` ring, no blur and no spread, cycling `--v2-edge-rest` → `--v2-edge-peak` over 7s (8%→20% dark, 6%→15% light). It replaced a two-layer bloom — a ring plus a 44px bleed at 34% — that read as a notification rather than a state. The stops are asymmetric on purpose (rest through 32%, peak at 68%): held, then a slow climb and a faster release, which is why the timing function is `linear` — an ease on top would flatten it back into the sine the stops were written to avoid. Both keyframes restate the resting lip and cast, so under `prefers-reduced-motion` the panel lands on the warm ring rather than on nothing | unlayered |
+| 3.29 | `[data-slot="table-cell"][data-v2-rowtoggle]` | **the cell is the control.** The expand affordance was a `Button` inside a padded cell — a 32px target inside a 58px cell, with the dead margin also clickable via the row handler, so the two disagreed about what had been aimed at. The cell now hands its padding to the button (`padding: 0`), which fills it absolutely. It stays a real control: `aria-expanded`, an Expand/Collapse label, tab order. Its focus ring is an **inset** `box-shadow` — an outset ring on a full-bleed control is clipped by the row's own overflow. No hover style of its own, because the row already carries one and a second highlight inside a highlighted row reads as a nested target | unlayered `!important` |
+| 3.30 | `[data-v2-rankcol]` | the rank column asks for its minimum (`w-0` + nowrap in the markup) and gets an even 3-unit gutter here. It needs its own because it follows the toggle cell, so 3.7's edge rule was handing it the full 6-unit page inset on one side only. Measured 72.6px: a 49.6px label with 11.5px of slack each side, digits centred 0.00px off the header | unlayered `!important` |
+| 3.31 | `[data-v2-chip]` | the bottom bar's sliding chip takes the nested-surface treatment — hairline plus lip, no cast. Its hairline is a step off the chip's *own* fill rather than a token, because both candidates vanish in one theme; see 5.11 for the measurements | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -590,6 +634,71 @@ trend delta is arguably a measurement, so this stretches the axis. It reads
 correctly and is conventional for dashboards, but it is the one place the
 prototype bends the colour *rules* rather than the colour *values*.
 
+**5.7 — Panel roll-ups move with panel width.** The app's panel language puts a
+figure cluster at the header's trailing edge (`IconChip` + title/description
+left, bare `Stat`s right, hairline dividers between) — that is what the
+Scenarios detail and the Producers inset do. In a *narrow* panel there is no
+room beside the title, and the same cluster just crowds it, so narrow panels
+(the Overview's Revenue card) carry the figure in the content instead, directly
+above the chart. Same pieces, placement chosen by available width. Not encoded
+in `panels.tsx` — `PanelHeader`'s `action` slot simply goes unused.
+
+Updated 2026-08-02: in the Scenarios detail the cluster no longer floats on the
+well — it sits at the top of the panel, above the tabs. The figures count the
+table directly beneath them, so putting them on a different surface from that
+table was the wrong grouping; the well is now recess only, and everything that
+is content is on the one plate. The Producers inset (`OfferInset`) still has the
+old arrangement — the same object built twice, again (5.5).
+
+**5.8 — The collapsed rail is 3.5rem, not the DS's 3rem.** Collapsing was
+resizing the rail's contents: the DS forces `size-8!` + `p-2!` on a collapsed
+menu button, leaving a 16.6px content box, which forced the app's `size-5`
+glyph down to `size-4` and dropped the row height. So icons changed size
+mid-animation. The button now keeps its 38.4px and simply becomes square
+(padding 2.5 units → a 19.2px content box, exactly the `size-5` glyph), and
+`--sidebar-width-icon` widens to 3.5rem so it clears the group's own 2-unit
+padding (38.4 + 2×7.68 = 53.8px; 3rem left only 32.6px, which is *why* the DS
+shrinks the button). Passed via `SidebarProvider`'s `style` prop, which spreads
+after the DS defaults — the seam the DS already provides, not a CSS override.
+**Search keeps a rail slot at both widths** (`SearchSlot`): a field when there is
+room, a square icon control when there isn't. It used to vanish on collapse,
+which dropped ~43px out of the header; with the brand row's 6px of shrink on top
+of that, every nav item was yanked **48px** up the page (first item measured
+y=134 → y=86). Now the field is `--control-h` (38px) against the nav button's
+38.4px — the same slot to within half a pixel — and the brand row is pinned with
+`min-h-12` (one slot plus its own `py-1`, since min-height is border-box).
+Measured after: first nav item at y=138 in **both** states. Collapsed, clicking
+search reopens the rail and focuses the field; focus is deferred to an effect on
+the sidebar's `state` because a `display: none` field cannot take focus at click
+time.
+
+The brand and theme toggle still hide outright — a wordmark has no 3.5rem form
+to shrink into, so a crossfade there would read as a glitch.
+
+**5.9 — Route changes fade in (`PageFade`).** The `<Outlet />` is wrapped in a
+div keyed by `pathname`, so React remounts the subtree on every route change and
+the enter animation replays. **Enter only** — a true crossfade needs the
+outgoing page kept mounted while the incoming one arrives, which is a routing
+concern and would put two pages in the layout at once. Opacity alone, no drift:
+the rail's label fade set the app's transition language, and a page that slides
+as well as fades starts to feel like a slideshow. The wrapper carries
+`flex flex-1 flex-col` so it is layout-transparent; verified by measuring
+content widths on all four routes with and without it (538 / 1092 / 1092 / 707
+both ways — identical). Measured opacity on navigation: 0 → 0.73 → 0.92 → 1
+over ~200ms, and 1 on the first frame under `prefers-reduced-motion`.
+
+**5.10 — Two app-level token overrides that exist to pay for the plate.** Light
+`--muted-foreground` steps one rung darker (`--neutral-600`): the DS value
+measures 5.15:1 on a plain white card but **4.86:1 on the prototype's plate** —
+passing, but the tightest ratio in the app. The prototype introduced the plate,
+so the prototype absorbs the cost rather than moving a DS value the portal is
+perfectly happy with (now 6.70:1). And `--rail-icon` puts nav glyphs a step off
+the rail's own ink; the first attempt used `text-neutral-300`, a *scale* rung,
+which measured 12.58:1 dark and **1.39:1 light** — the `--neutral-*` scales are
+absolute and mode-independent by design, so a scale rung in a component class
+silently opts out of theming. Rewritten as a mix of `--sidebar-foreground`
+toward `--sidebar`: 10.45:1 / 9.10:1.
+
 **5.11 — A bottom tab bar, because mobile had no navigation at all.** Below
 `md` the DS renders the sidebar as an off-canvas Sheet, and the only control
 that opens it — `SidebarTrigger` — lives inside `SidebarHeader`, i.e. *inside
@@ -711,72 +820,7 @@ row of every table sits under the bar. Measured: tabs 68×51.4px (clear of the
 viewport at every scroll position, last table row clear of the bar, absent above
 `md` with the reserved padding dropping to 0.
 
-**5.10 — Two app-level token overrides that exist to pay for the plate.** Light
-`--muted-foreground` steps one rung darker (`--neutral-600`): the DS value
-measures 5.15:1 on a plain white card but **4.86:1 on the prototype's plate** —
-passing, but the tightest ratio in the app. The prototype introduced the plate,
-so the prototype absorbs the cost rather than moving a DS value the portal is
-perfectly happy with (now 6.70:1). And `--rail-icon` puts nav glyphs a step off
-the rail's own ink; the first attempt used `text-neutral-300`, a *scale* rung,
-which measured 12.58:1 dark and **1.39:1 light** — the `--neutral-*` scales are
-absolute and mode-independent by design, so a scale rung in a component class
-silently opts out of theming. Rewritten as a mix of `--sidebar-foreground`
-toward `--sidebar`: 10.45:1 / 9.10:1.
-
-**5.8 — The collapsed rail is 3.5rem, not the DS's 3rem.** Collapsing was
-resizing the rail's contents: the DS forces `size-8!` + `p-2!` on a collapsed
-menu button, leaving a 16.6px content box, which forced the app's `size-5`
-glyph down to `size-4` and dropped the row height. So icons changed size
-mid-animation. The button now keeps its 38.4px and simply becomes square
-(padding 2.5 units → a 19.2px content box, exactly the `size-5` glyph), and
-`--sidebar-width-icon` widens to 3.5rem so it clears the group's own 2-unit
-padding (38.4 + 2×7.68 = 53.8px; 3rem left only 32.6px, which is *why* the DS
-shrinks the button). Passed via `SidebarProvider`'s `style` prop, which spreads
-after the DS defaults — the seam the DS already provides, not a CSS override.
-**Search keeps a rail slot at both widths** (`SearchSlot`): a field when there is
-room, a square icon control when there isn't. It used to vanish on collapse,
-which dropped ~43px out of the header; with the brand row's 6px of shrink on top
-of that, every nav item was yanked **48px** up the page (first item measured
-y=134 → y=86). Now the field is `--control-h` (38px) against the nav button's
-38.4px — the same slot to within half a pixel — and the brand row is pinned with
-`min-h-12` (one slot plus its own `py-1`, since min-height is border-box).
-Measured after: first nav item at y=138 in **both** states. Collapsed, clicking
-search reopens the rail and focuses the field; focus is deferred to an effect on
-the sidebar's `state` because a `display: none` field cannot take focus at click
-time.
-
-The brand and theme toggle still hide outright — a wordmark has no 3.5rem form
-to shrink into, so a crossfade there would read as a glitch.
-
-**5.9 — Route changes fade in (`PageFade`).** The `<Outlet />` is wrapped in a
-div keyed by `pathname`, so React remounts the subtree on every route change and
-the enter animation replays. **Enter only** — a true crossfade needs the
-outgoing page kept mounted while the incoming one arrives, which is a routing
-concern and would put two pages in the layout at once. Opacity alone, no drift:
-the rail's label fade set the app's transition language, and a page that slides
-as well as fades starts to feel like a slideshow. The wrapper carries
-`flex flex-1 flex-col` so it is layout-transparent; verified by measuring
-content widths on all four routes with and without it (538 / 1092 / 1092 / 707
-both ways — identical). Measured opacity on navigation: 0 → 0.73 → 0.92 → 1
-over ~200ms, and 1 on the first frame under `prefers-reduced-motion`.
-
-**5.7 — Panel roll-ups move with panel width.** The app's panel language puts a
-figure cluster at the header's trailing edge (`IconChip` + title/description
-left, bare `Stat`s right, hairline dividers between) — that is what the
-Scenarios detail and the Producers inset do. In a *narrow* panel there is no
-room beside the title, and the same cluster just crowds it, so narrow panels
-(the Overview's Revenue card) carry the figure in the content instead, directly
-above the chart. Same pieces, placement chosen by available width. Not encoded
-in `panels.tsx` — `PanelHeader`'s `action` slot simply goes unused.
-
-Updated 2026-08-02: in the Scenarios detail the cluster no longer floats on the
-well — it sits at the top of the panel, above the tabs. The figures count the
-table directly beneath them, so putting them on a different surface from that
-table was the wrong grouping; the well is now recess only, and everything that
-is content is on the one plate. The Producers inset (`OfferInset`) still has the
-old arrangement — the same object built twice, again (5.5).
-
-**5.11 — Every bid is quoted in basis.** The Producers inset always showed
+**5.12 — Every bid is quoted in basis.** The Producers inset always showed
 basis (`+0.03`, `-0.28` — cents over or under the futures month). The Scenarios
 board and the Overview book showed flat cash prices (`$4.52`) for the same
 quantity, so two screens described one number two ways. The scenario seed data
@@ -786,7 +830,7 @@ the bid sits on. Nothing about this is DS drift; it is the prototype's domain
 language becoming consistent, and it is here because a reader comparing the two
 screens would otherwise assume one of them is wrong.
 
-**5.10 — `ScrollTop` needs a block body, and that is not a style
+**5.13 — `ScrollTop` needs a block body, and that is not a style
 preference.** The route-scroll effect was written
 `React.useEffect(() => window.scrollTo(0, 0), [pathname])`. In Chrome 151
 `window.scrollTo` returns a scroll-completion Promise, so the concise arrow
@@ -811,6 +855,108 @@ call sites already use block bodies, so **Part 4 gains nothing from it**. The
 hazard is not local, though — any effect whose concise body calls a DOM method
 is one browser release away from the same failure, and the symptom (blank
 page, no error boundary, no build failure) points nowhere near the cause.
+
+**5.14 — An expanded row is a page in miniature, with named sections.** The
+open scenario row started as one panel holding everything and grew two
+labelled halves: a *Scenario summary* header over four roll-up cards, then a
+*Producer activity* header over the event table. Both headers sit **outside**
+the panel they name. A title inside the box it titles reads as the box's first
+row; outside, it names the thing — and once the lower half had a header, the
+upper half read as unlabelled, which is what forced the pair.
+
+The headers are the same `PageHeader` in its `condensed` size (36px chip, 20px
+`h2`, optional description) — `h2` and not `h1` because the page already has
+one and several rows can be open at once. The primary action lives in the
+header's action slot rather than in the panel: *Edit scenario* at `lg` (44px)
+flush to the header's right edge, on the title's own line.
+
+Moving the header out is what buys the concentric corner in 3.26: an inset that
+differs by side has no single radius that can follow the outer curve, so the
+even inset and the derived corner are one change, not two.
+
+**5.15 — The roll-up is four cards over the scenario's whole life, and they are
+the largest thing in the row.** Bushels bought, average basis, accepted,
+rejected. Deliberately **not** tied to the range tabs below them: what a bid has
+bought is a property of the bid, and a figure that moved when a tab moved would
+be a second range control wearing a different face. Average basis is
+volume-weighted over accepts and shows an em dash when nothing was bought —
+there is no average of nothing.
+
+The cards are `Tile` at a new `lg` size rather than a new component, and they
+are **outline-only**: hairline, no fill, no cast. At this size the number is the
+object, and a fill behind it would be a box around a headline; the hairline is
+there to group the four, not to raise them. Their corner is the panel's own
+(`--v2-panel-radius`), because a card that size rounded like a button reads as a
+button that grew. The label sits **above** the figure: under it, it is a
+footnote; above, it is the question the number answers — and the four questions
+then line up at one height across the row, which figures of differing digit
+counts never do. The figure is container-query sized rather than fixed, because
+a size that fits `114k` in a wide tile overflows a narrow one.
+
+Their inset is 12 spacing units — the header chip plus its gap — so a card's
+label starts on the same vertical as the title of the header above it, and the
+four read as a block hanging off that line rather than as a band starting
+somewhere else.
+
+Each card carries a sparkline plotted against **literal elapsed days**, not
+point index: the existing `series()` helper labels points by position, which is
+a chart of the order things happened rather than of when. Ticks step inward from
+`now` and stay inside the data domain — built outward from a rounded-up span,
+the first tick landed off-canvas and the axis rendered as a single clipped
+label. At most five, so a narrow tile does not comb, and the unit follows the
+span (`now`, `3h`, `9h`, then `Nd`) so an afternoon-old scenario does not get
+four ticks all reading `0d`. The charts are `aria-hidden` decoration: every
+point they draw is in the table below.
+
+*Open:* four cards each redraw the same axis, and `Rejected: 1` charts as a
+single spike on a flat line, which reads as a rendering fault rather than as
+data. One shared axis under the row, or charts only on the two figures that
+actually move, is the likely correction.
+
+**5.16 — An event lands in the column that is its outcome.** The activity table
+was Producer · Action · Accepted bid · Bushels · Reject reason · When, with a
+status badge in Action and an em dash in whichever of the last two did not
+apply. It is now four columns: **Producer · Accepted · Rejected · When**. The
+badge column went because *which column an event lands in is the action* —
+restating it in a badge is the same fact twice, in colour.
+
+Each outcome cell is a `TwoLine`: bid over bushels on an accept, reason over
+bushels on a reject. The sub carries its own unit, because with no column head
+above it a bare number is a number of nothing — and the unit differs by side:
+`7,500 bu` booked against `17,000 bu walked`. `walked` had been computed in the
+data model since the beginning and never rendered; splitting the columns is what
+gave it somewhere to go. `TwoLine` was promoted out of `producers.tsx` into the
+shared panel furniture on the second use, per 5.5's rule.
+
+**5.17 — Accepting a bid is a decision against a ceiling.** The Accept dialog
+(`kernel-app/src/components/accept-bid-dialog.tsx`, opened from the pinned
+Accept control on an open-bid row) is built from DS `Dialog`, `InputGroup` and
+`Field` — nothing forked, and the offer already carried every number it needs.
+
+Its centre is a meter, not a number: a track running from the posted bid to the
+**scenario** max, filled from the posted bid to **this producer's** max. The
+grey remainder is room the scenario allows that this producer does not, so
+distance becomes visible — a 4.2mi producer whose max equals the posted bid
+shows no fill at all and the answer is legible before reading a figure.
+Confirm requires both fields *and* a bid within the producer's max; exceeding it
+turns the marker, the input and the inline error destructive together.
+
+Two deliberate departures from the reference frames, both worth flagging as
+drift-from-the-mock rather than drift-from-the-DS:
+
+- **Value over top comp** uses the app's existing `producerMaxBid − topCompBid`,
+  the same arithmetic as the Producers column of that name. The frames show a
+  number that formula does not produce (`+0.06` where it gives `+0.10`), so the
+  mock's value came from somewhere else. One definition on the page beats two
+  agreeing with different sources; if the frames are right, it is a field on the
+  offer, not a computation.
+- **Marker labels anchor by their share of the track** — 0% left-aligns, 100%
+  right-aligns — rather than centring on their position, which hangs the label
+  off the track's edge at the extremes. The frames' black label chips are
+  `--foreground` on `--background` here, so they invert with the theme.
+
+`data-v2-meter` is an anatomy hook with no rule behind it yet: the meter is
+still utilities, and the marker exists so a probe can address it by name.
 
 ---
 
@@ -854,6 +1000,19 @@ Gates run against this branch (from `kernel-portal/` unless noted):
   effective target to 44px, and the trigger was missing from the extension
   list. Fixed upstream; see 4.7.
 
+Runtime-verified on the **deploy preview**, not only locally: the app renders,
+`/`, `/scenarios` and `/producers` navigate, the rail search shows the trough,
+the expanded row shows the well, and the Accept dialog opens at 512px with its
+meter reading 6% fill on a producer whose max sits one cent off the posted bid.
+That check exists because this branch has twice shipped something every static
+gate passed and no browser could use (5.13).
+
+Contrast re-measured after the panel work: title 14.34:1 dark / 17.33:1 light,
+subtitle and table head 5.79 / 7.11, timestamps 4.97 / 6.40, header glyph on its
+chip 14.6 / 15.77, active segment label 10.72:1 and inactive 4.33:1 — all AA. The
+well needed a local `--muted-foreground` override to get there (5.10): on
+`--neutral-200` the standard value measured 4.09:1.
+
 Runtime-verified by hand: active-pill hover inert while inactive still
 responds; row click expands with no chevron double-toggle; button radius
 10.16px; icon padding 6px/10px; nested detail table not striped by the outer
@@ -892,6 +1051,17 @@ cherry-pick — particularly the two structural inversions (2.1), which change
 what the model *means* rather than what any value is. That is a decision to
 take deliberately, with `contrast-audit` run across both themes, not by
 draining this register entry by entry.
+
+**New since the panel work, and not yet triaged.** The four Part 3 rules that
+are pure app composition (3.25 bleed, 3.27 tab-panel tint, 3.30 rank gutter)
+are almost certainly local forever. Three are DS-shaped and should be argued
+on their merits: **3.26**'s derived concentric corner is arithmetic the DS could
+own outright rather than every consumer re-deriving; **3.29**'s cell-as-control
+is a table affordance, not a look, and the DS's `Table` is where it belongs if
+it survives; **3.24**'s header chip is the frame recipe applied to a glyph and
+rides on whatever happens to the elevation ladder. **3.28**'s breathing edge is
+the one to be most sceptical of — it is a prototype flourish, it has had no
+second use, and animation in a design system is a commitment.
 
 **Still open in the prototype itself:**
 - Light mode has the elevation ladder and passes the audits, but it is correct
