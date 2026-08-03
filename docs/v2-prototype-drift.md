@@ -72,7 +72,7 @@ matter of moving it down a layer, not translating it.
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
 | 3 | Modification layer | 31 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
-| 4 | **DS source changes** | 6 | **promote** — 4 already landed as fixes |
+| 4 | **DS source changes** | 11 | **promote** — 8 are bug fixes |
 | 5 | App-level convention departures | 17 | mixed — see each entry |
 
 ---
@@ -403,9 +403,10 @@ compact select triggers, so the filter row is coherent.
 
 # Part 4 — Changes to the design system itself
 
-**This is the part that matters if the prototype is abandoned.** Six changes, all in
-`kernel-portal/`. Four are bug fixes the portal benefits from with no prototype
-dependency.
+**This is the part that matters if the prototype is abandoned.** Eleven changes.
+The first nine are in `kernel-portal/`, the last two in `packages/ui/src/styles.css`,
+which is where the tokens moved. Eight are bug fixes the DS benefits from with no
+prototype dependency.
 
 | # | Component | Change | Kind | Standalone? |
 |---|---|---|---|---|
@@ -415,6 +416,11 @@ dependency.
 | 4.4 | `button.tsx` | optical icon padding actually fires | **bug fix** | yes |
 | 4.5 | `tabs.tsx` | no hover styling on the active tab | **bug fix** | yes |
 | 4.6 | `icon.tsx` | `Archive`, `Ban` glyphs | additive | yes |
+| 4.7 | `index.css` | coarse-pointer extension reaches `select-trigger` | **bug fix** | yes |
+| 4.8 | `index.css` | elevation ramp gains a dark mode; top rung un-inverted | **bug fix** | yes |
+| 4.9 | `index.css` | reduced-motion guard zeroes delays too | **bug fix** | yes |
+| 4.10 | `styles.css` | shadows tinted; `--shadow-color` finally referenced | feature | yes |
+| 4.11 | `styles.css` | `tabs-trigger` reaches 44px at coarse pointer | **bug fix** | yes ← *take regardless* |
 
 ## 4.1 `Table` gains a `striped` prop
 
@@ -583,6 +589,40 @@ doing the heavy lifting (4.8); light is where it earns its keep, at 18.7 levels.
 **Cherry-pick priority: medium.** Strictly an improvement and self-contained,
 but unlike 4.8 it is a look change rather than a bug fix — worth eyeballing
 against the portal before taking it.
+
+## 4.11 Tabs were absent from the coarse-pointer sizing block
+
+`packages/ui/src/styles.css`, the `@media (pointer: coarse)` block. The second
+instance of the 4.7 shape, and a wider one. Decisions 0007 + 0009 say a control
+either grows visibly to 44px or keeps a ≥44px effective target via an invisible
+`::after`. `tabs-trigger` had **neither** — it appears in no list in that block.
+A compact tab sits at `--control-h-sm`, which is 40px even after the tokens
+grow on touch, so every compact tab strip in the DS was a 40px target on a
+phone.
+
+The prototype made it worse rather than causing it: `v2-layer.css` pins tab
+heights with `height: … !important` to run the app's strips one step above the
+DS control scale, which held them at **34.5px** on touch. That is the useful
+detail for anyone taking this fix — `min-height` beats an `!important` `height`
+regardless of specificity, because min-height is applied after height when the
+used value is resolved. One DS rule therefore lifts consumers who have pinned
+their own heights, without their needing to know.
+
+Fixed by growth rather than an extension: `[data-slot="tabs-trigger"] {
+min-height: 2.75rem }`. Triggers sit edge to edge in a strip, so an `::after`
+grown sideways would land on its neighbour — the extension mechanism does not
+fit this control. Growth is also the right half of decision 0009's split: a tab
+is how you move between slices of the same data, which makes it primary.
+
+Measured: compact tabs 34.5px → 44px at coarse pointer, comfortable unchanged
+at 46.1px (already clear), desktop untouched at 34.5/46.1. `mobile-audit` on
+the prototype's `/scenarios` and `/producers` went from **1 sub-44px hit area
+to 0**; the portal's `/navigation`, `/components/tabs`, `/dashboard` and
+`/filters` stay at 0/0/0/0.
+
+**Cherry-pick priority: high.** A four-line addition to a block that already
+exists, with no prototype dependency, closing an accessibility gap that affects
+every tab strip in the DS.
 
 ---
 

@@ -242,7 +242,24 @@ export default function ProducersPage() {
 
       {/* commodity pills (left) + My/All Producers pills (right) */}
       <div className="flex flex-wrap items-center gap-3 px-6 pt-4 md:px-8">
-        <Tabs value={commodity} onValueChange={(v) => setCommodity(v as string)}>
+        {/* Same scroller the folder strip above gets: a pill list is one
+            atomic width (`inline-flex w-fit`, and the segments share a track,
+            so it cannot wrap), and four commodities run 373px against the
+            344px a 390px phone leaves inside the page padding — which pushed
+            the whole document 6px wide. `min-w-0` because the wrapper is a
+            flex item here rather than a block, and a flex item will not
+            shrink below its content without it.
+
+            `py-1 -my-1`: a scroll container clips BOTH axes, and the triggers'
+            3px focus ring has only the list's 1px border to sit in — so the
+            ring would come back shaved. The padding gives it room inside the
+            scroller and the negative margin hands the row back the same outer
+            box, so nothing moves. */}
+        <Tabs
+          value={commodity}
+          onValueChange={(v) => setCommodity(v as string)}
+          className="-my-1 min-w-0 max-w-full overflow-x-auto py-1"
+        >
           <TabsList variant="pill" size="compact">
             {commodityFilters.map((c) => (
               <TabsTrigger key={c.value} value={c.value}>

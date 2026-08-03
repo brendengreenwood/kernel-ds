@@ -28,6 +28,7 @@ if (lines.some((l) => /^(<<<<<<<|=======|>>>>>>>)/.test(l))) fail("unresolved co
    readable in number order. */
 const series = [
   { name: "Part 3 rules", re: /^\| 3\.(\d+) \|/ },
+  { name: "Part 4 sections", re: /^## 4\.(\d+) / },
   { name: "Part 5 entries", re: /^\*\*5\.(\d+)/ },
 ]
 for (const { name, re } of series) {
@@ -43,10 +44,24 @@ for (const { name, re } of series) {
 /* The summary table is the first thing anyone reads; it must not lie. */
 const rules = lines.filter((l) => /^\| 3\.\d+ \|/.test(l)).length
 const entries = lines.filter((l) => /^\*\*5\.\d+/.test(l)).length
+const dsChanges = lines.filter((l) => /^## 4\.\d+ /.test(l)).length
 const sum3 = lines.find((l) => l.startsWith("| 3 | Modification layer")) ?? ""
+const sum4 = lines.find((l) => l.startsWith("| 4 | **DS source changes**")) ?? ""
 const sum5 = lines.find((l) => l.startsWith("| 5 | App-level")) ?? ""
 if (!sum3.includes(`${rules} rule groups`)) fail(`summary claims a different rule count than the ${rules} rows present`)
+if (!sum4.includes(`| ${dsChanges} |`)) fail(`summary claims a different Part 4 count than the ${dsChanges} sections present`)
 if (!sum5.includes(`| ${entries} |`)) fail(`summary claims a different Part 5 count than the ${entries} entries present`)
+
+/* Part 4 is the cherry-pick list, so its index is the part someone actually
+   shops from. It stopped at 4.6 while five more sections sat below it — an
+   index that silently stops short hides exactly the newest fixes. */
+const p4Index = lines.filter((l) => /^\| 4\.(\d+) \|/.test(l)).map((l) => Number(l.match(/^\| 4\.(\d+) \|/)[1]))
+for (const l of lines.filter((l) => /^## 4\.(\d+) /.test(l))) {
+  const n = Number(l.match(/^## 4\.(\d+) /)[1])
+  if (!p4Index.includes(n)) fail(`Part 4 section 4.${n} is missing from the index table`)
+}
+for (const n of p4Index)
+  if (!lines.some((l) => l.startsWith(`## 4.${n} `))) fail(`Part 4 index lists 4.${n}, which has no section`)
 
 for (const l of lines.filter((l) => /^\| 3\.\d+ \|/.test(l)))
   if ((l.match(/\|/g) || []).length !== 5) fail(`malformed table row: ${l.slice(0, 44)}…`)
@@ -80,4 +95,6 @@ if (problems.length) {
   for (const p of problems) console.error("  - " + p)
   process.exit(1)
 }
-console.log(`drift register consistent — ${rules} rule groups, ${entries} app-level entries`)
+console.log(
+  `drift register consistent — ${rules} rule groups, ${dsChanges} DS source changes, ${entries} app-level entries`
+)
