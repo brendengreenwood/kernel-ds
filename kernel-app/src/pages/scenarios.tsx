@@ -6,6 +6,7 @@ import { StatusBadge, type Status } from "@/components/ui/status-badge"
 import { TabCount, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import { basis, bushelsShort } from "@app/lib/format"
+import { useRevealOnOpen } from "@app/lib/reveal"
 import { ActivityFlag, Empty, PageHeader, TableFrame, Tile, TwoLine, useVisibleWidth } from "@app/components/panels"
 import { Sparkline } from "@app/components/sparkline"
 import {
@@ -247,12 +248,16 @@ export default function ScenariosPage() {
     loc ? byCommodity.filter((s) => s.location === loc).length : byCommodity.length
 
   const [expanded, setExpanded] = React.useState<Set<string>>(new Set())
+  // Only an open is worth following: see lib/reveal.
+  const [opened, setOpened] = React.useState<string | null>(null)
   const toggle = (id: string) =>
     setExpanded((prev) => {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
+      setOpened(next.has(id) ? id : null)
       return next
     })
+  useRevealOnOpen(opened, "data-scenario-row")
 
   return (
     <div className="flex w-full flex-col">
@@ -337,6 +342,7 @@ export default function ScenariosPage() {
                 <React.Fragment key={s.id}>
                 {/* The whole row toggles; the first cell is the control. */}
                 <TableRow
+                  data-scenario-row={s.id}
                   onClick={() => toggle(s.id)}
                   data-state={expanded.has(s.id) ? "selected" : undefined}
                   className={cn(

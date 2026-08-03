@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 import { basis } from "@app/lib/format"
+import { useRevealOnOpen } from "@app/lib/reveal"
 import { PageHeader, Stat, TableFrame, TwoLine, useVisibleWidth } from "@app/components/panels"
 import { locations, producers, type Dated, type Offer, type Producer } from "@app/data/producers"
 import { AcceptBidDialog } from "@app/components/accept-bid-dialog"
@@ -185,12 +186,16 @@ export default function ProducersPage() {
     bids: "All",
   })
   const [expanded, setExpanded] = React.useState<Set<string>>(new Set())
+  // Only an open is worth following: see lib/reveal.
+  const [opened, setOpened] = React.useState<string | null>(null)
   const toggle = (id: string) =>
     setExpanded((prev) => {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
+      setOpened(next.has(id) ? id : null)
       return next
     })
+  useRevealOnOpen(opened, "data-producer-row")
 
   // Every filter except location, so the tab counts predict what clicking a
   // tab actually yields under the current search / commodity / book filters.
@@ -345,6 +350,7 @@ export default function ProducersPage() {
                 <React.Fragment key={p.id}>
                   {/* The whole row toggles; the first cell is the control. */}
                   <TableRow
+                    data-producer-row={p.id}
                     onClick={() => toggle(p.id)}
                     data-state={expanded.has(p.id) ? "selected" : undefined}
                     className={cn(
