@@ -73,7 +73,7 @@ matter of moving it down a layer, not translating it.
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
 | 3 | Modification layer | 32 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
 | 4 | **DS source changes** | 11 | **promote** — 8 are bug fixes |
-| 5 | App-level convention departures | 19 | mixed — see each entry |
+| 5 | App-level convention departures | 20 | mixed — see each entry |
 
 ---
 
@@ -1139,6 +1139,40 @@ Measured: panel over well 1.28:1 dark / 1.26:1 light, tile hairline on panel
 header object, and every consumer eventually needs the same three depths. The
 panel-per-block layout is 5.5's expanding-row object, still unextracted.
 
+**5.20 — An event's originator is a property of the producer, not of the
+event.** `kernel-app/src/data/scenarios.ts`,
+`kernel-app/src/pages/scenarios.tsx`.
+
+The producer activity table gained an *Originator* column: who on the desk
+works that account. It sits second, against the producer, because the two
+together are one fact — whose account this is — and separating them with an
+outcome column would make the reader carry a name across the table to use it.
+
+The value is derived from the **producer's name**, not from the event's id:
+`originatorFor(producer)` hashes the farm. Every other invented field in this
+data model is seeded off the row it belongs to, and doing that here would have
+been wrong in a way that only shows up in use — the same farm would carry a
+different name two rows apart, and the column would read as *who keyed this*
+rather than *whose account this is*. A merchant asks the second question. The
+assignment therefore holds across scenarios, across both ranges, and across
+reloads: one farm, one originator, everywhere in the app.
+
+It is muted, like *When*, against the foreground of *Producer*, *Accepted* and
+*Rejected*. Those three are what happened; these two are the context you need
+to act on it — who to ask, and how stale it is. A fifth column set at full
+strength would have made the row read as five findings instead of three facts
+and two labels.
+
+Measured: five columns at 281/175/148/206/180px inside the panel's 990px, so
+the table still does not scroll horizontally (5.16 bought that room by merging
+six columns into four; this spends a quarter of it). Originator resolves to
+`--muted-foreground` `oklch(0.46 0.012 163)` against foreground `0.2128`.
+Checked across six scenarios and six farms: no farm carries two originators.
+
+*Promotion:* prototype-only. The roster is invented and the derivation is a
+stand-in for an account-ownership field a real feed would carry. What is worth
+keeping is the rule it demonstrates — a column answering *who owns this* must
+be keyed to the thing owned, or it silently becomes a column about the event.
 ---
 
 # Part 6 — What the prototype actually is

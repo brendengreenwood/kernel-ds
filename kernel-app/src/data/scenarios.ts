@@ -10,6 +10,11 @@ export type ActivityRange = "since" | "all"
 export type ProducerEvent = {
   id: string
   producer: string
+  /** Whoever on the desk works this account. Not who happened to key the
+      event: a producer belongs to an originator, so the same farm carries the
+      same name every time it appears. The column answers "who do I ask about
+      this", and that answer cannot change between two rows of the same farm. */
+  originator: string
   action: "accepted" | "rejected"
   /** The bid they acted on. */
   bid: number
@@ -111,6 +116,23 @@ const rejectReasons = [
   "Quality spec",
 ] as const
 
+/** The desk. A merchant runs a book through originators, and every producer
+    on it is somebody's account — the roster is small because a river terminal's
+    is. */
+const originators = [
+  "Dale Kruse",
+  "Marcy Toft",
+  "Ray Ellison",
+  "Jen Vogel",
+  "Tom Barrera",
+] as const
+
+/** Whose account a farm is. Hashed off the producer's name rather than the
+    event's, so the assignment holds across scenarios, across ranges, and
+    across reloads: one farm, one originator, everywhere in the app. */
+export const originatorFor = (producer: string) =>
+  originators[fnv(producer + "o") % originators.length]
+
 const farms = [
   "Cedar Bluff Farms",
   "Greenwood Family Farms",
@@ -141,11 +163,13 @@ function activityFor(s: Omit<Scenario, "activity">): Record<ActivityRange, Activ
   const fOffset = fnv(s.id + "f") % farms.length
   const events: ProducerEvent[] = Array.from({ length: eventCount }, (_, i) => {
     const id = `${s.id}-E${i + 1}`
+    const producer = farms[(fOffset + i) % farms.length]
     // Accepts outnumber rejects, which is what a working scenario looks like.
     const action = r() < 0.68 ? "accepted" : "rejected"
     return {
       id,
-      producer: farms[(fOffset + i) % farms.length],
+      producer,
+      originator: originatorFor(producer),
       action,
       bid: round2(s.postedBid + (r() * 0.1 - 0.04)),
       // 5,000–35,000 bu in 500-bu steps — truck-lot sized offers.

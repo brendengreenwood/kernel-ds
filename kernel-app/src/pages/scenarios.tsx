@@ -196,6 +196,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Producer</TableHead>
+                    <TableHead>Originator</TableHead>
                     <TableHead>Accepted</TableHead>
                     <TableHead>Rejected</TableHead>
                     <TableHead>When</TableHead>
@@ -205,6 +206,11 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
                   {activity.events.map((e) => (
                     <TableRow key={e.id}>
                       <TableCell className="max-w-44 truncate">{e.producer}</TableCell>
+                      {/* Sits against the producer, because the pair is one
+                          fact: whose account this is. Muted like When rather
+                          than set like the outcome columns — it is who to ask,
+                          not what happened. */}
+                      <TableCell className="whitespace-nowrap text-muted-foreground">{e.originator}</TableCell>
                       {/* Exactly one of these two carries the event, and which
                           one it is IS the action — a badge saying so was a third
                           statement of the same fact. Each side takes its own
