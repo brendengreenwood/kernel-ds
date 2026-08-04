@@ -72,8 +72,8 @@ matter of moving it down a layer, not translating it.
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
 | 3 | Modification layer | 32 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
-| 4 | **DS source changes** | 11 | **promote** — 8 are bug fixes |
-| 5 | App-level convention departures | 22 | mixed — see each entry |
+| 4 | **DS source changes** | 12 | **promote** — 9 are bug fixes |
+| 5 | App-level convention departures | 23 | mixed — see each entry |
 
 ---
 
@@ -422,6 +422,7 @@ prototype dependency.
 | 4.9 | `index.css` | reduced-motion guard zeroes delays too | **bug fix** | yes |
 | 4.10 | `styles.css` | shadows tinted; `--shadow-color` finally referenced | feature | yes |
 | 4.11 | `styles.css` | `tabs-trigger` reaches 44px at coarse pointer | **bug fix** | yes ← *take regardless* |
+| 4.12 | `styles.css` | `dialog-close` gets the coarse-pointer hit extension | **bug fix** | yes ← *take regardless* |
 
 ## 4.1 `Table` gains a `striped` prop
 
@@ -624,6 +625,47 @@ to 0**; the portal's `/navigation`, `/components/tabs`, `/dashboard` and
 **Cherry-pick priority: high.** A four-line addition to a block that already
 exists, with no prototype dependency, closing an accessibility gap that affects
 every tab strip in the DS.
+
+## 4.12 The dialog close is a Button that does not say so
+
+`packages/ui/src/styles.css`, the same `@media (pointer: coarse)` block. Third
+instance of the shape 4.7 and 4.11 describe, and the starkest, because this one
+*is* rendered as a `Button`:
+
+```tsx
+<DialogPrimitive.Close data-slot="dialog-close" render={<Button variant="ghost" size="icon-sm" />} />
+```
+
+Base UI's `render` merges the two, and the outer slot wins — so the element in
+the document carries `data-slot="dialog-close"` and nothing else. Every rule in
+the sheet keyed on `[data-slot="button"]` misses it. Measured on a phone: the
+close sat at **40×40 with `min-height: 0` and no `::after`** — failing decision
+0009 by both of its mechanisms at once — while the Cancel button beside it in
+the same dialog measured 44px. It also kept a 12px radius against the 10.16px
+every other button in that dialog takes, because the prototype's radius rule is
+keyed the same way (5.22).
+
+Fixed by adding `[data-slot="dialog-close"]` to the `::after` list only.
+Extension rather than growth: a close is a corner control that stays visually
+small on purpose, which is the class decision 0007's extension exists for. It
+is deliberately **not** added to the `position: relative` list beside it — the
+close is already `position: absolute`, so it is its own containing block, and
+`relative` would drop it out of the corner.
+
+Measured after: visible box unchanged at 40×40, effective target **46×46**,
+still inset 7.7px from the dialog's right edge. Desktop unchanged at 32×32 with
+no extension, since the whole block is coarse-pointer only.
+
+**What the third instance actually says.** Three controls have now been found
+missing from this block, each for the same reason — a Base UI primitive whose
+own `data-slot` displaces the button's. The gap is not any one omission; it is
+that the block is a hand-maintained list of slot names with nothing checking it
+against the set of interactive slots the DS ships. `mobile-audit` cannot catch
+these on its own either: it found none of the three, because a dialog close is
+only in the document while the dialog is open and the audit never opens one.
+
+**Cherry-pick priority: high.** One line in an existing block, no prototype
+dependency, and it fixes every dialog in the portal.
 
 ---
 
@@ -1250,7 +1292,20 @@ Measured: cap fill against the dialog 1.34 dark / 1.23 light, cap glyph
 against its own fill 10.72 / 14.25, hint text 5.79 / 7.11.
 ---
 
-**5.22 — A trace that will not say a number is a shape you have to take on faith.**
+**5.22 — The dialog close takes the app's button radius explicitly.** The
+layer's radius rule is keyed on `[data-slot="button"]`, and the dialog close is
+a `Button` that does not carry that slot: Base UI's `render` lets the outer
+`data-slot="dialog-close"` win, so the element has that name alone. It measured
+a 12px radius against the 10.16px every other button in the same dialog takes —
+one control keeping the DS radius by accident of a slot name rather than by any
+decision, and the rule's own comment claims it "covers every size, icon-only
+and grouped buttons included". The selector now names both slots. Found while
+fixing the same control's missing hit extension (4.12); the two are one
+mis-keying with two symptoms, one of which is an accessibility failure and the
+other of which is cosmetic.
+---
+
+**5.23 — A trace that will not say a number is a shape you have to take on faith.**
 `kernel-app/src/components/sparkline.tsx`, `kernel-app/src/pages/scenarios.tsx`
 
 Supersedes the no-axis half of 5.15. That entry removed the per-tile axes and

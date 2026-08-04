@@ -148,7 +148,14 @@
    same radius as the compact select triggers, so the control row is coherent.
    Unlayered + !important to beat the `rounded-*` utilities in the size
    variants; covers every size, icon-only and grouped buttons included. */
-[data-slot="button"] {
+/* `dialog-close` is listed separately because it is a Button that does not say
+   so: Base UI's `render` lets the outer `data-slot="dialog-close"` win, so the
+   element carries that slot alone and the selector above never reaches it. It
+   measured 12px against the 10.16px every other button in the same dialog
+   takes — one control keeping the DS radius by accident of a slot name rather
+   than by any decision. */
+[data-slot="button"],
+[data-slot="dialog-close"] {
   border-radius: calc(var(--radius) - var(--spacing)) !important;
 }
 
