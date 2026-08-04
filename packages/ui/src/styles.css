@@ -211,6 +211,13 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    /* Delays are motion timing too. Zeroing only the durations leaves any
+       delay intact, so a delayed transition still waits out its full delay and
+       then snaps — a dead pause with no animation to explain it, which reads as
+       a stutter rather than as reduced motion. Caught by a rail label that used
+       a 120ms delay to let the sidebar widen before its text faded in. */
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }
