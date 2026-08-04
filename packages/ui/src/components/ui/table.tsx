@@ -4,7 +4,16 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+function Table({
+  className,
+  striped,
+  ...props
+}: React.ComponentProps<"table"> & {
+  /** Zebra-stripe alternating body rows for easier row tracking in dense
+      tables. Uses a subtle foreground overlay so it reads on any surface.
+      Scoped to this table's own rows, so a nested table stays unstriped. */
+  striped?: boolean
+}) {
   return (
     <div
       data-slot="table-container"
@@ -12,7 +21,12 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
     >
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
+        data-striped={striped ? "" : undefined}
+        className={cn(
+          "w-full caption-bottom text-sm",
+          striped && "[&>tbody>tr:nth-child(even)]:bg-foreground/5",
+          className
+        )}
         {...props}
       />
     </div>
