@@ -2,11 +2,11 @@
 
 Date: 2026-08-02
 Status: accepted
-Amends: 0040 (`kernel-app/` is the Kernel v2 prototype)
+Amends: 0058 (`kernel-app/` is the Kernel v2 prototype, renumbered from 0040)
 
 ## Context
 
-Decision 0040 framed `kernel-app/` defensively. It was a pressure test: build a
+Decision 0058 framed `kernel-app/` defensively. It was a pressure test: build a
 second real consumer of the DS, see what breaks, fix the breakage upstream, and
 keep a register so the branch could be **abandoned without losing anything**.
 Its operative rule was:
@@ -14,7 +14,7 @@ Its operative rule was:
 > Fixes flow upstream, styling does not.
 
 That rule was right for a sandbox whose purpose was finding bugs. It is the
-wrong rule now, and it has been quietly costing us. Under 0040, everything the
+wrong rule now, and it has been quietly costing us. Under 0058, everything the
 prototype learned about *the system itself* — that dark needed an inverted
 elevation model, that the radius wanted 3.5×, that panels want a figure cluster
 at the header's trailing edge — was classified as "styling," which meant "stays
@@ -45,7 +45,7 @@ Consequences:
   *available*, not to force it early.
 - **The three-layer discipline stays, and is now load-bearing.** L1 token
   override, L2 `data-slot` modification layer, L3 DS source edits (decision
-  0040's mechanism table). Under 0040 the layers were about *reversibility* —
+  0058's mechanism table). Under 0058 the layers were about *reversibility* —
   delete them and get stock Kernel back. They now serve a second purpose: they
   are what makes drift **consumable**, because each layer is already expressed
   in the DS's own vocabulary. A token override names a role token. A `data-slot`
@@ -55,7 +55,7 @@ Consequences:
   into the DS means naming the affected consumers and running their gates
   (`contrast-audit` for token work, the parity gate and `mobile-audit` for
   component work). Nothing is promoted by editing the register.
-- **The prototype's screens are still not authoritative.** Unchanged from 0040:
+- **The prototype's screens are still not authoritative.** Unchanged from 0058:
   filter dropdowns are presentational, `/settings` is unbuilt, the sample book
   is invented. Nothing here is a product spec. *Design* direction promotes;
   *product* behaviour does not.
@@ -64,21 +64,22 @@ Consequences:
 
 ## What this does not change
 
-- The naming freezes in 0040 (`kernel-app/` directory, the
+- The naming freezes in 0058 (`kernel-app/` directory, the
   `claude/kernel-insider-portal-fvqfq2` branch) stand, for the same mechanical
   Netlify reasons.
 - Bug fixes still flow upstream immediately rather than waiting on a promotion
-  decision. That path was already working; 0040's Part 4 is the evidence.
+  decision. That path was already working; 0058's Part 4 is the evidence.
 
 ## Cost
 
-The prototype stops being disposable. Under 0040 its worst case was a clean
+The prototype stops being disposable. Under 0058 its worst case was a clean
 delete; now the register is a real dependency of the DS's roadmap and goes
 stale if drift lands without being recorded. The mitigation is the existing
 ritual — the register is updated in the same change as the drift, exactly as
 the worklog is.
 
 This also lengthens the branch's life, and it is already 51 commits ahead with
-three duplicate decision numbers (0040/0041/0042 collide with main's). Longer
+duplicate decision numbers colliding with main's (resolved 2026-08-03: the
+prototype's four moved to 0058-0061). Longer
 divergence means more of that. Rebasing or promoting in slices is now
 worth more than it was.

@@ -1,8 +1,9 @@
-# 0043 — Shadows are tinted, and `--shadow-color` becomes real
+# 0061 — Shadows are tinted, and `--shadow-color` becomes real
 
 Date: 2026-07-31
 Status: accepted
-Extends: 0042 (elevation ramp per-theme alpha)
+Renumbered from 0043 (2026-08-03): the prototype track and main both minted 0043; main's kept the number.
+Extends: 0060 (elevation ramp per-theme alpha)
 
 ## Context
 
@@ -17,7 +18,7 @@ ambient light on *that* surface, so it stays in that surface's hue family.
 Casting neutral black over a tinted surface reads as a foreign grey smudge laid
 on top of the page rather than as the page's own shading.
 
-Deferred from decision 0042, which fixed the ramp's alphas and geometry and
+Deferred from decision 0060, which fixed the ramp's alphas and geometry and
 explicitly listed this as considered-and-not-done ("it needs a `--shadow-color`
 per theme and a look at every overlay").
 
@@ -43,7 +44,7 @@ Hue stays at 165 in both, matching the neutral scale.
   subtle by construction — it is a hue shift at low alpha, not a value change.
 - **Tinting costs a little depth against pure black.** Measured on the dark
   rail: it darkens by **4.7** 8-bit levels instead of 5.0. That is affordable
-  precisely because dark's cast was already established (0042, and the page
+  precisely because dark's cast was already established (0060, and the page
   plate work) as *not* the thing carrying elevation in dark — edge contrast and
   gutter do that. Light is where the cast earns its keep, and there it darkens
   by 18.7 levels.
@@ -59,7 +60,7 @@ Hue stays at 165 in both, matching the neutral scale.
   and it would track any future surface retune automatically. Rejected for now:
   relative colour syntax has thinner support than `color-mix`, and the
   derivation would need clamping to stay below the darkest surface anyway.
-- **Raise the alphas to compensate for the 0.3-level loss.** Rejected — 0042's
+- **Raise the alphas to compensate for the 0.3-level loss.** Rejected — 0060's
   alphas were tuned against measured output, and re-tuning them to buy back
   three tenths of one 8-bit level is not worth destabilising a ramp that was
   just fixed.

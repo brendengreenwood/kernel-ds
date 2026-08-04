@@ -1,7 +1,8 @@
-# 0042 — The elevation ramp gets per-theme alpha and a monotonic top rung
+# 0060 — The elevation ramp gets per-theme alpha and a monotonic top rung
 
 Date: 2026-07-31
 Status: accepted
+Renumbered from 0042 (2026-08-03): the prototype track and main both minted 0042; main's kept the number.
 
 ## Context
 

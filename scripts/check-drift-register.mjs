@@ -2,9 +2,13 @@
  *
  * The register is the promotion queue (decision 0056), so its numbers are
  * citations: entries reference each other by number, and this branch has now
- * hit collision-by-parallel-track three times — decisions 0040-0042, register
+ * hit collision-by-parallel-track three times — decisions 0040-0043, register
  * row 3.18, and Part 5's doubled 5.10/5.11. Each one was found by hand during
  * a merge. This finds them before the merge.
+ *
+ * Decision filenames are checked here too. That collision is what this gate was
+ * written about and it was the one instance the gate could not see, which is
+ * how it went uncounted at three when it was really four.
  *
  * Also checks that the modification layer and its documentation agree: every
  * `data-v2-*` marker in v2-layer.css must appear in the register, and every
@@ -16,6 +20,7 @@ import fs from "node:fs"
 
 const REG = "docs/v2-prototype-drift.md"
 const CSS = "kernel-app/src/v2-layer.css"
+const DECISIONS = "docs/decisions"
 
 const doc = fs.readFileSync(REG, "utf8")
 const lines = doc.split(/\r?\n/)
@@ -90,6 +95,27 @@ if (fs.existsSync(CSS)) {
 for (const p of [...new Set(doc.match(/kernel-app\/src\/[A-Za-z0-9/._-]+/g) ?? [])])
   if (!fs.existsSync(p)) fail(`register cites a path that no longer exists: ${p}`)
 
+/* Decision numbers. Two tracks minting the same number is only visible as two
+   files sharing a prefix, and nothing else in the repo looks. */
+if (fs.existsSync(DECISIONS)) {
+  const byNumber = new Map()
+  for (const f of fs.readdirSync(DECISIONS).filter((f) => f.endsWith(".md"))) {
+    const m = f.match(/^(\d{4})-/)
+    if (!m) { fail(`decision file is not numbered: ${f}`); continue }
+    byNumber.set(m[1], [...(byNumber.get(m[1]) ?? []), f])
+  }
+  for (const [n, files] of byNumber)
+    if (files.length > 1) fail(`decision ${n} exists ${files.length} times: ${files.join(", ")}`)
+
+  /* A heading that disagrees with its filename sends a reader to the wrong
+     record, which is how a renumber half-lands. */
+  for (const [n, [f]] of byNumber) {
+    if (byNumber.get(n).length > 1) continue
+    const head = fs.readFileSync(`${DECISIONS}/${f}`, "utf8").split(/\r?\n/)[0]
+    if (!head.startsWith(`# ${n} `)) fail(`decision ${f} opens with "${head.slice(0, 40)}…", not # ${n}`)
+  }
+}
+
 if (problems.length) {
   console.error(`drift register: ${problems.length} problem(s)\n`)
   for (const p of problems) console.error("  - " + p)
@@ -98,3 +124,4 @@ if (problems.length) {
 console.log(
   `drift register consistent — ${rules} rule groups, ${dsChanges} DS source changes, ${entries} app-level entries`
 )
+console.log(`decision numbers unique — ${fs.readdirSync(DECISIONS).filter((f) => f.endsWith(".md")).length} records`)

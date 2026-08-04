@@ -1,7 +1,8 @@
-# 0041 — The accent lime is a scale; role tokens never hold raw colour
+# 0059 — The accent lime is a scale; role tokens never hold raw colour
 
 Date: 2026-07-30
 Status: accepted
+Renumbered from 0041 (2026-08-03): the prototype track and main both minted 0041; main's kept the number.
 
 ## Context
 

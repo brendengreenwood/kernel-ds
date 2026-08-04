@@ -1,7 +1,8 @@
-# 0040 — `kernel-app/` is the Kernel v2 prototype, not a product surface
+# 0058 — `kernel-app/` is the Kernel v2 prototype, not a product surface
 
 Date: 2026-07-29
 Status: accepted
+Renumbered from 0040 (2026-08-03): the prototype track and main both minted 0040; main's kept the number.
 
 ## Context
 

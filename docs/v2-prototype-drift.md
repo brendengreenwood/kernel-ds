@@ -1,6 +1,6 @@
 # Kernel v2 prototype — drift register
 
-`kernel-app/` is the **Kernel v2 prototype** (decision 0040): real merchant
+`kernel-app/` is the **Kernel v2 prototype** (decision 0058): real merchant
 workflow screens rendered in a different visual register — dark,
 premium-analytics, soft-cornered — on top of the live design system.
 
@@ -531,7 +531,7 @@ fix, not just the prototype's filter row.
 
 ## 4.8 The elevation ramp had no dark mode, and an inverted top rung
 
-Decision 0042, `index.css` both theme blocks + the Elevation foundation page.
+Decision 0060, `index.css` both theme blocks + the Elevation foundation page.
 The single largest DS find of this branch, and the only one a *user* caught
 before the tooling did.
 
@@ -545,7 +545,7 @@ than `md`, so the top of the ramp cast the *smallest* shadow in the set.
 
 Fixed by sharing geometry across themes (so `lg` means one thing everywhere)
 and scaling alpha ~4–7× in dark, plus continuing the doubling progression to
-`0 16px 32px -8px` at `2xl`. Full table and rationale in decision 0042.
+`0 16px 32px -8px` at `2xl`. Full table and rationale in decision 0060.
 
 **Cherry-pick priority: high, and independent of everything else here.** It is
 a pure token fix in `packages/ui/src/styles.css` plus the foundation page's
@@ -571,7 +571,7 @@ delayed transition in the system — not just this one.
 
 ## 4.10 Shadows are tinted, and `--shadow-color` finally does something
 
-Decision 0043, `packages/ui/src/styles.css`. `--shadow-color` had been declared
+Decision 0061, `packages/ui/src/styles.css`. `--shadow-color` had been declared
 in both theme blocks since the beginning and **nothing referenced it** — the
 ramp hardcoded `hsl(0 0% 0%)`. So the one token whose job was to make shadow
 hue tunable was inert, and every cast was neutral black.

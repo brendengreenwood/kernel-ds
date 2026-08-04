@@ -29,7 +29,7 @@ own route, not a section of one long scroll.
 
 - **Kernel-styled portal toasts** (2026-08-01): the packaged Sonner wrapper now overrides Sonner 2.0.7's runtime-injected default chrome with Kernel popover, border, shadow, muted-description, primary-action, cancel, and focus-ring tokens. The shared `Toaster` keeps its existing theme and behavior contract while every portal toast call inherits the design-system treatment.
 
-- **Elevation ramp works in dark, and climbs** (decision 0042, 2026-07-31):
+- **Elevation ramp works in dark, and climbs** (decision 0060, 2026-07-31):
   `--shadow-*` had been declared in `:root` and repeated **byte for byte** in
   `.dark` — on the dark card (rgb 31,41,36) the light ramp's 4–10% black
   resolves to under one 8-bit level, so dark mode shipped an elevation ramp
@@ -46,7 +46,7 @@ own route, not a section of one long scroll.
   effectively six steps, which the foundation page now says out loud. Surfaced
   by the v2 prototype needing a resting cast and finding no working token.
 
-- **Shadows are tinted; `--shadow-color` is load-bearing** (decision 0043,
+- **Shadows are tinted; `--shadow-color` is load-bearing** (decision 0061,
   2026-07-31): the token had been declared in both theme blocks since the token
   sheet was written and **nothing referenced it** — the ramp hardcoded
   `hsl(0 0% 0%)`, so the one knob for shadow hue was inert. Every rung now
@@ -57,7 +57,7 @@ own route, not a section of one long scroll.
   an 8-bit level of depth in dark, which is affordable because dark's cast was
   never carrying elevation — edge contrast and gutter do that.
 
-- **`--lime-*` accent scale** (decision 0041, 2026-07-30): the accent lime — the
+- **`--lime-*` accent scale** (decision 0059, 2026-07-30): the accent lime — the
   hue on every primary button, focus ring, active pill and first chart series —
   had been a bare `oklch()` literal repeated **twelve times** across both themes,
   the only significant colour with no family behind it. It is now a full 50→950
@@ -439,7 +439,7 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
-- **Kernel v2 prototype** (decision 0040; branch
+- **Kernel v2 prototype** (decision 0058; branch
   claude/kernel-insider-portal-fvqfq2, 2026-07-29): `kernel-app/` is a
   separate Vite app that consumes the design system **at source** (`@` alias
   -> `../kernel-portal/src`, `resolve.dedupe` for react/react-dom/recharts)
@@ -480,7 +480,7 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   the sidebar), `Button`'s optical icon padding never fired (it keyed off a
   `data-icon` attribute almost nothing set), Tabs applied hover styling to the
   active tab, light mode needed the pre-paint theme script, the elevation ramp
-  had no dark-mode retune and a non-monotonic top rung (decision 0042), and the
+  had no dark-mode retune and a non-monotonic top rung (decision 0060), and the
   the `prefers-reduced-motion` guard zeroed animation/transition *durations* but
   not their **delays**, so a delayed transition still waited out its delay and
   snapped (contradicting decision 0018's "near-instant" intent), and the
@@ -504,7 +504,7 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   **Decision 0056 (2026-08-02) reframed what that register is for**: the
   prototype is the design system's *forward track*, not a sandbox to be
   abandoned cleanly, and the register is the **promotion queue** back into the
-  DS. It amends 0040's "fixes flow upstream, styling does not" — which had
+  DS. It amends 0058's "fixes flow upstream, styling does not" — which had
   filed every token and pattern the prototype discovered as "styling," meaning
   it could never return. Entries now carry a promotion status (`promote` /
   `prototype-only` / `undecided`) rather than a merge-worthiness verdict.
@@ -528,11 +528,14 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   system is a commitment.
 
 - **Parallel tracks keep colliding on numbers** (2026-08-03, was branch
-  hygiene 2026-08-02): three separate instances now. (1) **Decision numbers** —
-  0040, 0041 and 0042 each exist twice (prototype + main), coexisting since
-  the merge in f87d311; new records here skip to 0056 (`feat/dsds-contract-
-  tooling` has minted through 0055), but the existing three still need a
-  renumber-or-accept call before this branch merges. (2) **Register rows** —
+  hygiene 2026-08-02): three separate instances, all now resolved.
+  (1) **Decision numbers** — 0040 through 0043 each existed twice (prototype +
+  main), coexisting since the merge in f87d311. Four, not the three counted
+  earlier; 0043 was found only when the renumber went looking. Main published
+  its four, so the prototype's four moved to **0058-0061** and each carries a
+  `Renumbered from` line, which is what keeps the dated worklog's citations
+  resolvable without rewriting history. Records minted after that continue from
+  0062 (`feat/dsds-contract-tooling` holds 0057). (2) **Register rows** —
   reconciling with origin found both sides claiming 3.18, though it was the
   same rule renumbered on one side; the newcomer took the next free number
   because 3.21 cites 3.18 by number. (3) **Part 5 entries** — both tracks

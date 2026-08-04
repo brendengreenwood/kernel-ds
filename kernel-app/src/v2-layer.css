@@ -541,7 +541,7 @@
       the reason this pass started: dark shipped a verbatim copy of the light
       values, so at 4-10% black on a 0.16-lightness canvas every rung resolved
       to under one 8-bit level and dark mode had no elevation at all. Fixed
-      upstream in the DS (decision 0042), which is why nothing here invents a
+      upstream in the DS (decision 0060), which is why nothing here invents a
       shadow value.
 
    Written as one box-shadow because it is one property — which is also why it
