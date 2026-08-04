@@ -104,15 +104,23 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           as a spike — it renders an event as a trend and puts the most
           alarming shape on the page under the smallest number on it.
 
-          The traces carry no axis of their own. Four tiles each redrawing the
-          same 9h · 6h · 3h · now scale for the same eight events is the scale
-          stated four times, and it cannot be stated once positionally instead:
-          the plots sit in separate tiles with separate left and right edges, so
-          a rule under the row would put its "now" at the row's edge and not at
-          the end of any trace on it. The span is named once underneath in
-          words, which is all a decorative trace needs — decorative in the
-          accessibility sense, since every point it draws is in the table
-          below. */}
+          The traces carry no axis of their own, and that was once read as
+          carrying no values either. Four tiles each redrawing the same
+          9h · 6h · 3h · now scale for the same eight events is the scale
+          stated four times, and it cannot be stated once positionally
+          instead: the plots sit in separate tiles with separate left and
+          right edges, so a rule under the row would put its "now" at the
+          row's edge and not at the end of any trace on it. All of that
+          still holds. What did not hold is what followed from it — a line
+          with no numbers anywhere near it says a shape and refuses to say
+          a size, and the reader was left to take the shape on faith.
+
+          So each trace now names its own high, low and span at its own
+          edges, and answers for any point in between on hover. Four tiles
+          labelled at their own edges is four different scales each stated
+          once, which is the opposite of the same scale stated four times.
+          The traces stay decorative in the accessibility sense: every point
+          they draw is in the table below, and hover is not a way in. */}
       <div
         data-v2-panel
         className="mb-4 rounded-[var(--v2-panel-radius)] border border-border p-3"
@@ -136,22 +144,28 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
             lg
             value={bushelsShort(summary.bushels)}
             label="Bushels bought"
-            chart={<Sparkline data={lines.bushels} height={48} xKey="t" curve="stepAfter" />}
+            chart={
+              <Sparkline
+                data={lines.bushels}
+                height={48}
+                xKey="t"
+                curve="stepAfter"
+                endpoints
+                hover
+                format={bushelsShort}
+              />
+            }
           />
           <Tile
             lg
             value={summary.avgBasis === null ? "—" : basis(summary.avgBasis)}
             label="Avg basis"
-            chart={<Sparkline data={lines.avgBasis} height={48} xKey="t" />}
+            chart={
+              <Sparkline data={lines.avgBasis} height={48} xKey="t" endpoints hover format={basis} />
+            }
           />
           <Tile lg value={summary.accepted} label="Accepted" />
           <Tile lg value={summary.rejected} label="Rejected" />
-        </div>
-        {/* The scale, stated once. It reads as a caption to the row rather
-            than as a rule under it, because it is true of both traces and of
-            neither tile in particular. */}
-        <div className="mt-2.5 px-5 text-xs text-muted-foreground">
-          Trend lines cover {spanLabel(lines.bushels)}
         </div>
       </div>
 
@@ -442,16 +456,6 @@ export default function ScenariosPage() {
       </div>
     </div>
   )
-}/** The window a set of trend points covers, in words. The axis printed this
-    as ticks; with the ticks gone the row still has to say how long "over its
-    whole life" has been, and a scenario opened an afternoon after it was
-    posted is a different read from one opened a fortnight later. */
-function spanLabel(points: { t: number }[]) {
-  const days = -Math.min(...points.map((p) => p.t))
-  if (days < 1 / 24) return "the last hour"
-  if (days < 1) return `the last ${Math.round(days * 24)} h`
-  if (days < 14) return `the last ${Math.round(days)} d`
-  return `the last ${Math.round(days / 7)} w`
 }
 
 

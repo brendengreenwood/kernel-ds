@@ -73,7 +73,7 @@ matter of moving it down a layer, not translating it.
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
 | 3 | Modification layer | 32 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
 | 4 | **DS source changes** | 11 | **promote** — 8 are bug fixes |
-| 5 | App-level convention departures | 21 | mixed — see each entry |
+| 5 | App-level convention departures | 22 | mixed — see each entry |
 
 ---
 
@@ -1248,6 +1248,77 @@ has no cap at all and the hint reads as loose glyphs — the identical fault
 in both themes, and every consumer that puts one on a card will hit it.
 Measured: cap fill against the dialog 1.34 dark / 1.23 light, cap glyph
 against its own fill 10.72 / 14.25, hint text 5.79 / 7.11.
+---
+
+**5.22 — A trace that will not say a number is a shape you have to take on faith.**
+`kernel-app/src/components/sparkline.tsx`, `kernel-app/src/pages/scenarios.tsx`
+
+Supersedes the no-axis half of 5.15. That entry removed the per-tile axes and
+replaced them with one span stated in words under the row, on the reasoning that
+four tiles redrawing the same `9h · 6h · 3h · now` scale is the scale stated four
+times. The reasoning was right about the axes and wrong about what it cost: with
+the ticks gone the tiles carried a headline figure and a line, and nothing said
+what the line's own high, low or span were. A reader could see that bushels rose
+and not whether they rose from 32k or from 3k.
+
+The values come back without the axes coming back:
+
+- **Endpoint labels, not tick columns.** Each trace prints its high and low in a
+  21px gutter to its left, and its span and `now` in a lane beneath. The y domain
+  is `dataMin`-to-`dataMax`, so the high *is* the top of the plot and the low *is*
+  the bottom — a label set against either edge sits on its own value without a
+  tick to point at it. A flat series prints one label; a low and a high that are
+  the same number twice is a repetition, not a range.
+- **Flanking, not overlaid.** Laid over the trace the two labels would land on the
+  fill at exactly the points the trace is highest and lowest, which are the two
+  places there is no room. Flanking costs about 30px of a 126px plot, which eight
+  points can spare.
+- **The x labels sit in the plot's own column**, not under the whole assembly: they
+  date the trace, and a span label that starts at the left edge of the y gutter
+  starts before the line it measures.
+- **The shared caption is gone**, and `spanLabel` with it. Each chart now states
+  its own span at its own edge; a sentence under the row saying it again was the
+  third statement of one fact.
+
+**Hover reads the middle out in the label lane, not in a floating box.** The
+endpoints answer where a trace begins and ends. Hover is how a reader asks about
+the points in between, and Recharts' own hit-testing snaps to the nearest event —
+the only x a reader can mean when eight events are drawn across 126px. But the
+readout is drawn by the component, in the lane that already holds the x labels,
+rather than by the tooltip:
+
+- A tile is 190×176 with `overflow-hidden` for its corner. A floating panel inside
+  it either covers the trace it is describing or is clipped by that corner — both
+  were measured before the lane took over, the box clearing the tile's bottom edge
+  by 2px.
+- The lane keeps its two ends: value on the left, when on the right, in the same
+  places the span and `now` sit at rest. It is one line tall either way, so
+  nothing moves when the pointer arrives.
+- The value takes `--foreground` and medium weight against the muted resting
+  labels — a readout answering a question, not another axis label. Measured 14.34
+  dark / 17.5 light for the value, 5.79 / 7.11 for the timestamp.
+- The cursor is a dashed rule through the full plot height rather than a highlight
+  on the trace: it marks a moment, and the moment is the whole height of the
+  chart. The active point is a bead ringed in `--card`, so it reads as a mark on
+  the line rather than as a ninth data point.
+
+**The clock words are the table's words.** `ago()` picks its unit from the point's
+own distance rather than from the chart's span. Rounding a twelve-minute-old event
+to the span's hour unit printed `0h ago` — wrong, and a duration where a moment
+belongs. It now reads `22 min ago`, which is what the activity table two blocks
+below calls the same event. The whole purpose of the readout is to send a reader
+to a row, so it should not rename the row on the way.
+
+The traces remain `aria-hidden`. Hover is not a way into data — every point either
+chart draws is a row in the table below, which is why the charts could be hidden
+from assistive tech in the first place and why adding a pointer affordance does
+not change that.
+
+*Promotion:* the endpoint-label and hover-readout behaviour belongs to `Sparkline`,
+which is a prototype component; the DS has no sparkline. If one is ever extracted,
+the rule worth taking is that a chart small enough to have no axis still owes the
+reader its high, its low and its span, and that a tile too small for a floating
+tooltip already has a lane that can answer.
 ---
 
 # Part 6 — What the prototype actually is
