@@ -73,7 +73,7 @@ matter of moving it down a layer, not translating it.
 | 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
 | 3 | Modification layer | 32 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
 | 4 | **DS source changes** | 11 | **promote** — 8 are bug fixes |
-| 5 | App-level convention departures | 20 | mixed — see each entry |
+| 5 | App-level convention departures | 21 | mixed — see each entry |
 
 ---
 
@@ -1204,6 +1204,50 @@ Checked across six scenarios and six farms: no farm carries two originators.
 stand-in for an account-ownership field a real feed would carry. What is worth
 keeping is the rule it demonstrates — a column answering *who owns this* must
 be keyed to the thing owned, or it silently becomes a column about the event.
+**5.21 — The bid field is walked, not typed.**
+`kernel-app/src/components/accept-bid-dialog.tsx`.
+
+The *Bid Accepted* field steps on the arrow keys: a cent per press, a dime
+with Shift held. A merchandiser working a board is moving an existing number
+by a known increment, not composing a new one — the decision is *one more
+cent or not*, and asking him to retype `-0.26` to answer it puts a text-entry
+task in front of a yes-or-no judgement.
+
+The keys walk the meter's track and stop at its ends: the posted bid below,
+the scenario's ceiling above. Those are the two points the track is drawn
+between, so a key that carried past either one would move a marker that had
+nowhere left to go — `positionOn` clamps to the track, and a held key with a
+frozen marker reads as a broken key rather than as a limit. Typing stays
+unclamped. A typed number is deliberate in a way a held key is not, and the
+over-ceiling state is a *designed* state — the destructive marker and
+*Exceeds Producer Max Bid* exist to be reached.
+
+Stepping writes the value back as `toFixed(2)`, which normalises the field to
+the cent grid it walks on: a bid arrived at with the keys can never carry a
+third decimal that the meter cannot express.
+
+From an empty field the first press lands on the **posted bid**, in either
+direction. There is nothing to step from, and the board's own number is where
+a raise starts — seeding at zero would have put the marker off the track, and
+seeding one cent above posted would answer the question the merchant is here
+to answer.
+
+The hint under the field is not decoration. A keyboard affordance nobody is
+told about is a keyboard affordance nobody uses, and it is named in
+`aria-describedby` so it is announced rather than merely drawn. It shares one
+fixed-height lane with the error: the error takes the lane when the ceiling
+breaks, and the lane reserves its height either way. A message that *appears*
+would push the footer down while a bid is being typed, which is the same
+walking-dialog fault the meter's two label lanes already reserve height for.
+
+The caps use a foreground overlay rather than the DS `Kbd` fill. `--muted`
+resolves to the same colour as `--card`, so a stock `Kbd` on a card surface
+has no cap at all and the hint reads as loose glyphs — the identical fault
+`IconChip` documents in `panels.tsx`, found again in a second component.
+**That is the promotable part of this entry**: `Kbd` is unusable on `--card`
+in both themes, and every consumer that puts one on a card will hit it.
+Measured: cap fill against the dialog 1.34 dark / 1.23 light, cap glyph
+against its own fill 10.72 / 14.25, hint text 5.79 / 7.11.
 ---
 
 # Part 6 — What the prototype actually is

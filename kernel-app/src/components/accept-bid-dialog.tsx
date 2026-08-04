@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group"
+import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { basis } from "@app/lib/format"
@@ -22,6 +23,23 @@ import type { Offer, Producer } from "@app/data/producers"
    like it moves bushels. */
 
 const round2 = (n: number) => Math.round(n * 100) / 100
+const clamp = (n: number, lo: number, hi: number) => Math.min(Math.max(n, lo), hi)
+
+/* A merchandiser working a board walks a bid rather than composing it, so the
+   arrows move it a cent and Shift moves it a dime. The keys walk the meter's
+   track and stop at its ends — a held key that moves nothing on screen reads
+   as a broken key — while typing stays free, because a typed number is
+   deliberate in a way a held key is not. */
+const STEP = 0.01
+const SHIFT_STEP = 0.1
+
+/** A key cap on the dialog's own surface. The DS fills `Kbd` with `--muted`,
+    which resolves to the same colour as `--card` — on a card the cap vanishes
+    and the hint reads as loose glyphs. Same fault, and same fix, as `IconChip`:
+    a foreground overlay sits on whatever it is dropped on. */
+const Cap = ({ children }: { children: React.ReactNode }) => (
+  <Kbd className="bg-foreground/10 px-1.5 text-foreground">{children}</Kbd>
+)
 
 /** Percent of the way from the posted bid to the scenario's ceiling. Both
     labels and fills use it, so a figure and its label can never disagree. */
@@ -178,6 +196,22 @@ export function AcceptBidDialog({
   const ready = bidValue != null && !over && hasVolume
   const valueOver = round2(offer.producerMaxBid - offer.topCompBid)
 
+  const stepBid = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const dir = e.key === "ArrowUp" ? 1 : e.key === "ArrowDown" ? -1 : 0
+    if (dir === 0) return
+    // Left alone, an arrow key throws the caret to one end of the field and a
+    // held key scrolls the dialog instead of moving the bid.
+    e.preventDefault()
+    // An empty field has nothing to step from, so the first press lands on the
+    // posted bid: the board's own number is where a raise starts.
+    const next =
+      bidValue == null
+        ? offer.postedBid
+        : bidValue + dir * (e.shiftKey ? SHIFT_STEP : STEP)
+    // Stepping normalises the field to the cent grid it walks on.
+    setBid(clamp(round2(next), offer.postedBid, offer.scenarioMaxBid).toFixed(2))
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent width="lg" className="gap-0 p-0">
@@ -239,23 +273,42 @@ export function AcceptBidDialog({
                 inputMode="decimal"
                 placeholder=""
                 aria-invalid={over || undefined}
-                aria-describedby={over ? "accept-bid-error" : undefined}
+                aria-describedby={over ? "accept-bid-error" : "accept-bid-keys"}
                 value={bid}
                 onChange={(e) => setBid(e.target.value)}
+                onKeyDown={stepBid}
                 className="tabular-nums"
               />
             </InputGroup>
-            {/* The message names the ceiling it broke. "Invalid" would leave
+            {/* One lane under the field, never two: the hint says the keys are
+                there, and the error takes the lane when the ceiling breaks. A
+                lane that appears would push the footer down as a bid is typed.
+                The message names the ceiling it broke — "Invalid" would leave
                 the merchant looking for which of the three numbers he passed. */}
-            {over && (
-              <p
-                id="accept-bid-error"
-                className="mt-2 flex items-center gap-1.5 text-sm font-medium text-destructive"
-              >
-                <AlertCircle className="size-4 shrink-0" />
-                Exceeds Producer Max Bid
-              </p>
-            )}
+            <div className="mt-2 min-h-5">
+              {over ? (
+                <p
+                  id="accept-bid-error"
+                  className="flex items-center gap-1.5 text-sm leading-5 font-medium text-destructive"
+                >
+                  <AlertCircle className="size-4 shrink-0" />
+                  Exceeds Producer Max Bid
+                </p>
+              ) : (
+                <p
+                  id="accept-bid-keys"
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground"
+                >
+                  <KbdGroup>
+                    <Cap>↑</Cap>
+                    <Cap>↓</Cap>
+                  </KbdGroup>
+                  1¢, hold
+                  <Cap>Shift</Cap>
+                  for 10¢
+                </p>
+              )}
+            </div>
           </div>
           <div>
             <Label htmlFor="accept-volume" className="text-sm font-medium">
