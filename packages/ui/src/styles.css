@@ -736,7 +736,12 @@
     --control-h: 2.75rem;
     --control-h-lg: 3rem;
   }
+  /* select-trigger is here for the same reason as button: at `size="sm"` it
+     rests at the compact 40px below, so without an extension its effective
+     target misses the 44px floor. It is NOT a [data-slot="button"] — it renders
+     its own button element — so the button rule above never reached it. */
   [data-slot="button"],
+  [data-slot="select-trigger"],
   [data-slot="toggle"],
   [data-slot="toggle-group-item"],
   [data-slot="pagination-link"],
@@ -744,6 +749,7 @@
     position: relative;
   }
   [data-slot="button"]::after,
+  [data-slot="select-trigger"]::after,
   [data-slot="toggle"]::after,
   [data-slot="toggle-group-item"]::after,
   [data-slot="pagination-link"]::after,
@@ -775,4 +781,12 @@
      so the sidebar sheet is as comfortable as buttons and fields. */
   [data-slot="sidebar-menu-button"],
   [data-slot="sidebar-menu-sub-button"] { min-height: 2.75rem; }
+
+  /* A tab is how you move between slices of the same data, which makes it a
+     primary control by decision 0009's split — so it grows rather than taking
+     an invisible extension. The extension would not have worked here anyway:
+     triggers sit edge to edge in a strip, so an ::after grown sideways lands
+     on its neighbour. Compact tabs are the ones that need this — they sit at
+     --control-h-sm, which is 40px even after the tokens grow. */
+  [data-slot="tabs-trigger"] { min-height: 2.75rem; }
 }
