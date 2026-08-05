@@ -186,6 +186,10 @@
       "catalogBacked": true
     },
     {
+      "module": "panels",
+      "catalogBacked": false
+    },
+    {
       "module": "popover",
       "catalogBacked": true
     },
