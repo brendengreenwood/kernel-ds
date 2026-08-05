@@ -178,6 +178,10 @@
       "catalogBacked": true
     },
     {
+      "module": "page-header",
+      "catalogBacked": false
+    },
+    {
       "module": "pagination",
       "catalogBacked": true
     },
