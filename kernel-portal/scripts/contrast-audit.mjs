@@ -4,8 +4,9 @@
  * system actually renders (role pairs, Badge/Alert soft fills, StatusBadge
  * variants), in light and dark mode.
  *
- * Reads kernel-portal/src/index.css, resolves oklch tokens via culori, and
- * emits a markdown report on stdout:
+ * Reads the packaged stylesheet (packages/ui/src/styles.css — the portal
+ * consumes the DS at source), resolves oklch tokens via culori, and emits a
+ * markdown report on stdout:
  *
  *   node scripts/contrast-audit.mjs > ../docs/a11y/report.md
  *
@@ -19,7 +20,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { converter, parse } from "culori";
 
-const CSS_PATH = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "index.css");
+const CSS_PATH = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "packages", "ui", "src", "styles.css");
 const AA_NORMAL = 4.5;
 const AA_LARGE = 3;
 
@@ -263,7 +264,7 @@ const mark = (ok) => (ok ? "pass" : "**FAIL**");
 const failures = rows.filter((r) => r.ratio < AA_NORMAL);
 
 console.log(`# Kernel contrast audit`);
-console.log(`\nSource: \`kernel-portal/src/index.css\` · thresholds: AA normal ${AA_NORMAL}:1, AA large/UI ${AA_LARGE}:1`);
+console.log(`\nSource: \`packages/ui/src/styles.css\` · thresholds: AA normal ${AA_NORMAL}:1, AA large/UI ${AA_LARGE}:1`);
 console.log(`\n${rows.length} pairs checked · ${failures.length} below AA ${AA_NORMAL}:1 · ${rows.filter((r) => r.ratio < AA_LARGE).length} below AA ${AA_LARGE}:1\n`);
 
 let currentGroup = null;
