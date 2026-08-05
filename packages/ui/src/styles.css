@@ -924,3 +924,45 @@
      --control-h-sm, which is 40px even after the tokens grow. */
   [data-slot="tabs-trigger"] { min-height: 2.75rem; }
 }
+
+/*
+  The cell is the control (register 3.29). The expand affordance was a Button
+  inside a padded cell - a 32px target inside a 58px cell, with the dead
+  margin also clickable via the row handler, so the two disagreed about what
+  had been aimed at. A cell marked data-row-toggle hands its padding to the
+  button, which fills it absolutely, so the hit area is the whole cell and no
+  padding rule can shrink it. It stays a real control: aria-expanded, an
+  Expand/Collapse label, tab order.
+
+  Last in the file on purpose: the coarse-pointer cell padding above is
+  !important where it must beat the utilities, so this cell opts out by
+  matching that specificity and winning on source order. Hover lives on the
+  row - a second fill inside a highlighted row reads as a nested target - so
+  the cell adds only a colour change. The focus ring is an inset box-shadow:
+  a full-bleed control has no margin of its own to show an outset ring in,
+  and an outset ring would be clipped by the row's overflow.
+*/
+[data-slot="table-cell"][data-row-toggle] {
+  position: relative;
+  padding: 0 !important;
+}
+[data-slot="table-cell"][data-row-toggle] > button {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+[data-slot="table-cell"][data-row-toggle] > button:hover {
+  color: var(--foreground);
+}
+[data-slot="table-cell"][data-row-toggle] > button:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ring);
+}
+[data-slot="table-cell"][data-row-toggle] > button > svg {
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+}
