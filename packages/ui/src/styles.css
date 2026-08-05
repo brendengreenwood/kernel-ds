@@ -782,12 +782,26 @@
   [data-slot="menubar-trigger"] {
     position: relative;
   }
+  /* dialog-close is the third instance of the select-trigger shape, and the
+     starkest: it IS rendered as a `Button`, but Base UI's `render` lets the
+     outer `data-slot="dialog-close"` win, so the element carries that slot and
+     no other — every rule in this file keyed on `[data-slot="button"]` misses
+     it. Measured on a phone it sat at 40x40 with `min-height: 0` and no
+     extension, i.e. failing decision 0009 by both mechanisms at once, while
+     the Cancel button beside it in the same dialog measured 44px.
+
+     Extension rather than growth: a close is a corner control that stays
+     visually small on purpose, which is exactly the class decision 0007's
+     ::after exists for. It is absent from the `position: relative` list above
+     on purpose too — it is already `position: absolute`, so it is its own
+     containing block, and adding `relative` would drop it out of the corner. */
   [data-slot="button"]::after,
   [data-slot="select-trigger"]::after,
   [data-slot="toggle"]::after,
   [data-slot="toggle-group-item"]::after,
   [data-slot="pagination-link"]::after,
   [data-slot="message-scroller-button"]::after,
+  [data-slot="dialog-close"]::after,
   [data-slot="menubar-trigger"]::after {
     content: "";
     position: absolute;
