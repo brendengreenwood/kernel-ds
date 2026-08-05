@@ -393,6 +393,10 @@ A second application built against `@kernel/ui` surfaced ten changes to the DS i
 
 The prototype's remaining drift — its token direction, its elevation language, its panel furniture — is still on `claude/kernel-insider-portal-fvqfq2` and documented entry by entry in that branch's `docs/v2-prototype-drift.md`. It is a queue, not a backlog: each entry carries a promotion status, and nothing in it is required for the fixes above.
 
+### v2 promotion in flight (2026-08-05)
+
+The queue is being drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Next: the promotable components (PageHeader, panel furniture, concentric corner, cell-as-control, rail collapse) and their portal doc pages. The dark green-vs-lime hue question stays open by design.
+
 ## Backlog
 
 **The canonical backlog is the GitHub Project board:**
