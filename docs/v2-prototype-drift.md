@@ -1491,3 +1491,14 @@ second use, and animation in a design system is a commitment.
   or collapsing columns.
 - 5.3–5.5 (arbitrary type sizes, the raw `<button>`, the generic helpers)
   should either be promoted into the DS or brought back onto the scale.
+- **Charting is under-powered for this domain.** The DS chart component is
+  the shadcn wrapper over recharts — `ChartContainer` / `ChartTooltip` /
+  `ChartStyle` are theming glue, and axes, grids and cursors are recharts’
+  own primitives composed in by hand. That ceiling is fine for the portal’s
+  demo charts and survivable for the tile sparklines (which had to abandon
+  the floating tooltip and hand-build endpoint labels to fit), but a trading
+  app’s real charts — dense time series, crosshairs, synced scales,
+  eventually OHLC/depth — need a purpose-built charting layer
+  (lightweight-charts, uPlot, visx, or similar). Direction call, not a fix:
+  pick the library deliberately, wrap it once behind DS tokens the way
+  `chart.tsx` wraps recharts, and retire per-app hand-rolled chart code.
