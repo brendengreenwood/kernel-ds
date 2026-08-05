@@ -44,7 +44,7 @@
   --secondary-foreground: oklch(0.4373 0.1176 150.8612);
   --muted: oklch(0.9612 0 0);
   --muted-foreground: oklch(0.5350 0.0104 161.1304);
-  --accent: oklch(0.8722 0.1272 127.8039);
+  --accent: var(--lime-300);
   --accent-foreground: oklch(0.2469 0.0618 153.3342);
   --destructive: oklch(0.5227 0.2063 25.8499);
   --destructive-foreground: oklch(1.0000 0 0);
@@ -53,8 +53,8 @@
   --ring: oklch(0.5364 0.1457 150.5842);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
-  --chart-2: oklch(0.6884 0.1436 127.9082);
-  --chart-3: oklch(0.8722 0.1272 127.8039);
+  --chart-2: var(--lime-500);
+  --chart-3: var(--lime-300);
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
@@ -110,34 +110,34 @@
   --card-foreground: oklch(1.0000 0 0);
   --popover: oklch(0.2128 0.0209 162.2254);
   --popover-foreground: oklch(1.0000 0 0);
-  --primary: oklch(0.8722 0.1272 127.8039);
+  --primary: var(--lime-300);
   --primary-foreground: oklch(0.2128 0.0209 162.2254);
   --secondary: oklch(0.3959 0.0135 167.1419);
-  --secondary-foreground: oklch(0.8722 0.1272 127.8039);
+  --secondary-foreground: var(--lime-300);
   --muted: oklch(0.3959 0.0135 167.1419);
   --muted-foreground: oklch(0.7700 0.0064 170.3662);
   --accent: oklch(0.4373 0.1176 150.8612);
-  --accent-foreground: oklch(0.8722 0.1272 127.8039);
+  --accent-foreground: var(--lime-300);
   --destructive: oklch(0.5900 0.1848 24.1262);
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.3959 0.0135 167.1419);
   --input: oklch(0.5620 0.0104 161.1304);
-  --ring: oklch(0.8722 0.1272 127.8039);
+  --ring: var(--lime-300);
 
-  --chart-1: oklch(0.8722 0.1272 127.8039);
-  --chart-2: oklch(0.6884 0.1436 127.9082);
+  --chart-1: var(--lime-300);
+  --chart-2: var(--lime-500);
   --chart-3: oklch(0.5364 0.1457 150.5842);
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
   --sidebar: oklch(0.2605 0.0180 165.4994);
   --sidebar-foreground: oklch(1.0000 0 0);
-  --sidebar-primary: oklch(0.8722 0.1272 127.8039);
+  --sidebar-primary: var(--lime-300);
   --sidebar-primary-foreground: oklch(0.2128 0.0209 162.2254);
   --sidebar-accent: oklch(0.4373 0.1176 150.8612);
-  --sidebar-accent-foreground: oklch(0.8722 0.1272 127.8039);
+  --sidebar-accent-foreground: var(--lime-300);
   --sidebar-border: oklch(0.3959 0.0135 167.1419);
-  --sidebar-ring: oklch(0.8722 0.1272 127.8039);
+  --sidebar-ring: var(--lime-300);
 
   /* Deeper than light's, and still in the surface hue family: this has to
      darken a 0.165 rail, so the colour sits below every surface it will ever
@@ -262,6 +262,25 @@
   --brand-800: oklch(0.375 0.100 151.5);
   --brand-900: oklch(0.300 0.078 152.5);
   --brand-950: oklch(0.225 0.055 153.5);
+
+  /* Lime — the accent green. Shipped for a long time as a bare literal in
+     the role layer (accent/primary/ring/chart); this is that hue given a
+     real family. 300 and 500 are pinned to the two values already in use,
+     so the roles below point at the scale with no visual change. */
+  --lime-50: oklch(0.985 0.022 126.8);
+  --lime-100: oklch(0.960 0.048 127.0);
+  --lime-200: oklch(0.925 0.085 127.4);
+  --lime-300: oklch(0.8722 0.1272 127.8039);
+  --lime-400: oklch(0.785 0.140 127.85);
+  --lime-500: oklch(0.6884 0.1436 127.9082);
+  --lime-600: oklch(0.600 0.132 128.4);
+  --lime-700: oklch(0.515 0.115 129.0);
+  --lime-800: oklch(0.430 0.096 129.6);
+  --lime-900: oklch(0.345 0.076 130.2);
+  --lime-950: oklch(0.260 0.056 130.8);
+  --lime-light: var(--lime-200);
+  --lime: var(--lime-500);
+  --lime-dark: var(--lime-700);
 
   --neutral-50: oklch(0.985 0.002 165);
   --neutral-100: oklch(0.967 0.003 165);
@@ -503,6 +522,21 @@
   --color-brand-800: var(--brand-800);
   --color-brand-900: var(--brand-900);
   --color-brand-950: var(--brand-950);
+
+  --color-lime-50: var(--lime-50);
+  --color-lime-100: var(--lime-100);
+  --color-lime-200: var(--lime-200);
+  --color-lime-300: var(--lime-300);
+  --color-lime-400: var(--lime-400);
+  --color-lime-500: var(--lime-500);
+  --color-lime-600: var(--lime-600);
+  --color-lime-700: var(--lime-700);
+  --color-lime-800: var(--lime-800);
+  --color-lime-900: var(--lime-900);
+  --color-lime-950: var(--lime-950);
+  --color-lime-light: var(--lime-light);
+  --color-lime: var(--lime);
+  --color-lime-dark: var(--lime-dark);
   --color-neutral-50: var(--neutral-50);
   --color-neutral-100: var(--neutral-100);
   --color-neutral-200: var(--neutral-200);
