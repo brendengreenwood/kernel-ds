@@ -55,7 +55,7 @@ silently absorbed as though it were the intended model.
 
 This decision does not add `part-of` or `extends`, and does not create catalog
 entities for DSDS's `foundation`, `theme`, `token`, `token-group`, `guide`, or
-`chunk` kinds. Decision 0054's prohibition on synthesizing kinds merely to populate
+`chunk` kinds. Decision 0063's prohibition on synthesizing kinds merely to populate
 the official taxonomy stands.
 
 ## Consequences
@@ -66,14 +66,14 @@ the official taxonomy stands.
 - Four relations in the catalog are recorded approximations, listed in the
   2026-08-02 worklog entry. They are load-bearing data, so adding `part-of` and
   `extends` later means revisiting them, not just widening the union.
-- The ladder is lossy on export. Decision 0054 maps `element` → `component` and both
+- The ladder is lossy on export. Decision 0063 maps `element` → `component` and both
   `object` and `pattern` and `domain` → `pattern`, so three Kernel levels collapse into
   one DSDS kind. Consumers reading generated artifacts cannot see the ladder;
   consumers reading `$extensions.com.kernel.catalog` can. This is a known limit of
   the compatibility layer, not a defect in it, and it is a reason the level
   information has to be carried by relations rather than by kind alone.
 - The DSDS compatibility contract is unchanged and stays at version 2. Nothing here
-  alters the mapping table, which decision 0054 protects behind a new decision.
+  alters the mapping table, which decision 0063 protects behind a new decision.
 - The v2 prototype still cannot own entities: `packageOwners` is
   `kernel-portal | @kernel/ui | @kernel/definitions` and `kernel-app` is fenced as
   an unmanaged consumer under decision 0036. The objects and domains it has already

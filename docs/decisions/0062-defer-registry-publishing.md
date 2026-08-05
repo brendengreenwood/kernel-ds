@@ -1,7 +1,8 @@
-# 0053 — Defer registry publishing until an external consumer exists
+# 0062 — Defer registry publishing until an external consumer exists
 
 - Date: 2026-07-30
 - Status: accepted
+- Renumbered from 0053 (2026-08-05): the taxonomy track and main both minted 0053; main's kept the number.
 
 ## Context
 

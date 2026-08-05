@@ -1,7 +1,8 @@
-# 0054 — Generate official DSDS compatibility artifacts
+# 0063 — Generate official DSDS compatibility artifacts
 
 - Date: 2026-08-01
 - Status: accepted
+- Renumbered from 0054 (2026-08-05): the taxonomy track and main both minted 0054; main's kept the number.
 
 ## Context
 

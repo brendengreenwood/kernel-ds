@@ -5,7 +5,7 @@ Status: accepted
 
 ## Context
 
-Decision 0054 established generated official DSDS artifacts and initially assigned each artifact the canonical dotted Kernel entity ID, such as `component.sidebar`, as its DSDS `identifier`.
+Decision 0063 (renumbered from 0054) established generated official DSDS artifacts and initially assigned each artifact the canonical dotted Kernel entity ID, such as `component.sidebar`, as its DSDS `identifier`.
 
 The pinned official DSDS 0.15.2 schema restricts identifiers to `^[a-z][a-z0-9-]*$`. Kernel's dotted, kind-prefixed IDs therefore cannot occupy the official field without producing invalid documents. The interoperability layer must satisfy the official schema without weakening Kernel's canonical identity.
 
@@ -15,7 +15,7 @@ Generated DSDS artifacts use the stable slug portion of the Kernel entity ID as 
 
 The complete canonical Kernel ID and original kind remain authoritative under `$extensions.com.kernel.catalog`, alongside package ownership, portal anchor, source paths, relationships, and the compatibility-contract version. Generators refuse any Kernel ID whose slug portion cannot produce a valid official DSDS identifier rather than sanitizing or guessing.
 
-This supersedes only decision 0054's statement that the official identifier is the complete canonical Kernel entity ID. Decision 0054's kind mapping and generated-compatibility architecture remain authoritative.
+This supersedes only decision 0063's statement that the official identifier is the complete canonical Kernel entity ID. Decision 0063's kind mapping and generated-compatibility architecture remain authoritative.
 
 ## Consequences
 

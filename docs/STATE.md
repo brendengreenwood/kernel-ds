@@ -386,6 +386,13 @@ own route, not a section of one long scroll.
   the desk-facing pattern for the pricing-strategy / sales-execution
   positioning. Candidates next: bulk-edit pattern, saved-view management.
 
+
+### Consumer findings from the v2 prototype (2026-08-04)
+
+A second application built against `@kernel/ui` surfaced ten changes to the DS itself — eight defects and two additive. They landed on `main` with no prototype design direction attached: `SidebarInset` min-width, inactive-only tab hover, optical icon padding on buttons, a scoped `striped` prop on Table, `Archive`/`Ban` glyph shims, coarse-pointer reach for `select-trigger` and `tabs-trigger`, reduced-motion delays, and the elevation ramp (decisions 0053 and 0054).
+
+The prototype's remaining drift — its token direction, its elevation language, its panel furniture — is still on `claude/kernel-insider-portal-fvqfq2` and documented entry by entry in that branch's `docs/v2-prototype-drift.md`. It is a queue, not a backlog: each entry carries a promotion status, and nothing in it is required for the fixes above.
+
 ## Backlog
 
 **The canonical backlog is the GitHub Project board:**
@@ -518,7 +525,7 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Open questions
 
-- **Registry publishing home** (decision 0053, 2026-07-30): live publish of
+- **Registry publishing home** (decision 0062, renumbered from 0053, 2026-07-30): live publish of
   `@kernel/ui` / `@kernel/definitions` is deferred until an external consumer
   exists. Blocked on the scope decision (GitHub Packages needs the `@kernel`
   scope to match the repo owner): create a `kernel` org, rescope to
@@ -550,7 +557,7 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   Both are flattened into `composedWith`/`dependsOn` in the catalog today - see
   the 2026-08-02 worklog entry for the four relations that are knowingly wrong.
   Taking it up means the `relationshipTypes` union, `ds:relate`, `ds:doctor`, and
-  the DSDS export contract (v2 -> v3, per decision 0054's rule that changing the
+  the DSDS export contract (v2 -> v3, per decision 0063's rule that changing the
   mapping is an architecture change), plus a decision record. Separate call in the
   same area: `usedBy` is a reverse relation, which DSDS says MUST NOT be
   hand-authored - it should probably be derived or dropped rather than carried
