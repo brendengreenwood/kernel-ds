@@ -1,0 +1,27 @@
+{
+  "$schema": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
+  "dsdsVersion": "0.15.2",
+  "entity": {
+    "$extensions": {
+      "com.kernel.catalog": {
+        "contractVersion": 2,
+        "entityId": "component.fixture-button",
+        "kind": "component",
+        "package": "@kernel/ui",
+        "portalAnchor": "c-fixture-button",
+        "relationships": [
+          {
+            "target": "pattern.fixture-flow",
+            "type": "recommendedPatterns"
+          }
+        ],
+        "sourceFiles": [
+          "packages/ui/src/components/ui/fixture-button.tsx"
+        ]
+      }
+    },
+    "identifier": "fixture-button",
+    "kind": "component",
+    "name": "Fixture button"
+  }
+}

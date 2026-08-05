@@ -1,0 +1,8 @@
+{
+  "version": "next",
+  "commitSha": "9999999999999999999999999999999999999999",
+  "schemaId": "https://designsystemdocspec.org/next/dsds.bundled.schema.json",
+  "schemaUrl": "fixture://schema",
+  "licenseUrl": "fixture://license",
+  "migrationUrl": "fixture://migration"
+}

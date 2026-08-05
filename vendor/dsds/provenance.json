@@ -1,0 +1,9 @@
+{
+  "dsdsVersion": "0.15.2",
+  "schemaId": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
+  "schemaSha256": "275a1c61c532f2fb108fcfa1c751f667fcc133649b3c7501ae93257448e73361",
+  "sourceUrl": "https://raw.githubusercontent.com/somerandomdude/design-system-documentation-schema/2f2cfad5e5b0a7bee04a69727fb463964ed4700d/spec/schema/dsds.bundled.schema.json",
+  "upstreamCommit": "2f2cfad5e5b0a7bee04a69727fb463964ed4700d",
+  "upstreamRepository": "somerandomdude/design-system-documentation-schema",
+  "retrievedAt": "2026-08-01"
+}

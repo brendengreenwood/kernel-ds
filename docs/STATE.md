@@ -27,6 +27,16 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Catalog kinds are a level ladder** (decision 0057, 2026-08-02): `component`,
+  `element`, `object`, `pattern`, `domain` are ordered levels of composition, not
+  interchangeable labels. Entities at object level and above must cite resolving
+  `sourceFiles` and wire at least one relationship - a name with both fields empty
+  is a placeholder. Both domains were exactly that until now; they are wired, and
+  `object.expandable-row` and `object.page-section` name portal structures that
+  were already built and reused. Catalog 93 -> 95 entities, 81 -> 83 doc records.
+  Four of the new relations are knowingly the wrong relation — containment and
+  specialisation are inexpressible until `part-of` and `extends` exist - and the
+  2026-08-02 worklog entry lists which.
 - **Kernel-styled portal toasts** (2026-08-01): the packaged Sonner wrapper now overrides Sonner 2.0.7's runtime-injected default chrome with Kernel popover, border, shadow, muted-description, primary-action, cancel, and focus-ring tokens. The shared `Toaster` keeps its existing theme and behavior contract while every portal toast call inherits the design-system treatment.
 
 - Portal styling restored (2026-07-30): `@kernel/ui` styles.css now carries `@source "./";` so Tailwind v4 scans the packaged component code from consumers' node_modules (decision 0052). Portal CI gate `check-portal-css.mjs` asserts component-utility sentinels in the built CSS, between Build and boot smoke.
@@ -49,7 +59,7 @@ own route, not a section of one long scroll.
 
 - **UI package extraction in progress** (decision 0042, 2026-07-30): `packages/ui` now owns the canonical UI implementations and distributes `@kernel/ui` as ESM, declarations, CSS, and a catalog-backed `api.json`, with explicit root/marks/icon/utils/style exports. The portal consumes the package through a package-local `file:` dependency; no duplicate implementation tree remains under `kernel-portal`. React and React DOM are peer-only, and package tests reject wildcard exports, private portal-source leakage, bundled or dependency-owned React, undeclared runtime imports, missing public artifacts, and payload files outside the allowlist.
 
-- **Canonical catalog foundation in progress** (decision 0041, 2026-07-29): the repository now has a minimal private npm workspace limited to `packages/*`; `kernel-portal` and `kernel-studio-server` remain independently installed applications with their own lockfiles and commands. `packages/catalog` owns the single canonical inventory of **93 lifecycle entries** and **81 registered documentation records**, with closed taxonomies plus source, docs, and AI references. Catalog selectors generate the portal's stable `componentMeta`/`components` adapter in deterministic group-and-name order; the former hand-maintained portal registry is gone. Root `catalog:generate` and `catalog:check` commands, catalog tests, and CI enforce selector behavior, anchor uniqueness, source/doc resolution, adapter freshness, and catalog integrity without rewriting tracked files during checks.
+- **Canonical catalog foundation in progress** (decision 0041, 2026-07-29): the repository now has a minimal private npm workspace limited to `packages/*`; `kernel-portal` and `kernel-studio-server` remain independently installed applications with their own lockfiles and commands. `packages/catalog` owns the single canonical inventory of **95 lifecycle entries** and **83 registered documentation records**, with closed taxonomies plus source, docs, and AI references. Catalog selectors generate the portal's stable `componentMeta`/`components` adapter in deterministic group-and-name order; the former hand-maintained portal registry is gone. Root `catalog:generate` and `catalog:check` commands, catalog tests, and CI enforce selector behavior, anchor uniqueness, source/doc resolution, adapter freshness, and catalog integrity without rewriting tracked files during checks.
 
 - **Salvaged shadcn primitives ported** (decision 0040, 2026-07-28): the 13
   component files stranded on the salvage tag `salvage/ds-shadcn-full-parity`
@@ -502,6 +512,63 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   from the docs rail ("Workspace demo ↗"). Route-level experiment only
   until/unless it graduates to a pattern.
 
+- **Official DSDS interoperability** (decisions 0054-0055, in progress 2026-08-01):
+  Kernel keeps its catalog and component-documentation schema canonical while
+  generating schema-valid official DSDS artifacts. The versioned compatibility
+  contract maps component/element to DSDS component and pattern/object/domain to
+  DSDS pattern. Official identifiers use schema-valid slugs while canonical IDs,
+  kinds, ownership, source paths, portal anchors, and relationships remain under
+  `$extensions.com.kernel.catalog`. DSDS 0.15.2 is pinned under `vendor/dsds/`;
+  root `dsds:generate`, `dsds:check`, `dsds:status`, and `dsds:update` commands
+  generate deterministically, validate offline, report upstream state without
+  mutation, and stage explicit reviewable upgrades.
+
 ## Open questions
 
-*(none currently)*
+- **Registry publishing home** (decision 0062, renumbered from 0053, 2026-07-30): live publish of
+  `@kernel/ui` / `@kernel/definitions` is deferred until an external consumer
+  exists. Blocked on the scope decision (GitHub Packages needs the `@kernel`
+  scope to match the repo owner): create a `kernel` org, rescope to
+  `@brendengreenwood/*`, or publish to npmjs.com. When decided: add
+  `KERNEL_DS_PUBLISH_TOKEN` to the `release` environment and run the release
+  workflow in publish mode.
+- **Persona axis on domains** (raised 2026-08-01): tag domain (and probably
+  pattern) entities with who they are for, e.g. `merchant`. It is the first
+  tag axis that would not duplicate `kind` or `maturity` - today `entityTags`
+  is exactly the kind names plus the maturity names, so the field carries no
+  information. Not a relationship: `ds:relate` validates targets against the
+  catalog and a persona is not an entity, `usedBy` already means the
+  entity-to-entity reverse of `dependsOn`, and DSDS has no audience concept,
+  so it would have to live under `$extensions.com.kernel.catalog` regardless.
+  Shape if taken up: a closed `personas` union in `packages/catalog/src/taxonomy.ts`
+  alongside the other axes, `ds:doctor` refusing personas on generic objects
+  and components. Blocked on the vocabulary itself - nothing in the catalog,
+  component docs, or the v2 prototype names a persona today. The modelling
+  question to settle first: is `producer` a user of the app or only a subject
+  the merchant looks at? If only a subject it does not belong in the union,
+  and that is expensive to unwind once entities are tagged.
+
+- **Level relations are missing from the vocabulary** (raised 2026-08-02):
+  Kernel's `relationshipTypes` is `composedWith | dependsOn | usedBy |
+  recommendedPatterns`; DSDS 0.15.2's canonical set is `depends-on | composes |
+  part-of | alternative-to | replaces | extends`. Two of the missing four carry
+  the level ladder: `part-of` is containment (an expandable row inside a domain's
+  table) and `extends` is specialisation (a domain that is a specialised object).
+  Both are flattened into `composedWith`/`dependsOn` in the catalog today - see
+  the 2026-08-02 worklog entry for the four relations that are knowingly wrong.
+  Taking it up means the `relationshipTypes` union, `ds:relate`, `ds:doctor`, and
+  the DSDS export contract (v2 -> v3, per decision 0063's rule that changing the
+  mapping is an architecture change), plus a decision record. Separate call in the
+  same area: `usedBy` is a reverse relation, which DSDS says MUST NOT be
+  hand-authored - it should probably be derived or dropped rather than carried
+  into a wider vocabulary.
+- **The prototype cannot own catalog entities** (raised 2026-08-02):
+  `packageOwners` is `kernel-portal | @kernel/ui | @kernel/definitions`, and
+  `kernel-app` is fenced as an unmanaged consumer (decision 0036). So the objects
+  the v2 prototype has already extracted - `PageHeader`, `TableFrame`, the
+  `panels.tsx` furniture - have nowhere to be registered, and its two real domain
+  surfaces (the producers and scenarios tables) cannot be named at all. Decision
+  0056 made the prototype the forward design track, which makes this the gap
+  between the promotion queue and the catalog: promotion currently means moving an
+  entry down a layer in prose, with no catalog entity on the far side until the
+  code lands in the portal or a package.
