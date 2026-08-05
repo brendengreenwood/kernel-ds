@@ -19,6 +19,19 @@
   --radius: 0.875rem; /* v2 direction (register 2.1b): 3.5x the old 4px default.
      Kernel was a nearly square system; the promoted look is a soft-cornered
      one. Cascades through every card, input, popover and button. */
+  /* Concentric corner (register 3.26): a container holding a rounded
+     container must be rounder than what it holds, so the inner corner is
+     derived, not chosen: outer radius minus the even inset between them.
+     One padding value on all four sides, because an inset that differs by
+     side leaves no single radius that follows the outer curve. The panel's
+     radius steps UP from --radius rather than reusing it: --radius is tuned
+     for cards, and a card sharing its container's radius makes the two
+     corners read as one thick corner. 20 - 12 = 8 from the 14px base;
+     consumers derive the inner corner as
+     calc(var(--panel-radius) - var(--panel-inset)). */
+  --panel-radius: calc(var(--radius) + var(--spacing) * 1.5);
+  --panel-inset: calc(var(--spacing) * 3);
+
   /* control metrics (decision 0010): the density knob for interactive controls */
   --control-h-sm: 2rem;      /* 32px — compact toolbars, dense rows */
   --control-h: 2.375rem;     /* 38px — the resting default */
