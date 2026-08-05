@@ -179,7 +179,7 @@
     },
     {
       "module": "page-header",
-      "catalogBacked": false
+      "catalogBacked": true
     },
     {
       "module": "pagination",
@@ -187,7 +187,7 @@
     },
     {
       "module": "panels",
-      "catalogBacked": false
+      "catalogBacked": true
     },
     {
       "module": "popover",
