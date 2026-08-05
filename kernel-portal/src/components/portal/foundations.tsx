@@ -584,32 +584,42 @@ export function SpacingSection() {
 
 export function ShadowsSection() {
   const shadows = [
-    "shadow-2xs",
-    "shadow-xs",
-    "shadow-sm",
-    "shadow",
-    "shadow-md",
-    "shadow-lg",
-    "shadow-xl",
-    "shadow-2xl",
+    { name: "shadow-2xs", note: "none — border only" },
+    { name: "shadow-xs", note: "none — border only" },
+    { name: "shadow-sm", note: "1 / 2" },
+    { name: "shadow", note: "1 / 2" },
+    { name: "shadow-md", note: "2 / 4" },
+    { name: "shadow-lg", note: "4 / 8" },
+    { name: "shadow-xl", note: "8 / 16" },
+    { name: "shadow-2xl", note: "16 / 32" },
   ]
   return (
     <Section
       id="shadows"
       eyebrow="Foundations"
       title="Elevation"
-      lead="A near-flat elevation ramp. The smallest steps carry no shadow at all — surfaces are defined by borders, not lift — while the upper steps add only a whisper of black at low opacity for the rare overlay that needs to float."
+      lead="A restrained elevation ramp. The two smallest steps carry no shadow at all — those surfaces are defined by their border, not by lift. From sm up, offset and blur double at every rung (1/2 → 2/4 → 4/8 → 8/16 → 16/32) and opacity climbs with them; every step must be larger than the one below it on every axis."
     >
       <div className="rounded-lg border bg-card p-8">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
           {shadows.map((s) => (
-            <div key={s} className="text-center">
-              <div className={`mb-3 h-24 rounded-md border bg-card ${s}`} />
-              <div className="font-mono text-xs font-semibold">{s}</div>
+            <div key={s.name} className="text-center">
+              <div className={`mb-3 h-24 rounded-md border bg-card ${s.name}`} />
+              <div className="font-mono text-xs font-semibold">{s.name}</div>
+              <div className="mt-0.5 text-xs text-muted-foreground">{s.note}</div>
             </div>
           ))}
         </div>
       </div>
+      {/* The ramp is not one set of values: the same rung carries a much higher
+          alpha in dark. Stating it here keeps anyone from "correcting" the two
+          blocks back into agreement. */}
+      <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
+        Geometry is identical in both themes, so <span className="font-mono text-xs">lg</span> means
+        one thing everywhere — but the alpha is not. A shadow is occluded ambient light, and a dark
+        canvas has far less of it to occlude, so each rung runs roughly 4–7× the opacity in dark.
+        Sharing one set of values leaves dark mode with no working elevation at all.
+      </p>
     </Section>
   )
 }

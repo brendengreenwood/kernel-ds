@@ -376,6 +376,13 @@ own route, not a section of one long scroll.
   the desk-facing pattern for the pricing-strategy / sales-execution
   positioning. Candidates next: bulk-edit pattern, saved-view management.
 
+
+### Consumer findings from the v2 prototype (2026-08-04)
+
+A second application built against `@kernel/ui` surfaced ten changes to the DS itself — eight defects and two additive. They landed on `main` with no prototype design direction attached: `SidebarInset` min-width, inactive-only tab hover, optical icon padding on buttons, a scoped `striped` prop on Table, `Archive`/`Ban` glyph shims, coarse-pointer reach for `select-trigger` and `tabs-trigger`, reduced-motion delays, and the elevation ramp (decisions 0053 and 0054).
+
+The prototype's remaining drift — its token direction, its elevation language, its panel furniture — is still on `claude/kernel-insider-portal-fvqfq2` and documented entry by entry in that branch's `docs/v2-prototype-drift.md`. It is a queue, not a backlog: each entry carries a promotion status, and nothing in it is required for the fixes above.
+
 ## Backlog
 
 **The canonical backlog is the GitHub Project board:**
