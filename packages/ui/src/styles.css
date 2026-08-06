@@ -966,3 +966,18 @@
   width: calc(var(--spacing) * 4);
   height: calc(var(--spacing) * 4);
 }
+
+/* On touch the cell must reach the 44px floor itself: the button's hit area
+   IS the cell, and an ::after extension would land on the toggle stacked in
+   the next row. Growth, not extension (decision 0009) - a td's height acts
+   as a min-height, so the row simply gets comfortable. */
+@media (pointer: coarse) {
+  [data-slot="table-cell"][data-row-toggle] {
+    height: 2.75rem;
+  }
+  /* The collapsed row border shaves a pixel off the cell's content box, so
+     the button keeps its own floor rather than trusting the arithmetic. */
+  [data-slot="table-cell"][data-row-toggle] > button {
+    min-height: 2.75rem;
+  }
+}
