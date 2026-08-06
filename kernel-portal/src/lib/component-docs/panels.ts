@@ -16,7 +16,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
       use: [
         "A row of roll-up figures heading a panel — small Tiles or Stats that answer the question before the table below has to be read at all.",
         "A figure that heads the thing itself — the large Tile, with room reserved for a sparkline whether or not one is passed, so a row of tiles keeps its bottoms on one line.",
-        "A table inside a panel — TableFrame gives it the plate and hairline that make it a placed object, with dense as the default step.",
+        "A table inside a panel — TableFrame gives it the plate and hairline that make it a placed object, and marks itself data-dense by default so the app's condensed-table rules can key on it.",
         "A cell holding a value and the quantity behind it — TwoLine, where the sub carries its own unit because a bare number under no column head is a number of nothing.",
       ],
       dontUse: [
@@ -37,7 +37,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
         "Don't add a drop shadow to anything already on a panel. The plate recipe is fill plus lip deliberately — the panel casts, its furniture doesn't.",
         "Don't pass a chart to a small Tile. The small tile is 20px of type in a header row; a line under it is a smudge.",
         "Don't use bg-muted for a chip on a card — in the v2 dark theme --muted resolves to the card's own value and the chip disappears. IconChip's foreground overlay exists for exactly this.",
-        "Don't wrap a top-level object table in a dense frame — pass dense={false} to keep the roomier step; dense is for tables inside panels.",
+        "Don't wrap a top-level object table in a dense frame — pass dense={false}. The DS ships the data-dense marker, not the padding step: the condensed-table rules that consume it stay app-side until that register entry promotes.",
       ],
     },
     {
@@ -95,7 +95,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
           type: "boolean",
           default: "true",
           description:
-            "TableFrame — the compact step, exposed as a data-dense styling hook. Top-level object tables pass dense={false}.",
+            "TableFrame — sets the data-dense marker (default true) for consumer density rules to key on; the DS ships the hook, not the padding step. Top-level object tables pass dense={false}.",
         },
       ],
     },
