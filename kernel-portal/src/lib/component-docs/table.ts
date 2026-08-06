@@ -58,5 +58,35 @@ export const tableDoc: ComponentDoc = parseComponentDoc({
         "A single record's fields — use a description/detail list.",
       ],
     },
+    {
+      kind: "accessibility",
+      keyboardInteractions: [
+        {
+          key: "Tab",
+          action:
+            "Moves focus to the full-bleed button inside a data-row-toggle cell. The focus ring is inset because a full-bleed control has no margin of its own to show an outset ring in.",
+        },
+        {
+          key: "Enter / Space",
+          action: "Activates the cell's control — toggling the row it belongs to.",
+        },
+      ],
+    },
+    {
+      kind: "examples",
+      items: [
+        {
+          title: "Cell as control",
+          description:
+            "A cell marked data-row-toggle hands its padding to the button inside it; the button fills the cell absolutely, so the hit area is the whole cell and no cell padding can shrink it. Hover stays on the row — the cell adds only a colour change, because a second fill inside a highlighted row reads as a nested target.",
+          language: "tsx",
+          code: `<TableCell data-row-toggle>
+  <button aria-expanded={open} aria-label="Toggle row" onClick={() => setOpen(!open)}>
+    <ChevronDown className={open ? "rotate-180" : undefined} />
+  </button>
+</TableCell>`,
+        },
+      ],
+    },
   ],
 })

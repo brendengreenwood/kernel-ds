@@ -53,7 +53,7 @@ test("rejects relationships to missing entities", () => {
 test("sorts portal lifecycle metadata by group and name", () => {
   const lifecycle = selectPortalLifecycleMeta(catalog)
   const groups = lifecycle.map((entity) => entity.group)
-  assert.equal(lifecycle.length, 95)
+  assert.equal(lifecycle.length, 97)
   assert.deepEqual(lifecycle.slice(0, 3).map((entity) => entity.name), ["Accordion", "Alert", "Alert Dialog"])
   assert.equal(groups.lastIndexOf("component") < groups.indexOf("element"), true)
   assert.equal(groups.lastIndexOf("element") < groups.indexOf("pattern"), true)
@@ -65,9 +65,9 @@ test("selects stable group and maturity views", () => {
   const components = selectEntitiesByKind(catalog, "component")
   const ready = selectEntitiesByMaturity(catalog, "ready")
   const experimental = selectEntitiesByMaturity(catalog, "experimental")
-  assert.equal(components.length, 62)
+  assert.equal(components.length, 64)
   assert.equal(ready.length, 82)
-  assert.equal(experimental.length, 13)
+  assert.equal(experimental.length, 15)
   assert.deepEqual(components.map((entity) => entity.name), [...components].map((entity) => entity.name).sort())
 })
 
@@ -80,7 +80,7 @@ test("returns unique sorted portal anchors", () => {
 test("resolves catalog source and documentation references", () => {
   const entities: readonly CatalogEntity[] = catalog
   const documented = entities.filter((entity) => entity.documentation.slug)
-  assert.equal(new Set(documented.map((entity) => entity.documentation.slug)).size, 83)
+  assert.equal(new Set(documented.map((entity) => entity.documentation.slug)).size, 85)
   assert.equal(documented.every((entity) => !entity.documentation.sourceFile || entity.documentation.sourceFile.startsWith("kernel-portal/src/lib/component-docs/")), true)
   assert.equal(entities.every((entity) => entity.documentation.portalAnchor.length > 0), true)
 })

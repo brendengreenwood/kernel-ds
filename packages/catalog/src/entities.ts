@@ -2824,5 +2824,55 @@ export const catalog = [
     "sourceFiles": [
       "kernel-portal/src/components/portal/section.tsx"
     ]
+  },
+  {
+    "id": "component.page-header",
+    "name": "Page Header",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "page-header",
+      "portalAnchor": "c-page-header"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/page-header.tsx"
+    ]
+  },
+  {
+    "id": "component.panels",
+    "name": "Panels",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "panels",
+      "portalAnchor": "c-panels"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/panels.tsx"
+    ]
   }
 ] as const satisfies readonly CatalogEntity[]
