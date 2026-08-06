@@ -395,7 +395,7 @@ The prototype's remaining drift — its token direction, its elevation language,
 
 ### v2 promotion in flight (2026-08-05)
 
-The queue is being drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Next: the promotable components (PageHeader, panel furniture, concentric corner, cell-as-control, rail collapse) and their portal doc pages. The dark green-vs-lime hue question stays open by design.
+The queue is being drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Landed since: the promotable components — PageHeader (three-size union), the panel furniture module (Tile, TwoLine, Stat, IconChip, TableFrame, PanelEmpty), the concentric corner tokens, the cell-as-control table affordance (`data-row-toggle`), and the 3.5rem rail collapse — with their catalog entities (97 total), package tests, and portal doc pages (`/components/page-header`, `/components/panels`; the Table and Sidebar doc entities carry the new affordance sections). Remaining before the PR: ship checks and review. The dark green-vs-lime hue question stays open by design.
 
 ## Backlog
 
