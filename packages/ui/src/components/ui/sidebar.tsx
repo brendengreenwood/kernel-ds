@@ -306,12 +306,20 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   )
 }
 
+/* The page plate (register: "The page plate"). The inset main is the largest
+   plate in the app, so it takes the full treatment its smaller siblings already
+   have: m-4 on every side (ml-0 welded it to the rail - a plate that touches its
+   surround on one edge cannot read as floating), the TOP shadow rung (2xl is the
+   only shadow that must wrap a corner; lower rungs' lateral reach dies on the
+   vertical edge), an --elev-edge-page hairline (one rung darker than --border in
+   dark, where the longest line on screen sits against the darkest surround), and
+   the --elev-lip top highlight. Below md the panel is full-bleed, as before. */
 function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   return (
     <main
       data-slot="sidebar-inset"
       className={cn(
-        "relative flex w-full min-w-0 flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
+        "relative flex w-full min-w-0 flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-4 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-[inset_0_0_0_1px_var(--elev-edge-page),inset_0_1px_0_var(--elev-lip),var(--shadow-2xl)]",
         className
       )}
       {...props}
