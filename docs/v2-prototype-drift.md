@@ -70,10 +70,10 @@ matter of moving it down a layer, not translating it.
 | Part | Area | Count | Promotion status |
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
-| 2 | Token drift | 27 tokens + 2 structural inversions | **undecided** — this is the v2 direction, and the largest open question |
-| 3 | Modification layer | 32 rule groups (3.1 retired) | **undecided** — component and pattern proposals |
-| 4 | **DS source changes** | 12 | **promote** — 9 are bug fixes |
-| 5 | App-level convention departures | 23 | mixed — see each entry |
+| 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); one live drift remains (light `--muted-foreground`, see 2.3) |
+| 3 | Modification layer | 32 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; the rest app-only or open |
+| 4 | **DS source changes** | 12 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85 |
+| 5 | App-level convention departures | 23 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
 
 ---
 
@@ -146,10 +146,20 @@ takes over on mount. Without this the app flashed light on every load.
 
 # Part 2 — Token drift
 
-All of it lives in one `.dark` block in `kernel-app/src/index.css`, plus one
-`:root` line. **Every override points at a DS *scale* token** (`--neutral-*`,
-`--brand-*`, `--error-*`, `--chart-*`) rather than a hand-picked colour, so
-the prototype still rides the system's ramps — it just points the semantic roles at
+**Status (2026-08-06): promoted.** The whole of this part — both structural
+inversions, the dark retune, the light elevation ladder, the invented
+elevation tokens (2.4) — landed on main via PR #85 as decisions 0064 (lime
+scale) and 0065 (dark inversion + radius), values verbatim. The prototype's
+`index.css` no longer overrides any of it: after the drain it carries only the
+app-consumed tokens the DS did not take (`--v2-seg-active`, `--v2-well*`,
+`--v2-edge-*`, `--trough-*`, `--rail-icon`) plus **one live drift**: light
+`--muted-foreground` runs a rung darker here (`--neutral-600`) than the DS
+kept it — see 2.3.
+
+The tables below are the record of what moved, kept as written. **Every
+override pointed at a DS *scale* token** (`--neutral-*`, `--brand-*`,
+`--error-*`, `--chart-*`) rather than a hand-picked colour, so the prototype
+still rode the system's ramps — it just pointed the semantic roles at
 different rungs.
 
 `--chart-1..5` are **deliberately not overridden**: charts, `--primary`,
@@ -340,9 +350,10 @@ it is not a light-mode bug to be tidied up later.
 shadcn `data-slot` hooks plus the app's own opt-in markers — `data-v2-kpi`,
 `data-v2-segmented`, `data-v2-detail`, `data-v2-dense`, `data-v2-panel`,
 `data-v2-panel-inner`, `data-v2-tabpanel`, `data-v2-pagechip`, `data-v2-bleed`,
-`data-v2-rowtoggle`, `data-v2-rankcol`, `data-v2-rowstripe`, `data-v2-pin`,
+`data-v2-rankcol`, `data-v2-rowstripe`, `data-v2-pin`,
 `data-v2-filter`, `data-v2-frame`, `data-v2-trough`, `data-v2-chrome`,
-`data-v2-chip`. No component is forked.
+`data-v2-chip`. No component is forked. (`data-v2-rowtoggle` left the list
+with 3.29's promotion — the marker is the DS's `data-row-toggle` now.)
 
 Two markers carry no rule in this file: `data-v2-flag` and `data-v2-meter` are
 set in the markup as anatomy hooks — named parts a probe or a future rule can
@@ -378,7 +389,7 @@ numbers.
 | 3.13 | `main [data-slot="card"]` | `height: auto` + `flex-shrink: 0` — the DS Card's `h-full` becomes a flex-basis of 100% of a definite-height flex column, and the flex algorithm then shrinks every stacked card proportionally (one clips its footer, a sibling pads out empty). Grids still stretch cards via alignment, which ignores `height` | unlayered `!important` |
 | 3.14 | `[data-v2-dense]` tables | condensed step for tables inside a Card or an expanded row: **3 units horizontal, 2.5 vertical, edges 4, 36px header** — one step below the top-level table (4/3, edges 6), not as tight as it goes. It started at 2/1.5: the rows crowded their own text and the frame read as a spreadsheet rather than a panel. Must stay last in the file — equal specificity with 3.9, so source order decides for a dense table nested in a detail row | unlayered `!important` |
 | 3.15 | `[data-slot="card"]`, `[data-v2-frame]` | **the elevation pass.** Cards take an opaque `--border` hairline (replacing the DS's `ring-1 ring-foreground/10` — an alpha edge takes its contrast from whatever sits behind it, and at 10% it was the faintest thing on the page; `--border` measures 1.44:1 dark / 1.37:1 light against the card), a 1px top lip so the plate reads as bevelled toward a light source above, and a resting cast from `var(--shadow-lg)`. Frames nested in a card take the lip and a fill one step off the card (`--elev-plate`, measured 1.08:1 dark / 1.06:1 light) but **no** cast — a shadow at both levels reads as upholstery. Text on the new plate re-measured: `--foreground` 13.2 dark / 16.5 light, `--muted-foreground` 5.34 / 4.86, all AA | unlayered `!important` (card), unlayered (frame) |
-| 3.16 | `[data-slot="sidebar-inset"]` | **the page plate.** The DS gives the inset `m-2` on three sides and `ml-0` on the fourth, so the app's largest surface was welded to the rail along its whole height — a plate touching its surround on one edge cannot read as floating. Uniform gutter at 4 units, plus the lip, plus `--shadow-2xl`. Its edge is `--elev-edge-page`, **not** `--border`: around the page plate the hairline is the longest line on screen and sits against the darkest surround, so in dark it runs one rung darker (`--neutral-800`, 1.168:1 against the plate vs `--border`'s 1.444:1) — otherwise it reads as a drawn outline rather than an edge. Light keeps `--border` (1.365:1), where the edge is load-bearing: a cast alone cannot define a white plate against a near-white rail. Scoped to `min-width: 48rem`, matching the DS's own `md:` inset styling: below that the panel is full-bleed and a gutter would only cost content width. Verified 0 horizontal overflow at 1440/1024/768/767 and the gutter present on all four sides when scrolled to the page bottom | unlayered `!important` |
+| 3.16 | `[data-slot="sidebar-inset"]` | **the page plate.** The DS gives the inset `m-2` on three sides and `ml-0` on the fourth, so the app's largest surface was welded to the rail along its whole height — a plate touching its surround on one edge cannot read as floating. Uniform gutter at 4 units, plus the lip, plus `--shadow-2xl`. Its edge is `--elev-edge-page`, **not** `--border`: around the page plate the hairline is the longest line on screen and sits against the darkest surround, so in dark it runs one rung darker (`--neutral-800`, 1.168:1 against the plate vs `--border`'s 1.444:1) — otherwise it reads as a drawn outline rather than an edge. Light keeps `--border` (1.365:1), where the edge is load-bearing: a cast alone cannot define a white plate against a near-white rail. Scoped to `min-width: 48rem`, matching the DS's own `md:` inset styling: below that the panel is full-bleed and a gutter would only cost content width. Verified 0 horizontal overflow at 1440/1024/768/767 and the gutter present on all four sides when scrolled to the page bottom | **promoted** — main `edce731` (DS `SidebarInset`, decision 0066); the app rule is deleted, the DS draws the plate |
 | 3.17 | `[data-slot="sidebar-menu-button"] > span:last-child` | **rail label crossfade.** The DS transitions the rail's width and the button's width/height/padding, but the label was only ever clipped by the button's `overflow-hidden` — sliced off by a moving edge rather than leaving. An opacity transition alone was **invisible**, because two other things removed the text first: the span is a flex child with `truncate` (so `min-width` resolves to 0) and was being *compressed* to zero width by ~117ms, and the button — which collapses faster than the rail, being the rail minus three levels of padding — clipped the text's right edge at ~75ms. No fade is perceptible in 75ms. Fixed with three rules: `flex: none` (stop the squeeze), `overflow: visible` on the button (let the rail clip instead, at its slower rate), and `linear` rather than `--ease-out`, which front-loaded 31% of the fade into the first 28ms. Symmetric, matched to the DS's 200ms rail transition. Measured after: text holds 100% visible through opacity 1 → 0.83 → 0.5, first meeting the clip edge at 173ms when already at 0.17. Caveat: with `flex: none` the DS's `truncate` cannot bind, so these rules suit short nav labels only | unlayered |
 | 3.18 | `[data-v2-dense] tbody tr:hover` | dense rows need their own hover — the DS's `hover:bg-muted/50` is invisible because this theme resolves `--muted` to the same value as `--card`, the surface these tables sit on. 4% foreground mix, like every other on-card overlay | unlayered |
 | 3.19 | `[data-v2-panel]` | **the lit panel.** The expanded row's content — roll-up figures, range tabs, activity table — is one surface: `--card` fill, the 1px lip, and `--elev-cast`, the only lit object in the well. This **deliberately breaks 3.15's "nested frames take no cast"**: 3.15 governs a frame nested on a card, where the card is already lifted; here the surround is a recess, and a plate in a recess without a cast reads as painted on the floor. The tab strip takes the panel fill and its own underline is the only divider between control and data | unlayered |
@@ -386,12 +397,12 @@ numbers.
 | 3.21 | `[data-slot="table-row"][data-state="selected"]` | **the open row is a selected row.** The parent row of an expanded detail used to paint its own `bg-foreground/5` — the same value as the zebra stripe, so an open row on an even index was indistinguishable from a closed one. It now sets the DS's own `data-state="selected"`; only the *fill* is retuned here, to 9% foreground, because the DS's `data-[state=selected]:bg-muted` is invisible in this theme (`--muted` resolves to `--card`, the surface the table sits on — the same trap `IconChip` works around, and 3.18) | unlayered |
 | 3.22 | tables inside `[data-v2-panel]` | the panel's table takes the **top-level** step back (4 units horizontal, 6 at the edges) rather than the detail-row tightening of 3.9 or the dense step of 3.14. Once the panel is the focus of the open row, its rows should not change gear from the object table above them. Equal specificity with 3.9 and 3.14 (0,3,0), so these rules must stay after both — source order is the whole mechanism | unlayered `!important` |
 | 3.23 | `[data-v2-trough]` | **rail controls are troughs, not plates** — the inverse of the elevation recipe: inset shading, a hairline, and no cast at all, because the rail is recessed chrome and a control carved into it should read as a depression. Carried by a WRAPPER, never the input: `box-shadow` is one property and the DS puts the focus ring on it, so styling the input directly would either lose the ring or be overwritten by it. Per-theme fills, because one shared formula (mix 22% toward `--shadow-color`) moved light by 1.758:1 and dark by 1.036:1 — the rail sits at opposite ends of the range. Light darkens 6% (1.156:1, a well not a slab); dark's fill stays *at* the rail and the carve does all of it. Measured: placeholder 5.60:1 light / 7.42:1 dark | unlayered |
-| 3.24 | `[data-v2-pagechip]` | **the header glyph gets a plate.** A page or panel header's icon sits on the frame recipe rather than loose on the surface: `--radius` corner, `--border` hairline, a 5% foreground fill and the 1px lip. Its glyph is `--foreground` at 0.55 of the box, not `--muted-foreground` — a muted glyph beside a 30px semibold title read as a placeholder (measured 14.6:1 dark / 15.77:1 light). Nudged `translate: 0 1px`, because the eye reads a title's cap centre slightly below its line box. Three sizes now (`[data-size]`), each stepping its corner down with its box, because reusing one radius on a smaller chip makes the small chip read *rounder* than the large one: 42px/14px, 35px/12.08px, 27px/10.16px — glyph corner plus the padding around it, every time | unlayered |
+| 3.24 | `[data-v2-pagechip]` | **the header glyph gets a plate.** A page or panel header's icon sits on the frame recipe rather than loose on the surface: `--radius` corner, `--border` hairline, a 5% foreground fill and the 1px lip. Its glyph is `--foreground` at 0.55 of the box, not `--muted-foreground` — a muted glyph beside a 30px semibold title read as a placeholder (measured 14.6:1 dark / 15.77:1 light). Nudged `translate: 0 1px`, because the eye reads a title's cap centre slightly below its line box. Three sizes now (`[data-size]`), each stepping its corner down with its box, because reusing one radius on a smaller chip makes the small chip read *rounder* than the large one: 42px/14px, 35px/12.08px, 27px/10.16px — glyph corner plus the padding around it, every time | **promoted** — main `396bd49` as the `PageHeader` chip; the app still carries this rule until its headers move onto the component |
 | 3.25 | `[data-slot="tabs-list"][data-variant="folder"][data-v2-bleed]` | the folder strip carries the page padding itself (6 units, 8 above `md`) instead of sitting inside it, so its baseline runs the full width of the plate. The list carries the page inset; the border does not | unlayered |
-| 3.26 | `[data-v2-panel-inner]` | **the concentric inner surface.** A container holding a rounded container must be rounder than what it holds, so the corner is derived, not chosen: `calc(var(--v2-panel-radius) - var(--v2-panel-inset))` — the panel corner less its own inset, ≈8px from the 14px base. Takes the frame recipe (`--elev-plate` fill, 1px lip, no cast; measured 1.08:1 off the panel). Its `padding-block` exists because the block inherited only the cell's 3 units vertically against 6 horizontally, which put the header's cap and the last row's baseline hard against a curve. A second rule zeroes the last row's bottom rule — a square border drawn across a rounded corner is the one thing that gives the curve away | unlayered |
+| 3.26 | `[data-v2-panel-inner]` | **the concentric inner surface.** A container holding a rounded container must be rounder than what it holds, so the corner is derived, not chosen: `calc(var(--v2-panel-radius) - var(--v2-panel-inset))` — the panel corner less its own inset, ≈8px from the 14px base. Takes the frame recipe (`--elev-plate` fill, 1px lip, no cast; measured 1.08:1 off the panel). Its `padding-block` exists because the block inherited only the cell's 3 units vertically against 6 horizontally, which put the header's cap and the last row's baseline hard against a curve. A second rule zeroes the last row's bottom rule — a square border drawn across a rounded corner is the one thing that gives the curve away | **promoted** — main `a94e8d3`: `--panel-radius`/`--panel-inset` are DS tokens now; the app rule consumes them and keeps only its own padding |
 | 3.27 | `[data-v2-tabpanel]` | the surface under the folder tabs lifts 8% toward the foreground — two of the app's own 4% overlay steps (zebra is 5%, hover 4%, selected 9%). No hairline of its own: the folder strip's baseline draws its top and the page plate draws its sides, and a third line would describe a boundary already drawn | unlayered |
 | 3.28 | `@keyframes v2-edge` on `[data-v2-panel]` | **the open panel breathes at its edge.** A 1px `--primary` ring, no blur and no spread, cycling `--v2-edge-rest` → `--v2-edge-peak` over 7s (8%→20% dark, 6%→15% light). It replaced a two-layer bloom — a ring plus a 44px bleed at 34% — that read as a notification rather than a state. The stops are asymmetric on purpose (rest through 32%, peak at 68%): held, then a slow climb and a faster release, which is why the timing function is `linear` — an ease on top would flatten it back into the sine the stops were written to avoid. Both keyframes restate the resting lip and cast, so under `prefers-reduced-motion` the panel lands on the warm ring rather than on nothing | unlayered |
-| 3.29 | `[data-slot="table-cell"][data-v2-rowtoggle]` | **the cell is the control.** The expand affordance was a `Button` inside a padded cell — a 32px target inside a 58px cell, with the dead margin also clickable via the row handler, so the two disagreed about what had been aimed at. The cell now hands its padding to the button (`padding: 0`), which fills it absolutely. It stays a real control: `aria-expanded`, an Expand/Collapse label, tab order. Its focus ring is an **inset** `box-shadow` — an outset ring on a full-bleed control is clipped by the row's own overflow. No hover style of its own, because the row already carries one and a second highlight inside a highlighted row reads as a nested target | unlayered `!important` |
+| 3.29 | `[data-slot="table-cell"][data-v2-rowtoggle]` | **the cell is the control.** The expand affordance was a `Button` inside a padded cell — a 32px target inside a 58px cell, with the dead margin also clickable via the row handler, so the two disagreed about what had been aimed at. The cell now hands its padding to the button (`padding: 0`), which fills it absolutely. It stays a real control: `aria-expanded`, an Expand/Collapse label, tab order. Its focus ring is an **inset** `box-shadow` — an outset ring on a full-bleed control is clipped by the row's own overflow. No hover style of its own, because the row already carries one and a second highlight inside a highlighted row reads as a nested target | **promoted** — main `1101b61` + `76a4995`, marker renamed `data-row-toggle`; the app keeps a one-line `padding: 0` restatement because its own `!important` edge rules load after the DS sheet |
 | 3.30 | `[data-v2-rankcol]` | the rank column asks for its minimum (`w-0` + nowrap in the markup) and gets an even 3-unit gutter here. It needs its own because it follows the toggle cell, so 3.7's edge rule was handing it the full 6-unit page inset on one side only. Measured 72.6px: a 49.6px label with 11.5px of slack each side, digits centred 0.00px off the header | unlayered `!important` |
 | 3.31 | `[data-v2-chip]` | the bottom bar's sliding chip takes the nested-surface treatment — hairline plus lip, no cast. Its hairline is a step off the chip's *own* fill rather than a token, because both candidates vanish in one theme; see 5.11 for the measurements | unlayered |
 | 3.32 | `[data-v2-panel] ~ [data-v2-panel]` | **only the first panel breathes.** The edge pulse (3.28) is an arrival signal, and an opened row now stacks two panels — running it on both states one message twice, the same fault as four tiles redrawing one axis (5.15). Sibling panels keep the resting ring and drop the animation. The *first* one carries it because that is where the row lands: `reveal.ts` (5.18) scrolls the row to the top, so the summary is what enters the view | unlayered |
@@ -403,6 +414,10 @@ compact select triggers, so the filter row is coherent.
 ---
 
 # Part 4 — Changes to the design system itself
+
+**Status (2026-08-06): all landed.** 4.1–4.11 merged to main via PR #83
+(merge `28e1602`); 4.12 via PR #85 (`d7c1a99`). The sections below stand as
+the record of what each change was and why.
 
 **This is the part that matters if the prototype is abandoned.** Eleven changes.
 The first nine are in `kernel-portal/`, the last two in `packages/ui/src/styles.css`,
@@ -667,6 +682,10 @@ only in the document while the dialog is open and the audit never opens one.
 **Cherry-pick priority: high.** One line in an existing block, no prototype
 dependency, and it fixes every dialog in the portal.
 
+*Landed 2026-08-05 on main (`d7c1a99`, PR #85), the coarse `::after` list
+exactly as described here; the radius half of 5.22 landed with the Part 2
+radius direction.*
+
 ---
 
 # Part 5 — Where the app departs from project convention
@@ -709,6 +728,12 @@ DS candidates if reused. The panel furniture (`Tile`, `Stat`, `IconChip`, `Panel
 `src/components/panels.tsx`, once the Overview needed the same pieces as the
 Scenarios detail — the app-wide framed-table + tile + flag conventions live
 there now.
+
+*Promoted 2026-08-05 (PR #85, `498410a`): `Tile`, `TwoLine`, `Stat`,
+`IconChip`, `TableFrame` and `Empty` (renamed `PanelEmpty` — the DS already
+ships a compound `Empty`) are `@kernel/ui`'s `panels` module now, props
+verbatim. `BidsBadge`, `Delta`, `OfferInset`, `Sparkline`, `PanelHeader`,
+`ActivityFlag` and `useVisibleWidth` stay app-side.*
 
 **5.6 — `Delta` uses notification colour for a measurement.** A KPI's
 percentage change renders as `Badge variant="success" | "destructive"`. The
@@ -757,6 +782,11 @@ time.
 
 The brand and theme toggle still hide outright — a wordmark has no 3.5rem form
 to shrink into, so a crossfade there would read as a glitch.
+
+*Promoted 2026-08-05 (PR #85, `4e4f0e3`): the DS's `SIDEBAR_WIDTH_ICON` is
+3.5rem and the collapsed button squares to `size-10!`/`p-2.5!` by default, so
+the app's `style` override and its collapse guards are deleted — the shell
+keeps only its own glyph size and tint. `SearchSlot` stays app-side.*
 
 **5.9 — Route changes fade in (`PageFade`).** The `<Outlet />` is wrapped in a
 div keyed by `pathname`, so React remounts the subtree on every route change and
@@ -1208,9 +1238,10 @@ Measured: panel over well 1.28:1 dark / 1.26:1 light, tile hairline on panel
 5.79:1 / 7.11:1. Chip ladder 42/35/27px at 14/12.08/10.16px radius, titles
 30/20/16px, all four tile figures back on one line.
 
-*Promotion:* `PageHeader`'s three sizes are the promotable part — the DS has no
-header object, and every consumer eventually needs the same three depths. The
-panel-per-block layout is 5.5's expanding-row object, still unextracted.
+*Promotion:* promoted 2026-08-05 (PR #85, `396bd49`) — `PageHeader` with the
+three-size union is a `@kernel/ui` component now. The panel-per-block layout
+is 5.5's expanding-row object, still unextracted. (The tile-corner arithmetic
+in the bullet above now reads from the DS's `--panel-radius`/`--panel-inset`.)
 
 **5.20 — An event's originator is a property of the producer, not of the
 event.** `kernel-app/src/data/scenarios.ts`,
@@ -1502,3 +1533,14 @@ second use, and animation in a design system is a commitment.
   (lightweight-charts, uPlot, visx, or similar). Direction call, not a fix:
   pick the library deliberately, wrap it once behind DS tokens the way
   `chart.tsx` wraps recharts, and retire per-app hand-rolled chart code.
+
+---
+
+**Postscript (2026-08-06): the promotion happened.** PR #83 took the Part 4
+bug fixes; PR #85 (`feat/v2-promotion`) took Part 2 whole (decisions
+0064/0065), 3.24/3.26/3.29, 5.5's furniture, 5.8, and 5.19's header union;
+the page plate (3.16) followed on `feat/portal-v2-look` (decision 0066). The
+prototype now consumes all of it from the DS — the register's promoted rows
+above carry the commit SHAs, and what remains open is what this part always
+said was open: the charting layer, the light-mode accent pass, and the
+green-vs-lime dark ambiguity.

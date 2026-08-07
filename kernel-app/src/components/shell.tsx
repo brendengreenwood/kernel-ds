@@ -52,7 +52,7 @@ const secondary: Item[] = [
    search slot — they have to agree exactly or the rail's rhythm breaks at one
    width and not the other. See the note at its use site in Nav. */
 const RAIL_CONTROL =
-  "h-10 gap-3 text-base [&_svg]:size-5 [&_svg]:text-[var(--rail-icon)] group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:p-2.5!"
+  "h-10 gap-3 text-base [&_svg]:size-5 [&_svg]:text-[var(--rail-icon)]"
 
 /** Search occupies a rail slot at BOTH widths — a field when there is room for
     one, a square icon control when there isn't. It used to simply vanish on
@@ -136,15 +136,9 @@ function Nav({ items }: { items: Item[] }) {
           <SidebarMenuButton
             isActive={isActive(it.to)}
             tooltip={it.label}
-            // Collapsing must not resize anything: the DS squares the button
-            // to size-8 with p-2, which left a 16.6px content box and forced
-            // the size-5 glyph down to size-4 — so the rail's icons changed
-            // size mid-animation and the row height jumped. Here the button
-            // keeps its 38.4px (h-10 at --spacing 0.24rem) and simply becomes
-            // square, with padding at 2.5 units (9.6px) leaving a 19.2px
-            // content box — exactly the size-5 glyph, which is also 19.2px.
-            // The collapsed rail widens to match (see SidebarProvider below);
-            // `!` because the DS's collapsed rules are themselves !important.
+            // Collapsed geometry — the square size-10 button, p-2.5, and the
+            // 3.5rem rail — is the DS's own now (register 5.8, promoted), so
+            // the app only sizes the glyph and tints it.
             // Glyphs sit at neutral-300 rather than the rail's near-white
             // foreground; the ACTIVE item's steps back up, so the icon carries
             // some of the selected state instead of leaving it all to the chip.
@@ -275,13 +269,7 @@ function ScrollTop() {
 export function Shell() {
   return (
     <TooltipProvider>
-      {/* The collapsed rail widens from the DS's 3rem to 3.5rem so the 38.4px
-          button clears the group's own 2-unit padding (38.4 + 2×7.68 = 53.8px;
-          3rem left only 32.6px, which is why the DS shrinks the button to fit).
-          Passed as a style prop rather than forced in CSS: SidebarProvider
-          spreads `style` after its own defaults, so this is the seam the DS
-          already provides. */}
-      <SidebarProvider style={{ "--sidebar-width-icon": "3.5rem" } as React.CSSProperties}>
+      <SidebarProvider>
         <ScrollTop />
         <AppSidebar />
         <SidebarInset className="bg-background">

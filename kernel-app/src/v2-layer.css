@@ -9,7 +9,7 @@
      surfaces   data-v2-detail (the well) · data-v2-panel (the lit panel)
                 data-v2-panel-inner · data-v2-tabpanel · data-v2-frame
                 data-v2-trough · data-v2-chrome · data-v2-chip
-     controls   data-v2-segmented · data-v2-filter · data-v2-rowtoggle
+     controls   data-v2-segmented · data-v2-filter
      tables     data-v2-dense · data-v2-rowstripe · data-v2-pin · data-v2-rankcol
      furniture  data-v2-kpi · data-v2-pagechip · data-v2-bleed
 
@@ -67,13 +67,12 @@
    tuned for the app's cards; a container that holds another rounded container
    has to be rounder than the thing inside it or the corners read as one thick
    corner. The inner surface takes the frame recipe every other block-on-a-card
-   here takes — fill one step off the surface, a 1px top lip, no cast. */
-:root {
-  --v2-panel-radius: calc(var(--radius) + var(--spacing) * 1.5);
-  --v2-panel-inset: calc(var(--spacing) * 3);
-}
+   here takes — fill one step off the surface, a 1px top lip, no cast.
+
+   The tokens themselves — --panel-radius, --panel-inset — were promoted
+   (register 3.26); the DS defines them, this rule only consumes them. */
 [data-v2-panel-inner] {
-  border-radius: calc(var(--v2-panel-radius) - var(--v2-panel-inset));
+  border-radius: calc(var(--panel-radius) - var(--panel-inset));
   background: var(--elev-plate);
   box-shadow: inset 0 1px 0 0 var(--elev-lip);
   /* The table already carries 6 units at its outer cells, so the surface's
@@ -689,43 +688,6 @@
   background: var(--elev-plate);
 }
 
-/* ---- The page plate ----
-   The inset main panel is the largest plate in the app and was the only
-   container that never got the treatment. Four things were wrong with it:
-
-   - `ml-0`. The DS gives the inset `m-2` on three sides and zero on the left,
-     so the panel was welded to the rail along its whole height. A plate that
-     touches its surround on one edge cannot read as floating above it — this
-     is the structural fix, the rest is finish.
-   - `shadow-sm`. The app's biggest surface sat on the lowest working rung.
-     Distance is what the ramp encodes, so the plate ladder now reads
-     page `2xl` > card `lg` > nested frame (none): each level of nesting steps
-     down, and nothing nested inside a card casts at all. The page plate takes
-     the TOP rung for a second reason — it is the only shadow that has to wrap
-     around a corner. Every rung is offset straight down with a negative
-     spread, so lateral reach is roughly `blur - |spread|`: at `xl` that is
-     12px and the vertical left edge gets almost nothing; at `2xl` it is 24px
-     and the plate reads as lifted along its whole height, not just outlined.
-   - No edge and no lip, while every smaller container had both.
-
-   The edge uses `--elev-edge-page`, not `--border`: around the page plate the
-   hairline is the longest line on screen and sits against the darkest surround,
-   so in dark it runs one rung darker than every other container's. Light keeps
-   `--border` — there the edge is doing real work. See the token's note.
-
-   Scoped to the same breakpoint as the DS's own inset styling: below `md` the
-   panel is full-bleed with no margin or radius, and a gutter there would just
-   cost content width on a phone. */
-@media (min-width: 48rem) {
-  [data-slot="sidebar-inset"] {
-    margin: calc(var(--spacing) * 4) !important;
-    box-shadow:
-      inset 0 0 0 1px var(--elev-edge-page),
-      inset 0 1px 0 var(--elev-lip),
-      var(--shadow-2xl) !important;
-  }
-}
-
 /* ---- Rail label crossfade ----
    Getting a label to *fade* takes three rules, because an opacity transition
    alone is invisible here — two other things were removing the text first, both
@@ -855,51 +817,23 @@ main [data-slot="card"] {
   flex-shrink: 0;
 }
 
-/* ---- The row-toggle cell ----
-   The cell IS the control: the button is absolutely positioned to the cell's
-   own box, so the hit area is the whole cell rather than a 32px box drawn
-   inside it, and no padding of the cell's can shrink it.
-
-   Last in the file on purpose. The table-cell padding rules above are
-   !important — they have to be, to beat the DS's utilities — so this cell can
-   only opt out by matching them on specificity and winning on source order.
-
-   Hover lives on the row, so the cell adds only a colour change; a second
-   fill inside a highlighted row reads as a nested target. The focus ring is
-   inset for the same reason an outset one would be wrong here: the control
-   has no margin of its own to show a ring in. */
-[data-slot="table-cell"][data-v2-rowtoggle] {
-  position: relative;
+/* ---- The row-toggle cell's padding opt-out ----
+   The control itself — the absolutely-filled button, its hover, the inset
+   focus ring — moved to the DS with register 3.29 (`data-row-toggle`). What
+   cannot move is this line: the table-cell padding rules above are !important
+   and this file loads AFTER the DS sheet, so the DS's own `padding: 0
+   !important` loses on source order here. The opt-out has to be restated
+   last, in the layer that created the contest. */
+[data-slot="table-cell"][data-row-toggle] {
   padding: 0 !important;
-}
-[data-v2-rowtoggle] > button {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted-foreground);
-  cursor: pointer;
-  transition: color var(--duration-fast) var(--ease-out);
-}
-[data-v2-rowtoggle] > button:hover {
-  color: var(--foreground);
-}
-[data-v2-rowtoggle] > button:focus-visible {
-  outline: none;
-  box-shadow: inset 0 0 0 2px var(--ring);
-}
-[data-v2-rowtoggle] > button > svg {
-  width: calc(var(--spacing) * 4);
-  height: calc(var(--spacing) * 4);
 }
 
 /* The rank column's own inset. The table's edge rule gives cell 2 the full
    6-unit gutter on its left because it follows the toggle cell, which has no
    padding to speak of — that inset belongs to the row, not to this column, and
    at this width it pushes the digits off centre under their label. Last in the
-   file for the same reason as the toggle cell: the padding rules it overrides
-   are !important. */
+   file because the padding rules it overrides are !important. (The toggle
+   cell's own rules moved to the DS with register 3.29.) */
 [data-slot="table-head"][data-v2-rankcol],
 [data-slot="table-cell"][data-v2-rankcol] {
   padding-left: calc(var(--spacing) * 3) !important;

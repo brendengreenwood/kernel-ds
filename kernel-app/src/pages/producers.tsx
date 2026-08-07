@@ -87,7 +87,7 @@ function OfferInset({ producer, offers }: { producer: Producer; offers: Offer[] 
           that only one of them has is a difference nobody chose. */}
       <div
         data-v2-panel
-        className="flex flex-col gap-3 rounded-[var(--v2-panel-radius)] border border-border p-3"
+        className="flex flex-col gap-3 rounded-[var(--panel-radius)] border border-border p-3"
       >
         <PageHeader
           size="section"
@@ -374,7 +374,7 @@ export default function ProducersPage() {
                         a box around a chevron that never needed one. Still a real button —
                         tabbable, labelled, and carrying aria-expanded — so the row's click
                         handler stays the shortcut and this stays the control. */}
-                    <TableCell data-v2-rowtoggle className="p-0">
+                    <TableCell data-row-toggle className="p-0">
                       <button
                         type="button"
                         onClick={(e) => {

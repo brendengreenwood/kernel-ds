@@ -77,7 +77,7 @@ export function Tile({
 }) {
   if (lg) {
     return (
-      <div className="@container overflow-hidden rounded-[calc(var(--v2-panel-radius)-var(--v2-panel-inset))] border border-border pt-7">
+      <div className="@container overflow-hidden rounded-[calc(var(--panel-radius)-var(--panel-inset))] border border-border pt-7">
         <div className="px-5">
           {/* Label over figure. A caption under a number is a footnote to it;
               above, it is the question the number answers — and the four

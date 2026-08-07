@@ -1,9 +1,10 @@
 /* Kernel v2 prototype — consumes the full DS token sheet + components at
-   source, then overrides the dark theme toward a premium near-black analytics
-   look. Everything here is a TOKEN override in the prototype's own layer; the
-   portal's index.css and components are untouched. Kernel green stays
-   primary/accent/chart — only the dark neutral surfaces, borders, and radius
-   move. See docs/v2-prototype-drift.md for the full register. */
+   source. The dark retune, light elevation ladder, lime scale, and 0.875rem
+   radius were promoted to the DS (register Part 2, decisions 0064/0065), so
+   the DS sheet now IS the look. What stays here is the token layer only this
+   app consumes — segmented selection, the expanded-row well, the edge bloom,
+   the trough — plus one live drift entry marked below. See
+   docs/v2-prototype-drift.md for the register. */
 @import "../../packages/ui/src/styles.css";
 /* The modification layer that pushes DS components toward the look. */
 @import "./v2-layer.css";
@@ -12,69 +13,12 @@
    generated (the app renders live Kernel components). */
 @source "../../packages/ui/src";
 
-/* ---- premium dark retune (overrides the DS .dark block) ---- */
+/* ---- app-only dark tokens ---- */
 .dark {
-  /* Dark surfaces derive from the DS neutral scale (green-tinted by design) —
-     not hand-picked numbers. -900 for the canvas, -800 for elevated surfaces,
-     -950 only for the recessed sidebar; accents stay on the DS green. */
-  --background: var(--neutral-900);
-  --foreground: var(--neutral-50);
-  --card: var(--neutral-800);
-  --card-foreground: var(--neutral-50);
-  --popover: var(--neutral-800);
-  --popover-foreground: var(--neutral-50);
-
-  --primary: var(--chart-1);
-  --primary-foreground: var(--neutral-950);
-  --secondary: var(--neutral-800);
-  --secondary-foreground: var(--neutral-100);
   /* Segmented selection is the accent. --secondary cannot do it — in dark it is
      the same value as --card, so a segment filled with it vanishes on a panel. */
   --v2-seg-active: var(--primary);
   --v2-seg-active-foreground: var(--primary-foreground);
-  --muted: var(--neutral-800);
-  --muted-foreground: var(--neutral-400);
-  --accent: var(--brand-900);
-  --accent-foreground: var(--neutral-50);
-
-  --destructive: var(--error-500);
-  --destructive-foreground: var(--neutral-50);
-
-  --border: var(--neutral-700);
-  --input: var(--neutral-700);
-  --ring: var(--chart-1);
-
-  /* --chart-1..5 inherit the DS's dark ramp (already green-forward) — the
-     sparklines and --primary/--ring ride var(--chart-1). No override. */
-
-  --sidebar: var(--neutral-950);
-  --sidebar-foreground: var(--neutral-50);
-  --sidebar-primary: var(--chart-1);
-  --sidebar-primary-foreground: var(--neutral-950);
-  /* Nav selection/hover is NEUTRAL, not green. The rail is chrome; a coloured
-     chip there competes with the accent doing real work in the content (primary
-     buttons, active pills, chart series). One rung up from the rail reads as
-     raised without introducing a second green. */
-  --sidebar-accent: var(--neutral-800);
-  --sidebar-accent-foreground: var(--neutral-50);
-  --sidebar-border: var(--neutral-800);
-  --sidebar-ring: var(--chart-1);
-
-  /* ---- elevation recipe (see the note above the light block) ----
-     Dark has no light source to borrow, so the lip is what sells the plate:
-     a 1px highlight along the top edge reads as a bevel catching light from
-     above. The cast has to be much deeper than the DS ramp — a 4% black shadow
-     on a 0.16-lightness canvas is arithmetically invisible. */
-  --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
-  --elev-cast: var(--shadow-lg);
-  /* The page plate's edge runs one rung darker than every other container's.
-     `--border` (neutral-700, 0.370) is tuned to separate a card from the page;
-     drawn around the page plate itself it becomes the longest line on screen,
-     against the darkest surround, and reads as a drawn outline rather than an
-     edge. neutral-800 (0.270) still sits clear of the 0.213 plate but stops
-     announcing itself. Dark only — see the light block. */
-  --elev-edge-page: var(--neutral-800);
-  --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
 
   /* ---- the expanded-row well ----
      A recess has to be DARKER than anything the table paints, or it reads as
@@ -106,78 +50,27 @@
   --trough-cast: color-mix(in oklch, var(--shadow-color) 55%, transparent);
 }
 
-:root {
-  --radius: 0.875rem;
-}
-
-/* ---- light retune: mirror the dark elevation ladder ----
+/* ---- app-only light tokens ----
    Scoped `:root:not(.dark)`, NOT plain `:root`. A bare `:root` has the same
    specificity as the `.dark` block above and sits later in the file, so it
    would win in BOTH themes and silently flatten dark mode's surfaces. The
    `:not(.dark)` both raises specificity and states the intent.
 
-   The DS ships light `--sidebar` and `--background` both at pure white, so the
-   inset panel's `m-2` margin and rounded corners exist but are invisible. Light
-   gets its contrast from the RAIL dropping instead: only the frame darkens, and
-   the content panel stays paper-white.
-
-     rail    --sidebar     neutral-100 (0.967)  ← recessed, frames the panel
-     canvas  --background  white       (1.000)  ← the floating inset panel
-     card    (DS default)  white       (1.000)  ← same sheet, read by its ring
-
-   That is a different structure from dark, deliberately. Dark separates the
-   three surfaces by lightness (950 / 900 / 800); light puts canvas and card on
-   one white sheet and lets the DS Card's `ring-1 ring-foreground/10` hairline do
-   the work — the conventional light-UI read, and lighter-on-the-eye than tinting
-   a whole page grey to make cards pop.
-
-   The rail sits ~3% off white, not the 8% of a `neutral-200`: chrome here only
-   has to *frame* the panel (helped by its `shadow-sm`), and a heavier grey reads
-   as a slab competing with the content. */
+   The light elevation ladder itself — the recessed neutral-100 rail framing a
+   white plate, the transparent lip, the cast-led elev recipe — is the DS's
+   own now (register Part 2.3, promoted). */
 :root:not(.dark) {
   --v2-seg-active: var(--primary);
   --v2-seg-active-foreground: var(--primary-foreground);
-  --sidebar: var(--neutral-100);
 
-  /* A lighter rail needs a lighter hairline; the DS light --sidebar-border
-     (0.8957) was tuned against a white rail and reads heavy on this one. */
-  --sidebar-border: var(--neutral-200);
-
-  /* Nav selection/hover is NEUTRAL, not green (see the .dark note). It also has
-     to be DARKER than the rail: the DS light --sidebar-accent (0.9758) is
-     lighter than a 0.967 rail, so a selected item would read as a hole rather
-     than a chip. One rung down from the rail. */
-  --sidebar-accent: var(--neutral-200);
-  --sidebar-accent-foreground: var(--neutral-900);
-
-  /* --background and --muted stay the DS values. --muted was overridden to
-     neutral-200 back when the canvas was itself neutral-100 and a 0.9612 trough
-     would have vanished into it; with the canvas now white, the DS value reads
-     fine — and at the rail's rung the pill/segmented troughs were carrying the
-     same weight as the whole sidebar. */
-
-  /* The plate fill costs a little contrast on every muted label sitting on it:
-     the DS light `--muted-foreground` (0.535) measures 5.15:1 on a plain white
-     card but **4.86:1 on the plate** — passing, but the tightest ratio in the
-     app and the first thing that would break if the plate ever deepened. The
-     prototype introduced the plate, so the prototype absorbs the cost rather
-     than moving a DS value the portal is perfectly happy with. One rung down. */
+  /* LIVE DRIFT — not promoted. The DS light --muted-foreground stayed at its
+     oklch(0.5350 …) value; this app runs one rung down. The plate fill costs a
+     little contrast on every muted label sitting on it: the DS value measures
+     5.15:1 on a plain white card but 4.86:1 on the plate — passing, but the
+     tightest ratio in the app and the first thing that would break if the
+     plate ever deepened. The prototype introduced the plate, so the prototype
+     absorbs the cost rather than moving a DS value the portal is happy with. */
   --muted-foreground: var(--neutral-600);
-
-  /* ---- elevation recipe ----
-     A white card on a white canvas measures 1.000:1 — it exists only by its
-     hairline, which is why it read as printed-on rather than placed-on. Here
-     the CAST does the lifting, not the edge: light already comes from above in
-     a light UI, so a white lip has nothing to add and stays transparent. */
-  --elev-lip: transparent;
-  --elev-cast: var(--shadow-lg);
-  /* Light keeps `--border` here. The dark plate needed softening because its
-     edge is a light line on a near-black surround — the highest-contrast
-     element on the page. In light the same edge is a dark line on white, and
-     it is doing real work: the cast alone cannot define a white plate's
-     boundary against a near-white rail. */
-  --elev-edge-page: var(--border);
-  --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
 
   /* Light inverts which stripe is darkest: `bg-foreground/5` DARKENS here, so
      the table's darkest surface is the striped row (~neutral-100). Two rungs

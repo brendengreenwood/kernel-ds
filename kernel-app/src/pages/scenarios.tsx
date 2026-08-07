@@ -123,7 +123,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           they draw is in the table below, and hover is not a way in. */}
       <div
         data-v2-panel
-        className="mb-4 rounded-[var(--v2-panel-radius)] border border-border p-3"
+        className="mb-4 rounded-[var(--panel-radius)] border border-border p-3"
       >
         <PageHeader
           size="panel"
@@ -174,7 +174,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           what lets the inner surface be concentric — an inset that differs by
           side has no single radius that can follow it. */}
       <Tabs value={range} onValueChange={(v) => setRange(v as ActivityRange)}>
-        <div data-v2-panel className="flex flex-col gap-3 rounded-[var(--v2-panel-radius)] border border-border p-3">
+        <div data-v2-panel className="flex flex-col gap-3 rounded-[var(--panel-radius)] border border-border p-3">
           {/* Inside the panel now, and a size down from the summary's header.
               Two panels stacked in the well would otherwise carry two titles of
               equal weight, and the reader would have to work out which names
@@ -379,7 +379,7 @@ export default function ScenariosPage() {
                       a box around a chevron that never needed one. Still a real button —
                       tabbable, labelled, and carrying aria-expanded — so the row's click
                       handler stays the shortcut and this stays the control. */}
-                  <TableCell data-v2-rowtoggle className="p-0">
+                  <TableCell data-row-toggle className="p-0">
                     <button
                       type="button"
                       onClick={(e) => {
