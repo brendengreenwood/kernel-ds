@@ -39,6 +39,45 @@ own route, not a section of one long scroll.
   2026-08-02 worklog entry lists which.
 - **Kernel-styled portal toasts** (2026-08-01): the packaged Sonner wrapper now overrides Sonner 2.0.7's runtime-injected default chrome with Kernel popover, border, shadow, muted-description, primary-action, cancel, and focus-ring tokens. The shared `Toaster` keeps its existing theme and behavior contract while every portal toast call inherits the design-system treatment.
 
+- **Elevation ramp works in dark, and climbs** (decision 0060, 2026-07-31):
+  `--shadow-*` had been declared in `:root` and repeated **byte for byte** in
+  `.dark` — on the dark card (rgb 31,41,36) the light ramp's 4–10% black
+  resolves to under one 8-bit level, so dark mode shipped an elevation ramp
+  that could not produce a visible shadow at any rung, while
+  `/foundations/elevation` rendered eight identical swatches and documented it
+  as working. Light `--shadow-2xl` was separately non-monotonic
+  (`0 1px 3px / 0.25`, tighter than `md`), so the top of the ramp cast the
+  smallest shadow in the set. Now: geometry shared across themes so `lg` means
+  one thing everywhere, alpha scaled ~4–7× in dark (0.28→0.55 vs 0.04→0.14),
+  and `2xl` continued to `0 16px 32px -8px`. The doubling progression
+  (1/2 → 2/4 → 4/8 → 8/16 → 16/32, spread −blur/4) is the ramp's stated
+  contract: every rung larger than the one below on every axis. The two
+  smallest rungs stay transparent by design (borders, not lift) — the ramp is
+  effectively six steps, which the foundation page now says out loud. Surfaced
+  by the v2 prototype needing a resting cast and finding no working token.
+
+- **Shadows are tinted; `--shadow-color` is load-bearing** (decision 0061,
+  2026-07-31): the token had been declared in both theme blocks since the token
+  sheet was written and **nothing referenced it** — the ramp hardcoded
+  `hsl(0 0% 0%)`, so the one knob for shadow hue was inert. Every rung now
+  derives from it via `color-mix`; light is `oklch(0.16 0.022 165)`, dark
+  `oklch(0.04 0.018 165)` (deeper, since it must darken a 0.165 rail). Kernel's
+  surfaces are green-tinted neutrals and occlusion stays in the surface's hue
+  family, so a neutral-black cast read as a foreign smudge. Tinting costs 0.3 of
+  an 8-bit level of depth in dark, which is affordable because dark's cast was
+  never carrying elevation — edge contrast and gutter do that.
+
+- **`--lime-*` accent scale** (decision 0059, 2026-07-30): the accent lime — the
+  hue on every primary button, focus ring, active pill and first chart series —
+  had been a bare `oklch()` literal repeated **twelve times** across both themes,
+  the only significant colour with no family behind it. It is now a full 50→950
+  scale beside `--brand-*`/`--neutral-*` (with `-light`/base/`-dark` aliases at
+  200/500/700), and all twelve role tokens reference it. Steps 300 and 500 are
+  pinned to the two values already shipped, so the migration is visually inert —
+  resolved values asserted per theme. Sets the rule that a raw `oklch()` in the
+  role layer is a missing family, not a shortcut. Follow-up: light `--secondary`
+  and `--sidebar-accent` sit near `--lime-50` but off by +0.009 L / −6° hue and
+  were left alone.
 - Portal styling restored (2026-07-30): `@kernel/ui` styles.css now carries `@source "./";` so Tailwind v4 scans the packaged component code from consumers' node_modules (decision 0052). Portal CI gate `check-portal-css.mjs` asserts component-utility sentinels in the built CSS, between Build and boot smoke.
 
 - **Portal boot is a gate** (decision 0051, 2026-07-30): kernel-portal deduplicates every dependency shared with @kernel/ui via resolve.dedupe in vite.config.ts - the file: symlink otherwise resolves bare imports to the repo-root node_modules and bundles a second React, crashing boot with a blank #root (the 2026-07-30 white-screen production incident). scripts/check-portal-boot.mjs drives headless Chromium at the built site (vite preview or a deployed URL) and fails on console errors or an empty #root; it runs in the portal CI job after the build.
@@ -394,9 +433,11 @@ A second application built against `@kernel/ui` surfaced ten changes to the DS i
 
 The prototype's remaining drift — its token direction, its elevation language, its panel furniture — is still on `claude/kernel-insider-portal-fvqfq2` and documented entry by entry in that branch's `docs/v2-prototype-drift.md`. It is a queue, not a backlog: each entry carries a promotion status, and nothing in it is required for the fixes above.
 
-### v2 promotion (2026-08-05, merged) and the portal shell (2026-08-06, in flight)
+### v2 promotion (2026-08-05, merged), the portal shell (PR #86, merged), and the drain (2026-08-06)
 
-The promotion merged as PR #85. The queue was drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Landed since: the promotable components — PageHeader (three-size union), the panel furniture module (Tile, TwoLine, Stat, IconChip, TableFrame, PanelEmpty), the concentric corner tokens, the cell-as-control table affordance (`data-row-toggle`), and the 3.5rem rail collapse — with their catalog entities (97 total), package tests, and portal doc pages (`/components/page-header`, `/components/panels`; the Table and Sidebar doc entities carry the new affordance sections). The dark green-vs-lime hue question is resolved: lime is the dark action hue, ratified by decision 0067 (zero token changes). Now in flight on `feat/portal-v2-look`: the shell composition itself — the DS's inset variant carries the prototype's page plate at source (m-4, `--elev-edge-page` hairline, `--elev-lip`, shadow-2xl, ≥48rem; decision 0066) and the portal adopts `variant="inset"`, so the docs site finally wears the system it documents.
+The promotion merged as PR #85. The queue was drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Landed since: the promotable components — PageHeader (three-size union), the panel furniture module (Tile, TwoLine, Stat, IconChip, TableFrame, PanelEmpty), the concentric corner tokens, the cell-as-control table affordance (`data-row-toggle`), and the 3.5rem rail collapse — with their catalog entities (97 total), package tests, and portal doc pages (`/components/page-header`, `/components/panels`; the Table and Sidebar doc entities carry the new affordance sections). The dark green-vs-lime hue question is resolved: lime is the dark action hue, ratified by decision 0067 (zero token changes). The shell composition followed as PR #86: the DS's inset variant carries the prototype's page plate at source (m-4, `--elev-edge-page` hairline, `--elev-lip`, shadow-2xl, ≥48rem; decision 0066) and the portal adopts `variant="inset"`, so the docs site wears the system it documents.
+
+With both merged, this branch drained its own register (2026-08-06): main merged in (`ebe38a8`), the promoted entries flipped to carry their landing SHAs (Part 2 whole, 3.16/3.24/3.26/3.29, 4.12, 5.5's furniture, 5.8, 5.19), and the app's layers deduplicated — the page-plate and cell-as-control rules deleted from `v2-layer.css` (the DS draws them now), the concentric-corner tokens aliased to the DS's `--panel-radius`/`--panel-inset`, the shell's rail-width override and collapse guards removed. What the register still holds open: the charting layer, the light accent pass, and one live token drift (light `--muted-foreground`); green-vs-lime in dark closed as decision 0067.
 
 ## Backlog
 
@@ -421,6 +462,129 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 (visible both modes) instead of the 3px control ring.
 
 ## Experiments
+
+- **Kernel v2 prototype** (decisions 0058 + 0068; formerly branch
+  claude/kernel-insider-portal-fvqfq2, 2026-07-29): `kernel-app/` is a
+  separate Vite app that consumes the design system **at source** (`@` alias
+  -> `../packages/ui/src`, `resolve.dedupe` for react/react-dom/recharts)
+  rather than forking it. It is a **maintained prototype surface, not a product surface** (decision 0068: it lives on main, built by CI) —
+  it began as "Kernel Insider" (an internal product-insider portal), but none
+  of that content survived and it is now a prototype of Kernel v2 itself. Its
+  screens, copy and data do not define product behaviour and must not be cited
+  as a spec. It pushes the DS toward a dark premium-analytics look through two
+  layers only: a token override layer (`kernel-app/src/index.css` remaps the
+  semantic role tokens onto DS **scale** tokens — `--background:
+  var(--neutral-900)` etc.; `--chart-*` is left alone so charts keep the Kernel
+  green ramp) and a modification layer (`kernel-app/src/v2-layer.css`, keyed
+  off shadcn `data-slot` hooks plus `data-v2-*` markers; unlayered +
+  `!important` so it beats Tailwind's utilities layer). No component is forked
+  — delete the layer and stock Kernel renders. Pages: Overview (KPI cards +
+  sparklines, a book-wide producer-activity feed, and a bottom strip of
+  revenue trend / latest orders / cash position), Scenarios (folder tabs +
+  object table whose rows expand into a producer-activity panel with a
+  Since-Last-Update / All-Time underline nav and a row-level activity flag),
+  Producers (ranked prospecting table whose row expander opens a nested
+  open-bids inset with Accept/Reject), Settings (organization + notification
+  preferences). Every collection in the app renders inside the same outlined
+  `TableFrame`, and every panel heads with an `IconChip` + title/description;
+  the shared furniture lives in `kernel-app/src/components/panels.tsx`.
+  Elevation follows one plate ladder — page inset `2xl` > card `lg` > nested
+  frame (none) — with an opaque `--border` edge and a 1px top lip at every
+  level. Note for anyone tuning it: in dark the cast contributes almost
+  nothing (a black shadow on the `--neutral-950` rail moves ~3 of 255 levels),
+  so dark floats on edge contrast and gutter while light floats on the cast.
+  Netlify serves the
+  prototype for the branch via a branch-scoped `[context."…"]` block in
+  `netlify.toml` (root `base`, installs both packages) so the deploy preview
+  shows the prototype, not the portal — the branch name is historical and must
+  stay verbatim, since the context block matches it literally; `main` still
+  builds the portal (historical since decision 0068 — the app lives on main now; a main-side deploy context for it is deferred). Eight DS defects surfaced and were fixed upstream:
+  `Table`'s `striped` selector was descendant-scoped (leaked into nested
+  tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
+  the sidebar), `Button`'s optical icon padding never fired (it keyed off a
+  `data-icon` attribute almost nothing set), Tabs applied hover styling to the
+  active tab, light mode needed the pre-paint theme script, the elevation ramp
+  had no dark-mode retune and a non-monotonic top rung (decision 0060), and the
+  the `prefers-reduced-motion` guard zeroed animation/transition *durations* but
+  not their **delays**, so a delayed transition still waited out its delay and
+  snapped (contradicting decision 0018's "near-instant" intent), and the
+  coarse-pointer hit extensions (decisions 0007 + 0009) omitted
+  `select-trigger` — a compact select grew to 40px visibly but never got the
+  `::after` extension that carries the effective target to 44px, because it is
+  not a `[data-slot="button"]`. `mobile-audit` had flagged it for several
+  rounds; the register had wrongly written it off as sanctioned. The same shape
+  turned up again on **tabs** (2026-08-02, register 4.11): `tabs-trigger`
+  appears in *no* list in the coarse-pointer block — neither growth nor
+  extension — so a compact tab strip anywhere in the DS was a 40px target on
+  touch, and 34.5px in the prototype, whose layer pins tab heights with an
+  `!important` height. Fixed with `min-height: 2.75rem`, which is applied after
+  `height` when the used value resolves and so lifts consumers who have pinned
+  their own. Two instances now say the same thing: **that block is a list a new
+  control has to be added to by hand, and nothing checks that it was.** Not merged to
+  main — **`docs/v2-prototype-drift.md` is the full drift register**: how the
+  prototype attaches to the DS, every token remapped (including the inverted
+  dark elevation model and the 3.5x radius), every modification-layer rule, all
+  seven DS source changes, and the prototype's own convention departures.
+  **Decision 0056 (2026-08-02) reframed what that register is for**: the
+  prototype is the design system's *forward track*, not a sandbox to be
+  abandoned cleanly, and the register is the **promotion queue** back into the
+  DS. It amends 0058's "fixes flow upstream, styling does not" — which had
+  filed every token and pattern the prototype discovered as "styling," meaning
+  it could never return. Entries now carry a promotion status (`promote` /
+  `prototype-only` / `undecided`) rather than a merge-worthiness verdict.
+  Ready to promote now: Part 4's bug fixes (4.3 `SidebarInset min-w-0`
+  regardless of the prototype's fate). Cheapest next: the panel furniture
+  (5.5) and rail collapse behaviour (5.8), both additive. The large open
+  question is Part 2's token drift — that *is* the v2 look, so promoting it is
+  a direction call for the DS, not a cherry-pick.
+
+  **Current as of 2026-08-03**: 31 modification-layer rule groups, 17
+  app-level entries, and a new **2.4** collecting the tokens the prototype
+  *invented* (`--elev-*`, `--v2-*`, `--trough-*`) as opposed to the DS tokens
+  it re-points — that table is the surface any promotion of the elevation
+  ladder would have to adopt. A marker audit now cross-checks every
+  `data-v2-*` in `v2-layer.css` against the register; it found eight
+  undocumented before this pass. Newly triaged for promotion: 3.26 (the
+  derived concentric corner, arithmetic the DS could own), 3.29 (cell-as-
+  control, which belongs on `Table` if it survives), 3.24 (header chip, rides
+  with the elevation ladder). 3.28's breathing panel edge is the one to be
+  most sceptical of — a flourish with no second use, and animation in a design
+  system is a commitment.
+
+- **Parallel tracks keep colliding on numbers** (2026-08-03, was branch
+  hygiene 2026-08-02): three separate instances, all now resolved.
+  (1) **Decision numbers** — 0040 through 0043 each existed twice (prototype +
+  main), coexisting since the merge in f87d311. Four, not the three counted
+  earlier; 0043 was found only when the renumber went looking. Main published
+  its four, so the prototype's four moved to **0058-0061** and each carries a
+  `Renumbered from` line, which is what keeps the dated worklog's citations
+  resolvable without rewriting history. Records minted after that continue from
+  0062 (`feat/dsds-contract-tooling` holds 0057). (2) **Register rows** —
+  reconciling with origin found both sides claiming 3.18, though it was the
+  same rule renumbered on one side; the newcomer took the next free number
+  because 3.21 cites 3.18 by number. (3) **Part 5 entries** — both tracks
+  minted a 5.10 and a 5.11 while apart; the published numbers held and the
+  local pair moved to 5.12/5.13.
+
+  The rule that fell out of it: **a number already pushed is a citation**, so
+  the side that has not published renumbers. Worth a cheap mechanism (a gate
+  that fails on duplicate `N.M` headings) rather than a fourth manual
+  reconciliation.
+
+  The branch is reconciled with origin as of 2026-08-03 (merge 98e8765, all
+  seven CI gates green) and its deploy preview renders again — the
+  `window.scrollTo` fix below had been sitting unpushed while the preview was
+  broken in current Chrome.
+
+- **A browser release can break a passing build** (2026-08-02): Chrome 151
+  made `window.scrollTo` return a scroll-completion Promise. A concise-arrow
+  effect (`useEffect(() => window.scrollTo(0, 0), [deps])`) therefore hands
+  React a Promise as its cleanup function, and the tree unmounts with
+  `TypeError: destroy is not a function`. It blanked the prototype's dev
+  server while `tsc`, `vite build` and every audit stayed green. Repo audited
+  — all other `scrollTo`/`scrollIntoView` call sites use block bodies. The
+  general hazard stands: an effect whose concise body calls a DOM method is
+  one browser release from the same crash, and no gate we run catches it.
 
 - **Definition files + studio define tools** (branch feat/ds-define-tool,
   2026-07-21, decision 0034): agent-authored tools are now **persistent** -
@@ -530,6 +694,15 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Open questions
 
+- **`mobile-audit` measures comfort, not reachability** (2026-08-02). It checks
+  overflow, clipping, sub-16px inputs and hit areas — and it reported 0/0/0/0
+  throughout the period the prototype had *no navigation at all* below `md`
+  (the only control that opens the sidebar sheet lives inside the sheet). The
+  same failure would pass again tomorrow. The cheap version of the fix is an
+  assertion that at 390px every audited page exposes at least one visible link
+  to another route; the honest version has to say something about whether the
+  chrome that owns navigation is reachable, which is harder to state generally.
+  Open because the assertion's shape is undecided, not because it is unwanted.
 - **Registry publishing home** (decision 0062, renumbered from 0053, 2026-07-30): live publish of
   `@kernel/ui` / `@kernel/definitions` is deferred until an external consumer
   exists. Blocked on the scope decision (GitHub Packages needs the `@kernel`
