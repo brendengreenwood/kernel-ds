@@ -1544,3 +1544,11 @@ prototype now consumes all of it from the DS — the register's promoted rows
 above carry the commit SHAs, and what remains open is what this part always
 said was open: the charting layer, the light-mode accent pass, and the
 green-vs-lime dark ambiguity.
+
+**Postscript (2026-08-07): the prototype is a surface.** Decision 0067
+closed the green-vs-lime ambiguity (lime is the dark action hue; zero token
+changes), and decision 0068 promoted `kernel-app/` from a branch-only
+sandbox to a maintained prototype surface on `main` — built by CI, with
+this register and `scripts/check-drift-register.mjs` running there as the
+`prototype` job. Still open: the charting layer and the light-mode accent
+pass.

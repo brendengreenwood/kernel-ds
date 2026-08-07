@@ -463,11 +463,11 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
-- **Kernel v2 prototype** (decision 0058; branch
+- **Kernel v2 prototype** (decisions 0058 + 0068; formerly branch
   claude/kernel-insider-portal-fvqfq2, 2026-07-29): `kernel-app/` is a
   separate Vite app that consumes the design system **at source** (`@` alias
-  -> `../kernel-portal/src`, `resolve.dedupe` for react/react-dom/recharts)
-  rather than forking it. It is a **design sandbox, not a product surface** —
+  -> `../packages/ui/src`, `resolve.dedupe` for react/react-dom/recharts)
+  rather than forking it. It is a **maintained prototype surface, not a product surface** (decision 0068: it lives on main, built by CI) —
   it began as "Kernel Insider" (an internal product-insider portal), but none
   of that content survived and it is now a prototype of Kernel v2 itself. Its
   screens, copy and data do not define product behaviour and must not be cited
@@ -498,7 +498,7 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   `netlify.toml` (root `base`, installs both packages) so the deploy preview
   shows the prototype, not the portal — the branch name is historical and must
   stay verbatim, since the context block matches it literally; `main` still
-  builds the portal. Eight DS defects surfaced and were fixed upstream:
+  builds the portal (historical since decision 0068 — the app lives on main now; a main-side deploy context for it is deferred). Eight DS defects surfaced and were fixed upstream:
   `Table`'s `striped` selector was descendant-scoped (leaked into nested
   tables), `SidebarInset` lacked `min-w-0` (wide content pushed the page past
   the sidebar), `Button`'s optical icon padding never fired (it keyed off a
