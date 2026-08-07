@@ -84,10 +84,11 @@ own route, not a section of one long scroll.
   **56 -> 76** warnings, 0 errors — all 20 new ones the existing
   `react/only-export-components` fast-refresh pattern; the ceiling in
   `kernel-portal/AGENTS.md` moves to 76 with a breakdown so the next climb stays
-  visible. Two findings recorded but not fixed: `scripts/check-prose-quality.mjs`
-  is a zero-byte file that has been in the gate list and in CI since PR #69 and
-  has never checked anything, and anatomy slots are `z.array(z.string())`
-  despite `lib/AGENTS.md` advertising the enriched `{ name, description }` form.
+  visible. One finding recorded but not fixed: anatomy slots are
+  `z.array(z.string())` despite `lib/AGENTS.md` advertising the enriched
+  `{ name, description }` form. (The second finding — `check-prose-quality.mjs`
+  as a zero-byte file in the gate list since PR #69 — was fixed 2026-08-07: the
+  gate now scans every prose field of every doc entity.)
 
 - **Nested AGENTS.md operational map** (decision 0038, 2026-07-27): adopted
   Mastra’s nested-AGENTS.md pattern. Root `AGENTS.md` + package-local files
