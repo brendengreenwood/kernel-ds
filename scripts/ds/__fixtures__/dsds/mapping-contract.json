@@ -1,0 +1,71 @@
+{
+  "entities": [
+    {
+      "id": "component.fixture-button",
+      "name": "Fixture button",
+      "kind": "component",
+      "package": "@kernel/ui",
+      "documentation": { "portalAnchor": "c-fixture-button" },
+      "sourceFiles": ["packages/ui/src/components/ui/fixture-button.tsx"],
+      "relationships": [
+        { "type": "recommendedPatterns", "target": "pattern.fixture-flow" }
+      ]
+    },
+    {
+      "id": "pattern.fixture-flow",
+      "name": "Fixture flow",
+      "kind": "pattern",
+      "package": "kernel-portal",
+      "documentation": { "portalAnchor": "fixture-flow" },
+      "sourceFiles": ["kernel-portal/src/components/portal/fixture-flow.tsx"],
+      "relationships": []
+    },
+    {
+      "id": "element.fixture-table",
+      "name": "Fixture table",
+      "kind": "element",
+      "package": "kernel-portal",
+      "documentation": { "portalAnchor": "fixture-table" },
+      "sourceFiles": ["kernel-portal/src/components/portal/fixture-table.tsx"],
+      "relationships": []
+    },
+    {
+      "id": "object.fixture-workspace",
+      "name": "Fixture workspace",
+      "kind": "object",
+      "package": "@kernel/definitions",
+      "documentation": { "portalAnchor": "fixture-workspace" },
+      "sourceFiles": ["packages/definitions/src/fixture-workspace.ts"],
+      "relationships": [
+        { "type": "composedWith", "target": "element.fixture-table" }
+      ]
+    },
+    {
+      "id": "domain.fixture-contract",
+      "name": "Fixture contract",
+      "kind": "domain",
+      "package": "kernel-portal",
+      "documentation": { "portalAnchor": "fixture-contract" },
+      "sourceFiles": [],
+      "relationships": [
+        { "type": "dependsOn", "target": "object.fixture-workspace" }
+      ]
+    }
+  ],
+  "expectedKinds": {
+    "component": "component",
+    "pattern": "pattern",
+    "element": "component",
+    "object": "pattern",
+    "domain": "pattern"
+  },
+  "unsupportedEntity": {
+    "id": "widget.fixture",
+    "name": "Fixture widget",
+    "kind": "widget",
+    "package": "kernel-portal",
+    "documentation": { "portalAnchor": "fixture-widget" },
+    "sourceFiles": [],
+    "relationships": []
+  }
+}

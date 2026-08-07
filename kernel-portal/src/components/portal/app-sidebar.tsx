@@ -141,7 +141,7 @@ export function AppSidebar() {
   const close = () => isMobile && setOpenMobile(false)
 
   return (
-    <Sidebar>
+    <Sidebar variant="inset">
       <SidebarHeader>
         <div className="flex items-center gap-3 px-2 py-1.5">
           <div className="flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">

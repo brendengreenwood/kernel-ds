@@ -63,7 +63,9 @@ import { nativeSelectDoc } from "./native-select.ts"
 import { navigationDoc } from "./navigation.ts"
 import { navigationMenuDoc } from "./navigation-menu.ts"
 import { originationFlowDoc } from "./origination-flow.ts"
+import { pageHeaderDoc } from "./page-header.ts"
 import { paginationDoc } from "./pagination.ts"
+import { panelsDoc } from "./panels.ts"
 import { pinDoc } from "./pin.ts"
 import { plotDoc } from "./plot.ts"
 import { popoverDoc } from "./popover.ts"
@@ -146,7 +148,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [navigationDoc.slug]: navigationDoc,
   [navigationMenuDoc.slug]: navigationMenuDoc,
   [originationFlowDoc.slug]: originationFlowDoc,
+  [pageHeaderDoc.slug]: pageHeaderDoc,
   [paginationDoc.slug]: paginationDoc,
+  [panelsDoc.slug]: panelsDoc,
   [pinDoc.slug]: pinDoc,
   [plotDoc.slug]: plotDoc,
   [popoverDoc.slug]: popoverDoc,

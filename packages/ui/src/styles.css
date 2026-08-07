@@ -16,7 +16,22 @@
    ============================================================ */
 
 :root {
-  --radius: 0.25rem;
+  --radius: 0.875rem; /* v2 direction (register 2.1b): 3.5x the old 4px default.
+     Kernel was a nearly square system; the promoted look is a soft-cornered
+     one. Cascades through every card, input, popover and button. */
+  /* Concentric corner (register 3.26): a container holding a rounded
+     container must be rounder than what it holds, so the inner corner is
+     derived, not chosen: outer radius minus the even inset between them.
+     One padding value on all four sides, because an inset that differs by
+     side leaves no single radius that follows the outer curve. The panel's
+     radius steps UP from --radius rather than reusing it: --radius is tuned
+     for cards, and a card sharing its container's radius makes the two
+     corners read as one thick corner. 20 - 12 = 8 from the 14px base;
+     consumers derive the inner corner as
+     calc(var(--panel-radius) - var(--panel-inset)). */
+  --panel-radius: calc(var(--radius) + var(--spacing) * 1.5);
+  --panel-inset: calc(var(--spacing) * 3);
+
   /* control metrics (decision 0010): the density knob for interactive controls */
   --control-h-sm: 2rem;      /* 32px — compact toolbars, dense rows */
   --control-h: 2.375rem;     /* 38px — the resting default */
@@ -58,13 +73,16 @@
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
-  --sidebar: oklch(1.0000 0 0);
+  --sidebar: var(--neutral-100);
   --sidebar-foreground: oklch(0.2128 0.0209 162.2254);
   --sidebar-primary: oklch(0.5364 0.1457 150.5842);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(0.9758 0.0163 121.7629);
-  --sidebar-accent-foreground: oklch(0.4373 0.1176 150.8612);
-  --sidebar-border: oklch(0.8957 0.0025 165.0685);
+  /* Nav selection/hover is NEUTRAL, not green (see the .dark note). It also
+     has to be DARKER than the rail: a selected item lighter than a 0.967 rail
+     would read as a hole rather than a chip. One rung down. */
+  --sidebar-accent: var(--neutral-200);
+  --sidebar-accent-foreground: var(--neutral-900);
+  --sidebar-border: var(--neutral-200);
   --sidebar-ring: oklch(0.5364 0.1457 150.5842);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -101,27 +119,46 @@
   --shadow-lg: 0 4px 8px -2px color-mix(in oklch, var(--shadow-color) 8%, transparent);
   --shadow-xl: 0 8px 16px -4px color-mix(in oklch, var(--shadow-color) 10%, transparent);
   --shadow-2xl: 0 16px 32px -8px color-mix(in oklch, var(--shadow-color) 14%, transparent);
+
+  /* ---- elevation recipe (register Part 2.4) ----
+     A white card on a white canvas measures 1.000:1 — it exists only by its
+     hairline. Here the CAST does the lifting, not the edge: light already
+     comes from above in a light UI, so a white lip has nothing to add and
+     stays transparent. The plate is a surface sitting ON a card — frames,
+     inner panels, tiles: ~1.06:1 off its parent, a step, not a slab. */
+  --elev-lip: transparent;
+  --elev-cast: var(--shadow-lg);
+  --elev-edge-page: var(--border);
+  --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
 }
 
 .dark {
-  --background: oklch(0.2605 0.0180 165.4994);
-  --foreground: oklch(1.0000 0 0);
-  --card: oklch(0.2128 0.0209 162.2254);
-  --card-foreground: oklch(1.0000 0 0);
-  --popover: oklch(0.2128 0.0209 162.2254);
-  --popover-foreground: oklch(1.0000 0 0);
+  /* v2 direction (register 2.1a): the elevation model inverts. Dark used to
+     RECESS cards below the canvas; now it raises them — surfaces derive from
+     the DS neutral scale (green-tinted by design), -900 for the canvas, -800
+     for elevated surfaces, -950 only for the recessed rail. Accents stay on
+     the lime/green ramps. */
+  --background: var(--neutral-900);
+  --foreground: var(--neutral-50);
+  --card: var(--neutral-800);
+  --card-foreground: var(--neutral-50);
+  --popover: var(--neutral-800);
+  --popover-foreground: var(--neutral-50);
   --primary: var(--lime-300);
-  --primary-foreground: oklch(0.2128 0.0209 162.2254);
-  --secondary: oklch(0.3959 0.0135 167.1419);
-  --secondary-foreground: var(--lime-300);
-  --muted: oklch(0.3959 0.0135 167.1419);
-  --muted-foreground: oklch(0.7700 0.0064 170.3662);
-  --accent: oklch(0.4373 0.1176 150.8612);
-  --accent-foreground: var(--lime-300);
-  --destructive: oklch(0.5900 0.1848 24.1262);
-  --destructive-foreground: oklch(1.0000 0 0);
-  --border: oklch(0.3959 0.0135 167.1419);
-  --input: oklch(0.5620 0.0104 161.1304);
+  --primary-foreground: var(--neutral-950);
+  --secondary: var(--neutral-800);
+  --secondary-foreground: var(--neutral-100);
+  /* --muted now equals --card (register 2.2 caveat): anything styled bg-muted
+     on a card surface is invisible — separation on cards uses a foreground
+     overlay instead (see Table striped). */
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
+  --accent: var(--brand-900);
+  --accent-foreground: var(--neutral-50);
+  --destructive: var(--error-500);
+  --destructive-foreground: var(--neutral-50);
+  --border: var(--neutral-700);
+  --input: var(--neutral-700);
   --ring: var(--lime-300);
 
   --chart-1: var(--lime-300);
@@ -130,13 +167,16 @@
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
-  --sidebar: oklch(0.2605 0.0180 165.4994);
-  --sidebar-foreground: oklch(1.0000 0 0);
+  --sidebar: var(--neutral-950);
+  --sidebar-foreground: var(--neutral-50);
   --sidebar-primary: var(--lime-300);
-  --sidebar-primary-foreground: oklch(0.2128 0.0209 162.2254);
-  --sidebar-accent: oklch(0.4373 0.1176 150.8612);
-  --sidebar-accent-foreground: var(--lime-300);
-  --sidebar-border: oklch(0.3959 0.0135 167.1419);
+  --sidebar-primary-foreground: var(--neutral-950);
+  /* Nav selection/hover is NEUTRAL, not green. The rail is chrome; a coloured
+     chip there competes with the accent doing real work in the content. One
+     rung up from the rail reads as raised without a second green. */
+  --sidebar-accent: var(--neutral-800);
+  --sidebar-accent-foreground: var(--neutral-50);
+  --sidebar-border: var(--neutral-800);
   --sidebar-ring: var(--lime-300);
 
   /* Deeper than light's, and still in the surface hue family: this has to
@@ -162,6 +202,18 @@
   --shadow-lg: 0 4px 8px -2px color-mix(in oklch, var(--shadow-color) 40%, transparent);
   --shadow-xl: 0 8px 16px -4px color-mix(in oklch, var(--shadow-color) 46%, transparent);
   --shadow-2xl: 0 16px 32px -8px color-mix(in oklch, var(--shadow-color) 55%, transparent);
+
+  /* ---- elevation recipe (register Part 2.4) ----
+     Dark has no light source to borrow, so the lip is what sells the plate: a
+     1px highlight along the top edge reads as a bevel catching light from
+     above. The page plate's edge runs one rung darker than a card's —
+     --border around the longest line on screen reads as a drawn outline
+     rather than an edge. Dark and light do not carry depth the same way; the
+     asymmetry is the design, not a light-mode bug. */
+  --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
+  --elev-cast: var(--shadow-lg);
+  --elev-edge-page: var(--neutral-800);
+  --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
 }
 
 @theme inline {
@@ -871,4 +923,61 @@
      on its neighbour. Compact tabs are the ones that need this — they sit at
      --control-h-sm, which is 40px even after the tokens grow. */
   [data-slot="tabs-trigger"] { min-height: 2.75rem; }
+}
+
+/*
+  The cell is the control (register 3.29). The expand affordance was a Button
+  inside a padded cell - a 32px target inside a 58px cell, with the dead
+  margin also clickable via the row handler, so the two disagreed about what
+  had been aimed at. A cell marked data-row-toggle hands its padding to the
+  button, which fills it absolutely, so the hit area is the whole cell and no
+  padding rule can shrink it. It stays a real control: aria-expanded, an
+  Expand/Collapse label, tab order.
+
+  Last in the file on purpose: the coarse-pointer cell padding above is
+  !important where it must beat the utilities, so this cell opts out by
+  matching that specificity and winning on source order. Hover lives on the
+  row - a second fill inside a highlighted row reads as a nested target - so
+  the cell adds only a colour change. The focus ring is an inset box-shadow:
+  a full-bleed control has no margin of its own to show an outset ring in,
+  and an outset ring would be clipped by the row's overflow.
+*/
+[data-slot="table-cell"][data-row-toggle] {
+  position: relative;
+  padding: 0 !important;
+}
+[data-slot="table-cell"][data-row-toggle] > button {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+[data-slot="table-cell"][data-row-toggle] > button:hover {
+  color: var(--foreground);
+}
+[data-slot="table-cell"][data-row-toggle] > button:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ring);
+}
+[data-slot="table-cell"][data-row-toggle] > button > svg {
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+}
+
+/* On touch the cell must reach the 44px floor itself: the button's hit area
+   IS the cell, and an ::after extension would land on the toggle stacked in
+   the next row. Growth, not extension (decision 0009) - a td's height acts
+   as a min-height, so the row simply gets comfortable. */
+@media (pointer: coarse) {
+  [data-slot="table-cell"][data-row-toggle] {
+    height: 2.75rem;
+  }
+  /* The collapsed row border shaves a pixel off the cell's content box, so
+     the button keeps its own floor rather than trusting the arithmetic. */
+  [data-slot="table-cell"][data-row-toggle] > button {
+    min-height: 2.75rem;
+  }
 }

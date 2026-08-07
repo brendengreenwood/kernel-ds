@@ -47,5 +47,5 @@ scripts/ — verification gates (see scripts/AGENTS.md)
 ## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
 
 - Consumes: @kernel/catalog (file:../packages/catalog), @kernel/definitions (file:../packages/definitions), @kernel/ui (file:../packages/ui)
-- Catalog entities owned: 26
+- Catalog entities owned: 28
 <!-- kernel-ds:generated:end -->

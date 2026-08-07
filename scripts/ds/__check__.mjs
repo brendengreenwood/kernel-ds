@@ -4,7 +4,7 @@
  * catalog. Run via: node scripts/ds/__check__.mjs
  */
 import { spawnSync } from "node:child_process"
-import { cpSync, mkdtempSync, readFileSync, rmSync, readdirSync, existsSync } from "node:fs"
+import { cpSync, mkdtempSync, readFileSync, rmSync, readdirSync, existsSync, writeFileSync, mkdirSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -13,12 +13,17 @@ const scriptsDir = dirname(fileURLToPath(import.meta.url))
 const repoRoot = resolve(scriptsDir, "../..")
 const fixturesDir = join(scriptsDir, "__fixtures__")
 const cli = join(scriptsDir, "cli.mjs")
+const dsdsCli = join(scriptsDir, "dsds-cli.mjs")
 
 let checks = 0
 const failures = []
 
 function ds(args) {
   return spawnSync(process.execPath, [cli, ...args], { cwd: repoRoot, encoding: "utf8" })
+}
+
+function dsds(args) {
+  return spawnSync(process.execPath, [dsdsCli, ...args], { cwd: repoRoot, encoding: "utf8" })
 }
 
 function assert(condition, label, detail = "") {
@@ -29,6 +34,15 @@ function assert(condition, label, detail = "") {
 function tempCopy(fixtureName) {
   const dir = mkdtempSync(join(tmpdir(), "ds-check-"))
   cpSync(join(fixturesDir, fixtureName), dir, { recursive: true })
+  return dir
+}
+
+function tempDsdsRoot() {
+  const dir = mkdtempSync(join(tmpdir(), "dsds-check-"))
+  mkdirSync(join(dir, "vendor"), { recursive: true })
+  mkdirSync(join(dir, "scripts", "ds", "__fixtures__"), { recursive: true })
+  cpSync(resolve(repoRoot, "vendor", "dsds"), join(dir, "vendor", "dsds"), { recursive: true })
+  cpSync(join(fixturesDir, "dsds"), join(dir, "scripts", "ds", "__fixtures__", "dsds"), { recursive: true })
   return dir
 }
 
@@ -336,7 +350,102 @@ function tempCopy(fixtureName) {
   assert(publishSection.includes("registry-url: https://npm.pkg.github.com"), "publish targets GitHub Packages registry")
 }
 
-// 14. Unknown commands exit nonzero with usage.
+// 18. The DSDS compatibility contract maps every Kernel kind explicitly and
+// preserves canonical identity and relationship metadata losslessly.
+{
+  const { mapCatalogEntityContract } = await import("./lib/dsds-contract.mjs")
+  const fixture = JSON.parse(readFileSync(join(fixturesDir, "dsds", "mapping-contract.json"), "utf8"))
+
+  for (const entity of fixture.entities) {
+    const mapped = mapCatalogEntityContract(entity)
+    const kernel = mapped.$extensions["com.kernel.catalog"]
+    assert(mapped.kind === fixture.expectedKinds[entity.kind], `DSDS maps ${entity.kind} explicitly`)
+    assert(mapped.identifier === entity.id.split(".").slice(1).join("."), `DSDS uses the stable ${entity.kind} slug`)
+    assert(/^[a-z][a-z0-9-]*$/.test(mapped.identifier), `DSDS ${entity.kind} identifier matches the official pattern`)
+    assert(kernel.kind === entity.kind && kernel.entityId === entity.id, `DSDS preserves ${entity.kind} identity`)
+    assert(kernel.package === entity.package && kernel.portalAnchor === entity.documentation.portalAnchor, `DSDS preserves ${entity.kind} ownership and anchor`)
+    assert(JSON.stringify(kernel.sourceFiles) === JSON.stringify(entity.sourceFiles), `DSDS preserves ${entity.kind} source files`)
+    assert(JSON.stringify(kernel.relationships) === JSON.stringify(entity.relationships), `DSDS preserves ${entity.kind} relationships`)
+  }
+
+  let unsupportedError = ""
+  try {
+    mapCatalogEntityContract(fixture.unsupportedEntity)
+  } catch (error) {
+    unsupportedError = error.message
+  }
+  assert(unsupportedError.includes("Unsupported Kernel catalog kind: widget"), "DSDS refuses unknown Kernel kinds", unsupportedError)
+}
+
+// 19. DSDS generation, offline validation, freshness, provenance, status, and
+// explicit update behavior are deterministic and exercise their red paths.
+{
+  const root = tempDsdsRoot()
+  const rootArgs = ["--root", root]
+  const first = dsds(["generate", ...rootArgs])
+  assert(first.status === 0 && first.stdout.includes("DSDS-GENERATE-OK"), "DSDS generate succeeds", first.stdout + first.stderr)
+  const output = join(root, "dsds", "contract-sample.dsds.json")
+  const generated = readFileSync(output, "utf8")
+  const second = dsds(["generate", ...rootArgs])
+  assert(second.status === 0 && readFileSync(output, "utf8") === generated, "DSDS generation is byte-identical", second.stdout + second.stderr)
+  const current = dsds(["check", ...rootArgs])
+  assert(current.status === 0 && current.stdout.includes("verified offline"), "DSDS offline check succeeds", current.stdout + current.stderr)
+
+  writeFileSync(output, `${generated.trimEnd()} \n`)
+  const stale = dsds(["check", ...rootArgs])
+  assert(stale.status === 1 && stale.stderr.includes("generated output is stale"), "DSDS check detects stale output", stale.stdout + stale.stderr)
+  dsds(["generate", ...rootArgs])
+
+  const currentStatus = dsds(["status", ...rootArgs, "--source", join(fixturesDir, "dsds", "upstream-current.json")])
+  const newerStatus = dsds(["status", ...rootArgs, "--source", join(fixturesDir, "dsds", "upstream-newer.json")])
+  const ambiguousStatus = dsds(["status", ...rootArgs, "--source", join(fixturesDir, "dsds", "upstream-ambiguous.json")])
+  const unknownStatus = dsds(["status", ...rootArgs, "--source", join(fixturesDir, "dsds", "upstream-unknown.json")])
+  assert(currentStatus.status === 0 && currentStatus.stdout.includes("DSDS-STATUS-CURRENT"), "DSDS status reports current", currentStatus.stdout + currentStatus.stderr)
+  assert(newerStatus.status === 0 && newerStatus.stdout.includes("DSDS-STATUS-NEWER"), "DSDS status reports newer", newerStatus.stdout + newerStatus.stderr)
+  assert(ambiguousStatus.status === 2 && ambiguousStatus.stdout.includes("DSDS-STATUS-AMBIGUOUS"), "DSDS status reports same-version ambiguity", ambiguousStatus.stdout + ambiguousStatus.stderr)
+  assert(unknownStatus.status === 2 && unknownStatus.stdout.includes("invalid version"), "DSDS status refuses unknown versions", unknownStatus.stdout + unknownStatus.stderr)
+
+  const beforeDryRun = readFileSync(join(root, "vendor", "dsds", "VERSION"), "utf8")
+  const updateSource = join(fixturesDir, "dsds", "update-0.15.3.json")
+  const dryRun = dsds(["update", ...rootArgs, "--source", updateSource, "--dry-run"])
+  assert(dryRun.status === 0 && dryRun.stdout.includes("DSDS-UPDATE-DRY-RUN"), "DSDS update dry run verifies release", dryRun.stdout + dryRun.stderr)
+  assert(readFileSync(join(root, "vendor", "dsds", "VERSION"), "utf8") === beforeDryRun, "DSDS update dry run does not mutate")
+  const staged = dsds(["update", ...rootArgs, "--source", updateSource])
+  assert(staged.status === 0 && staged.stdout.includes("DSDS-UPDATE-OK"), "DSDS update stages reviewable changes", staged.stdout + staged.stderr)
+  assert(readFileSync(join(root, "vendor", "dsds", "VERSION"), "utf8").trim() === "0.15.3", "DSDS update replaces the pin")
+  assert(dsds(["check", ...rootArgs]).status === 0, "DSDS updated artifacts validate and stay fresh")
+  rmSync(root, { recursive: true, force: true })
+
+  const tamperedRoot = tempDsdsRoot()
+  const schemaPath = join(tamperedRoot, "vendor", "dsds", "dsds.bundled.schema.json")
+  writeFileSync(schemaPath, `${readFileSync(schemaPath, "utf8")} `)
+  const tampered = dsds(["generate", "--root", tamperedRoot])
+  assert(tampered.status === 1 && tampered.stderr.includes("schema SHA-256 mismatch"), "DSDS detects a modified vendored schema", tampered.stdout + tampered.stderr)
+  rmSync(tamperedRoot, { recursive: true, force: true })
+
+  const provenanceRoot = tempDsdsRoot()
+  const provenancePath = join(provenanceRoot, "vendor", "dsds", "provenance.json")
+  const provenance = JSON.parse(readFileSync(provenancePath, "utf8"))
+  provenance.upstreamCommit = "floating-main"
+  writeFileSync(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`)
+  const invalidProvenance = dsds(["generate", "--root", provenanceRoot])
+  assert(invalidProvenance.status === 1 && invalidProvenance.stderr.includes("invalid upstream commit"), "DSDS detects invalid provenance", invalidProvenance.stdout + invalidProvenance.stderr)
+  rmSync(provenanceRoot, { recursive: true, force: true })
+
+  const { validateDsdsDocuments } = await import("./lib/dsds.mjs")
+  let validationError = ""
+  try {
+    validateDsdsDocuments(repoRoot, new Map([["invalid.dsds.json", JSON.stringify({
+      dsdsVersion: "0.15.2",
+      entity: { kind: "component", identifier: "component.invalid", name: "Invalid" },
+    })]]))
+  } catch (error) {
+    validationError = error.message
+  }
+  assert(validationError.includes("identifier") && validationError.includes("pattern"), "AJV rejects an invalid official identifier", validationError)
+}
+
+// 20. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])
   assert(unknown.status === 1 && unknown.stderr.includes("DS-USAGE"), "unknown command usage", unknown.stdout + unknown.stderr)
