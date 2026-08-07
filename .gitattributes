@@ -1,0 +1,6 @@
+# Byte-exact assets: these files are verified against pinned SHA-256 hashes
+# (vendor/dsds/provenance.json), so git must never rewrite their line endings.
+# Without this, core.autocrlf=true checkouts (Windows default) write CRLF and
+# every DSDS gate fails with "schema SHA-256 mismatch" on a clean tree.
+vendor/dsds/** -text
+scripts/ds/__fixtures__/dsds/** -text
