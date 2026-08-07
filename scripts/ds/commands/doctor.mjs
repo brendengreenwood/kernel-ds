@@ -169,6 +169,43 @@ export const doctorChecks = [
       return []
     },
   },
+  {
+    id: "decision-records",
+    fixtureSafe: true,
+    run: ({ root }) => {
+      /* Two tracks minting the same decision number is only visible as two
+       * files sharing a prefix, and nothing else in the repo looks. It has
+       * happened three times now (0040–0043 on the prototype track, then
+       * 0053/0054 twice in one week), each found by hand during a merge.
+       * Ported from the prototype's check-drift-register.mjs so main finds
+       * the collision before a reader does. */
+      const dir = resolve(root, "docs/decisions")
+      if (!existsSync(dir)) return []
+      const violations = []
+      const byNumber = new Map()
+      for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+        const match = /^(\d{4})-/.exec(file)
+        if (!match) {
+          violations.push({ code: "unnumbered-decision", message: `decision file is not NNNN-slug numbered: ${file}` })
+          continue
+        }
+        byNumber.set(match[1], [...(byNumber.get(match[1]) ?? []), file])
+      }
+      for (const [number, files] of byNumber) {
+        if (files.length > 1) {
+          violations.push({ code: "duplicate-decision-number", message: `decision ${number} exists ${files.length} times: ${files.join(", ")}` })
+          continue
+        }
+        /* A heading that disagrees with its filename sends a reader to the
+           wrong record, which is how a renumber half-lands. */
+        const heading = readFileSync(resolve(dir, files[0]), "utf8").split(/\r?\n/)[0]
+        if (!heading.startsWith(`# ${number} `)) {
+          violations.push({ code: "decision-heading-mismatch", message: `${files[0]} opens with "${heading.slice(0, 40)}", not # ${number}` })
+        }
+      }
+      return violations
+    },
+  },
 ]
 
 /** Report actionable design-system health violations; nonzero when any exist. */
