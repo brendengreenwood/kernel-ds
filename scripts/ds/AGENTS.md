@@ -42,5 +42,5 @@ npm run ds:doctor               # must report 0 violations on a clean tree
 - Root scripts: agents:check, agents:generate, changeset:status, consumers:check, ds:add, ds:changeset, ds:check, ds:doctor, ds:generate, ds:pack, ds:relate, ds:release, ds:tag, ds:upgrade, ds:verify, release:check, release:impact, skills:check
 - Generate order: catalog-adapter → ui-package → definitions-package → agents-inventories → ds-bundle
 - Verify gates: ds-commands, catalog, ui, definitions, portal, studio
-- Doctor checks: catalog-validate, source-files, generated-adapter, ui-api-alignment, a11y-readiness, version-alignment, agents-freshness, skill-integrity, workspace-membership
+- Doctor checks: catalog-validate, source-files, generated-adapter, ui-api-alignment, a11y-readiness, version-alignment, agents-freshness, skill-integrity, workspace-membership, decision-records
 <!-- kernel-ds:generated:end -->

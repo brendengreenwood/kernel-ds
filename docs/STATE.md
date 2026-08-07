@@ -123,10 +123,11 @@ own route, not a section of one long scroll.
   **56 -> 76** warnings, 0 errors — all 20 new ones the existing
   `react/only-export-components` fast-refresh pattern; the ceiling in
   `kernel-portal/AGENTS.md` moves to 76 with a breakdown so the next climb stays
-  visible. Two findings recorded but not fixed: `scripts/check-prose-quality.mjs`
-  is a zero-byte file that has been in the gate list and in CI since PR #69 and
-  has never checked anything, and anatomy slots are `z.array(z.string())`
-  despite `lib/AGENTS.md` advertising the enriched `{ name, description }` form.
+  visible. One finding recorded but not fixed: anatomy slots are
+  `z.array(z.string())` despite `lib/AGENTS.md` advertising the enriched
+  `{ name, description }` form. (The second finding — `check-prose-quality.mjs`
+  as a zero-byte file in the gate list since PR #69 — was fixed 2026-08-07: the
+  gate now scans every prose field of every doc entity.)
 
 - **Nested AGENTS.md operational map** (decision 0038, 2026-07-27): adopted
   Mastra’s nested-AGENTS.md pattern. Root `AGENTS.md` + package-local files
@@ -434,9 +435,9 @@ The prototype's remaining drift — its token direction, its elevation language,
 
 ### v2 promotion (2026-08-05, merged), the portal shell (PR #86, merged), and the drain (2026-08-06)
 
-The promotion merged as PR #85. The queue was drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Landed since: the promotable components — PageHeader (three-size union), the panel furniture module (Tile, TwoLine, Stat, IconChip, TableFrame, PanelEmpty), the concentric corner tokens, the cell-as-control table affordance (`data-row-toggle`), and the 3.5rem rail collapse — with their catalog entities (97 total), package tests, and portal doc pages (`/components/page-header`, `/components/panels`; the Table and Sidebar doc entities carry the new affordance sections). The dark green-vs-lime hue question stays open by design. The shell composition followed as PR #86: the DS's inset variant carries the prototype's page plate at source (m-4, `--elev-edge-page` hairline, `--elev-lip`, shadow-2xl, ≥48rem; decision 0066) and the portal adopts `variant="inset"`, so the docs site wears the system it documents.
+The promotion merged as PR #85. The queue was drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Landed since: the promotable components — PageHeader (three-size union), the panel furniture module (Tile, TwoLine, Stat, IconChip, TableFrame, PanelEmpty), the concentric corner tokens, the cell-as-control table affordance (`data-row-toggle`), and the 3.5rem rail collapse — with their catalog entities (97 total), package tests, and portal doc pages (`/components/page-header`, `/components/panels`; the Table and Sidebar doc entities carry the new affordance sections). The dark green-vs-lime hue question is resolved: lime is the dark action hue, ratified by decision 0067 (zero token changes). The shell composition followed as PR #86: the DS's inset variant carries the prototype's page plate at source (m-4, `--elev-edge-page` hairline, `--elev-lip`, shadow-2xl, ≥48rem; decision 0066) and the portal adopts `variant="inset"`, so the docs site wears the system it documents.
 
-With both merged, this branch drained its own register (2026-08-06): main merged in (`ebe38a8`), the promoted entries flipped to carry their landing SHAs (Part 2 whole, 3.16/3.24/3.26/3.29, 4.12, 5.5's furniture, 5.8, 5.19), and the app's layers deduplicated — the page-plate and cell-as-control rules deleted from `v2-layer.css` (the DS draws them now), the concentric-corner tokens aliased to the DS's `--panel-radius`/`--panel-inset`, the shell's rail-width override and collapse guards removed. What the register still holds open: the charting layer, the light accent pass, green-vs-lime in dark, and one live token drift (light `--muted-foreground`).
+With both merged, this branch drained its own register (2026-08-06): main merged in (`ebe38a8`), the promoted entries flipped to carry their landing SHAs (Part 2 whole, 3.16/3.24/3.26/3.29, 4.12, 5.5's furniture, 5.8, 5.19), and the app's layers deduplicated — the page-plate and cell-as-control rules deleted from `v2-layer.css` (the DS draws them now), the concentric-corner tokens aliased to the DS's `--panel-radius`/`--panel-inset`, the shell's rail-width override and collapse guards removed. What the register still holds open: the charting layer, the light accent pass, and one live token drift (light `--muted-foreground`); green-vs-lime in dark closed as decision 0067.
 
 ## Backlog
 
