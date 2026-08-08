@@ -70,7 +70,7 @@ matter of moving it down a layer, not translating it.
 | Part | Area | Count | Promotion status |
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
-| 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); one live drift remains (light `--muted-foreground`, see 2.3) |
+| 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); live drift remains in light: `--muted-foreground` (2.3) and the page, rail and edges (2.6) |
 | 3 | Modification layer | 33 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; 3.33 is a promotion candidate; the rest app-only or open |
 | 4 | **DS source changes** | 12 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85 |
 | 5 | App-level convention departures | 24 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
@@ -152,9 +152,10 @@ elevation tokens (2.4) — landed on main via PR #85 as decisions 0064 (lime
 scale) and 0065 (dark inversion + radius), values verbatim. The prototype's
 `index.css` no longer overrides any of it: after the drain it carries only the
 app-consumed tokens the DS did not take (`--v2-seg-active`, `--v2-well*`,
-`--v2-edge-*`, `--trough-*`, `--rail-icon`) plus **one live drift**: light
+`--v2-edge-*`, `--trough-*`, `--rail-icon`) plus **live drift in light mode**:
 `--muted-foreground` runs a rung darker here (`--neutral-600`) than the DS
-kept it — see 2.3.
+kept it (2.3), and the page, the rail and the panel edges all moved off the
+DS's white-paper light theme (2.6).
 
 The tables below are the record of what moved, kept as written. **Every
 override pointed at a DS *scale* token** (`--neutral-*`, `--brand-*`,
@@ -389,6 +390,47 @@ edge marker on the row, which stays lime in dark and green in light. Colour
 means *action*; contrast means *position*.
 
 ---
+## 2.6 The light page is not paper (live drift)
+
+The DS light theme puts `--background` at pure white with `--sidebar` one rung
+under it. That is a sound page for the portal, which is a document: content on
+paper, one surface, nothing floating. It is the wrong page for a shell whose
+whole model is things sitting on top of other things, because the floor is
+already the brightest value available - card, plate, dock and navigator all
+have nowhere left to go, and the plate ends up separated from the page by its
+cast alone.
+
+| token | DS light | prototype | why |
+| --- | --- | --- | --- |
+| `--background` | white | `--neutral-100` | leaves the card a rung of headroom above the page |
+| `--sidebar` | `--neutral-100` | `--neutral-200` | the rail stays the recess it is once the floor moves |
+| `--sidebar-accent` | `--neutral-200` | `--neutral-300` | was the same value as the new rail, so hover vanished |
+| `--sidebar-border` | `--neutral-200` | `--neutral-300` | a border the colour of its own surface is not a border |
+| `--v2-edge-rest` | `--primary` 6% | `--foreground` 4% | see below |
+| `--v2-edge-peak` | `--primary` 15% | `--foreground` 10% | see below |
+
+Card, popover and dialog stay white: the point is not a darker app, it is a
+floor that is no longer the ceiling. Light now runs rail `L=0.860` -> floor
+`0.967` -> navigator `0.982` -> card `1.0`, four rungs where there were two.
+Text holds: foreground on floor 15.95:1, muted on floor 6.47:1, muted on the
+navigator 6.74:1, rail glyphs on rail 8.29:1.
+
+The edges moved for a related reason. Dark mixes the action hue into its
+hairlines: on a near-black surface a lime edge reads as light catching a
+corner, which is what an edge is. Light cannot borrow that - a green mix on a
+near-white slate has nowhere to go lighter, so it stops reading as light and
+starts reading as colour, a green pinstripe around every panel. Light edges
+are shade, so they mix `--foreground`, a near-neutral (chroma 0.021 against
+the action hue's 0.146). The alphas drop with the swap because 6% of a
+mid-lightness green and 6% of a near-black are not the same weight on white.
+
+**Not promoted.** The portal is the DS's own consumer and it is a document
+surface that wants the white page. This is the clearest case in the register
+of the prototype and the portal legitimately wanting different values for the
+same token, and the promotion question it raises is not "which floor wins" but
+whether the DS should ship an app floor and a document floor rather than one
+light mode both have to share.
+
 # Part 3 — The modification layer
 
 `kernel-app/src/v2-layer.css`. Restyles live DS components through their

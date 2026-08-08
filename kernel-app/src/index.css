@@ -63,6 +63,22 @@
   --v2-seg-active: var(--primary);
   --v2-seg-active-foreground: var(--primary-foreground);
 
+  /* The DS light floor is pure white and the rail is one rung down from it, so
+     every raised surface in this app - card, plate, dock - had to float on a
+     page that was already the brightest thing on screen. Nothing could be
+     lighter than the floor, which is the wrong constraint for a shell whose
+     whole model is "things sit on top of other things".
+
+     The floor drops two rungs to --neutral-100 and the rail follows to
+     --neutral-200. That buys the card a rung of headroom above the page and
+     leaves the rail reading as the recess it is. The rail's own accent and
+     border move down with it - both were --neutral-200, which is now the rail
+     itself, and a border the same colour as its surface is not a border. */
+  --background: var(--neutral-100);
+  --sidebar: var(--neutral-200);
+  --sidebar-accent: var(--neutral-300);
+  --sidebar-border: var(--neutral-300);
+
   /* LIVE DRIFT — not promoted. The DS light --muted-foreground stayed at its
      oklch(0.5350 …) value; this app runs one rung down. The plate fill costs a
      little contrast on every muted label sitting on it: the DS value measures
@@ -81,10 +97,20 @@
   --v2-well: var(--neutral-200);
   --v2-well-shade: color-mix(in oklch, var(--foreground) 12%, transparent);
 
-  /* Light runs about two-thirds of dark's alphas: the same mix reads as a
-     smear on a white panel where on black it reads as light. */
-  --v2-edge-rest: color-mix(in oklch, var(--primary) 6%, transparent);
-  --v2-edge-peak: color-mix(in oklch, var(--primary) 15%, transparent);
+  /* Dark mixes the ACTION hue into its edges: on a near-black surface a lime
+     hairline reads as light catching an edge, which is what an edge is. Light
+     cannot borrow that trick. A green mix on a near-white slate has nowhere to
+     go lighter, so it stops reading as light and starts reading as colour - a
+     green pinstripe around every panel, which is the one thing the accent work
+     was trying to stop. Light edges are shade, so they mix the FOREGROUND, and
+     --foreground is a near-neutral (chroma 0.021 against the action hue's
+     0.146): grey, with just enough of the system's hue to belong to it.
+
+     The alphas drop with the swap. 6% of a mid-lightness green and 6% of a
+     near-black are not the same weight on white - the second is roughly twice
+     the step - so rest goes 6 -> 4 and peak 15 -> 10 to land the same edge. */
+  --v2-edge-rest: color-mix(in oklch, var(--foreground) 4%, transparent);
+  --v2-edge-peak: color-mix(in oklch, var(--foreground) 10%, transparent);
   /* Light CAN darken, so it does — but modestly. At 22% toward --shadow-color
      the well read as a grey slab (1.758:1 against the rail) and pushed the
      placeholder to 3.68:1, under the AA floor. 6% is a well, not a slab. */

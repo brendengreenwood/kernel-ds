@@ -1052,13 +1052,13 @@ main [data-slot="card"] {
    the floor that is not the rail, so it lifts a little instead - the plate's
    cast is what puts it underneath, not its fill. */
 [data-v2-navbody] {
-  --surface: var(--muted);
+  /* One instruction, both themes: lean the floor most of the way toward the
+     card. Dark reads that as a lift off a near-black page; light reads it as a
+     lift off neutral-100 toward white. The column is raised in both, which is
+     what the plate's cast is describing when it lands on top of it. */
+  --surface: color-mix(in oklab, var(--background) 55%, var(--card));
   --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
   background: var(--surface);
-}
-
-.dark [data-v2-navbody] {
-  --surface: color-mix(in oklab, var(--background) 55%, var(--card));
 }
 
 /* Selection in the navigator is the accent step plus one lime mark. The step
