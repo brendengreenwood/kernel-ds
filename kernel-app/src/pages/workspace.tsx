@@ -33,14 +33,60 @@ function Navigator({
 }) {
   const here = scenarios.filter((s) => s.location === selectedLocation)
   return (
-    <div className="hidden w-64 shrink-0 flex-col gap-3 py-4 pr-0 pl-2 md:flex">
-      <div className="px-2">
+    /* The navigator is a plate too - but a plate that is sat ON, not one that
+       is raised. It takes the plate's geometry (same gutter, same radius, same
+       edge and lip) and refuses its cast: three surfaces, three heights, and
+       the shadow is what separates the two that matter.
+
+       It also takes the rail's colour rather than the card's. Recession is the
+       point, and the rail token is the one surface that reads darker than the
+       card in BOTH themes - light `--background` is the same white as the card,
+       so it could not do this job. The navigator sinks, the canvas rises, and
+       the navigator now matches the rail it is a continuation of. */
+    <div data-v2-nav-plate
+      className={cn(
+        "bg-sidebar relative z-0 my-4 -mr-12 ml-4 hidden w-72 shrink-0 flex-col overflow-hidden pr-12 md:flex",
+        /* Rounded on the side you can see, square on the side you cannot: the
+           right edge runs deep under the plate, so a radius there would only
+           ever be a corner drawn in the dark. */
+        "rounded-l-[var(--panel-radius)] rounded-r-none",
+        /* It arrives from under the map: the slab slides left-to-right out of
+           the plate that occludes it, which is the same story the z-order and
+           the cast are already telling. */
+        "animate-in slide-in-from-left-8 fade-in duration-[var(--duration-slow)] ease-[var(--ease-out)] motion-reduce:animate-none"
+      )}
+      style={{
+        boxShadow: "inset 0 0 0 1px var(--elev-edge-page), inset 0 1px 0 var(--elev-lip)",
+      }}
+    >
+      {/* The navigator's bar. The way out belongs to the chrome that chooses
+          the work, not to the plate that shows it: leaving is a navigation, and
+          navigation is this column's whole job. */}
+      <div className="flex h-14 shrink-0 items-center border-b border-[var(--v2-edge-rest)] px-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="-ml-1.5 text-muted-foreground hover:text-foreground"
+          render={
+            <Link to="/scenarios">
+              <ArrowLeft />
+              Scenarios
+            </Link>
+          }
+        />
+      </div>
+
+      {/* The column breathes at its own edges. The label sits at the same
+          inset as the row text beneath it, so the group reads as one block
+          instead of two indents. */}
+      <div className="flex min-h-0 flex-1 flex-col gap-3 px-2 py-5">
+      <div className="px-2.5">
         <div className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
           Houses
         </div>
       </div>
 
-      <div className="flex flex-col gap-0.5 px-1">
+      <div className="flex flex-col gap-0.5">
         {locations.map((name) => {
           const count = scenarios.filter((s) => s.location === name).length
           const active = name === selectedLocation
@@ -52,12 +98,12 @@ function Navigator({
               data-active={active || undefined}
               className={cn(
                 "flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[13px] transition-colors",
-                "text-sidebar-foreground/80 hover:bg-sidebar-accent/60",
+                "text-foreground/80 hover:bg-accent/40",
                 "focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none",
-                active && "bg-sidebar-accent text-sidebar-foreground"
+                active && "bg-accent text-accent-foreground"
               )}
             >
-              <Home className={cn("size-4", active ? "text-sidebar-primary" : "text-muted-foreground")} />
+              <Home className={cn("size-4", active ? "text-primary" : "text-muted-foreground")} />
               <span className="min-w-0 flex-1 truncate font-medium">{name}</span>
               <span className="text-muted-foreground text-[11px] tabular-nums">{count}</span>
             </button>
@@ -65,7 +111,7 @@ function Navigator({
         })}
       </div>
 
-      <div className="mt-2 px-2">
+      <div className="mt-2 px-2.5">
         <div className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
           Scenarios
         </div>
@@ -74,7 +120,7 @@ function Navigator({
       {/* The list scrolls, the houses above it do not: the houses are a fixed
           set of four and scrolling them would hide the switch you came here to
           use. */}
-      <div className="min-h-0 flex-1 overflow-y-auto px-1">
+      <div className="min-h-0 flex-1 overflow-y-auto">
         <div className="flex flex-col gap-0.5">
           {here.map((s) => {
             const active = s.id === selectedId
@@ -85,16 +131,16 @@ function Navigator({
                 onClick={() => onScenario(s.id)}
                 className={cn(
                   "flex flex-col gap-0.5 rounded-lg px-2.5 py-2 text-left transition-colors",
-                  "hover:bg-sidebar-accent/60",
+                  "hover:bg-accent/40",
                   "focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none",
-                  active && "bg-sidebar-accent"
+                  active && "bg-accent"
                 )}
               >
                 <div className="flex items-center gap-2">
                   <span
                     className={cn(
                       "text-[13px] font-medium tabular-nums",
-                      active ? "text-sidebar-foreground" : "text-sidebar-foreground/80"
+                      active ? "text-accent-foreground" : "text-foreground/80"
                     )}
                   >
                     {s.id}
@@ -110,6 +156,7 @@ function Navigator({
             )
           })}
         </div>
+      </div>
       </div>
     </div>
   )
@@ -256,6 +303,7 @@ export default function WorkspacePage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const scenario = scenarios.find((s) => s.id === id) ?? scenarios[0]
+  const hereCount = scenarios.filter((x) => x.location === scenario.location).length
   const [location, setLocation] = React.useState(scenario.location)
 
   const selectLocation = (name: string) => {
@@ -281,30 +329,32 @@ export default function WorkspacePage() {
       {/* The plate. The map fills it; the dock floats above it. */}
       <div
         data-v2-canvas
-        className="bg-card relative m-4 min-w-0 flex-1 overflow-hidden rounded-[var(--panel-radius)]"
+        className="bg-card relative z-10 m-4 flex min-w-0 flex-1 flex-col overflow-hidden rounded-[var(--panel-radius)] animate-in fade-in slide-in-from-left-4 duration-[var(--duration-slow)] ease-[var(--ease-out)] motion-reduce:animate-none"
         style={{
           boxShadow: "inset 0 0 0 1px var(--elev-edge-page), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
         }}
       >
-        {/* The dock is 20rem wide and sits in a 1rem gutter: 21rem of plate the
-            camera must not aim at. */}
-        <MapCanvas sites={sites} selected={location} onSelect={selectLocation} occludedRight={336} />
+        {/* The plate's bar. It names the subject the map is drawing, at the same
+            height as the navigator's bar across the gutter - two plates, one
+            baseline, so they read as one instrument rather than two panels. */}
+        <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-[var(--v2-edge-rest)] px-4">
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate text-sm leading-tight font-medium">{location}</span>
+            <span className="text-muted-foreground text-[11px] leading-tight">
+              {hereCount} {hereCount === 1 ? "scenario" : "scenarios"}
+            </span>
+          </div>
+          <span className="text-muted-foreground shrink-0 text-[11px] tabular-nums">
+            {scenario.id}
+          </span>
+        </div>
 
-        {/* Back to the list. Floats on the plate rather than living in a header
-            bar: the plate has no chrome, and one control does not earn one. */}
-        <Button
-          variant="secondary"
-          size="sm"
-          className="absolute top-4 left-4 z-10 shadow-md"
-          render={
-            <Link to="/scenarios">
-              <ArrowLeft />
-              Scenarios
-            </Link>
-          }
-        />
-
-        <Dock scenario={scenario} />
+        <div className="relative min-h-0 flex-1">
+          {/* The dock is 20rem wide and sits in a 1rem gutter: 21rem of plate the
+              camera must not aim at. */}
+          <MapCanvas sites={sites} selected={location} onSelect={selectLocation} occludedRight={336} />
+          <Dock scenario={scenario} />
+        </div>
       </div>
     </div>
   )
