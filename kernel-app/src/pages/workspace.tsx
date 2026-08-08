@@ -55,9 +55,9 @@ function Navigator({
        light takes `--muted`, because light's page is the same white as the
        card and cannot step at all. One rung down in each theme, by different
        tokens, because no single token is one rung down in both. */
-    <div data-v2-nav-plate
+    <div data-v2-nav-plate data-v2-navbody
       className={cn(
-        "bg-muted dark:bg-background relative z-0 my-4 -mr-12 ml-4 hidden w-72 shrink-0 flex-col overflow-hidden pr-12 md:flex",
+        "relative z-0 my-4 -mr-12 ml-4 hidden w-[21rem] shrink-0 flex-col overflow-hidden pr-12 md:flex",
         /* Rounded on the side you can see, square on the side you cannot: the
            right edge runs deep under the plate, so a radius there would only
            ever be a corner drawn in the dark. */
@@ -76,7 +76,7 @@ function Navigator({
           navigation is this column's whole job. */}
       <div
         data-v2-workbar
-        className="relative z-20 flex h-14 shrink-0 items-center px-4"
+        className="relative z-20 -mr-12 flex h-14 shrink-0 items-center px-4"
         style={{
           background: "var(--elev-plate)",
           boxShadow:
@@ -99,23 +99,23 @@ function Navigator({
       {/* The column breathes at its own edges. The label sits at the same
           inset as the row text beneath it, so the group reads as one block
           instead of two indents. */}
-      <div className="flex min-h-0 flex-1 flex-col gap-3 px-2 py-5">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 px-4 py-6">
       {/* The house is a switch, not a list. Four rows spent a quarter of the
           column restating a set you already know you belong to, and the one
           fact you act on - which house am I in - was the trigger's job all
           along. It wears no label: the value IS the label, the glyph says what
           kind of thing it is, and the list below it is visibly the house's
           contents. */}
-      <div className="px-0.5">
+      <div>
         <Select
           value={selectedLocation}
           onValueChange={(v) => onLocation(v as string)}
           items={houseItems}
         >
-          <SelectTrigger aria-label="House" className="h-10 w-full">
+          <SelectTrigger aria-label="House" className="h-11 w-full text-sm">
             <Home className="size-4 text-primary" />
             <SelectValue />
-            <span className="text-muted-foreground ml-auto pr-1 text-[11px] tabular-nums">
+            <span className="text-muted-foreground ml-auto pr-1 text-xs tabular-nums">
               {countIn(selectedLocation)}
             </span>
           </SelectTrigger>
@@ -124,7 +124,7 @@ function Navigator({
               <SelectItem key={name} value={name}>
                 <Home className="size-4 text-muted-foreground" />
                 <span className="flex-1">{name}</span>
-                <span className="text-muted-foreground text-[11px] tabular-nums">
+                <span className="text-muted-foreground text-xs tabular-nums">
                   {countIn(name)}
                 </span>
               </SelectItem>
@@ -133,7 +133,7 @@ function Navigator({
         </Select>
       </div>
 
-      <div className="px-2.5">
+      <div className="px-3">
         <div className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
           Scenarios
         </div>
@@ -143,7 +143,7 @@ function Navigator({
           set of four and scrolling them would hide the switch you came here to
           use. */}
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-1">
           {here.map((s) => {
             const active = s.id === selectedId
             return (
@@ -151,17 +151,19 @@ function Navigator({
                 key={s.id}
                 type="button"
                 onClick={() => onScenario(s.id)}
+                data-v2-navrow
+                data-active={active || undefined}
                 className={cn(
-                  "flex flex-col gap-0.5 rounded-lg px-2.5 py-2 text-left transition-colors",
+                  "flex flex-col gap-1 rounded-lg px-3 py-2.5 text-left transition-colors",
                   "hover:bg-accent/40",
                   "focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none",
-                  active && "bg-accent"
+                  active && "bg-accent shadow-[inset_0_0_0_1px_var(--elev-edge-rest)]"
                 )}
               >
                 <div className="flex items-center gap-2">
                   <span
                     className={cn(
-                      "text-[13px] font-medium tabular-nums",
+                      "text-sm font-medium tabular-nums",
                       active ? "text-accent-foreground" : "text-foreground/80"
                     )}
                   >
@@ -171,7 +173,7 @@ function Navigator({
                     {statusMap[s.status].label}
                   </StatusBadge>
                 </div>
-                <div className="text-muted-foreground truncate text-[11px]">
+                <div className="text-muted-foreground truncate text-xs">
                   {s.commodity} · {s.shipment}
                 </div>
               </button>

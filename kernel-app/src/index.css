@@ -105,6 +105,39 @@
   --rail-icon: color-mix(in oklch, var(--sidebar-foreground) 78%, var(--sidebar));
 }
 
+/* ---- accent knows what it is sitting on ----
+   The DS ships --accent as one absolute value per theme, which means it can
+   only be right on one surface. In dark it was --brand-900: a green 25deg off
+   the lime that decision 0067 made the action hue, so every selection in the
+   app - navigator row, select item, menu item - washed green while everything
+   that ACTED was lime. Two greens, neither meaning the other.
+
+   Accent is not a colour here. It is a STEP: a fixed distance from whatever
+   slate the thing is standing on. Selection stops being a hue and becomes a
+   lift, which leaves lime free to mean "this is the thing" and nothing else.
+
+   The step differs by theme because the direction of travel does. Dark mixes
+   toward a near-white foreground and needs 20% before a fill separates from a
+   near-black floor; light mixes toward a near-black foreground, where 20%
+   lands as a bruise on a white card and 8% is the same perceived lift.
+
+   CRITICAL: a custom property resolves where it is DECLARED, not where it is
+   used. --accent cannot be written once here and inherit contextually - it
+   would freeze against this element's --surface and every descendant would get
+   the floor's answer. Every surface that raises its own slate must restate the
+   pair: --surface, then --accent beside it. The surface map lives in
+   v2-layer.css. */
+:root {
+  --surface: var(--background);
+  --accent-step: 8%;
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+  --accent-foreground: var(--foreground);
+}
+
+.dark {
+  --accent-step: 20%;
+}
+
 html,
 body,
 #root {

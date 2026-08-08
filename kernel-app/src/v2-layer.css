@@ -1003,3 +1003,79 @@ main [data-slot="card"] {
   background: var(--card);
   color: var(--foreground);
 }
+
+/* ---- the surface map ----
+   Every surface that paints its own slate restates the accent pair, because a
+   custom property resolves where it is declared (see index.css). Grouped by the
+   token each one paints with, so the list stays readable as the DS grows.
+
+   The separation this buys is measurable: on the page floor accent lands at
+   L 0.388, inside a --popover panel at L 0.413. The absolute token could not do
+   both - pinned at neutral-800 a selected select item was invisible, because the
+   popover it sat in WAS neutral-800. */
+
+/* Panels, plates and overlays: everything painted --card. */
+[data-slot="card"],
+[data-slot="sidebar-inset"],
+[data-slot="dialog-content"],
+[data-slot="alert-dialog-content"],
+[data-slot="sheet-content"],
+[data-slot="drawer-content"] {
+  --surface: var(--card);
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+
+/* Floating menus and pickers: everything painted --popover. */
+[data-slot="popover-content"],
+[data-slot="select-content"],
+[data-slot="combobox-content"],
+[data-slot="command"],
+[data-slot="hover-card-content"],
+[data-slot="dropdown-menu-content"],
+[data-slot="dropdown-menu-sub-content"],
+[data-slot="context-menu-content"],
+[data-slot="context-menu-sub-content"],
+[data-slot="menubar-content"],
+[data-slot="menubar-sub-content"] {
+  --surface: var(--popover);
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+
+/* The rail is its own slate and always has been. */
+[data-slot="sidebar-inner"] {
+  --surface: var(--sidebar);
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+
+/* The workspace navigator sits between the page and the plate: recessed, but
+   not a hole. Light recesses by going down to --muted; dark has nowhere below
+   the floor that is not the rail, so it lifts a little instead - the plate's
+   cast is what puts it underneath, not its fill. */
+[data-v2-navbody] {
+  --surface: var(--muted);
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+  background: var(--surface);
+}
+
+.dark [data-v2-navbody] {
+  --surface: color-mix(in oklab, var(--background) 55%, var(--card));
+}
+
+/* Selection in the navigator is the accent step plus one lime mark. The step
+   says "this row is raised"; the mark says "this is the one". Colour carries
+   the identity, geometry carries the state - so the row does not have to shout
+   in a hue to be found. */
+[data-v2-navrow][data-active] {
+  position: relative;
+}
+
+[data-v2-navrow][data-active]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(var(--spacing) * 2);
+  bottom: calc(var(--spacing) * 2);
+  width: 2px;
+  border-radius: 999px;
+  background: var(--primary);
+}

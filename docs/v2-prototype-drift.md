@@ -71,7 +71,7 @@ matter of moving it down a layer, not translating it.
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); one live drift remains (light `--muted-foreground`, see 2.3) |
-| 3 | Modification layer | 32 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; the rest app-only or open |
+| 3 | Modification layer | 33 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; 3.33 is a promotion candidate; the rest app-only or open |
 | 4 | **DS source changes** | 12 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85 |
 | 5 | App-level convention departures | 24 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
 
@@ -343,6 +343,51 @@ grey slab and pushed placeholder text under AA, so it settled at 6%) and must
 spend its edge instead. Any promotion of the ladder inherits that asymmetry —
 it is not a light-mode bug to be tidied up later.
 
+
+## 2.5 Accent is a relation, not a value
+
+The promoted token direction gives `--accent` one absolute value per theme:
+`--lime-300` in light, `--brand-900` in dark. That works while every surface
+that wants an accent is the page. It stops working the moment surfaces stack.
+In dark, `--brand-900` sits at L=0.300 with chroma 0.078 - near enough to the
+page floor (L=0.213) to read as a hover smudge, and *darker* than the popover
+it has to mark selection inside (L=0.270). A selected row in a menu was
+rendering as a hole. The obvious fix - point dark `--accent` at `--lime-300`,
+so it reads as loudly as `--primary` - trades one failure for another: a full
+brand fill on a list row says *this is the thing* in a place that only needs to
+say *you are here*, and it collides with the primary button one gutter away.
+
+The prototype resolves this by making accent a **step off the surface it lands
+on** rather than a colour:
+
+```css
+:root {
+  --surface: var(--background);
+  --accent-step: 8%;
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+.dark { --accent-step: 20%; }
+```
+
+Every container that is its own surface re-declares `--surface` and recomputes
+`--accent` beside it (3.33). The step is per-theme because the two themes have
+different room to move: dark can spend 20% toward the foreground before a row
+starts to glow, light greys out past 8%.
+
+Measured, dark: page floor L=0.213 -> accent L=0.367; navigator body L=0.239 ->
+accent L=0.388; popover L=0.270 -> accent L=0.413. Light: navigator body
+L=0.961 -> row L=0.901; popover L=1.000 -> item L=0.937. The same rule reads
+in both directions - light mixes *down* toward its dark foreground, dark mixes
+*up* toward its light one - because the formula never names a hue, only a
+distance.
+
+Two consequences worth stating. First, an accented element can itself become a
+surface: the active navigator row sets `--surface: var(--accent)` and computes
+its own accent from there, so a hover inside a selection still steps. Second,
+the accent carries no brand: what identifies the selection is the `--primary`
+edge marker on the row, which stays lime in dark and green in light. Colour
+means *action*; contrast means *position*.
+
 ---
 # Part 3 — The modification layer
 
@@ -352,7 +397,7 @@ shadcn `data-slot` hooks plus the app's own opt-in markers — `data-v2-kpi`,
 `data-v2-panel-inner`, `data-v2-tabpanel`, `data-v2-pagechip`, `data-v2-bleed`,
 `data-v2-rankcol`, `data-v2-rowstripe`, `data-v2-pin`,
 `data-v2-filter`, `data-v2-frame`, `data-v2-trough`, `data-v2-chrome`,
-`data-v2-chip`. No component is forked. (`data-v2-rowtoggle` left the list
+`data-v2-chip`, `data-v2-navbody`, `data-v2-navrow`. No component is forked. (`data-v2-rowtoggle` left the list
 with 3.29's promotion — the marker is the DS's `data-row-toggle` now.)
 
 Two markers carry no rule in this file: `data-v2-flag` and `data-v2-meter` are
@@ -406,6 +451,7 @@ numbers.
 | 3.30 | `[data-v2-rankcol]` | the rank column asks for its minimum (`w-0` + nowrap in the markup) and gets an even 3-unit gutter here. It needs its own because it follows the toggle cell, so 3.7's edge rule was handing it the full 6-unit page inset on one side only. Measured 72.6px: a 49.6px label with 11.5px of slack each side, digits centred 0.00px off the header | unlayered `!important` |
 | 3.31 | `[data-v2-chip]` | the bottom bar's sliding chip takes the nested-surface treatment — hairline plus lip, no cast. Its hairline is a step off the chip's *own* fill rather than a token, because both candidates vanish in one theme; see 5.11 for the measurements | unlayered |
 | 3.32 | `[data-v2-panel] ~ [data-v2-panel]` | **only the first panel breathes.** The edge pulse (3.28) is an arrival signal, and an opened row now stacks two panels — running it on both states one message twice, the same fault as four tiles redrawing one axis (5.15). Sibling panels keep the resting ring and drop the animation. The *first* one carries it because that is where the row lands: `reveal.ts` (5.18) scrolls the row to the top, so the summary is what enters the view | unlayered |
+| 3.33 | `[data-v2-navbody]`, `[data-v2-navrow][data-active]`, plus a surface map over `card` / `popover` / `select-content` / `dropdown-menu-content` / `dialog-content` / `sidebar` | **accent is computed from the surface it lands on.** Each of these declares its own `--surface` and recomputes `--accent` beside it, so a selection steps the same perceptual distance off a navigator, a popover and a dialog instead of being one fixed colour that only works on the page floor (2.5). The navigator body is `--muted` in light and `--background` mixed 55% into `--card` in dark - a slate that is neither the page nor a card. The active row takes that accent as its own `--surface`, and wears a 2px `--primary` edge marker: the fill says where you are, the marker says what is selected | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
