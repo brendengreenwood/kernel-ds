@@ -299,14 +299,20 @@ function Dock({ scenario }: { scenario: Scenario }) {
             <div className="text-muted-foreground text-xs">Nothing since the last update.</div>
           ) : null}
         </div>
-      </div>
 
-      {/* One action, and it is not a commit. Computing the landscape asks what
-          this bid would DO - so it is available the moment you arrive, at the
-          bid already posted, and does not wait for you to move the number
-          first. Only a bid that is not a number, or one over the adjusted max,
-          has nothing to compute. */}
-      <div className="border-t border-[var(--v2-edge-rest)] p-5">
+        {/* One action, and it is not a commit. Computing the landscape asks
+            what this bid would DO - so it is available the moment you arrive,
+            at the bid already posted, and does not wait for you to move the
+            number first. Only a bid that is not a number, or one over the
+            adjusted max, has nothing to compute.
+
+            It sits in the stack rather than in a divided footer. A footer
+            spends two rhythm units on its seam - one above the rule, one
+            below - so the action was the only thing in the dock standing
+            twice as far from its neighbour as everything else, under a
+            hairline too quiet to earn the gap. In the stack it takes the
+            same single unit as every other block, and the dock's inset is
+            one number on all four sides. */}
         <Button className="w-full" disabled={!valid || overMax}>
           Compute landscape
         </Button>
