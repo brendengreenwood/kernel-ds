@@ -87,9 +87,17 @@ function Navigator({
         data-v2-workbar
         className="relative z-20 -mr-12 flex h-14 shrink-0 items-center px-4"
         style={{
-          background: "var(--elev-plate)",
+          // Raised off its own column rather than off the card: half an accent
+          // step toward the foreground, so the band sits between the navigator
+          // body and a selected row instead of arriving from another surface's
+          // ladder. The cast stays - it is what tells you the bar is over the
+          // list that scrolls under it - but the hairline drops to the resting
+          // edge, because a peak edge on a half-step band draws a brighter line
+          // than the step it is describing.
+          background:
+            "color-mix(in oklab, var(--surface) calc(100% - var(--accent-step) / 2), var(--foreground))",
           boxShadow:
-            "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
+            "inset 0 0 0 1px var(--v2-edge-rest), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
         }}
       >
         <Button
