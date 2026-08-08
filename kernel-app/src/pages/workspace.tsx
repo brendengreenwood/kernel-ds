@@ -97,7 +97,7 @@ function Navigator({
           background:
             "color-mix(in oklab, var(--surface) calc(100% - var(--accent-step) / 2), var(--foreground))",
           boxShadow:
-            "inset 0 0 0 1px var(--v2-edge-rest), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
+            "inset 0 0 0 1px var(--v2-edge-rest), inset 0 1px 0 var(--elev-lip), var(--shadow-md)",
         }}
       >
         <Button
@@ -258,7 +258,7 @@ function Dock({ scenario }: { scenario: Scenario }) {
         // that casts is a surface that catches.
         background: "var(--elev-plate)",
         boxShadow:
-          "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
+          "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-xl)",
       }}
     >
       {/* No header. The dock used to name its own subject - id, status,
@@ -381,7 +381,7 @@ export default function WorkspacePage() {
         data-v2-canvas
         className="bg-card relative z-10 m-4 flex min-w-0 flex-1 flex-col overflow-hidden rounded-[var(--panel-radius)] animate-in fade-in slide-in-from-left-4 duration-[var(--duration-slow)] ease-[var(--ease-out)] motion-reduce:animate-none"
         style={{
-          boxShadow: "inset 0 0 0 1px var(--elev-edge-page), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
+          boxShadow: "inset 0 0 0 1px var(--elev-edge-page), inset 0 1px 0 var(--elev-lip), var(--shadow-lg)",
         }}
       >
         {/* The plate's bar names the SUBJECT, and the subject is the scenario -
@@ -400,7 +400,7 @@ export default function WorkspacePage() {
           style={{
             background: "var(--elev-plate)",
             boxShadow:
-              "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
+              "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-md)",
           }}
         >
           {/* A workspace bar is the page header for the thing being edited, so
