@@ -402,18 +402,25 @@ cast alone.
 
 | token | DS light | prototype | why |
 | --- | --- | --- | --- |
-| `--background` | white | `--neutral-100` | leaves the card a rung of headroom above the page |
-| `--sidebar` | `--neutral-100` | `--neutral-200` | the rail stays the recess it is once the floor moves |
-| `--sidebar-accent` | `--neutral-200` | `--neutral-300` | was the same value as the new rail, so hover vanished |
-| `--sidebar-border` | `--neutral-200` | `--neutral-300` | a border the colour of its own surface is not a border |
-| `--v2-edge-rest` | `--primary` 6% | `--foreground` 4% | see below |
-| `--v2-edge-peak` | `--primary` 15% | `--foreground` 10% | see below |
+| `--background` | white | `--neutral-200` | the page has to sit below four surfaces, not above them |
+| `--sidebar` | `--neutral-100` | `--neutral-300` | in an inset shell this token IS the visible canvas (see below) |
+| `--sidebar-accent` | `--neutral-200` | `--neutral-400` | was the value the rail itself now takes |
+| `--sidebar-border` | `--neutral-200` | `--neutral-400` | a border the colour of its own surface is not a border |
+| `--v2-edge-rest` | `--primary` 6% | `--foreground` 12% | grey, and heavy enough to read (see below) |
+| `--v2-edge-peak` | `--primary` 15% | `--foreground` 24% | matched to the DS's own light hairline |
 
-Card, popover and dialog stay white: the point is not a darker app, it is a
-floor that is no longer the ceiling. Light now runs rail `L=0.860` -> floor
-`0.967` -> navigator `0.982` -> card `1.0`, four rungs where there were two.
-Text holds: foreground on floor 15.95:1, muted on floor 6.47:1, muted on the
-navigator 6.74:1, rail glyphs on rail 8.29:1.
+**The visible page is `--sidebar`, not `--background`.** With the rail inset,
+`sidebar-wrapper` takes `bg-sidebar` and the rail sits on it invisibly - so
+the rail token is the canvas everything floats on, and `--background` only
+survives where something mixes its surface from it (here, the navigator). Any
+attempt to darken "the page" that moves only `--background` moves the wrong
+token.
+
+Light now runs canvas `L=0.860` -> navigator `0.957` -> card/plate `1.0`, with
+the active row a step under the navigator. Measured: navigator against canvas
+1.35:1, card against navigator 1.13:1, card against canvas 1.53:1, active row
+against navigator 1.19:1. Text holds - foreground on the navigator 15.43:1,
+muted 6.26:1, rail labels 11.46:1, rail glyphs 7.18:1.
 
 The edges moved for a related reason. Dark mixes the action hue into its
 hairlines: on a near-black surface a lime edge reads as light catching a
@@ -421,8 +428,14 @@ corner, which is what an edge is. Light cannot borrow that - a green mix on a
 near-white slate has nowhere to go lighter, so it stops reading as light and
 starts reading as colour, a green pinstripe around every panel. Light edges
 are shade, so they mix `--foreground`, a near-neutral (chroma 0.021 against
-the action hue's 0.146). The alphas drop with the swap because 6% of a
-mid-lightness green and 6% of a near-black are not the same weight on white.
+the action hue's 0.146).
+
+The alphas are set against the DS's own light hairline rather than against the
+green they replaced. `--border` is about 1.31:1 on white, which is what a line
+needs to be to survive a white-on-white stack; matching that from a near-black
+foreground takes ~24%, so peak lands there and rest sits at half. Carrying the
+old 6/15 across the swap produced edges you had to hunt for - 4% of black on
+white is 1.04:1, which is not a line, it is a rumour.
 
 **Not promoted.** The portal is the DS's own consumer and it is a document
 surface that wants the white page. This is the clearest case in the register

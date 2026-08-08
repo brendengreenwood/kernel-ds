@@ -69,15 +69,24 @@
      lighter than the floor, which is the wrong constraint for a shell whose
      whole model is "things sit on top of other things".
 
-     The floor drops two rungs to --neutral-100 and the rail follows to
-     --neutral-200. That buys the card a rung of headroom above the page and
-     leaves the rail reading as the recess it is. The rail's own accent and
-     border move down with it - both were --neutral-200, which is now the rail
-     itself, and a border the same colour as its surface is not a border. */
-  --background: var(--neutral-100);
-  --sidebar: var(--neutral-200);
-  --sidebar-accent: var(--neutral-300);
-  --sidebar-border: var(--neutral-300);
+     The floor drops to --neutral-200 and the rail follows to --neutral-300.
+     The rail's own accent and border move down with them - each was the value
+     the rail itself now takes, and a border the same colour as its surface is
+     not a border.
+
+     Two things set the distance. First, in an inset shell the page you SEE is
+     --sidebar: the wrapper takes bg-sidebar and the rail sits on it invisibly,
+     so the rail token is the canvas and --background only survives where the
+     navigator mixes its surface from it. Second, the ladder has to fit four
+     surfaces between the canvas and the card, and light only has room below
+     the card - one rung off white put the navigator 0.018 from the plate it is
+     supposed to sit underneath, which is not a gap, it is a rounding error.
+     At --neutral-200 the run is canvas 0.860 -> navigator 0.957 -> plate 1.0,
+     and every boundary is a boundary. */
+  --background: var(--neutral-200);
+  --sidebar: var(--neutral-300);
+  --sidebar-accent: var(--neutral-400);
+  --sidebar-border: var(--neutral-400);
 
   /* LIVE DRIFT — not promoted. The DS light --muted-foreground stayed at its
      oklch(0.5350 …) value; this app runs one rung down. The plate fill costs a
@@ -106,11 +115,15 @@
      --foreground is a near-neutral (chroma 0.021 against the action hue's
      0.146): grey, with just enough of the system's hue to belong to it.
 
-     The alphas drop with the swap. 6% of a mid-lightness green and 6% of a
-     near-black are not the same weight on white - the second is roughly twice
-     the step - so rest goes 6 -> 4 and peak 15 -> 10 to land the same edge. */
-  --v2-edge-rest: color-mix(in oklch, var(--foreground) 4%, transparent);
-  --v2-edge-peak: color-mix(in oklch, var(--foreground) 10%, transparent);
+     The alphas are set against the DS's own light hairline, not against the
+     green they replaced. `--border` is oklch(0.8957) - about 1.31:1 on white,
+     which is what a line has to be here to survive a white-on-white stack of
+     four surfaces. Matching that from a near-black foreground takes ~24%, so
+     peak lands there and rest sits at half of it. The first pass carried the
+     old 6/15 alphas across the swap and produced edges you had to hunt for:
+     4% of black on white is 1.04:1, which is not a line, it is a rumour. */
+  --v2-edge-rest: color-mix(in oklch, var(--foreground) 12%, transparent);
+  --v2-edge-peak: color-mix(in oklch, var(--foreground) 24%, transparent);
   /* Light CAN darken, so it does — but modestly. At 22% toward --shadow-color
      the well read as a grey slab (1.758:1 against the rail) and pushed the
      placeholder to 3.68:1, under the AA floor. 6% is a well, not a slab. */
