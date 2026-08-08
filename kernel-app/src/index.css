@@ -177,6 +177,39 @@
   --accent-step: 20%;
 }
 
+/* ---- categorical series ----
+   --chart-1..5 is a SEQUENTIAL ramp: one hue stepping lightness from 0.87 to
+   0.25. That is the right tool for one series shown in intensity, and the
+   wrong one for four things whose only relationship is that they are
+   different - chart-1 and chart-4 are the same hue a tenth of a lightness
+   apart, so two elevators drew as the same line, and chart-3 at L=0.87 is
+   about 1.5:1 on a white plate.
+
+   Four hues, evenly spaced, held at ONE lightness and ONE chroma so no line
+   reads as more important than another - a categorical set encodes identity
+   only, and any lightness difference between series is a claim about rank
+   that the data is not making.
+
+   The status hues could not be borrowed: on a trading surface red is a
+   direction, and an elevator drawn in --error reads as one that is in
+   trouble. 320 (violet) takes the fourth slot because it is the furthest
+   hue from the three in play that still holds chroma at this lightness. */
+:root {
+  --series-1: oklch(0.545 0.150 150.5);
+  --series-2: oklch(0.545 0.150 250.0);
+  --series-3: oklch(0.545 0.150 65.0);
+  --series-4: oklch(0.545 0.150 320.0);
+}
+
+.dark {
+  /* Same hues, lifted: a 0.545 line on a near-black plate is as dim as an
+     0.87 line is on a white one. */
+  --series-1: oklch(0.800 0.130 150.5);
+  --series-2: oklch(0.800 0.130 250.0);
+  --series-3: oklch(0.800 0.130 65.0);
+  --series-4: oklch(0.800 0.130 320.0);
+}
+
 html,
 body,
 #root {

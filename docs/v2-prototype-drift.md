@@ -444,6 +444,48 @@ same token, and the promotion question it raises is not "which floor wins" but
 whether the DS should ship an app floor and a document floor rather than one
 light mode both have to share.
 
+## 2.7 There is no categorical palette (live drift)
+
+`--chart-1..5` is a **sequential** ramp: one hue walking lightness from 0.87
+down to 0.25. That is the correct instrument for a single series shown in
+intensity — a heat scale, a density, one quantity getting larger. It is the
+wrong one for four things whose only relationship is that they are *not each
+other*, which is what a forward curve across four elevators is.
+
+Drawn straight from the DS ramp, four elevators produced three visible lines:
+`--chart-1` and `--chart-4` are the same hue a tenth of a lightness apart and
+overplotted as one, and `--chart-3` at L=0.87 measured about 1.5:1 on a white
+plate.
+
+| token | value | note |
+| --- | --- | --- |
+| `--series-1` | `oklch(0.545 0.150 150.5)` light / `0.800 0.130` dark | the brand hue keeps the first slot |
+| `--series-2` | `oklch(0.545 0.150 250)` | |
+| `--series-3` | `oklch(0.545 0.150 65)` | |
+| `--series-4` | `oklch(0.545 0.150 320)` | |
+
+Four hues, evenly spaced, held at **one** lightness and **one** chroma. A
+categorical set encodes identity and nothing else, so any lightness difference
+between members is a claim about rank that the data is not making — the
+sequential ramp makes that claim on every chart it is used for this way.
+
+The status hues could not be borrowed. On a trading surface red is a
+*direction*; an elevator drawn in `--error` reads as one in trouble. Violet
+takes the fourth slot as the furthest hue from the three in play that still
+holds chroma at this lightness.
+
+Measured against the plate: light 4.63 / 4.93 / 5.14 / 5.37, dark 8.40 / 7.90 /
+7.81 / 7.65 — all AA. Between members the ratios are 1.01–1.10, which is the
+point: they separate by hue, not by luminance, and that is precisely why the
+chart labels each line at its own end rather than leaving colour to carry the
+identification alone (WCAG 1.4.1).
+
+*Promotion:* this is a real gap in the DS, not a prototype preference. Any
+consumer plotting more than one series hits it immediately. The open questions
+are how many members ship (four covers this app; six or eight is the usual
+library answer), whether they are named `--series-*` or `--chart-categorical-*`,
+and whether the existing sequential ramp is renamed to say what it is.
+
 # Part 3 — The modification layer
 
 `kernel-app/src/v2-layer.css`. Restyles live DS components through their

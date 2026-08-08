@@ -333,3 +333,94 @@ export const bookActivity: BookEvent[] = scenarios
   )
   // `when` values all come from agesAll, which is ordered newest-first.
   .sort((a, b) => agesAll.indexOf(a.when) - agesAll.indexOf(b.when))
+
+/* ---------------------------------------------------------------------------
+   The forward curve.
+
+   A posted bid is one point. What a merchant actually trades against is the
+   whole strip: the same elevator's basis across every contract month it will
+   take delivery in, and the other elevators' strips beside it. The scenarios
+   list can only ever show you where you have already posted; the curve shows
+   you the shape you are posting into, which is the thing that tells you
+   whether a bid is aggressive or just late.
+
+   Generated rather than authored, for the same reason the activity is: twelve
+   hand-written scenarios give one or two points per elevator per commodity,
+   which is a scatter, not a curve. The shape here is the real one — old crop
+   firm, a sag at harvest when everything arrives at once, then carry lifting
+   the deferred months as the market pays someone to store it.
+--------------------------------------------------------------------------- */
+
+/** Contract months by commodity — the board's, not the calendar's. */
+export const curveMonths: Record<Commodity, readonly string[]> = {
+  corn: ["Jul 2026", "Sep 2026", "Dec 2026", "Mar 2027", "May 2027", "Jul 2027"],
+  soybeans: ["Jul 2026", "Aug 2026", "Sep 2026", "Nov 2026", "Jan 2027", "Mar 2027"],
+  wheat: ["Jul 2026", "Sep 2026", "Dec 2026", "Mar 2027", "May 2027", "Jul 2027"],
+  canola: ["Jul 2026", "Nov 2026", "Jan 2027", "Mar 2027", "May 2027", "Jul 2027"],
+}
+
+/** The month the crop shows up and basis is worst. */
+const harvestMonth: Record<Commodity, string> = {
+  corn: "Dec 2026",
+  soybeans: "Nov 2026",
+  wheat: "Jul 2026",
+  canola: "Nov 2026",
+}
+
+/** Where the whole strip sits. A river terminal has a barge to fill and pays
+    for it; the further inland, the more freight comes out of the bid. */
+const elevatorLevel: Record<string, number> = {
+  "River Terminal": 0.06,
+  "Prairie Grove": -0.02,
+  Birchwood: -0.05,
+  Winnebago: -0.09,
+}
+
+const commodityLevel: Record<Commodity, number> = {
+  corn: -0.22,
+  soybeans: -0.28,
+  wheat: -0.26,
+  canola: -0.31,
+}
+
+export type CurvePoint = {
+  month: string
+  /** Basis in dollars over/under the futures month. */
+  basis: number
+  /** Your posted bid, when a scenario exists at this elevator and month. */
+  posted?: number
+  scenarioId?: string
+}
+
+export type ElevatorCurve = {
+  location: string
+  points: CurvePoint[]
+}
+
+/** The strip for one commodity, one line per elevator, with your own posted
+    bids pinned onto it wherever a scenario lands on a contract month. */
+export const forwardCurve = (commodity: Commodity): ElevatorCurve[] => {
+  const months = curveMonths[commodity]
+  const h = months.indexOf(harvestMonth[commodity])
+
+  return locations.map((location) => {
+    const points = months.map((month, i) => {
+      const r = lcg(fnv(location + commodity + month))
+      /* Old crop is firm, harvest sags, carry lifts the deferred months. */
+      const shape = i < h ? (h - i) * 0.035 : (i - h) * 0.028
+      const basis = round2(
+        commodityLevel[commodity] + elevatorLevel[location] + shape + (r() * 0.03 - 0.015),
+      )
+
+      const scenario = scenarios.find(
+        (x) => x.location === location && x.commodity === commodity && x.futuresMonth === month,
+      )
+
+      return scenario
+        ? { month, basis, posted: scenario.postedBid, scenarioId: scenario.id }
+        : { month, basis }
+    })
+
+    return { location, points }
+  })
+}
