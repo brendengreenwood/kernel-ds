@@ -156,7 +156,11 @@ function Nav({ items }: { items: Item[] }) {
   )
 }
 
-function AppSidebar() {
+/** Exported for the workspace shell, which composes this same activity rail
+    against a different body — a navigator and a canvas plate rather than a
+    scrolling page. The rail is the app's identity and does not change between
+    the two, so there is one of it. */
+export function AppSidebar() {
   return (
     <Sidebar variant="inset" collapsible="icon">
       {/* Beside the sidebar, the rail's first row shares a band with the page

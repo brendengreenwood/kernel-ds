@@ -73,7 +73,7 @@ matter of moving it down a layer, not translating it.
 | 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); one live drift remains (light `--muted-foreground`, see 2.3) |
 | 3 | Modification layer | 32 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; the rest app-only or open |
 | 4 | **DS source changes** | 12 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85 |
-| 5 | App-level convention departures | 23 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
+| 5 | App-level convention departures | 24 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
 
 ---
 
@@ -1407,6 +1407,49 @@ reader its high, its low and its span, and that a tile too small for a floating
 tooltip already has a lane that can answer.
 ---
 
+**5.24 - A workspace is not a page, and the elevation ladder says so.**
+The prototype's four routes are all the same shape: one plate on the canvas with a
+document scrolling inside it. `/scenarios/:id/edit` is the first route that is not
+a document. The work is a single object — one bid, on one map — it fills the
+viewport, and nothing scrolls but the lists beside it. Laid out, not flowed.
+
+Three surfaces, and their heights are the explanation:
+
+- **Rail and navigator sit on the canvas, recessed.** They *choose* the work. The
+  navigator is a sibling of the inset rather than a child, which is the whole
+  trick — a child would be *on* the plate, and the plate is the map. It carries no
+  plate treatment of its own: houses, then that house's scenarios, on the canvas
+  colour the rail already uses.
+- **The canvas plate is the one raised surface.** It *is* the work. Same
+  `--panel-radius`, same edge hairline and lip as the page plate promoted in
+  `edce731` — the map earns the plate for the same reason a page does, so it is
+  not given a second vocabulary.
+- **The dock floats above the plate and casts onto it.** It *acts* on the work.
+  `z-10`, inset four units from the plate's own corners, with a brand-tinted edge
+  instead of the neutral one so the acting surface is legible as the acting
+  surface.
+
+Navigator before, dock after. The asymmetry is the point: chrome that picks a
+subject sits under it, chrome that edits the subject sits over it. The rail is the
+same `AppSidebar` the page shell uses — the app's identity does not change because
+the body did.
+
+**The map is a basemap wearing the DS palette, not a picture.** MapLibre with Carto
+vector tiles, re-painted per theme from the same tokens everything else reads
+(`applyMapTheme`, `src/lib/map-styles.ts`): neutral-100 land in light, neutral-950
+in dark, sited markers on `--brand-500` with a `--card` ring so a pin reads as a
+mark on the surface rather than a dot floating over it. Its own chrome — zoom
+controls, attribution — is re-dressed to `--card`/`--border`/`--accent` in
+`v2-layer.css` so the one third-party widget on screen does not announce itself.
+
+*Promotion:* the map is domain furniture and does not belong to the DS. The rule
+that might is the ladder — that an application shell has more than one legitimate
+body shape, and that a workspace distinguishes choosing chrome from acting chrome
+by height rather than by colour or by border. That is an `app-shell` question, and
+the page-plate rule promoted in `edce731` is the half of it that has already
+landed.
+---
+
 # Part 6 — What the prototype actually is
 
 | Route | Page | Built from |
@@ -1415,6 +1458,7 @@ tooltip already has a lane that can answer.
 | `/scenarios` | Scenarios — folder tabs, striped object table | `Tabs` (folder + pill), `Table striped`, `StatusBadge`, `CommodityLabel`, `Button` |
 | `/producers` | Producers — ranked prospecting table with an open-bids inset | `Table`, `Tabs`, `Select`, `Input`, `Tooltip`, `Badge`, `CommodityLabel`, `Button` |
 | `/settings` | Settings — organization + notification preferences | `Card`, `Input`, `Select`, `Switch`, `Label`, `Button`, panel furniture |
+| `/scenarios/:id/edit` | Workspace — navigator under, map plate, bid dock above | `Sidebar`, `StatusBadge`, `CommodityLabel`, `Input`, `Button`, panel furniture + MapLibre |
 
 DS components in use: `avatar`, `badge`, `button`, `card`, `commodity-badge`,
 `icon`, `input`, `select`, `sidebar`, `status-badge`, `table`, `tabs`,

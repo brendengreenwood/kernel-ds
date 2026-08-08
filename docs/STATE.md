@@ -488,6 +488,14 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   preferences). Every collection in the app renders inside the same outlined
   `TableFrame`, and every panel heads with an `IconChip` + title/description;
   the shared furniture lives in `kernel-app/src/components/panels.tsx`.
+  A fifth route, `/scenarios/:id/edit`, is the first that is not a document:
+  a **workspace** (decision 0069) whose elevation ladder does the explaining —
+  rail and navigator recessed on the canvas because they *choose* the work, a
+  MapLibre canvas on the page plate because it *is* the work, and a bid dock
+  floating above the plate because it *acts on* it. No new tokens: the plate is
+  the same treatment decision 0066 promoted. The basemap is re-painted per
+  theme from DS tokens (`kernel-app/src/lib/map-styles.ts`) and MapLibre's own
+  chrome is re-dressed to `--card`/`--border`/`--accent`.
   Elevation follows one plate ladder — page inset `2xl` > card `lg` > nested
   frame (none) — with an opaque `--border` edge and a 1px top lip at every
   level. Note for anyone tuning it: in dark the cast contributes almost

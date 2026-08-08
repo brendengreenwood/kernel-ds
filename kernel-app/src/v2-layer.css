@@ -852,3 +852,154 @@ main [data-slot="card"] {
 [data-slot="table-cell"][data-v2-detail] {
   padding-block: calc(var(--spacing) * 6) !important;
 }
+
+/* ── The map canvas ────────────────────────────────────────────────────────
+   The workspace's plate is filled by a map, so the map brings no surface of
+   its own: no border, no radius, no background. What it does bring is chrome
+   MapLibre draws itself — attribution and zoom controls — and those arrive in
+   the library's own visual language. They are restyled here rather than hidden
+   because attribution is a licence term, not decoration.
+
+   The pins are DOM buttons, not a symbol layer: four houses is far below the
+   count where a canvas layer earns itself, and a button is focusable,
+   hoverable and keyboard-reachable for free. */
+
+.v2-map .maplibregl-ctrl-attrib {
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  border-radius: calc(var(--radius) - 0.25rem);
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+
+.v2-map .maplibregl-ctrl-attrib a {
+  color: var(--muted-foreground);
+}
+
+/* The zoom controls read as one small plate rather than two stacked chips —
+   the same treatment the panels get, one rung down. */
+.v2-map .maplibregl-ctrl-group {
+  background: var(--card);
+  border-radius: calc(var(--radius) - 0.25rem);
+  box-shadow:
+    inset 0 0 0 1px var(--elev-edge-rest),
+    var(--shadow-md);
+  overflow: hidden;
+}
+
+.v2-map .maplibregl-ctrl-group button {
+  background: transparent;
+  border: 0;
+  height: calc(var(--spacing) * 8);
+  width: calc(var(--spacing) * 8);
+}
+
+.v2-map .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--elev-edge-rest);
+}
+
+.v2-map .maplibregl-ctrl-group button:hover {
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+.v2-map .maplibregl-ctrl-group button:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ring);
+}
+
+/* MapLibre ships its glyphs as background images tinted for a white control.
+   Inverting them in dark is cheaper and steadier than shipping replacements,
+   and the icons are pure black line art, so it is lossless. */
+.dark .v2-map .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1) opacity(0.72);
+}
+
+/* The pin. A dot carrying the scenario count, with the house name beside it —
+   the label is part of the target, so the whole thing is one button rather
+   than a dot with a caption floating next to it. */
+.v2-map-pin {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 1.5);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  /* The pin's own footprint is small; the touch floor comes from the dot's
+     size plus this, so a thumb lands on the pin and not the map beneath it. */
+  padding-block: calc(var(--spacing) * 1);
+  padding-inline-end: calc(var(--spacing) * 1);
+}
+
+.v2-map-pin-dot {
+  display: grid;
+  place-items: center;
+  width: calc(var(--spacing) * 7);
+  height: calc(var(--spacing) * 7);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted-foreground);
+  box-shadow:
+    inset 0 0 0 1px var(--elev-edge-rest),
+    var(--shadow-md);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.v2-map-pin-count {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* The label rides on its own small plate so it stays legible over any ground —
+   fields, water and town all pass under these at some zoom. */
+.v2-map-pin-label {
+  padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 1.5);
+  border-radius: calc(var(--radius) - 0.5rem);
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  box-shadow: inset 0 0 0 1px var(--elev-edge-rest);
+  color: var(--foreground);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.v2-map-pin:hover .v2-map-pin-dot {
+  color: var(--foreground);
+  box-shadow:
+    inset 0 0 0 1px var(--elev-edge-peak),
+    var(--shadow-lg);
+}
+
+.v2-map-pin:focus-visible {
+  outline: none;
+}
+
+.v2-map-pin:focus-visible .v2-map-pin-dot {
+  box-shadow:
+    0 0 0 2px var(--ring),
+    var(--shadow-lg);
+}
+
+/* Selected is the accent's job — it is the one thing on the canvas the dock is
+   currently about, which is exactly what the action hue means everywhere else
+   in this app. */
+.v2-map-pin[data-selected="true"] .v2-map-pin-dot {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--primary) 70%, black),
+    var(--shadow-lg);
+}
+
+.v2-map-pin[data-selected="true"] .v2-map-pin-label {
+  background: var(--card);
+  color: var(--foreground);
+}

@@ -59,6 +59,18 @@ export type Scenario = {
 /** The user's elevator locations — drive the location tabs. */
 export const locations = ["River Terminal", "Prairie Grove", "Birchwood", "Winnebago"]
 
+/** Where those elevators actually are. Northern Illinois, spread across the
+    draw area a real desk would work: the river house on the Mississippi, two
+    inland houses, and one up by the state line. Invented, but plausible —
+    close enough together that all four fit a single view, far enough apart
+    that the distances between them mean something. */
+export const locationSites: Record<string, { lng: number; lat: number }> = {
+  "River Terminal": { lng: -90.578, lat: 41.509 },
+  "Prairie Grove": { lng: -89.652, lat: 40.693 },
+  Birchwood: { lng: -90.204, lat: 42.283 },
+  Winnebago: { lng: -89.246, lat: 42.267 },
+}
+
 const seeds: Omit<Scenario, "activity">[] = [
   { id: "SC-2041", futuresMonth: "Jul 2026", shipment: "Spot",        commodity: "corn",     location: "River Terminal", postedBid: -0.18, maxBid: -0.02, adjustedMaxBid: -0.05, updated: "6 min ago",  status: "active" },
   { id: "SC-2039", futuresMonth: "Jul 2026", shipment: "Jul 2026",    commodity: "soybeans", location: "River Terminal", postedBid: -0.24, maxBid: -0.02, adjustedMaxBid: -0.07, updated: "18 min ago", status: "active" },

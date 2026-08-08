@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useNavigate } from "react-router-dom"
 import { Archive, ChevronDown, Gauge, ListChecks, Pencil, Plus, Users } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
@@ -58,6 +59,7 @@ const Dash = () => (
     here too; it is shelved, and its data still generates — see the note in
     data/scenarios.ts.) */
 function ScenarioDetail({ scenario }: { scenario: Scenario }) {
+  const navigate = useNavigate()
   const [range, setRange] = React.useState<ActivityRange>("since")
   const activity = scenario.activity[range]
   // The roll-up is the scenario's whole life, not the recent tail: it is what
@@ -133,7 +135,11 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           action={
             /* The row's own edit control is an icon in a 38px cell at the end
                of a long table. Opened, there is room for the real thing. */
-            <Button size="lg" aria-label={`Edit ${scenario.id}`}>
+            <Button
+              size="lg"
+              aria-label={`Edit ${scenario.id}`}
+              onClick={() => navigate(`/scenarios/${scenario.id}/edit`)}
+            >
               <Pencil />
               Edit scenario
             </Button>
@@ -259,6 +265,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
 }
 
 export default function ScenariosPage() {
+  const navigate = useNavigate()
   const [location, setLocation] = React.useState("all")
   const [commodity, setCommodity] = React.useState("all")
 
@@ -419,7 +426,15 @@ export default function ScenariosPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center justify-end gap-1">
-                      <Button variant="default" size="icon-sm" aria-label={`Edit ${s.id}`}>
+                      <Button
+                        variant="default"
+                        size="icon-sm"
+                        aria-label={`Edit ${s.id}`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigate(`/scenarios/${s.id}/edit`)
+                        }}
+                      >
                         <Pencil />
                       </Button>
                       <Button
