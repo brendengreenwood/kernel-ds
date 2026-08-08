@@ -38,14 +38,16 @@ function Navigator({
        edge and lip) and refuses its cast: three surfaces, three heights, and
        the shadow is what separates the two that matter.
 
-       It also takes the rail's colour rather than the card's. Recession is the
-       point, and the rail token is the one surface that reads darker than the
-       card in BOTH themes - light `--background` is the same white as the card,
-       so it could not do this job. The navigator sinks, the canvas rises, and
-       the navigator now matches the rail it is a continuation of. */
+       It also sits one rung below the card, and one rung is the whole spec.
+       Dark has three surfaces - rail 0.165, page 0.213, card 0.270 - and the
+       rail is two rungs down: far enough that the navigator stops reading as a
+       recessed panel and starts reading as a hole. So dark takes the page and
+       light takes `--muted`, because light's page is the same white as the
+       card and cannot step at all. One rung down in each theme, by different
+       tokens, because no single token is one rung down in both. */
     <div data-v2-nav-plate
       className={cn(
-        "bg-sidebar relative z-0 my-4 -mr-12 ml-4 hidden w-72 shrink-0 flex-col overflow-hidden pr-12 md:flex",
+        "bg-muted dark:bg-background relative z-0 my-4 -mr-12 ml-4 hidden w-72 shrink-0 flex-col overflow-hidden pr-12 md:flex",
         /* Rounded on the side you can see, square on the side you cannot: the
            right edge runs deep under the plate, so a radius there would only
            ever be a corner drawn in the dark. */
