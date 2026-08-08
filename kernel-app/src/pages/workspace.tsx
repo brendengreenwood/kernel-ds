@@ -366,12 +366,18 @@ export default function WorkspacePage() {
             {/* Shipment only earns a word when it differs from the futures
                 month beside it - printing "Jul 2026 · Jul 2026" reads as a
                 rendering fault, not as two facts. */}
-            <span className="text-muted-foreground truncate text-[11px] leading-tight">
-              {scenario.location}
-              {scenario.shipment !== scenario.futuresMonth
-                ? ` · ${scenario.shipment}`
-                : ""}{" "}
-              · updated {scenario.updated}
+            {/* The house takes the same glyph it wears in the navigator: the
+                two bars name the same thing across the gutter, so they should
+                name it the same way. */}
+            <span className="text-muted-foreground flex min-w-0 items-center gap-1.5 text-[11px] leading-tight">
+              <Home className="size-3.5 shrink-0" aria-hidden />
+              <span className="truncate">
+                {scenario.location}
+                {scenario.shipment !== scenario.futuresMonth
+                  ? ` · ${scenario.shipment}`
+                  : ""}{" "}
+                · updated {scenario.updated}
+              </span>
             </span>
           </div>
           {/* The house keeps a place, but a quiet one: it is context for the
