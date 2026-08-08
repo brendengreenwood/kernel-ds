@@ -69,24 +69,36 @@
      lighter than the floor, which is the wrong constraint for a shell whose
      whole model is "things sit on top of other things".
 
-     The floor drops to --neutral-200 and the rail follows to --neutral-300.
-     The rail's own accent and border move down with them - each was the value
-     the rail itself now takes, and a border the same colour as its surface is
-     not a border.
+     In an inset shell the page you SEE is --sidebar: the wrapper takes
+     bg-sidebar and the rail sits on it invisibly, so one token paints both the
+     icon rail and the whole surround. Rail and page are therefore not two
+     surfaces that have to agree - they are one surface, and the only question
+     is how far under white it sits.
 
-     Two things set the distance. First, in an inset shell the page you SEE is
-     --sidebar: the wrapper takes bg-sidebar and the rail sits on it invisibly,
-     so the rail token is the canvas and --background only survives where the
-     navigator mixes its surface from it. Second, the ladder has to fit four
-     surfaces between the canvas and the card, and light only has room below
-     the card - one rung off white put the navigator 0.018 from the plate it is
-     supposed to sit underneath, which is not a gap, it is a rounding error.
-     At --neutral-200 the run is canvas 0.860 -> navigator 0.957 -> plate 1.0,
-     and every boundary is a boundary. */
+     It sits two rungs under, at --neutral-200. The first pass dug to
+     --neutral-300 on the theory that light should invert the dark model: dark
+     lifts plates toward white, so light should sink the floor away from it.
+     That reasoning does not survive the range check. Dark has the whole way
+     down to near-black to spend under its plates; light has nothing under
+     white but grey, and grey at --neutral-300 is the value a disabled control
+     takes. The chrome stopped reading as recessed and started reading as
+     switched-off, with the white plates pasted on rather than resting on it.
+
+     So light does not dig. It compresses the surfaces and lets the edge
+     hairline and the cast carry the elevation instead - which they can, now
+     that each plate takes its own rung rather than all of them claiming
+     --shadow-2xl. The run is chrome 0.922 -> navigator 0.957 -> plate 1.0:
+     evenly spaced at 1.11 and 1.13, where it used to be 1.21 then 1.11 then
+     1.13 with the heaviest step wasted on furniture. White is reserved for the
+     plates, which are the only things in the room that hold content.
+
+     The rail's accent and border follow it up a rung: each was the value the
+     rail itself now takes, and a border the same colour as its surface is not
+     a border. */
   --background: var(--neutral-200);
-  --sidebar: var(--neutral-300);
-  --sidebar-accent: var(--neutral-400);
-  --sidebar-border: var(--neutral-400);
+  --sidebar: var(--neutral-200);
+  --sidebar-accent: var(--neutral-300);
+  --sidebar-border: var(--neutral-300);
 
   /* LIVE DRIFT — not promoted. The DS light --muted-foreground stayed at its
      oklch(0.5350 …) value; this app runs one rung down. The plate fill costs a

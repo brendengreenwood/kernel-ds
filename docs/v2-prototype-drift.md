@@ -403,9 +403,9 @@ cast alone.
 | token | DS light | prototype | why |
 | --- | --- | --- | --- |
 | `--background` | white | `--neutral-200` | the page has to sit below four surfaces, not above them |
-| `--sidebar` | `--neutral-100` | `--neutral-300` | in an inset shell this token IS the visible canvas (see below) |
-| `--sidebar-accent` | `--neutral-200` | `--neutral-400` | was the value the rail itself now takes |
-| `--sidebar-border` | `--neutral-200` | `--neutral-400` | a border the colour of its own surface is not a border |
+| `--sidebar` | `--neutral-100` | `--neutral-200` | in an inset shell this token IS the visible canvas (see below) |
+| `--sidebar-accent` | `--neutral-200` | `--neutral-300` | was the value the rail itself now takes |
+| `--sidebar-border` | `--neutral-200` | `--neutral-300` | a border the colour of its own surface is not a border |
 | `--v2-edge-rest` | `--primary` 6% | `--foreground` 12% | grey, and heavy enough to read (see below) |
 | `--v2-edge-peak` | `--primary` 15% | `--foreground` 24% | matched to the DS's own light hairline |
 
@@ -416,11 +416,24 @@ survives where something mixes its surface from it (here, the navigator). Any
 attempt to darken "the page" that moves only `--background` moves the wrong
 token.
 
-Light now runs canvas `L=0.860` -> navigator `0.957` -> card/plate `1.0`, with
-the active row a step under the navigator. Measured: navigator against canvas
-1.35:1, card against navigator 1.13:1, card against canvas 1.53:1, active row
-against navigator 1.19:1. Text holds - foreground on the navigator 15.43:1,
-muted 6.26:1, rail labels 11.46:1, rail glyphs 7.18:1.
+Light now runs canvas `L=0.922` -> navigator `0.957` -> card/plate `1.0`.
+Measured: navigator against canvas 1.11:1, plate against navigator 1.13:1,
+plate against canvas 1.26:1. Text holds - rail glyphs 8.26:1 on the canvas.
+
+The canvas sat one rung lower than that first, at `--neutral-300`, on the
+theory that light should invert the dark model: dark lifts its plates toward
+white, so light should sink its floor away from it. That does not survive a
+range check. Dark has the whole way down to near-black to spend beneath a
+plate; light has nothing under white but grey, and grey at `--neutral-300` is
+the value a disabled control takes. The chrome stopped reading as recessed and
+started reading as inert, with the white plates pasted onto it rather than
+resting on it - and it spent the largest step in the ladder (1.21:1) on
+furniture, leaving 1.11 and 1.13 for the two boundaries that carry content.
+
+So light does not dig. It compresses the surfaces and lets the edge hairline
+and the cast carry the elevation instead, which they can now that each plate
+takes its own elevation rung rather than all of them claiming `--shadow-2xl`.
+White is reserved for the surfaces that hold content.
 
 The edges moved for a related reason. Dark mixes the action hue into its
 hairlines: on a near-black surface a lime edge reads as light catching a
