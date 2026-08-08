@@ -54,10 +54,19 @@ function Navigator({
        recessed panel and starts reading as a hole. So dark takes the page and
        light takes `--muted`, because light's page is the same white as the
        card and cannot step at all. One rung down in each theme, by different
-       tokens, because no single token is one rung down in both. */
+       tokens, because no single token is one rung down in both.
+
+       It spends no gutter of its own on the left. The rail already holds its
+       items 4 units off its own box - 2 for the container's inset, 2 for the
+       group's - so a margin here was a second gutter stacked on the first:
+       33px from a rail item to the workspace edge against 15px from the
+       workspace edge to the dock, the same distance counted twice on one side
+       and once on the other. The half unit back is the 2px the DS's sidebar
+       container overhangs its declared width; without it the two gutters land
+       17.6 and 15.4. */
     <div data-v2-nav-plate data-v2-navbody
       className={cn(
-        "relative z-0 my-4 -mr-12 ml-4 hidden w-[21rem] shrink-0 flex-col overflow-hidden pr-12 md:flex",
+        "relative z-0 my-4 -mr-12 -ml-0.5 hidden w-[21rem] shrink-0 flex-col overflow-hidden pr-12 md:flex",
         /* Rounded on the side you can see, square on the side you cannot: the
            right edge runs deep under the plate, so a radius there would only
            ever be a corner drawn in the dark. */
