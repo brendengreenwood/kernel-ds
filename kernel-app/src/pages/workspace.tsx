@@ -6,8 +6,16 @@ import { Button } from "@/components/ui/button"
 import { CommodityBadge } from "@/components/ui/commodity-badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { StatusBadge } from "@/components/ui/status-badge"
 import { MapCanvas } from "@app/components/map-canvas"
+import { PageHeader } from "@app/components/panels"
 import { locations, scenarios, type Scenario } from "@app/data/scenarios"
 import { basis } from "@app/lib/format"
 import { statusMap } from "@app/lib/status"
@@ -32,6 +40,8 @@ function Navigator({
   onScenario: (id: string) => void
 }) {
   const here = scenarios.filter((s) => s.location === selectedLocation)
+  const countIn = (name: string) => scenarios.filter((s) => s.location === name).length
+  const houseItems = Object.fromEntries(locations.map((l) => [l, l]))
   return (
     /* The navigator is a plate too - but a plate that is sat ON, not one that
        is raised. It takes the plate's geometry (same gutter, same radius, same
@@ -90,38 +100,40 @@ function Navigator({
           inset as the row text beneath it, so the group reads as one block
           instead of two indents. */}
       <div className="flex min-h-0 flex-1 flex-col gap-3 px-2 py-5">
+      {/* The house is a switch, not a list. Four rows spent a quarter of the
+          column restating a set you already know you belong to, and the one
+          fact you act on - which house am I in - was the trigger's job all
+          along. It wears no label: the value IS the label, the glyph says what
+          kind of thing it is, and the list below it is visibly the house's
+          contents. */}
+      <div className="px-0.5">
+        <Select
+          value={selectedLocation}
+          onValueChange={(v) => onLocation(v as string)}
+          items={houseItems}
+        >
+          <SelectTrigger aria-label="House" className="h-10 w-full">
+            <Home className="size-4 text-primary" />
+            <SelectValue />
+            <span className="text-muted-foreground ml-auto pr-1 text-[11px] tabular-nums">
+              {countIn(selectedLocation)}
+            </span>
+          </SelectTrigger>
+          <SelectContent>
+            {locations.map((name) => (
+              <SelectItem key={name} value={name}>
+                <Home className="size-4 text-muted-foreground" />
+                <span className="flex-1">{name}</span>
+                <span className="text-muted-foreground text-[11px] tabular-nums">
+                  {countIn(name)}
+                </span>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="px-2.5">
-        <div className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
-          Houses
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-0.5">
-        {locations.map((name) => {
-          const count = scenarios.filter((s) => s.location === name).length
-          const active = name === selectedLocation
-          return (
-            <button
-              key={name}
-              type="button"
-              onClick={() => onLocation(name)}
-              data-active={active || undefined}
-              className={cn(
-                "flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[13px] transition-colors",
-                "text-foreground/80 hover:bg-accent/40",
-                "focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none",
-                active && "bg-accent text-accent-foreground"
-              )}
-            >
-              <Home className={cn("size-4", active ? "text-primary" : "text-muted-foreground")} />
-              <span className="min-w-0 flex-1 truncate font-medium">{name}</span>
-              <span className="text-muted-foreground text-[11px] tabular-nums">{count}</span>
-            </button>
-          )
-        })}
-      </div>
-
-      <div className="mt-2 px-2.5">
         <div className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
           Scenarios
         </div>
@@ -217,7 +229,7 @@ function Dock({ scenario }: { scenario: Scenario }) {
          this one ends where it ends, and only scrolls if the viewport cannot
          hold it. */
       className={cn(
-        "absolute top-4 left-4 z-10 flex w-80 flex-col rounded-[var(--panel-radius)]",
+        "absolute top-4 left-4 z-30 flex w-80 flex-col rounded-[var(--panel-radius)]",
         "h-fit max-h-[calc(100%-2rem)] overflow-hidden"
       )}
       style={{
@@ -359,48 +371,53 @@ export default function WorkspacePage() {
             elevations - the navigator body stays recessed below it. */}
         <div
           data-v2-workbar
-          className="relative z-20 flex h-14 shrink-0 items-center justify-between gap-3 px-4"
+          className="relative z-20 shrink-0 px-4 py-3"
           style={{
             background: "var(--elev-plate)",
             boxShadow:
               "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
           }}
         >
-          <div className="flex min-w-0 items-center gap-2">
-            <span className="shrink-0 text-sm leading-tight font-medium tabular-nums">
-              {scenario.id}
-            </span>
-            <StatusBadge status={statusMap[scenario.status].hue}>
-              {statusMap[scenario.status].label}
-            </StatusBadge>
-            {/* The commodity is what is being traded - it belongs to the
-                subject as much as the id does, and it earns the badge rather
-                than a word in the run-on line because it is the one fact here
-                you scan for rather than read. */}
-            <CommodityBadge commodity={scenario.commodity} />
-            <Badge variant="secondary">{scenario.futuresMonth}</Badge>
-            {/* Shipment only earns a word when it differs from the futures
-                month beside it - printing "Jul 2026 · Jul 2026" reads as a
-                rendering fault, not as two facts. */}
-            {/* The house takes the same glyph it wears in the navigator: the
-                two bars name the same thing across the gutter, so they should
-                name it the same way. */}
-            <span className="text-muted-foreground flex min-w-0 items-center gap-1.5 text-[11px] leading-tight">
-              <Home className="size-3.5 shrink-0" aria-hidden />
-              <span className="truncate">
-                {scenario.location}
-                {scenario.shipment !== scenario.futuresMonth
-                  ? ` · ${scenario.shipment}`
-                  : ""}{" "}
-                · updated {scenario.updated}
-              </span>
-            </span>
-          </div>
-          {/* The house keeps a place, but a quiet one: it is context for the
-              subject, not the subject. */}
-          <span className="text-muted-foreground shrink-0 text-[11px]">
-            {hereCount} in {location}
-          </span>
+          {/* A workspace bar is the page header for the thing being edited, so
+              it is built out of the header component rather than out of a row
+              of spans that happen to be 56px tall. `panel` is the rung: this
+              titles a surface inside the app, not the app's whole page. */}
+          <PageHeader
+            size="bar"
+            icon={Home}
+            title={scenario.id}
+            /* Shipment only earns a word when it differs from the futures
+               month beside it - printing "Jul 2026 · Jul 2026" reads as a
+               rendering fault, not as two facts. */
+            description={`${scenario.location}${
+              scenario.shipment !== scenario.futuresMonth ? ` · ${scenario.shipment}` : ""
+            } · updated ${scenario.updated}`}
+            action={
+              <>
+                <StatusBadge status={statusMap[scenario.status].hue}>
+                  {statusMap[scenario.status].label}
+                </StatusBadge>
+                {/* The commodity is what is being traded - it belongs to the
+                    subject as much as the id does, and it earns the badge
+                    rather than a word in the run-on line because it is the one
+                    fact here you scan for rather than read. */}
+                <CommodityBadge commodity={scenario.commodity} />
+                <Badge variant="secondary">{scenario.futuresMonth}</Badge>
+                {/* The house keeps a place, but a quiet one: it is context for
+                    the subject, not the subject. */}
+                <span className="text-muted-foreground mr-1 shrink-0 text-[11px]">
+                  {hereCount} in {location}
+                </span>
+                {/* Publish is the one irreversible thing this screen does, so it
+                    sits at the far end of the header where the eye lands last -
+                    and it is the only filled control in the bar, because the
+                    dock's own primary is about computing, not committing. */}
+                <Button size="sm" className="shrink-0">
+                  Publish
+                </Button>
+              </>
+            }
+          />
         </div>
 
         <div className="relative min-h-0 flex-1">

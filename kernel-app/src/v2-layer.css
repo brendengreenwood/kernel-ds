@@ -937,11 +937,11 @@ main [data-slot="card"] {
   width: calc(var(--spacing) * 7);
   height: calc(var(--spacing) * 7);
   border-radius: 999px;
-  background: var(--card);
-  color: var(--muted-foreground);
+  background: color-mix(in oklab, var(--card) 82%, var(--foreground));
+  color: var(--foreground);
   box-shadow:
-    inset 0 0 0 1px var(--elev-edge-rest),
-    var(--shadow-md);
+    inset 0 0 0 1px var(--elev-edge-peak),
+    var(--shadow-lg);
   transition:
     background var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out),

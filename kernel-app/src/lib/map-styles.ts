@@ -1,11 +1,10 @@
 /** Kernel-themed MapLibre basemaps.
  *
- *  Ported from the map app (`src/lib/map-styles.ts`), retuned for the v2
- *  surface. The original recoloured the DS's *light* palette; here the ground
- *  has to read as the PLATE, because in the workspace the map is not a widget
- *  sitting on the page — it IS the canvas. So the basemap background is the
- *  card colour exactly, and everything else steps off it: land a shade up,
- *  water a shade down and cooler, buildings between the two.
+ *  Ported from the map app (`src/lib/map-styles.ts`) with its palette intact.
+ *  An earlier pass here retuned the ground to read as the plate — same hue as
+ *  the card, land a step up, water a step down. It was wrong: the map app's
+ *  ground is the one that has been looked at for months, and a basemap tuned
+ *  to disappear into its container stops reading as territory.
  *
  *  Hex, not `oklch()`: these values cross into MapLibre's paint properties,
  *  which are parsed by the map's own colour engine, not the browser's — a
@@ -15,20 +14,18 @@
 
 import type { Map as MapLibreMap } from "maplibre-gl"
 
-/* Resolved from the DS neutral ramp — the same tokens the plate itself uses. */
+/* The map app's Kernel palette, kept verbatim. */
 const K = {
-  card: "#1f2924", // --neutral-800, the dark plate
-  cardStep: "#243029", // one step off the plate, for land
-  building: "#28352e",
-  buildingTop: "#2d3b34",
-  waterDark: "#16232b", // cooler than the ground so water still reads as water
+  brand100: "#e8ebd3",
+  neutral100: "#f1f2ee",
+  neutral200: "#e7e8e4",
+  neutral300: "#dfe0dc",
+  neutral700: "#515550",
+  neutral900: "#2e3230",
+  neutral1000: "#252927",
   white: "#ffffff",
-  n50: "#f9fafa",
-  n100: "#f2f5f3",
-  n200: "#e9ecea",
-  n300: "#dbdfdd",
-  waterLight: "#dbe7ee",
-  landLight: "#eef2ea",
+  water: "#c8dbe5",
+  waterDark: "#1a2c38",
 } as const
 
 export const CARTO_URLS = {
@@ -42,36 +39,41 @@ type PaintOverride = { property: PaintProperty; value: PaintValue }
 type LayerOverride = { id: string; overrides: PaintOverride[] }
 
 const LIGHT_OVERRIDES: LayerOverride[] = [
-  { id: "background", overrides: [{ property: "background-color", value: K.white }] },
-  { id: "water", overrides: [{ property: "fill-color", value: K.waterLight }] },
-  { id: "landcover", overrides: [{ property: "fill-color", value: K.landLight }] },
-  { id: "park_national_park", overrides: [{ property: "fill-color", value: K.landLight }] },
-  { id: "park_nature_reserve", overrides: [{ property: "fill-color", value: K.landLight }] },
-  { id: "landuse", overrides: [{ property: "fill-color", value: K.n50 }] },
-  { id: "building", overrides: [{ property: "fill-color", value: K.n200 }] },
+  { id: "background", overrides: [{ property: "background-color", value: K.neutral100 }] },
+  { id: "water", overrides: [{ property: "fill-color", value: K.water }] },
+  { id: "landcover", overrides: [{ property: "fill-color", value: "rgba(210, 230, 200, 0.5)" }] },
+  {
+    id: "park_national_park",
+    overrides: [{ property: "fill-color", value: "rgba(210, 230, 200, 0.5)" }],
+  },
+  {
+    id: "park_nature_reserve",
+    overrides: [{ property: "fill-color", value: "rgba(210, 230, 200, 0.5)" }],
+  },
+  { id: "building", overrides: [{ property: "fill-color", value: K.neutral300 }] },
   {
     id: "building-top",
     overrides: [
-      { property: "fill-color", value: K.n100 },
-      { property: "fill-outline-color", value: K.n300 },
+      { property: "fill-color", value: K.neutral200 },
+      { property: "fill-outline-color", value: K.neutral300 },
     ],
   },
 ]
 
 const DARK_OVERRIDES: LayerOverride[] = [
-  { id: "background", overrides: [{ property: "background-color", value: K.card }] },
+  { id: "background", overrides: [{ property: "background-color", value: "#0d0f0e" }] },
   { id: "water", overrides: [{ property: "fill-color", value: K.waterDark }] },
   { id: "landcover", overrides: [{ property: "fill-opacity", value: 0 }] },
-  { id: "landuse", overrides: [{ property: "fill-color", value: K.cardStep }] },
+  { id: "landuse", overrides: [{ property: "fill-color", value: K.neutral900 }] },
   { id: "landuse_residential", overrides: [{ property: "fill-opacity", value: 0 }] },
-  { id: "park_national_park", overrides: [{ property: "fill-color", value: K.cardStep }] },
-  { id: "park_nature_reserve", overrides: [{ property: "fill-color", value: K.cardStep }] },
-  { id: "building", overrides: [{ property: "fill-color", value: K.building }] },
+  { id: "park_national_park", overrides: [{ property: "fill-color", value: "#2a3328" }] },
+  { id: "park_nature_reserve", overrides: [{ property: "fill-color", value: "#2a3328" }] },
+  { id: "building", overrides: [{ property: "fill-color", value: "#1a1d1b" }] },
   {
     id: "building-top",
     overrides: [
-      { property: "fill-color", value: K.buildingTop },
-      { property: "fill-outline-color", value: K.building },
+      { property: "fill-color", value: "#1e211f" },
+      { property: "fill-outline-color", value: "#1a1d1b" },
     ],
   },
 ]
