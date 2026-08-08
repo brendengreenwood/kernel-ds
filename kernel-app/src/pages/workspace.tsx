@@ -64,7 +64,7 @@ function Navigator({
       {/* The navigator's bar. The way out belongs to the chrome that chooses
           the work, not to the plate that shows it: leaving is a navigation, and
           navigation is this column's whole job. */}
-      <div className="flex h-14 shrink-0 items-center border-b border-[var(--v2-edge-rest)] px-4">
+      <div className="bg-card flex h-14 shrink-0 items-center border-b border-[var(--v2-edge-rest)] px-4">
         <Button
           variant="ghost"
           size="sm"
@@ -199,7 +199,19 @@ function Dock({ scenario }: { scenario: Scenario }) {
     <aside
       data-v2-dock
       aria-label={`Inspector for ${scenario.id}`}
-      className="absolute top-4 right-4 bottom-4 z-10 flex w-80 flex-col overflow-hidden rounded-[var(--panel-radius)]"
+      /* Left, beside the navigator rather than across the plate from it:
+         the thing that picks the work and the thing that edits it now read
+         as one column of instruments, and the map keeps the whole right
+         side to be a map in.
+
+         It is as tall as its content and no taller. A panel stretched to the
+         plate's full height has to invent something to put at the bottom -
+         this one ends where it ends, and only scrolls if the viewport cannot
+         hold it. */
+      className={cn(
+        "absolute top-4 left-4 z-10 flex w-80 flex-col rounded-[var(--panel-radius)]",
+        "h-fit max-h-[calc(100%-2rem)] overflow-hidden"
+      )}
       style={{
         // One rung above the plate, and lit like it: the plate wears `--card`,
         // so the dock wears the plate mix — same hue, more light. Its edge is
@@ -210,23 +222,12 @@ function Dock({ scenario }: { scenario: Scenario }) {
           "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
       }}
     >
-      <div className="flex flex-col gap-2 border-b border-[var(--v2-edge-rest)] p-5">
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-semibold tabular-nums">{scenario.id}</span>
-          <StatusBadge status={statusMap[scenario.status].hue} className="ml-auto">
-            {statusMap[scenario.status].label}
-          </StatusBadge>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <CommodityBadge commodity={scenario.commodity} />
-          <Badge variant="secondary">{scenario.futuresMonth}</Badge>
-        </div>
-        <div className="text-muted-foreground text-xs">
-          {scenario.location} · {scenario.shipment} · updated {scenario.updated}
-        </div>
-      </div>
-
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-5">
+      {/* No header. The dock used to name its own subject - id, status,
+          commodity, month, house - directly under a bar that was naming the
+          same thing one gutter away. Two labels for one object is one label,
+          twice. The bar keeps the naming because it spans the plate the
+          object is drawn on; the dock keeps only the controls that act. */}
+      <div className="flex min-h-0 flex-col gap-5 overflow-y-auto p-5">
         <div className="flex flex-col gap-2">
           <Label htmlFor="dock-bid">Posted bid</Label>
           <Input
@@ -278,12 +279,14 @@ function Dock({ scenario }: { scenario: Scenario }) {
         </div>
       </div>
 
-      <div className="flex gap-2 border-t border-[var(--v2-edge-rest)] p-5">
-        <Button className="flex-1" disabled={!moved || overMax}>
-          Post bid
-        </Button>
-        <Button variant="outline" onClick={() => setBid(scenario.postedBid.toFixed(2))} disabled={!moved}>
-          Reset
+      {/* One action, and it is not a commit. Computing the landscape asks what
+          this bid would DO - so it is available the moment you arrive, at the
+          bid already posted, and does not wait for you to move the number
+          first. Only a bid that is not a number, or one over the adjusted max,
+          has nothing to compute. */}
+      <div className="border-t border-[var(--v2-edge-rest)] p-5">
+        <Button className="w-full" disabled={!valid || overMax}>
+          Compute landscape
         </Button>
       </div>
     </aside>
@@ -336,25 +339,52 @@ export default function WorkspacePage() {
           boxShadow: "inset 0 0 0 1px var(--elev-edge-page), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
         }}
       >
-        {/* The plate's bar. It names the subject the map is drawing, at the same
-            height as the navigator's bar across the gutter - two plates, one
-            baseline, so they read as one instrument rather than two panels. */}
-        <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-[var(--v2-edge-rest)] px-4">
-          <div className="flex min-w-0 flex-col">
-            <span className="truncate text-sm leading-tight font-medium">{location}</span>
-            <span className="text-muted-foreground text-[11px] leading-tight">
-              {hereCount} {hereCount === 1 ? "scenario" : "scenarios"}
+        {/* The plate's bar names the SUBJECT, and the subject is the scenario -
+            not the house it sits in. The house is what the navigator is for and
+            what the map is already drawing; naming it here spent the bar on the
+            one fact the screen states twice already.
+
+            It sits at the same height as the navigator's bar across the gutter:
+            two plates, one baseline, so they read as one instrument rather than
+            two panels. The bar takes the plate's own surface on both sides of
+            the gutter, so the header band is one colour crossing two
+            elevations - the navigator body stays recessed below it. */}
+        <div className="bg-card flex h-14 shrink-0 items-center justify-between gap-3 border-b border-[var(--v2-edge-rest)] px-4">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="shrink-0 text-sm leading-tight font-medium tabular-nums">
+              {scenario.id}
+            </span>
+            <StatusBadge status={statusMap[scenario.status].hue}>
+              {statusMap[scenario.status].label}
+            </StatusBadge>
+            {/* The commodity is what is being traded - it belongs to the
+                subject as much as the id does, and it earns the badge rather
+                than a word in the run-on line because it is the one fact here
+                you scan for rather than read. */}
+            <CommodityBadge commodity={scenario.commodity} />
+            <Badge variant="secondary">{scenario.futuresMonth}</Badge>
+            {/* Shipment only earns a word when it differs from the futures
+                month beside it - printing "Jul 2026 · Jul 2026" reads as a
+                rendering fault, not as two facts. */}
+            <span className="text-muted-foreground truncate text-[11px] leading-tight">
+              {scenario.location}
+              {scenario.shipment !== scenario.futuresMonth
+                ? ` · ${scenario.shipment}`
+                : ""}{" "}
+              · updated {scenario.updated}
             </span>
           </div>
-          <span className="text-muted-foreground shrink-0 text-[11px] tabular-nums">
-            {scenario.id}
+          {/* The house keeps a place, but a quiet one: it is context for the
+              subject, not the subject. */}
+          <span className="text-muted-foreground shrink-0 text-[11px]">
+            {hereCount} in {location}
           </span>
         </div>
 
         <div className="relative min-h-0 flex-1">
-          {/* The dock is 20rem wide and sits in a 1rem gutter: 21rem of plate the
-              camera must not aim at. */}
-          <MapCanvas sites={sites} selected={location} onSelect={selectLocation} occludedRight={336} />
+          {/* The dock is 20rem wide and sits in a 1rem gutter: 21rem of plate on
+              the LEFT that the camera must not aim at. */}
+          <MapCanvas sites={sites} selected={location} onSelect={selectLocation} occludedLeft={336} />
           <Dock scenario={scenario} />
         </div>
       </div>

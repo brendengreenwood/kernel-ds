@@ -295,7 +295,11 @@ function useInWorkspace() {
 function RailFollowsRoute() {
   const { open, setOpen } = useSidebar()
   const inWorkspace = useInWorkspace()
-  const was = React.useRef(inWorkspace)
+  // `null` until the rail has been set once. Seeding this with `inWorkspace`
+  // made the first effect a no-op, so landing directly on a workspace URL - a
+  // deep link, a refresh, a shared link - left the rail expanded beside a
+  // navigator. The first run must always apply.
+  const was = React.useRef<boolean | null>(null)
   const remembered = React.useRef(open)
 
   // Capture the preference only on renders that are entirely outside a
@@ -303,7 +307,7 @@ function RailFollowsRoute() {
   // this render runs BEFORE the effect restores the rail, so `open` is still
   // the collapsed value we ourselves forced; reading it here would remember
   // the collapse as a preference and the rail would never come back.
-  if (!inWorkspace && !was.current) remembered.current = open
+  if (!inWorkspace && was.current !== true) remembered.current = open
 
   React.useEffect(() => {
     if (inWorkspace === was.current) return

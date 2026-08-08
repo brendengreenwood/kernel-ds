@@ -26,7 +26,7 @@ type Props = {
   onSelect: (name: string) => void
   /** Pixels of plate hidden by something floating on it — the dock. The camera
       centres on what is visible rather than on the element it fills. */
-  occludedRight?: number
+  occludedLeft?: number
   className?: string
 }
 
@@ -39,7 +39,7 @@ type Props = {
  *  for hundreds of points, but there are four houses here and the markers have
  *  to be focusable, hoverable and keyboard-reachable — all of which the DOM
  *  gives for free and a canvas layer would have to reimplement. */
-export function MapCanvas({ sites, selected, onSelect, occludedRight = 0, className }: Props) {
+export function MapCanvas({ sites, selected, onSelect, occludedLeft = 0, className }: Props) {
   const holder = React.useRef<HTMLDivElement>(null)
   const map = React.useRef<MapLibreMap | null>(null)
   const markers = React.useRef<Marker[]>([])
@@ -145,9 +145,9 @@ export function MapCanvas({ sites, selected, onSelect, occludedRight = 0, classN
       center: [at.lng, at.lat],
       zoom: 7.6,
       duration: 900,
-      padding: { top: 0, bottom: 0, left: 0, right: occludedRight },
+      padding: { top: 0, bottom: 0, left: occludedLeft, right: 0 },
     })
-  }, [selected, ready, occludedRight])
+  }, [selected, ready, occludedLeft])
 
   return <div ref={holder} className={cn("v2-map size-full", className)} aria-label="Draw area map" />
 }
