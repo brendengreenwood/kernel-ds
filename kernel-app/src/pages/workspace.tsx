@@ -64,7 +64,15 @@ function Navigator({
       {/* The navigator's bar. The way out belongs to the chrome that chooses
           the work, not to the plate that shows it: leaving is a navigation, and
           navigation is this column's whole job. */}
-      <div className="bg-card flex h-14 shrink-0 items-center border-b border-[var(--v2-edge-rest)] px-4">
+      <div
+        data-v2-workbar
+        className="relative z-20 flex h-14 shrink-0 items-center px-4"
+        style={{
+          background: "var(--elev-plate)",
+          boxShadow:
+            "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
+        }}
+      >
         <Button
           variant="ghost"
           size="sm"
@@ -349,7 +357,15 @@ export default function WorkspacePage() {
             two panels. The bar takes the plate's own surface on both sides of
             the gutter, so the header band is one colour crossing two
             elevations - the navigator body stays recessed below it. */}
-        <div className="bg-card flex h-14 shrink-0 items-center justify-between gap-3 border-b border-[var(--v2-edge-rest)] px-4">
+        <div
+          data-v2-workbar
+          className="relative z-20 flex h-14 shrink-0 items-center justify-between gap-3 px-4"
+          style={{
+            background: "var(--elev-plate)",
+            boxShadow:
+              "inset 0 0 0 1px var(--v2-edge-peak), inset 0 1px 0 var(--elev-lip), var(--shadow-2xl)",
+          }}
+        >
           <div className="flex min-w-0 items-center gap-2">
             <span className="shrink-0 text-sm leading-tight font-medium tabular-nums">
               {scenario.id}
