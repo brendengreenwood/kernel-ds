@@ -15,10 +15,12 @@
 
 /* ---- app-only dark tokens ---- */
 .dark {
-  /* Segmented selection is the accent. --secondary cannot do it — in dark it is
-     the same value as --card, so a segment filled with it vanishes on a panel. */
-  --v2-seg-active: var(--primary);
-  --v2-seg-active-foreground: var(--primary-foreground);
+  /* A segmented control is a trough with one plate sitting back up in it. The
+     track is the card carved INTO the surface and the chip is the card itself,
+     so the pair reads the same way round in both themes: dark carves 22%
+     toward --shadow-color because a near-black card has to move a long way
+     before the eye reads a recess. */
+  --v2-seg-track: color-mix(in oklch, var(--card), var(--shadow-color) 22%);
 
   /* ---- the expanded-row well ----
      A recess has to be DARKER than anything the table paints, or it reads as
@@ -86,8 +88,9 @@
    white plate, the transparent lip, the cast-led elev recipe — is the DS's
    own now (register Part 2.3, promoted). */
 :root:not(.dark) {
-  --v2-seg-active: var(--primary);
-  --v2-seg-active-foreground: var(--primary-foreground);
+  /* Light only has to carve 6%: it starts at white, and the chip that sits
+     back up in the trough is white too, so a small step is a whole rung. */
+  --v2-seg-track: color-mix(in oklch, var(--card), var(--shadow-color) 6%);
 
   /* The floor is neutral-50 and the plate is white.
 

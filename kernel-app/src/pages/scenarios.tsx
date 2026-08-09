@@ -333,7 +333,7 @@ export default function ScenariosPage() {
       <div className="px-6 pt-4 md:px-8">
         <Tabs value={commodity} onValueChange={(v) => setCommodity(v as string)}>
           <div className="max-w-full overflow-x-auto">
-            <TabsList variant="pill" size="compact">
+            <TabsList variant="pill" size="compact" data-v2-segmented>
               {commodityFilters.map((c) => (
                 <TabsTrigger key={c.value} value={c.value}>
                   {c.label}

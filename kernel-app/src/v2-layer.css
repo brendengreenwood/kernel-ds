@@ -32,30 +32,6 @@
     outline-color: color-mix(in oklch, var(--primary) 32%, transparent);
   }
 
-  /* Segmented range control: turn the outline ToggleGroup into a filled
-     pill with a highlighted active segment. */
-  [data-v2-segmented] {
-    gap: calc(var(--spacing) * 0.5);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--card);
-    padding: calc(var(--spacing) * 0.75);
-  }
-  [data-v2-segmented] [data-slot="toggle-group-item"] {
-    border: 0 !important;
-    border-radius: calc(var(--radius) - var(--spacing));
-    background: transparent;
-    color: var(--muted-foreground);
-  }
-  [data-v2-segmented] [data-slot="toggle-group-item"]:hover {
-    background: transparent;
-    color: var(--foreground);
-  }
-  [data-v2-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
-  [data-v2-segmented] [data-slot="toggle-group-item"][data-state="on"] {
-    background: var(--v2-seg-active);
-    color: var(--v2-seg-active-foreground);
-  }
 }
 
 /* ---- The activity panel's concentric inner surface ----
@@ -106,45 +82,70 @@
    top and the plate draws the sides — a second hairline inside them would be
    two lines describing one boundary. */
 
-/* ---- Segmented tabs ----
-   The same control as the Overview's range group, driven off the same marker,
-   so `data-v2-segmented` means one thing in this app whether the segments are
-   toggle-group items or tab triggers.
+/* ---- The segmented control: a trough holding one plate ----
+   One marker, `data-v2-segmented`, drives this whether the segments are
+   toggle-group items (Overview's range, the forward curve's commodity) or tab
+   triggers (the commodity filters, the activity range). A segmented control is
+   a segmented control wherever it sits.
 
-   A quiet track and a quiet chip. The DS pill hands the active segment
-   --primary, which is right for a filter the reader SET and wrong for a range
-   that merely defaults to something: a green block on a panel's first line
-   reads as the panel's subject, not as one of two states of a control.
+   The active segment used to take a flat overlay, and on the ToggleGroup it
+   took nothing at all: the DS ships `aria-pressed:bg-muted` as a UTILITY, and
+   the rule that was meant to fill it green lived in @layer components, so the
+   background fell through to --muted while the colour rule still applied
+   --primary-foreground. White text on a near-white fill: 1.00:1, a label that
+   was not there. Every property that a utility also sets is !important here.
 
-   Both fills are foreground overlays rather than palette rungs, because this
-   control sits on --card inside the panel and on the page plate on Overview,
-   and an overlay carries the same step off either. Track 4%, chip 10%: the
-   chip has to clear the track it sits in, not the surface underneath. */
-[data-slot="tabs-list"][data-v2-segmented] {
-  border-radius: var(--radius);
+   What replaced it is the elevation language the rest of the app already
+   speaks. The track is the card carved into the surface; the active segment is
+   the card itself, put back up on a hairline, a lip and the shortest cast in
+   the ramp. Nothing is tinted: a filter that merely defaults to something is
+   not the panel's subject, and --primary on the first line of a panel reads
+   like it is.
+
+   Geometry is concentric. The chip's corner has to hold the same distance from
+   the track's corner as its sides hold from the track's sides, or the fill
+   pinches at the ends: inner radius = outer radius − border − padding, which
+   is 10.16 − 1 − 2.88 = 6.28px. Hover takes the same radius as active, because
+   a hover fill that is not the shape of the thing it previews is a different
+   thing being previewed. */
+[data-v2-segmented] {
+  --v2-seg-pad: calc(var(--spacing) * 0.75);
+  --v2-seg-radius: calc(var(--radius) - var(--spacing));
+  --v2-seg-radius-inner: calc(var(--v2-seg-radius) - 1px - var(--v2-seg-pad));
+  gap: calc(var(--spacing) * 0.5) !important;
+  align-items: stretch;
+  border-radius: var(--v2-seg-radius) !important;
   border: 1px solid var(--border);
-  background: color-mix(in oklch, var(--foreground) 4%, transparent);
-  padding: calc(var(--spacing) * 0.75);
-  gap: calc(var(--spacing) * 0.5);
+  background: var(--v2-seg-track) !important;
+  padding: var(--v2-seg-pad) !important;
 }
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"] {
-  border-radius: calc(var(--radius) - var(--spacing));
-  border: 0;
-  background: transparent;
+[data-v2-segmented] [data-slot="toggle-group-item"],
+[data-v2-segmented] [data-slot="tabs-trigger"] {
+  border: 0 !important;
+  border-radius: var(--v2-seg-radius-inner) !important;
+  background: transparent !important;
   color: var(--muted-foreground);
 }
-/* Scoped off :focus-visible — see the note on the pill strip below: an
-   unconditional `box-shadow: none` erases the focus ring along with the
-   active segment's lift, because both are box-shadows. */
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"]:not(:focus-visible) {
+/* Scoped off :focus-visible: the focus ring is a box-shadow too, so clearing
+   the property unconditionally takes the keyboard indicator with it. */
+[data-v2-segmented] [data-slot="toggle-group-item"]:not(:focus-visible),
+[data-v2-segmented] [data-slot="tabs-trigger"]:not(:focus-visible) {
   box-shadow: none;
 }
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"]:hover {
+[data-v2-segmented] [data-slot="toggle-group-item"]:hover,
+[data-v2-segmented] [data-slot="tabs-trigger"]:hover {
+  background: color-mix(in oklch, var(--foreground) 6%, transparent) !important;
   color: var(--foreground);
 }
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"][data-active] {
-  background: color-mix(in oklch, var(--foreground) 10%, transparent);
-  color: var(--foreground);
+[data-v2-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
+[data-v2-segmented] [data-slot="toggle-group-item"][data-state="on"],
+[data-v2-segmented] [data-slot="tabs-trigger"][data-active] {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  box-shadow:
+    inset 0 0 0 1px var(--border),
+    inset 0 1px 0 var(--elev-lip),
+    var(--shadow-md);
 }
 
 /* --radius (14px) is tuned for the app's roomy cards; at control heights it
@@ -163,79 +164,6 @@
   border-radius: calc(var(--radius) - var(--spacing)) !important;
 }
 
-/* ---- The pill tab becomes a real segmented control ----
-   The DS's pill variant is a padded track (`bg-muted`, 5px inset) holding a
-   floating rounded active pill. Two things break it here: --muted resolves to
-   the same value as --card in this theme, so the track is invisible and the
-   active pill floats unattached; and a rounded chip inside a rounded track is
-   two radii doing the same job at two scales.
-
-   One container, divided. The track keeps the stadium end but loses its
-   padding, so segments run edge to edge and the dividers — not gaps — say where
-   one choice stops. The active segment is a filled block that reaches the
-   container's border on every side, and the end segments inherit the stadium
-   curve, so the fill ends in the shape of the container rather than in a shape
-   of its own. Fill and text are --v2-seg-active / --v2-seg-active-foreground:
-   the strongest neutral the theme has, inverted — near-black on white in light,
-   near-white on the panel in dark. --secondary cannot do this job in dark,
-   where it resolves to the same value as --card.
-
-   A divider next to the block would cut into it, so the block clears the
-   dividers on both of its own edges. The border is never removed, only made
-   transparent, so nothing shifts by a pixel when the selection moves.
-
-   No `overflow: hidden` on the track — it would clip the focus ring, which is a
-   box-shadow. The ends are rounded per segment instead. Unlayered + !important
-   to beat the variant's utilities.
-
-   `:not([data-v2-segmented])` throughout: a list carrying the segmented marker
-   is the Overview's range control, not this one, and these rules would win on
-   !important alone if they were allowed to match it. */
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) {
-  align-items: stretch;
-  gap: 0 !important;
-  padding: 0 !important;
-  border-radius: 9999px !important;
-  border: 1px solid var(--border);
-  background: transparent;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] {
-  border-radius: 0 !important;
-  padding-inline: calc(var(--spacing) * 3.5) !important;
-}
-/* The shadow this clears is the DS pill's `data-active:shadow-sm` — a lifted
-   active segment, which is wrong for a strip that reads as one etched track.
-   `:not(:focus-visible)` because the focus ring is ALSO a box-shadow (that is
-   how Tailwind's `ring` is built), so clearing the property unconditionally
-   took the keyboard indicator with it and left these tabs with no focus state
-   at all. Same reason the segmented control below is scoped this way. */
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented])
-  [data-slot="tabs-trigger"]:not(:focus-visible) {
-  box-shadow: none !important;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] {
-  border-inline-start: 1px solid var(--border);
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:first-child {
-  border-start-start-radius: 9999px !important;
-  border-end-start-radius: 9999px !important;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:last-child {
-  border-start-end-radius: 9999px !important;
-  border-end-end-radius: 9999px !important;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:not([data-active]):hover {
-  background: color-mix(in oklch, var(--foreground) 4%, transparent);
-  color: var(--foreground);
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"][data-active] {
-  background: var(--v2-seg-active) !important;
-  color: var(--v2-seg-active-foreground) !important;
-  border-inline-start-color: transparent;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"][data-active] + [data-slot="tabs-trigger"] {
-  border-inline-start-color: transparent;
-}
 
 /* ---- Tabs run one step larger than the DS control scale. Tabs are not toolbar
    controls in this app — they are the page's primary way of moving between
