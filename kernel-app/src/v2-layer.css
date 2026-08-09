@@ -89,17 +89,22 @@
 }
 
 /* ---- The folder tab's panel ----
-   Two steps up off the page plate, in the app's own overlay units: every other
-   surface step here is a foreground mix (zebra 5%, row hover 4%, selected 9%),
-   so a tab panel that stepped by neutral rungs instead would be the one surface
-   in the app measuring itself against a different ruler. 4% twice = 8%.
+   It takes no fill. The panel used to step two overlay units off the plate
+   (4% twice = 8%) on the reading that a panel is a surface above the page. But
+   the thing a folder tab is drawing is a folder: the selected tab and the panel
+   under it are ONE piece of card stock, and the unselected tabs are the ones
+   behind it. Filling the panel grey while the selected tab stayed white broke
+   exactly that joint — the tab read as a chip sitting on a band rather than as
+   the front face of the panel it opens, and the band itself read as a strip of
+   chrome the table happened to start under.
 
-   It carries no edge of its own. The folder strip's baseline already draws the
-   top, and the plate draws the sides — a second hairline inside them would be
+   So the panel is the plate, the selected tab is the plate, and the boundary
+   between what is open and what is not is carried where it belongs: the strip's
+   baseline, which already runs the full width of the plate.
+
+   It carries no edge of its own either. The folder strip's baseline draws the
+   top and the plate draws the sides — a second hairline inside them would be
    two lines describing one boundary. */
-[data-v2-tabpanel] {
-  background: color-mix(in oklch, var(--foreground) 8%, transparent);
-}
 
 /* ---- Segmented tabs ----
    The same control as the Overview's range group, driven off the same marker,
