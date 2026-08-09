@@ -267,6 +267,22 @@
      the same job here: centring splits the free space, so the digits ride half a
      pixel up and land on the badge's optical centre. */
   padding-block-end: 1px;
+  /* Horizontally the badge was centring the ADVANCE, not the ink, and tabular
+     figures make those two different things. `1` is the narrowest digit in this
+     face - 4.83px of ink against the 6.66px every other digit takes - and
+     tabular widths force it into the common slot by padding its side bearings,
+     unevenly. So `12` centred its box perfectly while its ink sat 1.5px left of
+     centre, and it was the only badge doing it: every single-digit count was
+     within a third of a pixel, which is why the strip looked fine until a count
+     crossed ten.
+
+     Tabular figures are for digits that have to line up in a stack. These are
+     one per tab, inline, never stacked - the alignment they were buying does not
+     exist here, and the uneven bearings it costs do. Proportional figures put
+     every badge on the same +0.3px, which is under a device pixel.
+
+     !important because `tabular-nums` is a utility and this block is layered. */
+  font-variant-numeric: normal !important;
 }
 
 /* ---- The page header's glyph chip is a TILE, not a wash. As a flat 5% fill it
