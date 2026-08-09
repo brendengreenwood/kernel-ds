@@ -48,6 +48,32 @@
      depth with fill, so the inset carve and hairline do all of it here. */
   --trough-fill: var(--sidebar);
   --trough-cast: color-mix(in oklch, var(--shadow-color) 55%, transparent);
+
+  /* ---- the ramp is shorter than the DS ships it ----
+     LIVE DRIFT — not promoted. The DS ramp doubles offset AND blur every rung:
+     sm 1/2, md 2/4, lg 4/8, xl 8/16, 2xl 16/32. That is a clean geometric
+     series and it is far too tall for a shell. Footprint below the box is
+     offset + blur − spread, so the DS rungs paint 2, 5, 10, 20 and 40px of
+     shade under whatever casts them. This app's gutter is 4 units — 15.4px —
+     which means everything from xl up pools its shade into the gap between two
+     surfaces instead of ending inside it, and the only way to stop the pooling
+     is to widen the gutter. The ramp was setting the layout's minimum spacing,
+     which is backwards: elevation should describe the stack, not dictate how
+     far apart the stack has to sit.
+
+     So the geometry compresses to roughly 1.6x per rung — 2, 3, 5, 8, 13 —
+     while the alphas stay exactly as the DS ships them per theme, because the
+     alphas are what separate the rungs from each other and they were never the
+     complaint. Every rung now lands inside one gutter, so density is a layout
+     decision again. The rungs still read apart: the step between neighbours is
+     carried by depth of tone rather than distance travelled, which is also the
+     more honest signal — a thing one step up is not twice as far away. */
+
+  --shadow-sm: 0 1px 2px -1px color-mix(in oklch, var(--shadow-color) 28%, transparent);
+  --shadow-md: 0 1px 3px -1px color-mix(in oklch, var(--shadow-color) 34%, transparent);
+  --shadow-lg: 0 2px 5px -2px color-mix(in oklch, var(--shadow-color) 40%, transparent);
+  --shadow-xl: 0 3px 8px -3px color-mix(in oklch, var(--shadow-color) 46%, transparent);
+  --shadow-2xl: 0 5px 12px -4px color-mix(in oklch, var(--shadow-color) 55%, transparent);
 }
 
 /* ---- app-only light tokens ----
@@ -63,42 +89,37 @@
   --v2-seg-active: var(--primary);
   --v2-seg-active-foreground: var(--primary-foreground);
 
-  /* The DS light floor is pure white and the rail is one rung down from it, so
-     every raised surface in this app - card, plate, dock - had to float on a
-     page that was already the brightest thing on screen. Nothing could be
-     lighter than the floor, which is the wrong constraint for a shell whose
-     whole model is "things sit on top of other things".
+  /* The floor is neutral-50 and the plate is white.
 
      In an inset shell the page you SEE is --sidebar: the wrapper takes
      bg-sidebar and the rail sits on it invisibly, so one token paints both the
-     icon rail and the whole surround. Rail and page are therefore not two
-     surfaces that have to agree - they are one surface, and the only question
-     is how far under white it sits.
+     icon rail and the whole surround. The plate is --background, which the DS
+     inset fills inside its own margin, radius, edge and cast.
 
-     It sits two rungs under, at --neutral-200. The first pass dug to
-     --neutral-300 on the theory that light should invert the dark model: dark
-     lifts plates toward white, so light should sink the floor away from it.
-     That reasoning does not survive the range check. Dark has the whole way
-     down to near-black to spend under its plates; light has nothing under
-     white but grey, and grey at --neutral-300 is the value a disabled control
-     takes. The chrome stopped reading as recessed and started reading as
-     switched-off, with the white plates pasted on rather than resting on it.
+     Earlier passes ran both tokens to --neutral-200 and argued light could not
+     dig, so it should compress instead and let the edge and the cast carry the
+     elevation. That argument was answering the wrong question. With both
+     tokens on the same rung the plate was not compressed against the floor, it
+     WAS the floor: /scenarios and /producers drew the plate's full geometry -
+     15.36px margin, 18px radius, edge hairline, cast - and filled it with the
+     exact value of the page behind it, so the lip resolved transparent and the
+     shape read as an outline rather than a surface. Only the workspace looked
+     right, because its map plate takes --elev-plate directly and never went
+     through --background at all.
 
-     So light does not dig. It compresses the surfaces and lets the edge
-     hairline and the cast carry the elevation instead - which they can, now
-     that each plate takes its own rung rather than all of them claiming
-     --shadow-2xl. The run is chrome 0.922 -> navigator 0.957 -> plate 1.0:
-     evenly spaced at 1.11 and 1.13, where it used to be 1.21 then 1.11 then
-     1.13 with the heaviest step wasted on furniture. White is reserved for the
-     plates, which are the only things in the room that hold content.
+     So the fix is not a value, it is the pairing. White is the plate, because
+     the plate is the thing that holds content. The floor sits one rung under
+     it at --neutral-50 - far enough that the edge hairline has something to
+     separate, close enough that the chrome does not read as switched-off, which
+     is what --neutral-200 and --neutral-300 both did. The whole ladder now
+     spends 0.985 -> 1.0 and lets the edge do the work it was always drawn for.
 
-     The rail's accent and border follow it up a rung: each was the value the
-     rail itself now takes, and a border the same colour as its surface is not
-     a border. */
-  --background: var(--neutral-200);
-  --sidebar: var(--neutral-200);
-  --sidebar-accent: var(--neutral-300);
-  --sidebar-border: var(--neutral-300);
+     The rail's accent and border stay a rung apart from the rail rather than
+     following it up: at --neutral-100 a border would be invisible against a
+     --neutral-50 rail, so both take --neutral-200. */
+  --sidebar: var(--neutral-50);
+  --sidebar-accent: var(--neutral-200);
+  --sidebar-border: var(--neutral-200);
 
   /* LIVE DRIFT — not promoted. The DS light --muted-foreground stayed at its
      oklch(0.5350 …) value; this app runs one rung down. The plate fill costs a
@@ -141,6 +162,15 @@
      placeholder to 3.68:1, under the AA floor. 6% is a well, not a slab. */
   --trough-fill: color-mix(in oklch, var(--sidebar), var(--shadow-color) 6%);
   --trough-cast: color-mix(in oklch, var(--shadow-color) 18%, transparent);
+
+  /* Same compression as dark, same alphas as the DS ships for light. See the
+     note in the .dark block above for why the geometry moved. */
+
+  --shadow-sm: 0 1px 2px -1px color-mix(in oklch, var(--shadow-color) 4%, transparent);
+  --shadow-md: 0 1px 3px -1px color-mix(in oklch, var(--shadow-color) 6%, transparent);
+  --shadow-lg: 0 2px 5px -2px color-mix(in oklch, var(--shadow-color) 8%, transparent);
+  --shadow-xl: 0 3px 8px -3px color-mix(in oklch, var(--shadow-color) 10%, transparent);
+  --shadow-2xl: 0 5px 12px -4px color-mix(in oklch, var(--shadow-color) 14%, transparent);
 }
 
 /* Rail glyphs sit a step off the rail's own ink rather than at full
