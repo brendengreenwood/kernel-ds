@@ -329,8 +329,12 @@ export default function ScenariosPage() {
           it the line was a rule with content after it; with it the line is the
           seam where the folder's contents begin. */}
       <div data-v2-tabpanel className="flex flex-1 flex-col">
-      {/* commodity pills */}
-      <div className="px-6 pt-4 md:px-8">
+      {/* commodity pills. The band owns the space on both of its sides:
+          with `pt-4` alone the gap above came from here and the gap below
+          came from the table's `pt-6`, so the control sat 15.36px under the
+          folder strip and 23.04px over the table. A control is not centred
+          in a band it only pays for one side of. */}
+      <div className="px-6 py-4 md:px-8">
         <Tabs value={commodity} onValueChange={(v) => setCommodity(v as string)}>
           <div className="max-w-full overflow-x-auto">
             <TabsList variant="pill" size="compact" data-v2-segmented>
@@ -344,8 +348,9 @@ export default function ScenariosPage() {
         </Tabs>
       </div>
 
-      {/* object table */}
-      <div className="px-6 py-6 md:px-8">
+      {/* object table. No `pt` — the filter band above supplies that gap, so
+          it is spent once. */}
+      <div className="px-6 pb-6 md:px-8">
         <TableFrame dense={false}>
           {/* Striped by data index rather than by nth-child: expanded detail rows
               are extra <tr>s, which would flip the parity. `data-v2-rowstripe`
