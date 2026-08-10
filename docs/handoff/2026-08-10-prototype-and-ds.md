@@ -67,7 +67,7 @@ design: the register is how it reaches the DS.
 
 ## 3. The promotion queue — what the prototype owes the DS
 
-This is the actual work. Five items, ordered by how settled they are. Each is
+This is the actual work. Four items, ordered by how settled they are. Each is
 argued in full in the register; the section number is the argument, this table
 is the triage.
 
@@ -77,10 +77,13 @@ is the triage.
 | 2 | **Route-driven rail collapse** | 5.25 | The DS ships `defaultOpen` and controlled `open`. "This route wants the rail collapsed, and remember what the user had" is a real pattern with three non-obvious bugs in it — all three are documented, because all three happened here. Every consumer will otherwise rebuild it wrong. |
 | 3 | **Contextual accent** — `--surface` + `--accent-step` | 2.5, 3.33 | A surface computes its own lift toward the foreground instead of reaching for one global accent that only looked right on one background. Fixes a real failure: the dark accent was `--brand-900`, near-neutral, invisible as a selected state. The mechanism is sound and measured; the question is whether the DS wants accent to be *derived* at all, which is a change to what the token model means. |
 | 4 | **Elevation ramp geometry** | 2.8 | The DS ramp doubles offset and blur per rung, so the top rungs paint 20–40px of shade — wider than this app's 15.4px gutter, which means elevation was dictating layout spacing. Compressed to ~1.6×, alphas untouched. **Cheap now, expensive later**: any consumer that has spaced a layout around the current ramp has baked the old footprints into its gutters. Gather the portal's evidence first — it is the surface most likely to actually want the taller rungs. |
-| 5 | **The charting layer** | Part 8, and the note in 2.7 | **The largest and least resolved.** The DS chart is the shadcn wrapper over recharts — theming glue, with axes/grids/cursors composed by hand. Fine for the portal's demo charts. Not enough for a trading app: dense time series, crosshairs, synced scales, eventually OHLC/depth. This is a *library selection* (lightweight-charts, uPlot, visx…), then wrapping it once behind DS tokens the way `chart.tsx` wraps recharts. Do not start this without an explicit decision from Brenden. |
 
 Also still open, prototype-side: `/settings` is unbuilt, the four Producers
 filter dropdowns are presentational placeholders, and Part 8 lists the rest.
+The charting layer is **not** on this queue: the forward curve works on
+recharts, and replacing the library is out of scope until somebody asks for
+it. 2.7 stands on its own — it is a token gap, and it is true whatever draws
+the lines.
 
 **How a promotion actually goes** — the precedent is PR #85, and it is worth
 imitating: cut one branch, one commit per coherent change, a decision record in
