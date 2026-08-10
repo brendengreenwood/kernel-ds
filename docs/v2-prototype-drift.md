@@ -70,10 +70,10 @@ matter of moving it down a layer, not translating it.
 | Part | Area | Count | Promotion status |
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
-| 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); live drift remains in light: `--muted-foreground` (2.3) and the page, rail and edges (2.6) |
+| 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); four live drifts remain: `--muted-foreground` (2.3) and the light page/rail/edges (2.6) in light only, plus the missing categorical palette (2.7) and the elevation ramp's geometry (2.8) in both themes |
 | 3 | Modification layer | 33 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; 3.33 is a promotion candidate; the rest app-only or open |
 | 4 | **DS source changes** | 12 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85 |
-| 5 | App-level convention departures | 24 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
+| 5 | App-level convention departures | 26 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
 
 ---
 
@@ -150,12 +150,15 @@ takes over on mount. Without this the app flashed light on every load.
 inversions, the dark retune, the light elevation ladder, the invented
 elevation tokens (2.4) — landed on main via PR #85 as decisions 0064 (lime
 scale) and 0065 (dark inversion + radius), values verbatim. The prototype's
-`index.css` no longer overrides any of it: after the drain it carries only the
-app-consumed tokens the DS did not take (`--v2-seg-active`, `--v2-well*`,
-`--v2-edge-*`, `--trough-*`, `--rail-icon`) plus **live drift in light mode**:
-`--muted-foreground` runs a rung darker here (`--neutral-600`) than the DS
-kept it (2.3), and the page, the rail and the panel edges all moved off the
-DS's white-paper light theme (2.6).
+`index.css` no longer overrides any of it: after the drain it carries the
+app-consumed tokens the DS did not take (`--v2-seg-track`, `--v2-well*`,
+`--v2-edge-*`, `--trough-*`, `--rail-icon`, and the `--surface`/`--accent-step`
+pair of 2.5) plus **four live drifts**: `--muted-foreground` runs a rung darker
+here (`--neutral-600`) than the DS kept it (2.3); the page, the rail and the
+panel edges moved off the DS's white-paper light theme (2.6); there is no
+categorical palette to draw a four-line chart from (2.7); and the elevation
+ramp's geometry is too tall for a shell (2.8). Only the first two are
+light-only — 2.7 and 2.8 are both-theme.
 
 The tables below are the record of what moved, kept as written. **Every
 override pointed at a DS *scale* token** (`--neutral-*`, `--brand-*`,
@@ -497,6 +500,49 @@ consumer plotting more than one series hits it immediately. The open questions
 are how many members ship (four covers this app; six or eight is the usual
 library answer), whether they are named `--series-*` or `--chart-categorical-*`,
 and whether the existing sequential ramp is renamed to say what it is.
+
+## 2.8 The elevation ramp is geometrically too tall (live drift)
+
+4.8 fixed *what the ramp was made of* — it had no dark mode and its top rung
+was inverted. It left *how far each rung travels* exactly as shipped, and that
+is the half this app cannot use.
+
+The DS ramp doubles both offset and blur every rung:
+
+| rung | DS | here | footprint: DS → here |
+|---|---|---|---|
+| `--shadow-sm` | `0 1px 2px 0` | `0 1px 2px -1px` | 3px → 2px |
+| `--shadow-md` | `0 2px 4px -1px` | `0 1px 3px -1px` | 5px → 3px |
+| `--shadow-lg` | `0 4px 8px -2px` | `0 2px 5px -2px` | 10px → 5px |
+| `--shadow-xl` | `0 8px 16px -4px` | `0 3px 8px -3px` | 20px → 8px |
+| `--shadow-2xl` | `0 16px 32px -8px` | `0 5px 12px -4px` | 40px → 13px |
+
+Footprint below the box is offset + blur − spread. This app's gutter is four
+units — 15.4px — so on the DS ramp everything from `xl` up pools its shade into
+the gap *between* two surfaces rather than ending inside it, and the only
+remedy is a wider gutter. The ramp was setting the layout's minimum spacing,
+which is backwards: elevation should describe the stack, not dictate how far
+apart the stack has to sit. On a dense trading surface that is expensive —
+every rung of depth was buying itself a band of empty page.
+
+The geometry compresses to roughly 1.6× per rung (2, 3, 5, 8, 13) and **the
+alphas are untouched, per theme, exactly as the DS ships them** (light
+4/6/8/10/14%, dark 28/34/40/46/55%). That split is the finding: the alphas were
+never the complaint. What separates one rung from the next is depth of tone,
+not distance travelled — which is also the more honest signal, because a thing
+one step up is not twice as far away. Every rung now lands inside one gutter,
+so density is a layout decision again.
+
+*Promotion:* this is a direction call about the DS's elevation model, not a
+prototype preference, and it is the kind that is cheap now and expensive later
+— every consumer that has spaced a layout around the current ramp has baked the
+old footprints into its gutters. The question to settle is whether the DS's
+ramp is meant to be *geometric* (a clean mathematical series, which is what it
+is today and what makes it easy to defend) or *ergonomic* (rungs sized to the
+gutters real layouts use, which is what this app needed and had to take for
+itself). The portal is the counter-evidence to gather first: it is a document
+surface with generous whitespace, it has never complained, and if the taller
+rungs are load-bearing anywhere it is there.
 
 # Part 3 — The modification layer
 
@@ -1603,6 +1649,50 @@ body shape, and that a workspace distinguishes choosing chrome from acting chrom
 by height rather than by colour or by border. That is an `app-shell` question, and
 the page-plate rule promoted in `edce731` is the half of it that has already
 landed.
+
+**5.25 — The rail is hoisted out of the body, and follows the route.**
+Adding a second body shape broke an assumption the app had never had to state:
+that `SidebarProvider` belongs to the page. Each body owning its own provider
+meant navigating between them unmounted the rail and mounted a new one — the
+width jumped, tooltips lost their layer, and the 200ms collapse transition the
+DS already ships never got a chance to run. **A component that unmounts cannot
+animate.** So `AppFrame` now owns one provider, one rail and one tooltip layer
+for the whole application, and `Shell` is reduced to what it always actually
+was: the page-shaped body. The frame changes shape — one class on the provider
+makes the workspace a fixed `h-svh` frame instead of a scrolling page — but
+never identity.
+
+On top of that, the rail collapses on entering a workspace and restores on
+leaving. A workspace already has a navigator; the rail moves you *between*
+sections and the navigator moves you *within* one, and inside a scenario only
+the second question is live. Two details are load-bearing and both were bugs
+first. It restores **what it found**, not a hardcoded `true`, so someone who
+works with the rail collapsed is not expanded at on the way out — and the
+remembered value is only captured on renders entirely outside a workspace,
+because the render that arrives back from one still holds the collapsed value
+we forced ourselves, and reading it there remembers the collapse as a
+preference and the rail never comes back. The ref also cannot be seeded with
+the current route: seeding it made the first effect a no-op, so landing
+*directly* on a workspace URL — a deep link, a refresh, a shared link — left
+the rail expanded beside the navigator. The first run must always apply.
+
+*Promotion:* the hoist is not a DS change, it is the correct shape for any app
+with more than one body, and it is worth stating as a portal/app convention
+because the failure mode is silent — everything works, the animation just
+never plays. The route-driven collapse is a genuine `Sidebar` question: the DS
+ships `defaultOpen` and a controlled `open`, and "this route wants the rail
+collapsed, remember what the user had" is a real pattern that every consumer
+will otherwise rebuild with the same three bugs.
+
+**5.26 — Two small shared files, for one reason each.**
+`src/lib/status.ts` holds the scenario-lifecycle → `StatusBadge` map. It is
+shared rather than page-local because the scenarios table and the workspace
+show the same badge for the same scenario, and two copies of that map is two
+places for "Paused" to become "On hold" in only one of them. `src/vite-env.d.ts`
+declares the `*?worker&url` module form, which MapLibre 6 needs to boot its
+tile-parsing worker; without it the import is untyped and `tsc` fails. Neither
+is DS-shaped — they are recorded so the register stays a complete account of
+what is in the app rather than only of what is interesting.
 ---
 
 # Part 6 — What the prototype actually is
