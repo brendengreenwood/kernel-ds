@@ -70,10 +70,10 @@ matter of moving it down a layer, not translating it.
 | Part | Area | Count | Promotion status |
 |---|---|---|---|
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
-| 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); one live drift remains (light `--muted-foreground`, see 2.3) |
-| 3 | Modification layer | 32 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; the rest app-only or open |
+| 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); four live drifts remain: `--muted-foreground` (2.3) and the light page/rail/edges (2.6) in light only, plus the missing categorical palette (2.7) and the elevation ramp's geometry (2.8) in both themes |
+| 3 | Modification layer | 33 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; 3.33 is a promotion candidate; the rest app-only or open |
 | 4 | **DS source changes** | 12 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85 |
-| 5 | App-level convention departures | 23 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
+| 5 | App-level convention departures | 26 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
 
 ---
 
@@ -150,11 +150,15 @@ takes over on mount. Without this the app flashed light on every load.
 inversions, the dark retune, the light elevation ladder, the invented
 elevation tokens (2.4) — landed on main via PR #85 as decisions 0064 (lime
 scale) and 0065 (dark inversion + radius), values verbatim. The prototype's
-`index.css` no longer overrides any of it: after the drain it carries only the
-app-consumed tokens the DS did not take (`--v2-seg-active`, `--v2-well*`,
-`--v2-edge-*`, `--trough-*`, `--rail-icon`) plus **one live drift**: light
-`--muted-foreground` runs a rung darker here (`--neutral-600`) than the DS
-kept it — see 2.3.
+`index.css` no longer overrides any of it: after the drain it carries the
+app-consumed tokens the DS did not take (`--v2-seg-track`, `--v2-well*`,
+`--v2-edge-*`, `--trough-*`, `--rail-icon`, and the `--surface`/`--accent-step`
+pair of 2.5) plus **four live drifts**: `--muted-foreground` runs a rung darker
+here (`--neutral-600`) than the DS kept it (2.3); the page, the rail and the
+panel edges moved off the DS's white-paper light theme (2.6); there is no
+categorical palette to draw a four-line chart from (2.7); and the elevation
+ramp's geometry is too tall for a shell (2.8). Only the first two are
+light-only — 2.7 and 2.8 are both-theme.
 
 The tables below are the record of what moved, kept as written. **Every
 override pointed at a DS *scale* token** (`--neutral-*`, `--brand-*`,
@@ -333,7 +337,6 @@ elevation ladder goes to the DS, these names go with it.
 | `--v2-edge-cycle` | `7s` | — | one dial for the pulse's tempo |
 | `--v2-panel-radius` | `--radius` + 1.5 units | same | the open panel's corner, from which the inner surface's corner is derived (3.26) |
 | `--v2-panel-inset` | 3 units | same | the panel's even inset — the other half of that derivation |
-| `--v2-seg-active` / `-foreground` | `--primary` / `--primary-foreground` | same | one indirection for the segmented control's active fill, so the question *should a filter wear the brand colour* is answered in one place |
 | `--trough-fill` / `--trough-cast` | `--sidebar` / shadow at 55% | `--sidebar` + 6% shadow / 18% | rail controls as depressions rather than plates (3.23) |
 
 Two of these encode the same finding: **dark and light do not carry depth the
@@ -343,7 +346,204 @@ grey slab and pushed placeholder text under AA, so it settled at 6%) and must
 spend its edge instead. Any promotion of the ladder inherits that asymmetry —
 it is not a light-mode bug to be tidied up later.
 
+
+## 2.5 Accent is a relation, not a value
+
+The promoted token direction gives `--accent` one absolute value per theme:
+`--lime-300` in light, `--brand-900` in dark. That works while every surface
+that wants an accent is the page. It stops working the moment surfaces stack.
+In dark, `--brand-900` sits at L=0.300 with chroma 0.078 - near enough to the
+page floor (L=0.213) to read as a hover smudge, and *darker* than the popover
+it has to mark selection inside (L=0.270). A selected row in a menu was
+rendering as a hole. The obvious fix - point dark `--accent` at `--lime-300`,
+so it reads as loudly as `--primary` - trades one failure for another: a full
+brand fill on a list row says *this is the thing* in a place that only needs to
+say *you are here*, and it collides with the primary button one gutter away.
+
+The prototype resolves this by making accent a **step off the surface it lands
+on** rather than a colour:
+
+```css
+:root {
+  --surface: var(--background);
+  --accent-step: 8%;
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+.dark { --accent-step: 20%; }
+```
+
+Every container that is its own surface re-declares `--surface` and recomputes
+`--accent` beside it (3.33). The step is per-theme because the two themes have
+different room to move: dark can spend 20% toward the foreground before a row
+starts to glow, light greys out past 8%.
+
+Measured, dark: page floor L=0.213 -> accent L=0.367; navigator body L=0.239 ->
+accent L=0.388; popover L=0.270 -> accent L=0.413. Light: navigator body
+L=0.961 -> row L=0.901; popover L=1.000 -> item L=0.937. The same rule reads
+in both directions - light mixes *down* toward its dark foreground, dark mixes
+*up* toward its light one - because the formula never names a hue, only a
+distance.
+
+Two consequences worth stating. First, an accented element can itself become a
+surface: the active navigator row sets `--surface: var(--accent)` and computes
+its own accent from there, so a hover inside a selection still steps. Second,
+the accent carries no brand: what identifies the selection is the `--primary`
+edge marker on the row, which stays lime in dark and green in light. Colour
+means *action*; contrast means *position*.
+
 ---
+## 2.6 The light page is not paper (live drift)
+
+The DS light theme puts `--background` at pure white with `--sidebar` one rung
+under it. That is a sound page for the portal, which is a document: content on
+paper, one surface, nothing floating. It is the wrong page for a shell whose
+whole model is things sitting on top of other things, because the floor is
+already the brightest value available - card, plate, dock and navigator all
+have nowhere left to go, and the plate ends up separated from the page by its
+cast alone.
+
+| token | DS light | prototype | why |
+| --- | --- | --- | --- |
+| `--background` | white | `--neutral-200` | the page has to sit below four surfaces, not above them |
+| `--sidebar` | `--neutral-100` | `--neutral-200` | in an inset shell this token IS the visible canvas (see below) |
+| `--sidebar-accent` | `--neutral-200` | `--neutral-300` | was the value the rail itself now takes |
+| `--sidebar-border` | `--neutral-200` | `--neutral-300` | a border the colour of its own surface is not a border |
+| `--v2-edge-rest` | `--primary` 6% | `--foreground` 12% | grey, and heavy enough to read (see below) |
+| `--v2-edge-peak` | `--primary` 15% | `--foreground` 24% | matched to the DS's own light hairline |
+
+**The visible page is `--sidebar`, not `--background`.** With the rail inset,
+`sidebar-wrapper` takes `bg-sidebar` and the rail sits on it invisibly - so
+the rail token is the canvas everything floats on, and `--background` only
+survives where something mixes its surface from it (here, the navigator). Any
+attempt to darken "the page" that moves only `--background` moves the wrong
+token.
+
+Light now runs canvas `L=0.922` -> navigator `0.957` -> card/plate `1.0`.
+Measured: navigator against canvas 1.11:1, plate against navigator 1.13:1,
+plate against canvas 1.26:1. Text holds - rail glyphs 8.26:1 on the canvas.
+
+The canvas sat one rung lower than that first, at `--neutral-300`, on the
+theory that light should invert the dark model: dark lifts its plates toward
+white, so light should sink its floor away from it. That does not survive a
+range check. Dark has the whole way down to near-black to spend beneath a
+plate; light has nothing under white but grey, and grey at `--neutral-300` is
+the value a disabled control takes. The chrome stopped reading as recessed and
+started reading as inert, with the white plates pasted onto it rather than
+resting on it - and it spent the largest step in the ladder (1.21:1) on
+furniture, leaving 1.11 and 1.13 for the two boundaries that carry content.
+
+So light does not dig. It compresses the surfaces and lets the edge hairline
+and the cast carry the elevation instead, which they can now that each plate
+takes its own elevation rung rather than all of them claiming `--shadow-2xl`.
+White is reserved for the surfaces that hold content.
+
+The edges moved for a related reason. Dark mixes the action hue into its
+hairlines: on a near-black surface a lime edge reads as light catching a
+corner, which is what an edge is. Light cannot borrow that - a green mix on a
+near-white slate has nowhere to go lighter, so it stops reading as light and
+starts reading as colour, a green pinstripe around every panel. Light edges
+are shade, so they mix `--foreground`, a near-neutral (chroma 0.021 against
+the action hue's 0.146).
+
+The alphas are set against the DS's own light hairline rather than against the
+green they replaced. `--border` is about 1.31:1 on white, which is what a line
+needs to be to survive a white-on-white stack; matching that from a near-black
+foreground takes ~24%, so peak lands there and rest sits at half. Carrying the
+old 6/15 across the swap produced edges you had to hunt for - 4% of black on
+white is 1.04:1, which is not a line, it is a rumour.
+
+**Not promoted.** The portal is the DS's own consumer and it is a document
+surface that wants the white page. This is the clearest case in the register
+of the prototype and the portal legitimately wanting different values for the
+same token, and the promotion question it raises is not "which floor wins" but
+whether the DS should ship an app floor and a document floor rather than one
+light mode both have to share.
+
+## 2.7 There is no categorical palette (live drift)
+
+`--chart-1..5` is a **sequential** ramp: one hue walking lightness from 0.87
+down to 0.25. That is the correct instrument for a single series shown in
+intensity — a heat scale, a density, one quantity getting larger. It is the
+wrong one for four things whose only relationship is that they are *not each
+other*, which is what a forward curve across four elevators is.
+
+Drawn straight from the DS ramp, four elevators produced three visible lines:
+`--chart-1` and `--chart-4` are the same hue a tenth of a lightness apart and
+overplotted as one, and `--chart-3` at L=0.87 measured about 1.5:1 on a white
+plate.
+
+| token | value | note |
+| --- | --- | --- |
+| `--series-1` | `oklch(0.545 0.150 150.5)` light / `0.800 0.130` dark | the brand hue keeps the first slot |
+| `--series-2` | `oklch(0.545 0.150 250)` | |
+| `--series-3` | `oklch(0.545 0.150 65)` | |
+| `--series-4` | `oklch(0.545 0.150 320)` | |
+
+Four hues, evenly spaced, held at **one** lightness and **one** chroma. A
+categorical set encodes identity and nothing else, so any lightness difference
+between members is a claim about rank that the data is not making — the
+sequential ramp makes that claim on every chart it is used for this way.
+
+The status hues could not be borrowed. On a trading surface red is a
+*direction*; an elevator drawn in `--error` reads as one in trouble. Violet
+takes the fourth slot as the furthest hue from the three in play that still
+holds chroma at this lightness.
+
+Measured against the plate: light 4.63 / 4.93 / 5.14 / 5.37, dark 8.40 / 7.90 /
+7.81 / 7.65 — all AA. Between members the ratios are 1.01–1.10, which is the
+point: they separate by hue, not by luminance, and that is precisely why the
+chart labels each line at its own end rather than leaving colour to carry the
+identification alone (WCAG 1.4.1).
+
+*Promotion:* this is a real gap in the DS, not a prototype preference. Any
+consumer plotting more than one series hits it immediately. The open questions
+are how many members ship (four covers this app; six or eight is the usual
+library answer), whether they are named `--series-*` or `--chart-categorical-*`,
+and whether the existing sequential ramp is renamed to say what it is.
+
+## 2.8 The elevation ramp is geometrically too tall (live drift)
+
+4.8 fixed *what the ramp was made of* — it had no dark mode and its top rung
+was inverted. It left *how far each rung travels* exactly as shipped, and that
+is the half this app cannot use.
+
+The DS ramp doubles both offset and blur every rung:
+
+| rung | DS | here | footprint: DS → here |
+|---|---|---|---|
+| `--shadow-sm` | `0 1px 2px 0` | `0 1px 2px -1px` | 3px → 2px |
+| `--shadow-md` | `0 2px 4px -1px` | `0 1px 3px -1px` | 5px → 3px |
+| `--shadow-lg` | `0 4px 8px -2px` | `0 2px 5px -2px` | 10px → 5px |
+| `--shadow-xl` | `0 8px 16px -4px` | `0 3px 8px -3px` | 20px → 8px |
+| `--shadow-2xl` | `0 16px 32px -8px` | `0 5px 12px -4px` | 40px → 13px |
+
+Footprint below the box is offset + blur − spread. This app's gutter is four
+units — 15.4px — so on the DS ramp everything from `xl` up pools its shade into
+the gap *between* two surfaces rather than ending inside it, and the only
+remedy is a wider gutter. The ramp was setting the layout's minimum spacing,
+which is backwards: elevation should describe the stack, not dictate how far
+apart the stack has to sit. On a dense trading surface that is expensive —
+every rung of depth was buying itself a band of empty page.
+
+The geometry compresses to roughly 1.6× per rung (2, 3, 5, 8, 13) and **the
+alphas are untouched, per theme, exactly as the DS ships them** (light
+4/6/8/10/14%, dark 28/34/40/46/55%). That split is the finding: the alphas were
+never the complaint. What separates one rung from the next is depth of tone,
+not distance travelled — which is also the more honest signal, because a thing
+one step up is not twice as far away. Every rung now lands inside one gutter,
+so density is a layout decision again.
+
+*Promotion:* this is a direction call about the DS's elevation model, not a
+prototype preference, and it is the kind that is cheap now and expensive later
+— every consumer that has spaced a layout around the current ramp has baked the
+old footprints into its gutters. The question to settle is whether the DS's
+ramp is meant to be *geometric* (a clean mathematical series, which is what it
+is today and what makes it easy to defend) or *ergonomic* (rungs sized to the
+gutters real layouts use, which is what this app needed and had to take for
+itself). The portal is the counter-evidence to gather first: it is a document
+surface with generous whitespace, it has never complained, and if the taller
+rungs are load-bearing anywhere it is there.
+
 # Part 3 — The modification layer
 
 `kernel-app/src/v2-layer.css`. Restyles live DS components through their
@@ -352,7 +552,7 @@ shadcn `data-slot` hooks plus the app's own opt-in markers — `data-v2-kpi`,
 `data-v2-panel-inner`, `data-v2-tabpanel`, `data-v2-pagechip`, `data-v2-bleed`,
 `data-v2-rankcol`, `data-v2-rowstripe`, `data-v2-pin`,
 `data-v2-filter`, `data-v2-frame`, `data-v2-trough`, `data-v2-chrome`,
-`data-v2-chip`. No component is forked. (`data-v2-rowtoggle` left the list
+`data-v2-chip`, `data-v2-navbody`, `data-v2-navrow`. No component is forked. (`data-v2-rowtoggle` left the list
 with 3.29's promotion — the marker is the DS's `data-row-toggle` now.)
 
 Two markers carry no rule in this file: `data-v2-flag` and `data-v2-meter` are
@@ -377,7 +577,7 @@ numbers.
 | 3.1 | ~~`--card-spacing` 4 → 6~~ | **removed as dead code** — the DS's own `[--card-spacing:--spacing(4)]` arbitrary-property utility (utilities layer) always outranked the `@layer components` rule, so the bump never applied; the approved look is the DS default | — |
 | 3.2 | `[data-slot="button"]` | radius → `calc(var(--radius) - var(--spacing))` = **10.16px**, down from 14px | unlayered `!important` |
 | 3.3 | `[data-v2-kpi]` | green hover accent via `outline` (not `border`, so the DS hairline ring survives); `--duration-base` / `--ease-out` | components |
-| 3.4 | `[data-v2-segmented]` | **the range control.** One bordered container, `--radius` corner, zero padding, segments edge-to-edge divided by 1px `--border` rules; the active segment clears the dividers on its own edges by making them transparent rather than removing them, so nothing shifts a pixel as selection moves. No `overflow: hidden` — it would clip the focus ring. Fills are foreground overlays (track 4%, segment 10%) rather than `--muted`/`--secondary`: those resolve to `--card` in this theme, which put the active segment at **1.00:1** against its track, and an overlay carries the same step off either surface, which this control needs because it sits on a card inside a panel *and* on the page plate. It deliberately does **not** take a `--primary` fill — that is right for a filter someone set and wrong for a range that merely defaults. The nine stadium-pill rules are scoped `:not([data-v2-segmented])` to let it out; those carry `!important`, so specificity was the only lever | components |
+| 3.4 | `[data-v2-segmented]` | **the segmented control.** One marker drives it whether the segments are toggle-group items (Overview's range, the forward curve's commodity) or tab triggers (the commodity filters, the activity range) — a segmented control is a segmented control wherever it sits. It is a **trough holding one plate**: the track is a `--foreground` 4% overlay rather than `--muted`/`--secondary`, which resolve to `--card` here and put the active segment at **1.00:1** against its own track; the overlay carries the same step off either surface, which this control needs because it sits on a card inside a panel *and* on the page plate. The active segment is `--card` with the panel's own furniture — `--border` hairline, `--elev-lip`, `--shadow-md` — so it reads as a raised plate in the trough rather than a fill swap; it does **not** take a `--primary` fill, which is right for a filter someone set and wrong for a range that merely defaults. Radii are concentric (3.26): track `--radius` − 1 unit = 10.16px, segment 10.16 − 1px border − 0.75-unit pad = 6.28px, measured even at 3.88px on all four sides. Hover is a 6% overlay at the active segment's radius, because a hover fill that is not the shape of the thing it previews is a different thing being previewed. `box-shadow: none` is scoped `:not(:focus-visible)` — the focus ring is a box-shadow too. The nine stadium-pill rules are scoped `:not([data-v2-segmented])` to let it out; those carry `!important`, so specificity was the only lever | components |
 | 3.5 | `[data-slot="table-head"]` | weight 500 → 400, colour → `--muted-foreground` so headers recede behind the data (5.79:1 dark / 5.15:1 light, both AA) | unlayered `!important` |
 | 3.6 | table head/cell | horizontal padding → 4 units; vertical → 3 units | unlayered `!important` |
 | 3.7 | first/last cell | edge inset → 6 units, so text never sits on the container border | unlayered `!important` |
@@ -406,6 +606,7 @@ numbers.
 | 3.30 | `[data-v2-rankcol]` | the rank column asks for its minimum (`w-0` + nowrap in the markup) and gets an even 3-unit gutter here. It needs its own because it follows the toggle cell, so 3.7's edge rule was handing it the full 6-unit page inset on one side only. Measured 72.6px: a 49.6px label with 11.5px of slack each side, digits centred 0.00px off the header | unlayered `!important` |
 | 3.31 | `[data-v2-chip]` | the bottom bar's sliding chip takes the nested-surface treatment — hairline plus lip, no cast. Its hairline is a step off the chip's *own* fill rather than a token, because both candidates vanish in one theme; see 5.11 for the measurements | unlayered |
 | 3.32 | `[data-v2-panel] ~ [data-v2-panel]` | **only the first panel breathes.** The edge pulse (3.28) is an arrival signal, and an opened row now stacks two panels — running it on both states one message twice, the same fault as four tiles redrawing one axis (5.15). Sibling panels keep the resting ring and drop the animation. The *first* one carries it because that is where the row lands: `reveal.ts` (5.18) scrolls the row to the top, so the summary is what enters the view | unlayered |
+| 3.33 | `[data-v2-navbody]`, `[data-v2-navrow][data-active]`, plus a surface map over `card` / `popover` / `select-content` / `dropdown-menu-content` / `dialog-content` / `sidebar` | **accent is computed from the surface it lands on.** Each of these declares its own `--surface` and recomputes `--accent` beside it, so a selection steps the same perceptual distance off a navigator, a popover and a dialog instead of being one fixed colour that only works on the page floor (2.5). The navigator body is `--muted` in light and `--background` mixed 55% into `--card` in dark - a slate that is neither the page nor a card. The active row takes that accent as its own `--surface`, and wears a 2px `--primary` edge marker: the fill says where you are, the marker says what is selected | unlayered |
 
 3.2 exists because of the radius inversion in Part 2: 14px suits the prototype's
 roomy cards but reads too round on a 38px control. 10.16px also matches the
@@ -1407,6 +1608,93 @@ reader its high, its low and its span, and that a tile too small for a floating
 tooltip already has a lane that can answer.
 ---
 
+**5.24 - A workspace is not a page, and the elevation ladder says so.**
+The prototype's four routes are all the same shape: one plate on the canvas with a
+document scrolling inside it. `/scenarios/:id/edit` is the first route that is not
+a document. The work is a single object — one bid, on one map — it fills the
+viewport, and nothing scrolls but the lists beside it. Laid out, not flowed.
+
+Three surfaces, and their heights are the explanation:
+
+- **Rail and navigator sit on the canvas, recessed.** They *choose* the work. The
+  navigator is a sibling of the inset rather than a child, which is the whole
+  trick — a child would be *on* the plate, and the plate is the map. It carries no
+  plate treatment of its own: houses, then that house's scenarios, on the canvas
+  colour the rail already uses.
+- **The canvas plate is the one raised surface.** It *is* the work. Same
+  `--panel-radius`, same edge hairline and lip as the page plate promoted in
+  `edce731` — the map earns the plate for the same reason a page does, so it is
+  not given a second vocabulary.
+- **The dock floats above the plate and casts onto it.** It *acts* on the work.
+  `z-10`, inset four units from the plate's own corners, with a brand-tinted edge
+  instead of the neutral one so the acting surface is legible as the acting
+  surface.
+
+Navigator before, dock after. The asymmetry is the point: chrome that picks a
+subject sits under it, chrome that edits the subject sits over it. The rail is the
+same `AppSidebar` the page shell uses — the app's identity does not change because
+the body did.
+
+**The map is a basemap wearing the DS palette, not a picture.** MapLibre with Carto
+vector tiles, re-painted per theme from the same tokens everything else reads
+(`applyMapTheme`, `src/lib/map-styles.ts`): neutral-100 land in light, neutral-950
+in dark, sited markers on `--brand-500` with a `--card` ring so a pin reads as a
+mark on the surface rather than a dot floating over it. Its own chrome — zoom
+controls, attribution — is re-dressed to `--card`/`--border`/`--accent` in
+`v2-layer.css` so the one third-party widget on screen does not announce itself.
+
+*Promotion:* the map is domain furniture and does not belong to the DS. The rule
+that might is the ladder — that an application shell has more than one legitimate
+body shape, and that a workspace distinguishes choosing chrome from acting chrome
+by height rather than by colour or by border. That is an `app-shell` question, and
+the page-plate rule promoted in `edce731` is the half of it that has already
+landed.
+
+**5.25 — The rail is hoisted out of the body, and follows the route.**
+Adding a second body shape broke an assumption the app had never had to state:
+that `SidebarProvider` belongs to the page. Each body owning its own provider
+meant navigating between them unmounted the rail and mounted a new one — the
+width jumped, tooltips lost their layer, and the 200ms collapse transition the
+DS already ships never got a chance to run. **A component that unmounts cannot
+animate.** So `AppFrame` now owns one provider, one rail and one tooltip layer
+for the whole application, and `Shell` is reduced to what it always actually
+was: the page-shaped body. The frame changes shape — one class on the provider
+makes the workspace a fixed `h-svh` frame instead of a scrolling page — but
+never identity.
+
+On top of that, the rail collapses on entering a workspace and restores on
+leaving. A workspace already has a navigator; the rail moves you *between*
+sections and the navigator moves you *within* one, and inside a scenario only
+the second question is live. Two details are load-bearing and both were bugs
+first. It restores **what it found**, not a hardcoded `true`, so someone who
+works with the rail collapsed is not expanded at on the way out — and the
+remembered value is only captured on renders entirely outside a workspace,
+because the render that arrives back from one still holds the collapsed value
+we forced ourselves, and reading it there remembers the collapse as a
+preference and the rail never comes back. The ref also cannot be seeded with
+the current route: seeding it made the first effect a no-op, so landing
+*directly* on a workspace URL — a deep link, a refresh, a shared link — left
+the rail expanded beside the navigator. The first run must always apply.
+
+*Promotion:* the hoist is not a DS change, it is the correct shape for any app
+with more than one body, and it is worth stating as a portal/app convention
+because the failure mode is silent — everything works, the animation just
+never plays. The route-driven collapse is a genuine `Sidebar` question: the DS
+ships `defaultOpen` and a controlled `open`, and "this route wants the rail
+collapsed, remember what the user had" is a real pattern that every consumer
+will otherwise rebuild with the same three bugs.
+
+**5.26 — Two small shared files, for one reason each.**
+`src/lib/status.ts` holds the scenario-lifecycle → `StatusBadge` map. It is
+shared rather than page-local because the scenarios table and the workspace
+show the same badge for the same scenario, and two copies of that map is two
+places for "Paused" to become "On hold" in only one of them. `src/vite-env.d.ts`
+declares the `*?worker&url` module form, which MapLibre 6 needs to boot its
+tile-parsing worker; without it the import is untyped and `tsc` fails. Neither
+is DS-shaped — they are recorded so the register stays a complete account of
+what is in the app rather than only of what is interesting.
+---
+
 # Part 6 — What the prototype actually is
 
 | Route | Page | Built from |
@@ -1415,6 +1703,7 @@ tooltip already has a lane that can answer.
 | `/scenarios` | Scenarios — folder tabs, striped object table | `Tabs` (folder + pill), `Table striped`, `StatusBadge`, `CommodityLabel`, `Button` |
 | `/producers` | Producers — ranked prospecting table with an open-bids inset | `Table`, `Tabs`, `Select`, `Input`, `Tooltip`, `Badge`, `CommodityLabel`, `Button` |
 | `/settings` | Settings — organization + notification preferences | `Card`, `Input`, `Select`, `Switch`, `Label`, `Button`, panel furniture |
+| `/scenarios/:id/edit` | Workspace — navigator under, map plate, bid dock above | `Sidebar`, `StatusBadge`, `CommodityLabel`, `Input`, `Button`, panel furniture + MapLibre |
 
 DS components in use: `avatar`, `badge`, `button`, `card`, `commodity-badge`,
 `icon`, `input`, `select`, `sidebar`, `status-badge`, `table`, `tabs`,

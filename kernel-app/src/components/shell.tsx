@@ -156,7 +156,11 @@ function Nav({ items }: { items: Item[] }) {
   )
 }
 
-function AppSidebar() {
+/** Exported for the workspace shell, which composes this same activity rail
+    against a different body — a navigator and a canvas plate rather than a
+    scrolling page. The rail is the app's identity and does not change between
+    the two, so there is one of it. */
+export function AppSidebar() {
   return (
     <Sidebar variant="inset" collapsible="icon">
       {/* Beside the sidebar, the rail's first row shares a band with the page
@@ -266,17 +270,89 @@ function ScrollTop() {
   return null
 }
 
-export function Shell() {
+/* ── The rail follows the route ─────────────────────────────────────
+   A workspace already has a navigator, and two columns of chrome side by
+   side is one too many: the rail moves you between sections, the navigator
+   moves you within one, and inside a scenario only the second question is
+   live. So the rail collapses on the way in.
+
+   It restores what it found on the way out, not a hardcoded `true` — if you
+   were working with the rail collapsed before you opened a scenario, coming
+   back should not expand it at you. The remembered value is only written
+   while we are NOT in a workspace, so a reload inside one cannot capture the
+   collapsed state as a preference.
+
+   This is a default, not a lock: the trigger still works while you are
+   inside, and using it just updates what gets restored. */
+/** Is the current route a workspace? Two things need this answer — the rail
+ *  collapses on it, and the frame stops scrolling on it — so it is asked in
+ *  one place rather than spelled twice. */
+function useInWorkspace() {
+  const { pathname } = useLocation()
+  return /^\/scenarios\/[^/]+\/edit\/?$/.test(pathname)
+}
+
+function RailFollowsRoute() {
+  const { open, setOpen } = useSidebar()
+  const inWorkspace = useInWorkspace()
+  // `null` until the rail has been set once. Seeding this with `inWorkspace`
+  // made the first effect a no-op, so landing directly on a workspace URL - a
+  // deep link, a refresh, a shared link - left the rail expanded beside a
+  // navigator. The first run must always apply.
+  const was = React.useRef<boolean | null>(null)
+  const remembered = React.useRef(open)
+
+  // Capture the preference only on renders that are entirely outside a
+  // workspace — not on the one that is arriving back from it. On the way out
+  // this render runs BEFORE the effect restores the rail, so `open` is still
+  // the collapsed value we ourselves forced; reading it here would remember
+  // the collapse as a preference and the rail would never come back.
+  if (!inWorkspace && was.current !== true) remembered.current = open
+
+  React.useEffect(() => {
+    if (inWorkspace === was.current) return
+    was.current = inWorkspace
+    setOpen(inWorkspace ? false : remembered.current)
+  }, [inWorkspace, setOpen])
+
+  return null
+}
+
+/** The app frame. One provider, one rail, for the whole application.
+ *
+ *  The rail and the tooltip layer live here rather than inside each body
+ *  shape, because a component that unmounts cannot animate. When the page
+ *  shell and the workspace each owned a provider, moving between them tore
+ *  the rail down and built a new one: the width jumped, tooltips lost their
+ *  layer, and the 200ms transition the DS already ships never got to run.
+ *  Hoisted, the rail is the same element across the navigation — so the
+ *  collapse simply plays. */
+export function AppFrame() {
+  const inWorkspace = useInWorkspace()
   return (
     <TooltipProvider>
-      <SidebarProvider>
+      {/* The frame changes shape, not identity. A page flows and the window
+          scrolls it; a workspace is a fixed frame where only the navigator's
+          list and the dock's body scroll. That is one class on the provider,
+          which is exactly why the provider had to be the shared thing. */}
+      <SidebarProvider
+        className={cn(inWorkspace && "h-svh min-h-0 overflow-hidden")}
+      >
+        <RailFollowsRoute />
         <ScrollTop />
         <AppSidebar />
-        <SidebarInset className="bg-background">
-          <PageFade />
-          <BottomNav />
-        </SidebarInset>
+        <Outlet />
       </SidebarProvider>
     </TooltipProvider>
+  )
+}
+
+/** The page body: one plate, with a document scrolling inside it. */
+export function Shell() {
+  return (
+    <SidebarInset className="bg-background">
+      <PageFade />
+      <BottomNav />
+    </SidebarInset>
   )
 }

@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { ForwardCurve } from "@app/components/forward-curve"
 import { Sparkline } from "@app/components/sparkline"
 import { Empty, PanelHeader, TableFrame, Tile } from "@app/components/panels"
 import {
@@ -171,6 +172,11 @@ export default function OverviewPage() {
           </Button>
         </div>
       </div>
+
+      {/* The curve first. The KPIs below are the book's outcome; this is the
+          market it was written into, and it is the only thing on the page a
+          merchant would open twice a day. */}
+      <ForwardCurve />
 
       {/* KPI grid — real Cards, pushed by the modification layer */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

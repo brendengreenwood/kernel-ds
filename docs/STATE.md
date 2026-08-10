@@ -439,6 +439,29 @@ The promotion merged as PR #85. The queue was drained onto branch `feat/v2-promo
 
 With both merged, this branch drained its own register (2026-08-06): main merged in (`ebe38a8`), the promoted entries flipped to carry their landing SHAs (Part 2 whole, 3.16/3.24/3.26/3.29, 4.12, 5.5's furniture, 5.8, 5.19), and the app's layers deduplicated — the page-plate and cell-as-control rules deleted from `v2-layer.css` (the DS draws them now), the concentric-corner tokens aliased to the DS's `--panel-radius`/`--panel-inset`, the shell's rail-width override and collapse guards removed. What the register still holds open: the charting layer, the light accent pass, and one live token drift (light `--muted-foreground`); green-vs-lime in dark closed as decision 0067.
 
+### The workspace surface, and the handoff (2026-08-10)
+
+`feat/workspace-surface` (PR #91, draft, green on all eight jobs) carries the
+app's second body shape — the workspace at `/scenarios/:id/edit`: a navigator
+recessed under the page, a MapLibre canvas on a plate, a bid dock over it
+(decision 0069, register 5.24–5.26). With it: the light-mode repair, where the
+floor and the plate had collapsed onto one token so `/scenarios` and
+`/producers` drew plate geometry and filled it with floor colour (2.6); the
+compressed shadow ramp (2.8); relational accent (2.5, 3.33); and segmented
+controls unified onto overlays rather than a brand fill (3.4). Nothing on the
+branch touches `packages/**` — the register is how it reaches the DS.
+
+The work moves to another machine, so `docs/handoff/2026-08-10-prototype-and-ds.md`
+is the cold-start entry point: what each package is, where the branch stands,
+the five-item promotion queue ordered by how settled each item is, the install
+order the at-source consumption demands, the gate commands, and the traps.
+Keep it current as the branch state moves — it names PR #91 and the next free
+decision number.
+
+One thing it records that nothing else did: the contrast audit is **not** part
+of `ds:doctor`. It lives in `kernel-portal/scripts/`, so a token change passes
+every other gate in this repo without it.
+
 ## Backlog
 
 **The canonical backlog is the GitHub Project board:**
@@ -488,6 +511,14 @@ functional target. Resizable handle keeps its vendored 1px focus ring
   preferences). Every collection in the app renders inside the same outlined
   `TableFrame`, and every panel heads with an `IconChip` + title/description;
   the shared furniture lives in `kernel-app/src/components/panels.tsx`.
+  A fifth route, `/scenarios/:id/edit`, is the first that is not a document:
+  a **workspace** (decision 0069) whose elevation ladder does the explaining —
+  rail and navigator recessed on the canvas because they *choose* the work, a
+  MapLibre canvas on the page plate because it *is* the work, and a bid dock
+  floating above the plate because it *acts on* it. No new tokens: the plate is
+  the same treatment decision 0066 promoted. The basemap is re-painted per
+  theme from DS tokens (`kernel-app/src/lib/map-styles.ts`) and MapLibre's own
+  chrome is re-dressed to `--card`/`--border`/`--accent`.
   Elevation follows one plate ladder — page inset `2xl` > card `lg` > nested
   frame (none) — with an opaque `--border` edge and a 1px top lip at every
   level. Note for anyone tuning it: in dark the cast contributes almost
