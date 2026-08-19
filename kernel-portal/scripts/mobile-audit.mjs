@@ -8,13 +8,23 @@
 //   4. interactive elements whose *effective* hit area is under 44px —
 //      measured via elementFromPoint just outside the box, so the invisible
 //      pseudo-element extensions from decision 0007 count
+//   5. reachability — whether the page offers any way to leave it at this
+//      width (decision 0007's "navigation at every width")
+//
+// Why (5) exists. For most of the v2 prototype's life this script reported
+// 0/0/0/0 on a phone while the app had NO navigation at all below `md`: the
+// DS renders the sidebar as an off-canvas Sheet, and the only control that
+// opens it lives inside that Sheet. Every check above measures how comfortable
+// a control is to hit; none of them asks whether there is a control. A page
+// with nothing on it passes 1 through 4 perfectly.
 //
 // Requires playwright with a chromium (not a package dependency — heavy):
 //   npx playwright install chromium   # once
 //   node scripts/mobile-audit.mjs http://localhost:5173 [more urls...]
 // Env: PW_EXECUTABLE to point at an existing chromium binary.
 //
-// Exits non-zero if (1) or (2) finds anything; (3) and (4) print as counts.
+// Exits non-zero if (1), (2) or (5) finds a problem; (3) and (4) print as
+// counts.
 
 import { createRequire } from 'node:module'
 
@@ -121,6 +131,41 @@ for (const url of urls) {
     }
     const seen = {}
     out.smallTaps = out.smallTaps.filter((t) => { const k = t.tag + t.cls; if (seen[k]) return false; seen[k] = 1; return true }).slice(0, 20)
+
+    // 5. reachability. An exit is either a link to a DIFFERENT in-app route,
+    // or a visible control that opens the navigation chrome. Both count: a
+    // hamburger is a legitimate answer, an off-canvas rail with no opener is
+    // not.
+    const norm = (p) => p.replace(/\/+$/, '') || '/'
+    const here = norm(location.pathname)
+    const onScreen = (el) => {
+      const r = el.getBoundingClientRect()
+      if (r.width < 3 || r.height < 3) return false
+      const st = getComputedStyle(el)
+      if (st.visibility === 'hidden' || st.opacity === '0' || st.pointerEvents === 'none') return false
+      // A closed Sheet is the exact failure this check exists for: its links
+      // are in the DOM and laid out, just parked off the left edge or marked
+      // inert. Horizontal only — a footer link below the fold is reachable by
+      // scrolling, an off-canvas rail is not reachable by anything.
+      if (r.right <= 0 || r.left >= vw) return false
+      return !el.closest('[inert], [aria-hidden="true"]')
+    }
+    const exits = []
+    for (const a of document.querySelectorAll('a[href]')) {
+      if (!onScreen(a)) continue
+      let u
+      try { u = new URL(a.getAttribute('href'), location.href) } catch { continue }
+      if (u.origin !== location.origin || norm(u.pathname) === here) continue
+      exits.push({ kind: 'link', to: norm(u.pathname), label: (a.textContent || a.getAttribute('aria-label') || '').trim().slice(0, 24) })
+    }
+    // The DS's own nav opener. Named explicitly rather than sniffed: a
+    // heuristic over "buttons that might open something" would let the next
+    // no-navigation page pass by accident, which is the whole failure mode.
+    for (const t of document.querySelectorAll('[data-slot="sidebar-trigger"]')) {
+      if (onScreen(t)) exits.push({ kind: 'nav-trigger', label: t.getAttribute('aria-label') || 'sidebar trigger' })
+    }
+    out.exits = exits.slice(0, 8)
+    out.exitCount = exits.length
     return out
   })
 
@@ -131,7 +176,13 @@ for (const url of urls) {
   console.log(`text controls < 16px: ${report.smallFonts}`)
   console.log(`hit areas < 44px (after decision-0007 extensions): ${report.smallTaps.length}`)
   report.smallTaps.forEach((t) => console.log(`  ${t.tag}.${t.cls} h=${t.h}`))
-  if (report.overflow > 0 || report.clipped.length > 0) failures++
+  console.log(`ways off this page: ${report.exitCount}`)
+  if (report.exitCount === 0) {
+    console.log('  FAIL: no visible link to another route and no nav trigger at 390px')
+  } else {
+    report.exits.forEach((e) => console.log(`  ${e.kind}${e.to ? ` → ${e.to}` : ''}${e.label ? ` (${e.label})` : ''}`))
+  }
+  if (report.overflow > 0 || report.clipped.length > 0 || report.exitCount === 0) failures++
   await ctx.close()
 }
 
