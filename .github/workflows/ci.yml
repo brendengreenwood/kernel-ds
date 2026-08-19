@@ -74,6 +74,11 @@ jobs:
       - run: npm ci
       - name: DS command self-tests
         run: npm run ds:check
+      # Touch-target slot coverage (decisions 0007 + 0009). The coarse-pointer
+      # block is a hand-maintained list of data-slot names; three controls were
+      # found missing from it by hand, one at a time, after each had shipped.
+      - name: Touch-target slot coverage
+        run: npm run ds:touch-slots
       - name: Doctor
         run: npm run ds:doctor
       - name: Skills integrity

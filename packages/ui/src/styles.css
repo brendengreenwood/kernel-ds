@@ -847,8 +847,10 @@
 
 /* Touch targets — ≥44px effective hit area on coarse pointers (decision 0007).
    Visuals stay identical: an invisible ::after pads compact controls out to
-   44px per axis when they are smaller. Checkbox / radio / switch already ship
-   their own after:-inset extensions from base-nova. */
+   44px per axis when they are smaller. Checkbox / radio / switch ship their own
+   after:-inset extensions from base-nova, but those are fixed insets rather
+   than a solve for 44 — the switch measured 33.8px effective on the vertical
+   axis — so they are listed below and take this block's formula instead. */
 @media (pointer: coarse) {
   /* decision 0010: on touch, density comes from the tokens themselves */
   :root {
@@ -865,6 +867,14 @@
   [data-slot="toggle"],
   [data-slot="toggle-group-item"],
   [data-slot="pagination-link"],
+  /* These three are `<Button data-slot="…">` — Button writes its own slot and
+     then spreads props, so the caller's name wins and every button-keyed rule
+     here misses them. Measured at 390px: the trigger 40x40, the two chip
+     removes 23x23. All static, so they need the positioning; the carousel
+     arrows below are already absolute and must NOT be listed here. */
+  [data-slot="sidebar-trigger"],
+  [data-slot="combobox-chip-remove"],
+  [data-slot="attachment-action"],
   [data-slot="menubar-trigger"] {
     position: relative;
   }
@@ -888,6 +898,31 @@
   [data-slot="pagination-link"]::after,
   [data-slot="message-scroller-button"]::after,
   [data-slot="dialog-close"]::after,
+  /* sheet-close is dialog-close again, byte for byte: same `size="icon-sm"`,
+     same `absolute` corner placement, same `render={<Button/>}` with the outer
+     slot winning. Found by `ds:touch-slots` rather than by hand — it is
+     `display: none` in the prototype's sidebar Sheet, so no page in either
+     surface renders it today and no runtime audit could have caught it. */
+  [data-slot="sheet-close"]::after,
+  [data-slot="sidebar-trigger"]::after,
+  [data-slot="combobox-chip-remove"]::after,
+  [data-slot="attachment-action"]::after,
+  /* Already `position: absolute` for their placement on the carousel's edges,
+     so they are their own containing blocks and are absent from the
+     `position: relative` list above — same reasoning as the two closes. */
+  [data-slot="carousel-previous"]::after,
+  [data-slot="carousel-next"]::after,
+  /* The comment above this block used to say checkbox / radio / switch "already
+     ship their own after:-inset extensions from base-nova", and stopped there.
+     They do ship one — it is just not big enough. Measured at 390px, the switch
+     is 32x18.4 with a -7.68/-11.52 inset, giving an effective 55x33.8: ten
+     pixels short of the floor on the axis that matters. Listing them here
+     replaces those fixed insets with the formula below, which solves for 44 per
+     axis whatever the control's size. All three are already `position:
+     relative`, so they are absent from the list above. */
+  [data-slot="switch"]::after,
+  [data-slot="checkbox"]::after,
+  [data-slot="radio-group-item"]::after,
   [data-slot="menubar-trigger"]::after {
     content: "";
     position: absolute;

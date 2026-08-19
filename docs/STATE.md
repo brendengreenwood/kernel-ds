@@ -694,15 +694,27 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Open questions
 
-- **`mobile-audit` measures comfort, not reachability** (2026-08-02). It checks
-  overflow, clipping, sub-16px inputs and hit areas — and it reported 0/0/0/0
-  throughout the period the prototype had *no navigation at all* below `md`
-  (the only control that opens the sidebar sheet lives inside the sheet). The
-  same failure would pass again tomorrow. The cheap version of the fix is an
-  assertion that at 390px every audited page exposes at least one visible link
-  to another route; the honest version has to say something about whether the
-  chrome that owns navigation is reachable, which is harder to state generally.
-  Open because the assertion's shape is undecided, not because it is unwanted.
+- **The touch-target checks were measuring almost nothing** (2026-08-19,
+  register 4.13). Three things landed together. `mobile-audit` gained check 5,
+  **reachability** — a page must expose a visible link to another route or a
+  visible nav trigger at 390px, verified in both directions by removing the
+  prototype's bottom nav and watching the run fail. Its **hit-area check was
+  repaired twice**: a blind band at 40–43px where the probe landed on the
+  element's own edge and passed unconditionally (exactly the DS's compact-40px
+  tier, which is why four separate 40px controls read as fine), and
+  `hit.contains(el)` counting an *ancestor* hit as a pass, which let nearly
+  everything through. And `ds:touch-slots` now asserts statically that every
+  button-rendering slot which is not `data-slot="button"` is either in the
+  coarse-pointer block or exempted with a reason — it found six on its first
+  run, including `sheet-close`, which is `display: none` on every page in both
+  surfaces and which no runtime audit could reach. A seventh, the switch's
+  33.8px effective height against a comment claiming it was already handled,
+  came out of the same sweep.
+
+  **Still open:** the audit cannot see inside an overlay it does not know how
+  to open, and `ds:touch-slots` only covers slots that render a *button* — the
+  switch was found by hand during the sweep, not by the gate, and an equivalent
+  non-button control added tomorrow would be caught by neither.
 - **Registry publishing home** (decision 0062, renumbered from 0053, 2026-07-30): live publish of
   `@kernel/ui` / `@kernel/definitions` is deferred until an external consumer
   exists. Blocked on the scope decision (GitHub Packages needs the `@kernel`

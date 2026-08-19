@@ -28,6 +28,7 @@
     "ds:upgrade": "node scripts/ds/cli.mjs upgrade",
     "ds:release": "node scripts/ds/cli.mjs release",
     "ds:check": "node scripts/ds/__check__.mjs",
+    "ds:touch-slots": "node scripts/ds/check-touch-slots.mjs",
     "dsds:generate": "node scripts/ds/dsds-cli.mjs generate",
     "dsds:check": "node scripts/ds/dsds-cli.mjs check",
     "dsds:status": "node scripts/ds/dsds-cli.mjs status",

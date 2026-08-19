@@ -119,14 +119,33 @@ for (const url of urls) {
       const probe = (x, y) => {
         const hit = document.elementFromPoint(x, y)
         if (!hit) return false
-        if (hit === el || el.contains(hit) || hit.contains(el)) return true
-        // contested space: the point lands on another tappable control, so
-        // the gap is shared between adjacent targets rather than dead
+        // The extension is a pseudo-element, so a point it covers resolves to
+        // its originating element — `hit === el` is what a working extension
+        // looks like from here.
+        if (hit === el || el.contains(hit)) return true
+        // `hit.contains(el)` used to pass too, and that was the check's
+        // biggest hole: a point just outside a control almost always lands on
+        // the control's own container, which contains it, so nearly everything
+        // passed. Hitting an ancestor is the definition of dead space — the
+        // tap goes to the wrapper, not the control.
+        //
+        // Contested space is still fine: the point lands on a DIFFERENT
+        // tappable control, so the gap is shared between neighbours rather
+        // than dead.
         return !!hit.closest('a[href], button, input, [role="button"], [role="switch"], label')
       }
       const pad = (44 - Math.min(b.width, b.height)) / 2
+      // Probe just inside the extension's outer edge. The inset has to scale
+      // with the gap: it used to be a flat 2px, which for anything 40px or
+      // taller pushed the probe back INSIDE the element (pad is 2 at 40px, so
+      // `-pad + 2` is the top edge itself) and passed it unconditionally. That
+      // blind band sat exactly on the DS's compact-40px tier, which is why
+      // select-trigger, tabs-trigger, dialog-close and sidebar-trigger all
+      // measured 40px here and were reported as fine.
+      const inset = Math.min(2, pad / 2)
       const ok =
-        b.height >= 44 || (probe(b.left + b.width / 2, b.top - pad + 2) && probe(b.left + b.width / 2, b.bottom + pad - 2))
+        b.height >= 44 ||
+        (probe(b.left + b.width / 2, b.top - pad + inset) && probe(b.left + b.width / 2, b.bottom + pad - inset))
       if (!ok) out.smallTaps.push({ tag: el.tagName, cls: cls(el), h: Math.round(b.height) })
     }
     const seen = {}

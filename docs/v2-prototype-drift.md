@@ -72,7 +72,7 @@ matter of moving it down a layer, not translating it.
 | 1 | Attachment / build wiring | 7 | prototype-only — build plumbing |
 | 2 | Token drift | 27 tokens + 2 structural inversions | **promoted** — landed on main via PR #85 (decisions 0064/0065); one live drift remains (light `--muted-foreground`, see 2.3) |
 | 3 | Modification layer | 32 rule groups (3.1 retired) | mixed — 3.16, 3.24, 3.26, 3.29 promoted via PR #85; the rest app-only or open |
-| 4 | **DS source changes** | 12 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85 |
+| 4 | **DS source changes** | 13 | **promoted** — 4.1–4.11 via PR #83, 4.12 via PR #85; 4.13 open |
 | 5 | App-level convention departures | 23 | mixed — 5.5 furniture, 5.8 rail collapse, 5.19 header sizes promoted via PR #85; see each entry |
 
 ---
@@ -438,6 +438,7 @@ prototype dependency.
 | 4.10 | `styles.css` | shadows tinted; `--shadow-color` finally referenced | feature | yes |
 | 4.11 | `styles.css` | `tabs-trigger` reaches 44px at coarse pointer | **bug fix** | yes ← *take regardless* |
 | 4.12 | `styles.css` | `dialog-close` gets the coarse-pointer hit extension | **bug fix** | yes ← *take regardless* |
+| 4.13 | `styles.css` | seven more slots reach the touch floor; `ds:touch-slots` gate | **bug fix** | yes ← *take regardless* |
 
 ## 4.1 `Table` gains a `striped` prop
 
@@ -681,6 +682,54 @@ only in the document while the dialog is open and the audit never opens one.
 
 **Cherry-pick priority: high.** One line in an existing block, no prototype
 dependency, and it fixes every dialog in the portal.
+
+## 4.13 The slot list gets a gate, and the gate finds six more
+
+`packages/ui/src/styles.css` + `scripts/ds/check-touch-slots.mjs`. 4.7, 4.11 and
+4.12 were the same bug three times, each found by hand after it had shipped. The
+fourth was not going to be found any faster, so the pattern got a gate instead
+of another fix.
+
+**What the gate checks.** Every JSX element that renders a button but does not
+carry `data-slot="button"` must be named in the coarse-pointer block or
+exempted with a written reason. Three ways an element ends up in that state,
+all of them real here: `render={<Button/>}` (Base UI merges and the outer slot
+wins), `<Button data-slot="…">` (Button writes its slot *before* spreading
+props, so the caller's wins), and a plain `<button>` that was simply named
+something else.
+
+**It found six more on its first run,** all measured at 390px before being
+touched: `sidebar-trigger` 40x40, `carousel-previous`/`carousel-next` 40x40,
+`combobox-chip-remove` 23x23, `attachment-action` 23x23, and `sheet-close` —
+which is `dialog-close` byte for byte, same `size="icon-sm"`, same absolute
+corner, and which **no runtime audit could have caught** because it is
+`display: none` on every page in both surfaces.
+
+`sidebar-trigger` is the one that matters most: it is the hamburger, the
+control `mobile-audit`'s new reachability check counts as the way off a page.
+The way off the page was itself a 40px target.
+
+**A seventh came out of the same sweep.** The block's own comment claimed
+checkbox / radio / switch "already ship their own after:-inset extensions from
+base-nova" and stopped there. They do ship one — it is a fixed inset rather
+than a solve for 44, and the switch measured **55x33.8** effective, ten pixels
+short on the axis that matters. All three now take this block's formula, and
+the comment says what is actually true.
+
+**The gate also caught its own author.** The first version missed
+`alert-dialog-action` (a bare `<Button data-slot="…">`), and the stale-exemption
+check — which fails when EXEMPT names a slot that no longer matches — is what
+surfaced the gap, because the exemption written for it never matched anything.
+
+**Three exemptions, each with a reason.** `sidebar-rail` is `hidden` until
+`sm:flex` with `tabIndex={-1}` — a mouse edge-drag affordance that does not
+exist at phone widths. `alert-dialog-action` and `alert-dialog-cancel` reach
+44px through the control-height token rather than a rule (decision 0010 grows
+`--control-h` itself on touch); both measured 44px, and the exemption records
+the caveat that `size="sm"` would land at 40.
+
+**Cherry-pick priority: high.** The gate is standalone, the CSS additions are
+one block, and together they close the category rather than the instance.
 
 *Landed 2026-08-05 on main (`d7c1a99`, PR #85), the coarse `::after` list
 exactly as described here; the radius half of 5.22 landed with the Part 2
