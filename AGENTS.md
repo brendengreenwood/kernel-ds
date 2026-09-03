@@ -21,6 +21,7 @@ node --experimental-strip-types runs the .mts/.ts gate scripts directly (Node 24
 Docs are part of every change (see docs/GUIDE.md and docs/AGENTS.md)
 Same turn as a meaningful change: append docs/worklog/YYYY-MM.md, update docs/STATE.md, add docs/decisions/ record if a convention/dependency/architecture shifted, archive stale STATE sections to docs/archive/
 Rituals are encoded as skills in .agents/skills/ (kernel-token, kernel-feature, kernel-verify, kernel-ship) — reach for them instead of re-deriving
+Guidance citations are gated (decision 0069): every path and every npm script cited in an AGENTS.md or CLAUDE.md outside the generated markers must resolve (ds:doctor agents-citations). Root files cite repo-relative paths, package files cite package-relative ones; write a prose word pair like "docs and design" as words when the first half is a real directory
 
 Architecture
 packages/catalog/src — canonical typed entity schema and generated catalog data; framework-free and consumed by repository tooling

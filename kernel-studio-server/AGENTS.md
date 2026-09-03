@@ -18,12 +18,12 @@ Architecture (src/)
 mastra/ — the Mastra runtime (see mastra/AGENTS.md). index.ts is the config hub: registers agents, tools, workflows, storage
 mastra/mcp-server.ts — MCP server exposing studio capabilities
 mastra/agents/ — toolsmith (authors object-model + workspace definitions), design, research, artifact, supervisor
-mastra/tools/ — tool families: define (validate/write definitions), ds-bundle (read component docs/design docs), diagram (ir + compiler), artifact, brief, cognition, observation, ontology, persona, quote, rag, transcript
+mastra/tools/ — tool families: define (validate/write definitions), ds-bundle (read component docs and design docs), diagram (ir + compiler), artifact, brief, cognition, observation, ontology, persona, quote, rag, transcript
 mastra/workflows/ — artifact-workflow, cognitive-research-workflow (step-based, suspend/resume)
 mastra/storage/ — libsql-backed stores (artifact, evidence, observation, ontology, persona, quote, snapshot, transcript) + db.ts
 mastra/rag/ — transcript-rag (semantic recall over transcripts)
 mastra/processors/, mastra/evals/ — input/output processors and eval harnesses
-mastra/routes/, mastra/public/ — server routes and static assets
+mastra/routes/ — artifact, brief, and viewer routes
 api/ — hono HTTP layer (api/routes/)
 contract/ — schema shared with the portal object model
 __tests__/ — cross-cutting vitest suites (contract, tools, define-tools)

@@ -151,6 +151,18 @@ export const doctorChecks = [
     },
   },
   {
+    id: "agents-citations",
+    fixtureSafe: true,
+    run: async ({ root }) => {
+      /* The generated inventory blocks keep themselves current; the prose
+       * around them cites paths and scripts by hand. Decision 0038 deferred
+       * checking those, and the ui-package extraction then left five stale
+       * lines behind. Decision 0069 closes it. */
+      const { collectCitationViolations } = await import("../lib/agents-citations.mjs")
+      return collectCitationViolations(root).map(({ code, message }) => ({ code, message }))
+    },
+  },
+  {
     id: "skill-integrity",
     fixtureSafe: false,
     run: async () => {

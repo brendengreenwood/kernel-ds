@@ -36,7 +36,7 @@ node scripts/mobile-audit.mjs <url> [url...]    # 390px scan: overflow, clipped 
   child route per section (`/colors`, `/forms`, …), a `/components` index,
   and `/components/:slug` component pages. Old `#anchor` bookmarks redirect
   to their route on load
-- **Tailwind CSS v4** via `@tailwindcss/vite`; all tokens live in `src/index.css`
+- **Tailwind CSS v4** via `@tailwindcss/vite`; all tokens live in `packages/ui/src/styles.css`, imported here as `@kernel/ui/styles.css`
 - **shadcn/ui** components in `src/components/ui/` (**Base UI** primitives,
   `base-nova` style — migrated from Radix 2026-07-04 per decision 0005;
   reports in `.migration/`)
@@ -47,8 +47,7 @@ node scripts/mobile-audit.mjs <url> [url...]    # 390px scan: overflow, clipped 
 ```
 index.html                     ← title + font-sans/antialiased on body
 src/
-  index.css                    ← Kernel theme tokens (scales, roles, statuses)
-  main.tsx                     ← ThemeProvider + Router; one route per rail item (0011)
+  main.tsx                     ← ThemeProvider + Router; one route per rail item (0011); imports @kernel/ui/styles.css (tokens live in packages/ui/src/styles.css)
   pages/
     portal-layout.tsx          ← sidebar + header + <Outlet/> (shared chrome)
     components-index.tsx       ← /components — grouped index of component pages
@@ -145,7 +144,7 @@ src/
 > select. One knob for the whole system's chunkiness; on coarse pointers
 > the tokens grow to 40/44/48, which is how touch sizing now works.
 
-> **Touch ergonomics (decisions 0007 + 0009):** `src/index.css` ends with
+> **Touch ergonomics (decisions 0007 + 0009):** `packages/ui/src/styles.css` ends with
 > a `@media (pointer: coarse)` block. Primary controls (button, input,
 > input-group, select-trigger slots) visibly grow to 44px min-height
 > (compact sizes 40px); compact controls that stay small (toggles,

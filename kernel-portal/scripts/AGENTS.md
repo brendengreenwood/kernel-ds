@@ -3,7 +3,7 @@ Verification gates. Run with node from kernel-portal/. Each exits non-zero on vi
 check-component-docs.mjs — doc-entity ↔ source parity (variants/slots/props); --coverage flag asserts every ready component has an entity
 check-prose-quality.mjs — flags placeholder/mad-lib prose in doc entities (self-re-execs with --experimental-strip-types)
 check-style-fidelity.mjs — overlines must route through typeStyles.overline; no rounded-xl/2xl/[ radius hardcodes; has an allowlist for deliberate one-offs
-check-status-map.mjs — status→tone map integrity (Amendment A4: active never maps to pending under objects/)
+check-status-map.mjs — status→tone map integrity (Amendment A4: active never maps to pending under src/components/portal/objects/)
 emit-composition.mjs — validates the composition contract rules, prints EMIT-OK
 check-portal-css.mjs — built dist CSS contains @kernel/ui component-utility sentinels (--sidebar-width, group-data-, peer-data-); catches Tailwind not scanning the packaged components
 check-portal-boot.mjs — serves dist/ (or takes a URL) and proves the app mounts with 0 console errors (Playwright)

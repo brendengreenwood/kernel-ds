@@ -110,10 +110,23 @@ function tempDsdsRoot() {
     ["catalog-stale-generated", "stale-generated"],
     ["catalog-partial-registration", "missing-source"],
     ["decisions-duplicate-number", "duplicate-decision-number"],
+    ["agents-stale-citation", "stale-citation"],
   ]
   for (const [fixture, code] of redFixtures) {
     const result = ds(["doctor", "--fixture", join(fixturesDir, fixture)])
     assert(result.status === 1 && result.stderr.includes(code), `doctor detects ${code}`, result.stdout + result.stderr)
+  }
+
+  // The citation gate (decision 0069) must flag exactly the stale lines and
+  // nothing that resolves, is a placeholder, a prose slash, or a generated output.
+  const citations = ds(["doctor", "--fixture", join(fixturesDir, "agents-stale-citation")])
+  const flagged = citations.stderr.split(/\r?\n/).filter((line) => /stale-citation|unknown-script/.test(line))
+  assert(flagged.length === 3, "citation gate flags exactly three lines", citations.stderr)
+  for (const expected of ['"scripts/gone.mjs"', '"lib/moved/"', 'npm script "vanished"']) {
+    assert(flagged.some((line) => line.includes(expected)), `citation gate flags ${expected}`, citations.stderr)
+  }
+  for (const quiet of ["real/keep.ts", "YYYY", "light/dark", "32/38/44px", "dist/out.js", "@kernel/ui", "example.com", "npm script \"present\""]) {
+    assert(!citations.stderr.includes(quiet), `citation gate ignores ${quiet}`, citations.stderr)
   }
 }
 

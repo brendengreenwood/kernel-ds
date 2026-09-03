@@ -1,0 +1,1 @@
+{ "name": "fixture-guidance", "private": true, "scripts": { "present": "node -e 0" } }
