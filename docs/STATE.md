@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-08-01
+> Last touched: 2026-09-04
 
 ## What this project is
 
@@ -27,6 +27,17 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Green acts, blue navigates** (decision 0069, 2026-09-04): the cobalt
+  scale from the unmerged PR #61 concept lands as `--nav-*` with its roles
+  inverted — Cargill green (lime in dark, per 0067) stays the action color;
+  the blue is traversal. New `--traversal` ink role token (nav-600 light /
+  nav-400 dark) carried by breadcrumb links, accordion chevrons, tabs
+  actives (pill fill + underline, off `--primary`), pagination's current
+  page (soft nav chip), and the light sidebar selection (`nav-100`/
+  `nav-800`; dark keeps the raised neutral chip with a `nav-300` label).
+  Contrast audit gained a "Traversal (nav blue)" section: 80 pairs, 0 AA
+  failures. The v1 concept is preserved in
+  `docs/archive/2026-07-20-action-blue-concept.md` + PR #61.
 - **Catalog kinds are a level ladder** (decision 0057, 2026-08-02): `component`,
   `element`, `object`, `pattern`, `domain` are ordered levels of composition, not
   interchangeable labels. Entities at object level and above must cite resolving

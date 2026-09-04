@@ -66,6 +66,9 @@
   --border: oklch(0.8957 0.0025 165.0685);
   --input: oklch(0.7140 0.0064 170.3662);
   --ring: oklch(0.5364 0.1457 150.5842);
+  /* traversal ink (decision 0069): the blue "go here" signal — breadcrumb
+     links, record links, disclosure chevrons, active tabs, wayfinding */
+  --traversal: var(--nav-600);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
   --chart-2: var(--lime-500);
@@ -77,11 +80,12 @@
   --sidebar-foreground: oklch(0.2128 0.0209 162.2254);
   --sidebar-primary: oklch(0.5364 0.1457 150.5842);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
-  /* Nav selection/hover is NEUTRAL, not green (see the .dark note). It also
-     has to be DARKER than the rail: a selected item lighter than a 0.967 rail
-     would read as a hole rather than a chip. One rung down. */
-  --sidebar-accent: var(--neutral-200);
-  --sidebar-accent-foreground: var(--neutral-900);
+  /* Nav selection wears the nav blue (decision 0069): navigation is the
+     blue family's territory, and blue can't compete with the green/lime
+     accents the way a second green did. Still darker than the 0.967 rail
+     so the chip reads as a chip, not a hole. */
+  --sidebar-accent: var(--nav-100);
+  --sidebar-accent-foreground: var(--nav-800);
   --sidebar-border: var(--neutral-200);
   --sidebar-ring: oklch(0.5364 0.1457 150.5842);
 
@@ -160,6 +164,7 @@
   --border: var(--neutral-700);
   --input: var(--neutral-700);
   --ring: var(--lime-300);
+  --traversal: var(--nav-400);
 
   --chart-1: var(--lime-300);
   --chart-2: var(--lime-500);
@@ -174,8 +179,10 @@
   /* Nav selection/hover is NEUTRAL, not green. The rail is chrome; a coloured
      chip there competes with the accent doing real work in the content. One
      rung up from the rail reads as raised without a second green. */
+  /* dark keeps the raised neutral chip (elevation logic, 0065) and signals
+     traversal with a blue label instead of a coloured surface (0069) */
   --sidebar-accent: var(--neutral-800);
-  --sidebar-accent-foreground: var(--neutral-50);
+  --sidebar-accent-foreground: var(--nav-300);
   --sidebar-border: var(--neutral-800);
   --sidebar-ring: var(--lime-300);
 
@@ -236,6 +243,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-traversal: var(--traversal);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -333,6 +341,27 @@
   --lime-light: var(--lime-200);
   --lime: var(--lime-500);
   --lime-dark: var(--lime-700);
+
+  /* Nav blue (decision 0069) — the traversal color: links, tabs,
+     breadcrumbs, disclosure chevrons, current-place markers. Never a
+     button fill or state color — actions stay Cargill green (0067).
+     Cobalt at hue 254→267, clear of info (245→260) by sitting further
+     from cyan with the highest blue-region chroma (0.190 at 500); light
+     steps ride the sRGB gamut ceiling for blue at high lightness. */
+  --nav-50: oklch(0.975 0.011 254);
+  --nav-100: oklch(0.945 0.026 255);
+  --nav-200: oklch(0.895 0.050 256);
+  --nav-300: oklch(0.825 0.086 257);
+  --nav-400: oklch(0.730 0.138 259);
+  --nav-500: oklch(0.620 0.190 261);
+  --nav-600: oklch(0.536 0.184 262);
+  --nav-700: oklch(0.450 0.160 263);
+  --nav-800: oklch(0.375 0.130 265);
+  --nav-900: oklch(0.300 0.100 266);
+  --nav-950: oklch(0.225 0.072 267);
+  --nav-light: var(--nav-200);
+  --nav: var(--nav-500);
+  --nav-dark: var(--nav-700);
 
   --neutral-50: oklch(0.985 0.002 165);
   --neutral-100: oklch(0.967 0.003 165);
@@ -586,6 +615,20 @@
   --color-lime-800: var(--lime-800);
   --color-lime-900: var(--lime-900);
   --color-lime-950: var(--lime-950);
+  --color-nav-50: var(--nav-50);
+  --color-nav-100: var(--nav-100);
+  --color-nav-200: var(--nav-200);
+  --color-nav-300: var(--nav-300);
+  --color-nav-400: var(--nav-400);
+  --color-nav-500: var(--nav-500);
+  --color-nav-600: var(--nav-600);
+  --color-nav-700: var(--nav-700);
+  --color-nav-800: var(--nav-800);
+  --color-nav-900: var(--nav-900);
+  --color-nav-950: var(--nav-950);
+  --color-nav-light: var(--nav-light);
+  --color-nav: var(--nav);
+  --color-nav-dark: var(--nav-dark);
   --color-lime-light: var(--lime-light);
   --color-lime: var(--lime);
   --color-lime-dark: var(--lime-dark);

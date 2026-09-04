@@ -46,9 +46,14 @@ function PaginationLink({
 }: PaginationLinkProps) {
   return (
     <Button
-      variant={isActive ? "outline" : "ghost"}
+      /* current page is a traversal "you are here" marker (decision 0069) */
+      variant="ghost"
       size={size}
-      className={cn(className)}
+      className={cn(
+        isActive &&
+          "bg-nav-100 text-nav-800 hover:bg-nav-100 hover:text-nav-800 dark:bg-nav-900/60 dark:text-nav-200 dark:hover:bg-nav-900/60 dark:hover:text-nav-200",
+        className
+      )}
       nativeButton={false}
       render={
         <a
