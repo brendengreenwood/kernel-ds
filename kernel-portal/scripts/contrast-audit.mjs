@@ -119,6 +119,69 @@ function softFill(mode, family, step, alpha, backing) {
   return alpha === 1 ? fill : composite(fill, alpha, bgOf(mode, backing));
 }
 
+/* ---- (a0) traversal ink + nav-blue signifiers (decision 0069) ---- */
+for (const mode of ["light", "dark"]) {
+  for (const bg of ["background", "card"]) {
+    check({
+      group: "Traversal (nav blue)",
+      label: `--traversal on --${bg}`,
+      mode,
+      fgToken: "traversal",
+      bg: bgOf(mode, bg),
+      bgLabel: `--${bg}`,
+    });
+  }
+}
+rows.push({
+  group: "Traversal (nav blue)",
+  label: "tabs pill active: text-white on bg-traversal",
+  mode: "light",
+  bgLabel: "--traversal",
+  ratio: contrast(srgb("oklch(1 0 0)"), token(light, "traversal")),
+  suggestion: null,
+  fgToken: "traversal",
+});
+check({
+  group: "Traversal (nav blue)",
+  label: "tabs pill active: text-nav-950 on bg-traversal",
+  mode: "dark",
+  fgToken: "nav-950",
+  bg: bgOf("dark", "traversal"),
+  bgLabel: "--traversal",
+});
+check({
+  group: "Traversal (nav blue)",
+  label: "pagination active: text-nav-800 on bg-nav-100",
+  mode: "light",
+  fgToken: "nav-800",
+  bg: bgOf("light", "nav-100"),
+  bgLabel: "nav-100",
+});
+check({
+  group: "Traversal (nav blue)",
+  label: "pagination active: text-nav-200 on bg-nav-900/60 over --card",
+  mode: "dark",
+  fgToken: "nav-200",
+  bg: softFill("dark", "nav", "900", 0.6, "card"),
+  bgLabel: "nav-900/60 ⊕ card",
+});
+check({
+  group: "Traversal (nav blue)",
+  label: "sidebar active: --sidebar-accent-foreground on --sidebar-accent",
+  mode: "light",
+  fgToken: "sidebar-accent-foreground",
+  bg: bgOf("light", "sidebar-accent"),
+  bgLabel: "--sidebar-accent",
+});
+check({
+  group: "Traversal (nav blue)",
+  label: "sidebar active: --sidebar-accent-foreground on --sidebar-accent",
+  mode: "dark",
+  fgToken: "sidebar-accent-foreground",
+  bg: bgOf("dark", "sidebar-accent"),
+  bgLabel: "--sidebar-accent",
+});
+
 /* ---- (a) role pairs ---- */
 const rolePairs = [
   ["primary-foreground", "primary"],

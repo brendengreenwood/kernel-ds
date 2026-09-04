@@ -110,7 +110,7 @@ src/
 > `--status-*` hue. Use it for *persistent state*; use `Badge`/`Alert`
 > variants for *event outcomes*.
 > `ui/tabs.tsx` extends the stock component (decision 0021): `TabsList` takes
-> `variant` (**pill** — primary active, default · **underline** · **folder**)
+> `variant` (**pill** — traversal-blue active, default · **underline** · **folder**)
 > and `size` (**compact/default/comfortable**, on the control-height tokens),
 > plus `<TabCount>` (trailing count badge) and `<TabDot>` (notification dot);
 > tabs also take a leading MDI icon. Strips scroll in place on mobile.
@@ -167,7 +167,11 @@ defined in `src/index.css`. Zero network requests and instant first paint.
 The palette has two layers, both in `src/index.css`:
 
 - **Scales** — absolute, mode-independent ink. `--brand-*` (green),
-  `--lime-*` (the accent green) and
+  `--lime-*` (the accent green), `--nav-*` (the traversal blue —
+  decision 0069: cobalt at hue 254→267, carried to breadcrumbs, tabs
+  actives, disclosure chevrons, and the current page via the
+  `--traversal` ink role token, nav-600 light / nav-400 dark; green
+  does, blue goes — the blue never fills a button) and
   `--neutral-*` ship full 50→950 ramps — `--lime-*` also carries the
   `-light`/base/`-dark` aliases at 200/500/700. Lime is the hue the role layer
   reaches for as `--accent`/`--primary`/`--ring`/`--chart-*`; it was a bare

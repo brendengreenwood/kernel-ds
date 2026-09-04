@@ -174,11 +174,20 @@ export function ColorsSection() {
       lead="The palette is built in two layers. Scales are the absolute, mode-independent ink — 50→950 ramps (the four notification scales run 50→900), available as bg-brand-500, text-success-700, and so on. Role tokens (primary, background…) point at a scale step and remap per mode."
     >
       <h4 className={cn("mb-4", typeStyles.overline)}>
-        Brand & neutral scales
+        Brand, nav & neutral scales
       </h4>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        Two roles, one rule (decision 0069): the Cargill green is the{" "}
+        <em>action</em> color — buttons, selection, focus (lime is its dark
+        rendering, decision 0067). The nav blue is the <em>traversal</em>{" "}
+        color — links, active tabs, breadcrumbs, disclosure chevrons, the
+        current page — via the <code className="font-mono">--traversal</code>{" "}
+        ink (nav-600 light / nav-400 dark). Green does; blue goes.
+      </p>
       <div className="rounded-lg border bg-card p-8">
-        <Ramp name="Brand" role="green · brand-*" token="brand" steps={STEPS_11} />
+        <Ramp name="Brand" role="action green · brand-*" token="brand" steps={STEPS_11} />
         <Ramp name="Lime" role="accent green · lime-*" token="lime" steps={STEPS_11} />
+        <Ramp name="Nav" role="traversal blue · nav-*" token="nav" steps={STEPS_11} />
         <Ramp name="Neutral" role="green-tinted · neutral-*" token="neutral" steps={STEPS_11} />
       </div>
 
