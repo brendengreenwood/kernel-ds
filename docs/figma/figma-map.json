@@ -6,19 +6,26 @@
   "collections": {
     "Kernel Semantic": {
       "id": "VariableCollectionId:1:74",
-      "modes": { "Light": "1:0", "Dark": "1:1" },
+      "modes": {
+        "Light": "1:0",
+        "Dark": "1:1"
+      },
       "variables": 35,
       "source": "packages/ui/src/styles.css :root/.dark shadcn theme block; + alpha-baked semantic/ring-50, semantic/destructive-20 (rings) and semantic/destructive-10 (destructive button fill, light 10% / dark 20% per code)"
     },
     "Kernel Primitives": {
       "id": "VariableCollectionId:1:107",
-      "modes": { "Value": "1:2" },
+      "modes": {
+        "Value": "1:2"
+      },
       "variables": 240,
       "source": "packages/ui/src/styles.css raw scales (brand/neutral/status/viz/commodity) + light/base/dark and status/* aliases"
     },
     "Kernel Metrics": {
       "id": "VariableCollectionId:1:348",
-      "modes": { "Value": "1:3" },
+      "modes": {
+        "Value": "1:3"
+      },
       "variables": 59,
       "source": "radius/{sm,md,lg,xl,full}, control heights (decision 0010), motion durations (decision 0018), spacing/* 4px grid (decision 0064), border/*, fontSize/*, lineHeight/*, ease/* reference strings"
     }
@@ -42,7 +49,9 @@
       },
       "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable. All 333+ variables carry scopes and (where a stable CSS var exists) WEB code syntax."
     },
-    "Components": { "pageId": "1:1250" }
+    "Components": {
+      "pageId": "1:1250"
+    }
   },
   "entities": {
     "component.button": {
@@ -52,7 +61,22 @@
       "kind": "component-set",
       "page": "Components",
       "status": "built",
-      "props": { "Variant": ["default", "outline", "secondary", "ghost", "destructive", "link"], "Size": ["default", "xs", "sm", "lg"] },
+      "props": {
+        "Variant": [
+          "default",
+          "outline",
+          "secondary",
+          "ghost",
+          "destructive",
+          "link"
+        ],
+        "Size": [
+          "default",
+          "xs",
+          "sm",
+          "lg"
+        ]
+      },
       "note": "Mirrors @kernel/ui buttonVariants (icon sizes omitted). Heights bound to control-h vars, colors bound to semantic vars, destructive fill bound to alpha-baked semantic/destructive-10 at paint opacity 1 (see GUIDE hardened gotchas). Radius bound to radius/lg (radius/md for xs/sm), paddings/gaps bound to spacing vars per size, sm label 12.8px (text-[0.8rem]). Rebuilt 2026-09-19 after file-side deletion; built directly inside its section. Dark preview frame 10:500 (instances + explicitVariableModes) kept in section."
     },
     "component.input": {
@@ -62,7 +86,14 @@
       "kind": "component-set",
       "page": "Components",
       "status": "built",
-      "props": { "State": ["default", "focus", "invalid", "disabled"] },
+      "props": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
       "note": "Code Input has no cva variants; State axis models pseudo-class styling. Height control-h, radius radius/lg, px spacing/2-5, py spacing/1, border semantic/input|ring|destructive, rings = 3px spread drop-shadows bound to semantic/ring-50 / semantic/destructive-20, disabled = 50% opacity + input/50 fill. Placeholder text/sm/regular on semantic/muted-foreground."
     },
     "component.sidebar": {
@@ -73,11 +104,40 @@
       "page": "Components",
       "status": "built",
       "children": {
-        "menu-button-set": { "nodeId": "7:215", "key": "f654c9698827bb29bcbc2adf4347a6a6dffd3708", "axes": { "Variant": ["default", "outline"], "Size": ["default", "sm", "lg"], "State": ["default", "hover", "active"] } },
-        "group-label": { "nodeId": "7:216", "key": "373fb826eaab76add99043667a26992796dada79" },
-        "separator": { "nodeId": "7:218", "key": "f9a415b211887ddd74081c4980470275638214d9" }
+        "menu-button-set": {
+          "nodeId": "7:215",
+          "key": "f654c9698827bb29bcbc2adf4347a6a6dffd3708",
+          "axes": {
+            "Variant": [
+              "default",
+              "outline"
+            ],
+            "Size": [
+              "default",
+              "sm",
+              "lg"
+            ],
+            "State": [
+              "default",
+              "hover",
+              "active"
+            ]
+          },
+          "props": {
+            "Icon": "INSTANCE_SWAP (Icon#14:0), default view-dashboard-outline"
+          },
+          "note": "Icon slot is a 16px nested MDI instance wired to the Icon instance-swap property; icon vectors colored to match the label per state."
+        },
+        "group-label": {
+          "nodeId": "7:216",
+          "key": "373fb826eaab76add99043667a26992796dada79"
+        },
+        "separator": {
+          "nodeId": "7:218",
+          "key": "f9a415b211887ddd74081c4980470275638214d9"
+        }
       },
-      "note": "Composed of nested instances; widths 256 (16rem) / icon 48 (3rem); heights bound spacing/8|7|12 equivalents; colors semantic/sidebar-*"
+      "note": "Composed of nested instances; widths 256 (16rem) / icon 48 (3rem); heights bound spacing/8|7|12 equivalents; colors semantic/sidebar-* Icons: barley (switcher), view-dashboard/file-document/truck/cash-multiple/chart-box/cog (rows, outline where available), account-circle-outline (footer)."
     },
     "object.workspace": {
       "nodeId": "1:14",
@@ -85,6 +145,13 @@
       "kind": "frame",
       "status": "exploration",
       "note": "App shell exploration — icon rail + top bar + left/canvas/right panels. Grids token-bound (spacing/2); fills not yet variable-bound. Second copy at 4:7."
+    }
+  },
+  "libraries": {
+    "Material Design Icons": {
+      "fileKey": "KuMFRr3zRvRlkNpHaHZnce",
+      "components": 5129,
+      "note": "Published MDI library, enabled in this file. Mirrors the code's ./icon MDI shim (prefer *-outline). Import via importComponentByKeyAsync; hangs if the library isn't enabled in Assets."
     }
   }
 }
