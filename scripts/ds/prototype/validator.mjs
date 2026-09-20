@@ -50,6 +50,19 @@ function validateCanonical(value, path, issues) {
   }
 }
 
+function validateMigrationImport(value, record, path, issues) {
+  if (!value) return
+  if (value.type !== "migration-import" || !isString(value.sourcePath) || !Array.isArray(value.sourceIds) || value.sourceIds.length === 0 || !value.sourceIds.every(isString)) {
+    issues.push(issue("invalid-migration-import", path, "Migration import requires its source ledger and source IDs"))
+  }
+  if (!ISO_DATE.test(value.migrationDate ?? "") || value.mappedState !== record.state || !Array.isArray(value.priorEvidence)) {
+    issues.push(issue("invalid-migration-import", path, "Migration import must record date, mapped state, and prior evidence"))
+  }
+  if (record.history?.[0]?.source !== "migration-import") {
+    issues.push(issue("invalid-migration-import", path, "Migration-import concerns require a distinct genesis authorization event"))
+  }
+}
+
 export function validatePrototypeRegistry(registry, { entities = [], root = process.cwd(), checkLivePaths = true } = {}) {
   const issues = []
   const entityMap = new Map(entities.map((entity) => [entity.id, entity]))
@@ -118,6 +131,7 @@ export function validatePrototypeRegistry(registry, { entities = [], root = proc
       if (!concernStates.includes(record.state) || !originSurfaces.includes(record.origin)) {
         issues.push(issue("invalid-concern-state", path, "Concern requires a known state and origin surface"))
       }
+      validateMigrationImport(record.migrationImport, record, `${path}.migrationImport`, issues)
       if (!Array.isArray(record.history) || record.history.length === 0) {
         issues.push(issue("missing-transition-history", `${path}.history`, "Concern requires append-only transition history"))
       } else {

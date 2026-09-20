@@ -1552,3 +1552,5 @@ sandbox to a maintained prototype surface on `main` — built by CI, with
 this register and `scripts/check-drift-register.mjs` running there as the
 `prototype` job. Still open: the charting layer and the light-mode accent
 pass.
+
+**Operational migration (2026-09-20).** This document remains the historical and design-rationale record. Every identifiable entry is classified in `docs/prototypes/migration-manifest.json`; imported operational work points to concern records in `docs/prototypes/registry.json`. From this date forward, lifecycle state is maintained in that registry and projected into `docs/prototypes/status.md` and `docs/figma/figma-map.json`; this prose is not rewritten to imitate a live queue.

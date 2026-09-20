@@ -4,8 +4,10 @@ How Kernel DS work happens in Figma via the console bridge (figma-console MCP), 
 
 ## Principles
 
-- **Code-led.** The repo is the source of truth: tokens live in `packages/ui/src/styles.css`, components in `@kernel/ui`, and the catalog (`packages/catalog`) is the canonical inventory. Figma reflects code; when both drift, code wins and we push code back into Figma.
-- **DSDS is the bridge.** Every Figma component/variable collection that matters maps to a catalog entity ID (`component.button`, `element.field`, ...). The mapping lives in `docs/figma/figma-map.json` (sidecar for now; may be promoted into the catalog schema via a decision record).
+- **Canonical code owns shipped contracts.** Tokens in `packages/ui/src/styles.css`, components in `@kernel/ui`, definitions in `@kernel/definitions`, and identities in `packages/catalog` are authoritative after promotion.
+- **Figma and `kernel-app` are peer discovery surfaces.** Either may originate a visual, component, pattern, object-model, workflow, or narrowly defined contract-data candidate. Neither becomes canonical merely because the prototype works or looks complete.
+- **Promotion is explicit and concern-specific.** Record discoveries against catalog IDs in `docs/prototypes/registry.json`; accepted visual/component/pattern work promotes to `@kernel/ui`, while reusable object-model/workflow/data contracts promote to `@kernel/definitions`. Sample records, persistence, adapters, and integrations stay app-local.
+- **Browser validation closes Figma's gaps.** CSS cascade, `color-mix`, media queries, runtime data, focus behavior, and animation cannot be proven by the canvas alone; validate those compromises in `kernel-app` or the portal.
 - **Nothing orphaned.** Don't create Figma components that have no catalog entity. If Figma work reveals a missing entity, register it in the catalog first (kernel-ds-component / kernel-ds-pattern skills).
 
 ## The file
@@ -20,7 +22,7 @@ How Kernel DS work happens in Figma via the console bridge (figma-console MCP), 
 ## Token sync (round trip)
 
 - Push code → Figma: run `scripts/ds/figma/build-figma-tokens.mjs` against `packages/ui/src/styles.css`; `:root`/`.dark` become Light/Dark modes and CSS `var()` references become Figma variable aliases where possible.
-- Pull Figma → review: read variables through the Desktop Bridge and compare with `tokens-build.json`; code-led means drift is resolved by re-importing from code unless we deliberately adopt the Figma change (then edit `packages/ui/src/styles.css` through the kernel-token skill and re-import).
+- Pull Figma → review: read variables through the Desktop Bridge and compare with `tokens-build.json`. A Figma change may lead a proposal; adoption requires recording the relevant concern, changing the canonical package deliberately, and then re-importing the accepted code.
 - `tokens.config.json` at repo root pins the Figma file and formats once sync is established.
 
 ## Component rules
@@ -29,7 +31,7 @@ How Kernel DS work happens in Figma via the console bridge (figma-console MCP), 
 - Compose: complex layouts are instances of smaller components — never detached copies.
 - Bind every fill/stroke/radius/spacing to a variable. Hardcoded values fail lint (`figma_lint_design`).
 - Name layers and components after catalog IDs: component `Button` ↔ `component.button`.
-- After creating/changing a set, record its node ID + key in `figma-map.json`.
+- After creating/changing a set, update its Figma surface in `docs/prototypes/registry.json` through `ds:prototype`; `npm run ds:generate` projects the compatible node ID + key entry into `figma-map.json`.
 
 ## Components page organization
 
@@ -37,7 +39,7 @@ How Kernel DS work happens in Figma via the console bridge (figma-console MCP), 
 - **Sections stack vertically** in a single column at x=0, alphabetical, 160px apart. New sections go at the bottom; never overlap.
 - **Sub-components are namespaced** `Parent / Part` (e.g. `Sidebar / Menu Button`) and live inside the parent's section, above the assembled component.
 - **Sections are the undo firewall.** All edits happen inside a section; nothing component-related sits loose on the page canvas. Loose nodes on the Components page are treated as drift and cleaned up.
-- **figma-map.json is the register.** A component that isn't recorded there (node ID + key) doesn't exist as far as the DS is concerned — recovery after accidental deletion starts from the map, so record IDs the same turn the component is built.
+- **The prototype registry is the register.** `docs/prototypes/registry.json` owns operational state and explicit Figma metadata. `docs/figma/figma-map.json` is its generated compatibility projection; never hand-edit it. Recovery after accidental deletion still starts from the projected IDs and recipes, so update the registry in the same turn the component is built.
 - **Deletion is a code-level event.** If a set disappears (undo collateral, cleanup), rebuild from the code API + map entry; never re-draw from memory of the pixels.
 
 ## Working discipline

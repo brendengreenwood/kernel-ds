@@ -1,0 +1,1133 @@
+{
+  "$schema": "kernel-ds/prototype-migration@1",
+  "version": 1,
+  "migrationDate": "2026-09-20",
+  "sources": {
+    "figmaSnapshot": "scripts/ds/__fixtures__/figma-map-pre-migration.json",
+    "driftLedger": "docs/v2-prototype-drift.md"
+  },
+  "policy": {
+    "legacyAuthorization": "migration-import",
+    "figmaBuilt": "A built Figma artifact maps to candidate unless immutable canonical promotion evidence is recorded for that concern.",
+    "promotedLegacy": "Legacy promotion stays promoted only when canonical implementation and prior acceptance evidence pass the production resolver; otherwise it imports as validated or candidate with an evidence gap.",
+    "noInventedHistory": true
+  },
+  "counts": {
+    "figmaFields": 91,
+    "driftEntries": 79,
+    "imported": 55,
+    "historicalOnly": 24,
+    "superseded": 0,
+    "duplicate": 0
+  },
+  "figmaFields": [
+    {
+      "sourcePath": "file.name",
+      "destination": "figma.compatibility.file.name"
+    },
+    {
+      "sourcePath": "file.fileKey",
+      "destination": "figma.compatibility.file.fileKey"
+    },
+    {
+      "sourcePath": "collections.Kernel Semantic.id",
+      "destination": "figma.compatibility.collections.Kernel Semantic.id"
+    },
+    {
+      "sourcePath": "collections.Kernel Semantic.modes.Light",
+      "destination": "figma.compatibility.collections.Kernel Semantic.modes.Light"
+    },
+    {
+      "sourcePath": "collections.Kernel Semantic.modes.Dark",
+      "destination": "figma.compatibility.collections.Kernel Semantic.modes.Dark"
+    },
+    {
+      "sourcePath": "collections.Kernel Semantic.variables",
+      "destination": "figma.compatibility.collections.Kernel Semantic.variables"
+    },
+    {
+      "sourcePath": "collections.Kernel Semantic.source",
+      "destination": "figma.compatibility.collections.Kernel Semantic.source"
+    },
+    {
+      "sourcePath": "collections.Kernel Primitives.id",
+      "destination": "figma.compatibility.collections.Kernel Primitives.id"
+    },
+    {
+      "sourcePath": "collections.Kernel Primitives.modes.Value",
+      "destination": "figma.compatibility.collections.Kernel Primitives.modes.Value"
+    },
+    {
+      "sourcePath": "collections.Kernel Primitives.variables",
+      "destination": "figma.compatibility.collections.Kernel Primitives.variables"
+    },
+    {
+      "sourcePath": "collections.Kernel Primitives.source",
+      "destination": "figma.compatibility.collections.Kernel Primitives.source"
+    },
+    {
+      "sourcePath": "collections.Kernel Metrics.id",
+      "destination": "figma.compatibility.collections.Kernel Metrics.id"
+    },
+    {
+      "sourcePath": "collections.Kernel Metrics.modes.Value",
+      "destination": "figma.compatibility.collections.Kernel Metrics.modes.Value"
+    },
+    {
+      "sourcePath": "collections.Kernel Metrics.variables",
+      "destination": "figma.compatibility.collections.Kernel Metrics.variables"
+    },
+    {
+      "sourcePath": "collections.Kernel Metrics.source",
+      "destination": "figma.compatibility.collections.Kernel Metrics.source"
+    },
+    {
+      "sourcePath": "pages.Tokens.pageId",
+      "destination": "figma.compatibility.pages.Tokens.pageId"
+    },
+    {
+      "sourcePath": "pages.Tokens.sections.Semantic",
+      "destination": "figma.compatibility.pages.Tokens.sections.Semantic"
+    },
+    {
+      "sourcePath": "pages.Tokens.sections.Primitives",
+      "destination": "figma.compatibility.pages.Tokens.sections.Primitives"
+    },
+    {
+      "sourcePath": "pages.Tokens.sections.Metrics",
+      "destination": "figma.compatibility.pages.Tokens.sections.Metrics"
+    },
+    {
+      "sourcePath": "pages.Tokens.sections.Typography",
+      "destination": "figma.compatibility.pages.Tokens.sections.Typography"
+    },
+    {
+      "sourcePath": "pages.Tokens.sections.Elevation",
+      "destination": "figma.compatibility.pages.Tokens.sections.Elevation"
+    },
+    {
+      "sourcePath": "pages.Tokens.sections.Layout",
+      "destination": "figma.compatibility.pages.Tokens.sections.Layout"
+    },
+    {
+      "sourcePath": "pages.Tokens.effectStyles.note",
+      "destination": "figma.compatibility.pages.Tokens.effectStyles.note"
+    },
+    {
+      "sourcePath": "pages.Tokens.textStyles.note",
+      "destination": "figma.compatibility.pages.Tokens.textStyles.note"
+    },
+    {
+      "sourcePath": "pages.Tokens.note",
+      "destination": "figma.compatibility.pages.Tokens.note"
+    },
+    {
+      "sourcePath": "pages.Components.pageId",
+      "destination": "figma.compatibility.pages.Components.pageId"
+    },
+    {
+      "sourcePath": "entities.component.button.nodeId",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.nodeId"
+    },
+    {
+      "sourcePath": "entities.component.button.key",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.key"
+    },
+    {
+      "sourcePath": "entities.component.button.section",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.section"
+    },
+    {
+      "sourcePath": "entities.component.button.kind",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.kind"
+    },
+    {
+      "sourcePath": "entities.component.button.page",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.page"
+    },
+    {
+      "sourcePath": "entities.component.button.status",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.status"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Variant[0]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Variant[0]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Variant[1]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Variant[1]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Variant[2]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Variant[2]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Variant[3]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Variant[3]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Variant[4]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Variant[4]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Variant[5]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Variant[5]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Size[0]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Size[0]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Size[1]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Size[1]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Size[2]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Size[2]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.Size[3]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.Size[3]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.State[0]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.State[0]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.State[1]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.State[1]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.State[2]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.State[2]"
+    },
+    {
+      "sourcePath": "entities.component.button.props.State[3]",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.props.State[3]"
+    },
+    {
+      "sourcePath": "entities.component.button.note",
+      "destination": "initiatives.figma-button.surfaces.figma.compatibility.entities.component.button.note"
+    },
+    {
+      "sourcePath": "entities.component.input.nodeId",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.nodeId"
+    },
+    {
+      "sourcePath": "entities.component.input.key",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.key"
+    },
+    {
+      "sourcePath": "entities.component.input.section",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.section"
+    },
+    {
+      "sourcePath": "entities.component.input.kind",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.kind"
+    },
+    {
+      "sourcePath": "entities.component.input.page",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.page"
+    },
+    {
+      "sourcePath": "entities.component.input.status",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.status"
+    },
+    {
+      "sourcePath": "entities.component.input.props.State[0]",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.props.State[0]"
+    },
+    {
+      "sourcePath": "entities.component.input.props.State[1]",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.props.State[1]"
+    },
+    {
+      "sourcePath": "entities.component.input.props.State[2]",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.props.State[2]"
+    },
+    {
+      "sourcePath": "entities.component.input.props.State[3]",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.props.State[3]"
+    },
+    {
+      "sourcePath": "entities.component.input.note",
+      "destination": "initiatives.figma-input.surfaces.figma.compatibility.entities.component.input.note"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.nodeId",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.nodeId"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.key",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.key"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.section",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.section"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.kind",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.kind"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.page",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.page"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.status",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.status"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.nodeId",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.nodeId"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.key",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.key"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.Variant[0]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.Variant[0]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.Variant[1]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.Variant[1]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.Size[0]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.Size[0]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.Size[1]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.Size[1]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.Size[2]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.Size[2]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.State[0]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.State[0]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.State[1]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.State[1]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.axes.State[2]",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.axes.State[2]"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.props.Icon",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.props.Icon"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.menu-button-set.note",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.menu-button-set.note"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.group-label.nodeId",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.group-label.nodeId"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.group-label.key",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.group-label.key"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.separator.nodeId",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.separator.nodeId"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.children.separator.key",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.children.separator.key"
+    },
+    {
+      "sourcePath": "entities.component.sidebar.note",
+      "destination": "initiatives.figma-sidebar.surfaces.figma.compatibility.entities.component.sidebar.note"
+    },
+    {
+      "sourcePath": "entities.object.workspace.nodeId",
+      "destination": "initiatives.figma-workspace.surfaces.figma.compatibility.entities.object.workspace.nodeId"
+    },
+    {
+      "sourcePath": "entities.object.workspace.nodeName",
+      "destination": "initiatives.figma-workspace.surfaces.figma.compatibility.entities.object.workspace.nodeName"
+    },
+    {
+      "sourcePath": "entities.object.workspace.kind",
+      "destination": "initiatives.figma-workspace.surfaces.figma.compatibility.entities.object.workspace.kind"
+    },
+    {
+      "sourcePath": "entities.object.workspace.status",
+      "destination": "initiatives.figma-workspace.surfaces.figma.compatibility.entities.object.workspace.status"
+    },
+    {
+      "sourcePath": "entities.object.workspace.note",
+      "destination": "initiatives.figma-workspace.surfaces.figma.compatibility.entities.object.workspace.note"
+    },
+    {
+      "sourcePath": "entities.object.workspace.nodes.dark",
+      "destination": "initiatives.figma-workspace.surfaces.figma.compatibility.entities.object.workspace.nodes.dark"
+    },
+    {
+      "sourcePath": "entities.object.workspace.nodes.light",
+      "destination": "initiatives.figma-workspace.surfaces.figma.compatibility.entities.object.workspace.nodes.light"
+    },
+    {
+      "sourcePath": "libraries.Material Design Icons.fileKey",
+      "destination": "figma.compatibility.libraries.Material Design Icons.fileKey"
+    },
+    {
+      "sourcePath": "libraries.Material Design Icons.components",
+      "destination": "figma.compatibility.libraries.Material Design Icons.components"
+    },
+    {
+      "sourcePath": "libraries.Material Design Icons.note",
+      "destination": "figma.compatibility.libraries.Material Design Icons.note"
+    }
+  ],
+  "drift": [
+    {
+      "sourceId": "1.1",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "1.2",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "1.3",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "1.4",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "1.5",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "1.6",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "1.7",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "1.8",
+      "disposition": "closed-historical-only",
+      "rationale": "Prototype attachment and runtime setup remain app-local under the unmanaged-consumer fence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "2.1",
+      "disposition": "closed-historical-only",
+      "rationale": "The token discovery was already drained to canonical tokens; the prose remains the historical design rationale.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "2.2",
+      "disposition": "closed-historical-only",
+      "rationale": "The token discovery was already drained to canonical tokens; the prose remains the historical design rationale.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "2.3",
+      "disposition": "closed-historical-only",
+      "rationale": "The token discovery was already drained to canonical tokens; the prose remains the historical design rationale.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "2.4",
+      "disposition": "closed-historical-only",
+      "rationale": "The token discovery was already drained to canonical tokens; the prose remains the historical design rationale.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.1",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.2",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.3",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.4",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.5",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.6",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.7",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.8",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.9",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.10",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.11",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.12",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.13",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.14",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.15",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.16",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.17",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.18",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.19",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.20",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.21",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.22",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.23",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.24",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.25",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.26",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.27",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.28",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.29",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.30",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.31",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "3.32",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-modification-layer",
+      "concern": "visual",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.1",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.2",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.3",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.4",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.5",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.6",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.7",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.8",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.9",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.10",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.11",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "4.12",
+      "disposition": "closed-historical-only",
+      "rationale": "The upstream implementation is already recorded in Part 4; no unresolved operational state remains.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.1",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.2",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.3",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.4",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.5",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.6",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.7",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.8",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.9",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.10",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.11",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.12",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "workflow",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.13",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.14",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.15",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "data",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.16",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "workflow",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.17",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "workflow",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.18",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.19",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.20",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "workflow",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.21",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "workflow",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.22",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "pattern",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    },
+    {
+      "sourceId": "5.23",
+      "disposition": "imported",
+      "initiativeId": "kernel-app-product-discoveries",
+      "concern": "data",
+      "rationale": "Operational prototype discovery remains represented at concern level; the prose stays as detailed evidence.",
+      "sourcePaths": [
+        "docs/v2-prototype-drift.md"
+      ]
+    }
+  ]
+}

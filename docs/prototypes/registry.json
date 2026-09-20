@@ -3,7 +3,816 @@
   "version": 1,
   "figma": {
     "fileKey": "du0qpv9XrTt4HEWdPhesUh",
-    "name": "Kernel DS"
+    "name": "Kernel DS",
+    "compatibility": {
+      "file": {
+        "name": "Kernel DS",
+        "fileKey": "du0qpv9XrTt4HEWdPhesUh"
+      },
+      "collections": {
+        "Kernel Semantic": {
+          "id": "VariableCollectionId:1:74",
+          "modes": {
+            "Light": "1:0",
+            "Dark": "1:1"
+          },
+          "variables": 38,
+          "source": "packages/ui/src/styles.css :root/.dark shadcn theme block; + alpha-baked semantic/ring-50, semantic/destructive-20 (rings) and semantic/destructive-10 (destructive button fill, light 10% / dark 20% per code); + semantic/primary-80, secondary-hover, destructive-hover (button hover states)"
+        },
+        "Kernel Primitives": {
+          "id": "VariableCollectionId:1:107",
+          "modes": {
+            "Value": "1:2"
+          },
+          "variables": 254,
+          "source": "packages/ui/src/styles.css raw scales (brand/lime/neutral/status/viz/commodity) + light/base/dark and status/* aliases"
+        },
+        "Kernel Metrics": {
+          "id": "VariableCollectionId:1:348",
+          "modes": {
+            "Value": "1:3"
+          },
+          "variables": 61,
+          "source": "radius/{sm,md,lg,xl,full}, panel-radius/panel-inset, control heights (decision 0010), motion durations (decision 0018), spacing/* 4px grid (decision 0069), border/*, fontSize/*, lineHeight/*, ease/* reference strings"
+        }
+      },
+      "pages": {
+        "Tokens": {
+          "pageId": "1:357",
+          "sections": {
+            "Semantic": "1:358",
+            "Primitives": "1:456",
+            "Metrics": "1:1216",
+            "Typography": "1:1485",
+            "Elevation": "5:80",
+            "Layout": "6:118"
+          },
+          "effectStyles": {
+            "note": "10 elevation effect styles: elevation/{light,dark}/{sm,md,lg,xl,2xl} — from the styles.css shadow ramp (--shadow-sm..2xl). Figma has no shadow variable type and effect styles can't mode-switch, so light/dark are separate style trees; 2xs/xs omitted (transparent by design). --shadow == --shadow-sm in code so no separate 'shadow' style."
+          },
+          "textStyles": {
+            "note": "18 local text styles: text/{2xs,xs,sm,base,lg}/{regular,medium}, text/{xl,2xl,3xl}/{regular,semibold}, mono/{sm,xs}. Sans stand-in: Inter (code uses system-ui stack); mono stand-in: Roboto Mono. Sizes = Tailwind scale + custom text-2xs (11/16) from styles.css."
+          },
+          "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable. The v2 lime scale is included. All 353 variables carry scopes and (where a stable CSS var exists) WEB code syntax."
+        },
+        "Components": {
+          "pageId": "1:1250"
+        }
+      },
+      "libraries": {
+        "Material Design Icons": {
+          "fileKey": "KuMFRr3zRvRlkNpHaHZnce",
+          "components": 5129,
+          "note": "Published MDI library, enabled in this file. Mirrors the code's ./icon MDI shim (prefer *-outline). Import via importComponentByKeyAsync; hangs if the library isn't enabled in Assets."
+        }
+      }
+    }
   },
-  "initiatives": []
+  "initiatives": [
+    {
+      "id": "figma-button",
+      "title": "Figma Button library component",
+      "lifecycle": "active",
+      "scopeKey": "figma-library",
+      "entityIds": [
+        "component.button"
+      ],
+      "surfaces": {
+        "figma": [
+          {
+            "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+            "nodeId": "7:449",
+            "kind": "component-set",
+            "key": "e94154ae80fcba90379a39a0b5f471fd503b339f",
+            "mapEntry": {
+              "nodeId": "7:449",
+              "key": "e94154ae80fcba90379a39a0b5f471fd503b339f",
+              "section": "7:399",
+              "kind": "component-set",
+              "page": "Components",
+              "status": "built",
+              "props": {
+                "Variant": [
+                  "default",
+                  "outline",
+                  "secondary",
+                  "ghost",
+                  "destructive",
+                  "link"
+                ],
+                "Size": [
+                  "default",
+                  "xs",
+                  "sm",
+                  "lg"
+                ],
+                "State": [
+                  "default",
+                  "hover",
+                  "focus",
+                  "disabled"
+                ]
+              },
+              "note": "Mirrors @kernel/ui buttonVariants incl. interaction states (96 variants; icon sizes omitted). Hover fills: primary-80 / muted / secondary-hover (premixed color-mix) / muted / destructive-hover (alpha-baked 20/30) / link underline. Focus: 1px semantic/ring border + 3px spread drop-shadow bound semantic/ring-50 with showShadowBehindNode:false (translucent fills otherwise muddy). Disabled: node opacity 0.5 (node-level, safe from bind-drops-opacity). Mirrors @kernel/ui buttonVariants (icon sizes omitted). Heights bound to control-h vars, colors bound to semantic vars, destructive fill bound to alpha-baked semantic/destructive-10 at paint opacity 1 (see GUIDE hardened gotchas). Radius bound to radius/lg (radius/md for xs/sm), paddings/gaps bound to spacing vars per size, sm label 12.8px (text-[0.8rem]). Rebuilt 2026-09-19 after file-side deletion; built directly inside its section. Dark preview frame 10:500 (instances + explicitVariableModes) kept in section."
+            }
+          }
+        ],
+        "kernelApp": []
+      },
+      "concerns": [
+        {
+          "concern": "visual",
+          "state": "candidate",
+          "origin": "figma",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported from the pre-registry Figma recovery map; built means the visual artifact exists, not that canonical promotion occurred.",
+              "evidence": [
+                "scripts/ds/__fixtures__/figma-map-pre-migration.json#entities.component.button"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "scripts/ds/__fixtures__/figma-map-pre-migration.json",
+            "sourceIds": [
+              "entities.component.button"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": "No tuple-specific committed acceptance artifact existed in the legacy map."
+          }
+        }
+      ]
+    },
+    {
+      "id": "figma-input",
+      "title": "Figma Input library component",
+      "lifecycle": "active",
+      "scopeKey": "figma-library",
+      "entityIds": [
+        "component.input"
+      ],
+      "surfaces": {
+        "figma": [
+          {
+            "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+            "nodeId": "7:347",
+            "kind": "component-set",
+            "key": "d112a2cb98b5d4770398e392bbc7ccdb10911ecc",
+            "mapEntry": {
+              "nodeId": "7:347",
+              "key": "d112a2cb98b5d4770398e392bbc7ccdb10911ecc",
+              "section": "7:400",
+              "kind": "component-set",
+              "page": "Components",
+              "status": "built",
+              "props": {
+                "State": [
+                  "default",
+                  "focus",
+                  "invalid",
+                  "disabled"
+                ]
+              },
+              "note": "Code Input has no cva variants; State axis models pseudo-class styling. Height control-h, radius radius/lg, px spacing/2-5, py spacing/1, border semantic/input|ring|destructive, rings = 3px spread drop-shadows bound to semantic/ring-50 / semantic/destructive-20, disabled = 50% opacity + input/50 fill. Placeholder text/sm/regular on semantic/muted-foreground."
+            }
+          }
+        ],
+        "kernelApp": []
+      },
+      "concerns": [
+        {
+          "concern": "visual",
+          "state": "candidate",
+          "origin": "figma",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported from the pre-registry Figma recovery map; built means the visual artifact exists, not that canonical promotion occurred.",
+              "evidence": [
+                "scripts/ds/__fixtures__/figma-map-pre-migration.json#entities.component.input"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "scripts/ds/__fixtures__/figma-map-pre-migration.json",
+            "sourceIds": [
+              "entities.component.input"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": "No tuple-specific committed acceptance artifact existed in the legacy map."
+          }
+        }
+      ]
+    },
+    {
+      "id": "figma-sidebar",
+      "title": "Figma Sidebar library component",
+      "lifecycle": "active",
+      "scopeKey": "figma-library",
+      "entityIds": [
+        "component.sidebar"
+      ],
+      "surfaces": {
+        "figma": [
+          {
+            "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+            "nodeId": "7:220",
+            "kind": "component",
+            "key": "4e16316e02b580ee9559a5959b4ea861fda9ad1d",
+            "mapEntry": {
+              "nodeId": "7:220",
+              "key": "4e16316e02b580ee9559a5959b4ea861fda9ad1d",
+              "section": "7:289",
+              "kind": "component",
+              "page": "Components",
+              "status": "built",
+              "children": {
+                "menu-button-set": {
+                  "nodeId": "7:215",
+                  "key": "f654c9698827bb29bcbc2adf4347a6a6dffd3708",
+                  "axes": {
+                    "Variant": [
+                      "default",
+                      "outline"
+                    ],
+                    "Size": [
+                      "default",
+                      "sm",
+                      "lg"
+                    ],
+                    "State": [
+                      "default",
+                      "hover",
+                      "active"
+                    ]
+                  },
+                  "props": {
+                    "Icon": "INSTANCE_SWAP (Icon#14:0), default view-dashboard-outline"
+                  },
+                  "note": "Icon slot is a 16px nested MDI instance wired to the Icon instance-swap property; icon vectors colored to match the label per state."
+                },
+                "group-label": {
+                  "nodeId": "7:216",
+                  "key": "373fb826eaab76add99043667a26992796dada79"
+                },
+                "separator": {
+                  "nodeId": "7:218",
+                  "key": "f9a415b211887ddd74081c4980470275638214d9"
+                }
+              },
+              "note": "Composed of nested instances; widths 256 (16rem) / icon 48 (3rem); heights bound spacing/8|7|12 equivalents; colors semantic/sidebar-* Icons: barley (switcher), view-dashboard/file-document/truck/cash-multiple/chart-box/cog (rows, outline where available), account-circle-outline (footer)."
+            }
+          },
+          {
+            "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+            "nodeId": "7:215",
+            "key": "f654c9698827bb29bcbc2adf4347a6a6dffd3708",
+            "role": "menu-button-set",
+            "kind": "component-set"
+          },
+          {
+            "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+            "nodeId": "7:216",
+            "key": "373fb826eaab76add99043667a26992796dada79",
+            "role": "group-label",
+            "kind": "component"
+          },
+          {
+            "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+            "nodeId": "7:218",
+            "key": "f9a415b211887ddd74081c4980470275638214d9",
+            "role": "separator",
+            "kind": "component"
+          }
+        ],
+        "kernelApp": []
+      },
+      "concerns": [
+        {
+          "concern": "visual",
+          "state": "candidate",
+          "origin": "figma",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported from the pre-registry Figma recovery map; built means the visual artifact exists, not that canonical promotion occurred.",
+              "evidence": [
+                "scripts/ds/__fixtures__/figma-map-pre-migration.json#entities.component.sidebar"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "scripts/ds/__fixtures__/figma-map-pre-migration.json",
+            "sourceIds": [
+              "entities.component.sidebar"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": "No tuple-specific committed acceptance artifact existed in the legacy map."
+          }
+        }
+      ]
+    },
+    {
+      "id": "figma-workspace",
+      "title": "Figma workspace composition",
+      "lifecycle": "active",
+      "scopeKey": "figma-app",
+      "entityIds": [
+        "object.workspace"
+      ],
+      "surfaces": {
+        "figma": [
+          {
+            "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+            "nodeId": "1:14",
+            "kind": "frame",
+            "mapEntry": {
+              "nodeId": "1:14",
+              "nodeName": "App",
+              "kind": "frame",
+              "status": "exploration",
+              "note": "Both App shell frames fully bound to semantic/* (background, card, sidebar-accent, primary, foreground) with explicitVariableModes pinning 1:14 Dark and 4:7 Light as a side-by-side theme validation pair. Surfaces were previously hand-bound to neutral/900-950 primitives, which are single-mode and silently kill theme switching.",
+              "nodes": {
+                "dark": "1:14",
+                "light": "4:7"
+              }
+            }
+          }
+        ],
+        "kernelApp": []
+      },
+      "concerns": [
+        {
+          "concern": "visual",
+          "state": "exploration",
+          "origin": "figma",
+          "history": [
+            {
+              "from": null,
+              "to": "exploration",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported from the pre-registry Figma recovery map; built means the visual artifact exists, not that canonical promotion occurred.",
+              "evidence": [
+                "scripts/ds/__fixtures__/figma-map-pre-migration.json#entities.object.workspace"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "scripts/ds/__fixtures__/figma-map-pre-migration.json",
+            "sourceIds": [
+              "entities.object.workspace"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "exploration",
+            "priorEvidence": [],
+            "evidenceGap": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "kernel-app-routes",
+      "title": "Executable prototype routes",
+      "lifecycle": "active",
+      "scopeKey": "executable-routes",
+      "entityIds": [
+        "object.workspace",
+        "pattern.app-shell",
+        "pattern.dashboard",
+        "pattern.origination-flow"
+      ],
+      "surfaces": {
+        "figma": [],
+        "kernelApp": [
+          {
+            "route": "/",
+            "sourcePath": "kernel-app/src/pages/overview.tsx"
+          },
+          {
+            "route": "/scenarios",
+            "sourcePath": "kernel-app/src/pages/scenarios.tsx"
+          },
+          {
+            "route": "/producers",
+            "sourcePath": "kernel-app/src/pages/producers.tsx"
+          },
+          {
+            "route": "/settings",
+            "sourcePath": "kernel-app/src/pages/settings.tsx"
+          }
+        ]
+      },
+      "concerns": [
+        {
+          "concern": "pattern",
+          "state": "candidate",
+          "origin": "kernel-app",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported current executable navigation and responsive route composition.",
+              "evidence": [
+                "kernel-app/src/main.tsx",
+                "kernel-app:route:/",
+                "kernel-app:route:/scenarios",
+                "kernel-app:route:/producers",
+                "kernel-app:route:/settings"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "kernel-app/src/main.tsx",
+            "sourceIds": [
+              "route:/",
+              "route:/scenarios",
+              "route:/producers",
+              "route:/settings"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": null
+          }
+        },
+        {
+          "concern": "workflow",
+          "state": "candidate",
+          "origin": "kernel-app",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported real workflow discoveries expressed by the executable prototype.",
+              "evidence": [
+                "kernel-app/src/main.tsx",
+                "kernel-app:route-workflow:/producers",
+                "kernel-app:route-workflow:/scenarios"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "kernel-app/src/main.tsx",
+            "sourceIds": [
+              "route-workflow:/producers",
+              "route-workflow:/scenarios"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": "No reusable @kernel/definitions contract and acceptance pair has been recorded yet."
+          }
+        },
+        {
+          "concern": "data",
+          "state": "exploration",
+          "origin": "kernel-app",
+          "history": [
+            {
+              "from": null,
+              "to": "exploration",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported data-shape and derivation discoveries for further generalization.",
+              "evidence": [
+                "kernel-app/src/main.tsx",
+                "kernel-app:route-data:/",
+                "kernel-app:route-data:/producers",
+                "kernel-app:route-data:/scenarios"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "kernel-app/src/main.tsx",
+            "sourceIds": [
+              "route-data:/",
+              "route-data:/producers",
+              "route-data:/scenarios"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "exploration",
+            "priorEvidence": [],
+            "evidenceGap": "Current evidence includes prototype presentation and sample data, not a reusable canonical contract."
+          }
+        }
+      ]
+    },
+    {
+      "id": "kernel-app-modification-layer",
+      "title": "v2 visual modification layer",
+      "lifecycle": "active",
+      "scopeKey": "v2-modification-layer",
+      "entityIds": [
+        "object.workspace",
+        "component.button",
+        "component.card",
+        "component.tabs",
+        "component.table",
+        "component.select",
+        "component.sidebar",
+        "component.panels"
+      ],
+      "surfaces": {
+        "figma": [],
+        "kernelApp": [
+          {
+            "route": "/",
+            "sourcePath": "kernel-app/src/v2-layer.css"
+          },
+          {
+            "route": "/producers",
+            "sourcePath": "kernel-app/src/v2-layer.css"
+          },
+          {
+            "route": "/scenarios",
+            "sourcePath": "kernel-app/src/v2-layer.css"
+          }
+        ]
+      },
+      "concerns": [
+        {
+          "concern": "visual",
+          "state": "candidate",
+          "origin": "kernel-app",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported the complete v2 modification-layer queue without discarding its detailed rationale.",
+              "evidence": [
+                "docs/v2-prototype-drift.md#3.1",
+                "docs/v2-prototype-drift.md#3.2",
+                "docs/v2-prototype-drift.md#3.3",
+                "docs/v2-prototype-drift.md#3.4",
+                "docs/v2-prototype-drift.md#3.5",
+                "docs/v2-prototype-drift.md#3.6",
+                "docs/v2-prototype-drift.md#3.7",
+                "docs/v2-prototype-drift.md#3.8",
+                "docs/v2-prototype-drift.md#3.9",
+                "docs/v2-prototype-drift.md#3.10",
+                "docs/v2-prototype-drift.md#3.11",
+                "docs/v2-prototype-drift.md#3.12",
+                "docs/v2-prototype-drift.md#3.13",
+                "docs/v2-prototype-drift.md#3.14",
+                "docs/v2-prototype-drift.md#3.15",
+                "docs/v2-prototype-drift.md#3.16",
+                "docs/v2-prototype-drift.md#3.17",
+                "docs/v2-prototype-drift.md#3.18",
+                "docs/v2-prototype-drift.md#3.19",
+                "docs/v2-prototype-drift.md#3.20",
+                "docs/v2-prototype-drift.md#3.21",
+                "docs/v2-prototype-drift.md#3.22",
+                "docs/v2-prototype-drift.md#3.23",
+                "docs/v2-prototype-drift.md#3.24",
+                "docs/v2-prototype-drift.md#3.25",
+                "docs/v2-prototype-drift.md#3.26",
+                "docs/v2-prototype-drift.md#3.27",
+                "docs/v2-prototype-drift.md#3.28",
+                "docs/v2-prototype-drift.md#3.29",
+                "docs/v2-prototype-drift.md#3.30",
+                "docs/v2-prototype-drift.md#3.31",
+                "docs/v2-prototype-drift.md#3.32"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "docs/v2-prototype-drift.md",
+            "sourceIds": [
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5",
+              "3.6",
+              "3.7",
+              "3.8",
+              "3.9",
+              "3.10",
+              "3.11",
+              "3.12",
+              "3.13",
+              "3.14",
+              "3.15",
+              "3.16",
+              "3.17",
+              "3.18",
+              "3.19",
+              "3.20",
+              "3.21",
+              "3.22",
+              "3.23",
+              "3.24",
+              "3.25",
+              "3.26",
+              "3.27",
+              "3.28",
+              "3.29",
+              "3.30",
+              "3.31",
+              "3.32"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": "Individual entries require concern-specific acceptance and canonical implementation checks before promotion."
+          }
+        }
+      ]
+    },
+    {
+      "id": "kernel-app-product-discoveries",
+      "title": "v2 product and interaction discoveries",
+      "lifecycle": "active",
+      "scopeKey": "v2-product-discoveries",
+      "entityIds": [
+        "object.workspace",
+        "pattern.dashboard",
+        "pattern.origination-flow",
+        "component.table",
+        "component.sidebar",
+        "component.dialog"
+      ],
+      "surfaces": {
+        "figma": [],
+        "kernelApp": [
+          {
+            "route": "/",
+            "sourcePath": "kernel-app/src/pages/overview.tsx"
+          },
+          {
+            "route": "/producers",
+            "sourcePath": "kernel-app/src/pages/producers.tsx"
+          },
+          {
+            "route": "/scenarios",
+            "sourcePath": "kernel-app/src/pages/scenarios.tsx"
+          }
+        ]
+      },
+      "concerns": [
+        {
+          "concern": "pattern",
+          "state": "candidate",
+          "origin": "kernel-app",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported unresolved composition and interaction departures from the historical ledger.",
+              "evidence": [
+                "docs/v2-prototype-drift.md#5.1",
+                "docs/v2-prototype-drift.md#5.2",
+                "docs/v2-prototype-drift.md#5.3",
+                "docs/v2-prototype-drift.md#5.4",
+                "docs/v2-prototype-drift.md#5.5",
+                "docs/v2-prototype-drift.md#5.6",
+                "docs/v2-prototype-drift.md#5.7",
+                "docs/v2-prototype-drift.md#5.8",
+                "docs/v2-prototype-drift.md#5.10",
+                "docs/v2-prototype-drift.md#5.13",
+                "docs/v2-prototype-drift.md#5.14",
+                "docs/v2-prototype-drift.md#5.18",
+                "docs/v2-prototype-drift.md#5.19",
+                "docs/v2-prototype-drift.md#5.22"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "docs/v2-prototype-drift.md",
+            "sourceIds": [
+              "5.1",
+              "5.2",
+              "5.3",
+              "5.4",
+              "5.5",
+              "5.6",
+              "5.7",
+              "5.8",
+              "5.10",
+              "5.13",
+              "5.14",
+              "5.18",
+              "5.19",
+              "5.22"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": null
+          }
+        },
+        {
+          "concern": "workflow",
+          "state": "candidate",
+          "origin": "kernel-app",
+          "history": [
+            {
+              "from": null,
+              "to": "candidate",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported domain workflow discoveries; runtime behavior remains app-local until a reusable contract is accepted.",
+              "evidence": [
+                "docs/v2-prototype-drift.md#5.12",
+                "docs/v2-prototype-drift.md#5.16",
+                "docs/v2-prototype-drift.md#5.17",
+                "docs/v2-prototype-drift.md#5.20",
+                "docs/v2-prototype-drift.md#5.21"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "docs/v2-prototype-drift.md",
+            "sourceIds": [
+              "5.12",
+              "5.16",
+              "5.17",
+              "5.20",
+              "5.21"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "candidate",
+            "priorEvidence": [],
+            "evidenceGap": "No tuple-specific @kernel/definitions promotion evidence exists."
+          }
+        },
+        {
+          "concern": "data",
+          "state": "exploration",
+          "origin": "kernel-app",
+          "history": [
+            {
+              "from": null,
+              "to": "exploration",
+              "date": "2026-09-20",
+              "actor": "prototype-migration",
+              "source": "migration-import",
+              "reason": "Imported data/derivation questions without treating sample records or UI copy as canonical.",
+              "evidence": [
+                "docs/v2-prototype-drift.md#5.15",
+                "docs/v2-prototype-drift.md#5.23"
+              ]
+            }
+          ],
+          "migrationImport": {
+            "type": "migration-import",
+            "sourcePath": "docs/v2-prototype-drift.md",
+            "sourceIds": [
+              "5.15",
+              "5.23"
+            ],
+            "migrationDate": "2026-09-20",
+            "mappedState": "exploration",
+            "priorEvidence": [],
+            "evidenceGap": "Needs a reusable schema, factory, or derivation contract before validation."
+          }
+        }
+      ]
+    }
+  ]
 }

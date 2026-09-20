@@ -4,7 +4,7 @@ import { parseFlags, requireFlags } from "../lib/args.mjs"
 import { catalogEntitiesFile, fail, repoRoot } from "../lib/context.mjs"
 import { parseCatalogFile } from "../lib/catalog-file.mjs"
 import { verifyPromotionEvidence } from "../prototype/evidence.mjs"
-import { checkPrototypeProjection, PROTOTYPE_STATUS_PATH, renderPrototypeStatus } from "../prototype/projection.mjs"
+import { checkFigmaProjection, checkPrototypeProjection, FIGMA_MAP_PATH, PROTOTYPE_STATUS_PATH, renderFigmaMap, renderPrototypeStatus } from "../prototype/projection.mjs"
 import { authorizePrototypeTransition } from "../prototype/transition.mjs"
 import { loadPrototypeRegistry, writePrototypeRegistryAtomic, writeTextAtomic } from "../prototype/store.mjs"
 import { concerns, figmaNodeKinds, originSurfaces } from "../prototype/schema.mjs"
@@ -18,6 +18,7 @@ function loadContext(flags) {
     root,
     registryFile,
     projectionFile: flags.projection ? resolve(root, flags.projection) : resolve(root, PROTOTYPE_STATUS_PATH),
+    figmaProjectionFile: flags["figma-projection"] ? resolve(root, flags["figma-projection"]) : resolve(root, FIGMA_MAP_PATH),
     registry: loadPrototypeRegistry(registryFile),
     entities: parseCatalogFile(entitiesFile).entities,
   }
@@ -56,17 +57,21 @@ function validateContext(context, { projection = true } = {}) {
   const issues = validatePrototypeRegistry(context.registry, context)
   const evidence = issues.length === 0 ? promotionEvidenceIssues(context) : { invalid: [], unavailable: [] }
   const projectionResult = projection ? checkPrototypeProjection(context.projectionFile, context.registry) : { ok: true }
-  return { issues, evidence, projection: projectionResult }
+  const figmaProjectionResult = projection && context.registry.figma?.compatibility
+    ? checkFigmaProjection(context.figmaProjectionFile, context.registry)
+    : { ok: true }
+  return { issues, evidence, projection: projectionResult, figmaProjection: figmaProjectionResult }
 }
 
 function check(flags) {
   const context = loadContext(flags)
   const result = validateContext(context)
-  if (result.issues.length || result.evidence.invalid.length || result.evidence.unavailable.length || !result.projection.ok) {
+  if (result.issues.length || result.evidence.invalid.length || result.evidence.unavailable.length || !result.projection.ok || !result.figmaProjection.ok) {
     printIssues(result.issues)
     printIssues(result.evidence.invalid.map((message) => `invalid-evidence ${message}`))
     printIssues(result.evidence.unavailable.map((message) => `unverifiable-history ${message}`))
     if (!result.projection.ok) printIssues([result.projection.message])
+    if (!result.figmaProjection.ok) printIssues([result.figmaProjection.message])
     return fail("PROTOTYPE-CHECK-FAILED", "registry or generated projection is not valid and current")
   }
   console.log(`PROTOTYPE-CHECK-OK: ${context.registry.initiatives.length} initiative(s), registry and projection current`)
@@ -236,8 +241,12 @@ function project(flags) {
     printIssues(issues)
     throw new Error("Cannot project an invalid registry")
   }
-  const result = writeTextAtomic(context.projectionFile, renderPrototypeStatus(context.registry))
-  console.log(`${result.changed ? "PROTOTYPE-PROJECT-OK" : "PROTOTYPE-NOOP"}: ${context.projectionFile}`)
+  const statusResult = writeTextAtomic(context.projectionFile, renderPrototypeStatus(context.registry))
+  const figmaResult = context.registry.figma?.compatibility
+    ? writeTextAtomic(context.figmaProjectionFile, renderFigmaMap(context.registry))
+    : { changed: false }
+  const changed = statusResult.changed || figmaResult.changed
+  console.log(`${changed ? "PROTOTYPE-PROJECT-OK" : "PROTOTYPE-NOOP"}: ${context.projectionFile}${context.registry.figma?.compatibility ? `, ${context.figmaProjectionFile}` : ""}`)
 }
 
 export async function prototype(argv) {
