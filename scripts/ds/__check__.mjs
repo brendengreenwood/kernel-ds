@@ -446,6 +446,41 @@ function tempDsdsRoot() {
   assert(validationError.includes("identifier") && validationError.includes("pattern"), "AJV rejects an invalid official identifier", validationError)
 }
 
+// Prototype lifecycle commands stay deterministic, reject invalid changes before mutation, and freshness-gate projections.
+{
+  const root = mkdtempSync(join(tmpdir(), "prototype-check-"))
+  const registryPath = join(root, "registry.json")
+  const projectionPath = join(root, "status.md")
+  const registry = {
+    $schema: "kernel-ds/prototype-registry@1",
+    version: 1,
+    figma: { fileKey: "du0qpv9XrTt4HEWdPhesUh", name: "Kernel DS" },
+    initiatives: [],
+  }
+  const { serializePrototypeRegistry } = await import("./prototype/store.mjs")
+  const { renderPrototypeStatus } = await import("./prototype/projection.mjs")
+  writeFileSync(registryPath, serializePrototypeRegistry(registry))
+  writeFileSync(projectionPath, renderPrototypeStatus(registry))
+  const common = ["--registry", registryPath, "--projection", projectionPath]
+  const audit = ["--date", "2026-09-20", "--actor", "ds-check", "--source", "scripts/ds/__check__.mjs", "--reason", "exercise lifecycle"]
+  const added = ds(["prototype", "add", ...common, "--id", "fixture-flow", "--title", "Fixture flow", "--entity", "object.workspace", "--concern", "workflow", "--origin", "kernel-app", ...audit])
+  assert(added.status === 0 && added.stdout.includes("PROTOTYPE-ADD-OK"), "prototype add succeeds", added.stdout + added.stderr)
+  const beforeNoop = readFileSync(registryPath, "utf8")
+  const noop = ds(["prototype", "add", ...common, "--id", "fixture-flow", "--title", "Fixture flow", "--entity", "object.workspace", "--concern", "workflow", "--origin", "kernel-app", ...audit])
+  assert(noop.status === 0 && noop.stdout.includes("PROTOTYPE-NOOP"), "prototype add is idempotent", noop.stdout + noop.stderr)
+  assert(readFileSync(registryPath, "utf8") === beforeNoop, "prototype no-op preserves registry bytes")
+  const refused = ds(["prototype", "set", ...common, "--initiative", "fixture-flow", "--concern", "workflow", "--state", "promoted", ...audit])
+  assert(refused.status === 1 && refused.stderr.includes("Transition refused"), "prototype illegal transition refused", refused.stdout + refused.stderr)
+  assert(readFileSync(registryPath, "utf8") === beforeNoop, "prototype refusal preserves registry bytes")
+  const projected = ds(["prototype", "project", ...common])
+  assert(projected.status === 0 && projected.stdout.includes("PROTOTYPE-PROJECT-OK"), "prototype projection generated", projected.stdout + projected.stderr)
+  assert(ds(["prototype", "check", ...common]).status === 0, "prototype clean registry passes check")
+  writeFileSync(projectionPath, "stale\n")
+  const stale = ds(["prototype", "check", ...common])
+  assert(stale.status === 1 && stale.stderr.includes("stale"), "prototype stale projection fails check", stale.stdout + stale.stderr)
+  rmSync(root, { recursive: true, force: true })
+}
+
 // 20. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])

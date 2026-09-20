@@ -9,7 +9,8 @@
 - `ds:relate --entity <id> --type <type> --target <id>` — record a typed relationship; validates type and target existence first.
 - `ds:generate [--list|--only ids|--skip ids]` — run generation in declared order: catalog-adapter → ui-package → definitions-package → agents-inventories → ds-bundle.
 - `ds:verify [--all|--base <ref>]` — select and run the focused gates implied by changed paths; selection expands through each gate's `dependents` so package changes always re-run their consumers (portal/Studio).
-- `ds:doctor [--fixture <dir>]` — report catalog, generated-artifact, API-alignment, a11y-readiness, version, and workspace violations; nonzero when actionable.
+- `ds:doctor [--fixture <dir>]` — report catalog, generated-artifact, API-alignment, a11y-readiness, version, workspace, and prototype-registry/projection violations; nonzero when actionable.
+- `ds:prototype -- <check|status|add|link|set|project> ...` — validate and advance concern-level prototype discoveries linked to catalog IDs. Mutations are refusal-first and atomic; promotion records already-committed canonical work plus committed acceptance and never edits package implementation. See `docs/prototypes/README.md`.
 - `ds:changeset --package <name> --bump <patch|minor|major> --summary <text> --classification <runtime|api|docs|internal> [--entities ids | --scope package] [--breaking --migration <text>]` — write a Changesets-format note carrying a `kernel-ds:release-meta` block. Runtime/API changes must name catalog entities (or whole-package scope); breaking changes must ship a migration; docs/internal are the explicit exemption path. Content-hashed filename, idempotent reruns.
 - `ds:pack [--package name] [--write --out dir]` — build + pack the distributable packages and verify the pack payload allowlist.
 - `release:impact [--dir d --out f --print]` — build the machine-readable impact manifest (`kernel-ds/impact-manifest@1`) from pending changesets plus catalog relationship expansion: planned versions, affected entities, migrations, docs anchors, verification commands. Deterministic; default output `.release/impact-manifest.json` (gitignored).
@@ -39,8 +40,8 @@ npm run ds:doctor               # must report 0 violations on a clean tree
 <!-- kernel-ds:generated:start -->
 ## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
 
-- Root scripts: agents:check, agents:generate, changeset:status, consumers:check, ds:add, ds:changeset, ds:check, ds:doctor, ds:figma, ds:generate, ds:pack, ds:relate, ds:release, ds:tag, ds:upgrade, ds:verify, release:check, release:impact, skills:check
+- Root scripts: agents:check, agents:generate, changeset:status, consumers:check, ds:add, ds:changeset, ds:check, ds:doctor, ds:figma, ds:generate, ds:pack, ds:prototype, ds:relate, ds:release, ds:tag, ds:upgrade, ds:verify, release:check, release:impact, skills:check
 - Generate order: catalog-adapter → ui-package → definitions-package → agents-inventories → ds-bundle
 - Verify gates: ds-commands, catalog, ui, definitions, portal, studio
-- Doctor checks: catalog-validate, source-files, generated-adapter, ui-api-alignment, a11y-readiness, version-alignment, agents-freshness, skill-integrity, figma-map, workspace-membership, decision-records
+- Doctor checks: catalog-validate, source-files, generated-adapter, ui-api-alignment, a11y-readiness, version-alignment, agents-freshness, skill-integrity, prototype-registry, figma-map, workspace-membership, decision-records
 <!-- kernel-ds:generated:end -->

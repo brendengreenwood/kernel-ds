@@ -159,6 +159,36 @@ export const doctorChecks = [
     },
   },
   {
+    id: "prototype-registry",
+    fixtureSafe: true,
+    run: async ({ entities, root }) => {
+      const registryFile = resolve(root, "docs/prototypes/registry.json")
+      if (!existsSync(registryFile)) return []
+      const [{ validatePrototypeRegistry }, { loadPrototypeRegistry }, { checkPrototypeProjection }, { verifyPromotionEvidence }] = await Promise.all([
+        import("../prototype/validator.mjs"),
+        import("../prototype/store.mjs"),
+        import("../prototype/projection.mjs"),
+        import("../prototype/evidence.mjs"),
+      ])
+      const registry = loadPrototypeRegistry(registryFile)
+      const violations = validatePrototypeRegistry(registry, { entities, root }).map((issue) => ({ code: issue.code, message: `${issue.path}: ${issue.message}` }))
+      if (violations.length > 0) return violations
+      for (const initiative of registry.initiatives) {
+        for (const concern of initiative.concerns) {
+          if (concern.state !== "promoted") continue
+          const result = verifyPromotionEvidence({ root, entities, initiative, concern, acceptance: concern.acceptance, canonical: concern.canonical })
+          if (!result.ok) violations.push({
+            code: result.status === "unverifiable-history" ? "prototype-unverifiable-history" : "prototype-invalid-evidence",
+            message: `${initiative.id}/${concern.concern}: ${result.issues.join("; ")}`,
+          })
+        }
+      }
+      const projection = checkPrototypeProjection(resolve(root, "docs/prototypes/status.md"), registry)
+      if (!projection.ok) violations.push({ code: "stale-prototype-projection", message: projection.message })
+      return violations
+    },
+  },
+  {
     id: "figma-map",
     fixtureSafe: false,
     run: async ({ entities }) => {
