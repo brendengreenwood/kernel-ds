@@ -60,6 +60,9 @@ Note: tokens now live in `packages/ui/src/styles.css` (not `kernel-portal/src/in
 - Never combine paint-level opacity with a bound color variable. Figma silently resets paint opacity to 1 on bind, clone, instance creation, and mode re-evaluation. Bake alpha into a dedicated variable instead (e.g. semantic/destructive-10, semantic/ring-50) and bind at paint opacity 1.
 - Mode previews use instances in a frame with explicitVariableModes, never clones of sections containing component sets (clones duplicate the components).
 
+- Surfaces bind to SEMANTIC tokens only, never primitives. Primitives (neutral/900 etc.) are single-mode: a shell bound to them looks right in one theme and can never switch. If a hex needs a primitive, the semantic layer is missing a token - add it in code first.
+- Screenshot cache: identical byteLength on re-capture means a stale export; change the scale to bust it before trusting a "no change" render.
+
 ## Live probe (Figma-side deletion detection)
 
 The `ds:figma` gate is static — it cannot see nodes deleted inside Figma.

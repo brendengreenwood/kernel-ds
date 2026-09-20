@@ -150,7 +150,11 @@
       "nodeName": "App",
       "kind": "frame",
       "status": "exploration",
-      "note": "App shell exploration — icon rail + top bar + left/canvas/right panels. Grids token-bound (spacing/2); fills not yet variable-bound. Second copy at 4:7."
+      "note": "Both App shell frames fully bound to semantic/* (background, card, sidebar-accent, primary, foreground) with explicitVariableModes pinning 1:14 Dark and 4:7 Light as a side-by-side theme validation pair. Surfaces were previously hand-bound to neutral/900-950 primitives, which are single-mode and silently kill theme switching.",
+      "nodes": {
+        "dark": "1:14",
+        "light": "4:7"
+      }
     }
   },
   "libraries": {
