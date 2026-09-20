@@ -31,6 +31,15 @@ How Kernel DS work happens in Figma via the console bridge (figma-console MCP), 
 - Name layers and components after catalog IDs: component `Button` ↔ `component.button`.
 - After creating/changing a set, record its node ID + key in `figma-map.json`.
 
+## Components page organization
+
+- **One Section per catalog entity**, named after the component (`Button`, `Input`, `Sidebar`). Everything belonging to that component lives inside its section — the variant set (arranged grid), sub-components, and a usage specimen if useful.
+- **Sections stack vertically** in a single column at x=0, alphabetical, 160px apart. New sections go at the bottom; never overlap.
+- **Sub-components are namespaced** `Parent / Part` (e.g. `Sidebar / Menu Button`) and live inside the parent's section, above the assembled component.
+- **Sections are the undo firewall.** All edits happen inside a section; nothing component-related sits loose on the page canvas. Loose nodes on the Components page are treated as drift and cleaned up.
+- **figma-map.json is the register.** A component that isn't recorded there (node ID + key) doesn't exist as far as the DS is concerned — recovery after accidental deletion starts from the map, so record IDs the same turn the component is built.
+- **Deletion is a code-level event.** If a set disappears (undo collateral, cleanup), rebuild from the code API + map entry; never re-draw from memory of the pixels.
+
 ## Working discipline
 
 - Verify the connected file name before destructive operations (multiple files can have the bridge plugin open).
@@ -46,3 +55,7 @@ How Kernel DS work happens in Figma via the console bridge (figma-console MCP), 
 - [x] First component built + mapped: Button (24 variants, Variant×Size mirroring `buttonVariants`)
 
 Note: tokens now live in `packages/ui/src/styles.css` (not `kernel-portal/src/index.css` as written above).
+
+## Hardened gotchas
+- Never combine paint-level opacity with a bound color variable. Figma silently resets paint opacity to 1 on bind, clone, instance creation, and mode re-evaluation. Bake alpha into a dedicated variable instead (e.g. semantic/destructive-10, semantic/ring-50) and bind at paint opacity 1.
+- Mode previews use instances in a frame with explicitVariableModes, never clones of sections containing component sets (clones duplicate the components).

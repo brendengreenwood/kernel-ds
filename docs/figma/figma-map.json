@@ -7,8 +7,8 @@
     "Kernel Semantic": {
       "id": "VariableCollectionId:1:74",
       "modes": { "Light": "1:0", "Dark": "1:1" },
-      "variables": 32,
-      "source": "packages/ui/src/styles.css :root/.dark shadcn theme block"
+      "variables": 35,
+      "source": "packages/ui/src/styles.css :root/.dark shadcn theme block; + alpha-baked semantic/ring-50, semantic/destructive-20 (rings) and semantic/destructive-10 (destructive button fill, light 10% / dark 20% per code)"
     },
     "Kernel Primitives": {
       "id": "VariableCollectionId:1:107",
@@ -19,8 +19,8 @@
     "Kernel Metrics": {
       "id": "VariableCollectionId:1:348",
       "modes": { "Value": "1:3" },
-      "variables": 8,
-      "source": "radius, control heights (decision 0010), motion durations (decision 0018), spacing unit"
+      "variables": 59,
+      "source": "radius/{sm,md,lg,xl,full}, control heights (decision 0010), motion durations (decision 0018), spacing/* 4px grid (decision 0064), border/*, fontSize/*, lineHeight/*, ease/* reference strings"
     }
   },
   "pages": {
@@ -30,31 +30,61 @@
         "Semantic": "1:358",
         "Primitives": "1:456",
         "Metrics": "1:1216",
-        "Typography": "1:1485"
+        "Typography": "1:1485",
+        "Elevation": "5:80",
+        "Layout": "6:118"
+      },
+      "effectStyles": {
+        "note": "10 elevation effect styles: elevation/{light,dark}/{sm,md,lg,xl,2xl} — from the styles.css shadow ramp (--shadow-sm..2xl). Figma has no shadow variable type and effect styles can't mode-switch, so light/dark are separate style trees; 2xs/xs omitted (transparent by design). --shadow == --shadow-sm in code so no separate 'shadow' style."
       },
       "textStyles": {
         "note": "18 local text styles: text/{2xs,xs,sm,base,lg}/{regular,medium}, text/{xl,2xl,3xl}/{regular,semibold}, mono/{sm,xs}. Sans stand-in: Inter (code uses system-ui stack); mono stand-in: Roboto Mono. Sizes = Tailwind scale + custom text-2xs (11/16) from styles.css."
       },
-      "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable."
+      "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable. All 333+ variables carry scopes and (where a stable CSS var exists) WEB code syntax."
     },
     "Components": { "pageId": "1:1250" }
   },
   "entities": {
     "component.button": {
-      "nodeId": "1:1299",
-      "key": "f0357ede7f93b3f0e22c854dbac9d2baea9bb207",
+      "nodeId": "7:449",
+      "key": "e94154ae80fcba90379a39a0b5f471fd503b339f",
+      "section": "7:399",
       "kind": "component-set",
       "page": "Components",
       "status": "built",
       "props": { "Variant": ["default", "outline", "secondary", "ghost", "destructive", "link"], "Size": ["default", "xs", "sm", "lg"] },
-      "note": "Mirrors @kernel/ui buttonVariants (icon sizes omitted). Heights bound to control-h vars, colors bound to semantic vars, destructive bg at 10% opacity like code. Radius bound to radius/lg (radius/md for xs/sm), paddings/gaps bound to spacing vars per size, sm label 12.8px (text-[0.8rem])."
+      "note": "Mirrors @kernel/ui buttonVariants (icon sizes omitted). Heights bound to control-h vars, colors bound to semantic vars, destructive fill bound to alpha-baked semantic/destructive-10 at paint opacity 1 (see GUIDE hardened gotchas). Radius bound to radius/lg (radius/md for xs/sm), paddings/gaps bound to spacing vars per size, sm label 12.8px (text-[0.8rem]). Rebuilt 2026-09-19 after file-side deletion; built directly inside its section. Dark preview frame 10:500 (instances + explicitVariableModes) kept in section."
+    },
+    "component.input": {
+      "nodeId": "7:347",
+      "key": "d112a2cb98b5d4770398e392bbc7ccdb10911ecc",
+      "section": "7:400",
+      "kind": "component-set",
+      "page": "Components",
+      "status": "built",
+      "props": { "State": ["default", "focus", "invalid", "disabled"] },
+      "note": "Code Input has no cva variants; State axis models pseudo-class styling. Height control-h, radius radius/lg, px spacing/2-5, py spacing/1, border semantic/input|ring|destructive, rings = 3px spread drop-shadows bound to semantic/ring-50 / semantic/destructive-20, disabled = 50% opacity + input/50 fill. Placeholder text/sm/regular on semantic/muted-foreground."
+    },
+    "component.sidebar": {
+      "nodeId": "7:220",
+      "key": "4e16316e02b580ee9559a5959b4ea861fda9ad1d",
+      "section": "7:289",
+      "kind": "component",
+      "page": "Components",
+      "status": "built",
+      "children": {
+        "menu-button-set": { "nodeId": "7:215", "key": "f654c9698827bb29bcbc2adf4347a6a6dffd3708", "axes": { "Variant": ["default", "outline"], "Size": ["default", "sm", "lg"], "State": ["default", "hover", "active"] } },
+        "group-label": { "nodeId": "7:216", "key": "373fb826eaab76add99043667a26992796dada79" },
+        "separator": { "nodeId": "7:218", "key": "f9a415b211887ddd74081c4980470275638214d9" }
+      },
+      "note": "Composed of nested instances; widths 256 (16rem) / icon 48 (3rem); heights bound spacing/8|7|12 equivalents; colors semantic/sidebar-*"
     },
     "object.workspace": {
       "nodeId": "1:14",
       "nodeName": "App",
       "kind": "frame",
       "status": "exploration",
-      "note": "App shell exploration — icon rail + top bar + left/canvas/right panels. Not yet componentized or token-bound."
+      "note": "App shell exploration — icon rail + top bar + left/canvas/right panels. Grids token-bound (spacing/2); fills not yet variable-bound. Second copy at 4:7."
     }
   }
 }

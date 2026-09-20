@@ -159,6 +159,14 @@ export const doctorChecks = [
     },
   },
   {
+    id: "figma-map",
+    fixtureSafe: false,
+    run: async ({ entities }) => {
+      const { collectFigmaMapViolations } = await import("../figma/check-figma-map.mjs")
+      return collectFigmaMapViolations(entities, repoRoot)
+    },
+  },
+  {
     id: "workspace-membership",
     fixtureSafe: false,
     run: () => {
