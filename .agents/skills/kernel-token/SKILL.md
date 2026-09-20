@@ -6,8 +6,9 @@ user-invocable: true
 
 # Kernel — add/change a token
 
-Tokens live in the portal (`kernel-portal/`; decision 0022). A token is not
-done until every place below is touched in one pass.
+When a token change originates in Figma or `kernel-app`, delegate surface linkage, concern state, browser evidence, and promotion bookkeeping to the `kernel-prototype` skill.
+
+Canonical tokens live in `packages/ui/src/styles.css`. A token is not done until every place below is touched in one pass.
 
 ## The three color axes (never cross them)
 

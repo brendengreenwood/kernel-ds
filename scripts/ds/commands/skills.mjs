@@ -92,9 +92,9 @@ export function collectSkillViolations({ skillsDir, fixturesFile } = {}) {
     scripts: knownNpmScripts(),
     entityIds: new Set(parseCatalogFile(catalogEntitiesFile).entities.map((entity) => entity.id)),
   }
-  // Strict integrity rules apply to the DS lifecycle skills; legacy kernel-*
-  // skills predate the verification-section and path conventions.
-  const skills = loadSkills(dir).filter((skill) => skill.name.startsWith("kernel-ds-"))
+  // Strict integrity rules apply to DS lifecycle skills and the prototype ritual;
+  // other legacy kernel-* skills predate the verification-section conventions.
+  const skills = loadSkills(dir).filter((skill) => skill.name.startsWith("kernel-ds-") || skill.name === "kernel-prototype")
   const violations = []
   for (const skill of skills) {
     violations.push(...validateSkill(skill.name, skill.content, context))

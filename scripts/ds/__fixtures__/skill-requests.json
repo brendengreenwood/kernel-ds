@@ -7,5 +7,9 @@
   { "request": "run gates and reproduce ci for my change", "expect": "kernel-ds-verify" },
   { "request": "cut a release with a version bump", "expect": "kernel-ds-release" },
   { "request": "upgrade the consumer to the latest tarballs", "expect": "kernel-ds-upgrade" },
-  { "request": "audit the system for drift and stale inventory", "expect": "kernel-ds-audit" }
+  { "request": "audit the system for drift and stale inventory", "expect": "kernel-ds-audit" },
+  { "request": "change this figma panel", "expect": "kernel-prototype" },
+  { "request": "make this kernel-app workflow use real contract data", "expect": "kernel-prototype" },
+  { "request": "keep this prototype-only", "expect": "kernel-prototype" },
+  { "request": "promote this component from the figma prototype", "expect": "kernel-prototype" }
 ]

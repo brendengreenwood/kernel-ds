@@ -1,6 +1,6 @@
 # Figma workflow
 
-How Kernel DS work happens in Figma via the console bridge (figma-console MCP), and how it stays tied to the DSDS catalog.
+How Kernel DS work happens in Figma via the console bridge (figma-console MCP), and how it stays tied to the DSDS catalog. Agents use the repository-owned `kernel-prototype` skill for session start, concern routing, same-turn registry updates, acceptance guards, and promotion bookkeeping; this guide supplies the Figma-specific mechanics.
 
 ## Principles
 

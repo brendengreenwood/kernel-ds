@@ -12,6 +12,8 @@ single-scroll page or scrollspy.
 
 ## Portal (real build — `kernel-portal/`)
 
+If work originates in Figma or `kernel-app`, or asks to promote a prototype, use the `kernel-prototype` skill for registry state, acceptance, and ownership before this implementation workflow.
+
 1. **Component**: a canonical primitive in `packages/ui/src/components/ui/` (owned by `@kernel/ui`; decision 0043 — customize minimally; keep `data-slot`) or a portal section in `src/components/portal/*.tsx`. Reuse tokens — never hardcode a control height (use `h-(--control-h)`; decision 0010) or a raw color (`bg-primary`, `bg-commodity-corn-500`, not raw hex). For package-owned components, start from the `kernel-ds-component` skill.
 2. **Wire it as a route**:
    - A **section** (rail item): add a `<Route path="…" element={<XSection />}/>` in `src/main.tsx`, a rail entry in `src/components/portal/app-sidebar.tsx`, and its slug to `src/lib/routes.ts` (`sectionRoutes`). Reuse the old anchor id as the slug so `routeForAnchor()` keeps legacy `#hash` links working.
