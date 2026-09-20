@@ -59,3 +59,13 @@ Note: tokens now live in `packages/ui/src/styles.css` (not `kernel-portal/src/in
 ## Hardened gotchas
 - Never combine paint-level opacity with a bound color variable. Figma silently resets paint opacity to 1 on bind, clone, instance creation, and mode re-evaluation. Bake alpha into a dedicated variable instead (e.g. semantic/destructive-10, semantic/ring-50) and bind at paint opacity 1.
 - Mode previews use instances in a frame with explicitVariableModes, never clones of sections containing component sets (clones duplicate the components).
+
+## Live probe (Figma-side deletion detection)
+
+The `ds:figma` gate is static — it cannot see nodes deleted inside Figma.
+At the START of any Figma working session, run a live probe via the bridge:
+walk every nodeId in figma-map.json entities (and children) with
+`figma.getNodeByIdAsync` and report MISSING for any null. Rebuild missing
+nodes from the code API + map recipe before doing new work. This catches
+undo-chain casualties (Button was lost twice this way) at session start
+instead of mid-build.

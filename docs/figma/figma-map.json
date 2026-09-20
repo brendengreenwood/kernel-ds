@@ -10,8 +10,8 @@
         "Light": "1:0",
         "Dark": "1:1"
       },
-      "variables": 35,
-      "source": "packages/ui/src/styles.css :root/.dark shadcn theme block; + alpha-baked semantic/ring-50, semantic/destructive-20 (rings) and semantic/destructive-10 (destructive button fill, light 10% / dark 20% per code)"
+      "variables": 38,
+      "source": "packages/ui/src/styles.css :root/.dark shadcn theme block; + alpha-baked semantic/ring-50, semantic/destructive-20 (rings) and semantic/destructive-10 (destructive button fill, light 10% / dark 20% per code); + semantic/primary-80, secondary-hover, destructive-hover (button hover states)"
     },
     "Kernel Primitives": {
       "id": "VariableCollectionId:1:107",
@@ -75,9 +75,15 @@
           "xs",
           "sm",
           "lg"
+        ],
+        "State": [
+          "default",
+          "hover",
+          "focus",
+          "disabled"
         ]
       },
-      "note": "Mirrors @kernel/ui buttonVariants (icon sizes omitted). Heights bound to control-h vars, colors bound to semantic vars, destructive fill bound to alpha-baked semantic/destructive-10 at paint opacity 1 (see GUIDE hardened gotchas). Radius bound to radius/lg (radius/md for xs/sm), paddings/gaps bound to spacing vars per size, sm label 12.8px (text-[0.8rem]). Rebuilt 2026-09-19 after file-side deletion; built directly inside its section. Dark preview frame 10:500 (instances + explicitVariableModes) kept in section."
+      "note": "Mirrors @kernel/ui buttonVariants incl. interaction states (96 variants; icon sizes omitted). Hover fills: primary-80 / muted / secondary-hover (premixed color-mix) / muted / destructive-hover (alpha-baked 20/30) / link underline. Focus: 1px semantic/ring border + 3px spread drop-shadow bound semantic/ring-50 with showShadowBehindNode:false (translucent fills otherwise muddy). Disabled: node opacity 0.5 (node-level, safe from bind-drops-opacity). Mirrors @kernel/ui buttonVariants (icon sizes omitted). Heights bound to control-h vars, colors bound to semantic vars, destructive fill bound to alpha-baked semantic/destructive-10 at paint opacity 1 (see GUIDE hardened gotchas). Radius bound to radius/lg (radius/md for xs/sm), paddings/gaps bound to spacing vars per size, sm label 12.8px (text-[0.8rem]). Rebuilt 2026-09-19 after file-side deletion; built directly inside its section. Dark preview frame 10:500 (instances + explicitVariableModes) kept in section."
     },
     "component.input": {
       "nodeId": "7:347",
