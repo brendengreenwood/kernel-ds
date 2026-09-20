@@ -4,7 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { dirname, resolve } from "node:path"
 import test from "node:test"
-import { fileURLToPath } from "node:url"
+import { fileURLToPath, pathToFileURL } from "node:url"
 import { assertExplicitExports, assertNoPrivateSource, assertReactPeerOnly } from "./package-contract.mjs"
 
 const packageDir = resolve(dirname(fileURLToPath(import.meta.url)), "..")
@@ -47,5 +47,25 @@ test("resolves one peer React in a clean fixture", { timeout: 120_000 }, async (
     await rm(resolve(packageDir, pack[0].filename), { force: true })
   } finally {
     await rm(temp, { recursive: true, force: true })
+  }
+})
+
+test("packs the PageHeader module with resolvable exports", async () => {
+  const api = JSON.parse(await readFile(resolve(packageDir, "api.json"), "utf8"))
+  const entry = api.modules.find(({ module }) => module === "page-header")
+  assert.ok(entry, "page-header missing from api.json")
+  assert.ok(entry.catalogBacked, "page-header is not catalog-backed")
+  const mod = await import(pathToFileURL(resolve(packageDir, "dist", "index.js")).href)
+  assert.equal(typeof mod.PageHeader, "function")
+})
+
+test("packs the panel furniture with all six exports resolvable", async () => {
+  const api = JSON.parse(await readFile(resolve(packageDir, "api.json"), "utf8"))
+  const entry = api.modules.find(({ module }) => module === "panels")
+  assert.ok(entry, "panels missing from api.json")
+  assert.ok(entry.catalogBacked, "panels is not catalog-backed")
+  const mod = await import(pathToFileURL(resolve(packageDir, "dist", "index.js")).href)
+  for (const name of ["Tile", "TwoLine", "Stat", "IconChip", "TableFrame", "PanelEmpty"]) {
+    assert.equal(typeof mod[name], "function", `${name} does not resolve to a component`)
   }
 })

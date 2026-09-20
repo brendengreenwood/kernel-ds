@@ -35,7 +35,7 @@ export default function PortalLayout() {
       <ScrollManager />
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur">
+        <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur md:rounded-t-xl">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
           <span className="text-sm text-muted-foreground">

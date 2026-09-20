@@ -109,6 +109,7 @@ function tempDsdsRoot() {
     ["catalog-broken-relationship", "missing-relationship-target"],
     ["catalog-stale-generated", "stale-generated"],
     ["catalog-partial-registration", "missing-source"],
+    ["decisions-duplicate-number", "duplicate-decision-number"],
   ]
   for (const [fixture, code] of redFixtures) {
     const result = ds(["doctor", "--fixture", join(fixturesDir, fixture)])

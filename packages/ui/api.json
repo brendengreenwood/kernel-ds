@@ -178,7 +178,15 @@
       "catalogBacked": true
     },
     {
+      "module": "page-header",
+      "catalogBacked": true
+    },
+    {
       "module": "pagination",
+      "catalogBacked": true
+    },
+    {
+      "module": "panels",
       "catalogBacked": true
     },
     {

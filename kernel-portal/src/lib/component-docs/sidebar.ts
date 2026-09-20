@@ -86,5 +86,23 @@ export const sidebarDoc: ComponentDoc = parseComponentDoc({
         "In-page contextual actions — use a Toolbar or DropdownMenu near the content.",
       ],
     },
+    {
+      kind: "states",
+      items: [
+        {
+          name: "expanded",
+          description: "The full 16rem rail: labelled destinations, the search slot rendered as a field.",
+        },
+        {
+          name: "collapsed (icon rail)",
+          description:
+            "A 3.5rem (56px) rail. Menu buttons keep their height and simply become square — size-10 with p-2.5 leaves a 19.2px content box, exactly the size-5 glyph — so icons no longer change size mid-animation. The old 3rem rail left only 32.6px of clearance, which is why it had to shrink its buttons; 3.5rem clears the group's own padding (38.4 + 2×7.68 = 53.8px).",
+        },
+        {
+          name: "offcanvas",
+          description: "The rail leaves entirely and returns over the content from the trigger — the mobile default.",
+        },
+      ],
+    },
   ],
 })

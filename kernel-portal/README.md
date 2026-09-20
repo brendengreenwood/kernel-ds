@@ -166,8 +166,14 @@ defined in `src/index.css`. Zero network requests and instant first paint.
 
 The palette has two layers, both in `src/index.css`:
 
-- **Scales** — absolute, mode-independent ink. `--brand-*` (green) and
-  `--neutral-*` ship full 50→950 ramps; the four notification scales
+- **Scales** — absolute, mode-independent ink. `--brand-*` (green),
+  `--lime-*` (the accent green) and
+  `--neutral-*` ship full 50→950 ramps — `--lime-*` also carries the
+  `-light`/base/`-dark` aliases at 200/500/700. Lime is the hue the role layer
+  reaches for as `--accent`/`--primary`/`--ring`/`--chart-*`; it was a bare
+  literal repeated across those roles until it was given a family, and steps
+  300 and 500 are pinned to the two values already in use so the roles resolve
+  unchanged. The four notification scales
   `--success-*` (emerald), `--warning-*` (wheat), `--error-*` (red),
   `--info-*` (blue) run 50→900. A separate categorical **data-viz** palette — eight hues
   (`--viz-crop`, `--viz-wheat`, `--viz-clay`, `--viz-sky`, `--viz-plum`,

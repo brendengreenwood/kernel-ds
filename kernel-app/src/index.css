@@ -1,0 +1,112 @@
+/* Kernel v2 prototype — consumes the full DS token sheet + components at
+   source. The dark retune, light elevation ladder, lime scale, and 0.875rem
+   radius were promoted to the DS (register Part 2, decisions 0064/0065), so
+   the DS sheet now IS the look. What stays here is the token layer only this
+   app consumes — segmented selection, the expanded-row well, the edge bloom,
+   the trough — plus one live drift entry marked below. See
+   docs/v2-prototype-drift.md for the register. */
+@import "../../packages/ui/src/styles.css";
+/* The modification layer that pushes DS components toward the look. */
+@import "./v2-layer.css";
+
+/* Tailwind v4: scan the DS component source so its utility classes are
+   generated (the app renders live Kernel components). */
+@source "../../packages/ui/src";
+
+/* ---- app-only dark tokens ---- */
+.dark {
+  /* Segmented selection is the accent. --secondary cannot do it — in dark it is
+     the same value as --card, so a segment filled with it vanishes on a panel. */
+  --v2-seg-active: var(--primary);
+  --v2-seg-active-foreground: var(--primary-foreground);
+
+  /* ---- the expanded-row well ----
+     A recess has to be DARKER than anything the table paints, or it reads as
+     another row. The table's darkest surface in dark is the plate itself
+     (--card + 3.5%, since the zebra stripe LIGHTENS here); two rungs below
+     --card lands on neutral-950 — the same rung as the rail, which is already
+     this app's "recessed" surface. The shade is mixed toward black rather than
+     --foreground: a foreground mix in dark is a near-white glow, and a well is
+     shaded, not lit. */
+  --v2-well: var(--neutral-950);
+  --v2-well-shade: color-mix(in oklch, black 55%, transparent);
+
+  /* The open row's panel breathes a coloured bloom outward. It is --primary,
+     not a new hue: the leading-edge bar on the well is already --primary, so
+     the bloom is that same selection signal spread across the panel's whole
+     edge rather than a second colour introduced to decorate one. Dark carries
+     more of it — a lime bloom on a near-black recess has room that a green one
+     on white does not. */
+  --v2-edge-cycle: 7s;
+  --v2-edge-rest: color-mix(in oklch, var(--primary) 8%, transparent);
+  --v2-edge-peak: color-mix(in oklch, var(--primary) 20%, transparent);
+  /* Trough — the inverse of the plate: a control carved INTO the recessed rail.
+     Dark's fill stays at the rail itself, because there is nowhere darker to
+     go: one shared formula (mix 22% toward --shadow-color) moved light by
+     1.758:1 and dark by 1.036:1, since the rail sits at opposite ends of the
+     range in the two themes. Same lesson as the page plate — dark cannot signal
+     depth with fill, so the inset carve and hairline do all of it here. */
+  --trough-fill: var(--sidebar);
+  --trough-cast: color-mix(in oklch, var(--shadow-color) 55%, transparent);
+}
+
+/* ---- app-only light tokens ----
+   Scoped `:root:not(.dark)`, NOT plain `:root`. A bare `:root` has the same
+   specificity as the `.dark` block above and sits later in the file, so it
+   would win in BOTH themes and silently flatten dark mode's surfaces. The
+   `:not(.dark)` both raises specificity and states the intent.
+
+   The light elevation ladder itself — the recessed neutral-100 rail framing a
+   white plate, the transparent lip, the cast-led elev recipe — is the DS's
+   own now (register Part 2.3, promoted). */
+:root:not(.dark) {
+  --v2-seg-active: var(--primary);
+  --v2-seg-active-foreground: var(--primary-foreground);
+
+  /* LIVE DRIFT — not promoted. The DS light --muted-foreground stayed at its
+     oklch(0.5350 …) value; this app runs one rung down. The plate fill costs a
+     little contrast on every muted label sitting on it: the DS value measures
+     5.15:1 on a plain white card but 4.86:1 on the plate — passing, but the
+     tightest ratio in the app and the first thing that would break if the
+     plate ever deepened. The prototype introduced the plate, so the prototype
+     absorbs the cost rather than moving a DS value the portal is happy with. */
+  --muted-foreground: var(--neutral-600);
+
+  /* Light inverts which stripe is darkest: `bg-foreground/5` DARKENS here, so
+     the table's darkest surface is the striped row (~neutral-100). Two rungs
+     below that is neutral-200 — still clearly a recess against a white-ish
+     table, without the charcoal slab a straight port of the dark well would
+     drop into a light page. Here the shade mixes toward --foreground; light
+     shadows are grey, not black. */
+  --v2-well: var(--neutral-200);
+  --v2-well-shade: color-mix(in oklch, var(--foreground) 12%, transparent);
+
+  /* Light runs about two-thirds of dark's alphas: the same mix reads as a
+     smear on a white panel where on black it reads as light. */
+  --v2-edge-rest: color-mix(in oklch, var(--primary) 6%, transparent);
+  --v2-edge-peak: color-mix(in oklch, var(--primary) 15%, transparent);
+  /* Light CAN darken, so it does — but modestly. At 22% toward --shadow-color
+     the well read as a grey slab (1.758:1 against the rail) and pushed the
+     placeholder to 3.68:1, under the AA floor. 6% is a well, not a slab. */
+  --trough-fill: color-mix(in oklch, var(--sidebar), var(--shadow-color) 6%);
+  --trough-cast: color-mix(in oklch, var(--shadow-color) 18%, transparent);
+}
+
+/* Rail glyphs sit a step off the rail's own ink rather than at full
+   `--sidebar-foreground`, so the icon column reads as quieter than the labels
+   and the ACTIVE item's glyph (which stays at full foreground) stands out.
+
+   Written as a mix toward the rail rather than a scale rung: `text-neutral-300`
+   was the first attempt and it measured 12.58:1 in dark but **1.39:1 in light**,
+   because the `--neutral-*` scales are absolute and mode-independent by design —
+   only role tokens remap per theme. Mixing foreground toward background is the
+   same instruction in both themes and needs no per-theme value. */
+:root {
+  --rail-icon: color-mix(in oklch, var(--sidebar-foreground) 78%, var(--sidebar));
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}

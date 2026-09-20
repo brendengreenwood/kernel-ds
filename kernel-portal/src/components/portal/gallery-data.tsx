@@ -9,7 +9,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown } from "@kernel/ui/icon"
+import { ArrowUpDown, ChevronDown } from "@kernel/ui/icon"
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@kernel/ui"
 import { Badge } from "@kernel/ui"
@@ -200,10 +200,63 @@ function BadgeCluster() {
   )
 }
 
+function RowToggleTable() {
+  const [open, setOpen] = React.useState<string | null>("orchard-api")
+  return (
+    <Demo className="flex-col items-stretch">
+      <div className="text-sm font-medium">Cell as control</div>
+      <p className="text-sm text-muted-foreground">
+        The first cell is marked <code>data-row-toggle</code>: the button inside fills the whole
+        cell, so the hit area is the cell itself and the focus ring draws inset.
+      </p>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-10" />
+            <TableHead>Project</TableHead>
+            <TableHead>Owner</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.slice(0, 3).map((p) => (
+            <React.Fragment key={p.name}>
+              <TableRow>
+                <TableCell data-row-toggle className="w-10">
+                  <button
+                    type="button"
+                    aria-expanded={open === p.name}
+                    aria-label={`Toggle ${p.name} details`}
+                    onClick={() => setOpen(open === p.name ? null : p.name)}
+                  >
+                    <ChevronDown
+                      className={open === p.name ? "rotate-180 transition-transform" : "transition-transform"}
+                    />
+                  </button>
+                </TableCell>
+                <TableCell className="font-medium">{p.name}</TableCell>
+                <TableCell>{p.owner}</TableCell>
+              </TableRow>
+              {open === p.name ? (
+                <TableRow>
+                  <TableCell />
+                  <TableCell colSpan={2} className="text-muted-foreground">
+                    Usage at {p.usage}% of the allocated quota.
+                  </TableCell>
+                </TableRow>
+              ) : null}
+            </React.Fragment>
+          ))}
+        </TableBody>
+      </Table>
+    </Demo>
+  )
+}
+
 function TableCluster() {
   return (
     <>
       <DataTable />
+      <RowToggleTable />
     </>
   )
 }

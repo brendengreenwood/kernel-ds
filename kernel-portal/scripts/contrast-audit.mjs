@@ -4,8 +4,9 @@
  * system actually renders (role pairs, Badge/Alert soft fills, StatusBadge
  * variants), in light and dark mode.
  *
- * Reads packages/ui/src/styles.css, resolves oklch tokens via culori, and
- * emits a markdown report on stdout:
+ * Reads the packaged stylesheet (packages/ui/src/styles.css — the portal
+ * consumes the DS at source), resolves oklch tokens via culori, and emits a
+ * markdown report on stdout:
  *
  *   node scripts/contrast-audit.mjs > ../docs/a11y/report.md
  *

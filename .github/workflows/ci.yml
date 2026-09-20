@@ -177,6 +177,35 @@ jobs:
         working-directory: .
         run: node packages/ui/src/components/ui/marks/__check__.mjs
 
+  prototype:
+    name: prototype (typecheck + build + register)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kernel-app
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: kernel-app/package-lock.json
+      # The app consumes the DS at source (decision 0034): `@` resolves into
+      # packages/ui/src, whose bare deps live in the ROOT node_modules —
+      # so the root install comes first.
+      - name: Install DS workspace deps
+        working-directory: .
+        run: npm ci
+      - run: npm ci
+      - name: Build (tsc + vite)
+        run: npm run build
+      # The drift register is the promotion queue (decisions 0056/0068):
+      # numbering, marker reconciliation against the app's layers, cited
+      # paths, and decision-number uniqueness.
+      - name: Drift register integrity
+        working-directory: .
+        run: node scripts/check-drift-register.mjs
+
   studio:
     name: studio (typecheck + tests)
     runs-on: ubuntu-latest

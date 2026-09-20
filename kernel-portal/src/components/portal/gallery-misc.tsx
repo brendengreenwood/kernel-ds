@@ -54,6 +54,21 @@ import {
   ItemTitle,
 } from "@kernel/ui"
 import { Kbd, KbdGroup } from "@kernel/ui"
+import { PageHeader } from "@kernel/ui"
+import {
+  IconChip,
+  PanelEmpty,
+  Stat,
+  TableFrame,
+  Tile,
+  TwoLine,
+} from "@kernel/ui"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@kernel/ui"
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 
@@ -298,6 +313,75 @@ function KbdCluster() {
   )
 }
 
+function PageHeaderCluster() {
+  return (
+    <>
+      <Demo>
+        <div className="flex w-full max-w-xl flex-col gap-8">
+          <PageHeader
+            size="page"
+            icon={Truck}
+            title="Deliveries"
+            description="Scheduled loads across all elevators"
+            action={<Button size="sm">New delivery</Button>}
+          />
+          <PageHeader size="panel" icon={FileText} title="Contract summary" description="CTR-2214 · Cedar Bluff Farms" />
+          <PageHeader size="section" title="Settlement history" />
+        </div>
+      </Demo>
+    </>
+  )
+}
+
+function PanelsCluster() {
+  return (
+    <>
+      <Demo>
+        <div className="flex w-full max-w-xl flex-col gap-4">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <IconChip icon={FileText} />
+              <div className="text-sm font-medium">Recent contracts</div>
+            </div>
+            <Stat value="7" label="this week" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Tile lg value="48,120" label="Bushels bought" />
+            <Tile lg value="-0.42" label="Avg basis" />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <Tile value="12" label="Open bids" />
+            <Tile value="4" label="Pending loads" />
+            <Tile value="2" label="Holds" />
+          </div>
+          <TableFrame>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>
+                    <TwoLine strong top="Cedar Bluff Farms" sub="12,400 bu" />
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums">-0.42</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <TwoLine strong top="Maple Ridge Grain" sub="8,150 bu" />
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums">-0.35</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableFrame>
+          <TableFrame>
+            <div className="px-3">
+              <PanelEmpty>No settlements yet.</PanelEmpty>
+            </div>
+          </TableFrame>
+        </div>
+      </Demo>
+    </>
+  )
+}
 export const miscClusters: GalleryCluster[] = [
   { anchor: "c-accordion", slug: "accordion", title: "Accordion · Collapsible", group: "Disclosure", demo: AccordionCluster },
   { anchor: "c-calendar", slug: "calendar", title: "Calendar · Date picker", group: "Date & media", demo: CalendarCluster },
@@ -306,4 +390,6 @@ export const miscClusters: GalleryCluster[] = [
   { anchor: "c-scroll-area", slug: "scroll-area", title: "Scroll area · Resizable", group: "Layout", demo: ScrollAreaCluster },
   { anchor: "c-item", slug: "item", title: "Item", group: "Layout", demo: ItemCluster },
   { anchor: "c-kbd", slug: "kbd", title: "Kbd", group: "Layout", demo: KbdCluster },
+  { anchor: "c-page-header", slug: "page-header", title: "Page Header", group: "Layout", demo: PageHeaderCluster },
+  { anchor: "c-panels", slug: "panels", title: "Panels", group: "Layout", demo: PanelsCluster },
 ]
