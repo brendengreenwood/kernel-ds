@@ -27,6 +27,8 @@ own route, not a section of one long scroll.
 
 ## Current state
 
+- **Prototype discoveries now have a typed promotion contract** (decision 0070, 2026-09-20): Figma and `kernel-app/` are peer discovery surfaces while canonical packages remain the shipped authority. `docs/prototypes/registry.json` is the versioned DSDS-linked ledger for concern-level visual, component, pattern, object-model, workflow, and narrowly defined contract-data work. Promotion requires append-only transition history, explicit committed acceptance, and immutable canonical package evidence; workflow/object-model/data contracts target `@kernel/definitions`, while visual/component/pattern work targets `@kernel/ui`. Phase 1 establishes the contract and `$extensions["com.kernel.prototype"]`; lifecycle commands and migration of the existing Figma/drift ledgers follow in later phases.
+
 - **The code-led Figma bridge is synchronized to the v2 token register** (2026-09-20): the Kernel DS file mirrors 353 variables from `packages/ui/src/styles.css` — 38 semantic variables with Light/Dark modes, 254 primitives including the lime action scale, and 61 metrics including panel radius/inset recipes. Semantic modes use Figma aliases to the matching primitives, so the v2 neutral dark elevation model and lime actions propagate through existing component and App-shell bindings. The DSDS-keyed `figma-map.json` remains validated by `ds:doctor`/`ds:figma`.
 
 - **Catalog kinds are a level ladder** (decision 0057, 2026-08-02): `component`,

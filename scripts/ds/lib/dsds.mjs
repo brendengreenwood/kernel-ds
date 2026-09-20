@@ -38,7 +38,7 @@ export function generateDsdsFiles(root) {
   const paths = dsdsPaths(root)
   const fixture = JSON.parse(readFileSync(paths.fixtureFile, "utf8"))
   const entity = fixture.entities[0]
-  const mapped = mapCatalogEntityContract(entity)
+  const mapped = mapCatalogEntityContract(entity, fixture.prototypeRegistry)
   const version = readFileSync(paths.versionFile, "utf8").trim()
   const provenance = JSON.parse(readFileSync(paths.provenanceFile, "utf8"))
   return new Map([
