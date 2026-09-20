@@ -10,6 +10,7 @@ import {
   initiativeLifecycles,
   originSurfaces,
   promotionTargets,
+  transitionMatrix,
 } from "./schema.mjs"
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -55,11 +56,12 @@ function validateMigrationImport(value, record, path, issues) {
   if (value.type !== "migration-import" || !isString(value.sourcePath) || !Array.isArray(value.sourceIds) || value.sourceIds.length === 0 || !value.sourceIds.every(isString)) {
     issues.push(issue("invalid-migration-import", path, "Migration import requires its source ledger and source IDs"))
   }
-  if (!ISO_DATE.test(value.migrationDate ?? "") || value.mappedState !== record.state || !Array.isArray(value.priorEvidence)) {
+  if (!ISO_DATE.test(value.migrationDate ?? "") || !concernStates.includes(value.mappedState) || !Array.isArray(value.priorEvidence)) {
     issues.push(issue("invalid-migration-import", path, "Migration import must record date, mapped state, and prior evidence"))
   }
-  if (record.history?.[0]?.source !== "migration-import") {
-    issues.push(issue("invalid-migration-import", path, "Migration-import concerns require a distinct genesis authorization event"))
+  const genesis = record.history?.[0]
+  if (genesis?.source !== "migration-import" || genesis?.from !== null || genesis?.to !== value.mappedState) {
+    issues.push(issue("invalid-migration-import", path, "Migration-import concerns require a distinct genesis event matching the imported state"))
   }
 }
 
@@ -141,7 +143,14 @@ export function validatePrototypeRegistry(registry, { entities = [], root = proc
           if (!concernStates.includes(entry.to) || (entry.from !== null && !concernStates.includes(entry.from)) || !ISO_DATE.test(entry.date ?? "") || !isString(entry.actor) || !isString(entry.source) || !isString(entry.reason) || !Array.isArray(entry.evidence)) {
             issues.push(issue("invalid-transition-history", historyPath, "History entry requires from/to/date/actor/source/reason/evidence"))
           }
-          if (entry.from !== state && !(historyIndex === 0 && entry.from === null)) issues.push(issue("broken-transition-history", historyPath, "History entries must form an append-only state chain"))
+          if (historyIndex === 0) {
+            if (entry.from !== null) issues.push(issue("broken-transition-history", historyPath, "Genesis history entry must start from null"))
+            const expectedGenesis = record.migrationImport ? record.migrationImport.mappedState : "exploration"
+            if (entry.to !== expectedGenesis) issues.push(issue("illegal-transition-history", historyPath, `Genesis history must enter ${expectedGenesis}`))
+          } else {
+            if (entry.from !== state) issues.push(issue("broken-transition-history", historyPath, "History entries must form an append-only state chain"))
+            if (!transitionMatrix[entry.from]?.includes(entry.to)) issues.push(issue("illegal-transition-history", historyPath, `Illegal persisted transition ${entry.from} -> ${entry.to}`))
+          }
           state = entry.to
         }
         if (state !== record.state) issues.push(issue("broken-transition-history", path, "Concern state must match its final history entry"))
@@ -159,8 +168,15 @@ export function validatePrototypeRegistry(registry, { entities = [], root = proc
       if (record.state === "promoted") {
         validateCanonical(record.canonical, `${path}.canonical`, issues)
         validateAcceptance(record.acceptance, `${path}.acceptance`, issues)
+        if (record.migrationImport?.mappedState === "promoted") {
+          const priorEvidence = new Set(record.migrationImport.priorEvidence ?? [])
+          if (record.migrationImport.evidenceGap || !priorEvidence.has(record.acceptance?.path) || !priorEvidence.has(record.canonical?.sourcePath)) {
+            issues.push(issue("invalid-legacy-promotion", path, "Legacy promoted imports must identify their prior acceptance and canonical source without an evidence gap"))
+          }
+        }
         const expectedTarget = ["object-model", "workflow", "data"].includes(record.concern) ? "@kernel/definitions" : "@kernel/ui"
         if (record.canonical?.package !== expectedTarget) issues.push(issue("invalid-promotion-target", path, `${record.concern} promotions must target ${expectedTarget}`))
+        if (!initiative.entityIds.includes(record.canonical?.entityId)) issues.push(issue("canonical-entity-mismatch", path, "Canonical evidence entity must belong to the initiative"))
         const owner = entityMap.get(record.canonical?.entityId)?.package
         if (owner !== record.canonical?.package) issues.push(issue("canonical-owner-mismatch", path, "Canonical entity owner must match the promotion package"))
       }

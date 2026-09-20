@@ -8,6 +8,7 @@ import { checkFigmaProjection, checkPrototypeProjection, FIGMA_MAP_PATH, PROTOTY
 import { authorizePrototypeTransition } from "../prototype/transition.mjs"
 import { loadPrototypeRegistry, writePrototypeRegistryAtomic, writeTextAtomic } from "../prototype/store.mjs"
 import { concerns, figmaNodeKinds, originSurfaces } from "../prototype/schema.mjs"
+import { validatePrototypeData } from "../prototype/validation.mjs"
 import { validatePrototypeRegistry } from "../prototype/validator.mjs"
 
 function loadContext(flags) {
@@ -31,36 +32,13 @@ function printIssues(issues) {
   }
 }
 
-function promotionEvidenceIssues(context) {
-  const invalid = []
-  const unavailable = []
-  for (const initiative of context.registry.initiatives) {
-    for (const concern of initiative.concerns) {
-      if (concern.state !== "promoted") continue
-      const result = verifyPromotionEvidence({
-        root: context.root,
-        entities: context.entities,
-        initiative,
-        concern,
-        acceptance: concern.acceptance,
-        canonical: concern.canonical,
-      })
-      const entry = `${initiative.id}/${concern.concern}: ${result.issues.join("; ")}`
-      if (result.status === "unverifiable-history") unavailable.push(entry)
-      else if (!result.ok) invalid.push(entry)
-    }
-  }
-  return { invalid, unavailable }
-}
-
 function validateContext(context, { projection = true } = {}) {
-  const issues = validatePrototypeRegistry(context.registry, context)
-  const evidence = issues.length === 0 ? promotionEvidenceIssues(context) : { invalid: [], unavailable: [] }
+  const validation = validatePrototypeData(context)
   const projectionResult = projection ? checkPrototypeProjection(context.projectionFile, context.registry) : { ok: true }
   const figmaProjectionResult = projection && context.registry.figma?.compatibility
     ? checkFigmaProjection(context.figmaProjectionFile, context.registry)
     : { ok: true }
-  return { issues, evidence, projection: projectionResult, figmaProjection: figmaProjectionResult }
+  return { ...validation, projection: projectionResult, figmaProjection: figmaProjectionResult }
 }
 
 function check(flags) {
@@ -236,10 +214,12 @@ function set(flags) {
 
 function project(flags) {
   const context = loadContext(flags)
-  const issues = validatePrototypeRegistry(context.registry, context)
-  if (issues.length) {
-    printIssues(issues)
-    throw new Error("Cannot project an invalid registry")
+  const validation = validatePrototypeData(context)
+  if (validation.issues.length || validation.evidence.invalid.length || validation.evidence.unavailable.length) {
+    printIssues(validation.issues)
+    printIssues(validation.evidence.invalid.map((message) => `invalid-evidence ${message}`))
+    printIssues(validation.evidence.unavailable.map((message) => `unverifiable-history ${message}`))
+    throw new Error("Cannot project an invalid or unverifiable registry")
   }
   const statusResult = writeTextAtomic(context.projectionFile, renderPrototypeStatus(context.registry))
   const figmaResult = context.registry.figma?.compatibility

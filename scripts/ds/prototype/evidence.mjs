@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs"
 import { dirname, posix, resolve } from "node:path"
 import { spawnSync } from "node:child_process"
+import { parseCatalogText } from "../lib/catalog-file.mjs"
 
 const SHA = /^[a-f0-9]{40}$/
 
@@ -114,11 +115,21 @@ export function verifyPromotionEvidence({ root, entities, initiative, concern, a
 
   const source = committedFile(root, canonical.commit, canonical.sourcePath)
   if (!source) issues.push(`Canonical source did not exist at ${canonical.commit}:${canonical.sourcePath}`)
+  const canonicalPackageDir = packageRoot(canonical.sourcePath)
+  const canonicalPackageJson = canonicalPackageDir ? parseJson(committedFile(root, canonical.commit, `${canonicalPackageDir}/package.json`)) : null
+  if (canonicalPackageJson?.name !== canonical.package) issues.push(`Canonical source ${canonical.sourcePath} belongs to ${canonicalPackageJson?.name ?? "no package"}, not ${canonical.package}`)
   const currentEntity = entities.find((item) => item.id === canonical.entityId)
+  if (!initiative.entityIds.includes(canonical.entityId)) issues.push(`Canonical entity ${canonical.entityId} does not belong to initiative ${initiative.id}`)
   if (!currentEntity) issues.push(`Unknown canonical entity ${canonical.entityId}`)
   const catalogAtCommit = committedFile(root, canonical.commit, "packages/catalog/src/entities.ts")
-  const historicalOwnerMatch = catalogAtCommit?.match(new RegExp(`"id"\\s*:\\s*"${canonical.entityId.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}"[\\s\\S]*?"package"\\s*:\\s*"([^"]+)"`))
-  const historicalOwner = historicalOwnerMatch?.[1]
+  let historicalOwner
+  if (catalogAtCommit) {
+    try {
+      historicalOwner = parseCatalogText(catalogAtCommit, `${canonical.commit}:packages/catalog/src/entities.ts`).entities.find((entity) => entity.id === canonical.entityId)?.package
+    } catch {
+      historicalOwner = undefined
+    }
+  }
   if (!historicalOwner) issues.push(`Catalog entity ${canonical.entityId} did not exist at ${canonical.commit}`)
   else if (historicalOwner !== canonical.package) issues.push(`Catalog owner ${historicalOwner} does not match ${canonical.package}`)
   if (source && canonical.locatorType === "public-export" && !exportedThroughEntry(root, canonical.commit, canonical.sourcePath, canonical.symbol)) {

@@ -7,7 +7,7 @@
 - `ds:add --kind <kind> --name <name> [--slug s] [--package p] [--docs-dir d]` — scaffold a catalog entity plus optional docs skeleton. Refuses existing ids/files; never overwrites.
 - `ds:tag --entity <id> --tag <tag> [--remove]` — add/remove a closed-taxonomy tag; validates before writing.
 - `ds:relate --entity <id> --type <type> --target <id>` — record a typed relationship; validates type and target existence first.
-- `ds:generate [--list|--only ids|--skip ids]` — run generation in declared order: catalog-adapter → ui-package → definitions-package → agents-inventories → ds-bundle.
+- `ds:generate [--list|--only ids|--skip ids]` — run generation in declared order: catalog-adapter → ui-package → definitions-package → prototype-projections → agents-inventories → ds-bundle.
 - `ds:verify [--all|--base <ref>]` — select and run the focused gates implied by changed paths; selection expands through each gate's `dependents` so package changes always re-run their consumers (portal/Studio).
 - `ds:doctor [--fixture <dir>]` — report catalog, generated-artifact, API-alignment, a11y-readiness, version, workspace, and prototype-registry/projection violations; nonzero when actionable.
 - `ds:prototype -- <check|status|add|link|set|project> ...` — validate and advance concern-level prototype discoveries linked to catalog IDs. Mutations are refusal-first and atomic; promotion records already-committed canonical work plus committed acceptance and never edits package implementation. See `docs/prototypes/README.md`.

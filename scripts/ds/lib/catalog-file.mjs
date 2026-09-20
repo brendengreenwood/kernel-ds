@@ -8,8 +8,7 @@ const ARRAY_CLOSE = "] as const satisfies readonly CatalogEntity[]"
  * convention (quoted keys, two-space indent), so the file round-trips through
  * JSON byte-for-byte; `scripts/ds/__check__.mjs` proves that invariant.
  */
-export function parseCatalogFile(path) {
-  const raw = readFileSync(path, "utf8")
+export function parseCatalogText(raw, path = "<catalog>") {
   const eol = raw.includes("\r\n") ? "\r\n" : "\n"
   const text = eol === "\r\n" ? raw.replaceAll("\r\n", "\n") : raw
   const openIndex = text.indexOf(ARRAY_OPEN)
@@ -26,6 +25,10 @@ export function parseCatalogFile(path) {
     footer: text.slice(closeIndex + 1),
     entities,
   }
+}
+
+export function parseCatalogFile(path) {
+  return parseCatalogText(readFileSync(path, "utf8"), path)
 }
 
 export function serializeCatalogFile(parsed) {

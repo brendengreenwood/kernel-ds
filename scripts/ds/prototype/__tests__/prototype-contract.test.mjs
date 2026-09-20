@@ -6,6 +6,7 @@ import { tmpdir } from "node:os"
 import test from "node:test"
 import { mapCatalogEntityContract } from "../../lib/dsds-contract.mjs"
 import { verifyPromotionEvidence } from "../evidence.mjs"
+import { generatePrototypeProjections } from "../generate-projections.mjs"
 import { concernStates, transitionMatrix } from "../schema.mjs"
 import { authorizePrototypeTransition } from "../transition.mjs"
 import { validatePrototypeRegistry } from "../validator.mjs"
@@ -18,7 +19,10 @@ const entities = [
 
 function history(state = "exploration") {
   const entries = [{ from: null, to: "exploration", date: DATE, actor: "tester", source: "fixture", reason: "Discovery recorded", evidence: [] }]
-  if (state !== "exploration") entries.push({ from: "exploration", to: state, date: DATE, actor: "tester", source: "fixture", reason: "Fixture advanced", evidence: [] })
+  const sequence = state === "prototype-only" ? ["prototype-only"] : ["candidate", "validated", "promoted"].slice(0, ["candidate", "validated", "promoted"].indexOf(state) + 1)
+  for (const next of sequence) {
+    entries.push({ from: entries.at(-1).to, to: next, date: DATE, actor: "tester", source: "fixture", reason: "Fixture advanced", evidence: [] })
+  }
   return entries
 }
 
@@ -82,6 +86,9 @@ function createEvidenceRepo() {
   write(root, "packages/catalog/src/entities.ts", `export const catalog = [\n  {\n    "id": "object.workspace",\n    "name": "Workspace",\n    "kind": "object",\n    "package": "@kernel/definitions",\n    "documentation": { "portalAnchor": "workspace" },\n    "sourceFiles": ["packages/definitions/src/composition.ts"],\n    "relationships": []\n  }\n] as const satisfies readonly CatalogEntity[]\n`)
   write(root, "packages/definitions/package.json", JSON.stringify({ name: "@kernel/definitions", type: "module", exports: { ".": { import: "./dist/index.js" }, "./composition": { import: "./dist/composition.js" } } }, null, 2))
   write(root, "packages/definitions/src/index.ts", `export { compositionContract } from "./composition.ts"\n`)
+  write(root, "packages/ui/package.json", JSON.stringify({ name: "@kernel/ui", type: "module", exports: { ".": { import: "./dist/index.js" } } }, null, 2))
+  write(root, "packages/ui/src/index.ts", `export { compositionContract } from "./composition.ts"\n`)
+  write(root, "packages/ui/src/composition.ts", `export const compositionContract = { version: 1 }\n`)
   const initialCommit = commit(root, "chore: seed package")
   write(root, "packages/definitions/src/composition.ts", `export const compositionContract = { version: 1 }\n`)
   const canonicalCommit = commit(root, "feat: add composition contract")
@@ -211,6 +218,69 @@ test("transition matrix authorizes every allowed edge and refuses every other ed
   }
 })
 
+test("persisted histories reject every illegal transition edge", () => {
+  for (const from of concernStates) {
+    for (const to of concernStates) {
+      if (transitionMatrix[from].includes(to)) continue
+      const record = {
+        ...concern("visual", to),
+        migrationImport: { type: "migration-import", sourcePath: "docs/legacy.md", sourceIds: ["legacy-1"], migrationDate: DATE, mappedState: from, priorEvidence: [] },
+        history: [
+          { from: null, to: from, date: DATE, actor: "tester", source: "migration-import", reason: "Imported legacy state", evidence: [] },
+          { from, to, date: DATE, actor: "tester", source: "fixture", reason: "Hand-edited illegal edge", evidence: [] },
+        ],
+      }
+      const issues = validatePrototypeRegistry(registry([initiative({ concerns: [record] })]), { entities, checkLivePaths: false })
+      assert.ok(issues.some((item) => item.code === "illegal-transition-history"), `${from} -> ${to}`)
+    }
+  }
+})
+
+test("migrated concerns advance while retaining immutable genesis provenance", () => {
+  const record = {
+    ...concern("workflow", "candidate", "kernel-app"),
+    migrationImport: { type: "migration-import", sourcePath: "docs/v2-prototype-drift.md", sourceIds: ["4.1"], migrationDate: DATE, mappedState: "candidate", priorEvidence: [] },
+    history: [{ from: null, to: "candidate", date: DATE, actor: "migration", source: "migration-import", reason: "Imported legacy state", evidence: [] }],
+  }
+  const item = initiative({ concerns: [record] })
+  const result = authorizePrototypeTransition(transitionArgs(item, "workflow", "validated"))
+  assert.equal(result.ok, true)
+  const issues = validatePrototypeRegistry(registry([result.initiative]), { entities, checkLivePaths: false })
+  assert.deepEqual(issues, [])
+  assert.equal(result.initiative.concerns[0].migrationImport.mappedState, "candidate")
+})
+
+test("legacy promoted imports retain migration authorization only with verified prior evidence", () => {
+  const repo = createEvidenceRepo()
+  try {
+    const promotion = validPromotion(repo)
+    const record = {
+      ...concern("workflow", "promoted", "kernel-app"),
+      acceptance: promotion.acceptance,
+      canonical: promotion.canonical,
+      migrationImport: {
+        type: "migration-import",
+        sourcePath: "docs/v2-prototype-drift.md",
+        sourceIds: ["legacy-promoted-1"],
+        migrationDate: DATE,
+        mappedState: "promoted",
+        priorEvidence: [promotion.acceptance.path, promotion.canonical.sourcePath],
+        evidenceGap: null,
+      },
+      history: [{ from: null, to: "promoted", date: DATE, actor: "migration", source: "migration-import", reason: "Imported verified legacy promotion", evidence: [promotion.acceptance.path, promotion.canonical.sourcePath] }],
+    }
+    const item = initiative({ concerns: [record] })
+    assert.deepEqual(validatePrototypeRegistry(registry([item]), { entities, checkLivePaths: false }), [])
+    assert.deepEqual(verifyPromotionEvidence({ root: repo.root, entities, initiative: item, concern: record, acceptance: record.acceptance, canonical: record.canonical, requireLiveAcceptance: true }), { ok: true, status: "verified", issues: [] })
+
+    const incomplete = structuredClone(item)
+    incomplete.concerns[0].migrationImport.priorEvidence = []
+    assert.match(validatePrototypeRegistry(registry([incomplete]), { entities, checkLivePaths: false }).map((entry) => entry.code).join("\n"), /invalid-legacy-promotion/)
+  } finally {
+    rmSync(repo.root, { recursive: true, force: true })
+  }
+})
+
 test("rollback, prototype-only, and reopen transitions require an audit reason", () => {
   for (const [from, to] of [["candidate", "exploration"], ["validated", "candidate"], ["exploration", "prototype-only"], ["prototype-only", "candidate"]]) {
     const item = initiative({ concerns: [{ ...concern("visual"), state: from, history: [{ from: null, to: from, date: DATE, actor: "tester", source: "fixture", reason: "Initial fixture state", evidence: [] }] }] })
@@ -246,6 +316,7 @@ test("canonical evidence rejects wrong path, missing symbol, foreign owner, and 
       { canonical: { ...validPromotion(repo).canonical, sourcePath: "packages/definitions/src/missing.ts" } },
       { canonical: { ...validPromotion(repo).canonical, symbol: "missingContract" } },
       { canonical: { ...validPromotion(repo).canonical, package: "@kernel/ui" } },
+      { canonical: { ...validPromotion(repo).canonical, sourcePath: "packages/ui/src/composition.ts", commit: repo.initialCommit } },
       { canonical: { ...validPromotion(repo).canonical, commit: repo.initialCommit } },
     ]
     for (const overrides of cases) {
@@ -254,6 +325,18 @@ test("canonical evidence rejects wrong path, missing symbol, foreign owner, and 
       assert.equal(result.status, "invalid")
     }
   } finally { rmSync(repo.root, { recursive: true, force: true }) }
+})
+
+test("canonical evidence must belong to the initiative entity set", () => {
+  const repo = createEvidenceRepo()
+  try {
+    const input = validPromotion(repo, { initiative: initiative({ entityIds: ["component.button"], concerns: [concern("workflow", "validated", "kernel-app")] }) })
+    const result = verifyPromotionEvidence({ root: repo.root, entities, ...input })
+    assert.equal(result.ok, false)
+    assert.match(result.issues.join("\n"), /does not belong to initiative/)
+  } finally {
+    rmSync(repo.root, { recursive: true, force: true })
+  }
 })
 
 test("unreachable history is reported separately from invalid evidence", () => {
@@ -310,6 +393,36 @@ test("promotion transition requires the committed acceptance artifact to remain 
     const historical = verifyPromotionEvidence({ root: repo.root, entities, ...promotion })
     assert.equal(historical.ok, true)
   } finally { rmSync(repo.root, { recursive: true, force: true }) }
+})
+
+test("projection commands refuse invalid promotion evidence without changing output bytes", () => {
+  const repo = createEvidenceRepo()
+  try {
+    const promotion = validPromotion(repo)
+    const promoted = {
+      ...concern("workflow", "promoted", "kernel-app"),
+      acceptance: promotion.acceptance,
+      canonical: promotion.canonical,
+    }
+    const data = registry([initiative({ concerns: [promoted] })])
+    write(repo.root, "docs/prototypes/registry.json", `${JSON.stringify(data, null, 2)}\n`)
+    write(repo.root, "docs/prototypes/status.md", "status-before\n")
+    write(repo.root, "docs/figma/figma-map.json", "figma-before\n")
+    writeFileSync(join(repo.root, promotion.acceptance.path), `${readFileSync(join(repo.root, promotion.acceptance.path), "utf8")}tampered\n`)
+
+    assert.throws(() => generatePrototypeProjections(repo.root), /Cannot generate prototype projections/)
+    assert.equal(readFileSync(join(repo.root, "docs/prototypes/status.md"), "utf8"), "status-before\n")
+    assert.equal(readFileSync(join(repo.root, "docs/figma/figma-map.json"), "utf8"), "figma-before\n")
+
+    assert.throws(
+      () => run(repo.root, process.execPath, [join(process.cwd(), "scripts/ds/cli.mjs"), "prototype", "project", "--root", repo.root]),
+      /PROTOTYPE-FAILED: Cannot project an invalid or unverifiable registry/,
+    )
+    assert.equal(readFileSync(join(repo.root, "docs/prototypes/status.md"), "utf8"), "status-before\n")
+    assert.equal(readFileSync(join(repo.root, "docs/figma/figma-map.json"), "utf8"), "figma-before\n")
+  } finally {
+    rmSync(repo.root, { recursive: true, force: true })
+  }
 })
 
 test("invented kernel-app sample data cannot promote without definitions evidence and acceptance", () => {
