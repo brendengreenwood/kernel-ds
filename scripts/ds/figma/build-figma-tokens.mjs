@@ -69,7 +69,7 @@ function oklchToHex(str) {
   return `#${hex(r)}${hex(g)}${hex(bl)}`.toUpperCase();
 }
 
-const SKIP = /^(color-|font-|shadow|ease-|letter-spacing|tracking)/;
+const SKIP = /^(color-|font-|shadow|ease-|elev-|letter-spacing|tracking)/;
 const SEMANTIC = new Set([
   "background","foreground","card","card-foreground","popover","popover-foreground",
   "primary","primary-foreground","secondary","secondary-foreground","muted",
@@ -79,10 +79,10 @@ const SEMANTIC = new Set([
   "sidebar","sidebar-foreground","sidebar-primary","sidebar-primary-foreground",
   "sidebar-accent","sidebar-accent-foreground","sidebar-border","sidebar-ring",
 ]);
-const METRIC = /^(radius$|control-h|duration-|spacing$)/;
+const METRIC = /^(radius$|panel-radius$|panel-inset$|control-h|duration-|spacing$)/;
 
 function toPath(name) {
-  let m = name.match(/^(brand|neutral|success|warning|error|info)-(\d+)$/);
+  let m = name.match(/^(brand|lime|neutral|success|warning|error|info)-(\d+)$/);
   if (m) return `${m[1]}/${m[2]}`;
   m = name.match(/^(viz|commodity)-([a-z]+)(?:-(\w+))?$/);
   if (m) return `${m[1]}/${m[2]}/${m[3] ?? "base"}`;
@@ -97,16 +97,48 @@ function toFloat(v) {
   return null;
 }
 
+function resolveValue(name, vars, seen = new Set()) {
+  if (seen.has(name)) return null;
+  seen.add(name);
+  const value = vars[name];
+  if (!value) return null;
+  const alias = value.match(/^var\(--([\w-]+)\)$/);
+  return alias ? resolveValue(alias[1], vars, seen) : value;
+}
+
+function aliasPath(value) {
+  const match = value?.match(/^var\(--([\w-]+)\)$/);
+  return match ? toPath(match[1]) : null;
+}
+
+function metricValue(name, value) {
+  const literal = toFloat(value);
+  if (literal !== null) return literal;
+  if (name === "panel-radius") {
+    return toFloat(rootVars.radius) + toFloat(rootVars.spacing) * 1.5;
+  }
+  if (name === "panel-inset") return toFloat(rootVars.spacing) * 3;
+  return null;
+}
+
 const semantic = [], primitives = [], metrics = [], skipped = [];
 for (const [name, value] of Object.entries(rootVars)) {
   if (SKIP.test(name)) continue;
   if (SEMANTIC.has(name)) {
-    const light = oklchToHex(value);
-    const dark = darkVars[name] ? oklchToHex(darkVars[name]) : light;
-    if (light) semantic.push({ name, light, dark: dark ?? light });
-    else skipped.push(name);
+    const darkSource = darkVars[name] ?? value;
+    const light = oklchToHex(resolveValue(name, rootVars));
+    const dark = oklchToHex(resolveValue(name, { ...rootVars, ...darkVars }));
+    if (light && dark) {
+      semantic.push({
+        name,
+        light,
+        dark,
+        ...(aliasPath(value) ? { lightAlias: aliasPath(value) } : {}),
+        ...(aliasPath(darkSource) ? { darkAlias: aliasPath(darkSource) } : {}),
+      });
+    } else skipped.push(name);
   } else if (METRIC.test(name)) {
-    const v = toFloat(value);
+    const v = metricValue(name, value);
     if (v !== null) metrics.push({ name, value: v });
     else skipped.push(name);
   } else {

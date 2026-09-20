@@ -3,112 +3,136 @@
     {
       "name": "background",
       "light": "#FFFFFF",
-      "dark": "#06110C"
+      "dark": "#101C16",
+      "darkAlias": "neutral/900"
     },
     {
       "name": "foreground",
       "light": "#101C16",
-      "dark": "#FFFFFF"
+      "dark": "#F9FAFA",
+      "darkAlias": "neutral/50"
     },
     {
       "name": "card",
       "light": "#FFFFFF",
-      "dark": "#101C16"
+      "dark": "#1F2924",
+      "darkAlias": "neutral/800"
     },
     {
       "name": "card-foreground",
       "light": "#101C16",
-      "dark": "#FFFFFF"
+      "dark": "#F9FAFA",
+      "darkAlias": "neutral/50"
     },
     {
       "name": "popover",
       "light": "#FFFFFF",
-      "dark": "#101C16"
+      "dark": "#1F2924",
+      "darkAlias": "neutral/800"
     },
     {
       "name": "popover-foreground",
       "light": "#101C16",
-      "dark": "#FFFFFF"
+      "dark": "#F9FAFA",
+      "darkAlias": "neutral/50"
     },
     {
       "name": "primary",
       "light": "#00843D",
-      "dark": "#BDE588"
+      "dark": "#BDE588",
+      "darkAlias": "lime/300"
     },
     {
       "name": "primary-foreground",
       "light": "#FFFFFF",
-      "dark": "#101C16"
+      "dark": "#06110C",
+      "darkAlias": "neutral/950"
     },
     {
       "name": "secondary",
       "light": "#F5F9ED",
-      "dark": "#404945"
+      "dark": "#1F2924",
+      "darkAlias": "neutral/800"
     },
     {
       "name": "secondary-foreground",
       "light": "#01632D",
-      "dark": "#BDE588"
+      "dark": "#F2F5F3",
+      "darkAlias": "neutral/100"
     },
     {
       "name": "muted",
       "light": "#F2F2F2",
-      "dark": "#404945"
+      "dark": "#1F2924",
+      "darkAlias": "neutral/800"
     },
     {
       "name": "muted-foreground",
       "light": "#686F6B",
-      "dark": "#B0B5B3"
+      "dark": "#9DA2A0",
+      "darkAlias": "neutral/400"
     },
     {
       "name": "accent",
       "light": "#BDE588",
-      "dark": "#01632D"
+      "dark": "#003819",
+      "lightAlias": "lime/300",
+      "darkAlias": "brand/900"
     },
     {
       "name": "accent-foreground",
       "light": "#012912",
-      "dark": "#BDE588"
+      "dark": "#F9FAFA",
+      "darkAlias": "neutral/50"
     },
     {
       "name": "destructive",
       "light": "#C50F1F",
-      "dark": "#D54143"
+      "dark": "#DA302E",
+      "darkAlias": "error/500"
     },
     {
       "name": "destructive-foreground",
       "light": "#FFFFFF",
-      "dark": "#FFFFFF"
+      "dark": "#F9FAFA",
+      "darkAlias": "neutral/50"
     },
     {
       "name": "border",
       "light": "#DBDDDC",
-      "dark": "#404945"
+      "dark": "#39423E",
+      "darkAlias": "neutral/700"
     },
     {
       "name": "input",
       "light": "#9FA4A2",
-      "dark": "#707773"
+      "dark": "#39423E",
+      "darkAlias": "neutral/700"
     },
     {
       "name": "ring",
       "light": "#00843D",
-      "dark": "#BDE588"
+      "dark": "#BDE588",
+      "darkAlias": "lime/300"
     },
     {
       "name": "chart-1",
       "light": "#00843D",
-      "dark": "#BDE588"
+      "dark": "#BDE588",
+      "darkAlias": "lime/300"
     },
     {
       "name": "chart-2",
       "light": "#81AB40",
-      "dark": "#81AB40"
+      "dark": "#81AB40",
+      "lightAlias": "lime/500",
+      "darkAlias": "lime/500"
     },
     {
       "name": "chart-3",
       "light": "#BDE588",
-      "dark": "#00843D"
+      "dark": "#00843D",
+      "lightAlias": "lime/300"
     },
     {
       "name": "chart-4",
@@ -122,43 +146,55 @@
     },
     {
       "name": "sidebar",
-      "light": "#FFFFFF",
-      "dark": "#1C2722"
+      "light": "#F2F5F3",
+      "dark": "#06110C",
+      "lightAlias": "neutral/100",
+      "darkAlias": "neutral/950"
     },
     {
       "name": "sidebar-foreground",
       "light": "#101C16",
-      "dark": "#FFFFFF"
+      "dark": "#F9FAFA",
+      "darkAlias": "neutral/50"
     },
     {
       "name": "sidebar-primary",
       "light": "#00843D",
-      "dark": "#BDE588"
+      "dark": "#BDE588",
+      "darkAlias": "lime/300"
     },
     {
       "name": "sidebar-primary-foreground",
       "light": "#FFFFFF",
-      "dark": "#101C16"
+      "dark": "#06110C",
+      "darkAlias": "neutral/950"
     },
     {
       "name": "sidebar-accent",
-      "light": "#F5F9ED",
-      "dark": "#01632D"
+      "light": "#E3E6E4",
+      "dark": "#1F2924",
+      "lightAlias": "neutral/200",
+      "darkAlias": "neutral/800"
     },
     {
       "name": "sidebar-accent-foreground",
-      "light": "#01632D",
-      "dark": "#BDE588"
+      "light": "#101C16",
+      "dark": "#F9FAFA",
+      "lightAlias": "neutral/900",
+      "darkAlias": "neutral/50"
     },
     {
       "name": "sidebar-border",
-      "light": "#DBDDDC",
-      "dark": "#404945"
+      "light": "#E3E6E4",
+      "dark": "#1F2924",
+      "lightAlias": "neutral/200",
+      "darkAlias": "neutral/800"
     },
     {
       "name": "sidebar-ring",
       "light": "#00843D",
-      "dark": "#BDE588"
+      "dark": "#BDE588",
+      "darkAlias": "lime/300"
     }
   ],
   "primitives": [
@@ -205,6 +241,62 @@
     {
       "name": "brand/950",
       "value": "#01230F"
+    },
+    {
+      "name": "lime/50",
+      "value": "#F6FDED"
+    },
+    {
+      "name": "lime/100",
+      "value": "#E9F8D6"
+    },
+    {
+      "name": "lime/200",
+      "value": "#D6F2B4"
+    },
+    {
+      "name": "lime/300",
+      "value": "#BDE588"
+    },
+    {
+      "name": "lime/400",
+      "value": "#9FCA63"
+    },
+    {
+      "name": "lime/500",
+      "value": "#81AB40"
+    },
+    {
+      "name": "lime/600",
+      "value": "#688F2E"
+    },
+    {
+      "name": "lime/700",
+      "value": "#537423"
+    },
+    {
+      "name": "lime/800",
+      "value": "#3E5A1A"
+    },
+    {
+      "name": "lime/900",
+      "value": "#2C4112"
+    },
+    {
+      "name": "lime/950",
+      "value": "#1A290A"
+    },
+    {
+      "name": "lime-light",
+      "alias": "lime/200"
+    },
+    {
+      "name": "lime",
+      "alias": "lime/500"
+    },
+    {
+      "name": "lime-dark",
+      "alias": "lime/700"
     },
     {
       "name": "neutral/50",
@@ -1126,7 +1218,15 @@
   "metrics": [
     {
       "name": "radius",
-      "value": 4
+      "value": 14
+    },
+    {
+      "name": "panel-radius",
+      "value": 20
+    },
+    {
+      "name": "panel-inset",
+      "value": 12
     },
     {
       "name": "control-h-sm",

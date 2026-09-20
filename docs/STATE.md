@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-09-19
+> Last touched: 2026-09-20
 
 ## What this project is
 
@@ -26,6 +26,8 @@ The portal is **per-page** (decision 0011): every side-rail item is its
 own route, not a section of one long scroll.
 
 ## Current state
+
+- **The code-led Figma bridge is synchronized to the v2 token register** (2026-09-20): the Kernel DS file mirrors 353 variables from `packages/ui/src/styles.css` — 38 semantic variables with Light/Dark modes, 254 primitives including the lime action scale, and 61 metrics including panel radius/inset recipes. Semantic modes use Figma aliases to the matching primitives, so the v2 neutral dark elevation model and lime actions propagate through existing component and App-shell bindings. The DSDS-keyed `figma-map.json` remains validated by `ds:doctor`/`ds:figma`.
 
 - **Catalog kinds are a level ladder** (decision 0057, 2026-08-02): `component`,
   `element`, `object`, `pattern`, `domain` are ordered levels of composition, not

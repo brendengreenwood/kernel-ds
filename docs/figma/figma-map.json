@@ -18,16 +18,16 @@
       "modes": {
         "Value": "1:2"
       },
-      "variables": 240,
-      "source": "packages/ui/src/styles.css raw scales (brand/neutral/status/viz/commodity) + light/base/dark and status/* aliases"
+      "variables": 254,
+      "source": "packages/ui/src/styles.css raw scales (brand/lime/neutral/status/viz/commodity) + light/base/dark and status/* aliases"
     },
     "Kernel Metrics": {
       "id": "VariableCollectionId:1:348",
       "modes": {
         "Value": "1:3"
       },
-      "variables": 59,
-      "source": "radius/{sm,md,lg,xl,full}, control heights (decision 0010), motion durations (decision 0018), spacing/* 4px grid (decision 0064), border/*, fontSize/*, lineHeight/*, ease/* reference strings"
+      "variables": 61,
+      "source": "radius/{sm,md,lg,xl,full}, panel-radius/panel-inset, control heights (decision 0010), motion durations (decision 0018), spacing/* 4px grid (decision 0069), border/*, fontSize/*, lineHeight/*, ease/* reference strings"
     }
   },
   "pages": {
@@ -47,7 +47,7 @@
       "textStyles": {
         "note": "18 local text styles: text/{2xs,xs,sm,base,lg}/{regular,medium}, text/{xl,2xl,3xl}/{regular,semibold}, mono/{sm,xs}. Sans stand-in: Inter (code uses system-ui stack); mono stand-in: Roboto Mono. Sizes = Tailwind scale + custom text-2xs (11/16) from styles.css."
       },
-      "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable. All 333+ variables carry scopes and (where a stable CSS var exists) WEB code syntax."
+      "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable. The v2 lime scale is included. All 353 variables carry scopes and (where a stable CSS var exists) WEB code syntax."
     },
     "Components": {
       "pageId": "1:1250"

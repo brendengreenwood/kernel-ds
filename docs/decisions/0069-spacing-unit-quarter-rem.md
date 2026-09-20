@@ -1,4 +1,4 @@
-# 0064 — Spacing unit is 0.25rem (drop the 0.24rem rebase)
+# 0069 — Spacing unit is 0.25rem (drop the 0.24rem rebase)
 
 Date: 2026-09-19
 Status: accepted
