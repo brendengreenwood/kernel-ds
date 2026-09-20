@@ -1,6 +1,6 @@
 import assert from "node:assert/strict"
 import { execFileSync } from "node:child_process"
-import { mkdtempSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs"
+import { mkdtempSync, mkdirSync, readFileSync, renameSync, rmSync, unlinkSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 import { tmpdir } from "node:os"
 import test from "node:test"
@@ -289,6 +289,26 @@ test("tampered offline PR snapshot blocks promotion", () => {
     const result = verifyPromotionEvidence({ root: repo.root, entities, ...promotion })
     assert.equal(result.ok, false)
     assert(result.issues.some((entry) => entry.includes("concern")))
+  } finally { rmSync(repo.root, { recursive: true, force: true }) }
+})
+
+test("promotion transition requires the committed acceptance artifact to remain untampered at HEAD", () => {
+  const repo = createEvidenceRepo()
+  try {
+    const promotion = validPromotion(repo)
+    const acceptancePath = join(repo.root, promotion.acceptance.path)
+    writeFileSync(acceptancePath, `${readFileSync(acceptancePath, "utf8")}tampered\n`)
+    const tampered = verifyPromotionEvidence({ root: repo.root, entities, ...promotion, requireLiveAcceptance: true })
+    assert.equal(tampered.ok, false)
+    assert(tampered.issues.some((entry) => entry.includes("does not match")))
+
+    unlinkSync(acceptancePath)
+    const removed = verifyPromotionEvidence({ root: repo.root, entities, ...promotion, requireLiveAcceptance: true })
+    assert.equal(removed.ok, false)
+    assert(removed.issues.some((entry) => entry.includes("not present at HEAD")))
+
+    const historical = verifyPromotionEvidence({ root: repo.root, entities, ...promotion })
+    assert.equal(historical.ok, true)
   } finally { rmSync(repo.root, { recursive: true, force: true }) }
 })
 

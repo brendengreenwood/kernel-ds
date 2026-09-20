@@ -220,7 +220,7 @@ function set(flags) {
       evidence: flags.evidence ? flags.evidence.split(",").filter(Boolean) : [],
       acceptance,
       canonical,
-      verifyPromotion: ({ initiative: subject, concern, acceptance: accepted, canonical: canonicalEvidence }) => verifyPromotionEvidence({ root: context.root, entities: context.entities, initiative: subject, concern, acceptance: accepted, canonical: canonicalEvidence }),
+      verifyPromotion: ({ initiative: subject, concern, acceptance: accepted, canonical: canonicalEvidence }) => verifyPromotionEvidence({ root: context.root, entities: context.entities, initiative: subject, concern, acceptance: accepted, canonical: canonicalEvidence, requireLiveAcceptance: true }),
     })
     if (!authorization.ok) {
       printIssues(authorization.issues)

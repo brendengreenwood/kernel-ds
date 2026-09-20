@@ -13,6 +13,10 @@ npm run ds:prototype -- project
 
 Commands refuse invalid changes before writing, preserve bytes on no-ops, and atomically replace changed files. `set` records completed canonical work; it never edits `@kernel/ui` or `@kernel/definitions`.
 
+## Day-to-day conversational loop
+
+Tell the agent what to change in Figma or `kernel-app`; you do not need to operate the registry or remember the CLI. The agent follows `.agents/skills/kernel-prototype/SKILL.md`: it checks current status, identifies the catalog entity and concern, updates the prototype surface and registry in the same turn, validates runtime behavior in the browser when needed, and runs `npm run ds:generate` plus `npm run ds:prototype -- check`. Ordinary direction can advance work through exploration, candidate, validation, or prototype-only. Marking work promoted remains a separate explicit acceptance step backed by already-committed canonical evidence.
+
 `npm run ds:generate` owns both generated views: `docs/prototypes/status.md` and the compatibility-shaped `docs/figma/figma-map.json`. `ds:prototype check` validates registry semantics and projection freshness, `ds:doctor` delegates to the same checker, and `ds:figma` adds Figma-specific coverage reporting without creating a second authority.
 
 ## Promotion sequence

@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { dirname, posix, resolve } from "node:path"
 import { spawnSync } from "node:child_process"
 
@@ -71,7 +71,7 @@ function parseAcceptance(text, type) {
   return fields
 }
 
-export function verifyPromotionEvidence({ root, entities, initiative, concern, acceptance, canonical }) {
+export function verifyPromotionEvidence({ root, entities, initiative, concern, acceptance, canonical, requireLiveAcceptance = false }) {
   const unavailable = []
   for (const commit of [acceptance.commit, canonical.commit]) {
     if (!SHA.test(commit ?? "") || !commitExists(root, commit)) unavailable.push(commit)
@@ -83,6 +83,14 @@ export function verifyPromotionEvidence({ root, entities, initiative, concern, a
   const issues = []
   const acceptanceText = committedFile(root, acceptance.commit, acceptance.path)
   if (!acceptanceText) issues.push(`Acceptance artifact was not committed at ${acceptance.commit}:${acceptance.path}`)
+  if (requireLiveAcceptance) {
+    const livePath = resolve(root, acceptance.path)
+    if (!existsSync(livePath)) issues.push(`Acceptance artifact is not present at HEAD: ${acceptance.path}`)
+    else {
+      const liveText = readFileSync(livePath, "utf8")
+      if (liveText.replace(/\r\n/g, "\n") !== acceptanceText.replace(/\r\n/g, "\n")) issues.push(`Acceptance artifact at HEAD does not match the committed acceptance at ${acceptance.commit}:${acceptance.path}`)
+    }
+  }
   const artifact = acceptanceText ? parseAcceptance(acceptanceText, acceptance.type) : null
   const tuple = { initiativeId: initiative.id, concern: concern.concern, scopeKey: initiative.scopeKey, target: canonical.package }
   if (acceptance.type === "conversation-record") {
