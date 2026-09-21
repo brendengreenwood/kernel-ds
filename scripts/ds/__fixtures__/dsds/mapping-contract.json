@@ -52,6 +52,32 @@
       ]
     }
   ],
+  "prototypeRegistry": {
+    "$schema": "kernel-ds/prototype-registry@1",
+    "version": 1,
+    "figma": { "fileKey": "fixture-file", "name": "Fixture DS" },
+    "initiatives": [
+      {
+        "id": "fixture-button-polish",
+        "title": "Fixture button polish",
+        "lifecycle": "active",
+        "scopeKey": "default",
+        "entityIds": ["component.fixture-button"],
+        "surfaces": { "figma": [], "kernelApp": [] },
+        "concerns": [
+          {
+            "concern": "visual",
+            "state": "candidate",
+            "origin": "figma",
+            "history": [
+              { "from": null, "to": "exploration", "date": "2026-09-20", "actor": "fixture", "source": "test", "reason": "Fixture discovery", "evidence": [] },
+              { "from": "exploration", "to": "candidate", "date": "2026-09-20", "actor": "fixture", "source": "test", "reason": "Fixture candidate", "evidence": [] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "expectedKinds": {
     "component": "component",
     "pattern": "pattern",

@@ -13,6 +13,8 @@ Object models, workspace presets, or composition-contract changes.
 
 ## Workflow
 
+For object-model, workflow, or contract-data discoveries originating in `kernel-app` or Figma, use the `kernel-prototype` skill for concern state, app-local boundaries, acceptance, and promotion evidence. This skill owns canonical `@kernel/definitions` implementation after authorization.
+
 1. Schemas live in `packages/definitions/src` — `parseObjectModel` and `parseWorkspacePreset` are the only entry points; serialized JSON shape is a compatibility contract (round-tripped by package tests).
 2. Definition documents are files under `kernel-portal/public/definitions` registered in the manifest; Studio writes them through `kernel-studio-server/src/lib/definitions.ts` (validate-then-write, atomic manifest update).
 3. Cross-package paths resolve only through `kernel-studio-server/src/lib/paths.ts` — never hardcode sibling paths.

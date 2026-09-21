@@ -24,6 +24,11 @@ export const generateSteps = [
     run: () => runNpm(["run", "build", "--workspace", "@kernel/definitions"]),
   },
   {
+    id: "prototype-projections",
+    description: "Regenerate prototype status and Figma compatibility projections",
+    run: () => runNode(resolve(repoRoot, "scripts/ds/prototype/generate-projections.mjs")),
+  },
+  {
     id: "agents-inventories",
     description: "Refresh bounded generated-inventory sections in AGENTS files",
     run: () => runNode(resolve(repoRoot, "scripts/ds/cli.mjs"), ["agents"]),

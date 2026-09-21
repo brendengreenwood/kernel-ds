@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-08-01
+> Last touched: 2026-09-20
 
 ## What this project is
 
@@ -26,6 +26,10 @@ The portal is **per-page** (decision 0011): every side-rail item is its
 own route, not a section of one long scroll.
 
 ## Current state
+
+- **Prototype discoveries now have a typed, conversational promotion contract** (decision 0070, 2026-09-20): Figma and `kernel-app/` are peer discovery surfaces while canonical packages remain the shipped authority. `docs/prototypes/registry.json` is the versioned DSDS-linked ledger for concern-level visual, component, pattern, object-model, workflow, and narrowly defined contract-data work. Promotion requires append-only transition history, explicit committed acceptance, and immutable canonical package evidence; workflow/object-model/data contracts target `@kernel/definitions`, while visual/component/pattern work targets `@kernel/ui`. The contract and `$extensions["com.kernel.prototype"]` are active. `npm run ds:prototype -- <check|status|add|link|set|project>` provides deterministic lifecycle operations with refusal-before-mutation, atomic writes, status/coverage summaries, and doctor freshness gates. The former Figma map and all 79 identifiable v2 drift entries are reconciled through `docs/prototypes/migration-manifest.json`; seven seeded initiatives carry 11 concern records with schema-distinct migration authorization. `.agents/skills/kernel-prototype/SKILL.md` is the default ritual for conversational prototype work: agents identify catalog entities and concerns, update the registry in the same turn, validate runtime behavior in the browser, keep app-local persistence/adapters out of canonical contracts, and stop at `validated` until tuple-specific acceptance permits the three-commit promotion sequence. The Phase 5 public-CLI proof demonstrates both a pre-existing `compositionContract` promotion and a newly implemented contract-data promotion through the required three commits; removing or changing the committed acceptance before transition is refused without mutating registry bytes. Ship-review hardening now validates every persisted history edge, preserves immutable migration genesis while allowing later transitions, binds canonical evidence to an initiative entity and the historical package containing its source, requires verifiable prior evidence for legacy promoted imports, and refuses both projection paths before writing when promotion evidence is invalid or unavailable.
+
+- **The code-led Figma bridge is synchronized to the v2 token register** (2026-09-20): the Kernel DS file mirrors 353 variables from `packages/ui/src/styles.css` — 38 semantic variables with Light/Dark modes, 254 primitives including the lime action scale, and 61 metrics including panel radius/inset recipes. Semantic modes use Figma aliases to the matching primitives, so the v2 neutral dark elevation model and lime actions propagate through existing component and App-shell bindings. `docs/prototypes/registry.json` now owns the DSDS-linked Figma metadata and mapped surfaces. `docs/figma/figma-map.json` is a byte-compatible generated projection written by `ds:generate`, freshness-checked by `ds:prototype`/`ds:doctor`, and reported by `ds:figma`.
 
 - **Catalog kinds are a level ladder** (decision 0057, 2026-08-02): `component`,
   `element`, `object`, `pattern`, `domain` are ordered levels of composition, not

@@ -1,0 +1,45 @@
+[
+  {
+    "request": "change this Figma panel",
+    "concern": "visual",
+    "owner": "@kernel/ui",
+    "sequence": ["check", "status", "live-probe", "add-or-update", "link-figma", "browser-validate", "generate", "check"],
+    "stop": "candidate"
+  },
+  {
+    "request": "make this workflow use real contract data",
+    "concern": "data",
+    "owner": "@kernel/definitions",
+    "sequence": ["check", "status", "add-or-update", "link-kernel-app", "implement-app-local", "browser-validate", "generate", "check"],
+    "stop": "candidate"
+  },
+  {
+    "request": "promote this component",
+    "concern": "component",
+    "owner": "@kernel/ui",
+    "sequence": ["check", "status", "verify-canonical-evidence", "require-explicit-acceptance"],
+    "stop": "validated"
+  },
+  {
+    "request": "promote this component after explicit acceptance",
+    "concern": "component",
+    "owner": "@kernel/ui",
+    "sequence": ["check", "status", "verify-canonical-evidence", "verify-acceptance", "set-promoted", "generate", "check"],
+    "stop": "promoted"
+  },
+  {
+    "request": "implement and promote this new contract",
+    "concern": "object-model",
+    "owner": "@kernel/definitions",
+    "sequence": ["commit-canonical-code", "commit-acceptance-artifact", "set-promoted", "generate", "commit-registry-projections"],
+    "stop": "promoted",
+    "commits": 3
+  },
+  {
+    "request": "keep this prototype-only",
+    "concern": "workflow",
+    "owner": null,
+    "sequence": ["check", "status", "add-or-update", "set-prototype-only", "generate", "check"],
+    "stop": "prototype-only"
+  }
+]

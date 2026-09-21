@@ -13,6 +13,8 @@ A new or changed public UI primitive owned by `@kernel/ui`.
 
 ## Workflow
 
+Prototype-originated component or visual work delegates surface links, concern state, acceptance, and promotion evidence to the `kernel-prototype` skill. This skill begins after canonical `@kernel/ui` implementation is authorized.
+
 1. Register first: `npm run ds:add -- --kind component --name "<Name>" --docs-dir kernel-portal/src/lib/component-docs` — scaffolds the catalog entity plus docs skeleton and refuses collisions.
 2. Implement in `packages/ui/src/components/ui/` (kebab-case file, `data-slot` attributes, tokens only — no hardcoded control heights or raw colors).
 3. Fill the docs blocks, add `sourceFiles` to the catalog entity, and register the gallery cluster per the `kernel-feature` skill.

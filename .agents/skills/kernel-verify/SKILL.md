@@ -8,6 +8,8 @@ user-invocable: true
 
 Drive the actual UI; don't trust tsc alone. Run these before `/kernel-ship`.
 
+For Figma or `kernel-app` prototype changes, the `kernel-prototype` skill owns registry/projection checks and the acceptance stop; this skill verifies the rendered result after that routing is established.
+
 ## 0. DS gates (repository root)
 
 ```bash

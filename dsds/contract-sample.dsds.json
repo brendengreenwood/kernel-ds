@@ -18,6 +18,22 @@
         "sourceFiles": [
           "packages/ui/src/components/ui/fixture-button.tsx"
         ]
+      },
+      "com.kernel.prototype": {
+        "contractVersion": 1,
+        "initiatives": [
+          {
+            "concerns": [
+              {
+                "concern": "visual",
+                "state": "candidate"
+              }
+            ],
+            "initiativeId": "fixture-button-polish",
+            "lifecycle": "active",
+            "scopeKey": "default"
+          }
+        ]
       }
     },
     "identifier": "fixture-button",

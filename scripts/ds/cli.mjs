@@ -23,6 +23,7 @@ const commands = {
   generate: () => import("./commands/generate.mjs").then((module) => module.generate),
   verify: () => import("./commands/verify.mjs").then((module) => module.verify),
   doctor: () => import("./commands/doctor.mjs").then((module) => module.doctor),
+  prototype: () => import("./commands/prototype.mjs").then((module) => module.prototype),
   changeset: () => import("./commands/changeset.mjs").then((module) => module.changeset),
   pack: () => import("./commands/pack.mjs").then((module) => module.pack),
   agents: () => import("./commands/agents.mjs").then((module) => module.agents),
