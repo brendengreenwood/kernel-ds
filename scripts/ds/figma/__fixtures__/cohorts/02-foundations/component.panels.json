@@ -1,0 +1,28 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.panels",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "25e7d7873c800f6b26a597fb61c66d7338e4691d",
+  "sectionId": "137:2362",
+  "sectionName": "Panels",
+  "contractHash": "eeccf247c231d418f2bf438580c421e06e9e0ccfd377fb59e004d2f0a052216c",
+  "requiredTokenRoles": [
+    "radius/control",
+    "radius/surface",
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "anatomySlots": [
+    "icon-chip",
+    "panel-empty",
+    "panel-group",
+    "panel-region",
+    "panel-shell",
+    "stat",
+    "table-frame",
+    "tile",
+    "two-line"
+  ],
+  "layoutSectionNodeId": "137:2362",
+  "layoutVerdict": "pass"
+}

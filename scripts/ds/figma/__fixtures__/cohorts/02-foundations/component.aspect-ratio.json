@@ -1,0 +1,15 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.aspect-ratio",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "b78052422f08bc5946ea28bf9e464449fe11d40e",
+  "sectionId": "132:2042",
+  "sectionName": "Aspect Ratio",
+  "contractHash": "5ffe467b73ca16260da4f265d52b1e45f61cc72d286ad48d9880f3b1b8a17aca",
+  "requiredTokenRoles": [],
+  "anatomySlots": [
+    "aspect-ratio"
+  ],
+  "layoutSectionNodeId": "132:2042",
+  "layoutVerdict": "pass"
+}

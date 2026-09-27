@@ -1,0 +1,15 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.label",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "73f7ba6fc5afba32d26ae49e3b2b63be62f8ad76",
+  "sectionId": "137:2331",
+  "sectionName": "Label",
+  "contractHash": "e36c392494c3c7ac4166e0bb7181a915c7f3347ea72279ca3d20359a58dacac9",
+  "requiredTokenRoles": [],
+  "anatomySlots": [
+    "label"
+  ],
+  "layoutSectionNodeId": "137:2331",
+  "layoutVerdict": "pass"
+}

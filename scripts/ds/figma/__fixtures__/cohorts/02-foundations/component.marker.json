@@ -1,0 +1,18 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.marker",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "4631de579af2005a034b1685dcbda216cae7681c",
+  "sectionId": "137:2336",
+  "sectionName": "Marker",
+  "contractHash": "b4b26af5adb1ff7d48cca8477862469a89152110ba165f0ee36a53e9d810465d",
+  "requiredTokenRoles": [
+    "semantic/stroke"
+  ],
+  "anatomySlots": [
+    "marker-content",
+    "marker-icon"
+  ],
+  "layoutSectionNodeId": "137:2336",
+  "layoutVerdict": "pass"
+}

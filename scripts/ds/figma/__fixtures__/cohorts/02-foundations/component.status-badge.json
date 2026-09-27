@@ -1,0 +1,15 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.status-badge",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "56cefdb593fc0ed5a7140c7332654c844b9467a8",
+  "sectionId": "137:2417",
+  "sectionName": "Status Badge",
+  "contractHash": "d11a23ad430246fb1c9f628703ef01ba6b326404893fa484ee0dbd1477ffec4f",
+  "requiredTokenRoles": [],
+  "anatomySlots": [
+    "status-badge"
+  ],
+  "layoutSectionNodeId": "137:2417",
+  "layoutVerdict": "pass"
+}
