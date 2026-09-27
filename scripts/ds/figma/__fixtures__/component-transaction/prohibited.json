@@ -1,0 +1,11 @@
+{
+  "$schema": "kernel-ds/figma-component-transaction-fixtures@1",
+  "properties": [
+    "componentProperties",
+    "componentSetMembership",
+    "instanceMainComponent",
+    "key",
+    "variantProperties",
+    "children"
+  ]
+}

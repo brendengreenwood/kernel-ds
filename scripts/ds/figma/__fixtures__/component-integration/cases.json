@@ -1,0 +1,73 @@
+{
+  "$schema": "kernel-ds/figma-component-integration-fixtures@1",
+  "cases": [
+    {
+      "name": "complete",
+      "mutation": null,
+      "error": null
+    },
+    {
+      "name": "missing-node",
+      "mutation": {
+        "records": []
+      },
+      "error": "exactly match scope"
+    },
+    {
+      "name": "duplicate-identity",
+      "mutation": {
+        "duplicateRecord": true
+      },
+      "error": "exactly match scope"
+    },
+    {
+      "name": "stale-manifest",
+      "mutation": {
+        "contractHash": "stale"
+      },
+      "error": "Stale contract"
+    },
+    {
+      "name": "legacy-radius",
+      "mutation": {
+        "failure": "legacy-radius-binding"
+      },
+      "error": "Live audit failed"
+    },
+    {
+      "name": "wrong-section",
+      "mutation": {
+        "failure": "missing-section-ancestry"
+      },
+      "error": "Live audit failed"
+    },
+    {
+      "name": "wrong-file",
+      "mutation": {
+        "fileKey": "wrong"
+      },
+      "error": "wrong file"
+    },
+    {
+      "name": "invalid-override",
+      "contractOverride": {
+        "component.unknown": {}
+      },
+      "error": "unknown entity"
+    },
+    {
+      "name": "sparse-accessibility",
+      "mutation": {
+        "accessibilityReason": null
+      },
+      "error": "reason"
+    },
+    {
+      "name": "detached-acceptance",
+      "mutation": {
+        "failure": "detached-acceptance-instance"
+      },
+      "error": "Live audit failed"
+    }
+  ]
+}
