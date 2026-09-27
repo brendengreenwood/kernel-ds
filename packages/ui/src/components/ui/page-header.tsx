@@ -26,15 +26,15 @@ import { cn } from "@/lib/utils"
 
 /* The glyph chip is a TILE, not a wash. As a flat 5% fill it had no edge, no
    lip and no relation to the elevation language every other object on the
-   plate speaks, so it read as a smudge behind the glyph rather than a thing
+   surrounding surface uses, so it read as a smudge behind the glyph rather than a thing
    holding it. It takes the same recipe as a frame on a card: fill one step off
    the surface, a hairline for structure (light leans on the edge), a 1px top
    lip (dark leans on the lip, having no light source).
 
-   Radius steps down with the box so the smaller chips do not read rounder than
-   the big one — the same concentric arithmetic each time, glyph corner (~4px)
-   plus the padding around it. The DS radius ladder already encodes the steps:
-   `lg` is `--radius` itself, `md` and `sm` sit 2px and 4px under it.
+   Radius follows semantic scale rather than concentric arithmetic: the page
+   chip uses the 8px surface alias, while panel and section chips use the 4px
+   control alias. The smaller furniture therefore stays visually tighter than
+   the containing work surface.
 
    The 1px translate is optical: centring puts the chip on the line box's
    centre, but the eye reads the title's CAP centre, which sits 1px lower. */

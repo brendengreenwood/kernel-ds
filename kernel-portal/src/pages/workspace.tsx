@@ -19,9 +19,15 @@ import {
 } from "@kernel/ui/icon"
 
 import { cn } from "@kernel/ui/utils"
-import { Button } from "@kernel/ui"
-import { Input } from "@kernel/ui"
-import { StatusBadge, type Status } from "@kernel/ui"
+import {
+  Button,
+  Input,
+  PanelGroup,
+  PanelRegion,
+  PanelShell,
+  StatusBadge,
+  type Status,
+} from "@kernel/ui"
 
 /* ============================================================================
    Workspace shell experiment — four zones:
@@ -84,7 +90,7 @@ const CANNED_REPLIES = [
 
 function IconRail({ area, setArea }: { area: string; setArea: (k: string) => void }) {
   return (
-    <div className="flex w-14 shrink-0 flex-col items-center gap-1 border-r bg-sidebar py-3">
+    <nav aria-label="Workspace areas" className="flex w-14 shrink-0 flex-col items-center gap-1 bg-sidebar py-3">
       <div className="mb-2 grid size-9 place-items-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
         <Sprout className="size-5" />
       </div>
@@ -113,7 +119,7 @@ function IconRail({ area, setArea }: { area: string; setArea: (k: string) => voi
       <button title="Settings" className="grid size-10 place-items-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground">
         <Settings className="size-[18px]" />
       </button>
-    </div>
+    </nav>
   )
 }
 
@@ -129,7 +135,7 @@ function ContextColumn({
   onClose?: () => void
 }) {
   return (
-    <div className="flex h-full w-72 shrink-0 flex-col border-r bg-sidebar">
+    <PanelRegion className="flex h-full w-72 shrink-0 flex-col bg-sidebar">
       <div className="flex items-center gap-2 border-b px-4 py-3">
         <span className="text-sm font-semibold">{area.columnTitle}</span>
         <span className="rounded-full bg-muted px-1.5 py-px font-mono text-[10.5px] text-muted-foreground">
@@ -174,6 +180,48 @@ function ContextColumn({
       <div className="border-t px-4 py-2.5 font-mono text-[11px] text-muted-foreground">
         corn $4.16 · beans $10.25 · wheat $5.58
       </div>
+    </PanelRegion>
+  )
+}
+
+function WorkspaceHeader({
+  record,
+  onOpenList,
+  onToggleChat,
+  chatOpen,
+}: {
+  record: Record_
+  onOpenList: () => void
+  onToggleChat: () => void
+  chatOpen: boolean
+}) {
+  return (
+    <div className="flex h-14 shrink-0 items-center gap-2.5 border-b px-4">
+      <Button size="icon-sm" variant="ghost" className="lg:hidden" aria-label="Open list" onClick={onOpenList}>
+        <PanelLeft />
+      </Button>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="truncate text-sm font-semibold">
+            {record.id} · {record.title}
+          </span>
+          <StatusBadge status={record.status} />
+        </div>
+      </div>
+      <div className="ml-auto flex items-center gap-1.5">
+        <Button size="sm" variant="outline" className="max-sm:hidden">Counter</Button>
+        <Button size="sm" className="max-sm:hidden">Book</Button>
+        <Button
+          size="icon-sm"
+          variant={chatOpen ? "secondary" : "ghost"}
+          aria-label="Toggle assistant"
+          onClick={onToggleChat}
+          className="xl:hidden"
+        >
+          <MessageSquare />
+        </Button>
+        <Button size="icon-sm" variant="ghost" aria-label="More"><MoreVertical /></Button>
+      </div>
     </div>
   )
 }
@@ -190,36 +238,15 @@ function Workspace({
   chatOpen: boolean
 }) {
   return (
-    <div className="flex h-full min-w-0 flex-1 flex-col">
-      <div className="flex shrink-0 items-center gap-2.5 border-b px-4 py-2.5">
-        <Button size="icon-sm" variant="ghost" className="lg:hidden" aria-label="Open list" onClick={onOpenList}>
-          <PanelLeft />
-        </Button>
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="truncate text-sm font-semibold">
-              {record.id} · {record.title}
-            </span>
-            <StatusBadge status={record.status} />
-          </div>
-        </div>
-        <div className="ml-auto flex items-center gap-1.5">
-          <Button size="sm" variant="outline" className="max-sm:hidden">Counter</Button>
-          <Button size="sm" className="max-sm:hidden">Book</Button>
-          <Button
-            size="icon-sm"
-            variant={chatOpen ? "secondary" : "ghost"}
-            aria-label="Toggle assistant"
-            onClick={onToggleChat}
-            className="xl:hidden"
-          >
-            <MessageSquare />
-          </Button>
-          <Button size="icon-sm" variant="ghost" aria-label="More"><MoreVertical /></Button>
-        </div>
-      </div>
+    <PanelRegion className="flex h-full min-w-0 flex-1 flex-col">
+      <WorkspaceHeader
+        record={record}
+        onOpenList={onOpenList}
+        onToggleChat={onToggleChat}
+        chatOpen={chatOpen}
+      />
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-b bg-muted/30 px-5 py-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-3 border-b bg-foreground/[0.025] px-5 py-4 lg:grid-cols-4">
           {record.facts.map(([k, v]) => (
             <div key={k}>
               <div className="text-xs font-medium text-muted-foreground">{k}</div>
@@ -228,12 +255,12 @@ function Workspace({
           ))}
         </div>
         <div className="p-5">
-          <div className="grid min-h-72 place-items-center rounded-lg border-[1.5px] border-dashed font-mono text-xs text-muted-foreground">
+          <div className="grid min-h-72 place-items-center rounded-[var(--radius-surface)] border-[1.5px] border-dashed font-mono text-xs text-muted-foreground">
             workspace canvas — {record.title} · {record.sub}
           </div>
         </div>
       </div>
-    </div>
+    </PanelRegion>
   )
 }
 
@@ -255,7 +282,7 @@ function ChatPanel({ record, onClose }: { record: Record_; onClose?: () => void 
   }
 
   return (
-    <div className="flex h-full w-80 shrink-0 flex-col border-l bg-sidebar">
+    <PanelRegion className="flex h-full w-80 shrink-0 flex-col bg-sidebar">
       <div className="flex items-center gap-2 border-b px-4 py-3">
         <span className="grid size-6 place-items-center rounded-sm bg-sidebar-primary text-sidebar-primary-foreground">
           <Sprout className="size-3.5" />
@@ -272,7 +299,7 @@ function ChatPanel({ record, onClose }: { record: Record_; onClose?: () => void 
           <div
             key={i}
             className={cn(
-              "max-w-[90%] rounded-lg px-3 py-2 text-[13px] leading-relaxed",
+              "max-w-[90%] rounded-[var(--radius-surface)] px-3 py-2 text-[13px] leading-relaxed",
               m.role === "assistant"
                 ? "bg-card ring-1 ring-border"
                 : "ml-auto bg-primary text-primary-foreground"
@@ -302,7 +329,7 @@ function ChatPanel({ record, onClose }: { record: Record_; onClose?: () => void 
           </Button>
         </span>
       </div>
-    </div>
+    </PanelRegion>
   )
 }
 
@@ -321,17 +348,30 @@ export default function WorkspacePage() {
   }
 
   return (
-    <div className="flex h-dvh w-full overflow-hidden bg-background text-foreground">
+    <div className="flex h-dvh w-full overflow-hidden bg-sidebar text-foreground">
       <IconRail area={areaKey} setArea={switchArea} />
 
-      {/* context column — inline ≥lg, overlay below */}
-      <div className="hidden lg:block">
-        <ContextColumn area={area} selected={selectedId} onSelect={setSelectedId} />
-      </div>
+      <PanelShell className="m-4 ml-0 flex min-w-0 flex-1 flex-col shadow-[var(--shadow-2xl)]">
+        <PanelGroup className="min-h-0 flex-1">
+          <div className="hidden lg:block">
+            <ContextColumn area={area} selected={selectedId} onSelect={setSelectedId} />
+          </div>
+          <Workspace
+            record={record}
+            onOpenList={() => setListOpen(true)}
+            onToggleChat={() => setChatOpen((v) => !v)}
+            chatOpen={chatOpen}
+          />
+          <div className="hidden xl:block">
+            <ChatPanel key={record.id} record={record} />
+          </div>
+        </PanelGroup>
+      </PanelShell>
+
       {listOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <button aria-label="Close panel" className="absolute inset-0 bg-foreground/30" onClick={() => setListOpen(false)} />
-          <div className="absolute top-0 bottom-0 left-14 shadow-xl">
+          <div className="absolute top-4 bottom-4 left-14 overflow-hidden rounded-[var(--radius-floating)] border border-border shadow-[var(--shadow-2xl)]">
             <ContextColumn
               area={area}
               selected={selectedId}
@@ -342,30 +382,18 @@ export default function WorkspacePage() {
         </div>
       )}
 
-      <Workspace
-        record={record}
-        onOpenList={() => setListOpen(true)}
-        onToggleChat={() => setChatOpen((v) => !v)}
-        chatOpen={chatOpen}
-      />
-
-      {/* chat — inline ≥xl, overlay below */}
-      <div className="hidden xl:block">
-        <ChatPanel record={record} />
-      </div>
       {chatOpen && (
         <div className="fixed inset-0 z-40 xl:hidden">
           <button aria-label="Close assistant" className="absolute inset-0 bg-foreground/30" onClick={() => setChatOpen(false)} />
-          <div className="absolute top-0 right-0 bottom-0 shadow-xl">
-            <ChatPanel record={record} onClose={() => setChatOpen(false)} />
+          <div className="absolute top-4 right-4 bottom-4 overflow-hidden rounded-[var(--radius-floating)] border border-border shadow-[var(--shadow-2xl)]">
+            <ChatPanel key={record.id} record={record} onClose={() => setChatOpen(false)} />
           </div>
         </div>
       )}
 
-      {/* back to docs */}
       <a
         href="/"
-        className="fixed bottom-3 left-2 z-50 grid size-10 place-items-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+        className="fixed bottom-3 left-1.5 z-50 grid size-11 place-items-center rounded-[var(--radius-control)] text-muted-foreground hover:bg-muted hover:text-foreground"
         title="Back to design system"
       >
         <ArrowLeft className="size-[18px]" />

@@ -6,7 +6,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
   name: "Panels",
   slug: "panels",
   summary:
-    "The furniture that activity and detail panels are built from: Tile, TwoLine, Stat, IconChip, TableFrame, and PanelEmpty in one module. They share one plate recipe — a fill one step off the card plus an inset top lip, no cast — so everything placed on a panel reads as ON it rather than drawn into it. Surface plus edge is enough separation; a drop shadow at both levels is how an interface starts to look upholstered.",
+    "The furniture that activity and detail panels are built from: Tile, TwoLine, Stat, IconChip, TableFrame, and PanelEmpty in one module. They share one raised-surface treatment — a fill one step off the parent surface plus an inset top lip, no cast — so nested furniture reads as a distinct layer rather than being drawn into its container. Surface plus edge is enough separation; a drop shadow at both levels is how an interface starts to look upholstered.",
   status: "experimental",
   sourceFiles: ["panels.tsx"],
   metadata: { owner: "ds", kind: "component" },
@@ -16,7 +16,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
       use: [
         "A row of roll-up figures heading a panel — small Tiles or Stats that answer the question before the table below has to be read at all.",
         "A figure that heads the thing itself — the large Tile, with room reserved for a sparkline whether or not one is passed, so a row of tiles keeps its bottoms on one line.",
-        "A table inside a panel — TableFrame gives it the plate and hairline that make it a placed object, and marks itself data-dense by default so the app's condensed-table rules can key on it.",
+        "A table inside a panel — TableFrame gives it the raised fill, top lip, and hairline that make it a distinct nested surface, and marks itself data-dense by default so the app's condensed-table rules can key on it.",
         "A cell holding a value and the quantity behind it — TwoLine, where the sub carries its own unit because a bare number under no column head is a number of nothing.",
       ],
       dontUse: [
@@ -34,7 +34,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
         "Give TwoLine's sub the unit (\"12,400 bu\", \"per bushel\") — it renders under the value where no column head can explain it.",
       ],
       donts: [
-        "Don't add a drop shadow to anything already on a panel. The plate recipe is fill plus lip deliberately — the panel casts, its furniture doesn't.",
+        "Don't add a drop shadow to furniture already inside a surface. The nested treatment is fill plus lip deliberately — the outer surface casts, its furniture doesn't.",
         "Don't pass a chart to a small Tile. The small tile is 20px of type in a header row; a line under it is a smudge.",
         "Don't use bg-muted for a chip on a card — in the v2 dark theme --muted resolves to the card's own value and the chip disappears. IconChip's foreground overlay exists for exactly this.",
         "Don't wrap a top-level object table in a dense frame — pass dense={false}. The DS ships the data-dense marker, not the padding step: the condensed-table rules that consume it stay app-side until that register entry promotes.",
@@ -42,7 +42,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
     },
     {
       kind: "anatomy",
-      slots: ["tile", "two-line", "stat", "icon-chip", "table-frame", "panel-empty"],
+      slots: ["panel-shell", "panel-group", "panel-region", "tile", "two-line", "stat", "icon-chip", "table-frame", "panel-empty"],
     },
     {
       kind: "api",
@@ -62,7 +62,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
           type: "boolean",
           default: "false",
           description:
-            "Tile — the header-of-the-thing size: outline only (no plate), card-like padding, a container-query-sized figure, the concentric corner (panel radius minus panel inset), and reserved sparkline room.",
+            "Tile — the header-of-the-thing size: outline only (no raised fill or lip), card-like padding, a container-query-sized figure, the 8px standalone surface radius, and reserved sparkline room.",
         },
         {
           name: "chart",
@@ -114,7 +114,7 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
         },
         {
           title: "A framed table with two-line cells",
-          description: "TableFrame supplies the plate; PanelEmpty is the frame's no-rows line.",
+          description: "TableFrame supplies the nested raised-surface treatment; PanelEmpty is the frame's no-rows line.",
           language: "tsx",
           code: `<TableFrame>
   <Table>
@@ -133,7 +133,10 @@ export const panelsDoc: ComponentDoc = parseComponentDoc({
     },
     {
       kind: "decisions",
-      refs: [{ number: 65, title: "The v2 surface direction" }],
+      refs: [
+        { number: 65, title: "The v2 surface direction" },
+        { number: 71, title: "Internal-tool connected geometry" },
+      ],
     },
   ],
 })

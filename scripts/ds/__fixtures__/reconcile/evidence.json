@@ -1,0 +1,28 @@
+{
+  "$schema": "kernel-ds/reconciliation-evidence@1",
+  "artifact": {
+    "name": "Workspace study",
+    "surface": "figma",
+    "reference": "figma://du0qpv9XrTt4HEWdPhesUh/81:954",
+    "summary": "A component-backed workspace composition with navigator, selected-object workspace, and assistant dock."
+  },
+  "candidates": [
+    {
+      "entityId": "object.workspace",
+      "evidence": "The artifact composes the canonical workspace regions and carries object.workspace DSDS plugin data."
+    },
+    {
+      "entityId": "pattern.app-shell",
+      "evidence": "The artifact also contains a page-level shell and persistent navigation."
+    }
+  ],
+  "observations": [
+    "Fifteen component instances are present, but several composition colors remain hardcoded.",
+    "The prototype registry currently records the visual concern as exploration.",
+    "Canonical code already implements PanelShell, PanelGroup, and PanelRegion."
+  ],
+  "constraints": [
+    "Do not claim runtime equivalence from Figma alone.",
+    "Do not mutate both Figma and code in one operation."
+  ]
+}

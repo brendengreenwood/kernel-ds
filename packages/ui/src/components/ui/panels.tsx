@@ -1,13 +1,61 @@
 import { cn } from "@/lib/utils"
 
-/* Shared panel furniture — the conventions for activity/detail cards: one
-   source for the framed-table + tile treatment.
+/* Shared panel furniture — the conventions for activity/detail surfaces: one
+   source for the framed-table + tile elevation treatment.
 
-   A frame nested inside a card is a plate on a plate: it takes the lip and a
-   fill one step off the card, but no cast. A drop shadow at both levels is how
-   an interface starts to look upholstered — surface + edge is enough
-   separation. The frame's own border supplies the hairline. */
-const PLATE = "bg-[var(--elev-plate)] shadow-[inset_0_1px_0_var(--elev-lip)]"
+   Furniture nested inside a surface takes a fill one step off its parent and
+   a top lip, but no cast. A drop shadow at both levels makes the interface look
+   upholstered; surface fill plus edge is enough separation. */
+const RAISED_SURFACE =
+  "bg-[var(--elev-raised-surface)] shadow-[inset_0_1px_0_var(--elev-lip)]"
+
+/** Connected work-surface shell. The shell owns the exposed 8px perimeter;
+    regions inside it stay square and meet at shared seams. */
+function PanelShell({ className, ...props }: React.ComponentProps<"section">) {
+  return (
+    <section
+      data-slot="panel-shell"
+      className={cn(
+        "overflow-hidden rounded-[var(--panel-radius)] border border-border bg-card",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+/** A seam-sharing row or column inside PanelShell. */
+function PanelGroup({
+  orientation = "horizontal",
+  className,
+  ...props
+}: React.ComponentProps<"div"> & { orientation?: "horizontal" | "vertical" }) {
+  return (
+    <div
+      data-slot="panel-group"
+      data-orientation={orientation}
+      className={cn(
+        "flex min-h-0 min-w-0",
+        orientation === "horizontal"
+          ? "flex-row divide-x divide-border"
+          : "flex-col divide-y divide-border",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+/** Square interior region for navigator, canvas, dock, or toolbar content. */
+function PanelRegion({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="panel-region"
+      className={cn("min-h-0 min-w-0 rounded-none bg-card", className)}
+      {...props}
+    />
+  )
+}
 
 /** Two-line cell: a value and the quantity behind it. The sub carries its own
     unit — with no column head above it, a bare number is a number of nothing. */
@@ -26,21 +74,15 @@ function TwoLine({ top, sub, strong }: { top: React.ReactNode; sub?: string; str
     Two sizes, like PageHeader: the default heads a panel inside a page, `lg`
     heads the thing itself.
 
-    The large size is unfilled — outline only, no plate. At this figure size the
+    The large size is unfilled — outline only, without a raised-surface treatment. At this figure size the
     number is the object and a fill behind it would be a box around a headline;
     the hairline is there to group the row, not to raise it. It is padded like a
     card rather than like a cell: a figure this size needs air around it before
     the hairline, or the tile reads as a number that was cropped to fit.
 
-    Its corner is the panel's, less the padding it sits in — the concentric
-    arithmetic (register 3.26), because it is the same relationship. A card
-    sharing its container's radius makes the two corners read as one thick
-    corner; a card this size wearing the control radius reads as a button that
-    grew. Outer minus inset is the answer to both.
-
-    Its figure is sized off the tile, not off the page: `cqw` makes the number
-    as large as its own cell can hold, floored so it never falls under the
-    panel's body text.
+    Large tiles are standalone surfaces, so they use the 8px surface radius.
+    Connected regions instead use PanelShell, PanelGroup, and PanelRegion so
+    the shell owns the only rounded perimeter.
 
     Not every figure earns a trace, so the tile reserves the trace's room
     either way. A row of cards whose bottoms do not line up reads as cards
@@ -68,7 +110,7 @@ function Tile({
       <div
         data-slot="tile"
         data-size="lg"
-        className="@container overflow-hidden rounded-[calc(var(--panel-radius)-var(--panel-inset))] border border-border pt-7"
+        className="@container overflow-hidden rounded-[var(--radius-surface)] border border-border pt-7"
       >
         <div className="px-5">
           {/* Label over figure. A caption under a number is a footnote to it;
@@ -94,9 +136,9 @@ function Tile({
     )
   }
   return (
-    /* Same plate recipe as TableFrame: a tile and the table below it are the
-       same kind of object, so they take the same fill and lip. */
-    <div data-slot="tile" className={cn("rounded-lg border border-border px-3 py-2", PLATE)}>
+    /* Same raised-surface treatment as TableFrame: a tile and the table below it
+       are the same kind of object, so they take the same fill and lip. */
+    <div data-slot="tile" className={cn("rounded-[var(--radius-surface)] border border-border px-3 py-2", RAISED_SURFACE)}>
       <div className="text-xl leading-tight font-semibold tabular-nums">{value}</div>
       <div className="mt-0.5 text-xs text-muted-foreground">{label}</div>
     </div>
@@ -110,7 +152,7 @@ function IconChip({ icon: Icon }: { icon: React.ComponentType<{ className?: stri
        to the same value as --card, so a muted chip on a card is invisible. */
     <span
       data-slot="icon-chip"
-      className="grid size-8 shrink-0 place-items-center rounded-lg bg-foreground/5 text-muted-foreground"
+      className="grid size-8 shrink-0 place-items-center rounded-[var(--radius-control)] bg-foreground/5 text-muted-foreground"
     >
       <Icon className="size-4" />
     </span>
@@ -134,8 +176,8 @@ function Stat({ value, label }: { value: React.ReactNode; label: string }) {
   )
 }
 
-/** Outlined frame — tables sit in one of these. It carries the plate recipe
-    (the fill one step off the card plus the top lip), so a framed table reads
+/** Outlined frame — tables sit in one of these. It carries the raised-surface
+    treatment (a fill one step off its parent plus the top lip), so the table reads
     as placed ON the panel rather than drawn into it. `dense` is the default
     and is exposed as a `data-dense` styling hook; top-level object tables pass
     `dense={false}` to keep the roomier step. */
@@ -150,7 +192,7 @@ function TableFrame({
     <div
       data-slot="table-frame"
       data-dense={dense ? "" : undefined}
-      className={cn("overflow-x-auto rounded-lg border border-border", PLATE)}
+      className={cn("overflow-x-auto rounded-[var(--radius-surface)] border border-border", RAISED_SURFACE)}
     >
       {children}
     </div>
@@ -168,4 +210,4 @@ function PanelEmpty({ children }: { children: React.ReactNode }) {
   )
 }
 
-export { IconChip, PanelEmpty, Stat, TableFrame, Tile, TwoLine }
+export { IconChip, PanelEmpty, PanelGroup, PanelRegion, PanelShell, Stat, TableFrame, Tile, TwoLine }

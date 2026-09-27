@@ -17,7 +17,7 @@ export const appShellDoc: ComponentDoc = parseComponentDoc({
         "Keep the Sidebar and header stable across routes so navigation and context never move under the user.",
         "Put the primary navigation in the Sidebar and let it collapse to an icon rail to reclaim space.",
         "Give the main region its own scroll so the chrome stays fixed while content scrolls.",
-        "Compose the frame with Sidebar variant=\"inset\" so the canvas reads as the rail's surface and the content floats as a page plate (decision 0066).",
+        "Compose the frame with Sidebar variant=\"inset\" so the main region reads as a surface shell separated from the navigation rail. Decision 0066 records the earlier page-plate origin.",
       ],
       donts: [
         "Don't rebuild the frame per page — one shell wraps every route (decision 0011).",

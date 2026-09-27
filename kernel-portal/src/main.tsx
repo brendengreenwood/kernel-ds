@@ -45,6 +45,7 @@ import { QuerySection } from "@/components/portal/objects/query"
 import { TraversalSection } from "@/components/portal/objects/traversal"
 import { DesignsSection } from "@/components/portal/objects/designs"
 import "@kernel/ui/styles.css"
+import { GeometrySection } from '@/components/portal/geometry-foundation';
 
 /**
  * A bookmark from the old single-page portal arrives as `/#anchor`
@@ -84,6 +85,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="colors" element={<ColorsSection />} />
             <Route path="typography" element={<TypographySection />} />
             <Route path="spacing" element={<SpacingSection />} />
+            <Route path="geometry" element={<GeometrySection />} />
             <Route path="layout" element={<LayoutSection />} />
             <Route path="shadows" element={<ShadowsSection />} />
             <Route path="motion" element={<MotionSection />} />
