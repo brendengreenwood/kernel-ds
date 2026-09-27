@@ -3,6 +3,413 @@
   "fileKey": "du0qpv9XrTt4HEWdPhesUh",
   "records": [
     {
+      "entityId": "component.alert",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "132:2038",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "63e02c463546989eb1cb4427a4001e07f40697da",
+      "sectionId": "132:2022",
+      "sectionName": "Alert",
+      "contractHash": "3fdcc80a704fd6b76c5a844a05653d3a4e69f469a2b2b7b843848a09b0f413ab",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "variant": [
+            "default",
+            "destructive",
+            "info",
+            "success",
+            "warning"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "alert",
+          "alert-description",
+          "alert-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:10:509",
+          "name": "semantic/destructive-10"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:87:1732",
+          "name": "radius/surface"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.aspect-ratio",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "132:2043",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "b78052422f08bc5946ea28bf9e464449fe11d40e",
+      "sectionId": "132:2042",
+      "sectionName": "Aspect Ratio",
+      "contractHash": "5ffe467b73ca16260da4f265d52b1e45f61cc72d286ad48d9880f3b1b8a17aca",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "aspect-ratio"
+        ],
+        "requiredTokenRoles": []
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:87:1732",
+          "name": "radius/surface"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.attachment",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "133:2090",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "c3802163a90b09cd60fbb2c6f38c77a4008f74e4",
+      "sectionId": "133:2047",
+      "sectionName": "Attachment",
+      "contractHash": "7f0680749ab0c3b3f036929787ef88a1f5b1b75161a0a717e3c96d7165d8adcf",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "size": [
+            "default",
+            "sm",
+            "xs"
+          ],
+          "orientation": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "attachment",
+          "attachment-action",
+          "attachment-actions",
+          "attachment-content",
+          "attachment-description",
+          "attachment-group",
+          "attachment-media",
+          "attachment-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        },
+        {
+          "id": "VariableID:87:1732",
+          "name": "radius/surface"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.avatar",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "134:2114",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "f4b8b0d8357d153939c494a422c191b40ebca697",
+      "sectionId": "134:2113",
+      "sectionName": "Avatar",
+      "contractHash": "b6bd49be76c9be9780f1f798dad495b8ed015dcb5fbafc5f7402b0f344fb5a7b",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "avatar",
+          "avatar-badge",
+          "avatar-fallback",
+          "avatar-group",
+          "avatar-group-count",
+          "avatar-image"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:1548",
+          "name": "radius/full"
+        },
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.badge",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "136:2148",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "91170e2f4aac568fa47b0067aabf6d038627f3b6",
+      "sectionId": "136:2133",
+      "sectionName": "Badge",
+      "contractHash": "1923d76d0669544f7157864220b70d0d8fd87f38913ca73e4abb6aac11380e36",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "variant": [
+            "default",
+            "destructive",
+            "info",
+            "outline",
+            "secondary",
+            "success",
+            "warning"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:82",
+          "name": "semantic/primary-foreground"
+        },
+        {
+          "id": "VariableID:1:83",
+          "name": "semantic/secondary"
+        },
+        {
+          "id": "VariableID:1:84",
+          "name": "semantic/secondary-foreground"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        },
+        {
+          "id": "VariableID:1:90",
+          "name": "semantic/destructive-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
       "entityId": "component.button",
       "fileKey": "du0qpv9XrTt4HEWdPhesUh",
       "pageId": "1:1250",
@@ -185,7 +592,181 @@
           "evidence": "State is Figma-only interaction evidence, not a React prop. Label maps to button children; Icon maps to composed icon content."
         }
       },
-      "auditedAt": "2026-09-27T09:28:22.991Z"
+      "auditedAt": "2026-09-27T16:20:52.604Z"
+    },
+    {
+      "entityId": "component.card",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "136:2152",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "5e341dc1fd96321d3a3e31360c96fd0b222c9ecc",
+      "sectionId": "136:2151",
+      "sectionName": "Card",
+      "contractHash": "5707d6a9a757df6d85d463ad02d4fe35b96e36db179925c4f7f598db074bc8b0",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "card",
+          "card-action",
+          "card-content",
+          "card-description",
+          "card-footer",
+          "card-header",
+          "card-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:78",
+          "name": "semantic/card-foreground"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        },
+        {
+          "id": "VariableID:87:1732",
+          "name": "radius/surface"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.empty",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "136:2188",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "69b70986a21ac072ea6a5ecf0273835c4841b1e8",
+      "sectionId": "136:2172",
+      "sectionName": "Empty",
+      "contractHash": "862329bb7a9226859c749b33e2bb1b5168dc6b31428b350d51dc102a55c2c889",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "variant": [
+            "default",
+            "icon"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "empty",
+          "empty-content",
+          "empty-description",
+          "empty-header",
+          "empty-icon",
+          "empty-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:83",
+          "name": "semantic/secondary"
+        },
+        {
+          "id": "VariableID:1:84",
+          "name": "semantic/secondary-foreground"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        },
+        {
+          "id": "VariableID:87:1732",
+          "name": "radius/surface"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
     },
     {
       "entityId": "component.input",
@@ -281,7 +862,559 @@
           "evidence": "State is Figma-only interaction evidence, not a React prop."
         }
       },
-      "auditedAt": "2026-09-27T09:28:22.991Z"
+      "auditedAt": "2026-09-27T16:20:52.604Z"
+    },
+    {
+      "entityId": "component.item",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2287",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "1ee1c0f1cb0b07b1b9b9aca42e4c173c2a5c526a",
+      "sectionId": "137:2196",
+      "sectionName": "Item",
+      "contractHash": "19a4cc8b769a8f987a721b49cb9bb71478906c8a3ede4714bb535053def73c74",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "variant": [
+            "default",
+            "muted",
+            "outline"
+          ],
+          "size": [
+            "default",
+            "sm",
+            "xs"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "item-actions",
+          "item-content",
+          "item-description",
+          "item-footer",
+          "item-group",
+          "item-header",
+          "item-media",
+          "item-separator",
+          "item-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.kbd",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2322",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "5e5288b6fe0fcf68b39ee1d99717214ac55996b6",
+      "sectionId": "137:2321",
+      "sectionName": "Kbd",
+      "contractHash": "72c8e41711f3f81067b7ed1ea6227ea8fe377630c93fde9b062c510011dbef3a",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "kbd",
+          "kbd-group"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.label",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2332",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "73f7ba6fc5afba32d26ae49e3b2b63be62f8ad76",
+      "sectionId": "137:2331",
+      "sectionName": "Label",
+      "contractHash": "e36c392494c3c7ac4166e0bb7181a915c7f3347ea72279ca3d20359a58dacac9",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "label"
+        ],
+        "requiredTokenRoles": []
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.marker",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2347",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "4631de579af2005a034b1685dcbda216cae7681c",
+      "sectionId": "137:2336",
+      "sectionName": "Marker",
+      "contractHash": "b4b26af5adb1ff7d48cca8477862469a89152110ba165f0ee36a53e9d810465d",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "variant": [
+            "border",
+            "default",
+            "separator"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "marker-content",
+          "marker-icon"
+        ],
+        "requiredTokenRoles": [
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:1548",
+          "name": "radius/full"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.page-header",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2352",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "ec78cbbfd36af4e5e72f91734ea1f39dec5b3170",
+      "sectionId": "137:2351",
+      "sectionName": "Page Header",
+      "contractHash": "d3418d644c8cd0cf19f08b86f7a69b762de57231e4e66c79eb9508a8d32559be",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "page-header",
+          "page-header-chip"
+        ],
+        "requiredTokenRoles": [
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.panels",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2363",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "25e7d7873c800f6b26a597fb61c66d7338e4691d",
+      "sectionId": "137:2362",
+      "sectionName": "Panels",
+      "contractHash": "eeccf247c231d418f2bf438580c421e06e9e0ccfd377fb59e004d2f0a052216c",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "icon-chip",
+          "panel-empty",
+          "panel-group",
+          "panel-region",
+          "panel-shell",
+          "stat",
+          "table-frame",
+          "tile",
+          "two-line"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "radius/surface",
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        },
+        {
+          "id": "VariableID:87:1732",
+          "name": "radius/surface"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.progress",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2394",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "a8f38bf767a0a25803401cd3e8f8dfc71803d11d",
+      "sectionId": "137:2393",
+      "sectionName": "Progress",
+      "contractHash": "2e2363e1508a22821cef75b68646bb021b199007adf0dc5d91aca0618aa8a5e8",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "progress",
+          "progress-indicator",
+          "progress-label",
+          "progress-track",
+          "progress-value"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:1548",
+          "name": "radius/full"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.separator",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2407",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "58dd1258a93434edd088262b3e5852a8b6b6c01b",
+      "sectionId": "137:2406",
+      "sectionName": "Separator",
+      "contractHash": "693ff609926ae860b7436d09b8e51297812af72af313f7a860bdc5453aba3bab",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "separator"
+        ],
+        "requiredTokenRoles": []
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
     },
     {
       "entityId": "component.sidebar",
@@ -389,7 +1522,193 @@
           "evidence": "Variant, Size, State, and Icon are represented by the namespaced Sidebar / Menu Button family inside the owning section. State is Figma-only interaction evidence, not a React prop. The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
         }
       },
-      "auditedAt": "2026-09-27T09:28:22.991Z"
+      "auditedAt": "2026-09-27T16:20:52.604Z"
+    },
+    {
+      "entityId": "component.skeleton",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2410",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "eecd55b5820a90ca2bed92ce506d08102df95522",
+      "sectionId": "137:2409",
+      "sectionName": "Skeleton",
+      "contractHash": "87a9bcf7c78299915271746a3ea03970503a7075cb175da658ae1725e555b1e4",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "skeleton"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.spinner",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2413",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "22558f42e7bd1be6817ce33f5a7a91806d0df32a",
+      "sectionId": "137:2412",
+      "sectionName": "Spinner",
+      "contractHash": "df76c7e02781effeb742d0c68e491fb420013bf7ed95c97a55e9b35a948e5574",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "spinner"
+        ],
+        "requiredTokenRoles": []
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.status-badge",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2448",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "56cefdb593fc0ed5a7140c7332654c844b9467a8",
+      "sectionId": "137:2417",
+      "sectionName": "Status Badge",
+      "contractHash": "d11a23ad430246fb1c9f628703ef01ba6b326404893fa484ee0dbd1477ffec4f",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "status": [
+            "booked",
+            "cancelled",
+            "delivered",
+            "draft",
+            "expired",
+            "in_transit",
+            "on_hold",
+            "pending",
+            "rejected",
+            "settled"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "status-badge"
+        ],
+        "requiredTokenRoles": []
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:1548",
+          "name": "radius/full"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-27T16:21:15.583Z"
     }
   ]
 }

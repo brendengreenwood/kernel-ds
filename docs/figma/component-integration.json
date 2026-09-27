@@ -32,9 +32,9 @@
   },
   "coverage": {
     "catalogOwnedComponents": 62,
-    "integrated": 3,
-    "notStarted": 59,
-    "packageIntegration": "3/62",
+    "integrated": 21,
+    "notStarted": 41,
+    "packageIntegration": "21/62",
     "nonCatalogPublicModules": [
       "code-block",
       "direction",
@@ -150,14 +150,14 @@
         "alert"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "132:2038",
+        "key": "63e02c463546989eb1cb4427a4001e07f40697da",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "132:2022",
+        "sectionName": "Alert",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "3fdcc80a704fd6b76c5a844a05653d3a4e69f469a2b2b7b843848a09b0f413ab",
@@ -202,13 +202,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -342,14 +337,14 @@
         "aspect-ratio"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "132:2043",
+        "key": "b78052422f08bc5946ea28bf9e464449fe11d40e",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "132:2042",
+        "sectionName": "Aspect Ratio",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "5ffe467b73ca16260da4f265d52b1e45f61cc72d286ad48d9880f3b1b8a17aca",
@@ -374,13 +369,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -399,14 +389,14 @@
         "attachment"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "133:2090",
+        "key": "c3802163a90b09cd60fbb2c6f38c77a4008f74e4",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "133:2047",
+        "sectionName": "Attachment",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "7f0680749ab0c3b3f036929787ef88a1f5b1b75161a0a717e3c96d7165d8adcf",
@@ -488,13 +478,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -513,14 +498,14 @@
         "avatar"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "134:2114",
+        "key": "f4b8b0d8357d153939c494a422c191b40ebca697",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "134:2113",
+        "sectionName": "Avatar",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "b6bd49be76c9be9780f1f798dad495b8ed015dcb5fbafc5f7402b0f344fb5a7b",
@@ -573,13 +558,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -598,14 +578,14 @@
         "badge"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "136:2148",
+        "key": "91170e2f4aac568fa47b0067aabf6d038627f3b6",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "136:2133",
+        "sectionName": "Badge",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "1923d76d0669544f7157864220b70d0d8fd87f38913ca73e4abb6aac11380e36",
@@ -641,13 +621,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -847,7 +822,7 @@
         "page": "Components",
         "sectionId": "7:399",
         "sectionName": "Button",
-        "auditedAt": "2026-09-27T09:28:22.991Z"
+        "auditedAt": "2026-09-27T16:20:52.604Z"
       },
       "contract": {
         "contractHash": "c1ffea1b9f46eb14404fd07b1dc94cccbe81ba4ae195e714f58883e37017d1b2",
@@ -1067,14 +1042,14 @@
         "card"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "136:2152",
+        "key": "5e341dc1fd96321d3a3e31360c96fd0b222c9ecc",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "136:2151",
+        "sectionName": "Card",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "5707d6a9a757df6d85d463ad02d4fe35b96e36db179925c4f7f598db074bc8b0",
@@ -1132,13 +1107,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2185,14 +2155,14 @@
         "empty"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "136:2188",
+        "key": "69b70986a21ac072ea6a5ecf0273835c4841b1e8",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "136:2172",
+        "sectionName": "Empty",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "862329bb7a9226859c749b33e2bb1b5168dc6b31428b350d51dc102a55c2c889",
@@ -2249,13 +2219,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2544,7 +2509,7 @@
         "page": "Components",
         "sectionId": "7:400",
         "sectionName": "Input",
-        "auditedAt": "2026-09-27T09:28:22.991Z"
+        "auditedAt": "2026-09-27T16:20:52.604Z"
       },
       "contract": {
         "contractHash": "3a7ca61613329fef5f29871cb5a481149090837c219769871c716c076c69ef80",
@@ -2671,14 +2636,14 @@
         "item"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2287",
+        "key": "1ee1c0f1cb0b07b1b9b9aca42e4c173c2a5c526a",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2196",
+        "sectionName": "Item",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "19a4cc8b769a8f987a721b49cb9bb71478906c8a3ede4714bb535053def73c74",
@@ -2763,13 +2728,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2788,14 +2748,14 @@
         "kbd"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2322",
+        "key": "5e5288b6fe0fcf68b39ee1d99717214ac55996b6",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2321",
+        "sectionName": "Kbd",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "72c8e41711f3f81067b7ed1ea6227ea8fe377630c93fde9b062c510011dbef3a",
@@ -2826,13 +2786,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2851,14 +2806,14 @@
         "label"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2332",
+        "key": "73f7ba6fc5afba32d26ae49e3b2b63be62f8ad76",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2331",
+        "sectionName": "Label",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "e36c392494c3c7ac4166e0bb7181a915c7f3347ea72279ca3d20359a58dacac9",
@@ -2882,13 +2837,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2907,14 +2857,14 @@
         "marker"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2347",
+        "key": "4631de579af2005a034b1685dcbda216cae7681c",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2336",
+        "sectionName": "Marker",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "b4b26af5adb1ff7d48cca8477862469a89152110ba165f0ee36a53e9d810465d",
@@ -2957,13 +2907,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -3461,14 +3406,14 @@
         "page-header"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2352",
+        "key": "ec78cbbfd36af4e5e72f91734ea1f39dec5b3170",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2351",
+        "sectionName": "Page Header",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "d3418d644c8cd0cf19f08b86f7a69b762de57231e4e66c79eb9508a8d32559be",
@@ -3499,13 +3444,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -3610,14 +3550,14 @@
         "panels"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2363",
+        "key": "25e7d7873c800f6b26a597fb61c66d7338e4691d",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2362",
+        "sectionName": "Panels",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "eeccf247c231d418f2bf438580c421e06e9e0ccfd377fb59e004d2f0a052216c",
@@ -3697,13 +3637,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -3809,14 +3744,14 @@
         "progress"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2394",
+        "key": "a8f38bf767a0a25803401cd3e8f8dfc71803d11d",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2393",
+        "sectionName": "Progress",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "2e2363e1508a22821cef75b68646bb021b199007adf0dc5d91aca0618aa8a5e8",
@@ -3864,13 +3799,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -4229,14 +4159,14 @@
         "separator"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2407",
+        "key": "58dd1258a93434edd088262b3e5852a8b6b6c01b",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2406",
+        "sectionName": "Separator",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "693ff609926ae860b7436d09b8e51297812af72af313f7a860bdc5453aba3bab",
@@ -4261,13 +4191,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -4399,7 +4324,7 @@
         "page": "Components",
         "sectionId": "7:289",
         "sectionName": "Sidebar",
-        "auditedAt": "2026-09-27T09:28:22.991Z"
+        "auditedAt": "2026-09-27T16:20:52.604Z"
       },
       "contract": {
         "contractHash": "12dcab537d0da572e4e18e1962f50b1e8d305a11979a21bb17f1a63616b07a66",
@@ -4571,14 +4496,14 @@
         "skeleton"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2410",
+        "key": "eecd55b5820a90ca2bed92ce506d08102df95522",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2409",
+        "sectionName": "Skeleton",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "87a9bcf7c78299915271746a3ea03970503a7075cb175da658ae1725e555b1e4",
@@ -4604,13 +4529,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -4744,14 +4664,14 @@
         "spinner"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2413",
+        "key": "22558f42e7bd1be6817ce33f5a7a91806d0df32a",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2412",
+        "sectionName": "Spinner",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "df76c7e02781effeb742d0c68e491fb420013bf7ed95c97a55e9b35a948e5574",
@@ -4775,13 +4695,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -4800,14 +4715,14 @@
         "status-badge"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2448",
+        "key": "56cefdb593fc0ed5a7140c7332654c844b9467a8",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2417",
+        "sectionName": "Status Badge",
+        "auditedAt": "2026-09-27T16:21:15.583Z"
       },
       "contract": {
         "contractHash": "d11a23ad430246fb1c9f628703ef01ba6b326404893fa484ee0dbd1477ffec4f",
@@ -4846,13 +4761,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
