@@ -1,0 +1,18 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.kbd",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "5e5288b6fe0fcf68b39ee1d99717214ac55996b6",
+  "sectionId": "137:2321",
+  "sectionName": "Kbd",
+  "contractHash": "72c8e41711f3f81067b7ed1ea6227ea8fe377630c93fde9b062c510011dbef3a",
+  "requiredTokenRoles": [
+    "semantic/fill"
+  ],
+  "anatomySlots": [
+    "kbd",
+    "kbd-group"
+  ],
+  "layoutSectionNodeId": "137:2321",
+  "layoutVerdict": "pass"
+}

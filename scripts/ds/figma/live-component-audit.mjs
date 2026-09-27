@@ -50,6 +50,8 @@ export function validateLiveAuditResponse(response, request) {
     }
     for (const record of response.acceptance) {
       if (record.verdict !== "pass" || record.detached !== false || !record.acceptanceInstanceNodeId || !record.mainComponentId || !record.mainComponentKey || !record.ownerSectionId || record.contractHash !== request.contracts[record.entityId]?.contractHash) throw new Error(`Invalid acceptance evidence for ${record.entityId}`)
+      const evidenceRecord = response.records.find((item) => item.entityId === record.entityId)
+      if (!evidenceRecord || evidenceRecord.mainComponentKey !== record.mainComponentKey) throw new Error(`Acceptance instance main component mismatch for ${record.entityId}`)
     }
   } else if (response.layouts.length || response.acceptance.length) throw new Error("Preliminary audit returned full-mode evidence")
   return response

@@ -1,0 +1,23 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.card",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "5e341dc1fd96321d3a3e31360c96fd0b222c9ecc",
+  "sectionId": "136:2151",
+  "sectionName": "Card",
+  "contractHash": "5707d6a9a757df6d85d463ad02d4fe35b96e36db179925c4f7f598db074bc8b0",
+  "requiredTokenRoles": [
+    "semantic/fill"
+  ],
+  "anatomySlots": [
+    "card",
+    "card-action",
+    "card-content",
+    "card-description",
+    "card-footer",
+    "card-header",
+    "card-title"
+  ],
+  "layoutSectionNodeId": "136:2151",
+  "layoutVerdict": "pass"
+}

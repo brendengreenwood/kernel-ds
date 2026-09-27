@@ -22,8 +22,8 @@ test("contracts and integration manifest are deterministic and evidence-backed",
   assert.equal(stableJson(contracts), stableJson(buildComponentContracts()))
   const manifest = buildComponentIntegrationManifest()
   assert.equal(manifest.components.length, 62)
-  assert.equal(manifest.coverage.integrated, 3)
-  assert.equal(manifest.coverage.notStarted, 59)
+  assert.equal(manifest.coverage.integrated, 21)
+  assert.equal(manifest.coverage.notStarted, 41)
   assert.equal(stableJson(manifest), stableJson(buildComponentIntegrationManifest()))
   assert.equal(readFileSync("docs/figma/component-integration.json", "utf8"), stableJson(manifest))
 })
@@ -33,6 +33,42 @@ test("generated cohorts cover every entity once", () => {
   const families = [...cohorts.entries()].filter(([path]) => path.includes("/families/"))
   assert.equal(families.length, 62)
   assert.equal(new Set(families.flatMap(([, value]) => value.entityIds)).size, 62)
+})
+
+test("02-foundations fixtures match committed evidence and layout exactly once per entity", () => {
+  const cohort = JSON.parse(readFileSync("docs/figma/cohorts/02-foundations.json", "utf8"))
+  const evidence = JSON.parse(readFileSync("docs/figma/component-evidence.json", "utf8"))
+  const layout = JSON.parse(readFileSync("docs/figma/component-layout.json", "utf8"))
+  const contracts = JSON.parse(readFileSync("docs/figma/component-contracts.json", "utf8"))
+  assert.equal(cohort.entityIds.length, 18)
+  const legacyRadius = /^radius\/(sm|md|lg|xl)$/
+  for (const entityId of cohort.entityIds) {
+    const fixture = JSON.parse(readFileSync(new URL(`../__fixtures__/cohorts/02-foundations/${entityId}.json`, import.meta.url), "utf8"))
+    assert.equal(fixture.entityId, entityId)
+    const evidenceRecords = evidence.records.filter((record) => record.entityId === entityId)
+    const layoutRecords = layout.records.filter((record) => record.entityId === entityId)
+    assert.equal(evidenceRecords.length, 1, `${entityId} resolves exactly once in evidence`)
+    assert.equal(layoutRecords.length, 1, `${entityId} resolves exactly once in layout`)
+    const [record] = evidenceRecords
+    assert.equal(record.fileKey, "du0qpv9XrTt4HEWdPhesUh")
+    assert.equal(record.nodeType, fixture.nodeType)
+    assert.equal(record.mainComponentKey, fixture.mainComponentKey)
+    assert.equal(record.sectionId, fixture.sectionId, `${entityId} section ownership`)
+    assert.equal(record.sectionName, fixture.sectionName)
+    const contract = contracts.components.find((item) => item.entityId === entityId)
+    assert.equal(record.contractHash, contract.contractHash, `${entityId} contract hash is current`)
+    assert.equal(fixture.contractHash, contract.contractHash, `${entityId} fixture contract hash is current`)
+    assert.deepEqual(record.contractEvidence.anatomySlots, fixture.anatomySlots)
+    assert.deepEqual(record.contractEvidence.requiredTokenRoles, fixture.requiredTokenRoles)
+    for (const binding of record.semanticBindings) {
+      assert.equal(legacyRadius.test(binding.name), false, `${entityId} binds no legacy radius (${binding.name})`)
+      assert.equal(/^(semantic\/|radius\/(control|surface|floating|modal|full)$|control-h)/.test(binding.name), true, `${entityId} binding ${binding.name} is a semantic role variable`)
+    }
+    assert.equal(layoutRecords[0].sectionNodeId, fixture.layoutSectionNodeId)
+    assert.equal(layoutRecords[0].bounds.x, 0)
+    assert.equal(layoutRecords[0].verdict, "pass")
+    assert.equal(fixture.layoutVerdict, "pass")
+  }
 })
 
 test("live-audit fixtures cover the required pass and failure cases", () => {
@@ -55,7 +91,7 @@ test("live-audit fixtures cover the required pass and failure cases", () => {
     resolved: 1,
     verdict: "pass",
     failures: [],
-    records: [{ entityId: "component.button", contractHash: "contract", contractEvidence: { codeVariantAxes: { variant: ["default"] }, designStateAxes: { State: ["default"] }, figmaProperties: { Label: { type: "TEXT", mapsTo: "children" } }, anatomySlots: ["button"], requiredTokenRoles: ["radius/control"] }, accessibility: { nameRole: { verdict: "pass" }, target: { verdict: "notApplicable", reason: "runtime-or-instance-size-validation" }, focusState: { verdict: "notApplicable", reason: "runtime-proof-required" }, nonColorDifferentiation: { verdict: "notApplicable", reason: "family-class-audit-required" }, annotations: { verdict: "notApplicable", reason: "no-runtime-only-claim-in-static-contract" } } }],
+    records: [{ entityId: "component.button", contractHash: "contract", mainComponentKey: "key", contractEvidence: { codeVariantAxes: { variant: ["default"] }, designStateAxes: { State: ["default"] }, figmaProperties: { Label: { type: "TEXT", mapsTo: "children" } }, anatomySlots: ["button"], requiredTokenRoles: ["radius/control"] }, accessibility: { nameRole: { verdict: "pass" }, target: { verdict: "notApplicable", reason: "runtime-or-instance-size-validation" }, focusState: { verdict: "notApplicable", reason: "runtime-proof-required" }, nonColorDifferentiation: { verdict: "notApplicable", reason: "family-class-audit-required" }, annotations: { verdict: "notApplicable", reason: "no-runtime-only-claim-in-static-contract" } } }],
     layouts: [{ entityId: "component.button", sectionNodeId: "1:2", bounds: { x: 0, y: 0, width: 100, height: 100 }, expectedX: 0, predecessorSectionId: null, gap: null, verdict: "pass" }],
     acceptance: [{ entityId: "component.button", acceptanceInstanceNodeId: "1:3", mainComponentId: "1:4", mainComponentKey: "key", ownerSectionId: "1:5", detached: false, contractHash: "contract", verdict: "pass" }],
   }
@@ -67,6 +103,7 @@ test("live-audit fixtures cover the required pass and failure cases", () => {
     if (fixture.mutation.contractHash) response.records[0].contractHash = fixture.mutation.contractHash
     if (fixture.mutation.fileKey) response.fileKey = fixture.mutation.fileKey
     if (fixture.mutation.accessibilityReason === null) response.records[0].accessibility.target.reason = null
+    if (fixture.mutation.acceptanceMainKey) response.acceptance[0].mainComponentKey = fixture.mutation.acceptanceMainKey
     if (fixture.mutation.failure) {
       response.verdict = "fail"
       response.failures = [{ code: fixture.mutation.failure }]

@@ -1,0 +1,21 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.progress",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "a8f38bf767a0a25803401cd3e8f8dfc71803d11d",
+  "sectionId": "137:2393",
+  "sectionName": "Progress",
+  "contractHash": "2e2363e1508a22821cef75b68646bb021b199007adf0dc5d91aca0618aa8a5e8",
+  "requiredTokenRoles": [
+    "semantic/fill"
+  ],
+  "anatomySlots": [
+    "progress",
+    "progress-indicator",
+    "progress-label",
+    "progress-track",
+    "progress-value"
+  ],
+  "layoutSectionNodeId": "137:2393",
+  "layoutVerdict": "pass"
+}
