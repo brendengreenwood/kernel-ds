@@ -1,0 +1,11 @@
+{
+  "$schema": "kernel-ds/figma-runtime-proof-cohort@1",
+  "name": "component.message",
+  "matrixHash": "f87c04094139de1447464a2c6ae2191c0be0c12755488110a24e36317b3c0381",
+  "entityIds": [
+    "component.message"
+  ],
+  "scenarioIds": [
+    "component.message"
+  ]
+}

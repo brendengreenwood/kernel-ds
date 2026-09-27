@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.dialog",
+  "purpose": "Single-family migration for component.dialog",
+  "entityIds": [
+    "component.dialog"
+  ]
+}

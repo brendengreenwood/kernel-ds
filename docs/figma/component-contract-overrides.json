@@ -1,0 +1,49 @@
+{
+  "$schema": "kernel-ds/figma-component-contract-overrides@1",
+  "components": {
+    "component.button": {
+      "designStateAxes": {
+        "State": ["default", "hover", "focus", "disabled"]
+      },
+      "figmaProperties": {
+        "Label": { "type": "TEXT", "mapsTo": "children" },
+        "Icon": { "type": "INSTANCE_SWAP", "mapsTo": "composition" }
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "Label maps to button children; Icon maps to composed icon content."
+      ]
+    },
+    "component.input": {
+      "designStateAxes": {
+        "State": ["default", "focus", "invalid", "disabled"]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.sidebar": {
+      "designStateAxes": {
+        "State": ["default", "hover", "active"]
+      },
+      "figmaProperties": {
+        "Icon": { "type": "INSTANCE_SWAP", "mapsTo": "composition" }
+      },
+      "slots": [
+        "sidebar",
+        "sidebar-content",
+        "sidebar-footer",
+        "sidebar-group",
+        "sidebar-header",
+        "sidebar-menu",
+        "sidebar-separator"
+      ],
+      "requiredTokenRoles": ["radius/control", "semantic/fill", "semantic/stroke"],
+      "notes": [
+        "Variant, Size, State, and Icon are represented by the namespaced Sidebar / Menu Button family inside the owning section.",
+        "State is Figma-only interaction evidence, not a React prop.",
+        "The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
+      ]
+    }
+  }
+}

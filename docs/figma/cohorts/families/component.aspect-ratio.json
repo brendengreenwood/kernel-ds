@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.aspect-ratio",
+  "purpose": "Single-family migration for component.aspect-ratio",
+  "entityIds": [
+    "component.aspect-ratio"
+  ]
+}

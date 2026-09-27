@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.navigation-menu",
+  "purpose": "Single-family migration for component.navigation-menu",
+  "entityIds": [
+    "component.navigation-menu"
+  ]
+}

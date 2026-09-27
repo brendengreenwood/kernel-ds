@@ -1,0 +1,5392 @@
+{
+  "$schema": "kernel-ds/figma-component-integration@1",
+  "manifestVersion": 1,
+  "direction": "code-to-figma",
+  "authority": {
+    "identity": "@kernel/catalog",
+    "componentContract": "@kernel/ui",
+    "tokens": "packages/ui/src/styles.css",
+    "figmaFile": {
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "name": "Kernel DS"
+    }
+  },
+  "policy": {
+    "identityKey": "catalog entityId",
+    "mutationDirection": "one-way-per-approved-operation",
+    "defaultLifecycle": "exploration",
+    "requiredVerification": [
+      "variant-and-property-parity",
+      "semantic-token-bindings",
+      "accessibility",
+      "targeted-screenshot",
+      "full-page-layout-screenshot"
+    ],
+    "forbidden": [
+      "legacy-radius-inheritance",
+      "hardcoded-semantic-colors",
+      "orphan-component-identities",
+      "opportunistic-canvas-coordinates",
+      "silent-lifecycle-promotion"
+    ]
+  },
+  "coverage": {
+    "catalogOwnedComponents": 62,
+    "integrated": 3,
+    "notStarted": 59,
+    "packageIntegration": "3/62",
+    "nonCatalogPublicModules": [
+      "code-block",
+      "direction",
+      "input-group"
+    ]
+  },
+  "tokenPrerequisites": {
+    "geometry": {
+      "control": "radius/control = 4",
+      "surface": "radius/surface = 8",
+      "floating": "radius/floating = 8",
+      "modal": "radius/modal = 8",
+      "connectedSeam": "0"
+    },
+    "controlHeights": [
+      "control-h-sm",
+      "control-h",
+      "control-h-lg"
+    ],
+    "semanticCollections": [
+      "Kernel Semantic",
+      "Kernel Metrics",
+      "Kernel Primitives"
+    ]
+  },
+  "components": [
+    {
+      "entityId": "component.accordion",
+      "name": "Accordion",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/accordion.tsx"
+      ],
+      "documentation": {
+        "slug": "accordion",
+        "sourceFile": "kernel-portal/src/lib/component-docs/accordion.ts",
+        "portalAnchor": "c-accordion"
+      },
+      "publicModules": [
+        "accordion"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "38f82482f978ea69f0431027d740f30e493333fe3524daeaa30b8eb8ff79ea28",
+        "sourceHash": "a6c1018d9625f0003bd7d35d63eebea1a3fbd9fcf20098bd4c98ceb8533b46e0",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Accordion",
+            "type": "AccordionPrimitive.Root.Props"
+          },
+          {
+            "component": "AccordionContent",
+            "type": "AccordionPrimitive.Panel.Props"
+          },
+          {
+            "component": "AccordionItem",
+            "type": "AccordionPrimitive.Item.Props"
+          },
+          {
+            "component": "AccordionTrigger",
+            "type": "AccordionPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "accordion",
+          "accordion-content",
+          "accordion-item",
+          "accordion-trigger",
+          "accordion-trigger-icon"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.alert",
+      "name": "Alert",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/alert.tsx"
+      ],
+      "documentation": {
+        "slug": "alert",
+        "sourceFile": "kernel-portal/src/lib/component-docs/alert.ts",
+        "portalAnchor": "c-alert"
+      },
+      "publicModules": [
+        "alert"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "3fdcc80a704fd6b76c5a844a05653d3a4e69f469a2b2b7b843848a09b0f413ab",
+        "sourceHash": "04e901687127c93849f98b82fc4a5c284bc83c988f88044ed464f24eecdc7980",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "destructive",
+            "info",
+            "success",
+            "warning"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Alert",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof alertVariants>"
+          },
+          {
+            "component": "AlertDescription",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AlertTitle",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "alert",
+          "alert-description",
+          "alert-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.alert-dialog",
+      "name": "Alert Dialog",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/alert-dialog.tsx"
+      ],
+      "documentation": {
+        "slug": "alert-dialog",
+        "sourceFile": "kernel-portal/src/lib/component-docs/alert-dialog.ts",
+        "portalAnchor": "c-dialog"
+      },
+      "publicModules": [
+        "alert-dialog"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "3c5919fab9c1c85f6f9fc410aa8d774d2fa4807500c0ad32c0cb12dfaa0b9190",
+        "sourceHash": "f1bbc55e8eb2c219696f37353cfa93ca439850ae4006f8630ae0ade7b7d86a79",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "size",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "AlertDialog",
+            "type": "AlertDialogPrimitive.Root.Props"
+          },
+          {
+            "component": "AlertDialogAction",
+            "type": "React.ComponentProps<typeof Button>"
+          },
+          {
+            "component": "AlertDialogCancel",
+            "type": "AlertDialogPrimitive.Close.Props & Pick<React.ComponentProps<typeof Button>, \"variant\" | \"size\">"
+          },
+          {
+            "component": "AlertDialogContent",
+            "type": "AlertDialogPrimitive.Popup.Props & { size?: \"default\" | \"sm\" }"
+          },
+          {
+            "component": "AlertDialogDescription",
+            "type": "React.ComponentProps<typeof AlertDialogPrimitive.Description>"
+          },
+          {
+            "component": "AlertDialogFooter",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AlertDialogHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AlertDialogMedia",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AlertDialogOverlay",
+            "type": "AlertDialogPrimitive.Backdrop.Props"
+          },
+          {
+            "component": "AlertDialogPortal",
+            "type": "AlertDialogPrimitive.Portal.Props"
+          },
+          {
+            "component": "AlertDialogTitle",
+            "type": "React.ComponentProps<typeof AlertDialogPrimitive.Title>"
+          },
+          {
+            "component": "AlertDialogTrigger",
+            "type": "AlertDialogPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "alert-dialog",
+          "alert-dialog-action",
+          "alert-dialog-cancel",
+          "alert-dialog-content",
+          "alert-dialog-description",
+          "alert-dialog-footer",
+          "alert-dialog-header",
+          "alert-dialog-media",
+          "alert-dialog-overlay",
+          "alert-dialog-portal",
+          "alert-dialog-title",
+          "alert-dialog-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.aspect-ratio",
+      "name": "Aspect Ratio",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/aspect-ratio.tsx"
+      ],
+      "documentation": {
+        "slug": "aspect-ratio",
+        "sourceFile": "kernel-portal/src/lib/component-docs/aspect-ratio.ts",
+        "portalAnchor": "c-separator"
+      },
+      "publicModules": [
+        "aspect-ratio"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "5ffe467b73ca16260da4f265d52b1e45f61cc72d286ad48d9880f3b1b8a17aca",
+        "sourceHash": "128ffa30aac7050a3bb2a3ae9c74b6c39a8ea281e8fc8f1d08f56443f98a5b85",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "ratio"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "AspectRatio",
+            "type": "React.ComponentProps<\"div\"> & { ratio: number }"
+          }
+        ],
+        "slots": [
+          "aspect-ratio"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.attachment",
+      "name": "Attachment",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/attachment.tsx"
+      ],
+      "documentation": {
+        "slug": "attachment",
+        "sourceFile": "kernel-portal/src/lib/component-docs/attachment.ts",
+        "portalAnchor": "c-attachment"
+      },
+      "publicModules": [
+        "attachment"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "7f0680749ab0c3b3f036929787ef88a1f5b1b75161a0a717e3c96d7165d8adcf",
+        "sourceHash": "16e8e9c0fff7fcab578aa0207a073bc2126007fb3cc9d9e94a84c1e3b55f0c17",
+        "variantAxes": {
+          "size": [
+            "default",
+            "sm",
+            "xs"
+          ],
+          "orientation": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "orientation",
+          "render",
+          "size",
+          "state",
+          "type",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Attachment",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof attachmentVariants> & { state?: \"idle\" | \"uploading\" | \"processing\" | \"error\" | \"done\" }"
+          },
+          {
+            "component": "AttachmentAction",
+            "type": "React.ComponentProps<typeof Button>"
+          },
+          {
+            "component": "AttachmentActions",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AttachmentContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AttachmentDescription",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "AttachmentGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AttachmentMedia",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof attachmentMediaVariants>"
+          },
+          {
+            "component": "AttachmentTitle",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "AttachmentTrigger",
+            "type": "useRender.ComponentProps<\"button\">"
+          }
+        ],
+        "slots": [
+          "attachment",
+          "attachment-action",
+          "attachment-actions",
+          "attachment-content",
+          "attachment-description",
+          "attachment-group",
+          "attachment-media",
+          "attachment-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.avatar",
+      "name": "Avatar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/avatar.tsx"
+      ],
+      "documentation": {
+        "slug": "avatar",
+        "sourceFile": "kernel-portal/src/lib/component-docs/avatar.ts",
+        "portalAnchor": "c-badge"
+      },
+      "publicModules": [
+        "avatar"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "b6bd49be76c9be9780f1f798dad495b8ed015dcb5fbafc5f7402b0f344fb5a7b",
+        "sourceHash": "533d927e18147821841b31205daf5ac5073679126f1a03b2a1f07b9100f8aeb4",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "size"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Avatar",
+            "type": "AvatarPrimitive.Root.Props & { size?: \"default\" | \"sm\" | \"lg\" }"
+          },
+          {
+            "component": "AvatarBadge",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "AvatarFallback",
+            "type": "AvatarPrimitive.Fallback.Props"
+          },
+          {
+            "component": "AvatarGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AvatarGroupCount",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "AvatarImage",
+            "type": "AvatarPrimitive.Image.Props"
+          }
+        ],
+        "slots": [
+          "avatar",
+          "avatar-badge",
+          "avatar-fallback",
+          "avatar-group",
+          "avatar-group-count",
+          "avatar-image"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.badge",
+      "name": "Badge",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/badge.tsx"
+      ],
+      "documentation": {
+        "slug": "badge",
+        "sourceFile": "kernel-portal/src/lib/component-docs/badge.ts",
+        "portalAnchor": "c-badge"
+      },
+      "publicModules": [
+        "badge"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "1923d76d0669544f7157864220b70d0d8fd87f38913ca73e4abb6aac11380e36",
+        "sourceHash": "b78d401aa874cc10cd4714699cecaebb4495123b7b41f38556572427f1b56a45",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "destructive",
+            "info",
+            "outline",
+            "secondary",
+            "success",
+            "warning"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "render",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Badge",
+            "type": "useRender.ComponentProps<\"span\"> & VariantProps<typeof badgeVariants>"
+          }
+        ],
+        "slots": [],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.breadcrumb",
+      "name": "Breadcrumb",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/breadcrumb.tsx"
+      ],
+      "documentation": {
+        "slug": "breadcrumb",
+        "sourceFile": "kernel-portal/src/lib/component-docs/breadcrumb.ts",
+        "portalAnchor": "c-breadcrumb"
+      },
+      "publicModules": [
+        "breadcrumb"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "68a22d9be3874fa78e0f87e2ea0ada56592c672bd51088e5804f893d1dbd5708",
+        "sourceHash": "3bdd0d4cc94b73f51264c6e30911d883deab37a1401cd870f3d49effc88cc674",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "render"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Breadcrumb",
+            "type": "React.ComponentProps<\"nav\">"
+          },
+          {
+            "component": "BreadcrumbEllipsis",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "BreadcrumbItem",
+            "type": "React.ComponentProps<\"li\">"
+          },
+          {
+            "component": "BreadcrumbLink",
+            "type": "useRender.ComponentProps<\"a\">"
+          },
+          {
+            "component": "BreadcrumbList",
+            "type": "React.ComponentProps<\"ol\">"
+          },
+          {
+            "component": "BreadcrumbPage",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "BreadcrumbSeparator",
+            "type": "React.ComponentProps<\"li\">"
+          }
+        ],
+        "slots": [
+          "breadcrumb",
+          "breadcrumb-ellipsis",
+          "breadcrumb-item",
+          "breadcrumb-list",
+          "breadcrumb-page",
+          "breadcrumb-separator"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.bubble",
+      "name": "Bubble",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/bubble.tsx"
+      ],
+      "documentation": {
+        "slug": "bubble",
+        "sourceFile": "kernel-portal/src/lib/component-docs/bubble.ts",
+        "portalAnchor": "c-bubble"
+      },
+      "publicModules": [
+        "bubble"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "99d4bae33de4e68607ab716db070173183a89888496862a6b83bb8dca217b5ad",
+        "sourceHash": "0031ca83907df269e80461fc7d0724c2aae52c353100adb64264d9e0c60cbdd4",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "destructive",
+            "ghost",
+            "muted",
+            "outline",
+            "secondary",
+            "tinted"
+          ]
+        },
+        "publicProperties": [
+          "align",
+          "className",
+          "render",
+          "side",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Bubble",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof bubbleVariants> & { align?: \"start\" | \"end\" }"
+          },
+          {
+            "component": "BubbleContent",
+            "type": "useRender.ComponentProps<\"div\">"
+          },
+          {
+            "component": "BubbleGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "BubbleReactions",
+            "type": "React.ComponentProps<\"div\"> & { align?: \"start\" | \"end\" side?: \"top\" | \"bottom\" }"
+          }
+        ],
+        "slots": [
+          "bubble",
+          "bubble-group",
+          "bubble-reactions"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.button",
+      "name": "Button",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/button.tsx"
+      ],
+      "documentation": {
+        "slug": "button",
+        "sourceFile": "kernel-portal/src/lib/component-docs/button.ts",
+        "portalAnchor": "c-button"
+      },
+      "publicModules": [
+        "button"
+      ],
+      "figma": {
+        "status": "integrated",
+        "nodeId": "7:449",
+        "key": "e94154ae80fcba90379a39a0b5f471fd503b339f",
+        "kind": "COMPONENT_SET",
+        "page": "Components",
+        "sectionId": "7:399",
+        "sectionName": "Button",
+        "auditedAt": "2026-09-27T09:28:22.991Z"
+      },
+      "contract": {
+        "contractHash": "c1ffea1b9f46eb14404fd07b1dc94cccbe81ba4ae195e714f58883e37017d1b2",
+        "sourceHash": "0a1afab5699130373746a7194fd40e99866ec4afe9411f855e19e7e598249230",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "destructive",
+            "ghost",
+            "link",
+            "outline",
+            "secondary"
+          ],
+          "size": [
+            "default",
+            "icon",
+            "icon-lg",
+            "icon-sm",
+            "icon-xs",
+            "lg",
+            "sm",
+            "xs"
+          ]
+        },
+        "publicProperties": [
+          "borderBeam",
+          "className",
+          "size",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Button",
+            "type": "ButtonPrimitive.Props & VariantProps<typeof buttonVariants> & { borderBeam?: BorderBeamProp }"
+          }
+        ],
+        "slots": [
+          "button"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "radius/control",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop.",
+          "Label maps to button children; Icon maps to composed icon content."
+        ]
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
+      }
+    },
+    {
+      "entityId": "component.button-group",
+      "name": "Button Group",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/button-group.tsx"
+      ],
+      "documentation": {
+        "slug": "button-group",
+        "sourceFile": "kernel-portal/src/lib/component-docs/button-group.ts",
+        "portalAnchor": "c-button-group"
+      },
+      "publicModules": [
+        "button-group"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "a0205701c8a250493789d503fd95026189a07a6fb1713232ee1e1032dd1e76f3",
+        "sourceHash": "617f64bd9361c2aa7c1d6839f4fb9faa903cb6c4cb2887608cf14740661d5cb7",
+        "variantAxes": {
+          "orientation": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "orientation",
+          "render"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "ButtonGroup",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof buttonGroupVariants>"
+          },
+          {
+            "component": "ButtonGroupSeparator",
+            "type": "React.ComponentProps<typeof Separator>"
+          },
+          {
+            "component": "ButtonGroupText",
+            "type": "useRender.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "button-group",
+          "button-group-separator"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.calendar",
+      "name": "Calendar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/calendar.tsx"
+      ],
+      "documentation": {
+        "slug": "calendar",
+        "sourceFile": "kernel-portal/src/lib/component-docs/calendar.ts",
+        "portalAnchor": "c-calendar"
+      },
+      "publicModules": [
+        "calendar"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "7e25dd37b79162e1d84a8a57925ade444d56c157c86c17de70ec74ac82ebd780",
+        "sourceHash": "b14d9fac460c5d6bcd22aacb6616ca73d71bbc60512278749028159f783e41a2",
+        "variantAxes": {},
+        "publicProperties": [
+          "buttonVariant",
+          "captionLayout",
+          "className",
+          "classNames",
+          "components",
+          "day",
+          "formatters",
+          "locale",
+          "modifiers",
+          "showOutsideDays"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Calendar",
+            "type": "React.ComponentProps<typeof DayPicker> & { buttonVariant?: React.ComponentProps<typeof Button>[\"variant\"] }"
+          },
+          {
+            "component": "CalendarDayButton",
+            "type": "React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }"
+          }
+        ],
+        "slots": [
+          "calendar"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.card",
+      "name": "Card",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/card.tsx"
+      ],
+      "documentation": {
+        "slug": "card",
+        "sourceFile": "kernel-portal/src/lib/component-docs/card.ts",
+        "portalAnchor": "c-card"
+      },
+      "publicModules": [
+        "card"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "5707d6a9a757df6d85d463ad02d4fe35b96e36db179925c4f7f598db074bc8b0",
+        "sourceHash": "c923f3bea375ac36ec89473cf88b32f8615802dfbb5270925c2363b8f7343267",
+        "variantAxes": {},
+        "publicProperties": [
+          "borderBeam",
+          "className",
+          "size"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Card",
+            "type": "React.ComponentProps<\"div\"> & { size?: \"default\" | \"sm\" borderBeam?: BorderBeamProp }"
+          },
+          {
+            "component": "CardAction",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "CardContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "CardDescription",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "CardFooter",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "CardHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "CardTitle",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "card",
+          "card-action",
+          "card-content",
+          "card-description",
+          "card-footer",
+          "card-header",
+          "card-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.carousel",
+      "name": "Carousel",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/carousel.tsx"
+      ],
+      "documentation": {
+        "slug": "carousel",
+        "sourceFile": "kernel-portal/src/lib/component-docs/carousel.ts",
+        "portalAnchor": "c-carousel"
+      },
+      "publicModules": [
+        "carousel"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "6c71f0e99bd7c585d8e102d555935adafae20762afd0d4114f849cf79b1baa5d",
+        "sourceHash": "201fe0a893c78bcdfdaa70796a4545ce43dcade377e9880b2679a4ac48d7af69",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "opts",
+          "orientation",
+          "plugins",
+          "setApi",
+          "size",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Carousel",
+            "type": "React.ComponentProps<\"div\"> & CarouselProps"
+          },
+          {
+            "component": "CarouselContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "CarouselItem",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "CarouselNext",
+            "type": "React.ComponentProps<typeof Button>"
+          },
+          {
+            "component": "CarouselPrevious",
+            "type": "React.ComponentProps<typeof Button>"
+          }
+        ],
+        "slots": [
+          "carousel",
+          "carousel-content",
+          "carousel-item",
+          "carousel-next",
+          "carousel-previous"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.chart",
+      "name": "Chart",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/chart.tsx"
+      ],
+      "documentation": {
+        "slug": "chart",
+        "sourceFile": "kernel-portal/src/lib/component-docs/chart.ts",
+        "portalAnchor": "charts"
+      },
+      "publicModules": [
+        "chart"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "80836b0a75863011a97d0afff0d0e066458d331ed2200a8008af253b42ceca17",
+        "sourceHash": "a89fb1796da4e0a273a5739e791b2831df8c8c0687f91ff2b5a45cee4879177e",
+        "variantAxes": {},
+        "publicProperties": [
+          "active",
+          "children",
+          "className",
+          "color",
+          "config",
+          "formatter",
+          "hideIcon",
+          "hideIndicator",
+          "hideLabel",
+          "id",
+          "indicator",
+          "initialDimension",
+          "label",
+          "labelClassName",
+          "labelFormatter",
+          "labelKey",
+          "nameKey",
+          "payload",
+          "verticalAlign"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "ChartContainer",
+            "type": "React.ComponentProps<\"div\"> & { config: ChartConfig children: React.ComponentProps< typeof RechartsPrimitive.ResponsiveContainer >[\"children\"] initialDimension?: { width: number height: number } }"
+          },
+          {
+            "component": "ChartLegendContent",
+            "type": "React.ComponentProps<\"div\"> & { hideIcon?: boolean nameKey?: string } & RechartsPrimitive.DefaultLegendContentProps"
+          },
+          {
+            "component": "ChartTooltipContent",
+            "type": "React.ComponentProps<typeof RechartsPrimitive.Tooltip> & React.ComponentProps<\"div\"> & { hideLabel?: boolean hideIndicator?: boolean indicator?: \"line\" | \"dot\" | \"dashed\" nameKey?: string labelKey?: string } & Omit< RechartsPrimitive.DefaultTooltipContentProps< TooltipValueType, TooltipNameType >, \"accessibilityLayer\" >"
+          }
+        ],
+        "slots": [
+          "chart"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.checkbox",
+      "name": "Checkbox",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/checkbox.tsx"
+      ],
+      "documentation": {
+        "slug": "checkbox",
+        "sourceFile": "kernel-portal/src/lib/component-docs/checkbox.ts",
+        "portalAnchor": "fe-selection"
+      },
+      "publicModules": [
+        "checkbox"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "590ef5e65e144b1ab0056635383c87f0447a6fb88b8ece9310f3990c10795165",
+        "sourceHash": "a65a442b0b5a088639f394dc5a453f40e3fc15e422f565ec710914a4ced66c42",
+        "variantAxes": {},
+        "publicProperties": [
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Checkbox",
+            "type": "CheckboxPrimitive.Root.Props"
+          }
+        ],
+        "slots": [
+          "checkbox",
+          "checkbox-indicator"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.collapsible",
+      "name": "Collapsible",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/collapsible.tsx"
+      ],
+      "documentation": {
+        "slug": "collapsible",
+        "sourceFile": "kernel-portal/src/lib/component-docs/collapsible.ts",
+        "portalAnchor": "c-accordion"
+      },
+      "publicModules": [
+        "collapsible"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "2844c227f90169dd9195369df9b8b748dd84d9dfc5662094f5dc7d14d377b01e",
+        "sourceHash": "c787818359daef986dcd06e1cc4a12cff373a00b5ccd74d349d98065628d2a58",
+        "variantAxes": {},
+        "publicProperties": [],
+        "propTypeExpressions": [
+          {
+            "component": "Collapsible",
+            "type": "CollapsiblePrimitive.Root.Props"
+          },
+          {
+            "component": "CollapsibleContent",
+            "type": "CollapsiblePrimitive.Panel.Props"
+          },
+          {
+            "component": "CollapsibleTrigger",
+            "type": "CollapsiblePrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "collapsible",
+          "collapsible-content",
+          "collapsible-trigger"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.combobox",
+      "name": "Combobox",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/combobox.tsx"
+      ],
+      "documentation": {
+        "slug": "combobox",
+        "sourceFile": "kernel-portal/src/lib/component-docs/combobox.ts",
+        "portalAnchor": "c-combobox"
+      },
+      "publicModules": [
+        "combobox"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "dffde7eb4d1de379eac232ae278bb8236052fea8699ffb5362fbfd14f0a2c2e1",
+        "sourceHash": "2aa74311b614a84200fed7e45baf86163d36dea6a462139d002be54f52cbdfe0",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "anchor",
+          "children",
+          "className",
+          "disabled",
+          "showClear",
+          "showRemove",
+          "showTrigger",
+          "side",
+          "sideOffset"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "ComboboxChip",
+            "type": "ComboboxPrimitive.Chip.Props & { showRemove?: boolean }"
+          },
+          {
+            "component": "ComboboxChips",
+            "type": "React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> & ComboboxPrimitive.Chips.Props"
+          },
+          {
+            "component": "ComboboxChipsInput",
+            "type": "ComboboxPrimitive.Input.Props"
+          },
+          {
+            "component": "ComboboxClear",
+            "type": "ComboboxPrimitive.Clear.Props"
+          },
+          {
+            "component": "ComboboxCollection",
+            "type": "ComboboxPrimitive.Collection.Props"
+          },
+          {
+            "component": "ComboboxContent",
+            "type": "ComboboxPrimitive.Popup.Props & Pick< ComboboxPrimitive.Positioner.Props, \"side\" | \"align\" | \"sideOffset\" | \"alignOffset\" | \"anchor\" >"
+          },
+          {
+            "component": "ComboboxEmpty",
+            "type": "ComboboxPrimitive.Empty.Props"
+          },
+          {
+            "component": "ComboboxGroup",
+            "type": "ComboboxPrimitive.Group.Props"
+          },
+          {
+            "component": "ComboboxInput",
+            "type": "ComboboxPrimitive.Input.Props & { showTrigger?: boolean showClear?: boolean }"
+          },
+          {
+            "component": "ComboboxItem",
+            "type": "ComboboxPrimitive.Item.Props"
+          },
+          {
+            "component": "ComboboxLabel",
+            "type": "ComboboxPrimitive.GroupLabel.Props"
+          },
+          {
+            "component": "ComboboxList",
+            "type": "ComboboxPrimitive.List.Props"
+          },
+          {
+            "component": "ComboboxSeparator",
+            "type": "ComboboxPrimitive.Separator.Props"
+          },
+          {
+            "component": "ComboboxTrigger",
+            "type": "ComboboxPrimitive.Trigger.Props"
+          },
+          {
+            "component": "ComboboxValue",
+            "type": "ComboboxPrimitive.Value.Props"
+          }
+        ],
+        "slots": [
+          "combobox-chip",
+          "combobox-chip-input",
+          "combobox-chip-remove",
+          "combobox-chips",
+          "combobox-clear",
+          "combobox-collection",
+          "combobox-content",
+          "combobox-empty",
+          "combobox-group",
+          "combobox-item",
+          "combobox-label",
+          "combobox-list",
+          "combobox-separator",
+          "combobox-trigger",
+          "combobox-value",
+          "input-group-button"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.command",
+      "name": "Command",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/command.tsx"
+      ],
+      "documentation": {
+        "slug": "command",
+        "sourceFile": "kernel-portal/src/lib/component-docs/command.ts",
+        "portalAnchor": "c-command"
+      },
+      "publicModules": [
+        "command"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "1f3cac3e57ba261160acb9898c1284463297cf4c74ecf0a19c003c71b3359252",
+        "sourceHash": "502e45d3bb021c1c62ddf78650d6f23ed6d052a44a37701f065155cdbb34792e",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "description",
+          "showCloseButton",
+          "title"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Command",
+            "type": "React.ComponentProps<typeof CommandPrimitive>"
+          },
+          {
+            "component": "CommandDialog",
+            "type": "React.ComponentProps<typeof Dialog> & { title?: string description?: string className?: string showCloseButton?: boolean }"
+          },
+          {
+            "component": "CommandEmpty",
+            "type": "React.ComponentProps<typeof CommandPrimitive.Empty>"
+          },
+          {
+            "component": "CommandGroup",
+            "type": "React.ComponentProps<typeof CommandPrimitive.Group>"
+          },
+          {
+            "component": "CommandInput",
+            "type": "React.ComponentProps<typeof CommandPrimitive.Input>"
+          },
+          {
+            "component": "CommandItem",
+            "type": "React.ComponentProps<typeof CommandPrimitive.Item>"
+          },
+          {
+            "component": "CommandList",
+            "type": "React.ComponentProps<typeof CommandPrimitive.List>"
+          },
+          {
+            "component": "CommandSeparator",
+            "type": "React.ComponentProps<typeof CommandPrimitive.Separator>"
+          },
+          {
+            "component": "CommandShortcut",
+            "type": "React.ComponentProps<\"span\">"
+          }
+        ],
+        "slots": [
+          "command",
+          "command-empty",
+          "command-group",
+          "command-input",
+          "command-input-wrapper",
+          "command-item",
+          "command-list",
+          "command-separator",
+          "command-shortcut"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.context-menu",
+      "name": "Context Menu",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/context-menu.tsx"
+      ],
+      "documentation": {
+        "slug": "context-menu",
+        "sourceFile": "kernel-portal/src/lib/component-docs/context-menu.ts",
+        "portalAnchor": "c-dropdown-menu"
+      },
+      "publicModules": [
+        "context-menu"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "5bfdf6789831084ae0c218e1cc226d07cbec0538009ddde4c74b98a378162eca",
+        "sourceHash": "486abe6101ad256a688e2c207c19d97563ef9433af7b889ed6315dc98eff9d1f",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "checked",
+          "children",
+          "className",
+          "inset",
+          "side",
+          "sideOffset",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "ContextMenu",
+            "type": "ContextMenuPrimitive.Root.Props"
+          },
+          {
+            "component": "ContextMenuCheckboxItem",
+            "type": "ContextMenuPrimitive.CheckboxItem.Props & { inset?: boolean }"
+          },
+          {
+            "component": "ContextMenuContent",
+            "type": "ContextMenuPrimitive.Popup.Props & Pick< ContextMenuPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+          },
+          {
+            "component": "ContextMenuGroup",
+            "type": "ContextMenuPrimitive.Group.Props"
+          },
+          {
+            "component": "ContextMenuItem",
+            "type": "ContextMenuPrimitive.Item.Props & { inset?: boolean variant?: \"default\" | \"destructive\" }"
+          },
+          {
+            "component": "ContextMenuLabel",
+            "type": "ContextMenuPrimitive.GroupLabel.Props & { inset?: boolean }"
+          },
+          {
+            "component": "ContextMenuPortal",
+            "type": "ContextMenuPrimitive.Portal.Props"
+          },
+          {
+            "component": "ContextMenuRadioGroup",
+            "type": "ContextMenuPrimitive.RadioGroup.Props"
+          },
+          {
+            "component": "ContextMenuRadioItem",
+            "type": "ContextMenuPrimitive.RadioItem.Props & { inset?: boolean }"
+          },
+          {
+            "component": "ContextMenuSeparator",
+            "type": "ContextMenuPrimitive.Separator.Props"
+          },
+          {
+            "component": "ContextMenuShortcut",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "ContextMenuSub",
+            "type": "ContextMenuPrimitive.SubmenuRoot.Props"
+          },
+          {
+            "component": "ContextMenuSubContent",
+            "type": "React.ComponentProps<typeof ContextMenuContent>"
+          },
+          {
+            "component": "ContextMenuSubTrigger",
+            "type": "ContextMenuPrimitive.SubmenuTrigger.Props & { inset?: boolean }"
+          },
+          {
+            "component": "ContextMenuTrigger",
+            "type": "ContextMenuPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "context-menu",
+          "context-menu-checkbox-item",
+          "context-menu-content",
+          "context-menu-group",
+          "context-menu-item",
+          "context-menu-label",
+          "context-menu-portal",
+          "context-menu-radio-group",
+          "context-menu-radio-item",
+          "context-menu-separator",
+          "context-menu-shortcut",
+          "context-menu-sub",
+          "context-menu-sub-content",
+          "context-menu-sub-trigger",
+          "context-menu-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.dialog",
+      "name": "Dialog",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/dialog.tsx"
+      ],
+      "documentation": {
+        "slug": "dialog",
+        "sourceFile": "kernel-portal/src/lib/component-docs/dialog.ts",
+        "portalAnchor": "c-dialog"
+      },
+      "publicModules": [
+        "dialog"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "2a1b083fc86f30b20318762b2a7669c3aa89f7edd249a6deed8258a820e2a48c",
+        "sourceHash": "223dd4a13b10709ac3ce0347ad65f2fa778d0900d7b6ef1934d7df276aa0d58c",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "height",
+          "showCloseButton",
+          "width"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Dialog",
+            "type": "DialogPrimitive.Root.Props"
+          },
+          {
+            "component": "DialogBody",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "DialogClose",
+            "type": "DialogPrimitive.Close.Props"
+          },
+          {
+            "component": "DialogContent",
+            "type": "DialogPrimitive.Popup.Props & { showCloseButton?: boolean /** Width ladder: xs confirms · sm messages · md forms · lg review · xl flows */ width?: keyof typeof dialogWidths /** auto sizes to content · tall/full fix the height — pair with <DialogBody> */ height?: keyof typeof dialogHeights }"
+          },
+          {
+            "component": "DialogDescription",
+            "type": "DialogPrimitive.Description.Props"
+          },
+          {
+            "component": "DialogFooter",
+            "type": "React.ComponentProps<\"div\"> & { showCloseButton?: boolean }"
+          },
+          {
+            "component": "DialogHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "DialogOverlay",
+            "type": "DialogPrimitive.Backdrop.Props"
+          },
+          {
+            "component": "DialogPortal",
+            "type": "DialogPrimitive.Portal.Props"
+          },
+          {
+            "component": "DialogTitle",
+            "type": "DialogPrimitive.Title.Props"
+          },
+          {
+            "component": "DialogTrigger",
+            "type": "DialogPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "dialog",
+          "dialog-body",
+          "dialog-close",
+          "dialog-content",
+          "dialog-description",
+          "dialog-footer",
+          "dialog-header",
+          "dialog-overlay",
+          "dialog-portal",
+          "dialog-title",
+          "dialog-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.drawer",
+      "name": "Drawer",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/drawer.tsx"
+      ],
+      "documentation": {
+        "slug": "drawer",
+        "sourceFile": "kernel-portal/src/lib/component-docs/drawer.ts",
+        "portalAnchor": "c-sheet"
+      },
+      "publicModules": [
+        "drawer"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "ae56784e2356027e9fb50ca5fe86d2a4af0cc5b731e1de0ee4af527f7826a812",
+        "sourceHash": "e4c4859c7ee99ae0e437457c9c27f8679f4508cdb8e5c4b4cdd0d53e54bb2086",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "onKeyDown",
+          "ref"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Drawer",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Root>"
+          },
+          {
+            "component": "DrawerClose",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Close>"
+          },
+          {
+            "component": "DrawerContent",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Content>"
+          },
+          {
+            "component": "DrawerDescription",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Description>"
+          },
+          {
+            "component": "DrawerFooter",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "DrawerHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "DrawerOverlay",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Overlay>"
+          },
+          {
+            "component": "DrawerPortal",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Portal>"
+          },
+          {
+            "component": "DrawerTitle",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Title>"
+          },
+          {
+            "component": "DrawerTrigger",
+            "type": "React.ComponentProps<typeof DrawerPrimitive.Trigger>"
+          }
+        ],
+        "slots": [
+          "drawer",
+          "drawer-close",
+          "drawer-content",
+          "drawer-description",
+          "drawer-footer",
+          "drawer-header",
+          "drawer-overlay",
+          "drawer-portal",
+          "drawer-title",
+          "drawer-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.dropdown-menu",
+      "name": "Dropdown Menu",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/dropdown-menu.tsx"
+      ],
+      "documentation": {
+        "slug": "dropdown-menu",
+        "sourceFile": "kernel-portal/src/lib/component-docs/dropdown-menu.ts",
+        "portalAnchor": "c-dropdown-menu"
+      },
+      "publicModules": [
+        "dropdown-menu"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "4e184c817b0d8ee44418ecaf992ee4664188e6ebba10abcbeb20fa004e179442",
+        "sourceHash": "410669a14f17d80e46afcb495522fcfbd7bb69a9c39c6e704644c05d7cc933b3",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "checked",
+          "children",
+          "className",
+          "inset",
+          "side",
+          "sideOffset",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "DropdownMenu",
+            "type": "MenuPrimitive.Root.Props"
+          },
+          {
+            "component": "DropdownMenuCheckboxItem",
+            "type": "MenuPrimitive.CheckboxItem.Props & { inset?: boolean }"
+          },
+          {
+            "component": "DropdownMenuContent",
+            "type": "MenuPrimitive.Popup.Props & Pick< MenuPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+          },
+          {
+            "component": "DropdownMenuGroup",
+            "type": "MenuPrimitive.Group.Props"
+          },
+          {
+            "component": "DropdownMenuItem",
+            "type": "MenuPrimitive.Item.Props & { inset?: boolean variant?: \"default\" | \"destructive\" }"
+          },
+          {
+            "component": "DropdownMenuLabel",
+            "type": "MenuPrimitive.GroupLabel.Props & { inset?: boolean }"
+          },
+          {
+            "component": "DropdownMenuPortal",
+            "type": "MenuPrimitive.Portal.Props"
+          },
+          {
+            "component": "DropdownMenuRadioGroup",
+            "type": "MenuPrimitive.RadioGroup.Props"
+          },
+          {
+            "component": "DropdownMenuRadioItem",
+            "type": "MenuPrimitive.RadioItem.Props & { inset?: boolean }"
+          },
+          {
+            "component": "DropdownMenuSeparator",
+            "type": "MenuPrimitive.Separator.Props"
+          },
+          {
+            "component": "DropdownMenuShortcut",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "DropdownMenuSub",
+            "type": "MenuPrimitive.SubmenuRoot.Props"
+          },
+          {
+            "component": "DropdownMenuSubContent",
+            "type": "React.ComponentProps<typeof DropdownMenuContent>"
+          },
+          {
+            "component": "DropdownMenuSubTrigger",
+            "type": "MenuPrimitive.SubmenuTrigger.Props & { inset?: boolean }"
+          },
+          {
+            "component": "DropdownMenuTrigger",
+            "type": "MenuPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "dropdown-menu",
+          "dropdown-menu-checkbox-item",
+          "dropdown-menu-checkbox-item-indicator",
+          "dropdown-menu-content",
+          "dropdown-menu-group",
+          "dropdown-menu-item",
+          "dropdown-menu-label",
+          "dropdown-menu-portal",
+          "dropdown-menu-radio-group",
+          "dropdown-menu-radio-item",
+          "dropdown-menu-radio-item-indicator",
+          "dropdown-menu-separator",
+          "dropdown-menu-shortcut",
+          "dropdown-menu-sub",
+          "dropdown-menu-sub-content",
+          "dropdown-menu-sub-trigger",
+          "dropdown-menu-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.empty",
+      "name": "Empty",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/empty.tsx"
+      ],
+      "documentation": {
+        "slug": "empty",
+        "sourceFile": "kernel-portal/src/lib/component-docs/empty.ts",
+        "portalAnchor": "c-empty"
+      },
+      "publicModules": [
+        "empty"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "862329bb7a9226859c749b33e2bb1b5168dc6b31428b350d51dc102a55c2c889",
+        "sourceHash": "05a7b092fe4908e66d69a854bfdc294163faafdef40aa003a8b9726e4caa077d",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "icon"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Empty",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "EmptyContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "EmptyDescription",
+            "type": "React.ComponentProps<\"p\">"
+          },
+          {
+            "component": "EmptyHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "EmptyMedia",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof emptyMediaVariants>"
+          },
+          {
+            "component": "EmptyTitle",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "empty",
+          "empty-content",
+          "empty-description",
+          "empty-header",
+          "empty-icon",
+          "empty-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.field",
+      "name": "Field",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/field.tsx"
+      ],
+      "documentation": {
+        "slug": "field",
+        "sourceFile": "kernel-portal/src/lib/component-docs/field.ts",
+        "portalAnchor": "c-field"
+      },
+      "publicModules": [
+        "field"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "7e38faef27f1724ccc61ea0cd01c83ba60f277953921206711a3cde35da2e619",
+        "sourceHash": "47a036e9e7bed4e4a30a709c48e8955d3480319febd7343cb3951e7db6a068e5",
+        "variantAxes": {
+          "orientation": [
+            "horizontal",
+            "responsive",
+            "vertical"
+          ]
+        },
+        "publicProperties": [
+          "children",
+          "className",
+          "errors",
+          "orientation",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Field",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof fieldVariants>"
+          },
+          {
+            "component": "FieldContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "FieldDescription",
+            "type": "React.ComponentProps<\"p\">"
+          },
+          {
+            "component": "FieldError",
+            "type": "React.ComponentProps<\"div\"> & { errors?: Array<{ message?: string } | undefined> }"
+          },
+          {
+            "component": "FieldGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "FieldLabel",
+            "type": "React.ComponentProps<typeof Label>"
+          },
+          {
+            "component": "FieldLegend",
+            "type": "React.ComponentProps<\"legend\"> & { variant?: \"legend\" | \"label\" }"
+          },
+          {
+            "component": "FieldSeparator",
+            "type": "React.ComponentProps<\"div\"> & { children?: React.ReactNode }"
+          },
+          {
+            "component": "FieldSet",
+            "type": "React.ComponentProps<\"fieldset\">"
+          },
+          {
+            "component": "FieldTitle",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "field",
+          "field-content",
+          "field-description",
+          "field-error",
+          "field-group",
+          "field-label",
+          "field-legend",
+          "field-separator",
+          "field-separator-content",
+          "field-set"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.form",
+      "name": "Form",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/form.tsx"
+      ],
+      "documentation": {
+        "slug": "form",
+        "sourceFile": "kernel-portal/src/lib/component-docs/form.ts",
+        "portalAnchor": "c-form"
+      },
+      "publicModules": [
+        "form"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "9c0ef5f44a5d62cb7f4ab5444e6f6072f10d0e8cc63415fb519b01fc438010d5",
+        "sourceHash": "8680ff602d89eaf6337f27673cc2d25f34d086aba3df81f2b6bbe9c69e72f9fe",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "render"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "FormControl",
+            "type": "useRender.ComponentProps<\"div\">"
+          },
+          {
+            "component": "FormDescription",
+            "type": "React.ComponentProps<\"p\">"
+          },
+          {
+            "component": "FormItem",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "FormLabel",
+            "type": "React.ComponentProps<typeof Label>"
+          },
+          {
+            "component": "FormMessage",
+            "type": "React.ComponentProps<\"p\">"
+          }
+        ],
+        "slots": [
+          "form-description",
+          "form-item",
+          "form-label",
+          "form-message"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.hover-card",
+      "name": "Hover Card",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/hover-card.tsx"
+      ],
+      "documentation": {
+        "slug": "hover-card",
+        "sourceFile": "kernel-portal/src/lib/component-docs/hover-card.ts",
+        "portalAnchor": "c-popover"
+      },
+      "publicModules": [
+        "hover-card"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "784868adc0b9d7b67f32cbee6f4b7b06e82216c2a15b4ea632c92d1e2af1e7eb",
+        "sourceHash": "5c65873bea8358ff457b62b112ee1bc38fb604cf2fbab420134b1fc962cd23db",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "className",
+          "side",
+          "sideOffset"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "HoverCard",
+            "type": "PreviewCardPrimitive.Root.Props"
+          },
+          {
+            "component": "HoverCardContent",
+            "type": "PreviewCardPrimitive.Popup.Props & Pick< PreviewCardPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+          },
+          {
+            "component": "HoverCardTrigger",
+            "type": "PreviewCardPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "hover-card",
+          "hover-card-content",
+          "hover-card-portal",
+          "hover-card-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.input",
+      "name": "Input",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/input.tsx"
+      ],
+      "documentation": {
+        "slug": "input",
+        "sourceFile": "kernel-portal/src/lib/component-docs/input.ts",
+        "portalAnchor": "c-input"
+      },
+      "publicModules": [
+        "input"
+      ],
+      "figma": {
+        "status": "integrated",
+        "nodeId": "7:347",
+        "key": "d112a2cb98b5d4770398e392bbc7ccdb10911ecc",
+        "kind": "COMPONENT_SET",
+        "page": "Components",
+        "sectionId": "7:400",
+        "sectionName": "Input",
+        "auditedAt": "2026-09-27T09:28:22.991Z"
+      },
+      "contract": {
+        "contractHash": "3a7ca61613329fef5f29871cb5a481149090837c219769871c716c076c69ef80",
+        "sourceHash": "668cfed7d5b644bcab11603ff0a1e320d926de18076b706765dc35c99e85475a",
+        "variantAxes": {},
+        "publicProperties": [
+          "borderBeam",
+          "className",
+          "type"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Input",
+            "type": "React.ComponentProps<\"input\"> & { borderBeam?: BorderBeamProp }"
+          }
+        ],
+        "slots": [
+          "input"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "radius/control",
+          "semantic/stroke"
+        ],
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
+      }
+    },
+    {
+      "entityId": "component.input-otp",
+      "name": "Input OTP",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/input-otp.tsx"
+      ],
+      "documentation": {
+        "slug": "input-otp",
+        "sourceFile": "kernel-portal/src/lib/component-docs/input-otp.ts",
+        "portalAnchor": "c-slider"
+      },
+      "publicModules": [
+        "input-otp"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "3c4b5d82ea3a8654847230eab5d03760382537ba3b5b2e0540fd0e9dec52b9f4",
+        "sourceHash": "ee582c9b5288e2aa0282d75f2c57a2a725d4d6cd085157b6ee71965cc5d4e639",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "containerClassName",
+          "index"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "InputOTP",
+            "type": "React.ComponentProps<typeof OTPInput> & { containerClassName?: string }"
+          },
+          {
+            "component": "InputOTPGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "InputOTPSeparator",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "InputOTPSlot",
+            "type": "React.ComponentProps<\"div\"> & { index: number }"
+          }
+        ],
+        "slots": [
+          "input-otp",
+          "input-otp-group",
+          "input-otp-separator",
+          "input-otp-slot"
+        ],
+        "requiredTokenRoles": [
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.item",
+      "name": "Item",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/item.tsx"
+      ],
+      "documentation": {
+        "slug": "item",
+        "sourceFile": "kernel-portal/src/lib/component-docs/item.ts",
+        "portalAnchor": "c-item"
+      },
+      "publicModules": [
+        "item"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "19a4cc8b769a8f987a721b49cb9bb71478906c8a3ede4714bb535053def73c74",
+        "sourceHash": "9e8bed30d9d514a205ab2ad39b7dead96d6789686270e9e00d63996c4bc42f15",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "muted",
+            "outline"
+          ],
+          "size": [
+            "default",
+            "sm",
+            "xs"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "render",
+          "size",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Item",
+            "type": "useRender.ComponentProps<\"div\"> & VariantProps<typeof itemVariants>"
+          },
+          {
+            "component": "ItemActions",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "ItemContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "ItemDescription",
+            "type": "React.ComponentProps<\"p\">"
+          },
+          {
+            "component": "ItemFooter",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "ItemGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "ItemHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "ItemMedia",
+            "type": "React.ComponentProps<\"div\"> & VariantProps<typeof itemMediaVariants>"
+          },
+          {
+            "component": "ItemSeparator",
+            "type": "React.ComponentProps<typeof Separator>"
+          },
+          {
+            "component": "ItemTitle",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "item-actions",
+          "item-content",
+          "item-description",
+          "item-footer",
+          "item-group",
+          "item-header",
+          "item-media",
+          "item-separator",
+          "item-title"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.kbd",
+      "name": "Kbd",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/kbd.tsx"
+      ],
+      "documentation": {
+        "slug": "kbd",
+        "sourceFile": "kernel-portal/src/lib/component-docs/kbd.ts",
+        "portalAnchor": "c-kbd"
+      },
+      "publicModules": [
+        "kbd"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "72c8e41711f3f81067b7ed1ea6227ea8fe377630c93fde9b062c510011dbef3a",
+        "sourceHash": "ff0bddaeafc28cbb24fa0bc3857c7c4b61edb34fa1c82aad3bacf3addf44c56a",
+        "variantAxes": {},
+        "publicProperties": [
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Kbd",
+            "type": "React.ComponentProps<\"kbd\">"
+          },
+          {
+            "component": "KbdGroup",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "kbd",
+          "kbd-group"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.label",
+      "name": "Label",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/label.tsx"
+      ],
+      "documentation": {
+        "slug": "label",
+        "sourceFile": "kernel-portal/src/lib/component-docs/label.ts",
+        "portalAnchor": "fe-anatomy"
+      },
+      "publicModules": [
+        "label"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "e36c392494c3c7ac4166e0bb7181a915c7f3347ea72279ca3d20359a58dacac9",
+        "sourceHash": "0f4fee395144110667176b0e192f1fe80b6e3f5345369b988b0876ffc8adea98",
+        "variantAxes": {},
+        "publicProperties": [
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Label",
+            "type": "React.ComponentProps<\"label\">"
+          }
+        ],
+        "slots": [
+          "label"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.marker",
+      "name": "Marker",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/marker.tsx"
+      ],
+      "documentation": {
+        "slug": "marker",
+        "sourceFile": "kernel-portal/src/lib/component-docs/marker.ts",
+        "portalAnchor": "c-marker"
+      },
+      "publicModules": [
+        "marker"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "b4b26af5adb1ff7d48cca8477862469a89152110ba165f0ee36a53e9d810465d",
+        "sourceHash": "78edddcd271cda5ddebe4c7c8e6d2d77609848cc2c827074dea03de584000bcc",
+        "variantAxes": {
+          "variant": [
+            "border",
+            "default",
+            "separator"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "render",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Marker",
+            "type": "useRender.ComponentProps<\"div\"> & VariantProps<typeof markerVariants>"
+          },
+          {
+            "component": "MarkerContent",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "MarkerIcon",
+            "type": "React.ComponentProps<\"span\">"
+          }
+        ],
+        "slots": [
+          "marker-content",
+          "marker-icon"
+        ],
+        "requiredTokenRoles": [
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.menubar",
+      "name": "Menubar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/menubar.tsx"
+      ],
+      "documentation": {
+        "slug": "menubar",
+        "sourceFile": "kernel-portal/src/lib/component-docs/menubar.ts",
+        "portalAnchor": "c-navigation-menu"
+      },
+      "publicModules": [
+        "menubar"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "4aac9d90842d68094ceecd6347f03b7b8792537d0ac6aa51dc33c62413621e69",
+        "sourceHash": "e31a27f84a5a1bfc35b1cf46da6013fe157fd91529f01455a4ee75d5275652eb",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "checked",
+          "children",
+          "className",
+          "inset",
+          "sideOffset",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Menubar",
+            "type": "MenubarPrimitive.Props"
+          },
+          {
+            "component": "MenubarCheckboxItem",
+            "type": "MenuPrimitive.CheckboxItem.Props & { inset?: boolean }"
+          },
+          {
+            "component": "MenubarContent",
+            "type": "React.ComponentProps<typeof DropdownMenuContent>"
+          },
+          {
+            "component": "MenubarGroup",
+            "type": "React.ComponentProps<typeof DropdownMenuGroup>"
+          },
+          {
+            "component": "MenubarItem",
+            "type": "React.ComponentProps<typeof DropdownMenuItem>"
+          },
+          {
+            "component": "MenubarLabel",
+            "type": "React.ComponentProps<typeof DropdownMenuLabel> & { inset?: boolean }"
+          },
+          {
+            "component": "MenubarMenu",
+            "type": "React.ComponentProps<typeof DropdownMenu>"
+          },
+          {
+            "component": "MenubarPortal",
+            "type": "React.ComponentProps<typeof DropdownMenuPortal>"
+          },
+          {
+            "component": "MenubarRadioGroup",
+            "type": "React.ComponentProps<typeof DropdownMenuRadioGroup>"
+          },
+          {
+            "component": "MenubarRadioItem",
+            "type": "MenuPrimitive.RadioItem.Props & { inset?: boolean }"
+          },
+          {
+            "component": "MenubarSeparator",
+            "type": "React.ComponentProps<typeof DropdownMenuSeparator>"
+          },
+          {
+            "component": "MenubarShortcut",
+            "type": "React.ComponentProps<typeof DropdownMenuShortcut>"
+          },
+          {
+            "component": "MenubarSub",
+            "type": "React.ComponentProps<typeof DropdownMenuSub>"
+          },
+          {
+            "component": "MenubarSubContent",
+            "type": "React.ComponentProps<typeof DropdownMenuSubContent>"
+          },
+          {
+            "component": "MenubarSubTrigger",
+            "type": "React.ComponentProps<typeof DropdownMenuSubTrigger> & { inset?: boolean }"
+          },
+          {
+            "component": "MenubarTrigger",
+            "type": "React.ComponentProps<typeof DropdownMenuTrigger>"
+          }
+        ],
+        "slots": [
+          "menubar",
+          "menubar-checkbox-item",
+          "menubar-content",
+          "menubar-group",
+          "menubar-item",
+          "menubar-label",
+          "menubar-menu",
+          "menubar-portal",
+          "menubar-radio-group",
+          "menubar-radio-item",
+          "menubar-separator",
+          "menubar-shortcut",
+          "menubar-sub",
+          "menubar-sub-content",
+          "menubar-sub-trigger",
+          "menubar-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.message",
+      "name": "Message",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/message.tsx"
+      ],
+      "documentation": {
+        "slug": "message",
+        "sourceFile": "kernel-portal/src/lib/component-docs/message.ts",
+        "portalAnchor": "c-message"
+      },
+      "publicModules": [
+        "message"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "479f8e1294cf345845e9cf3fc3a3add1ce6b9dcf9b91788c587e9fc3cbfea395",
+        "sourceHash": "eabcc999750972ee32b65367b7a3f8bc326130f921ad16bdc66e271fc46ea4d0",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Message",
+            "type": "React.ComponentProps<\"div\"> & { align?: \"start\" | \"end\" }"
+          },
+          {
+            "component": "MessageAvatar",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "MessageContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "MessageFooter",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "MessageGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "MessageHeader",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "message",
+          "message-avatar",
+          "message-content",
+          "message-footer",
+          "message-group",
+          "message-header"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.message-scroller",
+      "name": "Message Scroller",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/message-scroller.tsx"
+      ],
+      "documentation": {
+        "slug": "message-scroller",
+        "sourceFile": "kernel-portal/src/lib/component-docs/message-scroller.ts",
+        "portalAnchor": "c-message-scroller"
+      },
+      "publicModules": [
+        "message-scroller"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "1df8bb68be68cc3ca6b25b26ad3d84c938fc535d5f4876b4fe67df5933dde781",
+        "sourceHash": "5d818cd9574848a974b4605514c5a73e56f729b7977f527db547dca9b365c80d",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "direction",
+          "render",
+          "scrollAnchor",
+          "size",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "MessageScrollerButton",
+            "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Button> & Pick<React.ComponentProps<typeof Button>, \"variant\" | \"size\">"
+          },
+          {
+            "component": "MessageScrollerContent",
+            "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Content>"
+          },
+          {
+            "component": "MessageScrollerItem",
+            "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Item>"
+          },
+          {
+            "component": "MessageScrollerProvider",
+            "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Root>"
+          },
+          {
+            "component": "MessageScrollerViewport",
+            "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Viewport>"
+          }
+        ],
+        "slots": [
+          "message-scroller",
+          "message-scroller-button",
+          "message-scroller-content",
+          "message-scroller-item",
+          "message-scroller-viewport"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.native-select",
+      "name": "Native Select",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/native-select.tsx"
+      ],
+      "documentation": {
+        "slug": "native-select",
+        "sourceFile": "kernel-portal/src/lib/component-docs/native-select.ts",
+        "portalAnchor": "c-native-select"
+      },
+      "publicModules": [
+        "native-select"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "14b6630081017b7e09e639e220b8535fbbc4f7994251cd2076741173b3210344",
+        "sourceHash": "2b1b96fd2f53e5339bd73825e981924f2f900701f431789cdd9144a820c5165e",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "size"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "NativeSelect",
+            "type": "NativeSelectProps"
+          },
+          {
+            "component": "NativeSelectOptGroup",
+            "type": "React.ComponentProps<\"optgroup\">"
+          },
+          {
+            "component": "NativeSelectOption",
+            "type": "React.ComponentProps<\"option\">"
+          }
+        ],
+        "slots": [
+          "native-select",
+          "native-select-icon",
+          "native-select-optgroup",
+          "native-select-option",
+          "native-select-wrapper"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "radius/control",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.navigation-menu",
+      "name": "Navigation Menu",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/navigation-menu.tsx"
+      ],
+      "documentation": {
+        "slug": "navigation-menu",
+        "sourceFile": "kernel-portal/src/lib/component-docs/navigation-menu.ts",
+        "portalAnchor": "c-navigation-menu"
+      },
+      "publicModules": [
+        "navigation-menu"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "f594ddb7f89558203c065c27c1de5590cf2867c0edd0fa30bcdf662c6199923a",
+        "sourceHash": "818d947ec887429a57aa754f6e55ed3c437edfc0010d3d3117fdc9675ddfde25",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "children",
+          "className",
+          "side",
+          "sideOffset"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "NavigationMenu",
+            "type": "NavigationMenuPrimitive.Root.Props & Pick<NavigationMenuPrimitive.Positioner.Props, \"align\">"
+          },
+          {
+            "component": "NavigationMenuContent",
+            "type": "NavigationMenuPrimitive.Content.Props"
+          },
+          {
+            "component": "NavigationMenuIndicator",
+            "type": "React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Icon>"
+          },
+          {
+            "component": "NavigationMenuItem",
+            "type": "React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Item>"
+          },
+          {
+            "component": "NavigationMenuLink",
+            "type": "NavigationMenuPrimitive.Link.Props"
+          },
+          {
+            "component": "NavigationMenuList",
+            "type": "React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.List>"
+          },
+          {
+            "component": "NavigationMenuPositioner",
+            "type": "NavigationMenuPrimitive.Positioner.Props"
+          },
+          {
+            "component": "NavigationMenuTrigger",
+            "type": "NavigationMenuPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "navigation-menu",
+          "navigation-menu-content",
+          "navigation-menu-indicator",
+          "navigation-menu-item",
+          "navigation-menu-link",
+          "navigation-menu-list",
+          "navigation-menu-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.page-header",
+      "name": "Page Header",
+      "maturity": "experimental",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/page-header.tsx"
+      ],
+      "documentation": {
+        "slug": "page-header",
+        "portalAnchor": "c-page-header"
+      },
+      "publicModules": [
+        "page-header"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "d3418d644c8cd0cf19f08b86f7a69b762de57231e4e66c79eb9508a8d32559be",
+        "sourceHash": "bb14c8a3aec964e747dfe5dce1b75a136e952b53c45e0f9efef88486e7d05266",
+        "variantAxes": {},
+        "publicProperties": [
+          "action",
+          "description",
+          "icon",
+          "size",
+          "title"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "PageHeader",
+            "type": "{ icon?: React.ComponentType<{ className?: string }> title: string description?: string action?: React.ReactNode size?: \"page\" | \"panel\" | \"section\" }"
+          }
+        ],
+        "slots": [
+          "page-header",
+          "page-header-chip"
+        ],
+        "requiredTokenRoles": [
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.pagination",
+      "name": "Pagination",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/pagination.tsx"
+      ],
+      "documentation": {
+        "slug": "pagination",
+        "sourceFile": "kernel-portal/src/lib/component-docs/pagination.ts",
+        "portalAnchor": "c-breadcrumb"
+      },
+      "publicModules": [
+        "pagination"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "6dbc8307e8ca8e1813632adc04e8f31fd108bc9d14cb95e185c4359d3ba9e4a4",
+        "sourceHash": "373a8849920b7a912e53fe70c1e0ee98fb7778c030611c4a664b0e4fd99e1764",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "isActive",
+          "size",
+          "text"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Pagination",
+            "type": "React.ComponentProps<\"nav\">"
+          },
+          {
+            "component": "PaginationContent",
+            "type": "React.ComponentProps<\"ul\">"
+          },
+          {
+            "component": "PaginationEllipsis",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "PaginationItem",
+            "type": "React.ComponentProps<\"li\">"
+          },
+          {
+            "component": "PaginationLink",
+            "type": "PaginationLinkProps"
+          },
+          {
+            "component": "PaginationNext",
+            "type": "React.ComponentProps<typeof PaginationLink> & { text?: string }"
+          },
+          {
+            "component": "PaginationPrevious",
+            "type": "React.ComponentProps<typeof PaginationLink> & { text?: string }"
+          }
+        ],
+        "slots": [
+          "pagination",
+          "pagination-content",
+          "pagination-ellipsis",
+          "pagination-item",
+          "pagination-link"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.panels",
+      "name": "Panels",
+      "maturity": "experimental",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/panels.tsx"
+      ],
+      "documentation": {
+        "slug": "panels",
+        "portalAnchor": "c-panels"
+      },
+      "publicModules": [
+        "panels"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "eeccf247c231d418f2bf438580c421e06e9e0ccfd377fb59e004d2f0a052216c",
+        "sourceHash": "74eaf925e25a5128a4576d67ef2fbf55049a8ceb15d066a4335fa602255f6463",
+        "variantAxes": {},
+        "publicProperties": [
+          "chart",
+          "children",
+          "className",
+          "dense",
+          "icon",
+          "label",
+          "lg",
+          "orientation",
+          "strong",
+          "sub",
+          "top",
+          "value"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "IconChip",
+            "type": "{ icon: React.ComponentType<{ className?: string }> }"
+          },
+          {
+            "component": "PanelEmpty",
+            "type": "{ children: React.ReactNode }"
+          },
+          {
+            "component": "PanelGroup",
+            "type": "React.ComponentProps<\"div\"> & { orientation?: \"horizontal\" | \"vertical\" }"
+          },
+          {
+            "component": "PanelRegion",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "PanelShell",
+            "type": "React.ComponentProps<\"section\">"
+          },
+          {
+            "component": "Stat",
+            "type": "{ value: React.ReactNode; label: string }"
+          },
+          {
+            "component": "TableFrame",
+            "type": "{ children: React.ReactNode dense?: boolean }"
+          },
+          {
+            "component": "Tile",
+            "type": "{ value: React.ReactNode label: string lg?: boolean /** A sparkline of how the figure got here. Large tiles only — the small tile is 20px of type in a header row and a line under it is a smudge. Optional on purpose: a trace is worth its space only where the figure moved through values on its way here. A count that has been 0, then 1, draws a step, and a step drawn at chart size reads as a spike — an event rendered as a trend. */ chart?: React.ReactNode }"
+          },
+          {
+            "component": "TwoLine",
+            "type": "{ top: React.ReactNode; sub?: string; strong?: boolean }"
+          }
+        ],
+        "slots": [
+          "icon-chip",
+          "panel-empty",
+          "panel-group",
+          "panel-region",
+          "panel-shell",
+          "stat",
+          "table-frame",
+          "tile",
+          "two-line"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "radius/surface",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.popover",
+      "name": "Popover",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/popover.tsx"
+      ],
+      "documentation": {
+        "slug": "popover",
+        "sourceFile": "kernel-portal/src/lib/component-docs/popover.ts",
+        "portalAnchor": "c-popover"
+      },
+      "publicModules": [
+        "popover"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "e0f9f5cccdeee665d1c31d49a1d7471d7942b62e8c1f72f096ce7961bc2a8748",
+        "sourceHash": "528d41a29674b8bb71c5b79867b76d232a6c3e7c9da06d7dddf6ec66b914c536",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "className",
+          "side",
+          "sideOffset"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Popover",
+            "type": "PopoverPrimitive.Root.Props"
+          },
+          {
+            "component": "PopoverContent",
+            "type": "PopoverPrimitive.Popup.Props & Pick< PopoverPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+          },
+          {
+            "component": "PopoverDescription",
+            "type": "PopoverPrimitive.Description.Props"
+          },
+          {
+            "component": "PopoverHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "PopoverTitle",
+            "type": "PopoverPrimitive.Title.Props"
+          },
+          {
+            "component": "PopoverTrigger",
+            "type": "PopoverPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "popover",
+          "popover-content",
+          "popover-description",
+          "popover-header",
+          "popover-title",
+          "popover-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.progress",
+      "name": "Progress",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/progress.tsx"
+      ],
+      "documentation": {
+        "slug": "progress",
+        "sourceFile": "kernel-portal/src/lib/component-docs/progress.ts",
+        "portalAnchor": "c-progress"
+      },
+      "publicModules": [
+        "progress"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "2e2363e1508a22821cef75b68646bb021b199007adf0dc5d91aca0618aa8a5e8",
+        "sourceHash": "80ae564dad55291995e0cb1d4fee77017ee680b5b56c37a0db3264d425f3ec07",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "value"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Progress",
+            "type": "ProgressPrimitive.Root.Props"
+          },
+          {
+            "component": "ProgressIndicator",
+            "type": "ProgressPrimitive.Indicator.Props"
+          },
+          {
+            "component": "ProgressLabel",
+            "type": "ProgressPrimitive.Label.Props"
+          },
+          {
+            "component": "ProgressTrack",
+            "type": "ProgressPrimitive.Track.Props"
+          },
+          {
+            "component": "ProgressValue",
+            "type": "ProgressPrimitive.Value.Props"
+          }
+        ],
+        "slots": [
+          "progress",
+          "progress-indicator",
+          "progress-label",
+          "progress-track",
+          "progress-value"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.radio-group",
+      "name": "Radio Group",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/radio-group.tsx"
+      ],
+      "documentation": {
+        "slug": "radio-group",
+        "sourceFile": "kernel-portal/src/lib/component-docs/radio-group.ts",
+        "portalAnchor": "c-radio-group"
+      },
+      "publicModules": [
+        "radio-group"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "a60ccaed75db8e62888133c8ac33963a9538b94d9e44d9598b8faa2115b8df6d",
+        "sourceHash": "0320307b70d6590dd11525ecfbd811bc592bffe7f054d90666636efb771a199f",
+        "variantAxes": {},
+        "publicProperties": [
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "RadioGroup",
+            "type": "RadioGroupPrimitive.Props"
+          },
+          {
+            "component": "RadioGroupItem",
+            "type": "RadioPrimitive.Root.Props"
+          }
+        ],
+        "slots": [
+          "radio-group",
+          "radio-group-indicator",
+          "radio-group-item"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.resizable",
+      "name": "Resizable",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/scroll-area.tsx",
+        "packages/ui/src/components/ui/resizable.tsx"
+      ],
+      "documentation": {
+        "slug": "scroll-area",
+        "sourceFile": "kernel-portal/src/lib/component-docs/scroll-area.ts",
+        "portalAnchor": "c-scroll-area"
+      },
+      "publicModules": [
+        "resizable",
+        "scroll-area"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "c0846f47258f070a0985659faa0a60f7abb59cfcede4c8729fd22283dc477536",
+        "sourceHash": "b56311d4edd5332a0976205b7170ed9e07f4c7cdbda51c69edf066165418966d",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "orientation",
+          "withHandle"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "ResizableHandle",
+            "type": "ResizablePrimitive.SeparatorProps & { withHandle?: boolean }"
+          },
+          {
+            "component": "ResizablePanel",
+            "type": "ResizablePrimitive.PanelProps"
+          },
+          {
+            "component": "ResizablePanelGroup",
+            "type": "ResizablePrimitive.GroupProps"
+          },
+          {
+            "component": "ScrollArea",
+            "type": "ScrollAreaPrimitive.Root.Props"
+          },
+          {
+            "component": "ScrollBar",
+            "type": "ScrollAreaPrimitive.Scrollbar.Props"
+          }
+        ],
+        "slots": [
+          "resizable-handle",
+          "resizable-panel",
+          "resizable-panel-group",
+          "scroll-area",
+          "scroll-area-scrollbar",
+          "scroll-area-thumb",
+          "scroll-area-viewport"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.scroll-area",
+      "name": "Scroll Area",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/scroll-area.tsx",
+        "packages/ui/src/components/ui/resizable.tsx"
+      ],
+      "documentation": {
+        "slug": "scroll-area",
+        "sourceFile": "kernel-portal/src/lib/component-docs/scroll-area.ts",
+        "portalAnchor": "c-scroll-area"
+      },
+      "publicModules": [
+        "resizable",
+        "scroll-area"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "0c82cf7b183bdd7ccc4566a32e46fc9367b1b3b83a8f3bfd812db53b13b01263",
+        "sourceHash": "b56311d4edd5332a0976205b7170ed9e07f4c7cdbda51c69edf066165418966d",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "orientation",
+          "withHandle"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "ResizableHandle",
+            "type": "ResizablePrimitive.SeparatorProps & { withHandle?: boolean }"
+          },
+          {
+            "component": "ResizablePanel",
+            "type": "ResizablePrimitive.PanelProps"
+          },
+          {
+            "component": "ResizablePanelGroup",
+            "type": "ResizablePrimitive.GroupProps"
+          },
+          {
+            "component": "ScrollArea",
+            "type": "ScrollAreaPrimitive.Root.Props"
+          },
+          {
+            "component": "ScrollBar",
+            "type": "ScrollAreaPrimitive.Scrollbar.Props"
+          }
+        ],
+        "slots": [
+          "resizable-handle",
+          "resizable-panel",
+          "resizable-panel-group",
+          "scroll-area",
+          "scroll-area-scrollbar",
+          "scroll-area-thumb",
+          "scroll-area-viewport"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.select",
+      "name": "Select",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/select.tsx"
+      ],
+      "documentation": {
+        "slug": "select",
+        "sourceFile": "kernel-portal/src/lib/component-docs/select.ts",
+        "portalAnchor": "c-input"
+      },
+      "publicModules": [
+        "select"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "fc1df719558bf28f851a464aafe1015ffcb22331be6d8b96933a2c24444437cd",
+        "sourceHash": "77a3e960465d955af29b5d0dcf6d820d4bd236346f35df72cb6d9480e56014fb",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignItemWithTrigger",
+          "alignOffset",
+          "children",
+          "className",
+          "side",
+          "sideOffset",
+          "size"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "SelectContent",
+            "type": "SelectPrimitive.Popup.Props & Pick< SelectPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" | \"alignItemWithTrigger\" >"
+          },
+          {
+            "component": "SelectGroup",
+            "type": "SelectPrimitive.Group.Props"
+          },
+          {
+            "component": "SelectItem",
+            "type": "SelectPrimitive.Item.Props"
+          },
+          {
+            "component": "SelectLabel",
+            "type": "SelectPrimitive.GroupLabel.Props"
+          },
+          {
+            "component": "SelectScrollDownButton",
+            "type": "React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow>"
+          },
+          {
+            "component": "SelectScrollUpButton",
+            "type": "React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>"
+          },
+          {
+            "component": "SelectSeparator",
+            "type": "SelectPrimitive.Separator.Props"
+          },
+          {
+            "component": "SelectTrigger",
+            "type": "SelectPrimitive.Trigger.Props & { size?: \"sm\" | \"default\" }"
+          },
+          {
+            "component": "SelectValue",
+            "type": "SelectPrimitive.Value.Props"
+          }
+        ],
+        "slots": [
+          "select-content",
+          "select-group",
+          "select-item",
+          "select-label",
+          "select-scroll-down-button",
+          "select-scroll-up-button",
+          "select-separator",
+          "select-trigger",
+          "select-value"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "radius/control",
+          "radius/floating",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.separator",
+      "name": "Separator",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/separator.tsx"
+      ],
+      "documentation": {
+        "slug": "separator",
+        "sourceFile": "kernel-portal/src/lib/component-docs/separator.ts",
+        "portalAnchor": "c-separator"
+      },
+      "publicModules": [
+        "separator"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "693ff609926ae860b7436d09b8e51297812af72af313f7a860bdc5453aba3bab",
+        "sourceHash": "30566a19d8e95b30bd74445ec6a41e9d90f33571ed788c7d884d4b6bedd0a9ec",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "orientation"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Separator",
+            "type": "SeparatorPrimitive.Props"
+          }
+        ],
+        "slots": [
+          "separator"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.sheet",
+      "name": "Sheet",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/sheet.tsx"
+      ],
+      "documentation": {
+        "slug": "sheet",
+        "sourceFile": "kernel-portal/src/lib/component-docs/sheet.ts",
+        "portalAnchor": "c-sheet"
+      },
+      "publicModules": [
+        "sheet"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "900f62f598a8f0ad246a7c2cb5efb39970cf8955399250dacab34ae32185b883",
+        "sourceHash": "47859086188f592d466f480985d2e30905550dc4c47e53bfa9faa3e1545537ad",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "showCloseButton",
+          "side"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Sheet",
+            "type": "SheetPrimitive.Root.Props"
+          },
+          {
+            "component": "SheetClose",
+            "type": "SheetPrimitive.Close.Props"
+          },
+          {
+            "component": "SheetContent",
+            "type": "SheetPrimitive.Popup.Props & { side?: \"top\" | \"right\" | \"bottom\" | \"left\" showCloseButton?: boolean }"
+          },
+          {
+            "component": "SheetDescription",
+            "type": "SheetPrimitive.Description.Props"
+          },
+          {
+            "component": "SheetFooter",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SheetHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SheetOverlay",
+            "type": "SheetPrimitive.Backdrop.Props"
+          },
+          {
+            "component": "SheetPortal",
+            "type": "SheetPrimitive.Portal.Props"
+          },
+          {
+            "component": "SheetTitle",
+            "type": "SheetPrimitive.Title.Props"
+          },
+          {
+            "component": "SheetTrigger",
+            "type": "SheetPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "sheet",
+          "sheet-close",
+          "sheet-content",
+          "sheet-description",
+          "sheet-footer",
+          "sheet-header",
+          "sheet-overlay",
+          "sheet-portal",
+          "sheet-title",
+          "sheet-trigger"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.sidebar",
+      "name": "Sidebar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/sidebar.tsx"
+      ],
+      "documentation": {
+        "slug": "sidebar",
+        "sourceFile": "kernel-portal/src/lib/component-docs/sidebar.ts",
+        "portalAnchor": "appshell"
+      },
+      "publicModules": [
+        "sidebar"
+      ],
+      "figma": {
+        "status": "integrated",
+        "nodeId": "7:220",
+        "key": "4e16316e02b580ee9559a5959b4ea861fda9ad1d",
+        "kind": "COMPONENT",
+        "page": "Components",
+        "sectionId": "7:289",
+        "sectionName": "Sidebar",
+        "auditedAt": "2026-09-27T09:28:22.991Z"
+      },
+      "contract": {
+        "contractHash": "12dcab537d0da572e4e18e1962f50b1e8d305a11979a21bb17f1a63616b07a66",
+        "sourceHash": "9930ac6ba8b5451ddc2d796400d2b996d24310317df10a4a143205caadb1a480",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "outline"
+          ],
+          "size": [
+            "default",
+            "lg",
+            "sm"
+          ]
+        },
+        "publicProperties": [
+          "children",
+          "className",
+          "collapsible",
+          "defaultOpen",
+          "dir",
+          "isActive",
+          "onClick",
+          "onOpenChange",
+          "open",
+          "render",
+          "showIcon",
+          "showOnHover",
+          "side",
+          "size",
+          "style",
+          "tooltip",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Sidebar",
+            "type": "React.ComponentProps<\"div\"> & { side?: \"left\" | \"right\" variant?: \"sidebar\" | \"floating\" | \"inset\" collapsible?: \"offcanvas\" | \"icon\" | \"none\" }"
+          },
+          {
+            "component": "SidebarContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SidebarFooter",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SidebarGroup",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SidebarGroupAction",
+            "type": "useRender.ComponentProps<\"button\"> & React.ComponentProps<\"button\">"
+          },
+          {
+            "component": "SidebarGroupContent",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SidebarGroupLabel",
+            "type": "useRender.ComponentProps<\"div\"> & React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SidebarHeader",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SidebarInput",
+            "type": "React.ComponentProps<typeof Input>"
+          },
+          {
+            "component": "SidebarInset",
+            "type": "React.ComponentProps<\"main\">"
+          },
+          {
+            "component": "SidebarMenu",
+            "type": "React.ComponentProps<\"ul\">"
+          },
+          {
+            "component": "SidebarMenuAction",
+            "type": "useRender.ComponentProps<\"button\"> & React.ComponentProps<\"button\"> & { showOnHover?: boolean }"
+          },
+          {
+            "component": "SidebarMenuBadge",
+            "type": "React.ComponentProps<\"div\">"
+          },
+          {
+            "component": "SidebarMenuButton",
+            "type": "useRender.ComponentProps<\"button\"> & React.ComponentProps<\"button\"> & { isActive?: boolean tooltip?: string | React.ComponentProps<typeof TooltipContent> } & VariantProps<typeof sidebarMenuButtonVariants>"
+          },
+          {
+            "component": "SidebarMenuItem",
+            "type": "React.ComponentProps<\"li\">"
+          },
+          {
+            "component": "SidebarMenuSkeleton",
+            "type": "React.ComponentProps<\"div\"> & { showIcon?: boolean }"
+          },
+          {
+            "component": "SidebarMenuSub",
+            "type": "React.ComponentProps<\"ul\">"
+          },
+          {
+            "component": "SidebarMenuSubButton",
+            "type": "useRender.ComponentProps<\"a\"> & React.ComponentProps<\"a\"> & { size?: \"sm\" | \"md\" isActive?: boolean }"
+          },
+          {
+            "component": "SidebarMenuSubItem",
+            "type": "React.ComponentProps<\"li\">"
+          },
+          {
+            "component": "SidebarProvider",
+            "type": "React.ComponentProps<\"div\"> & { defaultOpen?: boolean open?: boolean onOpenChange?: (open: boolean) => void }"
+          },
+          {
+            "component": "SidebarRail",
+            "type": "React.ComponentProps<\"button\">"
+          },
+          {
+            "component": "SidebarSeparator",
+            "type": "React.ComponentProps<typeof Separator>"
+          },
+          {
+            "component": "SidebarTrigger",
+            "type": "React.ComponentProps<typeof Button>"
+          }
+        ],
+        "slots": [
+          "sidebar",
+          "sidebar-content",
+          "sidebar-footer",
+          "sidebar-group",
+          "sidebar-header",
+          "sidebar-menu",
+          "sidebar-separator"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": [
+          "Variant, Size, State, and Icon are represented by the namespaced Sidebar / Menu Button family inside the owning section.",
+          "State is Figma-only interaction evidence, not a React prop.",
+          "The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
+        ]
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
+      }
+    },
+    {
+      "entityId": "component.skeleton",
+      "name": "Skeleton",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/skeleton.tsx"
+      ],
+      "documentation": {
+        "slug": "skeleton",
+        "sourceFile": "kernel-portal/src/lib/component-docs/skeleton.ts",
+        "portalAnchor": "c-progress"
+      },
+      "publicModules": [
+        "skeleton"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "87a9bcf7c78299915271746a3ea03970503a7075cb175da658ae1725e555b1e4",
+        "sourceHash": "dc045e8bbf88b4c572240dfebb4877dfb26c18c232677c1c6c073b18ccf406a1",
+        "variantAxes": {},
+        "publicProperties": [
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Skeleton",
+            "type": "React.ComponentProps<\"div\">"
+          }
+        ],
+        "slots": [
+          "skeleton"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.slider",
+      "name": "Slider",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/slider.tsx"
+      ],
+      "documentation": {
+        "slug": "slider",
+        "sourceFile": "kernel-portal/src/lib/component-docs/slider.ts",
+        "portalAnchor": "c-slider"
+      },
+      "publicModules": [
+        "slider"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "18580c0b85722669eea0a6a04fb4089482489d2cd3e3b1fd18d258e06d9e05cf",
+        "sourceHash": "dd7c4fe2bb668e732fd8e0b927374abe27dbdbe09e539d2b7386e38d438f3d5d",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "defaultValue",
+          "max",
+          "min",
+          "value"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Slider",
+            "type": "SliderPrimitive.Root.Props"
+          }
+        ],
+        "slots": [
+          "slider",
+          "slider-range",
+          "slider-thumb",
+          "slider-track"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.sonner",
+      "name": "Sonner",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/sonner.tsx"
+      ],
+      "documentation": {
+        "slug": "sonner",
+        "sourceFile": "kernel-portal/src/lib/component-docs/sonner.ts",
+        "portalAnchor": "c-sonner"
+      },
+      "publicModules": [
+        "sonner"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "727d547e31da373bc62a6c04110277eee2368b91b759adf69cad34f37ba1d7b9",
+        "sourceHash": "7d7454eeb87f598df7a3dbc7eed7b96383ff9f027e5cab6a42dbd48936308364",
+        "variantAxes": {},
+        "publicProperties": [],
+        "propTypeExpressions": [],
+        "slots": [],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.spinner",
+      "name": "Spinner",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/spinner.tsx"
+      ],
+      "documentation": {
+        "slug": "spinner",
+        "sourceFile": "kernel-portal/src/lib/component-docs/spinner.ts",
+        "portalAnchor": "c-spinner"
+      },
+      "publicModules": [
+        "spinner"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "df76c7e02781effeb742d0c68e491fb420013bf7ed95c97a55e9b35a948e5574",
+        "sourceHash": "4e99f6ed0c914967d2b51aaf0f7e0f5de622d80f1af2c6804017de9b95bd3ae8",
+        "variantAxes": {},
+        "publicProperties": [
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Spinner",
+            "type": "React.ComponentProps<\"svg\">"
+          }
+        ],
+        "slots": [
+          "spinner"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.status-badge",
+      "name": "Status Badge",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/status-badge.tsx"
+      ],
+      "documentation": {
+        "slug": "status-badge",
+        "sourceFile": "kernel-portal/src/lib/component-docs/status-badge.ts",
+        "portalAnchor": "c-status-badge"
+      },
+      "publicModules": [
+        "status-badge"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "d11a23ad430246fb1c9f628703ef01ba6b326404893fa484ee0dbd1477ffec4f",
+        "sourceHash": "6554a33acb27b703ce189a92f39094a0a02be9ee1c22c83ff77a0213b45c6d6f",
+        "variantAxes": {
+          "status": [
+            "booked",
+            "cancelled",
+            "delivered",
+            "draft",
+            "expired",
+            "in_transit",
+            "on_hold",
+            "pending",
+            "rejected",
+            "settled"
+          ]
+        },
+        "publicProperties": [
+          "children",
+          "className",
+          "status"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "StatusBadge",
+            "type": "React.ComponentProps<\"span\"> & VariantProps<typeof statusBadgeVariants>"
+          }
+        ],
+        "slots": [
+          "status-badge"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.switch",
+      "name": "Switch",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/switch.tsx"
+      ],
+      "documentation": {
+        "slug": "switch",
+        "sourceFile": "kernel-portal/src/lib/component-docs/switch.ts",
+        "portalAnchor": "fe-selection"
+      },
+      "publicModules": [
+        "switch"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "812453cd22b6f5743abadd4e5a3325f5a5d7bdfb2ea0403eba6f289daa7d7bf2",
+        "sourceHash": "2e9b203c5a2fde17cbeaf9d6c1cf9703add9fbde5ca26088f10476f60adff60e",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "size"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Switch",
+            "type": "SwitchPrimitive.Root.Props & { size?: \"sm\" | \"default\" }"
+          }
+        ],
+        "slots": [
+          "switch",
+          "switch-thumb"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.table",
+      "name": "Table",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/table.tsx"
+      ],
+      "documentation": {
+        "slug": "table",
+        "sourceFile": "kernel-portal/src/lib/component-docs/table.ts",
+        "portalAnchor": "c-table"
+      },
+      "publicModules": [
+        "table"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "48324bfd7e3be538d5955190d7789cf6c238c664b46ad7a37b46e92c8d5ffc80",
+        "sourceHash": "118dc1e9e1db9525abe3255c817aac31c1de5336ec9e99ea4aa2383721dffb1c",
+        "variantAxes": {},
+        "publicProperties": [
+          "className",
+          "striped"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Table",
+            "type": "React.ComponentProps<\"table\"> & { /** Zebra-stripe alternating body rows for easier row tracking in dense tables. Uses a subtle foreground overlay so it reads on any surface. Scoped to this table's own rows, so a nested table stays unstriped. */ striped?: boolean }"
+          },
+          {
+            "component": "TableBody",
+            "type": "React.ComponentProps<\"tbody\">"
+          },
+          {
+            "component": "TableCaption",
+            "type": "React.ComponentProps<\"caption\">"
+          },
+          {
+            "component": "TableCell",
+            "type": "React.ComponentProps<\"td\">"
+          },
+          {
+            "component": "TableFooter",
+            "type": "React.ComponentProps<\"tfoot\">"
+          },
+          {
+            "component": "TableHead",
+            "type": "React.ComponentProps<\"th\">"
+          },
+          {
+            "component": "TableHeader",
+            "type": "React.ComponentProps<\"thead\">"
+          },
+          {
+            "component": "TableRow",
+            "type": "React.ComponentProps<\"tr\">"
+          }
+        ],
+        "slots": [
+          "table",
+          "table-body",
+          "table-caption",
+          "table-cell",
+          "table-container",
+          "table-footer",
+          "table-head",
+          "table-header",
+          "table-row"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.tabs",
+      "name": "Tabs",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/tabs.tsx"
+      ],
+      "documentation": {
+        "slug": "tabs",
+        "sourceFile": "kernel-portal/src/lib/component-docs/tabs.ts",
+        "portalAnchor": "c-tabs"
+      },
+      "publicModules": [
+        "tabs"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "7cc0b950bfdb71a3d5ebddc82f1a38d74cb1e7d5f6325a31dd8d7d2f5c6ae9e2",
+        "sourceHash": "9c44167cbd4677093083e5d4db9d0a1a0ed582a69d17263903675375adeb3f43",
+        "variantAxes": {
+          "variant": [
+            "folder",
+            "pill",
+            "underline"
+          ],
+          "size": [
+            "comfortable",
+            "compact",
+            "default"
+          ]
+        },
+        "publicProperties": [
+          "activateOnFocus",
+          "children",
+          "className",
+          "orientation",
+          "size",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "TabCount",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "TabDot",
+            "type": "React.ComponentProps<\"span\">"
+          },
+          {
+            "component": "Tabs",
+            "type": "TabsPrimitive.Root.Props"
+          },
+          {
+            "component": "TabsContent",
+            "type": "TabsPrimitive.Panel.Props"
+          },
+          {
+            "component": "TabsList",
+            "type": "TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>"
+          },
+          {
+            "component": "TabsTrigger",
+            "type": "TabsPrimitive.Tab.Props"
+          }
+        ],
+        "slots": [
+          "tab-count",
+          "tab-dot",
+          "tabs",
+          "tabs-content",
+          "tabs-list",
+          "tabs-trigger"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.textarea",
+      "name": "Textarea",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/textarea.tsx"
+      ],
+      "documentation": {
+        "slug": "textarea",
+        "sourceFile": "kernel-portal/src/lib/component-docs/textarea.ts",
+        "portalAnchor": "c-input"
+      },
+      "publicModules": [
+        "textarea"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "c313859f27fd968ed7842123c919b84919318de6d411697f96ae99bf12847b30",
+        "sourceHash": "1316610b1d78159c07d6e5a761c7894ad0bbb33368d5e6b3dad804deaee9767b",
+        "variantAxes": {},
+        "publicProperties": [
+          "className"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Textarea",
+            "type": "React.ComponentProps<\"textarea\">"
+          }
+        ],
+        "slots": [
+          "textarea"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.toggle",
+      "name": "Toggle",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/toggle.tsx"
+      ],
+      "documentation": {
+        "slug": "toggle",
+        "sourceFile": "kernel-portal/src/lib/component-docs/toggle.ts",
+        "portalAnchor": "c-toggle"
+      },
+      "publicModules": [
+        "toggle"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "bb65703980a99508df4c9f2665ad8b61cb8a7909c352a33135d2ccbc3c03d0c4",
+        "sourceHash": "6d2deb7ba6c99b1a9ad4d9e0c5c6e554d7ca825b0da40a94d958b6a1e2031058",
+        "variantAxes": {
+          "variant": [
+            "default",
+            "outline"
+          ],
+          "size": [
+            "default",
+            "lg",
+            "sm"
+          ]
+        },
+        "publicProperties": [
+          "className",
+          "size",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Toggle",
+            "type": "TogglePrimitive.Props & VariantProps<typeof toggleVariants>"
+          }
+        ],
+        "slots": [
+          "toggle"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "semantic/fill",
+          "semantic/stroke"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.toggle-group",
+      "name": "Toggle Group",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/toggle-group.tsx"
+      ],
+      "documentation": {
+        "slug": "toggle-group",
+        "sourceFile": "kernel-portal/src/lib/component-docs/toggle-group.ts",
+        "portalAnchor": "c-toggle"
+      },
+      "publicModules": [
+        "toggle-group"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "c2e6b5f553b8922a220860e67de84be5dd42b7bb667a782d27514ca7684da87d",
+        "sourceHash": "3876b644cdb47933e905176608f890b0e55e2943f946dff57772a364ac5f4944",
+        "variantAxes": {},
+        "publicProperties": [
+          "children",
+          "className",
+          "orientation",
+          "size",
+          "spacing",
+          "variant"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "ToggleGroup",
+            "type": "ToggleGroupPrimitive.Props & VariantProps<typeof toggleVariants> & { spacing?: number orientation?: \"horizontal\" | \"vertical\" }"
+          },
+          {
+            "component": "ToggleGroupItem",
+            "type": "TogglePrimitive.Props & VariantProps<typeof toggleVariants>"
+          }
+        ],
+        "slots": [
+          "toggle-group",
+          "toggle-group-item"
+        ],
+        "requiredTokenRoles": [
+          "radius/control"
+        ],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    },
+    {
+      "entityId": "component.tooltip",
+      "name": "Tooltip",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/tooltip.tsx"
+      ],
+      "documentation": {
+        "slug": "tooltip",
+        "sourceFile": "kernel-portal/src/lib/component-docs/tooltip.ts",
+        "portalAnchor": "c-sonner"
+      },
+      "publicModules": [
+        "tooltip"
+      ],
+      "figma": {
+        "status": "not-started",
+        "nodeId": null,
+        "key": null,
+        "kind": null,
+        "page": "Components",
+        "sectionId": null,
+        "sectionName": null,
+        "auditedAt": null
+      },
+      "contract": {
+        "contractHash": "7c3d4f2e13fe01e22658d7210fc80e67f3d762982d8d65164d1afda1999dce6f",
+        "sourceHash": "e9c26eac39dd216cc89f5282838295542d5e38650a90e6a63c54118b331f491b",
+        "variantAxes": {},
+        "publicProperties": [
+          "align",
+          "alignOffset",
+          "children",
+          "className",
+          "delay",
+          "side",
+          "sideOffset"
+        ],
+        "propTypeExpressions": [
+          {
+            "component": "Tooltip",
+            "type": "TooltipPrimitive.Root.Props"
+          },
+          {
+            "component": "TooltipContent",
+            "type": "TooltipPrimitive.Popup.Props & Pick< TooltipPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+          },
+          {
+            "component": "TooltipProvider",
+            "type": "TooltipPrimitive.Provider.Props"
+          },
+          {
+            "component": "TooltipTrigger",
+            "type": "TooltipPrimitive.Trigger.Props"
+          }
+        ],
+        "slots": [
+          "tooltip",
+          "tooltip-content",
+          "tooltip-provider",
+          "tooltip-trigger"
+        ],
+        "requiredTokenRoles": [],
+        "notes": []
+      },
+      "lifecycle": {
+        "canonicalOwner": "@kernel/ui",
+        "canonicalSource": "code",
+        "figmaStatus": "unmapped",
+        "promotionBlockedUntil": [
+          "contract-extracted",
+          "semantic-tokens-bound",
+          "accessibility-audited",
+          "page-layout-verified"
+        ]
+      }
+    }
+  ]
+}

@@ -29,6 +29,24 @@ export const generateSteps = [
     run: () => runNode(resolve(repoRoot, "scripts/ds/prototype/generate-projections.mjs")),
   },
   {
+    id: "figma-component-contracts",
+    description: "Regenerate Figma component contracts from @kernel/ui",
+    run: () => runNode(resolve(repoRoot, "scripts/ds/figma/build-component-contracts.mjs")),
+  },
+  {
+    id: "figma-component-cohorts",
+    description: "Regenerate Figma component and runtime cohorts",
+    run: () => {
+      const component = runNode(resolve(repoRoot, "scripts/ds/figma/check-component-scope.mjs"))
+      return component.status === 0 ? runNode(resolve(repoRoot, "scripts/ds/figma/generate-runtime-matrix.mjs")) : component
+    },
+  },
+  {
+    id: "figma-component-integration",
+    description: "Regenerate the evidence-backed Figma component integration ledger",
+    run: () => runNode(resolve(repoRoot, "scripts/ds/figma/build-component-integration.mjs")),
+  },
+  {
     id: "agents-inventories",
     description: "Refresh bounded generated-inventory sections in AGENTS files",
     run: () => runNode(resolve(repoRoot, "scripts/ds/cli.mjs"), ["agents"]),

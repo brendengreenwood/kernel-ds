@@ -79,7 +79,7 @@ const SEMANTIC = new Set([
   "sidebar","sidebar-foreground","sidebar-primary","sidebar-primary-foreground",
   "sidebar-accent","sidebar-accent-foreground","sidebar-border","sidebar-ring",
 ]);
-const METRIC = /^(radius$|panel-radius$|panel-inset$|control-h|duration-|spacing$)/;
+const METRIC = /^(radius(?:$|-(?:control|surface|floating|modal))|panel-radius$|panel-inset$|control-h|duration-|spacing$)/;
 
 function toPath(name) {
   let m = name.match(/^(brand|lime|neutral|success|warning|error|info)-(\d+)$/);
@@ -139,7 +139,8 @@ for (const [name, value] of Object.entries(rootVars)) {
     } else skipped.push(name);
   } else if (METRIC.test(name)) {
     const v = metricValue(name, value);
-    if (v !== null) metrics.push({ name, value: v });
+    const metricName = name.startsWith("radius-") ? `radius/${name.slice("radius-".length)}` : name;
+    if (v !== null) metrics.push({ name: metricName, value: v });
     else skipped.push(name);
   } else {
     const aliasM = value.match(/^var\(--([\w-]+)\)$/);

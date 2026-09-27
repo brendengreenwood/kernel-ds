@@ -197,6 +197,14 @@ export const doctorChecks = [
     },
   },
   {
+    id: "figma-component-integration",
+    fixtureSafe: false,
+    run: async () => {
+      const { collectComponentIntegrationViolations } = await import("../figma/check-component-integration.mjs")
+      return collectComponentIntegrationViolations()
+    },
+  },
+  {
     id: "workspace-membership",
     fixtureSafe: false,
     run: () => {
