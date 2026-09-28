@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import test from "node:test"
-import { TRANSACTION_REQUEST_SCHEMA, TRANSACTION_SCHEMA, assertReportedCreatedNodes, inventoryDelta, sha256, validateMutationReport, validateSnapshot, validateTransactionRequest } from "../component-transaction.mjs"
+import { TRANSACTION_REQUEST_SCHEMA, TRANSACTION_SCHEMA, allowsTrackedSectionChildren, assertReportedCreatedNodes, fingerprint, inventoryDelta, sha256, validateMutationReport, validateSnapshot, validateTransactionRequest } from "../component-transaction.mjs"
 
 const fixture = JSON.parse(readFileSync(new URL("../__fixtures__/component-transaction/prohibited.json", import.meta.url), "utf8"))
 const nodeTypes = ["COMPONENT", "COMPONENT_SET", "INSTANCE", "SECTION"]
@@ -93,4 +93,37 @@ test("created nodes are discovered from inventory delta", () => {
   assert.deepEqual(delta.createdNodeIds, ["1:2", "1:3"])
   assert.deepEqual(assertReportedCreatedNodes(delta, ["1:3", "1:2"]), ["1:2", "1:3"])
   assert.throws(() => assertReportedCreatedNodes(delta, ["1:2"]), /do not match/)
+})
+
+test("tracked documentation roots may be added to an owning section", () => {
+  const expectedChildIds = ["component-set"]
+  assert.equal(allowsTrackedSectionChildren({
+    nodeType: "SECTION",
+    expectedChildIdsHash: fingerprint(expectedChildIds),
+    currentChildIds: ["documentation", "component-set"],
+    reportedCreatedNodeIds: ["documentation"],
+  }), true)
+})
+
+test("section child changes fail when roots are unreported, removed, or reordered", () => {
+  const expectedChildIds = ["component-set", "subcomponent"]
+  const expectedChildIdsHash = fingerprint(expectedChildIds)
+  for (const currentChildIds of [
+    ["documentation", "component-set", "subcomponent"],
+    ["documentation", "component-set"],
+    ["documentation", "subcomponent", "component-set"],
+  ]) {
+    assert.equal(allowsTrackedSectionChildren({
+      nodeType: "SECTION",
+      expectedChildIdsHash,
+      currentChildIds,
+      reportedCreatedNodeIds: currentChildIds[0] === "documentation" ? [] : ["documentation"],
+    }), false)
+  }
+  assert.equal(allowsTrackedSectionChildren({
+    nodeType: "COMPONENT_SET",
+    expectedChildIdsHash,
+    currentChildIds: ["documentation", ...expectedChildIds],
+    reportedCreatedNodeIds: ["documentation"],
+  }), false)
 })

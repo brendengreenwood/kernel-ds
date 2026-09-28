@@ -5,7 +5,7 @@
   "mainComponentKey": "c3802163a90b09cd60fbb2c6f38c77a4008f74e4",
   "sectionId": "133:2047",
   "sectionName": "Attachment",
-  "contractHash": "7f0680749ab0c3b3f036929787ef88a1f5b1b75161a0a717e3c96d7165d8adcf",
+  "contractHash": "380c237dd13c9742e181d0bca4c573d9ed26fcbd67459d9f11e1af4934f441a8",
   "requiredTokenRoles": [
     "semantic/fill",
     "semantic/stroke"

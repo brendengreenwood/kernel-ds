@@ -31,6 +31,30 @@ export function validateMutationReport(report) {
   return report
 }
 
+function canonical(value) {
+  if (Array.isArray(value)) return value.map(canonical)
+  if (value && typeof value === "object") return Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonical(value[key])]))
+  return value
+}
+
+export function fingerprint(value) {
+  const text = JSON.stringify(canonical(value))
+  let hash = 2166136261
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index)
+    hash = Math.imul(hash, 16777619)
+  }
+  return `${text.length}:${(hash >>> 0).toString(16).padStart(8, "0")}`
+}
+
+export function allowsTrackedSectionChildren({ nodeType, expectedChildIdsHash, currentChildIds, reportedCreatedNodeIds }) {
+  const reported = new Set(reportedCreatedNodeIds)
+  const unreportedChildIds = currentChildIds.filter((id) => !reported.has(id))
+  return nodeType === "SECTION" &&
+    currentChildIds.some((id) => reported.has(id)) &&
+    fingerprint(unreportedChildIds) === expectedChildIdsHash
+}
+
 export function inventoryDelta(beforeIds, afterIds) {
   const before = new Set(beforeIds)
   const after = new Set(afterIds)

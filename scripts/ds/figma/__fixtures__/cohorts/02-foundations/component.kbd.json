@@ -5,7 +5,7 @@
   "mainComponentKey": "5e5288b6fe0fcf68b39ee1d99717214ac55996b6",
   "sectionId": "137:2321",
   "sectionName": "Kbd",
-  "contractHash": "72c8e41711f3f81067b7ed1ea6227ea8fe377630c93fde9b062c510011dbef3a",
+  "contractHash": "be7f998f6fa92db9b7e2e71daab6004b8685561e8bbf9e75cd424e1ba0f88ba0",
   "requiredTokenRoles": [
     "semantic/fill"
   ],

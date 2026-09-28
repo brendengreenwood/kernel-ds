@@ -5,7 +5,7 @@ export const MATRIX_SCHEMA = "kernel-ds/figma-runtime-proof-matrix@1"
 export const COHORT_SCHEMA = "kernel-ds/figma-runtime-proof-cohort@1"
 export const RESULT_SCHEMA = "kernel-ds/figma-runtime-proof-results@1"
 export const STEP_TYPES = new Set(["goto", "click", "press", "hover", "waitFor", "assertVisible", "assertAttribute", "screenshot"])
-export const matrixHash = (text) => createHash("sha256").update(text).digest("hex")
+export const matrixHash = (text) => createHash("sha256").update(text.replace(/\r\n?/g, "\n")).digest("hex")
 
 export function validateMatrix(matrix, expectedEntityIds) {
   if (matrix?.$schema !== MATRIX_SCHEMA || !Array.isArray(matrix.scenarios)) throw new Error("Invalid runtime-proof matrix")

@@ -8,8 +8,12 @@ export const OVERRIDES_SCHEMA = "kernel-ds/figma-component-contract-overrides@1"
 export const CONTRACTS_PATH = "docs/figma/component-contracts.json"
 export const OVERRIDES_PATH = "docs/figma/component-contract-overrides.json"
 
+export function normalizeSourceText(source) {
+  return source.replace(/\r\n?/g, "\n")
+}
+
 function readSource(path) {
-  return readFileSync(resolve(repoRoot, path), "utf8")
+  return normalizeSourceText(readFileSync(resolve(repoRoot, path), "utf8"))
 }
 
 function objectAfter(source, marker) {
@@ -112,12 +116,18 @@ function inferTokenRoles(source) {
 
 function applyOverrides(contract, override) {
   if (!override) return contract
-  const allowed = new Set(["variantAxes", "publicProperties", "slots", "requiredTokenRoles", "designStateAxes", "figmaProperties", "notes"])
+  const allowed = new Set(["variantAxes", "inheritedVariantAxes", "publicProperties", "slots", "requiredTokenRoles", "designStateAxes", "figmaProperties", "notes"])
   for (const key of Object.keys(override)) if (!allowed.has(key)) throw new Error(`Unknown override key ${key} for ${contract.entityId}`)
   if (override.variantAxes) {
     for (const [axis, values] of Object.entries(override.variantAxes)) {
       if (!contract.variantAxes[axis]) throw new Error(`Unknown variant axis ${axis} for ${contract.entityId}`)
       for (const value of values) if (!contract.variantAxes[axis].includes(value)) throw new Error(`Unknown variant value ${axis}=${value} for ${contract.entityId}`)
+    }
+  }
+  if (override.inheritedVariantAxes) {
+    for (const [axis, values] of Object.entries(override.inheritedVariantAxes)) {
+      if (!axis || !Array.isArray(values) || !values.length || values.some((value) => typeof value !== "string" || !value)) throw new Error(`Invalid inherited variant axis ${axis} for ${contract.entityId}`)
+      if (contract.variantAxes[axis]) throw new Error(`Inherited variant axis duplicates extracted axis ${axis} for ${contract.entityId}`)
     }
   }
   if (override.publicProperties) for (const name of override.publicProperties) if (!contract.publicProperties.includes(name)) throw new Error(`Unknown public property ${name} for ${contract.entityId}`)
@@ -136,7 +146,8 @@ function applyOverrides(contract, override) {
       if (property.mapsTo === "public-property" && !contract.publicProperties.includes(property.property)) throw new Error(`Unknown mapped public property ${property.property} for ${contract.entityId}`)
     }
   }
-  return { ...contract, ...override, sourceFiles: contract.sourceFiles, sourceHash: contract.sourceHash }
+  const { inheritedVariantAxes = {}, ...resolvedOverride } = override
+  return { ...contract, ...resolvedOverride, variantAxes: { ...contract.variantAxes, ...inheritedVariantAxes, ...override.variantAxes }, sourceFiles: contract.sourceFiles, sourceHash: contract.sourceHash }
 }
 
 export function buildComponentContracts(overridesInput) {

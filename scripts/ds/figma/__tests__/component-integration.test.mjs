@@ -1,13 +1,17 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import test from "node:test"
-import { buildComponentContracts } from "../build-component-contracts.mjs"
+import { buildComponentContracts, normalizeSourceText } from "../build-component-contracts.mjs"
 import { buildComponentIntegrationManifest } from "../build-component-integration.mjs"
 import { buildComponentCohorts } from "../check-component-scope.mjs"
 import { loadComponentScope, stableJson } from "../component-scope.mjs"
 import { validateLiveAuditResponse } from "../live-component-audit.mjs"
 
 const fixtureCases = JSON.parse(readFileSync(new URL("../__fixtures__/component-integration/cases.json", import.meta.url), "utf8")).cases
+
+test("component source normalization is stable across line endings", () => {
+  assert.equal(normalizeSourceText("one\r\ntwo\rthree\n"), "one\ntwo\nthree\n")
+})
 
 test("component scope is exactly 62 components, 3 elements, and 3 non-catalog modules", () => {
   const scope = loadComponentScope()
@@ -22,8 +26,8 @@ test("contracts and integration manifest are deterministic and evidence-backed",
   assert.equal(stableJson(contracts), stableJson(buildComponentContracts()))
   const manifest = buildComponentIntegrationManifest()
   assert.equal(manifest.components.length, 62)
-  assert.equal(manifest.coverage.integrated, 21)
-  assert.equal(manifest.coverage.notStarted, 41)
+  assert.equal(manifest.coverage.integrated, 35)
+  assert.equal(manifest.coverage.notStarted, 27)
   assert.equal(stableJson(manifest), stableJson(buildComponentIntegrationManifest()))
   assert.equal(readFileSync("docs/figma/component-integration.json", "utf8"), stableJson(manifest))
 })
@@ -71,6 +75,50 @@ test("02-foundations fixtures match committed evidence and layout exactly once p
   }
 })
 
+test("03-controls fixtures match committed contracts, evidence, and layout exactly once per entity", () => {
+  const cohort = JSON.parse(readFileSync("docs/figma/cohorts/03-controls-with-button-input.json", "utf8"))
+  const evidence = JSON.parse(readFileSync("docs/figma/component-evidence.json", "utf8"))
+  const layout = JSON.parse(readFileSync("docs/figma/component-layout.json", "utf8"))
+  const contracts = JSON.parse(readFileSync("docs/figma/component-contracts.json", "utf8"))
+  assert.equal(cohort.entityIds.length, 16)
+  assert.equal(new Set(cohort.entityIds).size, 16)
+  const legacyRadius = /^radius\/(sm|md|lg|xl)$/
+  for (const entityId of cohort.entityIds) {
+    const fixture = JSON.parse(readFileSync(new URL(`../__fixtures__/cohorts/03-controls/${entityId}.json`, import.meta.url), "utf8"))
+    const records = evidence.records.filter((record) => record.entityId === entityId)
+    const layouts = layout.records.filter((record) => record.entityId === entityId)
+    const contract = contracts.components.find((item) => item.entityId === entityId)
+    assert.equal(fixture.entityId, entityId)
+    assert.equal(records.length, 1, `${entityId} resolves exactly once in evidence`)
+    assert.equal(layouts.length, 1, `${entityId} resolves exactly once in layout`)
+    assert.equal(records[0].nodeType, fixture.nodeType)
+    assert.equal(records[0].mainComponentKey, fixture.mainComponentKey)
+    assert.equal(records[0].sectionId, fixture.sectionId)
+    assert.equal(records[0].sectionName, fixture.sectionName)
+    assert.equal(records[0].contractHash, contract.contractHash)
+    assert.equal(fixture.contractHash, contract.contractHash)
+    assert.deepEqual(records[0].contractEvidence.codeVariantAxes, fixture.variantAxes)
+    assert.deepEqual(records[0].contractEvidence.designStateAxes, fixture.designStateAxes)
+    assert.deepEqual(records[0].contractEvidence.figmaProperties, fixture.figmaProperties)
+    assert.deepEqual(records[0].contractEvidence.anatomySlots, fixture.anatomySlots)
+    assert.deepEqual(records[0].contractEvidence.requiredTokenRoles, fixture.requiredTokenRoles)
+    for (const binding of records[0].semanticBindings) assert.equal(legacyRadius.test(binding.name), false, `${entityId} binds no legacy radius (${binding.name})`)
+    assert.equal(layouts[0].sectionNodeId, fixture.layoutSectionNodeId)
+    assert.equal(layouts[0].bounds.x, 0)
+    assert.equal(layouts[0].verdict, "pass")
+    assert.equal(fixture.layoutVerdict, "pass")
+  }
+})
+
+test("03-controls negative drift cases remain explicit", () => {
+  const required = ["legacy-radius-binding", "missing-design-state:focus", "missing-design-state:invalid", "missing-design-state:disabled", "unknown-variant-value", "detached-acceptance-instance", "component-property-mismatch"]
+  for (const code of required) {
+    const request = { requestId: code, requestHash: "hash", implementationHash: "implementation", mode: "full", entities: [], contracts: {} }
+    const response = { $schema: "kernel-ds/figma-live-component-audit@1", requestId: code, requestHash: "hash", implementationHash: "implementation", mode: "full", fileKey: "du0qpv9XrTt4HEWdPhesUh", expected: 0, resolved: 0, verdict: "fail", failures: [{ code }], records: [], layouts: [], acceptance: [] }
+    assert.throws(() => validateLiveAuditResponse(response, request), /Live audit failed/)
+  }
+})
+
 test("live-audit fixtures cover the required pass and failure cases", () => {
   const request = {
     requestId: "request",
@@ -113,6 +161,28 @@ test("live-audit fixtures cover the required pass and failure cases", () => {
   assert.equal(fixtureCases.some((item) => item.name === "invalid-override"), true)
 })
 
+test('reviewed inherited variant axes represent public contracts outside the local source file', () => {
+  const contracts = buildComponentContracts({
+    $schema: 'kernel-ds/figma-component-contract-overrides@1',
+    components: {
+      'component.toggle-group': {
+        inheritedVariantAxes: {
+          Type: ['single', 'multiple'],
+          Variant: ['default', 'outline'],
+          Size: ['sm', 'default', 'lg'],
+        },
+      },
+    },
+  })
+  const toggleGroup = contracts.components.find((component) => component.entityId === 'component.toggle-group')
+  assert.deepEqual(toggleGroup.variantAxes, {
+    Type: ['single', 'multiple'],
+    Variant: ['default', 'outline'],
+    Size: ['sm', 'default', 'lg'],
+  })
+  assert.equal('inheritedVariantAxes' in toggleGroup, false)
+})
+
 test('invalid reviewed overrides fail contract generation with targeted errors', () => {
   const overrides = (components) => ({ $schema: 'kernel-ds/figma-component-contract-overrides@1', components })
   const cases = [
@@ -120,6 +190,8 @@ test('invalid reviewed overrides fail contract generation with targeted errors',
     [{ 'component.button': { bogusKey: true } }, /Unknown override key bogusKey/],
     [{ 'component.button': { variantAxes: { Tone: ['default'] } } }, /Unknown variant axis Tone/],
     [{ 'component.button': { variantAxes: { variant: ['sparkly'] } } }, /Unknown variant value variant=sparkly/],
+    [{ 'component.button': { inheritedVariantAxes: { State: [] } } }, /Invalid inherited variant axis State/],
+    [{ 'component.button': { inheritedVariantAxes: { variant: ['default'] } } }, /Inherited variant axis duplicates extracted axis variant/],
     [{ 'component.button': { publicProperties: ['notAProp'] } }, /Unknown public property notAProp/],
     [{ 'component.button': { slots: ['not-a-slot'] } }, /Unknown anatomy slot not-a-slot/],
     [{ 'component.button': { designStateAxes: { State: [] } } }, /Invalid design state axis State/],

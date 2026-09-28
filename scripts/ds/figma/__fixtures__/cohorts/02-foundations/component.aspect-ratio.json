@@ -5,7 +5,7 @@
   "mainComponentKey": "b78052422f08bc5946ea28bf9e464449fe11d40e",
   "sectionId": "132:2042",
   "sectionName": "Aspect Ratio",
-  "contractHash": "5ffe467b73ca16260da4f265d52b1e45f61cc72d286ad48d9880f3b1b8a17aca",
+  "contractHash": "252693c06cb674af9c9619359b6dca3fe1b98e7d554ce862296611d46c5d3736",
   "requiredTokenRoles": [],
   "anatomySlots": [
     "aspect-ratio"

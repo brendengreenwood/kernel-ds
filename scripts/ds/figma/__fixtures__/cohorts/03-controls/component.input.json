@@ -1,0 +1,28 @@
+{
+  "entityId": "component.input",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "d112a2cb98b5d4770398e392bbc7ccdb10911ecc",
+  "sectionId": "7:400",
+  "sectionName": "Input",
+  "contractHash": "8b438b84b050613a5a4a14bb3b4782288b7147d643b602a4e71795576db6b987",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "focus",
+      "invalid",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "input"
+  ],
+  "requiredTokenRoles": [
+    "metric/control-height",
+    "radius/control",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "7:400",
+  "layoutVerdict": "pass"
+}

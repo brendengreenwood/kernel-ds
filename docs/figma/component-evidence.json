@@ -11,7 +11,7 @@
       "mainComponentKey": "63e02c463546989eb1cb4427a4001e07f40697da",
       "sectionId": "132:2022",
       "sectionName": "Alert",
-      "contractHash": "3fdcc80a704fd6b76c5a844a05653d3a4e69f469a2b2b7b843848a09b0f413ab",
+      "contractHash": "9181ae4bb5c26c2124d53d915d7087480e64249e7c6192f270141f0dcd9af98d",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -96,7 +96,7 @@
       "mainComponentKey": "b78052422f08bc5946ea28bf9e464449fe11d40e",
       "sectionId": "132:2042",
       "sectionName": "Aspect Ratio",
-      "contractHash": "5ffe467b73ca16260da4f265d52b1e45f61cc72d286ad48d9880f3b1b8a17aca",
+      "contractHash": "252693c06cb674af9c9619359b6dca3fe1b98e7d554ce862296611d46c5d3736",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -153,7 +153,7 @@
       "mainComponentKey": "c3802163a90b09cd60fbb2c6f38c77a4008f74e4",
       "sectionId": "133:2047",
       "sectionName": "Attachment",
-      "contractHash": "7f0680749ab0c3b3f036929787ef88a1f5b1b75161a0a717e3c96d7165d8adcf",
+      "contractHash": "380c237dd13c9742e181d0bca4c573d9ed26fcbd67459d9f11e1af4934f441a8",
       "contractEvidence": {
         "codeVariantAxes": {
           "size": [
@@ -246,7 +246,7 @@
       "mainComponentKey": "f4b8b0d8357d153939c494a422c191b40ebca697",
       "sectionId": "134:2113",
       "sectionName": "Avatar",
-      "contractHash": "b6bd49be76c9be9780f1f798dad495b8ed015dcb5fbafc5f7402b0f344fb5a7b",
+      "contractHash": "d4cee555b200f5f68c9e25fcc168e786b02287767915d8e963c9a29a42341ff5",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -323,7 +323,7 @@
       "mainComponentKey": "91170e2f4aac568fa47b0067aabf6d038627f3b6",
       "sectionId": "136:2133",
       "sectionName": "Badge",
-      "contractHash": "1923d76d0669544f7157864220b70d0d8fd87f38913ca73e4abb6aac11380e36",
+      "contractHash": "11af82727b968c8e9aaa1cb71e00f66225f66da95c6460170fc4eccf21acafa7",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -418,7 +418,7 @@
       "mainComponentKey": "e94154ae80fcba90379a39a0b5f471fd503b339f",
       "sectionId": "7:399",
       "sectionName": "Button",
-      "contractHash": "c1ffea1b9f46eb14404fd07b1dc94cccbe81ba4ae195e714f58883e37017d1b2",
+      "contractHash": "3748671155e581b496e4b6519a9426e1542266f02a5eadd3528ed277254c3777",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -592,7 +592,93 @@
           "evidence": "State is Figma-only interaction evidence, not a React prop. Label maps to button children; Icon maps to composed icon content."
         }
       },
-      "auditedAt": "2026-09-27T16:20:52.604Z"
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.button-group",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2465",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "e798ce765cfdae4c28756beb5f3c357c52779b2f",
+      "sectionId": "137:2452",
+      "sectionName": "Button Group",
+      "contractHash": "e7ff97cb999d78d7e430daa73c225608184795fa1fc2354968c7e23f8928b6ff",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "orientation": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "button-group",
+          "button-group-separator"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:83",
+          "name": "semantic/secondary"
+        },
+        {
+          "id": "VariableID:1:84",
+          "name": "semantic/secondary-foreground"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
     },
     {
       "entityId": "component.card",
@@ -603,7 +689,7 @@
       "mainComponentKey": "5e341dc1fd96321d3a3e31360c96fd0b222c9ecc",
       "sectionId": "136:2151",
       "sectionName": "Card",
-      "contractHash": "5707d6a9a757df6d85d463ad02d4fe35b96e36db179925c4f7f598db074bc8b0",
+      "contractHash": "5bbfae388c48f33032b36d2d07c65e35d7890f03401ba92fcf03d35631c015fc",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -680,6 +766,203 @@
       "auditedAt": "2026-09-27T16:21:15.583Z"
     },
     {
+      "entityId": "component.checkbox",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2497",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "e5b8a3694f6677d0bea76545fcde681ad42af80b",
+      "sectionId": "137:2484",
+      "sectionName": "Checkbox",
+      "contractHash": "8e4b8300c2332a114a16e916cc29543ecb2da93c3358e8a46fd66c981a8f46b2",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "checked",
+            "focus",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "checkbox",
+          "checkbox-indicator"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:137:2485:24x24"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "focus-indicator-visibility-requires-deep-audit"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "color-only-differentiation-requires-deep-audit"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.combobox",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2511",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "26b63ce48dfdb7c55b57e8c41e5551c66a4e7f63",
+      "sectionId": "137:2501",
+      "sectionName": "Combobox",
+      "contractHash": "f7743200701ff79a01cb148c0d4f7509b44b5e14cd1351fa73710c4f246d7b93",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "focus",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "combobox-chip",
+          "combobox-chip-input",
+          "combobox-chip-remove",
+          "combobox-chips",
+          "combobox-clear",
+          "combobox-collection",
+          "combobox-content",
+          "combobox-empty",
+          "combobox-group",
+          "combobox-item",
+          "combobox-label",
+          "combobox-list",
+          "combobox-separator",
+          "combobox-trigger",
+          "combobox-value",
+          "input-group-button"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:351",
+          "name": "control-h"
+        },
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:79",
+          "name": "semantic/popover"
+        },
+        {
+          "id": "VariableID:1:83",
+          "name": "semantic/secondary"
+        },
+        {
+          "id": "VariableID:1:84",
+          "name": "semantic/secondary-foreground"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        },
+        {
+          "id": "VariableID:87:1733",
+          "name": "radius/floating"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:137:2502:260x38"
+        },
+        "focusState": {
+          "verdict": "pass",
+          "evidence": "focus-variant-with-non-color-indicator:137:2505"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "pass",
+          "evidence": "focus-variant-stroke-or-effect-differentiation-excluding-color"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
       "entityId": "component.empty",
       "fileKey": "du0qpv9XrTt4HEWdPhesUh",
       "pageId": "1:1250",
@@ -688,7 +971,7 @@
       "mainComponentKey": "69b70986a21ac072ea6a5ecf0273835c4841b1e8",
       "sectionId": "136:2172",
       "sectionName": "Empty",
-      "contractHash": "862329bb7a9226859c749b33e2bb1b5168dc6b31428b350d51dc102a55c2c889",
+      "contractHash": "18968f7d214161387532758558ef89f0ff5610eb34341929e5ec6724826db017",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -769,6 +1052,173 @@
       "auditedAt": "2026-09-27T16:21:15.583Z"
     },
     {
+      "entityId": "component.field",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2569",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "a229cbbf25926ab9cce811bca9e5a31491023ff6",
+      "sectionId": "137:2532",
+      "sectionName": "Field",
+      "contractHash": "c527b051b44cfe6546a09cc9ac6fdf44b1ed84f3a63a3d98fda543d05fc903ae",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "orientation": [
+            "horizontal",
+            "responsive",
+            "vertical"
+          ]
+        },
+        "designStateAxes": {
+          "State": [
+            "default",
+            "invalid"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "field",
+          "field-content",
+          "field-description",
+          "field-error",
+          "field-group",
+          "field-label",
+          "field-legend",
+          "field-separator",
+          "field-separator-content",
+          "field-set"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:137:2533:320x71"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop. invalid mirrors the code data-invalid attribute exposed by Field."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.form",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "137:2587",
+      "nodeType": "COMPONENT",
+      "mainComponentKey": "3a238adaf4a2237dcc815a9b906f37f4db53a599",
+      "sectionId": "137:2586",
+      "sectionName": "Form",
+      "contractHash": "f91122b6ee32ab9ece56386f722b89b541f12dec007b4771a7d4cf89198fca16",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "form-description",
+          "form-item",
+          "form-label",
+          "form-message"
+        ],
+        "requiredTokenRoles": []
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "notApplicable",
+          "reason": "no-runtime-only-claim-in-static-contract"
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
       "entityId": "component.input",
       "fileKey": "du0qpv9XrTt4HEWdPhesUh",
       "pageId": "1:1250",
@@ -777,7 +1227,7 @@
       "mainComponentKey": "d112a2cb98b5d4770398e392bbc7ccdb10911ecc",
       "sectionId": "7:400",
       "sectionName": "Input",
-      "contractHash": "3a7ca61613329fef5f29871cb5a481149090837c219769871c716c076c69ef80",
+      "contractHash": "8b438b84b050613a5a4a14bb3b4782288b7147d643b602a4e71795576db6b987",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {
@@ -862,7 +1312,87 @@
           "evidence": "State is Figma-only interaction evidence, not a React prop."
         }
       },
-      "auditedAt": "2026-09-27T16:20:52.604Z"
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.input-otp",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:3840",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "f01e607d670d3d352467bb484fa62c9e35af7650",
+      "sectionId": "140:3791",
+      "sectionName": "Input OTP",
+      "contractHash": "27129544818e6dd41f81e4973abfb8ada8ad470b69811e45d02a085d00b22612",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "focus",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "input-otp",
+          "input-otp-group",
+          "input-otp-separator",
+          "input-otp-slot"
+        ],
+        "requiredTokenRoles": [
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:3792:248x36"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "focus-indicator-visibility-requires-deep-audit"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "color-only-differentiation-requires-deep-audit"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
     },
     {
       "entityId": "component.item",
@@ -873,7 +1403,7 @@
       "mainComponentKey": "1ee1c0f1cb0b07b1b9b9aca42e4c173c2a5c526a",
       "sectionId": "137:2196",
       "sectionName": "Item",
-      "contractHash": "19a4cc8b769a8f987a721b49cb9bb71478906c8a3ede4714bb535053def73c74",
+      "contractHash": "b32e9543c985a717b24563559f0bffe72a1c74df1fbbdc59b2c70f5ca31e69c6",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -968,7 +1498,7 @@
       "mainComponentKey": "5e5288b6fe0fcf68b39ee1d99717214ac55996b6",
       "sectionId": "137:2321",
       "sectionName": "Kbd",
-      "contractHash": "72c8e41711f3f81067b7ed1ea6227ea8fe377630c93fde9b062c510011dbef3a",
+      "contractHash": "be7f998f6fa92db9b7e2e71daab6004b8685561e8bbf9e75cd424e1ba0f88ba0",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1028,7 +1558,7 @@
       "mainComponentKey": "73f7ba6fc5afba32d26ae49e3b2b63be62f8ad76",
       "sectionId": "137:2331",
       "sectionName": "Label",
-      "contractHash": "e36c392494c3c7ac4166e0bb7181a915c7f3347ea72279ca3d20359a58dacac9",
+      "contractHash": "6f05d36771019137f589ca03da328b7c427039a865543f52ccdd4862569e2075",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1077,7 +1607,7 @@
       "mainComponentKey": "4631de579af2005a034b1685dcbda216cae7681c",
       "sectionId": "137:2336",
       "sectionName": "Marker",
-      "contractHash": "b4b26af5adb1ff7d48cca8477862469a89152110ba165f0ee36a53e9d810465d",
+      "contractHash": "6262df95cf89fd26f2465a605f131e3c8f8bc6caed2c986a63a0072e9bb032c0",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -1143,6 +1673,107 @@
       "auditedAt": "2026-09-27T16:21:15.583Z"
     },
     {
+      "entityId": "component.native-select",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:3948",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "c63f3e8472fa41e0fc8dc4fdef0fd45f9e5744d4",
+      "sectionId": "140:3931",
+      "sectionName": "Native Select",
+      "contractHash": "8c96bc7959908002ddfecee6aa276124ba3337e6a407cedfc84b9f04fd879c8d",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "focus",
+            "invalid",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "native-select",
+          "native-select-icon",
+          "native-select-optgroup",
+          "native-select-option",
+          "native-select-wrapper"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "radius/control",
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:351",
+          "name": "control-h"
+        },
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:79",
+          "name": "semantic/popover"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:3932:240x38"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "focus-indicator-visibility-requires-deep-audit"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "color-only-differentiation-requires-deep-audit"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
       "entityId": "component.page-header",
       "fileKey": "du0qpv9XrTt4HEWdPhesUh",
       "pageId": "1:1250",
@@ -1151,7 +1782,7 @@
       "mainComponentKey": "ec78cbbfd36af4e5e72f91734ea1f39dec5b3170",
       "sectionId": "137:2351",
       "sectionName": "Page Header",
-      "contractHash": "d3418d644c8cd0cf19f08b86f7a69b762de57231e4e66c79eb9508a8d32559be",
+      "contractHash": "88f9feda8325ab1bc83b18c8f1e5111baee040d4954f249e9a48e4cd716363a9",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1219,7 +1850,7 @@
       "mainComponentKey": "25e7d7873c800f6b26a597fb61c66d7338e4691d",
       "sectionId": "137:2362",
       "sectionName": "Panels",
-      "contractHash": "eeccf247c231d418f2bf438580c421e06e9e0ccfd377fb59e004d2f0a052216c",
+      "contractHash": "5b7814dc025cabd7e3428f1988fba356ded374afafc8ccafba0e887e88c3e315",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1305,7 +1936,7 @@
       "mainComponentKey": "a8f38bf767a0a25803401cd3e8f8dfc71803d11d",
       "sectionId": "137:2393",
       "sectionName": "Progress",
-      "contractHash": "2e2363e1508a22821cef75b68646bb021b199007adf0dc5d91aca0618aa8a5e8",
+      "contractHash": "53ab9919165be267a7a8f6dbfa2b58b2c96932b75efe2f65017e47f14072377b",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1368,6 +1999,205 @@
       "auditedAt": "2026-09-27T16:21:15.583Z"
     },
     {
+      "entityId": "component.radio-group",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:4026",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "9047a928152406ed7077d56835b516a7aaaf05a3",
+      "sectionId": "140:4005",
+      "sectionName": "Radio Group",
+      "contractHash": "adb567cb7a9beec13eec8fd62db90d4c8cc79c8971b71a4c45af2ae2f259f986",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "checked",
+            "focus",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "radio-group",
+          "radio-group-indicator",
+          "radio-group-item"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:1548",
+          "name": "radius/full"
+        },
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:4006:93x24"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "focus-indicator-visibility-requires-deep-audit"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "color-only-differentiation-requires-deep-audit"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop. State applies to the namespaced Radio Group / Item variants inside the owning section."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.select",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:4090",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "a31b3832e477fcb592f1d164938b8c4abe3c4f1d",
+      "sectionId": "140:4077",
+      "sectionName": "Select",
+      "contractHash": "64c1335f670e9058aa311ff56e831df2d01ff38f6cf5004b4078227883b08480",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "focus",
+            "invalid",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "select-content",
+          "select-group",
+          "select-item",
+          "select-label",
+          "select-scroll-down-button",
+          "select-scroll-up-button",
+          "select-separator",
+          "select-trigger",
+          "select-value"
+        ],
+        "requiredTokenRoles": [
+          "metric/control-height",
+          "radius/control",
+          "radius/floating",
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:351",
+          "name": "control-h"
+        },
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:79",
+          "name": "semantic/popover"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        },
+        {
+          "id": "VariableID:87:1733",
+          "name": "radius/floating"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:4078:240x38"
+        },
+        "focusState": {
+          "verdict": "pass",
+          "evidence": "focus-variant-with-non-color-indicator:140:4081"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "pass",
+          "evidence": "focus-variant-stroke-or-effect-differentiation-excluding-color"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop. State applies to the select trigger; the floating content is namespaced anatomy inside the owning section."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
       "entityId": "component.separator",
       "fileKey": "du0qpv9XrTt4HEWdPhesUh",
       "pageId": "1:1250",
@@ -1376,7 +2206,7 @@
       "mainComponentKey": "58dd1258a93434edd088262b3e5852a8b6b6c01b",
       "sectionId": "137:2406",
       "sectionName": "Separator",
-      "contractHash": "693ff609926ae860b7436d09b8e51297812af72af313f7a860bdc5453aba3bab",
+      "contractHash": "c77be2a34b326cba51f003a435b43c2d779b7ec7e7235d78f102edfd1d9c0d6e",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1425,7 +2255,7 @@
       "mainComponentKey": "4e16316e02b580ee9559a5959b4ea861fda9ad1d",
       "sectionId": "7:289",
       "sectionName": "Sidebar",
-      "contractHash": "12dcab537d0da572e4e18e1962f50b1e8d305a11979a21bb17f1a63616b07a66",
+      "contractHash": "b06250f8d269d05bcee89809fe27402c1bf095c4481586f45bf68e28f610fd48",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -1533,7 +2363,7 @@
       "mainComponentKey": "eecd55b5820a90ca2bed92ce506d08102df95522",
       "sectionId": "137:2409",
       "sectionName": "Skeleton",
-      "contractHash": "87a9bcf7c78299915271746a3ea03970503a7075cb175da658ae1725e555b1e4",
+      "contractHash": "81f216d23be355c90f4fa6dd8807d02ee0e2c5e0c9dcbab1e775e551f8001026",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1580,6 +2410,98 @@
       "auditedAt": "2026-09-27T16:21:15.583Z"
     },
     {
+      "entityId": "component.slider",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:4172",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "395b2e0a6a98fee7ed32eb643f1c1407c8cf9159",
+      "sectionId": "140:4159",
+      "sectionName": "Slider",
+      "contractHash": "77a97d4ca9d28f659ead92f7baf25a5f1cd6917e8b738d7d438ea950e667532e",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "focus",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "slider",
+          "slider-range",
+          "slider-thumb",
+          "slider-track"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:1548",
+          "name": "radius/full"
+        },
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:4160:240x24"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "focus-indicator-visibility-requires-deep-audit"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "color-only-differentiation-requires-deep-audit"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
       "entityId": "component.spinner",
       "fileKey": "du0qpv9XrTt4HEWdPhesUh",
       "pageId": "1:1250",
@@ -1588,7 +2510,7 @@
       "mainComponentKey": "22558f42e7bd1be6817ce33f5a7a91806d0df32a",
       "sectionId": "137:2412",
       "sectionName": "Spinner",
-      "contractHash": "df76c7e02781effeb742d0c68e491fb420013bf7ed95c97a55e9b35a948e5574",
+      "contractHash": "ebbddc4c5f33e8981ab1eed37d61d50849ec3c705daa09937a5f530d3cb1c377",
       "contractEvidence": {
         "codeVariantAxes": {},
         "designStateAxes": {},
@@ -1637,7 +2559,7 @@
       "mainComponentKey": "56cefdb593fc0ed5a7140c7332654c844b9467a8",
       "sectionId": "137:2417",
       "sectionName": "Status Badge",
-      "contractHash": "d11a23ad430246fb1c9f628703ef01ba6b326404893fa484ee0dbd1477ffec4f",
+      "contractHash": "575383b4dad16fb316cb5f220645394fd7ffd4cdf6b8e4ef641001cc2a288c1e",
       "contractEvidence": {
         "codeVariantAxes": {
           "status": [
@@ -1709,6 +2631,381 @@
         }
       },
       "auditedAt": "2026-09-27T16:21:15.583Z"
+    },
+    {
+      "entityId": "component.switch",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:4228",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "b98a8b819fb62dbc6e518797061081d0d429b077",
+      "sectionId": "140:4215",
+      "sectionName": "Switch",
+      "contractHash": "853d64e014cda4633f992b67faf44e7542b50d517033a6e51ed423d2e5f7e69d",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "checked",
+            "focus",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "switch",
+          "switch-thumb"
+        ],
+        "requiredTokenRoles": [
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:1548",
+          "name": "radius/full"
+        },
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:81",
+          "name": "semantic/primary"
+        },
+        {
+          "id": "VariableID:1:85",
+          "name": "semantic/muted"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:4216:36x24"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "focus-indicator-visibility-requires-deep-audit"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "color-only-differentiation-requires-deep-audit"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.textarea",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:4275",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "372e82246cfa2cb5b6514229abf914e64eb8df84",
+      "sectionId": "140:4266",
+      "sectionName": "Textarea",
+      "contractHash": "606fce73cb1c7e5bcbc3b0724294e64804f94ed1e21b872901a9cf1885ebbaed",
+      "contractEvidence": {
+        "codeVariantAxes": {},
+        "designStateAxes": {
+          "State": [
+            "default",
+            "focus",
+            "invalid",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "textarea"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:89",
+          "name": "semantic/destructive"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:4267:320x80"
+        },
+        "focusState": {
+          "verdict": "pass",
+          "evidence": "focus-variant-with-non-color-indicator:140:4269"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "pass",
+          "evidence": "focus-variant-stroke-or-effect-differentiation-excluding-color"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.toggle",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:4354",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "a8b01adf03f1e2236a40dd0b85f79c6017fe543f",
+      "sectionId": "140:4305",
+      "sectionName": "Toggle",
+      "contractHash": "3314498cf181f027903deb1d858b0b7753de30aac98d6f6cd82e72310f2f1b8a",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "variant": [
+            "default",
+            "outline"
+          ],
+          "size": [
+            "default",
+            "lg",
+            "sm"
+          ]
+        },
+        "designStateAxes": {
+          "State": [
+            "default",
+            "on",
+            "focus",
+            "disabled"
+          ]
+        },
+        "figmaProperties": {},
+        "anatomySlots": [
+          "toggle"
+        ],
+        "requiredTokenRoles": [
+          "radius/control",
+          "semantic/fill",
+          "semantic/stroke"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:87",
+          "name": "semantic/accent"
+        },
+        {
+          "id": "VariableID:1:88",
+          "name": "semantic/accent-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:1:93",
+          "name": "semantic/ring"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "pass",
+          "evidence": "default-variant:140:4306:63x36"
+        },
+        "focusState": {
+          "verdict": "pass",
+          "evidence": "focus-variant-with-non-color-indicator:140:4310"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "pass",
+          "evidence": "focus-variant-stroke-or-effect-differentiation-excluding-color"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "State is Figma-only interaction evidence, not a React prop. on mirrors the code data-state=on pressed state."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
+    },
+    {
+      "entityId": "component.toggle-group",
+      "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+      "pageId": "1:1250",
+      "nodeId": "140:4705",
+      "nodeType": "COMPONENT_SET",
+      "mainComponentKey": "ed4c3c359f9459f54b884ffdbc066c0e95519f7f",
+      "sectionId": "140:4601",
+      "sectionName": "Toggle Group",
+      "contractHash": "da746db26f306e08bf050884eb3c6fa274d9e765aca98040164d0fde5cf9c578",
+      "contractEvidence": {
+        "codeVariantAxes": {
+          "Type": [
+            "single",
+            "multiple"
+          ],
+          "Variant": [
+            "default",
+            "outline"
+          ],
+          "Size": [
+            "sm",
+            "default",
+            "lg"
+          ]
+        },
+        "designStateAxes": {},
+        "figmaProperties": {},
+        "anatomySlots": [
+          "toggle-group",
+          "toggle-group-item"
+        ],
+        "requiredTokenRoles": [
+          "radius/control"
+        ]
+      },
+      "semanticBindings": [
+        {
+          "id": "VariableID:1:75",
+          "name": "semantic/background"
+        },
+        {
+          "id": "VariableID:1:76",
+          "name": "semantic/foreground"
+        },
+        {
+          "id": "VariableID:1:77",
+          "name": "semantic/card"
+        },
+        {
+          "id": "VariableID:1:86",
+          "name": "semantic/muted-foreground"
+        },
+        {
+          "id": "VariableID:1:87",
+          "name": "semantic/accent"
+        },
+        {
+          "id": "VariableID:1:88",
+          "name": "semantic/accent-foreground"
+        },
+        {
+          "id": "VariableID:1:91",
+          "name": "semantic/border"
+        },
+        {
+          "id": "VariableID:81:1603",
+          "name": "radius/control"
+        }
+      ],
+      "accessibility": {
+        "nameRole": {
+          "verdict": "notApplicable",
+          "reason": "runtime-accessible-name-and-role-not-provable"
+        },
+        "target": {
+          "verdict": "notApplicable",
+          "reason": "non-interactive-contract"
+        },
+        "focusState": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-design-state"
+        },
+        "nonColorDifferentiation": {
+          "verdict": "notApplicable",
+          "reason": "no-focus-variant-for-comparison"
+        },
+        "annotations": {
+          "verdict": "pass",
+          "evidence": "Axes mirror the inherited Base UI selection type and the imported toggleVariants contract."
+        }
+      },
+      "auditedAt": "2026-09-28T13:18:55.428Z"
     }
   ]
 }

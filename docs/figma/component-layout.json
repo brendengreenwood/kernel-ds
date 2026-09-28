@@ -87,6 +87,20 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.button-group",
+      "sectionNodeId": "137:2452",
+      "bounds": {
+        "x": 0,
+        "y": 5186,
+        "width": 560,
+        "height": 584
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:399",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.card",
       "sectionNodeId": "136:2151",
       "bounds": {
@@ -97,6 +111,34 @@
       },
       "expectedX": 0,
       "predecessorSectionId": "7:399",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.checkbox",
+      "sectionNodeId": "137:2484",
+      "bounds": {
+        "x": 0,
+        "y": 6342,
+        "width": 288,
+        "height": 164
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "136:2151",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.combobox",
+      "sectionNodeId": "137:2501",
+      "bounds": {
+        "x": 0,
+        "y": 6666,
+        "width": 948,
+        "height": 381
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2484",
       "gap": 160,
       "verdict": "pass"
     },
@@ -115,16 +157,58 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.field",
+      "sectionNodeId": "137:2532",
+      "bounds": {
+        "x": 0,
+        "y": 7699,
+        "width": 784,
+        "height": 590
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "136:2172",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.form",
+      "sectionNodeId": "137:2586",
+      "bounds": {
+        "x": 0,
+        "y": 8449,
+        "width": 400,
+        "height": 194
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2532",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.input",
       "sectionNodeId": "7:400",
       "bounds": {
         "x": 0,
-        "y": 6090,
+        "y": 8803,
         "width": 1346,
         "height": 395
       },
       "expectedX": 0,
-      "predecessorSectionId": "136:2172",
+      "predecessorSectionId": "137:2586",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.input-otp",
+      "sectionNodeId": "140:3791",
+      "bounds": {
+        "x": 0,
+        "y": 9358,
+        "width": 984,
+        "height": 598
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:400",
       "gap": 160,
       "verdict": "pass"
     },
@@ -185,6 +269,20 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.native-select",
+      "sectionNodeId": "140:3931",
+      "bounds": {
+        "x": 0,
+        "y": 11851,
+        "width": 1274,
+        "height": 683
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2336",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.page-header",
       "sectionNodeId": "137:2351",
       "bounds": {
@@ -223,6 +321,34 @@
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2362",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.radio-group",
+      "sectionNodeId": "140:4005",
+      "bounds": {
+        "x": 0,
+        "y": 13870,
+        "width": 900,
+        "height": 574
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2393",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.select",
+      "sectionNodeId": "140:4077",
+      "bounds": {
+        "x": 0,
+        "y": 14604,
+        "width": 1855,
+        "height": 726
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "140:4005",
       "gap": 160,
       "verdict": "pass"
     },
@@ -269,6 +395,20 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.slider",
+      "sectionNodeId": "140:4159",
+      "bounds": {
+        "x": 0,
+        "y": 17124,
+        "width": 984,
+        "height": 574
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2409",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.spinner",
       "sectionNodeId": "137:2412",
       "bounds": {
@@ -293,6 +433,62 @@
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2412",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.switch",
+      "sectionNodeId": "140:4215",
+      "bounds": {
+        "x": 0,
+        "y": 18496,
+        "width": 900,
+        "height": 574
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2417",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.textarea",
+      "sectionNodeId": "140:4266",
+      "bounds": {
+        "x": 0,
+        "y": 19230,
+        "width": 1594,
+        "height": 790
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "140:4215",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.toggle",
+      "sectionNodeId": "140:4305",
+      "bounds": {
+        "x": 0,
+        "y": 20180,
+        "width": 900,
+        "height": 922
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "140:4266",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.toggle-group",
+      "sectionNodeId": "140:4601",
+      "bounds": {
+        "x": 0,
+        "y": 21262,
+        "width": 960,
+        "height": 614
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "140:4305",
       "gap": 160,
       "verdict": "pass"
     }

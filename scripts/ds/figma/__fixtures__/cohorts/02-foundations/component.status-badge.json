@@ -5,7 +5,7 @@
   "mainComponentKey": "56cefdb593fc0ed5a7140c7332654c844b9467a8",
   "sectionId": "137:2417",
   "sectionName": "Status Badge",
-  "contractHash": "d11a23ad430246fb1c9f628703ef01ba6b326404893fa484ee0dbd1477ffec4f",
+  "contractHash": "575383b4dad16fb316cb5f220645394fd7ffd4cdf6b8e4ef641001cc2a288c1e",
   "requiredTokenRoles": [],
   "anatomySlots": [
     "status-badge"

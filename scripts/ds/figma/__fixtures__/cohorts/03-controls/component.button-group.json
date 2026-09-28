@@ -1,0 +1,26 @@
+{
+  "entityId": "component.button-group",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "e798ce765cfdae4c28756beb5f3c357c52779b2f",
+  "sectionId": "137:2452",
+  "sectionName": "Button Group",
+  "contractHash": "e7ff97cb999d78d7e430daa73c225608184795fa1fc2354968c7e23f8928b6ff",
+  "variantAxes": {
+    "orientation": [
+      "horizontal",
+      "vertical"
+    ]
+  },
+  "designStateAxes": {},
+  "figmaProperties": {},
+  "anatomySlots": [
+    "button-group",
+    "button-group-separator"
+  ],
+  "requiredTokenRoles": [
+    "radius/control",
+    "semantic/fill"
+  ],
+  "layoutSectionNodeId": "137:2452",
+  "layoutVerdict": "pass"
+}

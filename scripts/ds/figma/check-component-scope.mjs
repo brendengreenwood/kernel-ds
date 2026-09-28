@@ -40,6 +40,27 @@ export const SEGMENT_COHORTS = {
       "component.status-badge",
     ],
   },
+  "03-controls-with-button-input": {
+    purpose: "Form control and selection families plus reconciled Button and Input",
+    entityIds: [
+      "component.button",
+      "component.button-group",
+      "component.checkbox",
+      "component.combobox",
+      "component.field",
+      "component.form",
+      "component.input",
+      "component.input-otp",
+      "component.native-select",
+      "component.radio-group",
+      "component.select",
+      "component.slider",
+      "component.switch",
+      "component.textarea",
+      "component.toggle",
+      "component.toggle-group",
+    ],
+  },
 }
 
 export function buildComponentCohorts(scope = loadComponentScope()) {

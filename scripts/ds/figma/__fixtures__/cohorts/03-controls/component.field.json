@@ -1,0 +1,39 @@
+{
+  "entityId": "component.field",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "a229cbbf25926ab9cce811bca9e5a31491023ff6",
+  "sectionId": "137:2532",
+  "sectionName": "Field",
+  "contractHash": "c527b051b44cfe6546a09cc9ac6fdf44b1ed84f3a63a3d98fda543d05fc903ae",
+  "variantAxes": {
+    "orientation": [
+      "horizontal",
+      "responsive",
+      "vertical"
+    ]
+  },
+  "designStateAxes": {
+    "State": [
+      "default",
+      "invalid"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "field",
+    "field-content",
+    "field-description",
+    "field-error",
+    "field-group",
+    "field-label",
+    "field-legend",
+    "field-separator",
+    "field-separator-content",
+    "field-set"
+  ],
+  "requiredTokenRoles": [
+    "semantic/fill"
+  ],
+  "layoutSectionNodeId": "137:2532",
+  "layoutVerdict": "pass"
+}

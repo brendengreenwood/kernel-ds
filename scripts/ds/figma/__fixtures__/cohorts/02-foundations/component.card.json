@@ -5,7 +5,7 @@
   "mainComponentKey": "5e341dc1fd96321d3a3e31360c96fd0b222c9ecc",
   "sectionId": "136:2151",
   "sectionName": "Card",
-  "contractHash": "5707d6a9a757df6d85d463ad02d4fe35b96e36db179925c4f7f598db074bc8b0",
+  "contractHash": "5bbfae388c48f33032b36d2d07c65e35d7890f03401ba92fcf03d35631c015fc",
   "requiredTokenRoles": [
     "semantic/fill"
   ],

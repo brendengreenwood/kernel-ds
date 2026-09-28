@@ -1,0 +1,27 @@
+{
+  "entityId": "component.textarea",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "372e82246cfa2cb5b6514229abf914e64eb8df84",
+  "sectionId": "140:4266",
+  "sectionName": "Textarea",
+  "contractHash": "606fce73cb1c7e5bcbc3b0724294e64804f94ed1e21b872901a9cf1885ebbaed",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "focus",
+      "invalid",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "textarea"
+  ],
+  "requiredTokenRoles": [
+    "radius/control",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "140:4266",
+  "layoutVerdict": "pass"
+}

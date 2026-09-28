@@ -1,0 +1,34 @@
+{
+  "entityId": "component.toggle-group",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "ed4c3c359f9459f54b884ffdbc066c0e95519f7f",
+  "sectionId": "140:4601",
+  "sectionName": "Toggle Group",
+  "contractHash": "da746db26f306e08bf050884eb3c6fa274d9e765aca98040164d0fde5cf9c578",
+  "variantAxes": {
+    "Type": [
+      "single",
+      "multiple"
+    ],
+    "Variant": [
+      "default",
+      "outline"
+    ],
+    "Size": [
+      "sm",
+      "default",
+      "lg"
+    ]
+  },
+  "designStateAxes": {},
+  "figmaProperties": {},
+  "anatomySlots": [
+    "toggle-group",
+    "toggle-group-item"
+  ],
+  "requiredTokenRoles": [
+    "radius/control"
+  ],
+  "layoutSectionNodeId": "140:4601",
+  "layoutVerdict": "pass"
+}
