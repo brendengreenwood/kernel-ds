@@ -5,7 +5,7 @@
   "mainComponentKey": "25e7d7873c800f6b26a597fb61c66d7338e4691d",
   "sectionId": "137:2362",
   "sectionName": "Panels",
-  "contractHash": "eeccf247c231d418f2bf438580c421e06e9e0ccfd377fb59e004d2f0a052216c",
+  "contractHash": "5b7814dc025cabd7e3428f1988fba356ded374afafc8ccafba0e887e88c3e315",
   "requiredTokenRoles": [
     "radius/control",
     "radius/surface",

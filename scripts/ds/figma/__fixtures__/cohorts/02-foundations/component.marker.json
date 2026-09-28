@@ -5,7 +5,7 @@
   "mainComponentKey": "4631de579af2005a034b1685dcbda216cae7681c",
   "sectionId": "137:2336",
   "sectionName": "Marker",
-  "contractHash": "b4b26af5adb1ff7d48cca8477862469a89152110ba165f0ee36a53e9d810465d",
+  "contractHash": "6262df95cf89fd26f2465a605f131e3c8f8bc6caed2c986a63a0072e9bb032c0",
   "requiredTokenRoles": [
     "semantic/stroke"
   ],

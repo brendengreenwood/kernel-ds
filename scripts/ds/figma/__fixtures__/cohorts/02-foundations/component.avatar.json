@@ -5,7 +5,7 @@
   "mainComponentKey": "f4b8b0d8357d153939c494a422c191b40ebca697",
   "sectionId": "134:2113",
   "sectionName": "Avatar",
-  "contractHash": "b6bd49be76c9be9780f1f798dad495b8ed015dcb5fbafc5f7402b0f344fb5a7b",
+  "contractHash": "d4cee555b200f5f68c9e25fcc168e786b02287767915d8e963c9a29a42341ff5",
   "requiredTokenRoles": [
     "semantic/fill",
     "semantic/stroke"

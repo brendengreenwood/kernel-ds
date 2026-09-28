@@ -1,13 +1,17 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import test from "node:test"
-import { buildComponentContracts } from "../build-component-contracts.mjs"
+import { buildComponentContracts, normalizeSourceText } from "../build-component-contracts.mjs"
 import { buildComponentIntegrationManifest } from "../build-component-integration.mjs"
 import { buildComponentCohorts } from "../check-component-scope.mjs"
 import { loadComponentScope, stableJson } from "../component-scope.mjs"
 import { validateLiveAuditResponse } from "../live-component-audit.mjs"
 
 const fixtureCases = JSON.parse(readFileSync(new URL("../__fixtures__/component-integration/cases.json", import.meta.url), "utf8")).cases
+
+test("component source normalization is stable across line endings", () => {
+  assert.equal(normalizeSourceText("one\r\ntwo\rthree\n"), "one\ntwo\nthree\n")
+})
 
 test("component scope is exactly 62 components, 3 elements, and 3 non-catalog modules", () => {
   const scope = loadComponentScope()

@@ -5,7 +5,7 @@
   "mainComponentKey": "63e02c463546989eb1cb4427a4001e07f40697da",
   "sectionId": "132:2022",
   "sectionName": "Alert",
-  "contractHash": "3fdcc80a704fd6b76c5a844a05653d3a4e69f469a2b2b7b843848a09b0f413ab",
+  "contractHash": "9181ae4bb5c26c2124d53d915d7087480e64249e7c6192f270141f0dcd9af98d",
   "requiredTokenRoles": [
     "semantic/fill"
   ],

@@ -5,7 +5,7 @@
   "mainComponentKey": "91170e2f4aac568fa47b0067aabf6d038627f3b6",
   "sectionId": "136:2133",
   "sectionName": "Badge",
-  "contractHash": "1923d76d0669544f7157864220b70d0d8fd87f38913ca73e4abb6aac11380e36",
+  "contractHash": "11af82727b968c8e9aaa1cb71e00f66225f66da95c6460170fc4eccf21acafa7",
   "requiredTokenRoles": [
     "semantic/fill"
   ],

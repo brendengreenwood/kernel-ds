@@ -5,7 +5,7 @@
   "mainComponentKey": "eecd55b5820a90ca2bed92ce506d08102df95522",
   "sectionId": "137:2409",
   "sectionName": "Skeleton",
-  "contractHash": "87a9bcf7c78299915271746a3ea03970503a7075cb175da658ae1725e555b1e4",
+  "contractHash": "81f216d23be355c90f4fa6dd8807d02ee0e2c5e0c9dcbab1e775e551f8001026",
   "requiredTokenRoles": [
     "semantic/fill"
   ],
