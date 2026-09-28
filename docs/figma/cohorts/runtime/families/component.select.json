@@ -1,7 +1,7 @@
 {
   "$schema": "kernel-ds/figma-runtime-proof-cohort@1",
   "name": "component.select",
-  "matrixHash": "f87c04094139de1447464a2c6ae2191c0be0c12755488110a24e36317b3c0381",
+  "matrixHash": "064485bc2864de7def63283db2089f90396f2fed67322b421ea7b845ba0772b5",
   "entityIds": [
     "component.select"
   ],

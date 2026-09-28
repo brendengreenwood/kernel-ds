@@ -1,14 +1,11 @@
-import { createHash } from "node:crypto"
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { loadComponentScope, stableJson } from "./component-scope.mjs"
-import { validateMatrix } from "../../../kernel-portal/scripts/check-figma-runtime-proof.mjs"
-
-const sha256 = (value) => createHash("sha256").update(value).digest("hex")
+import { matrixHash as hashMatrix, validateMatrix } from "../../../kernel-portal/scripts/check-figma-runtime-proof.mjs"
 const components = loadComponentScope().components
 const matrixPath = "docs/figma/runtime-proof-matrix.json"
 const matrixText = readFileSync(matrixPath, "utf8")
 const matrix = validateMatrix(JSON.parse(matrixText), components.map((entity) => entity.id))
-const matrixHash = sha256(matrixText)
+const matrixHash = hashMatrix(matrixText)
 const scenarioIds = new Map(matrix.scenarios.map((scenario) => [scenario.entityId, scenario.scenarioId]))
 const cohortDir = "docs/figma/cohorts/runtime"
 mkdirSync(`${cohortDir}/families`, { recursive: true })
