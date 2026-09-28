@@ -1,8 +1,8 @@
 {
   "entityId": "component.switch",
   "nodeType": "COMPONENT_SET",
-  "mainComponentKey": "ab3a169aa672d1fc4f67edad93c65a531b94c837",
-  "sectionId": "137:3252",
+  "mainComponentKey": "b98a8b819fb62dbc6e518797061081d0d429b077",
+  "sectionId": "140:4215",
   "sectionName": "Switch",
   "contractHash": "853d64e014cda4633f992b67faf44e7542b50d517033a6e51ed423d2e5f7e69d",
   "variantAxes": {},
@@ -23,6 +23,6 @@
     "semantic/fill",
     "semantic/stroke"
   ],
-  "layoutSectionNodeId": "137:3252",
+  "layoutSectionNodeId": "140:4215",
   "layoutVerdict": "pass"
 }

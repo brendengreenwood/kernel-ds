@@ -3598,7 +3598,21 @@
         "packages/ui/src/components/ui/toggle-group.tsx"
       ],
       "sourceHash": "79db98324e010d85e795588b5c072a2aef3eebc903bc703bce7983af4dde1b91",
-      "variantAxes": {},
+      "variantAxes": {
+        "Type": [
+          "single",
+          "multiple"
+        ],
+        "Variant": [
+          "default",
+          "outline"
+        ],
+        "Size": [
+          "sm",
+          "default",
+          "lg"
+        ]
+      },
       "publicProperties": [
         "children",
         "className",
@@ -3626,8 +3640,10 @@
       ],
       "designStateAxes": {},
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "6d2418efc8093426e79cf057c2a825e1ded43086201b4dad89b0e9ef7ca46db1"
+      "notes": [
+        "Axes mirror the inherited Base UI selection type and the imported toggleVariants contract."
+      ],
+      "contractHash": "da746db26f306e08bf050884eb3c6fa274d9e765aca98040164d0fde5cf9c578"
     },
     {
       "entityId": "component.tooltip",

@@ -1,8 +1,8 @@
 {
   "entityId": "component.toggle",
   "nodeType": "COMPONENT_SET",
-  "mainComponentKey": "dccd8db965d81bc77f4b5cee740cbd5454ebbedf",
-  "sectionId": "137:3346",
+  "mainComponentKey": "a8b01adf03f1e2236a40dd0b85f79c6017fe543f",
+  "sectionId": "140:4305",
   "sectionName": "Toggle",
   "contractHash": "3314498cf181f027903deb1d858b0b7753de30aac98d6f6cd82e72310f2f1b8a",
   "variantAxes": {
@@ -33,6 +33,6 @@
     "semantic/fill",
     "semantic/stroke"
   ],
-  "layoutSectionNodeId": "137:3346",
+  "layoutSectionNodeId": "140:4305",
   "layoutVerdict": "pass"
 }

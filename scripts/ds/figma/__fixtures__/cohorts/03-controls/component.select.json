@@ -1,8 +1,8 @@
 {
   "entityId": "component.select",
   "nodeType": "COMPONENT_SET",
-  "mainComponentKey": "edee0a5b18b46b903618c2f75b70a2740132b794",
-  "sectionId": "137:3113",
+  "mainComponentKey": "a31b3832e477fcb592f1d164938b8c4abe3c4f1d",
+  "sectionId": "140:4077",
   "sectionName": "Select",
   "contractHash": "64c1335f670e9058aa311ff56e831df2d01ff38f6cf5004b4078227883b08480",
   "variantAxes": {},
@@ -33,6 +33,6 @@
     "semantic/fill",
     "semantic/stroke"
   ],
-  "layoutSectionNodeId": "137:3113",
+  "layoutSectionNodeId": "140:4077",
   "layoutVerdict": "pass"
 }

@@ -822,7 +822,7 @@
         "page": "Components",
         "sectionId": "7:399",
         "sectionName": "Button",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "3748671155e581b496e4b6519a9426e1542266f02a5eadd3528ed277254c3777",
@@ -903,7 +903,7 @@
         "page": "Components",
         "sectionId": "137:2452",
         "sectionName": "Button Group",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "e7ff97cb999d78d7e430daa73c225608184795fa1fc2354968c7e23f8928b6ff",
@@ -1297,7 +1297,7 @@
         "page": "Components",
         "sectionId": "137:2484",
         "sectionName": "Checkbox",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "8e4b8300c2332a114a16e916cc29543ecb2da93c3358e8a46fd66c981a8f46b2",
@@ -1418,7 +1418,7 @@
         "page": "Components",
         "sectionId": "137:2501",
         "sectionName": "Combobox",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "f7743200701ff79a01cb148c0d4f7509b44b5e14cd1351fa73710c4f246d7b93",
@@ -2235,7 +2235,7 @@
         "page": "Components",
         "sectionId": "137:2532",
         "sectionName": "Field",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "c527b051b44cfe6546a09cc9ac6fdf44b1ed84f3a63a3d98fda543d05fc903ae",
@@ -2346,7 +2346,7 @@
         "page": "Components",
         "sectionId": "137:2586",
         "sectionName": "Form",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "f91122b6ee32ab9ece56386f722b89b541f12dec007b4771a7d4cf89198fca16",
@@ -2491,7 +2491,7 @@
         "page": "Components",
         "sectionId": "7:400",
         "sectionName": "Input",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "8b438b84b050613a5a4a14bb3b4782288b7147d643b602a4e71795576db6b987",
@@ -2544,13 +2544,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:2878",
-        "key": "d97d50c3cfd05d0413af7988880172dfa6281c1f",
+        "nodeId": "140:3840",
+        "key": "f01e607d670d3d352467bb484fa62c9e35af7650",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:2829",
+        "sectionId": "140:3791",
         "sectionName": "Input OTP",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "27129544818e6dd41f81e4973abfb8ada8ad470b69811e45d02a085d00b22612",
@@ -3216,13 +3216,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:2986",
-        "key": "c99ea2b763dc6219dc4248f9fadd008ba6770575",
+        "nodeId": "140:3948",
+        "key": "c63f3e8472fa41e0fc8dc4fdef0fd45f9e5744d4",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:2969",
+        "sectionId": "140:3931",
         "sectionName": "Native Select",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "8c96bc7959908002ddfecee6aa276124ba3337e6a407cedfc84b9f04fd879c8d",
@@ -3796,13 +3796,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:3063",
-        "key": "5f2464830634839dd1986addac20711dc859692b",
+        "nodeId": "140:4026",
+        "key": "9047a928152406ed7077d56835b516a7aaaf05a3",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:3042",
+        "sectionId": "140:4005",
         "sectionName": "Radio Group",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "adb567cb7a9beec13eec8fd62db90d4c8cc79c8971b71a4c45af2ae2f259f986",
@@ -4025,13 +4025,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:3126",
-        "key": "edee0a5b18b46b903618c2f75b70a2740132b794",
+        "nodeId": "140:4090",
+        "key": "a31b3832e477fcb592f1d164938b8c4abe3c4f1d",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:3113",
+        "sectionId": "140:4077",
         "sectionName": "Select",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "64c1335f670e9058aa311ff56e831df2d01ff38f6cf5004b4078227883b08480",
@@ -4522,13 +4522,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:3207",
-        "key": "c13e1f48cedd86c347bdf05646a25e1fe16732d5",
+        "nodeId": "140:4172",
+        "key": "395b2e0a6a98fee7ed32eb643f1c1407c8cf9159",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:3194",
+        "sectionId": "140:4159",
         "sectionName": "Slider",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "77a97d4ca9d28f659ead92f7baf25a5f1cd6917e8b738d7d438ea950e667532e",
@@ -4751,13 +4751,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:3265",
-        "key": "ab3a169aa672d1fc4f67edad93c65a531b94c837",
+        "nodeId": "140:4228",
+        "key": "b98a8b819fb62dbc6e518797061081d0d429b077",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:3252",
+        "sectionId": "140:4215",
         "sectionName": "Switch",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "853d64e014cda4633f992b67faf44e7542b50d517033a6e51ed423d2e5f7e69d",
@@ -5005,13 +5005,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:3314",
-        "key": "b7d4119997362644c165db11324891dc3310e3e4",
+        "nodeId": "140:4275",
+        "key": "372e82246cfa2cb5b6514229abf914e64eb8df84",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:3305",
+        "sectionId": "140:4266",
         "sectionName": "Textarea",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "606fce73cb1c7e5bcbc3b0724294e64804f94ed1e21b872901a9cf1885ebbaed",
@@ -5061,13 +5061,13 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:3395",
-        "key": "dccd8db965d81bc77f4b5cee740cbd5454ebbedf",
+        "nodeId": "140:4354",
+        "key": "a8b01adf03f1e2236a40dd0b85f79c6017fe543f",
         "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:3346",
+        "sectionId": "140:4305",
         "sectionName": "Toggle",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
         "contractHash": "3314498cf181f027903deb1d858b0b7753de30aac98d6f6cd82e72310f2f1b8a",
@@ -5131,18 +5131,32 @@
       ],
       "figma": {
         "status": "integrated",
-        "nodeId": "137:3455",
-        "key": "493ba9dc952e2d8bb198d6a1a8bcc61053969f17",
-        "kind": "COMPONENT",
+        "nodeId": "140:4705",
+        "key": "ed4c3c359f9459f54b884ffdbc066c0e95519f7f",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": "137:3454",
+        "sectionId": "140:4601",
         "sectionName": "Toggle Group",
-        "auditedAt": "2026-09-28T02:04:27.486Z"
+        "auditedAt": "2026-09-28T13:18:55.428Z"
       },
       "contract": {
-        "contractHash": "6d2418efc8093426e79cf057c2a825e1ded43086201b4dad89b0e9ef7ca46db1",
+        "contractHash": "da746db26f306e08bf050884eb3c6fa274d9e765aca98040164d0fde5cf9c578",
         "sourceHash": "79db98324e010d85e795588b5c072a2aef3eebc903bc703bce7983af4dde1b91",
-        "variantAxes": {},
+        "variantAxes": {
+          "Type": [
+            "single",
+            "multiple"
+          ],
+          "Variant": [
+            "default",
+            "outline"
+          ],
+          "Size": [
+            "sm",
+            "default",
+            "lg"
+          ]
+        },
         "publicProperties": [
           "children",
           "className",
@@ -5168,7 +5182,9 @@
         "requiredTokenRoles": [
           "radius/control"
         ],
-        "notes": []
+        "notes": [
+          "Axes mirror the inherited Base UI selection type and the imported toggleVariants contract."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",

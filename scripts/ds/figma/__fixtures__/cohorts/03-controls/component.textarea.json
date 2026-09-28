@@ -1,8 +1,8 @@
 {
   "entityId": "component.textarea",
   "nodeType": "COMPONENT_SET",
-  "mainComponentKey": "b7d4119997362644c165db11324891dc3310e3e4",
-  "sectionId": "137:3305",
+  "mainComponentKey": "372e82246cfa2cb5b6514229abf914e64eb8df84",
+  "sectionId": "140:4266",
   "sectionName": "Textarea",
   "contractHash": "606fce73cb1c7e5bcbc3b0724294e64804f94ed1e21b872901a9cf1885ebbaed",
   "variantAxes": {},
@@ -22,6 +22,6 @@
     "radius/control",
     "semantic/stroke"
   ],
-  "layoutSectionNodeId": "137:3305",
+  "layoutSectionNodeId": "140:4266",
   "layoutVerdict": "pass"
 }

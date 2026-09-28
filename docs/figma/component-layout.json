@@ -78,8 +78,8 @@
       "bounds": {
         "x": 0,
         "y": 2581,
-        "width": 1420,
-        "height": 3444
+        "width": 1315,
+        "height": 2445
       },
       "expectedX": 0,
       "predecessorSectionId": "136:2133",
@@ -91,7 +91,7 @@
       "sectionNodeId": "137:2452",
       "bounds": {
         "x": 0,
-        "y": 6185,
+        "y": 5186,
         "width": 560,
         "height": 584
       },
@@ -119,9 +119,9 @@
       "sectionNodeId": "137:2484",
       "bounds": {
         "x": 0,
-        "y": 7341,
-        "width": 760,
-        "height": 409
+        "y": 6342,
+        "width": 288,
+        "height": 164
       },
       "expectedX": 0,
       "predecessorSectionId": "136:2151",
@@ -133,9 +133,9 @@
       "sectionNodeId": "137:2501",
       "bounds": {
         "x": 0,
-        "y": 7910,
-        "width": 1100,
-        "height": 764
+        "y": 6666,
+        "width": 948,
+        "height": 381
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2484",
@@ -161,9 +161,9 @@
       "sectionNodeId": "137:2532",
       "bounds": {
         "x": 0,
-        "y": 9326,
-        "width": 980,
-        "height": 1198
+        "y": 7699,
+        "width": 784,
+        "height": 590
       },
       "expectedX": 0,
       "predecessorSectionId": "136:2172",
@@ -175,9 +175,9 @@
       "sectionNodeId": "137:2586",
       "bounds": {
         "x": 0,
-        "y": 10684,
-        "width": 854,
-        "height": 722
+        "y": 8449,
+        "width": 400,
+        "height": 194
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2532",
@@ -189,9 +189,9 @@
       "sectionNodeId": "7:400",
       "bounds": {
         "x": 0,
-        "y": 11566,
-        "width": 1434,
-        "height": 819
+        "y": 8803,
+        "width": 1346,
+        "height": 395
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2586",
@@ -200,12 +200,12 @@
     },
     {
       "entityId": "component.input-otp",
-      "sectionNodeId": "137:2829",
+      "sectionNodeId": "140:3791",
       "bounds": {
         "x": 0,
-        "y": 12545,
+        "y": 9358,
         "width": 984,
-        "height": 585
+        "height": 598
       },
       "expectedX": 0,
       "predecessorSectionId": "7:400",
@@ -270,12 +270,12 @@
     },
     {
       "entityId": "component.native-select",
-      "sectionNodeId": "137:2969",
+      "sectionNodeId": "140:3931",
       "bounds": {
         "x": 0,
-        "y": 15025,
+        "y": 11851,
         "width": 1274,
-        "height": 553
+        "height": 683
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2336",
@@ -326,12 +326,12 @@
     },
     {
       "entityId": "component.radio-group",
-      "sectionNodeId": "137:3042",
+      "sectionNodeId": "140:4005",
       "bounds": {
         "x": 0,
-        "y": 16914,
+        "y": 13870,
         "width": 900,
-        "height": 525
+        "height": 574
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2393",
@@ -340,15 +340,15 @@
     },
     {
       "entityId": "component.select",
-      "sectionNodeId": "137:3113",
+      "sectionNodeId": "140:4077",
       "bounds": {
         "x": 0,
-        "y": 17599,
-        "width": 1393,
-        "height": 567
+        "y": 14604,
+        "width": 1855,
+        "height": 726
       },
       "expectedX": 0,
-      "predecessorSectionId": "137:3042",
+      "predecessorSectionId": "140:4005",
       "gap": 160,
       "verdict": "pass"
     },
@@ -396,12 +396,12 @@
     },
     {
       "entityId": "component.slider",
-      "sectionNodeId": "137:3194",
+      "sectionNodeId": "140:4159",
       "bounds": {
         "x": 0,
-        "y": 19960,
+        "y": 17124,
         "width": 984,
-        "height": 611
+        "height": 574
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2409",
@@ -438,12 +438,12 @@
     },
     {
       "entityId": "component.switch",
-      "sectionNodeId": "137:3252",
+      "sectionNodeId": "140:4215",
       "bounds": {
         "x": 0,
-        "y": 21369,
+        "y": 18496,
         "width": 900,
-        "height": 635
+        "height": 574
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2417",
@@ -452,43 +452,43 @@
     },
     {
       "entityId": "component.textarea",
-      "sectionNodeId": "137:3305",
+      "sectionNodeId": "140:4266",
       "bounds": {
         "x": 0,
-        "y": 22164,
-        "width": 1434,
-        "height": 851
+        "y": 19230,
+        "width": 1594,
+        "height": 790
       },
       "expectedX": 0,
-      "predecessorSectionId": "137:3252",
+      "predecessorSectionId": "140:4215",
       "gap": 160,
       "verdict": "pass"
     },
     {
       "entityId": "component.toggle",
-      "sectionNodeId": "137:3346",
+      "sectionNodeId": "140:4305",
       "bounds": {
         "x": 0,
-        "y": 23175,
-        "width": 1100,
-        "height": 1155
+        "y": 20180,
+        "width": 900,
+        "height": 922
       },
       "expectedX": 0,
-      "predecessorSectionId": "137:3305",
+      "predecessorSectionId": "140:4266",
       "gap": 160,
       "verdict": "pass"
     },
     {
       "entityId": "component.toggle-group",
-      "sectionNodeId": "137:3454",
+      "sectionNodeId": "140:4601",
       "bounds": {
         "x": 0,
-        "y": 24490,
-        "width": 1100,
-        "height": 897
+        "y": 21262,
+        "width": 960,
+        "height": 614
       },
       "expectedX": 0,
-      "predecessorSectionId": "137:3346",
+      "predecessorSectionId": "140:4305",
       "gap": 160,
       "verdict": "pass"
     }

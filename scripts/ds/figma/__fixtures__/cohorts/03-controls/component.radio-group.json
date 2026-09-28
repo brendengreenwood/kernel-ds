@@ -1,8 +1,8 @@
 {
   "entityId": "component.radio-group",
   "nodeType": "COMPONENT_SET",
-  "mainComponentKey": "5f2464830634839dd1986addac20711dc859692b",
-  "sectionId": "137:3042",
+  "mainComponentKey": "9047a928152406ed7077d56835b516a7aaaf05a3",
+  "sectionId": "140:4005",
   "sectionName": "Radio Group",
   "contractHash": "adb567cb7a9beec13eec8fd62db90d4c8cc79c8971b71a4c45af2ae2f259f986",
   "variantAxes": {},
@@ -24,6 +24,6 @@
     "semantic/fill",
     "semantic/stroke"
   ],
-  "layoutSectionNodeId": "137:3042",
+  "layoutSectionNodeId": "140:4005",
   "layoutVerdict": "pass"
 }

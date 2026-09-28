@@ -213,6 +213,26 @@
         "State is Figma-only interaction evidence, not a React prop.",
         "invalid mirrors the code data-invalid attribute exposed by Field."
       ]
+    },
+    "component.toggle-group": {
+      "inheritedVariantAxes": {
+        "Type": [
+          "single",
+          "multiple"
+        ],
+        "Variant": [
+          "default",
+          "outline"
+        ],
+        "Size": [
+          "sm",
+          "default",
+          "lg"
+        ]
+      },
+      "notes": [
+        "Axes mirror the inherited Base UI selection type and the imported toggleVariants contract."
+      ]
     }
   }
 }

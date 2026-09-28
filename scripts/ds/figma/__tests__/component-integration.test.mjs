@@ -161,6 +161,28 @@ test("live-audit fixtures cover the required pass and failure cases", () => {
   assert.equal(fixtureCases.some((item) => item.name === "invalid-override"), true)
 })
 
+test('reviewed inherited variant axes represent public contracts outside the local source file', () => {
+  const contracts = buildComponentContracts({
+    $schema: 'kernel-ds/figma-component-contract-overrides@1',
+    components: {
+      'component.toggle-group': {
+        inheritedVariantAxes: {
+          Type: ['single', 'multiple'],
+          Variant: ['default', 'outline'],
+          Size: ['sm', 'default', 'lg'],
+        },
+      },
+    },
+  })
+  const toggleGroup = contracts.components.find((component) => component.entityId === 'component.toggle-group')
+  assert.deepEqual(toggleGroup.variantAxes, {
+    Type: ['single', 'multiple'],
+    Variant: ['default', 'outline'],
+    Size: ['sm', 'default', 'lg'],
+  })
+  assert.equal('inheritedVariantAxes' in toggleGroup, false)
+})
+
 test('invalid reviewed overrides fail contract generation with targeted errors', () => {
   const overrides = (components) => ({ $schema: 'kernel-ds/figma-component-contract-overrides@1', components })
   const cases = [
@@ -168,6 +190,8 @@ test('invalid reviewed overrides fail contract generation with targeted errors',
     [{ 'component.button': { bogusKey: true } }, /Unknown override key bogusKey/],
     [{ 'component.button': { variantAxes: { Tone: ['default'] } } }, /Unknown variant axis Tone/],
     [{ 'component.button': { variantAxes: { variant: ['sparkly'] } } }, /Unknown variant value variant=sparkly/],
+    [{ 'component.button': { inheritedVariantAxes: { State: [] } } }, /Invalid inherited variant axis State/],
+    [{ 'component.button': { inheritedVariantAxes: { variant: ['default'] } } }, /Inherited variant axis duplicates extracted axis variant/],
     [{ 'component.button': { publicProperties: ['notAProp'] } }, /Unknown public property notAProp/],
     [{ 'component.button': { slots: ['not-a-slot'] } }, /Unknown anatomy slot not-a-slot/],
     [{ 'component.button': { designStateAxes: { State: [] } } }, /Invalid design state axis State/],

@@ -1,8 +1,8 @@
 {
   "entityId": "component.input-otp",
   "nodeType": "COMPONENT_SET",
-  "mainComponentKey": "d97d50c3cfd05d0413af7988880172dfa6281c1f",
-  "sectionId": "137:2829",
+  "mainComponentKey": "f01e607d670d3d352467bb484fa62c9e35af7650",
+  "sectionId": "140:3791",
   "sectionName": "Input OTP",
   "contractHash": "27129544818e6dd41f81e4973abfb8ada8ad470b69811e45d02a085d00b22612",
   "variantAxes": {},
@@ -23,6 +23,6 @@
   "requiredTokenRoles": [
     "semantic/stroke"
   ],
-  "layoutSectionNodeId": "137:2829",
+  "layoutSectionNodeId": "140:3791",
   "layoutVerdict": "pass"
 }
