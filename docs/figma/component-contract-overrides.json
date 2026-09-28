@@ -3,11 +3,22 @@
   "components": {
     "component.button": {
       "designStateAxes": {
-        "State": ["default", "hover", "focus", "disabled"]
+        "State": [
+          "default",
+          "hover",
+          "focus",
+          "disabled"
+        ]
       },
       "figmaProperties": {
-        "Label": { "type": "TEXT", "mapsTo": "children" },
-        "Icon": { "type": "INSTANCE_SWAP", "mapsTo": "composition" }
+        "Label": {
+          "type": "TEXT",
+          "mapsTo": "children"
+        },
+        "Icon": {
+          "type": "INSTANCE_SWAP",
+          "mapsTo": "composition"
+        }
       },
       "notes": [
         "State is Figma-only interaction evidence, not a React prop.",
@@ -16,7 +27,12 @@
     },
     "component.input": {
       "designStateAxes": {
-        "State": ["default", "focus", "invalid", "disabled"]
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
       },
       "notes": [
         "State is Figma-only interaction evidence, not a React prop."
@@ -24,10 +40,17 @@
     },
     "component.sidebar": {
       "designStateAxes": {
-        "State": ["default", "hover", "active"]
+        "State": [
+          "default",
+          "hover",
+          "active"
+        ]
       },
       "figmaProperties": {
-        "Icon": { "type": "INSTANCE_SWAP", "mapsTo": "composition" }
+        "Icon": {
+          "type": "INSTANCE_SWAP",
+          "mapsTo": "composition"
+        }
       },
       "slots": [
         "sidebar",
@@ -38,11 +61,157 @@
         "sidebar-menu",
         "sidebar-separator"
       ],
-      "requiredTokenRoles": ["radius/control", "semantic/fill", "semantic/stroke"],
+      "requiredTokenRoles": [
+        "radius/control",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
       "notes": [
         "Variant, Size, State, and Icon are represented by the namespaced Sidebar / Menu Button family inside the owning section.",
         "State is Figma-only interaction evidence, not a React prop.",
         "The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
+      ]
+    },
+    "component.checkbox": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "checked",
+          "focus",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.switch": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "checked",
+          "focus",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.radio-group": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "checked",
+          "focus",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "State applies to the namespaced Radio Group / Item variants inside the owning section."
+      ]
+    },
+    "component.textarea": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.native-select": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.select": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "State applies to the select trigger; the floating content is namespaced anatomy inside the owning section."
+      ]
+    },
+    "component.combobox": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.input-otp": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.slider": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ]
+    },
+    "component.toggle": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "on",
+          "focus",
+          "disabled"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "on mirrors the code data-state=on pressed state."
+      ]
+    },
+    "component.field": {
+      "designStateAxes": {
+        "State": [
+          "default",
+          "invalid"
+        ]
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "invalid mirrors the code data-invalid attribute exposed by Field."
       ]
     }
   }

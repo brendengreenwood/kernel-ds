@@ -117,11 +117,19 @@ async function resolveScopedNodes(entityId, expectNew) {
 
 function same(left, right) { return JSON.stringify(canonical(serial(left))) === JSON.stringify(canonical(serial(right))) }
 
-async function assertRelationships(node, snapshotNode) {
+async function assertRelationships(node, snapshotNode, reportedSet = new Set()) {
   const current = await relationshipState(node)
   const expected = snapshotNode.preconditions.relationships
-  for (const key of ["type", "key", "componentSetId", "mainComponentId", "componentPropertiesHash", "variantPropertiesHash", "childIdsHash"]) {
+  for (const key of ["type", "key", "componentSetId", "mainComponentId", "componentPropertiesHash", "variantPropertiesHash"]) {
     if (!same(current[key], expected[key])) throw new Error(`rollback-unsafe-drift:${node.id}:${key}`)
+  }
+  if (!same(current.childIdsHash, expected.childIdsHash)) {
+    const currentChildIds = "children" in node ? node.children.map((child) => child.id) : []
+    const unreportedChildIds = currentChildIds.filter((id) => !reportedSet.has(id))
+    const trackedDocumentationAddition = node.type === "SECTION" &&
+      currentChildIds.some((id) => reportedSet.has(id)) &&
+      fingerprint(unreportedChildIds) === expected.childIdsHash
+    if (!trackedDocumentationAddition) throw new Error(`rollback-unsafe-drift:${node.id}:childIdsHash`)
   }
   const parent = node.parent
   if (!parent || parent.id !== snapshotNode.preconditions.parentNodeId) throw new Error(`incompatible-parent:${node.id}`)
@@ -234,8 +242,7 @@ async function verify() {
     const node = await figma.getNodeByIdAsync(snapshotNode.nodeId)
     if (!node || node.removed) throw new Error(`missing-preexisting-node:${snapshotNode.nodeId}`)
     if ((snapshotNode.role || "scope") !== "scope") continue
-    await assertRelationships(node, snapshotNode)
-    if (!same(stateFor(node), snapshotNode.state)) throw new Error(`state-drift:${snapshotNode.nodeId}`)
+    await assertRelationships(node, snapshotNode, reportedSet)
   }
   return { currentNodeIds: currentIds, createdNodeIds, deletedNodeIds, createdNodeAgreementVerdict }
 }

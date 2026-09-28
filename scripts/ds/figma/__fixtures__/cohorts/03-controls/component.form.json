@@ -1,0 +1,20 @@
+{
+  "entityId": "component.form",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "3a238adaf4a2237dcc815a9b906f37f4db53a599",
+  "sectionId": "137:2586",
+  "sectionName": "Form",
+  "contractHash": "9c0ef5f44a5d62cb7f4ab5444e6f6072f10d0e8cc63415fb519b01fc438010d5",
+  "variantAxes": {},
+  "designStateAxes": {},
+  "figmaProperties": {},
+  "anatomySlots": [
+    "form-description",
+    "form-item",
+    "form-label",
+    "form-message"
+  ],
+  "requiredTokenRoles": [],
+  "layoutSectionNodeId": "137:2586",
+  "layoutVerdict": "pass"
+}

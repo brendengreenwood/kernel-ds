@@ -1,0 +1,57 @@
+{
+  "entityId": "component.button",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "e94154ae80fcba90379a39a0b5f471fd503b339f",
+  "sectionId": "7:399",
+  "sectionName": "Button",
+  "contractHash": "c1ffea1b9f46eb14404fd07b1dc94cccbe81ba4ae195e714f58883e37017d1b2",
+  "variantAxes": {
+    "variant": [
+      "default",
+      "destructive",
+      "ghost",
+      "link",
+      "outline",
+      "secondary"
+    ],
+    "size": [
+      "default",
+      "icon",
+      "icon-lg",
+      "icon-sm",
+      "icon-xs",
+      "lg",
+      "sm",
+      "xs"
+    ]
+  },
+  "designStateAxes": {
+    "State": [
+      "default",
+      "hover",
+      "focus",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {
+    "Label": {
+      "type": "TEXT",
+      "mapsTo": "children"
+    },
+    "Icon": {
+      "type": "INSTANCE_SWAP",
+      "mapsTo": "composition"
+    }
+  },
+  "anatomySlots": [
+    "button"
+  ],
+  "requiredTokenRoles": [
+    "metric/control-height",
+    "radius/control",
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "7:399",
+  "layoutVerdict": "pass"
+}

@@ -231,7 +231,8 @@ async function runKernelComponentAudit(input) {
       const main = await instance.getMainComponentAsync()
       const detached = !main
       if (detached) failures.push({ code: "detached-acceptance-instance", entityId: record.entityId, nodeId: instance.id })
-      acceptance.push({ entityId: record.entityId, acceptanceInstanceNodeId: instance.id, mainComponentId: main?.id || null, mainComponentKey: main?.key || null, ownerSectionId: acceptanceSection.id, detached, contractHash: record.contractHash, verdict: detached ? "fail" : "pass" })
+      const mainOwner = main && main.parent && main.parent.type === "COMPONENT_SET" ? main.parent : main
+      acceptance.push({ entityId: record.entityId, acceptanceInstanceNodeId: instance.id, mainComponentId: mainOwner?.id || null, mainComponentKey: mainOwner?.key || null, ownerSectionId: acceptanceSection.id, detached, contractHash: record.contractHash, verdict: detached ? "fail" : "pass" })
     }
   }
 

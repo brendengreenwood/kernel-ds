@@ -1,0 +1,28 @@
+{
+  "entityId": "component.slider",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "c13e1f48cedd86c347bdf05646a25e1fe16732d5",
+  "sectionId": "137:3194",
+  "sectionName": "Slider",
+  "contractHash": "029a8b11e71382e6a2273abd742a50253821d000aed02438d5c70e51381acdae",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "focus",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "slider",
+    "slider-range",
+    "slider-thumb",
+    "slider-track"
+  ],
+  "requiredTokenRoles": [
+    "semantic/fill"
+  ],
+  "layoutSectionNodeId": "137:3194",
+  "layoutVerdict": "pass"
+}

@@ -22,8 +22,8 @@ test("contracts and integration manifest are deterministic and evidence-backed",
   assert.equal(stableJson(contracts), stableJson(buildComponentContracts()))
   const manifest = buildComponentIntegrationManifest()
   assert.equal(manifest.components.length, 62)
-  assert.equal(manifest.coverage.integrated, 21)
-  assert.equal(manifest.coverage.notStarted, 41)
+  assert.equal(manifest.coverage.integrated, 35)
+  assert.equal(manifest.coverage.notStarted, 27)
   assert.equal(stableJson(manifest), stableJson(buildComponentIntegrationManifest()))
   assert.equal(readFileSync("docs/figma/component-integration.json", "utf8"), stableJson(manifest))
 })
@@ -68,6 +68,50 @@ test("02-foundations fixtures match committed evidence and layout exactly once p
     assert.equal(layoutRecords[0].bounds.x, 0)
     assert.equal(layoutRecords[0].verdict, "pass")
     assert.equal(fixture.layoutVerdict, "pass")
+  }
+})
+
+test("03-controls fixtures match committed contracts, evidence, and layout exactly once per entity", () => {
+  const cohort = JSON.parse(readFileSync("docs/figma/cohorts/03-controls-with-button-input.json", "utf8"))
+  const evidence = JSON.parse(readFileSync("docs/figma/component-evidence.json", "utf8"))
+  const layout = JSON.parse(readFileSync("docs/figma/component-layout.json", "utf8"))
+  const contracts = JSON.parse(readFileSync("docs/figma/component-contracts.json", "utf8"))
+  assert.equal(cohort.entityIds.length, 16)
+  assert.equal(new Set(cohort.entityIds).size, 16)
+  const legacyRadius = /^radius\/(sm|md|lg|xl)$/
+  for (const entityId of cohort.entityIds) {
+    const fixture = JSON.parse(readFileSync(new URL(`../__fixtures__/cohorts/03-controls/${entityId}.json`, import.meta.url), "utf8"))
+    const records = evidence.records.filter((record) => record.entityId === entityId)
+    const layouts = layout.records.filter((record) => record.entityId === entityId)
+    const contract = contracts.components.find((item) => item.entityId === entityId)
+    assert.equal(fixture.entityId, entityId)
+    assert.equal(records.length, 1, `${entityId} resolves exactly once in evidence`)
+    assert.equal(layouts.length, 1, `${entityId} resolves exactly once in layout`)
+    assert.equal(records[0].nodeType, fixture.nodeType)
+    assert.equal(records[0].mainComponentKey, fixture.mainComponentKey)
+    assert.equal(records[0].sectionId, fixture.sectionId)
+    assert.equal(records[0].sectionName, fixture.sectionName)
+    assert.equal(records[0].contractHash, contract.contractHash)
+    assert.equal(fixture.contractHash, contract.contractHash)
+    assert.deepEqual(records[0].contractEvidence.codeVariantAxes, fixture.variantAxes)
+    assert.deepEqual(records[0].contractEvidence.designStateAxes, fixture.designStateAxes)
+    assert.deepEqual(records[0].contractEvidence.figmaProperties, fixture.figmaProperties)
+    assert.deepEqual(records[0].contractEvidence.anatomySlots, fixture.anatomySlots)
+    assert.deepEqual(records[0].contractEvidence.requiredTokenRoles, fixture.requiredTokenRoles)
+    for (const binding of records[0].semanticBindings) assert.equal(legacyRadius.test(binding.name), false, `${entityId} binds no legacy radius (${binding.name})`)
+    assert.equal(layouts[0].sectionNodeId, fixture.layoutSectionNodeId)
+    assert.equal(layouts[0].bounds.x, 0)
+    assert.equal(layouts[0].verdict, "pass")
+    assert.equal(fixture.layoutVerdict, "pass")
+  }
+})
+
+test("03-controls negative drift cases remain explicit", () => {
+  const required = ["legacy-radius-binding", "missing-design-state:focus", "missing-design-state:invalid", "missing-design-state:disabled", "unknown-variant-value", "detached-acceptance-instance", "component-property-mismatch"]
+  for (const code of required) {
+    const request = { requestId: code, requestHash: "hash", implementationHash: "implementation", mode: "full", entities: [], contracts: {} }
+    const response = { $schema: "kernel-ds/figma-live-component-audit@1", requestId: code, requestHash: "hash", implementationHash: "implementation", mode: "full", fileKey: "du0qpv9XrTt4HEWdPhesUh", expected: 0, resolved: 0, verdict: "fail", failures: [{ code }], records: [], layouts: [], acceptance: [] }
+    assert.throws(() => validateLiveAuditResponse(response, request), /Live audit failed/)
   }
 })
 

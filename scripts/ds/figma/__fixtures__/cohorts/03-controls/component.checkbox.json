@@ -1,0 +1,28 @@
+{
+  "entityId": "component.checkbox",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "e5b8a3694f6677d0bea76545fcde681ad42af80b",
+  "sectionId": "137:2484",
+  "sectionName": "Checkbox",
+  "contractHash": "2c71435b14158ba30ea3b43c42b7333fc5f60c2ec6204beabb5aa8a1de89c4dd",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "checked",
+      "focus",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "checkbox",
+    "checkbox-indicator"
+  ],
+  "requiredTokenRoles": [
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "137:2484",
+  "layoutVerdict": "pass"
+}

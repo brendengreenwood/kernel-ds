@@ -1,0 +1,29 @@
+{
+  "entityId": "component.radio-group",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "5f2464830634839dd1986addac20711dc859692b",
+  "sectionId": "137:3042",
+  "sectionName": "Radio Group",
+  "contractHash": "280d55479aed0c92133caadc8dede0f59d70c31313861f255c7f8450fa5fda2c",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "checked",
+      "focus",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "radio-group",
+    "radio-group-indicator",
+    "radio-group-item"
+  ],
+  "requiredTokenRoles": [
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "137:3042",
+  "layoutVerdict": "pass"
+}

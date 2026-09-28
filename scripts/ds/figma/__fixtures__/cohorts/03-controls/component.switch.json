@@ -1,0 +1,28 @@
+{
+  "entityId": "component.switch",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "ab3a169aa672d1fc4f67edad93c65a531b94c837",
+  "sectionId": "137:3252",
+  "sectionName": "Switch",
+  "contractHash": "fe71b5b05364743cb2b83312b3dae5a406c39d81a67b4d32f1ebdffcf83c4ab3",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "checked",
+      "focus",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "switch",
+    "switch-thumb"
+  ],
+  "requiredTokenRoles": [
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "137:3252",
+  "layoutVerdict": "pass"
+}

@@ -1,0 +1,28 @@
+{
+  "entityId": "component.input-otp",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "d97d50c3cfd05d0413af7988880172dfa6281c1f",
+  "sectionId": "137:2829",
+  "sectionName": "Input OTP",
+  "contractHash": "2bbe33d1dadf852df5236c4054bc9d54b65f6936dabe2b68b7e501590c416b39",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "focus",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "input-otp",
+    "input-otp-group",
+    "input-otp-separator",
+    "input-otp-slot"
+  ],
+  "requiredTokenRoles": [
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "137:2829",
+  "layoutVerdict": "pass"
+}

@@ -861,10 +861,19 @@
         "semantic/fill",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "checked",
+          "focus",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "590ef5e65e144b1ab0056635383c87f0447a6fb88b8ece9310f3990c10795165"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "2c71435b14158ba30ea3b43c42b7333fc5f60c2ec6204beabb5aa8a1de89c4dd"
     },
     {
       "entityId": "component.collapsible",
@@ -1007,10 +1016,18 @@
         "semantic/fill",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "dffde7eb4d1de379eac232ae278bb8236052fea8699ffb5362fbfd14f0a2c2e1"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "a0d3511245eb9c780f4efbc92f976d12931275d802e12f7e73b4b7478be9495a"
     },
     {
       "entityId": "component.command",
@@ -1602,10 +1619,18 @@
       "requiredTokenRoles": [
         "semantic/fill"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "invalid"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "7e38faef27f1724ccc61ea0cd01c83ba60f277953921206711a3cde35da2e619"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "invalid mirrors the code data-invalid attribute exposed by Field."
+      ],
+      "contractHash": "1054710153f439821e88e3765e2e386c3569fc115be011de8dd93711e2c1f932"
     },
     {
       "entityId": "component.form",
@@ -1782,10 +1807,18 @@
       "requiredTokenRoles": [
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "3c4b5d82ea3a8654847230eab5d03760382537ba3b5b2e0540fd0e9dec52b9f4"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "2bbe33d1dadf852df5236c4054bc9d54b65f6936dabe2b68b7e501590c416b39"
     },
     {
       "entityId": "component.item",
@@ -2244,10 +2277,19 @@
         "semantic/fill",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "14b6630081017b7e09e639e220b8535fbbc4f7994251cd2076741173b3210344"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "60ad61937c354714c7b22a69ae523cb16b9553d1570ec023a56766706ff193f5"
     },
     {
       "entityId": "component.navigation-menu",
@@ -2632,10 +2674,20 @@
         "semantic/fill",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "checked",
+          "focus",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "a60ccaed75db8e62888133c8ac33963a9538b94d9e44d9598b8faa2115b8df6d"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "State applies to the namespaced Radio Group / Item variants inside the owning section."
+      ],
+      "contractHash": "280d55479aed0c92133caadc8dede0f59d70c31313861f255c7f8450fa5fda2c"
     },
     {
       "entityId": "component.resizable",
@@ -2818,10 +2870,20 @@
         "semantic/fill",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "fc1df719558bf28f851a464aafe1015ffcb22331be6d8b96933a2c24444437cd"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "State applies to the select trigger; the floating content is namespaced anatomy inside the owning section."
+      ],
+      "contractHash": "18a4b9f69a053dfb76e954ae643965efb5b9e7508a5ed83aaedfb4caf1d3b6c7"
     },
     {
       "entityId": "component.separator",
@@ -3154,10 +3216,18 @@
       "requiredTokenRoles": [
         "semantic/fill"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "18580c0b85722669eea0a6a04fb4089482489d2cd3e3b1fd18d258e06d9e05cf"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "029a8b11e71382e6a2273abd742a50253821d000aed02438d5c70e51381acdae"
     },
     {
       "entityId": "component.sonner",
@@ -3276,10 +3346,19 @@
         "semantic/fill",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "checked",
+          "focus",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "812453cd22b6f5743abadd4e5a3325f5a5d7bdfb2ea0403eba6f289daa7d7bf2"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "fe71b5b05364743cb2b83312b3dae5a406c39d81a67b4d32f1ebdffcf83c4ab3"
     },
     {
       "entityId": "component.table",
@@ -3444,10 +3523,19 @@
         "radius/control",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "c313859f27fd968ed7842123c919b84919318de6d411697f96ae99bf12847b30"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "acc3087bba56ceb5004e2686d4529286685eed2ee8d53db568eb4569dcb4e5e4"
     },
     {
       "entityId": "component.toggle",
@@ -3487,10 +3575,20 @@
         "semantic/fill",
         "semantic/stroke"
       ],
-      "designStateAxes": {},
+      "designStateAxes": {
+        "State": [
+          "default",
+          "on",
+          "focus",
+          "disabled"
+        ]
+      },
       "figmaProperties": {},
-      "notes": [],
-      "contractHash": "bb65703980a99508df4c9f2665ad8b61cb8a7909c352a33135d2ccbc3c03d0c4"
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "on mirrors the code data-state=on pressed state."
+      ],
+      "contractHash": "02461589b28c693bb59d6d38209f41364a64a4f057792f294f8c50b685add82c"
     },
     {
       "entityId": "component.toggle-group",

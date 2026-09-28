@@ -1,0 +1,33 @@
+{
+  "entityId": "component.native-select",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "c99ea2b763dc6219dc4248f9fadd008ba6770575",
+  "sectionId": "137:2969",
+  "sectionName": "Native Select",
+  "contractHash": "60ad61937c354714c7b22a69ae523cb16b9553d1570ec023a56766706ff193f5",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "focus",
+      "invalid",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "native-select",
+    "native-select-icon",
+    "native-select-optgroup",
+    "native-select-option",
+    "native-select-wrapper"
+  ],
+  "requiredTokenRoles": [
+    "metric/control-height",
+    "radius/control",
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "137:2969",
+  "layoutVerdict": "pass"
+}

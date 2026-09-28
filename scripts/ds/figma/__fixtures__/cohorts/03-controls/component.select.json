@@ -1,0 +1,38 @@
+{
+  "entityId": "component.select",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "edee0a5b18b46b903618c2f75b70a2740132b794",
+  "sectionId": "137:3113",
+  "sectionName": "Select",
+  "contractHash": "18a4b9f69a053dfb76e954ae643965efb5b9e7508a5ed83aaedfb4caf1d3b6c7",
+  "variantAxes": {},
+  "designStateAxes": {
+    "State": [
+      "default",
+      "focus",
+      "invalid",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "select-content",
+    "select-group",
+    "select-item",
+    "select-label",
+    "select-scroll-down-button",
+    "select-scroll-up-button",
+    "select-separator",
+    "select-trigger",
+    "select-value"
+  ],
+  "requiredTokenRoles": [
+    "metric/control-height",
+    "radius/control",
+    "radius/floating",
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "137:3113",
+  "layoutVerdict": "pass"
+}

@@ -1,0 +1,38 @@
+{
+  "entityId": "component.toggle",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "dccd8db965d81bc77f4b5cee740cbd5454ebbedf",
+  "sectionId": "137:3346",
+  "sectionName": "Toggle",
+  "contractHash": "02461589b28c693bb59d6d38209f41364a64a4f057792f294f8c50b685add82c",
+  "variantAxes": {
+    "variant": [
+      "default",
+      "outline"
+    ],
+    "size": [
+      "default",
+      "lg",
+      "sm"
+    ]
+  },
+  "designStateAxes": {
+    "State": [
+      "default",
+      "on",
+      "focus",
+      "disabled"
+    ]
+  },
+  "figmaProperties": {},
+  "anatomySlots": [
+    "toggle"
+  ],
+  "requiredTokenRoles": [
+    "radius/control",
+    "semantic/fill",
+    "semantic/stroke"
+  ],
+  "layoutSectionNodeId": "137:3346",
+  "layoutVerdict": "pass"
+}

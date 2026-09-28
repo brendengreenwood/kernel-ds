@@ -32,9 +32,9 @@
   },
   "coverage": {
     "catalogOwnedComponents": 62,
-    "integrated": 21,
-    "notStarted": 41,
-    "packageIntegration": "21/62",
+    "integrated": 35,
+    "notStarted": 27,
+    "packageIntegration": "35/62",
     "nonCatalogPublicModules": [
       "code-block",
       "direction",
@@ -822,7 +822,7 @@
         "page": "Components",
         "sectionId": "7:399",
         "sectionName": "Button",
-        "auditedAt": "2026-09-27T16:20:52.604Z"
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
         "contractHash": "c1ffea1b9f46eb14404fd07b1dc94cccbe81ba4ae195e714f58883e37017d1b2",
@@ -896,14 +896,14 @@
         "button-group"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2465",
+        "key": "e798ce765cfdae4c28756beb5f3c357c52779b2f",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2452",
+        "sectionName": "Button Group",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
         "contractHash": "a0205701c8a250493789d503fd95026189a07a6fb1713232ee1e1032dd1e76f3",
@@ -946,13 +946,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -1295,17 +1290,17 @@
         "checkbox"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2497",
+        "key": "e5b8a3694f6677d0bea76545fcde681ad42af80b",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2484",
+        "sectionName": "Checkbox",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "590ef5e65e144b1ab0056635383c87f0447a6fb88b8ece9310f3990c10795165",
+        "contractHash": "2c71435b14158ba30ea3b43c42b7333fc5f60c2ec6204beabb5aa8a1de89c4dd",
         "sourceHash": "a65a442b0b5a088639f394dc5a453f40e3fc15e422f565ec710914a4ced66c42",
         "variantAxes": {},
         "publicProperties": [
@@ -1325,18 +1320,15 @@
           "semantic/fill",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -1419,17 +1411,17 @@
         "combobox"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2511",
+        "key": "26b63ce48dfdb7c55b57e8c41e5551c66a4e7f63",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2501",
+        "sectionName": "Combobox",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "dffde7eb4d1de379eac232ae278bb8236052fea8699ffb5362fbfd14f0a2c2e1",
+        "contractHash": "a0d3511245eb9c780f4efbc92f976d12931275d802e12f7e73b4b7478be9495a",
         "sourceHash": "2aa74311b614a84200fed7e45baf86163d36dea6a462139d002be54f52cbdfe0",
         "variantAxes": {},
         "publicProperties": [
@@ -1529,18 +1521,15 @@
           "semantic/fill",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2239,17 +2228,17 @@
         "field"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2569",
+        "key": "a229cbbf25926ab9cce811bca9e5a31491023ff6",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2532",
+        "sectionName": "Field",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "7e38faef27f1724ccc61ea0cd01c83ba60f277953921206711a3cde35da2e619",
+        "contractHash": "1054710153f439821e88e3765e2e386c3569fc115be011de8dd93711e2c1f932",
         "sourceHash": "47a036e9e7bed4e4a30a709c48e8955d3480319febd7343cb3951e7db6a068e5",
         "variantAxes": {
           "orientation": [
@@ -2322,18 +2311,16 @@
         "requiredTokenRoles": [
           "semantic/fill"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop.",
+          "invalid mirrors the code data-invalid attribute exposed by Field."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2352,14 +2339,14 @@
         "form"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2587",
+        "key": "3a238adaf4a2237dcc815a9b906f37f4db53a599",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2586",
+        "sectionName": "Form",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
         "contractHash": "9c0ef5f44a5d62cb7f4ab5444e6f6072f10d0e8cc63415fb519b01fc438010d5",
@@ -2404,13 +2391,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -2509,7 +2491,7 @@
         "page": "Components",
         "sectionId": "7:400",
         "sectionName": "Input",
-        "auditedAt": "2026-09-27T16:20:52.604Z"
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
         "contractHash": "3a7ca61613329fef5f29871cb5a481149090837c219769871c716c076c69ef80",
@@ -2561,17 +2543,17 @@
         "input-otp"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2878",
+        "key": "d97d50c3cfd05d0413af7988880172dfa6281c1f",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2829",
+        "sectionName": "Input OTP",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "3c4b5d82ea3a8654847230eab5d03760382537ba3b5b2e0540fd0e9dec52b9f4",
+        "contractHash": "2bbe33d1dadf852df5236c4054bc9d54b65f6936dabe2b68b7e501590c416b39",
         "sourceHash": "ee582c9b5288e2aa0282d75f2c57a2a725d4d6cd085157b6ee71965cc5d4e639",
         "variantAxes": {},
         "publicProperties": [
@@ -2606,18 +2588,15 @@
         "requiredTokenRoles": [
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -3236,17 +3215,17 @@
         "native-select"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:2986",
+        "key": "c99ea2b763dc6219dc4248f9fadd008ba6770575",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:2969",
+        "sectionName": "Native Select",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "14b6630081017b7e09e639e220b8535fbbc4f7994251cd2076741173b3210344",
+        "contractHash": "60ad61937c354714c7b22a69ae523cb16b9553d1570ec023a56766706ff193f5",
         "sourceHash": "2b1b96fd2f53e5339bd73825e981924f2f900701f431789cdd9144a820c5165e",
         "variantAxes": {},
         "publicProperties": [
@@ -3280,18 +3259,15 @@
           "semantic/fill",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -3819,17 +3795,17 @@
         "radio-group"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:3063",
+        "key": "5f2464830634839dd1986addac20711dc859692b",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:3042",
+        "sectionName": "Radio Group",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "a60ccaed75db8e62888133c8ac33963a9538b94d9e44d9598b8faa2115b8df6d",
+        "contractHash": "280d55479aed0c92133caadc8dede0f59d70c31313861f255c7f8450fa5fda2c",
         "sourceHash": "0320307b70d6590dd11525ecfbd811bc592bffe7f054d90666636efb771a199f",
         "variantAxes": {},
         "publicProperties": [
@@ -3854,18 +3830,16 @@
           "semantic/fill",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop.",
+          "State applies to the namespaced Radio Group / Item variants inside the owning section."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -4050,17 +4024,17 @@
         "select"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:3126",
+        "key": "edee0a5b18b46b903618c2f75b70a2740132b794",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:3113",
+        "sectionName": "Select",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "fc1df719558bf28f851a464aafe1015ffcb22331be6d8b96933a2c24444437cd",
+        "contractHash": "18a4b9f69a053dfb76e954ae643965efb5b9e7508a5ed83aaedfb4caf1d3b6c7",
         "sourceHash": "77a3e960465d955af29b5d0dcf6d820d4bd236346f35df72cb6d9480e56014fb",
         "variantAxes": {},
         "publicProperties": [
@@ -4129,18 +4103,16 @@
           "semantic/fill",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop.",
+          "State applies to the select trigger; the floating content is namespaced anatomy inside the owning section."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -4549,17 +4521,17 @@
         "slider"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:3207",
+        "key": "c13e1f48cedd86c347bdf05646a25e1fe16732d5",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:3194",
+        "sectionName": "Slider",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "18580c0b85722669eea0a6a04fb4089482489d2cd3e3b1fd18d258e06d9e05cf",
+        "contractHash": "029a8b11e71382e6a2273abd742a50253821d000aed02438d5c70e51381acdae",
         "sourceHash": "dd7c4fe2bb668e732fd8e0b927374abe27dbdbe09e539d2b7386e38d438f3d5d",
         "variantAxes": {},
         "publicProperties": [
@@ -4584,18 +4556,15 @@
         "requiredTokenRoles": [
           "semantic/fill"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -4781,17 +4750,17 @@
         "switch"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:3265",
+        "key": "ab3a169aa672d1fc4f67edad93c65a531b94c837",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:3252",
+        "sectionName": "Switch",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "812453cd22b6f5743abadd4e5a3325f5a5d7bdfb2ea0403eba6f289daa7d7bf2",
+        "contractHash": "fe71b5b05364743cb2b83312b3dae5a406c39d81a67b4d32f1ebdffcf83c4ab3",
         "sourceHash": "2e9b203c5a2fde17cbeaf9d6c1cf9703add9fbde5ca26088f10476f60adff60e",
         "variantAxes": {},
         "publicProperties": [
@@ -4812,18 +4781,15 @@
           "semantic/fill",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -5038,17 +5004,17 @@
         "textarea"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:3314",
+        "key": "b7d4119997362644c165db11324891dc3310e3e4",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:3305",
+        "sectionName": "Textarea",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "c313859f27fd968ed7842123c919b84919318de6d411697f96ae99bf12847b30",
+        "contractHash": "acc3087bba56ceb5004e2686d4529286685eed2ee8d53db568eb4569dcb4e5e4",
         "sourceHash": "1316610b1d78159c07d6e5a761c7894ad0bbb33368d5e6b3dad804deaee9767b",
         "variantAxes": {},
         "publicProperties": [
@@ -5067,18 +5033,15 @@
           "radius/control",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -5097,17 +5060,17 @@
         "toggle"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:3395",
+        "key": "dccd8db965d81bc77f4b5cee740cbd5454ebbedf",
+        "kind": "COMPONENT_SET",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:3346",
+        "sectionName": "Toggle",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
-        "contractHash": "bb65703980a99508df4c9f2665ad8b61cb8a7909c352a33135d2ccbc3c03d0c4",
+        "contractHash": "02461589b28c693bb59d6d38209f41364a64a4f057792f294f8c50b685add82c",
         "sourceHash": "6d2deb7ba6c99b1a9ad4d9e0c5c6e554d7ca825b0da40a94d958b6a1e2031058",
         "variantAxes": {
           "variant": [
@@ -5139,18 +5102,16 @@
           "semantic/fill",
           "semantic/stroke"
         ],
-        "notes": []
+        "notes": [
+          "State is Figma-only interaction evidence, not a React prop.",
+          "on mirrors the code data-state=on pressed state."
+        ]
       },
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {
@@ -5169,14 +5130,14 @@
         "toggle-group"
       ],
       "figma": {
-        "status": "not-started",
-        "nodeId": null,
-        "key": null,
-        "kind": null,
+        "status": "integrated",
+        "nodeId": "137:3455",
+        "key": "493ba9dc952e2d8bb198d6a1a8bcc61053969f17",
+        "kind": "COMPONENT",
         "page": "Components",
-        "sectionId": null,
-        "sectionName": null,
-        "auditedAt": null
+        "sectionId": "137:3454",
+        "sectionName": "Toggle Group",
+        "auditedAt": "2026-09-28T02:04:27.486Z"
       },
       "contract": {
         "contractHash": "c2e6b5f553b8922a220860e67de84be5dd42b7bb667a782d27514ca7684da87d",
@@ -5212,13 +5173,8 @@
       "lifecycle": {
         "canonicalOwner": "@kernel/ui",
         "canonicalSource": "code",
-        "figmaStatus": "unmapped",
-        "promotionBlockedUntil": [
-          "contract-extracted",
-          "semantic-tokens-bound",
-          "accessibility-audited",
-          "page-layout-verified"
-        ]
+        "figmaStatus": "audited",
+        "promotionBlockedUntil": []
       }
     },
     {

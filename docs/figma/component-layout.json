@@ -78,11 +78,25 @@
       "bounds": {
         "x": 0,
         "y": 2581,
-        "width": 1315,
-        "height": 2445
+        "width": 1420,
+        "height": 3444
       },
       "expectedX": 0,
       "predecessorSectionId": "136:2133",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.button-group",
+      "sectionNodeId": "137:2452",
+      "bounds": {
+        "x": 0,
+        "y": 6185,
+        "width": 560,
+        "height": 584
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:399",
       "gap": 160,
       "verdict": "pass"
     },
@@ -101,6 +115,34 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.checkbox",
+      "sectionNodeId": "137:2484",
+      "bounds": {
+        "x": 0,
+        "y": 7341,
+        "width": 760,
+        "height": 409
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "136:2151",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.combobox",
+      "sectionNodeId": "137:2501",
+      "bounds": {
+        "x": 0,
+        "y": 7910,
+        "width": 1100,
+        "height": 764
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2484",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.empty",
       "sectionNodeId": "136:2172",
       "bounds": {
@@ -115,16 +157,58 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.field",
+      "sectionNodeId": "137:2532",
+      "bounds": {
+        "x": 0,
+        "y": 9326,
+        "width": 980,
+        "height": 1198
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "136:2172",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.form",
+      "sectionNodeId": "137:2586",
+      "bounds": {
+        "x": 0,
+        "y": 10684,
+        "width": 854,
+        "height": 722
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2532",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.input",
       "sectionNodeId": "7:400",
       "bounds": {
         "x": 0,
-        "y": 6090,
-        "width": 1346,
-        "height": 395
+        "y": 11566,
+        "width": 1434,
+        "height": 819
       },
       "expectedX": 0,
-      "predecessorSectionId": "136:2172",
+      "predecessorSectionId": "137:2586",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.input-otp",
+      "sectionNodeId": "137:2829",
+      "bounds": {
+        "x": 0,
+        "y": 12545,
+        "width": 984,
+        "height": 585
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:400",
       "gap": 160,
       "verdict": "pass"
     },
@@ -185,6 +269,20 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.native-select",
+      "sectionNodeId": "137:2969",
+      "bounds": {
+        "x": 0,
+        "y": 15025,
+        "width": 1274,
+        "height": 553
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2336",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.page-header",
       "sectionNodeId": "137:2351",
       "bounds": {
@@ -223,6 +321,34 @@
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2362",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.radio-group",
+      "sectionNodeId": "137:3042",
+      "bounds": {
+        "x": 0,
+        "y": 16914,
+        "width": 900,
+        "height": 525
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2393",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.select",
+      "sectionNodeId": "137:3113",
+      "bounds": {
+        "x": 0,
+        "y": 17599,
+        "width": 1393,
+        "height": 567
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:3042",
       "gap": 160,
       "verdict": "pass"
     },
@@ -269,6 +395,20 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.slider",
+      "sectionNodeId": "137:3194",
+      "bounds": {
+        "x": 0,
+        "y": 19960,
+        "width": 984,
+        "height": 611
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2409",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.spinner",
       "sectionNodeId": "137:2412",
       "bounds": {
@@ -293,6 +433,62 @@
       },
       "expectedX": 0,
       "predecessorSectionId": "137:2412",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.switch",
+      "sectionNodeId": "137:3252",
+      "bounds": {
+        "x": 0,
+        "y": 21369,
+        "width": 900,
+        "height": 635
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2417",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.textarea",
+      "sectionNodeId": "137:3305",
+      "bounds": {
+        "x": 0,
+        "y": 22164,
+        "width": 1434,
+        "height": 851
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:3252",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.toggle",
+      "sectionNodeId": "137:3346",
+      "bounds": {
+        "x": 0,
+        "y": 23175,
+        "width": 1100,
+        "height": 1155
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:3305",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.toggle-group",
+      "sectionNodeId": "137:3454",
+      "bounds": {
+        "x": 0,
+        "y": 24490,
+        "width": 1100,
+        "height": 897
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:3346",
       "gap": 160,
       "verdict": "pass"
     }
