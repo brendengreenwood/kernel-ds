@@ -6,6 +6,7 @@ decisions/ — immutable shaping-decision records (convention/dependency/archite
 archive/YYYY-MM-DD-topic.md — where a no-longer-active STATE section goes instead of being deleted
 a11y/, audit/ — accessibility notes and audit outputs
 component-doc-page-playbook.md — the doc-page layout/section/quality reference
+figma/DSDS-AGENT-HANDOFF.md — shared authority, identity reconciliation, and handoff brief for Figma and repository agents
 
 Adding a decision: next number continues the sequence in decisions/ (zero-padded, NNNN-slug.md)
 Windows note: CRLF + em-dash encoding can break in-place string edits here — a small Node read/replace/write script is the reliable workaround

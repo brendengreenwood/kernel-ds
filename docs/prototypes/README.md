@@ -2,6 +2,8 @@
 
 `docs/prototypes/registry.json` is the canonical concern-level ledger for discoveries made in Figma and `kernel-app`. Use the deterministic lifecycle command instead of editing registry state by hand:
 
+For coordination between a Figma agent and a design-system repository agent, read `docs/figma/DSDS-AGENT-HANDOFF.md` first. It explains how catalog IDs join canonical code, the Kernel DS library, and DSDS-informed product designs without making any prototype surface silently authoritative.
+
 ```bash
 npm run ds:prototype -- check
 npm run ds:prototype -- status

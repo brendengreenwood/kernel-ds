@@ -2,6 +2,8 @@
 
 How Kernel DS work happens in Figma via the console bridge (figma-console MCP), and how it stays tied to the DSDS catalog. Agents use the repository-owned `kernel-prototype` skill for session start, concern routing, same-turn registry updates, acceptance guards, and promotion bookkeeping; this guide supplies the Figma-specific mechanics.
 
+When a Figma agent and a design-system repository agent are coordinating across the Kernel DS library, a DSDS-informed product design, and canonical code, both must first read `docs/figma/DSDS-AGENT-HANDOFF.md`. It defines the shared authority model, identity join keys, read-only reconciliation pass, vertical-slice proof, and required agent-to-agent handoff.
+
 ## Principles
 
 - **Canonical code owns shipped contracts.** Tokens in `packages/ui/src/styles.css`, components in `@kernel/ui`, definitions in `@kernel/definitions`, and identities in `packages/catalog` are authoritative after promotion.
