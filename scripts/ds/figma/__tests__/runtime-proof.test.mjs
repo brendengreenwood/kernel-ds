@@ -14,6 +14,10 @@ function cohort(relativePath) {
   return JSON.parse(readFileSync(new URL(relativePath, runtimeDir), "utf8"))
 }
 
+test("runtime matrix hash is stable across line endings", () => {
+  assert.equal(matrixHash("one\r\ntwo\rthree\n"), matrixHash("one\ntwo\nthree\n"))
+})
+
 test("runtime matrix covers exactly the 62 component entities", () => {
   assert.equal(validateMatrix(matrix, entityIds).scenarios.length, 62)
 })
