@@ -481,7 +481,33 @@ function tempDsdsRoot() {
   rmSync(root, { recursive: true, force: true })
 }
 
-// 20. Unknown commands exit nonzero with usage.
+// 20. Reconciliation is read-only, replayable, and authorization-gated.
+{
+  const evidence = join(fixturesDir, "reconcile", "evidence.json")
+  const response = join(fixturesDir, "reconcile", "response.json")
+  const root = mkdtempSync(join(tmpdir(), "reconcile-check-"))
+  const reportPath = join(root, "report.json")
+  const dryRun = ds(["reconcile", "--evidence", evidence, "--dry-run"])
+  assert(dryRun.status === 0 && dryRun.stdout.includes("DS-RECONCILE-DRY-RUN"), "reconcile dry-run builds request without credentials", dryRun.stdout + dryRun.stderr)
+  assert(!existsSync(reportPath), "reconcile dry-run writes no report")
+  const replay = ds(["reconcile", "--evidence", evidence, "--response-file", response, "--out", reportPath])
+  assert(replay.status === 0 && replay.stdout.includes("mutationsAllowed=false"), "reconcile replay writes an authorization-gated report", replay.stdout + replay.stderr)
+  const report = JSON.parse(readFileSync(reportPath, "utf8"))
+  assert(report.judgment.identity.choice === "object.workspace", "reconcile report preserves the leading identity judgment")
+  assert(report.authorization.status === "human-review-required" && report.authorization.mutationsAllowed === false, "reconcile report cannot authorize mutation")
+  const missingCredentials = ds(["reconcile", "--evidence", evidence, "--out", join(root, "missing-key.json")])
+  assert(missingCredentials.status === 1 && missingCredentials.stderr.includes("TYPESAFE_API_KEY"), "reconcile refuses live execution without credentials", missingCredentials.stdout + missingCredentials.stderr)
+  rmSync(root, { recursive: true, force: true })
+}
+
+// 21. Figma component contracts, cohorts, evidence, layout, and integration ledger stay fresh.
+{
+  const { collectComponentIntegrationViolations } = await import("./figma/check-component-integration.mjs")
+  const violations = collectComponentIntegrationViolations()
+  assert(violations.length === 0, "Figma component integration artifacts are current", JSON.stringify(violations))
+}
+
+// 22. Unknown commands exit nonzero with usage.
 {
   const unknown = ds(["frobnicate"])
   assert(unknown.status === 1 && unknown.stderr.includes("DS-USAGE"), "unknown command usage", unknown.stdout + unknown.stderr)

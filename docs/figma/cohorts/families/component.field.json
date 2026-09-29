@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.field",
+  "purpose": "Single-family migration for component.field",
+  "entityIds": [
+    "component.field"
+  ]
+}

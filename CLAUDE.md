@@ -18,6 +18,10 @@ When a **component, form element, or pattern** is added/changed:
 
 When **nav sections** change: update `app-sidebar.tsx` and add the matching route in `main.tsx`. Every rail item is its own page (decision 0011); reuse the old anchor id as the route slug so `routeForAnchor()` keeps legacy `#hash` links working; never reintroduce a single-scroll page or a scrollspy.
 
+## Figma canvas placement
+
+Figma authoring must manage the page as a composed document, not drop each component at an opportunistic coordinate (decision 0077). Before creating or arranging anything, capture the target page, inventory the bounds of its top-level sections, choose the destination in the existing reading order, and calculate a clear position from those bounds. Related component families belong in one named section on a consistent page grid. After any operation that can change bounds or node identity — especially variant combining or component-set arrangement — re-read the resulting bounds, reflow neighboring sections, and take a full-page screenshot. A Figma write is not complete while sections overlap, drift into arbitrary canvas space, or rely on stale coordinates.
+
 ## Documentation (part of every change — see `docs/GUIDE.md`)
 The `docs/` directory is the project's memory. In the **same turn** as any meaningful change:
 - **Append** a what/why/touched entry to `docs/worklog/YYYY-MM.md` (append-only; never rewrite old entries).

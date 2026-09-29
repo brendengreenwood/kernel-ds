@@ -29,6 +29,7 @@ When a Figma agent and a design-system repository agent are coordinating across 
 
 ## Component rules
 
+- `component-integration.json` is the complete code-to-Figma migration ledger. Regenerate it with `node scripts/ds/figma/build-component-integration.mjs`; pending contract fields block migration rather than inviting inference.
 - Build components as **component sets with variant properties** matching the code API (variant/size/state props mirror `@kernel/ui` prop names where possible).
 - Compose: complex layouts are instances of smaller components — never detached copies.
 - Bind every fill/stroke/radius/spacing to a variable. Hardcoded values fail lint (`figma_lint_design`).

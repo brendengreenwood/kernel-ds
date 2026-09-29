@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.input-otp",
+  "purpose": "Single-family migration for component.input-otp",
+  "entityIds": [
+    "component.input-otp"
+  ]
+}

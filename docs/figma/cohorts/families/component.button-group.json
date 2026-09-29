@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.button-group",
+  "purpose": "Single-family migration for component.button-group",
+  "entityIds": [
+    "component.button-group"
+  ]
+}

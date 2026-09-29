@@ -11,6 +11,7 @@ node scripts/check-component-docs.mjs — doc-entity ↔ source parity (variants
 node scripts/check-component-docs.mjs --coverage — every ready component has a doc entity
 node scripts/check-prose-quality.mjs — no placeholder/mad-lib prose in doc entities
 node scripts/check-style-fidelity.mjs — overlines route through typeStyles.overline; no rounded-xl/[ radius hardcodes
+node scripts/check-geometry-roles.mjs — generic rounded-* aliases must resolve to semantic geometry roles; reports migration inventory
 node scripts/check-status-map.mjs — status→tone map integrity (Amendment A4)
 node scripts/emit-composition.mjs — composition contract rules (EMIT-OK)
 node scripts/check-portal-css.mjs — built CSS contains @kernel/ui component utilities (after npm run build)
@@ -23,11 +24,11 @@ node src/components/ui/marks/__check__.mjs — marks assertions
 Run the gates touching your change before committing; run all before a PR
 
 Conventions (full detail in ../CLAUDE.md — read it)
-Tokens change in 3 places together: index.css (:root + .dark + @theme inline maps), foundations.tsx sections, README.md
+Tokens originate in ../packages/ui/src/styles.css; keep the matching foundations pages and package documentation synchronized.
 Icons only from @/components/ui/icon (MDI shim) — never lucide-react or another icon pkg
 Control heights from --control-h-* tokens; motion from --duration-*/--ease-* tokens; never hardcode
 No web fonts — --font-sans/--font-mono are native system stacks only
-Overlines use typeStyles.overline (see check-style-fidelity); radius uses rounded-lg not rounded-xl
+Overlines use typeStyles.overline. Geometry uses semantic role tokens; generic rounded-sm/md/lg/xl are compatibility aliases enforced by check-geometry-roles.mjs.
 Domain copy stays in the grain-buying merchant world (loads, contracts, farms, bushels, basis, settlement)
 
 Wiring a new section/component (decision 0011): route in main.tsx + rail entry in components/portal/app-sidebar.tsx; a component adds its cluster to the relevant gallery-*.tsx list and canonical @kernel/catalog lifecycle metadata, then runs `npm run catalog:generate` from the repo root — no separate page file and never hand-edit component-meta.generated.ts

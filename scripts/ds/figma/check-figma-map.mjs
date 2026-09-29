@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url"
 import { checkFigmaProjection, FIGMA_MAP_PATH } from "../prototype/projection.mjs"
 import { loadPrototypeRegistry } from "../prototype/store.mjs"
 import { validatePrototypeRegistry } from "../prototype/validator.mjs"
+import { collectComponentIntegrationViolations } from "./check-component-integration.mjs"
 
 const REGISTRY_PATH = "docs/prototypes/registry.json"
 const FIGMA_ISSUE_CODES = new Set(["invalid-figma-file", "invalid-figma-reference", "unknown-entity"])
@@ -50,7 +51,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   const { catalogEntitiesFile, repoRoot } = await import("../lib/context.mjs")
   const { parseCatalogFile } = await import("../lib/catalog-file.mjs")
   const { entities } = parseCatalogFile(catalogEntitiesFile)
-  const violations = collectFigmaMapViolations(entities, repoRoot)
+  const violations = [...collectFigmaMapViolations(entities, repoRoot), ...collectComponentIntegrationViolations()]
   for (const violation of violations) console.error(`FIGMA-MAP ${violation.code}: ${violation.message}`)
   const coverage = figmaCoverage(entities, repoRoot)
   for (const [kind, { mapped, total }] of Object.entries(coverage)) console.log(`FIGMA-COVERAGE ${kind}: ${mapped}/${total}`)

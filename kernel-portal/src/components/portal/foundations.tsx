@@ -495,13 +495,6 @@ export function SpacingSection() {
     ["12", "2.88rem", 48],
     ["16", "3.84rem", 64],
   ] as const
-  const radii = [
-    ["sm", "rounded-sm", "r − 4px"],
-    ["md", "rounded-md", "r − 2px"],
-    ["lg", "rounded-lg", "0.25rem"],
-    ["xl", "rounded-xl", "r + 4px"],
-    ["full", "rounded-full", "999px"],
-  ] as const
   const controls = [
     ["--control-h-sm", "sm", "32px", "40px", "compact toolbars, dense rows"],
     ["--control-h", "default", "38px", "44px", "the resting default"],
@@ -511,38 +504,21 @@ export function SpacingSection() {
     <Section
       id="spacing"
       eyebrow="Foundations"
-      title="Spacing & radius"
-      lead="Spacing derives from a --spacing base of 0.24rem; corner radius flows from a single --radius of 0.25rem. Control heights come from their own density tokens (decision 0010)."
+      title="Spacing"
+      lead="Spacing derives from a --spacing base of 0.25rem. Control heights come from separate density tokens (decision 0010); semantic corner roles live on the Geometry foundation page."
     >
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-lg border bg-card p-8">
-          <div className="text-sm font-semibold">Spacing scale</div>
-          <div className="mb-4 font-mono text-xs text-muted-foreground">
-            base --spacing = 0.24rem
-          </div>
-          {spacing.map(([n, rem, px]) => (
-            <div key={n} className="flex items-center gap-4 border-b py-2.5 last:border-b-0">
-              <span className="w-8 font-mono text-sm font-semibold">{n}</span>
-              <span className="w-24 font-mono text-xs text-muted-foreground">{rem}</span>
-              <span className="h-[18px] rounded-sm bg-primary" style={{ width: px }} />
-            </div>
-          ))}
+      <div className="rounded-[var(--radius-surface)] border bg-card p-8">
+        <div className="text-sm font-semibold">Spacing scale</div>
+        <div className="mb-4 font-mono text-xs text-muted-foreground">
+          base --spacing = 0.25rem
         </div>
-        <div className="rounded-lg border bg-card p-8">
-          <div className="text-sm font-semibold">Radius scale</div>
-          <div className="mb-4 font-mono text-xs text-muted-foreground">
-            base --radius = 0.25rem
+        {spacing.map(([n, rem, px]) => (
+          <div key={n} className="flex items-center gap-4 border-b py-2.5 last:border-b-0">
+            <span className="w-8 font-mono text-sm font-semibold">{n}</span>
+            <span className="w-24 font-mono text-xs text-muted-foreground">{rem}</span>
+            <span className="h-[18px] rounded-[var(--radius-control)] bg-primary" style={{ width: px }} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            {radii.map(([name, cls, sub]) => (
-              <div key={name} className="rounded-md border bg-card p-4 text-center">
-                <div className={`mb-3 h-16 border border-primary bg-primary/15 ${cls}`} />
-                <div className="font-mono text-sm font-semibold">{name}</div>
-                <div className="font-mono text-xs text-muted-foreground">{sub}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
 
       <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>

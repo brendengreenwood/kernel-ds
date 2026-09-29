@@ -16,20 +16,16 @@
    ============================================================ */
 
 :root {
-  --radius: 0.875rem; /* v2 direction (register 2.1b): 3.5x the old 4px default.
-     Kernel was a nearly square system; the promoted look is a soft-cornered
-     one. Cascades through every card, input, popover and button. */
-  /* Concentric corner (register 3.26): a container holding a rounded
-     container must be rounder than what it holds, so the inner corner is
-     derived, not chosen: outer radius minus the even inset between them.
-     One padding value on all four sides, because an inset that differs by
-     side leaves no single radius that follows the outer curve. The panel's
-     radius steps UP from --radius rather than reusing it: --radius is tuned
-     for cards, and a card sharing its container's radius makes the two
-     corners read as one thick corner. 20 - 12 = 8 from the 14px base;
-     consumers derive the inner corner as
-     calc(var(--panel-radius) - var(--panel-inset)). */
-  --panel-radius: calc(var(--radius) + var(--spacing) * 1.5);
+  --radius: 0.875rem; /* Legacy general surface radius retained for existing
+     cards and floating layers while the internal-tool geometry migrates. */
+  --radius-control: 0.25rem; /* 4px — controls stay subordinate to surfaces. */
+  --radius-surface: 0.5rem; /* 8px — exposed perimeter of connected work surfaces. */
+  --radius-floating: 0.5rem; /* 8px — menus, popovers, and other floating layers. */
+  --radius-modal: 0.5rem; /* 8px — blocking dialogs share the system surface geometry. */
+  /* Connected panels round the exposed shell once. Regions inside the shell
+     remain square so adjacent navigator, canvas, and dock areas share seams
+     instead of reading as separate rounded cards. */
+  --panel-radius: var(--radius-surface);
   --panel-inset: calc(var(--spacing) * 3);
 
   /* control metrics (decision 0010): the density knob for interactive controls */
@@ -124,12 +120,11 @@
      A white card on a white canvas measures 1.000:1 — it exists only by its
      hairline. Here the CAST does the lifting, not the edge: light already
      comes from above in a light UI, so a white lip has nothing to add and
-     stays transparent. The plate is a surface sitting ON a card — frames,
-     inner panels, tiles: ~1.06:1 off its parent, a step, not a slab. */
+     stays transparent. Raised furniture uses a surface fill one step off its
+     parent — frames, inner panels, tiles: ~1.06:1, a step, not a slab. */
   --elev-lip: transparent;
   --elev-cast: var(--shadow-lg);
-  --elev-edge-page: var(--border);
-  --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
+  --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
 }
 
 .dark {
@@ -204,16 +199,13 @@
   --shadow-2xl: 0 16px 32px -8px color-mix(in oklch, var(--shadow-color) 55%, transparent);
 
   /* ---- elevation recipe (register Part 2.4) ----
-     Dark has no light source to borrow, so the lip is what sells the plate: a
-     1px highlight along the top edge reads as a bevel catching light from
-     above. The page plate's edge runs one rung darker than a card's —
-     --border around the longest line on screen reads as a drawn outline
-     rather than an edge. Dark and light do not carry depth the same way; the
-     asymmetry is the design, not a light-mode bug. */
+     Dark has no ambient light source to borrow, so raised furniture uses a
+     1px top highlight to establish its edge. The page surface owns a real
+     border instead of a separate simulated-edge token. Dark and light do not
+     carry depth the same way; the asymmetry is intentional. */
   --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
   --elev-cast: var(--shadow-lg);
-  --elev-edge-page: var(--neutral-800);
-  --elev-plate: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
+  --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
 }
 
 @theme inline {
@@ -255,10 +247,12 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* Compatibility aliases keep existing rounded-* consumers connected to the
+     semantic geometry levers while component families migrate to explicit roles. */
+  --radius-sm: var(--radius-control);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-surface);
+  --radius-xl: var(--radius-modal);
 
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);

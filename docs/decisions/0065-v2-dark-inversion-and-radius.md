@@ -1,7 +1,7 @@
 # 0065 — The v2 surface direction: dark inverts its elevation model, radius softens 3.5×
 
 Date: 2026-08-05
-Status: accepted
+Status: superseded in part by 0071
 Promotes the v2 prototype's Part 2 token drift (register `docs/v2-prototype-drift.md` on the prototype branch, sections 2.1–2.4); recorded values promoted verbatim.
 Extends: 0053 (elevation ramp per-theme alpha), 0064 (lime scale)
 

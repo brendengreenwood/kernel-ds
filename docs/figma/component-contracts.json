@@ -1,0 +1,3583 @@
+{
+  "$schema": "kernel-ds/figma-component-contracts@1",
+  "components": [
+    {
+      "entityId": "component.accordion",
+      "name": "Accordion",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/accordion.tsx"
+      ],
+      "sourceHash": "0f3d12d8a8f0d5cb3f993fc890a188d2de3d8a524da3e213514d2ece25f187e4",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Accordion",
+          "type": "AccordionPrimitive.Root.Props"
+        },
+        {
+          "component": "AccordionContent",
+          "type": "AccordionPrimitive.Panel.Props"
+        },
+        {
+          "component": "AccordionItem",
+          "type": "AccordionPrimitive.Item.Props"
+        },
+        {
+          "component": "AccordionTrigger",
+          "type": "AccordionPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "accordion",
+        "accordion-content",
+        "accordion-item",
+        "accordion-trigger",
+        "accordion-trigger-icon"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "8b1d6e99ab30f133f4172e579c8e9533c22fe80ee34ff607cbe4a410cbeae935"
+    },
+    {
+      "entityId": "component.alert",
+      "name": "Alert",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/alert.tsx"
+      ],
+      "sourceHash": "7bbd792ab4a2bc470a8157683f150ab36ed9294b2c0be0e8c3777e581146fe9b",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "destructive",
+          "info",
+          "success",
+          "warning"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Alert",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof alertVariants>"
+        },
+        {
+          "component": "AlertDescription",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AlertTitle",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "alert",
+        "alert-description",
+        "alert-title"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "9181ae4bb5c26c2124d53d915d7087480e64249e7c6192f270141f0dcd9af98d"
+    },
+    {
+      "entityId": "component.alert-dialog",
+      "name": "Alert Dialog",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/alert-dialog.tsx"
+      ],
+      "sourceHash": "e82157462b28d768ecb1e33f0591258029c459220653e97079de8718261f7385",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "size",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "AlertDialog",
+          "type": "AlertDialogPrimitive.Root.Props"
+        },
+        {
+          "component": "AlertDialogAction",
+          "type": "React.ComponentProps<typeof Button>"
+        },
+        {
+          "component": "AlertDialogCancel",
+          "type": "AlertDialogPrimitive.Close.Props & Pick<React.ComponentProps<typeof Button>, \"variant\" | \"size\">"
+        },
+        {
+          "component": "AlertDialogContent",
+          "type": "AlertDialogPrimitive.Popup.Props & { size?: \"default\" | \"sm\" }"
+        },
+        {
+          "component": "AlertDialogDescription",
+          "type": "React.ComponentProps<typeof AlertDialogPrimitive.Description>"
+        },
+        {
+          "component": "AlertDialogFooter",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AlertDialogHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AlertDialogMedia",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AlertDialogOverlay",
+          "type": "AlertDialogPrimitive.Backdrop.Props"
+        },
+        {
+          "component": "AlertDialogPortal",
+          "type": "AlertDialogPrimitive.Portal.Props"
+        },
+        {
+          "component": "AlertDialogTitle",
+          "type": "React.ComponentProps<typeof AlertDialogPrimitive.Title>"
+        },
+        {
+          "component": "AlertDialogTrigger",
+          "type": "AlertDialogPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "alert-dialog",
+        "alert-dialog-action",
+        "alert-dialog-cancel",
+        "alert-dialog-content",
+        "alert-dialog-description",
+        "alert-dialog-footer",
+        "alert-dialog-header",
+        "alert-dialog-media",
+        "alert-dialog-overlay",
+        "alert-dialog-portal",
+        "alert-dialog-title",
+        "alert-dialog-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "9f7b9d9e043c50fbd966df38dc200c1fc417b9fae7445664513ad0130fbed6c9"
+    },
+    {
+      "entityId": "component.aspect-ratio",
+      "name": "Aspect Ratio",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/aspect-ratio.tsx"
+      ],
+      "sourceHash": "45e0b325fdb5a9b3375a562a395001ddae12f1530f224d4c51bbfbc8a1be520e",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "ratio"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "AspectRatio",
+          "type": "React.ComponentProps<\"div\"> & { ratio: number }"
+        }
+      ],
+      "slots": [
+        "aspect-ratio"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "252693c06cb674af9c9619359b6dca3fe1b98e7d554ce862296611d46c5d3736"
+    },
+    {
+      "entityId": "component.attachment",
+      "name": "Attachment",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/attachment.tsx"
+      ],
+      "sourceHash": "56a5abb4ea1ef3feb768bf5ae4e323c230c51115fc8b543b3f090defdaee9fba",
+      "variantAxes": {
+        "size": [
+          "default",
+          "sm",
+          "xs"
+        ],
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "orientation",
+        "render",
+        "size",
+        "state",
+        "type",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Attachment",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof attachmentVariants> & { state?: \"idle\" | \"uploading\" | \"processing\" | \"error\" | \"done\" }"
+        },
+        {
+          "component": "AttachmentAction",
+          "type": "React.ComponentProps<typeof Button>"
+        },
+        {
+          "component": "AttachmentActions",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AttachmentContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AttachmentDescription",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "AttachmentGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AttachmentMedia",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof attachmentMediaVariants>"
+        },
+        {
+          "component": "AttachmentTitle",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "AttachmentTrigger",
+          "type": "useRender.ComponentProps<\"button\">"
+        }
+      ],
+      "slots": [
+        "attachment",
+        "attachment-action",
+        "attachment-actions",
+        "attachment-content",
+        "attachment-description",
+        "attachment-group",
+        "attachment-media",
+        "attachment-title"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "380c237dd13c9742e181d0bca4c573d9ed26fcbd67459d9f11e1af4934f441a8"
+    },
+    {
+      "entityId": "component.avatar",
+      "name": "Avatar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/avatar.tsx"
+      ],
+      "sourceHash": "61fe87cc6207a6c8a954126d300d6fb3446af39963f3bf49d022c20084d56463",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "size"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Avatar",
+          "type": "AvatarPrimitive.Root.Props & { size?: \"default\" | \"sm\" | \"lg\" }"
+        },
+        {
+          "component": "AvatarBadge",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "AvatarFallback",
+          "type": "AvatarPrimitive.Fallback.Props"
+        },
+        {
+          "component": "AvatarGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AvatarGroupCount",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "AvatarImage",
+          "type": "AvatarPrimitive.Image.Props"
+        }
+      ],
+      "slots": [
+        "avatar",
+        "avatar-badge",
+        "avatar-fallback",
+        "avatar-group",
+        "avatar-group-count",
+        "avatar-image"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "d4cee555b200f5f68c9e25fcc168e786b02287767915d8e963c9a29a42341ff5"
+    },
+    {
+      "entityId": "component.badge",
+      "name": "Badge",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/badge.tsx"
+      ],
+      "sourceHash": "cf5b0ecfaa5a9abb376732d7abd1ab3b2b68440750832da1ffc86f6e9666fdeb",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "destructive",
+          "info",
+          "outline",
+          "secondary",
+          "success",
+          "warning"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "render",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Badge",
+          "type": "useRender.ComponentProps<\"span\"> & VariantProps<typeof badgeVariants>"
+        }
+      ],
+      "slots": [],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "11af82727b968c8e9aaa1cb71e00f66225f66da95c6460170fc4eccf21acafa7"
+    },
+    {
+      "entityId": "component.breadcrumb",
+      "name": "Breadcrumb",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/breadcrumb.tsx"
+      ],
+      "sourceHash": "e11e419189fd22134291e65591a9ccd28d6d4b1f925a00886a4d528d29b911ae",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "render"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Breadcrumb",
+          "type": "React.ComponentProps<\"nav\">"
+        },
+        {
+          "component": "BreadcrumbEllipsis",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "BreadcrumbItem",
+          "type": "React.ComponentProps<\"li\">"
+        },
+        {
+          "component": "BreadcrumbLink",
+          "type": "useRender.ComponentProps<\"a\">"
+        },
+        {
+          "component": "BreadcrumbList",
+          "type": "React.ComponentProps<\"ol\">"
+        },
+        {
+          "component": "BreadcrumbPage",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "BreadcrumbSeparator",
+          "type": "React.ComponentProps<\"li\">"
+        }
+      ],
+      "slots": [
+        "breadcrumb",
+        "breadcrumb-ellipsis",
+        "breadcrumb-item",
+        "breadcrumb-list",
+        "breadcrumb-page",
+        "breadcrumb-separator"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "c28f7f8ed87f69b56fef9aede5d58daf264683f694678b84dbb429d41218d235"
+    },
+    {
+      "entityId": "component.bubble",
+      "name": "Bubble",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/bubble.tsx"
+      ],
+      "sourceHash": "6319c99f2b0dfdaee7197c802af07ceb7bb13c14496b6cfa7258cbdc8e4f5fb9",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "destructive",
+          "ghost",
+          "muted",
+          "outline",
+          "secondary",
+          "tinted"
+        ]
+      },
+      "publicProperties": [
+        "align",
+        "className",
+        "render",
+        "side",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Bubble",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof bubbleVariants> & { align?: \"start\" | \"end\" }"
+        },
+        {
+          "component": "BubbleContent",
+          "type": "useRender.ComponentProps<\"div\">"
+        },
+        {
+          "component": "BubbleGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "BubbleReactions",
+          "type": "React.ComponentProps<\"div\"> & { align?: \"start\" | \"end\" side?: \"top\" | \"bottom\" }"
+        }
+      ],
+      "slots": [
+        "bubble",
+        "bubble-group",
+        "bubble-reactions"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "d7f71bf9063a1c15b7137c4bb171540ff0aded88daeb0fbed1e0339d6481187f"
+    },
+    {
+      "entityId": "component.button",
+      "name": "Button",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/button.tsx"
+      ],
+      "sourceHash": "e9277fc0706453c1fd851cff75f831bbe9a3a98c853da8a0ae3c06662222dfe6",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "destructive",
+          "ghost",
+          "link",
+          "outline",
+          "secondary"
+        ],
+        "size": [
+          "default",
+          "icon",
+          "icon-lg",
+          "icon-sm",
+          "icon-xs",
+          "lg",
+          "sm",
+          "xs"
+        ]
+      },
+      "publicProperties": [
+        "borderBeam",
+        "className",
+        "size",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Button",
+          "type": "ButtonPrimitive.Props & VariantProps<typeof buttonVariants> & { borderBeam?: BorderBeamProp }"
+        }
+      ],
+      "slots": [
+        "button"
+      ],
+      "requiredTokenRoles": [
+        "metric/control-height",
+        "radius/control",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {
+        "State": [
+          "default",
+          "hover",
+          "focus",
+          "disabled"
+        ]
+      },
+      "figmaProperties": {
+        "Label": {
+          "type": "TEXT",
+          "mapsTo": "children"
+        },
+        "Icon": {
+          "type": "INSTANCE_SWAP",
+          "mapsTo": "composition"
+        }
+      },
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop.",
+        "Label maps to button children; Icon maps to composed icon content."
+      ],
+      "contractHash": "3748671155e581b496e4b6519a9426e1542266f02a5eadd3528ed277254c3777"
+    },
+    {
+      "entityId": "component.button-group",
+      "name": "Button Group",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/button-group.tsx"
+      ],
+      "sourceHash": "c0e4cf38117664696b71885a404cadd5c27dc57438c4ac59bc96f9ee1547df28",
+      "variantAxes": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "orientation",
+        "render"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "ButtonGroup",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof buttonGroupVariants>"
+        },
+        {
+          "component": "ButtonGroupSeparator",
+          "type": "React.ComponentProps<typeof Separator>"
+        },
+        {
+          "component": "ButtonGroupText",
+          "type": "useRender.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "button-group",
+        "button-group-separator"
+      ],
+      "requiredTokenRoles": [
+        "radius/control",
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "e7ff97cb999d78d7e430daa73c225608184795fa1fc2354968c7e23f8928b6ff"
+    },
+    {
+      "entityId": "component.calendar",
+      "name": "Calendar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/calendar.tsx"
+      ],
+      "sourceHash": "67124659961817cdcb26bad87322eee6018612a585e0eb4b4fba3b417042fe8b",
+      "variantAxes": {},
+      "publicProperties": [
+        "buttonVariant",
+        "captionLayout",
+        "className",
+        "classNames",
+        "components",
+        "day",
+        "formatters",
+        "locale",
+        "modifiers",
+        "showOutsideDays"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Calendar",
+          "type": "React.ComponentProps<typeof DayPicker> & { buttonVariant?: React.ComponentProps<typeof Button>[\"variant\"] }"
+        },
+        {
+          "component": "CalendarDayButton",
+          "type": "React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }"
+        }
+      ],
+      "slots": [
+        "calendar"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "317b70845d16883fc27260b4b85e865960dac283c9e747edf4f496ec6a163d0e"
+    },
+    {
+      "entityId": "component.card",
+      "name": "Card",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/card.tsx"
+      ],
+      "sourceHash": "fc5fc6a6d29c83394e6683be9857e95e9230af2a7ea80e82a20cad31d03b94c2",
+      "variantAxes": {},
+      "publicProperties": [
+        "borderBeam",
+        "className",
+        "size"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Card",
+          "type": "React.ComponentProps<\"div\"> & { size?: \"default\" | \"sm\" borderBeam?: BorderBeamProp }"
+        },
+        {
+          "component": "CardAction",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "CardContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "CardDescription",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "CardFooter",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "CardHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "CardTitle",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "card",
+        "card-action",
+        "card-content",
+        "card-description",
+        "card-footer",
+        "card-header",
+        "card-title"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "5bbfae388c48f33032b36d2d07c65e35d7890f03401ba92fcf03d35631c015fc"
+    },
+    {
+      "entityId": "component.carousel",
+      "name": "Carousel",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/carousel.tsx"
+      ],
+      "sourceHash": "893a3e652ba5fec1e3626cd070cd344c9f19fb8a48ba0c2a66fb23e1fa72dfdd",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "opts",
+        "orientation",
+        "plugins",
+        "setApi",
+        "size",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Carousel",
+          "type": "React.ComponentProps<\"div\"> & CarouselProps"
+        },
+        {
+          "component": "CarouselContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "CarouselItem",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "CarouselNext",
+          "type": "React.ComponentProps<typeof Button>"
+        },
+        {
+          "component": "CarouselPrevious",
+          "type": "React.ComponentProps<typeof Button>"
+        }
+      ],
+      "slots": [
+        "carousel",
+        "carousel-content",
+        "carousel-item",
+        "carousel-next",
+        "carousel-previous"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "13057b2d25ed320d38fa13a27a57d41d2be2b4a9a58f7ac9708c7fe1a5b83072"
+    },
+    {
+      "entityId": "component.chart",
+      "name": "Chart",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/chart.tsx"
+      ],
+      "sourceHash": "b079745ccbcbd09fc137144a7d613086e48fe0c1896bf6571e185a324b396e52",
+      "variantAxes": {},
+      "publicProperties": [
+        "active",
+        "children",
+        "className",
+        "color",
+        "config",
+        "formatter",
+        "hideIcon",
+        "hideIndicator",
+        "hideLabel",
+        "id",
+        "indicator",
+        "initialDimension",
+        "label",
+        "labelClassName",
+        "labelFormatter",
+        "labelKey",
+        "nameKey",
+        "payload",
+        "verticalAlign"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "ChartContainer",
+          "type": "React.ComponentProps<\"div\"> & { config: ChartConfig children: React.ComponentProps< typeof RechartsPrimitive.ResponsiveContainer >[\"children\"] initialDimension?: { width: number height: number } }"
+        },
+        {
+          "component": "ChartLegendContent",
+          "type": "React.ComponentProps<\"div\"> & { hideIcon?: boolean nameKey?: string } & RechartsPrimitive.DefaultLegendContentProps"
+        },
+        {
+          "component": "ChartTooltipContent",
+          "type": "React.ComponentProps<typeof RechartsPrimitive.Tooltip> & React.ComponentProps<\"div\"> & { hideLabel?: boolean hideIndicator?: boolean indicator?: \"line\" | \"dot\" | \"dashed\" nameKey?: string labelKey?: string } & Omit< RechartsPrimitive.DefaultTooltipContentProps< TooltipValueType, TooltipNameType >, \"accessibilityLayer\" >"
+        }
+      ],
+      "slots": [
+        "chart"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "23d68d3a909eb02e558a2abfb119a77993b42efcf5d48db8e0202042fcaff143"
+    },
+    {
+      "entityId": "component.checkbox",
+      "name": "Checkbox",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/checkbox.tsx"
+      ],
+      "sourceHash": "eb4a94e385e21d08a958293fd8f2fe59f1dd14670e0c0da7afb0c452e32b9e87",
+      "variantAxes": {},
+      "publicProperties": [
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Checkbox",
+          "type": "CheckboxPrimitive.Root.Props"
+        }
+      ],
+      "slots": [
+        "checkbox",
+        "checkbox-indicator"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "5453367a9c36530373dd126dd5ef3e5ab37f63bae131ff3ef3678771ab124fb4"
+    },
+    {
+      "entityId": "component.collapsible",
+      "name": "Collapsible",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/collapsible.tsx"
+      ],
+      "sourceHash": "2cea646b1bbc0647e541ada0c13b86abbbfd157d1fc0197b2b36098a93f83744",
+      "variantAxes": {},
+      "publicProperties": [],
+      "propTypeExpressions": [
+        {
+          "component": "Collapsible",
+          "type": "CollapsiblePrimitive.Root.Props"
+        },
+        {
+          "component": "CollapsibleContent",
+          "type": "CollapsiblePrimitive.Panel.Props"
+        },
+        {
+          "component": "CollapsibleTrigger",
+          "type": "CollapsiblePrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "collapsible",
+        "collapsible-content",
+        "collapsible-trigger"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "2daec9e5a4b38d13135518a19d3e27427253e65f3f9f83904de672796ef429ad"
+    },
+    {
+      "entityId": "component.combobox",
+      "name": "Combobox",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/combobox.tsx"
+      ],
+      "sourceHash": "0ad6fe10a376e761e95029ae7d82099b85c0b582830c3a294082cb1b55ebb07d",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "anchor",
+        "children",
+        "className",
+        "disabled",
+        "showClear",
+        "showRemove",
+        "showTrigger",
+        "side",
+        "sideOffset"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "ComboboxChip",
+          "type": "ComboboxPrimitive.Chip.Props & { showRemove?: boolean }"
+        },
+        {
+          "component": "ComboboxChips",
+          "type": "React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> & ComboboxPrimitive.Chips.Props"
+        },
+        {
+          "component": "ComboboxChipsInput",
+          "type": "ComboboxPrimitive.Input.Props"
+        },
+        {
+          "component": "ComboboxClear",
+          "type": "ComboboxPrimitive.Clear.Props"
+        },
+        {
+          "component": "ComboboxCollection",
+          "type": "ComboboxPrimitive.Collection.Props"
+        },
+        {
+          "component": "ComboboxContent",
+          "type": "ComboboxPrimitive.Popup.Props & Pick< ComboboxPrimitive.Positioner.Props, \"side\" | \"align\" | \"sideOffset\" | \"alignOffset\" | \"anchor\" >"
+        },
+        {
+          "component": "ComboboxEmpty",
+          "type": "ComboboxPrimitive.Empty.Props"
+        },
+        {
+          "component": "ComboboxGroup",
+          "type": "ComboboxPrimitive.Group.Props"
+        },
+        {
+          "component": "ComboboxInput",
+          "type": "ComboboxPrimitive.Input.Props & { showTrigger?: boolean showClear?: boolean }"
+        },
+        {
+          "component": "ComboboxItem",
+          "type": "ComboboxPrimitive.Item.Props"
+        },
+        {
+          "component": "ComboboxLabel",
+          "type": "ComboboxPrimitive.GroupLabel.Props"
+        },
+        {
+          "component": "ComboboxList",
+          "type": "ComboboxPrimitive.List.Props"
+        },
+        {
+          "component": "ComboboxSeparator",
+          "type": "ComboboxPrimitive.Separator.Props"
+        },
+        {
+          "component": "ComboboxTrigger",
+          "type": "ComboboxPrimitive.Trigger.Props"
+        },
+        {
+          "component": "ComboboxValue",
+          "type": "ComboboxPrimitive.Value.Props"
+        }
+      ],
+      "slots": [
+        "combobox-chip",
+        "combobox-chip-input",
+        "combobox-chip-remove",
+        "combobox-chips",
+        "combobox-clear",
+        "combobox-collection",
+        "combobox-content",
+        "combobox-empty",
+        "combobox-group",
+        "combobox-item",
+        "combobox-label",
+        "combobox-list",
+        "combobox-separator",
+        "combobox-trigger",
+        "combobox-value",
+        "input-group-button"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "0e0572c0182a2a2e6e154bcbcd6f4693115e98758eb6de879618b8cf074bcd36"
+    },
+    {
+      "entityId": "component.command",
+      "name": "Command",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/command.tsx"
+      ],
+      "sourceHash": "25a6bba86da03fd462ad3d5919a82b776cb51daf28199c4d5d88ef70d0a29fdf",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "description",
+        "showCloseButton",
+        "title"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Command",
+          "type": "React.ComponentProps<typeof CommandPrimitive>"
+        },
+        {
+          "component": "CommandDialog",
+          "type": "React.ComponentProps<typeof Dialog> & { title?: string description?: string className?: string showCloseButton?: boolean }"
+        },
+        {
+          "component": "CommandEmpty",
+          "type": "React.ComponentProps<typeof CommandPrimitive.Empty>"
+        },
+        {
+          "component": "CommandGroup",
+          "type": "React.ComponentProps<typeof CommandPrimitive.Group>"
+        },
+        {
+          "component": "CommandInput",
+          "type": "React.ComponentProps<typeof CommandPrimitive.Input>"
+        },
+        {
+          "component": "CommandItem",
+          "type": "React.ComponentProps<typeof CommandPrimitive.Item>"
+        },
+        {
+          "component": "CommandList",
+          "type": "React.ComponentProps<typeof CommandPrimitive.List>"
+        },
+        {
+          "component": "CommandSeparator",
+          "type": "React.ComponentProps<typeof CommandPrimitive.Separator>"
+        },
+        {
+          "component": "CommandShortcut",
+          "type": "React.ComponentProps<\"span\">"
+        }
+      ],
+      "slots": [
+        "command",
+        "command-empty",
+        "command-group",
+        "command-input",
+        "command-input-wrapper",
+        "command-item",
+        "command-list",
+        "command-separator",
+        "command-shortcut"
+      ],
+      "requiredTokenRoles": [
+        "metric/control-height",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "54d44000b8fcb49b8d9c39429ae199e1e5ad27d87fb0f7c978f25b40010db5d5"
+    },
+    {
+      "entityId": "component.context-menu",
+      "name": "Context Menu",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/context-menu.tsx"
+      ],
+      "sourceHash": "a6c06257621aa4673a1d240745816dd4ca9187510a0e667faca090de76434b8b",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "checked",
+        "children",
+        "className",
+        "inset",
+        "side",
+        "sideOffset",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "ContextMenu",
+          "type": "ContextMenuPrimitive.Root.Props"
+        },
+        {
+          "component": "ContextMenuCheckboxItem",
+          "type": "ContextMenuPrimitive.CheckboxItem.Props & { inset?: boolean }"
+        },
+        {
+          "component": "ContextMenuContent",
+          "type": "ContextMenuPrimitive.Popup.Props & Pick< ContextMenuPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+        },
+        {
+          "component": "ContextMenuGroup",
+          "type": "ContextMenuPrimitive.Group.Props"
+        },
+        {
+          "component": "ContextMenuItem",
+          "type": "ContextMenuPrimitive.Item.Props & { inset?: boolean variant?: \"default\" | \"destructive\" }"
+        },
+        {
+          "component": "ContextMenuLabel",
+          "type": "ContextMenuPrimitive.GroupLabel.Props & { inset?: boolean }"
+        },
+        {
+          "component": "ContextMenuPortal",
+          "type": "ContextMenuPrimitive.Portal.Props"
+        },
+        {
+          "component": "ContextMenuRadioGroup",
+          "type": "ContextMenuPrimitive.RadioGroup.Props"
+        },
+        {
+          "component": "ContextMenuRadioItem",
+          "type": "ContextMenuPrimitive.RadioItem.Props & { inset?: boolean }"
+        },
+        {
+          "component": "ContextMenuSeparator",
+          "type": "ContextMenuPrimitive.Separator.Props"
+        },
+        {
+          "component": "ContextMenuShortcut",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "ContextMenuSub",
+          "type": "ContextMenuPrimitive.SubmenuRoot.Props"
+        },
+        {
+          "component": "ContextMenuSubContent",
+          "type": "React.ComponentProps<typeof ContextMenuContent>"
+        },
+        {
+          "component": "ContextMenuSubTrigger",
+          "type": "ContextMenuPrimitive.SubmenuTrigger.Props & { inset?: boolean }"
+        },
+        {
+          "component": "ContextMenuTrigger",
+          "type": "ContextMenuPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "context-menu",
+        "context-menu-checkbox-item",
+        "context-menu-content",
+        "context-menu-group",
+        "context-menu-item",
+        "context-menu-label",
+        "context-menu-portal",
+        "context-menu-radio-group",
+        "context-menu-radio-item",
+        "context-menu-separator",
+        "context-menu-shortcut",
+        "context-menu-sub",
+        "context-menu-sub-content",
+        "context-menu-sub-trigger",
+        "context-menu-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "3e5b523a47f22b3004f45e908c8781cd75fad1bd9ab44153614b9538b99b7321"
+    },
+    {
+      "entityId": "component.dialog",
+      "name": "Dialog",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/dialog.tsx"
+      ],
+      "sourceHash": "678f21cf0b23055cfb2682aa0561db50b79ad2e485abe522cb8a00b7cbbd0116",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "height",
+        "showCloseButton",
+        "width"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Dialog",
+          "type": "DialogPrimitive.Root.Props"
+        },
+        {
+          "component": "DialogBody",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "DialogClose",
+          "type": "DialogPrimitive.Close.Props"
+        },
+        {
+          "component": "DialogContent",
+          "type": "DialogPrimitive.Popup.Props & { showCloseButton?: boolean /** Width ladder: xs confirms · sm messages · md forms · lg review · xl flows */ width?: keyof typeof dialogWidths /** auto sizes to content · tall/full fix the height — pair with <DialogBody> */ height?: keyof typeof dialogHeights }"
+        },
+        {
+          "component": "DialogDescription",
+          "type": "DialogPrimitive.Description.Props"
+        },
+        {
+          "component": "DialogFooter",
+          "type": "React.ComponentProps<\"div\"> & { showCloseButton?: boolean }"
+        },
+        {
+          "component": "DialogHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "DialogOverlay",
+          "type": "DialogPrimitive.Backdrop.Props"
+        },
+        {
+          "component": "DialogPortal",
+          "type": "DialogPrimitive.Portal.Props"
+        },
+        {
+          "component": "DialogTitle",
+          "type": "DialogPrimitive.Title.Props"
+        },
+        {
+          "component": "DialogTrigger",
+          "type": "DialogPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "dialog",
+        "dialog-body",
+        "dialog-close",
+        "dialog-content",
+        "dialog-description",
+        "dialog-footer",
+        "dialog-header",
+        "dialog-overlay",
+        "dialog-portal",
+        "dialog-title",
+        "dialog-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "f27b5f721e60addf08469acdf8efafd6c810388ba04c9be3f935aebb957888ce"
+    },
+    {
+      "entityId": "component.drawer",
+      "name": "Drawer",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/drawer.tsx"
+      ],
+      "sourceHash": "e177fd4b9f27e3f7c4faa8efdffcd9d0c883cf71c5ea152cdfdd1c8f791e7ac7",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "onKeyDown",
+        "ref"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Drawer",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Root>"
+        },
+        {
+          "component": "DrawerClose",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Close>"
+        },
+        {
+          "component": "DrawerContent",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Content>"
+        },
+        {
+          "component": "DrawerDescription",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Description>"
+        },
+        {
+          "component": "DrawerFooter",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "DrawerHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "DrawerOverlay",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Overlay>"
+        },
+        {
+          "component": "DrawerPortal",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Portal>"
+        },
+        {
+          "component": "DrawerTitle",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Title>"
+        },
+        {
+          "component": "DrawerTrigger",
+          "type": "React.ComponentProps<typeof DrawerPrimitive.Trigger>"
+        }
+      ],
+      "slots": [
+        "drawer",
+        "drawer-close",
+        "drawer-content",
+        "drawer-description",
+        "drawer-footer",
+        "drawer-header",
+        "drawer-overlay",
+        "drawer-portal",
+        "drawer-title",
+        "drawer-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "65c5270685d428530ebcd4884bd75ec2daddd3ada8955bd720d0a0e093e7904d"
+    },
+    {
+      "entityId": "component.dropdown-menu",
+      "name": "Dropdown Menu",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/dropdown-menu.tsx"
+      ],
+      "sourceHash": "69f827a38e1134c8e0f36256b5a80e593c7987afcd4b955d5edff1116c492f56",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "checked",
+        "children",
+        "className",
+        "inset",
+        "side",
+        "sideOffset",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "DropdownMenu",
+          "type": "MenuPrimitive.Root.Props"
+        },
+        {
+          "component": "DropdownMenuCheckboxItem",
+          "type": "MenuPrimitive.CheckboxItem.Props & { inset?: boolean }"
+        },
+        {
+          "component": "DropdownMenuContent",
+          "type": "MenuPrimitive.Popup.Props & Pick< MenuPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+        },
+        {
+          "component": "DropdownMenuGroup",
+          "type": "MenuPrimitive.Group.Props"
+        },
+        {
+          "component": "DropdownMenuItem",
+          "type": "MenuPrimitive.Item.Props & { inset?: boolean variant?: \"default\" | \"destructive\" }"
+        },
+        {
+          "component": "DropdownMenuLabel",
+          "type": "MenuPrimitive.GroupLabel.Props & { inset?: boolean }"
+        },
+        {
+          "component": "DropdownMenuPortal",
+          "type": "MenuPrimitive.Portal.Props"
+        },
+        {
+          "component": "DropdownMenuRadioGroup",
+          "type": "MenuPrimitive.RadioGroup.Props"
+        },
+        {
+          "component": "DropdownMenuRadioItem",
+          "type": "MenuPrimitive.RadioItem.Props & { inset?: boolean }"
+        },
+        {
+          "component": "DropdownMenuSeparator",
+          "type": "MenuPrimitive.Separator.Props"
+        },
+        {
+          "component": "DropdownMenuShortcut",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "DropdownMenuSub",
+          "type": "MenuPrimitive.SubmenuRoot.Props"
+        },
+        {
+          "component": "DropdownMenuSubContent",
+          "type": "React.ComponentProps<typeof DropdownMenuContent>"
+        },
+        {
+          "component": "DropdownMenuSubTrigger",
+          "type": "MenuPrimitive.SubmenuTrigger.Props & { inset?: boolean }"
+        },
+        {
+          "component": "DropdownMenuTrigger",
+          "type": "MenuPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "dropdown-menu",
+        "dropdown-menu-checkbox-item",
+        "dropdown-menu-checkbox-item-indicator",
+        "dropdown-menu-content",
+        "dropdown-menu-group",
+        "dropdown-menu-item",
+        "dropdown-menu-label",
+        "dropdown-menu-portal",
+        "dropdown-menu-radio-group",
+        "dropdown-menu-radio-item",
+        "dropdown-menu-radio-item-indicator",
+        "dropdown-menu-separator",
+        "dropdown-menu-shortcut",
+        "dropdown-menu-sub",
+        "dropdown-menu-sub-content",
+        "dropdown-menu-sub-trigger",
+        "dropdown-menu-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "73c139f00271600be03267d30526cff39c485916dfa8b1b98e69f19cf480fb1b"
+    },
+    {
+      "entityId": "component.empty",
+      "name": "Empty",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/empty.tsx"
+      ],
+      "sourceHash": "fb185863089e99f3ddce6bff8d68438ad1f12e459e9f9661a95e588464c99eae",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "icon"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Empty",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "EmptyContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "EmptyDescription",
+          "type": "React.ComponentProps<\"p\">"
+        },
+        {
+          "component": "EmptyHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "EmptyMedia",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof emptyMediaVariants>"
+        },
+        {
+          "component": "EmptyTitle",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "empty",
+        "empty-content",
+        "empty-description",
+        "empty-header",
+        "empty-icon",
+        "empty-title"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "18968f7d214161387532758558ef89f0ff5610eb34341929e5ec6724826db017"
+    },
+    {
+      "entityId": "component.field",
+      "name": "Field",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/field.tsx"
+      ],
+      "sourceHash": "7da498b546709ad4ed682746bec958da413d82eb9675c3080bbdfa2f60bb65d4",
+      "variantAxes": {
+        "orientation": [
+          "horizontal",
+          "responsive",
+          "vertical"
+        ]
+      },
+      "publicProperties": [
+        "children",
+        "className",
+        "errors",
+        "orientation",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Field",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof fieldVariants>"
+        },
+        {
+          "component": "FieldContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "FieldDescription",
+          "type": "React.ComponentProps<\"p\">"
+        },
+        {
+          "component": "FieldError",
+          "type": "React.ComponentProps<\"div\"> & { errors?: Array<{ message?: string } | undefined> }"
+        },
+        {
+          "component": "FieldGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "FieldLabel",
+          "type": "React.ComponentProps<typeof Label>"
+        },
+        {
+          "component": "FieldLegend",
+          "type": "React.ComponentProps<\"legend\"> & { variant?: \"legend\" | \"label\" }"
+        },
+        {
+          "component": "FieldSeparator",
+          "type": "React.ComponentProps<\"div\"> & { children?: React.ReactNode }"
+        },
+        {
+          "component": "FieldSet",
+          "type": "React.ComponentProps<\"fieldset\">"
+        },
+        {
+          "component": "FieldTitle",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "field",
+        "field-content",
+        "field-description",
+        "field-error",
+        "field-group",
+        "field-label",
+        "field-legend",
+        "field-separator",
+        "field-separator-content",
+        "field-set"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "597e329417e135f9790549257434fcfb646645118d83f0af61f52be64dd16a38"
+    },
+    {
+      "entityId": "component.form",
+      "name": "Form",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/form.tsx"
+      ],
+      "sourceHash": "0d3911715e6ce168da5433450ea0296e4fdc08cd7bb497ede76b4568275fa654",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "render"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "FormControl",
+          "type": "useRender.ComponentProps<\"div\">"
+        },
+        {
+          "component": "FormDescription",
+          "type": "React.ComponentProps<\"p\">"
+        },
+        {
+          "component": "FormItem",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "FormLabel",
+          "type": "React.ComponentProps<typeof Label>"
+        },
+        {
+          "component": "FormMessage",
+          "type": "React.ComponentProps<\"p\">"
+        }
+      ],
+      "slots": [
+        "form-description",
+        "form-item",
+        "form-label",
+        "form-message"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "f91122b6ee32ab9ece56386f722b89b541f12dec007b4771a7d4cf89198fca16"
+    },
+    {
+      "entityId": "component.hover-card",
+      "name": "Hover Card",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/hover-card.tsx"
+      ],
+      "sourceHash": "a93e879ee32de0e13f484e09c0a2c5bc0669e72d09ab3bcc132937ce2ee06057",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "HoverCard",
+          "type": "PreviewCardPrimitive.Root.Props"
+        },
+        {
+          "component": "HoverCardContent",
+          "type": "PreviewCardPrimitive.Popup.Props & Pick< PreviewCardPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+        },
+        {
+          "component": "HoverCardTrigger",
+          "type": "PreviewCardPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "hover-card",
+        "hover-card-content",
+        "hover-card-portal",
+        "hover-card-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "523e6c01ad1172335e4e35787421579a41f4fd6ea4d1da104306d44eb2377a4a"
+    },
+    {
+      "entityId": "component.input",
+      "name": "Input",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/input.tsx"
+      ],
+      "sourceHash": "f95dc603ed10c8fccffdedc7c24b11147074c6b70b215caf81fab0ab53dc9f56",
+      "variantAxes": {},
+      "publicProperties": [
+        "borderBeam",
+        "className",
+        "type"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Input",
+          "type": "React.ComponentProps<\"input\"> & { borderBeam?: BorderBeamProp }"
+        }
+      ],
+      "slots": [
+        "input"
+      ],
+      "requiredTokenRoles": [
+        "metric/control-height",
+        "radius/control",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {
+        "State": [
+          "default",
+          "focus",
+          "invalid",
+          "disabled"
+        ]
+      },
+      "figmaProperties": {},
+      "notes": [
+        "State is Figma-only interaction evidence, not a React prop."
+      ],
+      "contractHash": "8b438b84b050613a5a4a14bb3b4782288b7147d643b602a4e71795576db6b987"
+    },
+    {
+      "entityId": "component.input-otp",
+      "name": "Input OTP",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/input-otp.tsx"
+      ],
+      "sourceHash": "f42c62507e8b33c2e206d5f037ff597c4fd613328265db892851027674377466",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "containerClassName",
+        "index"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "InputOTP",
+          "type": "React.ComponentProps<typeof OTPInput> & { containerClassName?: string }"
+        },
+        {
+          "component": "InputOTPGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "InputOTPSeparator",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "InputOTPSlot",
+          "type": "React.ComponentProps<\"div\"> & { index: number }"
+        }
+      ],
+      "slots": [
+        "input-otp",
+        "input-otp-group",
+        "input-otp-separator",
+        "input-otp-slot"
+      ],
+      "requiredTokenRoles": [
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "ee1252284746b6472077747eaf47ea46ea87ef47bb11d433dcc366b2e1974d06"
+    },
+    {
+      "entityId": "component.item",
+      "name": "Item",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/item.tsx"
+      ],
+      "sourceHash": "4df5d269494fdd3ba5c2bb863391d95fbbeafe2bc856a089b038ff00a55317b0",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "muted",
+          "outline"
+        ],
+        "size": [
+          "default",
+          "sm",
+          "xs"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "render",
+        "size",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Item",
+          "type": "useRender.ComponentProps<\"div\"> & VariantProps<typeof itemVariants>"
+        },
+        {
+          "component": "ItemActions",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "ItemContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "ItemDescription",
+          "type": "React.ComponentProps<\"p\">"
+        },
+        {
+          "component": "ItemFooter",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "ItemGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "ItemHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "ItemMedia",
+          "type": "React.ComponentProps<\"div\"> & VariantProps<typeof itemMediaVariants>"
+        },
+        {
+          "component": "ItemSeparator",
+          "type": "React.ComponentProps<typeof Separator>"
+        },
+        {
+          "component": "ItemTitle",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "item-actions",
+        "item-content",
+        "item-description",
+        "item-footer",
+        "item-group",
+        "item-header",
+        "item-media",
+        "item-separator",
+        "item-title"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "b32e9543c985a717b24563559f0bffe72a1c74df1fbbdc59b2c70f5ca31e69c6"
+    },
+    {
+      "entityId": "component.kbd",
+      "name": "Kbd",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/kbd.tsx"
+      ],
+      "sourceHash": "4a7dc457d988ddd96c925f0132802100b8bf3c40f9804f55cb3123abb7e6450e",
+      "variantAxes": {},
+      "publicProperties": [
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Kbd",
+          "type": "React.ComponentProps<\"kbd\">"
+        },
+        {
+          "component": "KbdGroup",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "kbd",
+        "kbd-group"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "be7f998f6fa92db9b7e2e71daab6004b8685561e8bbf9e75cd424e1ba0f88ba0"
+    },
+    {
+      "entityId": "component.label",
+      "name": "Label",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/label.tsx"
+      ],
+      "sourceHash": "298878fbabfe8b9d3994a379f01618a0c564d2d9103822bd4a844ac541613faa",
+      "variantAxes": {},
+      "publicProperties": [
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Label",
+          "type": "React.ComponentProps<\"label\">"
+        }
+      ],
+      "slots": [
+        "label"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "6f05d36771019137f589ca03da328b7c427039a865543f52ccdd4862569e2075"
+    },
+    {
+      "entityId": "component.marker",
+      "name": "Marker",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/marker.tsx"
+      ],
+      "sourceHash": "65241a8aa25b48b9c4e2958fd820751109560030c78028fae2fdfd0d3945b9d4",
+      "variantAxes": {
+        "variant": [
+          "border",
+          "default",
+          "separator"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "render",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Marker",
+          "type": "useRender.ComponentProps<\"div\"> & VariantProps<typeof markerVariants>"
+        },
+        {
+          "component": "MarkerContent",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "MarkerIcon",
+          "type": "React.ComponentProps<\"span\">"
+        }
+      ],
+      "slots": [
+        "marker-content",
+        "marker-icon"
+      ],
+      "requiredTokenRoles": [
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "6262df95cf89fd26f2465a605f131e3c8f8bc6caed2c986a63a0072e9bb032c0"
+    },
+    {
+      "entityId": "component.menubar",
+      "name": "Menubar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/menubar.tsx"
+      ],
+      "sourceHash": "edd336b2af368a5a620db6c30a61ebbffaaae35b28178d5b85645a27e163570f",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "checked",
+        "children",
+        "className",
+        "inset",
+        "sideOffset",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Menubar",
+          "type": "MenubarPrimitive.Props"
+        },
+        {
+          "component": "MenubarCheckboxItem",
+          "type": "MenuPrimitive.CheckboxItem.Props & { inset?: boolean }"
+        },
+        {
+          "component": "MenubarContent",
+          "type": "React.ComponentProps<typeof DropdownMenuContent>"
+        },
+        {
+          "component": "MenubarGroup",
+          "type": "React.ComponentProps<typeof DropdownMenuGroup>"
+        },
+        {
+          "component": "MenubarItem",
+          "type": "React.ComponentProps<typeof DropdownMenuItem>"
+        },
+        {
+          "component": "MenubarLabel",
+          "type": "React.ComponentProps<typeof DropdownMenuLabel> & { inset?: boolean }"
+        },
+        {
+          "component": "MenubarMenu",
+          "type": "React.ComponentProps<typeof DropdownMenu>"
+        },
+        {
+          "component": "MenubarPortal",
+          "type": "React.ComponentProps<typeof DropdownMenuPortal>"
+        },
+        {
+          "component": "MenubarRadioGroup",
+          "type": "React.ComponentProps<typeof DropdownMenuRadioGroup>"
+        },
+        {
+          "component": "MenubarRadioItem",
+          "type": "MenuPrimitive.RadioItem.Props & { inset?: boolean }"
+        },
+        {
+          "component": "MenubarSeparator",
+          "type": "React.ComponentProps<typeof DropdownMenuSeparator>"
+        },
+        {
+          "component": "MenubarShortcut",
+          "type": "React.ComponentProps<typeof DropdownMenuShortcut>"
+        },
+        {
+          "component": "MenubarSub",
+          "type": "React.ComponentProps<typeof DropdownMenuSub>"
+        },
+        {
+          "component": "MenubarSubContent",
+          "type": "React.ComponentProps<typeof DropdownMenuSubContent>"
+        },
+        {
+          "component": "MenubarSubTrigger",
+          "type": "React.ComponentProps<typeof DropdownMenuSubTrigger> & { inset?: boolean }"
+        },
+        {
+          "component": "MenubarTrigger",
+          "type": "React.ComponentProps<typeof DropdownMenuTrigger>"
+        }
+      ],
+      "slots": [
+        "menubar",
+        "menubar-checkbox-item",
+        "menubar-content",
+        "menubar-group",
+        "menubar-item",
+        "menubar-label",
+        "menubar-menu",
+        "menubar-portal",
+        "menubar-radio-group",
+        "menubar-radio-item",
+        "menubar-separator",
+        "menubar-shortcut",
+        "menubar-sub",
+        "menubar-sub-content",
+        "menubar-sub-trigger",
+        "menubar-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "32e639b6f07c6d48ba7077912ec194f9f82eb9ab34b7b1b5610d160b54a5f22a"
+    },
+    {
+      "entityId": "component.message",
+      "name": "Message",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/message.tsx"
+      ],
+      "sourceHash": "259e2fc678420d2b9bd955c8aad042f1080ed5151718997cd2f2c55e721915b9",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Message",
+          "type": "React.ComponentProps<\"div\"> & { align?: \"start\" | \"end\" }"
+        },
+        {
+          "component": "MessageAvatar",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "MessageContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "MessageFooter",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "MessageGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "MessageHeader",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "message",
+        "message-avatar",
+        "message-content",
+        "message-footer",
+        "message-group",
+        "message-header"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "0367e8766afc5c148a3176ee061774f4ff03c5a2ce966a5f367c41ffdd16e4cd"
+    },
+    {
+      "entityId": "component.message-scroller",
+      "name": "Message Scroller",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/message-scroller.tsx"
+      ],
+      "sourceHash": "7bdfd1d63307639af75e62c6daca1dfa2c61165deaa61708735835fb1fb4d78b",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "direction",
+        "render",
+        "scrollAnchor",
+        "size",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "MessageScrollerButton",
+          "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Button> & Pick<React.ComponentProps<typeof Button>, \"variant\" | \"size\">"
+        },
+        {
+          "component": "MessageScrollerContent",
+          "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Content>"
+        },
+        {
+          "component": "MessageScrollerItem",
+          "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Item>"
+        },
+        {
+          "component": "MessageScrollerProvider",
+          "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Root>"
+        },
+        {
+          "component": "MessageScrollerViewport",
+          "type": "React.ComponentProps<typeof MessageScrollerPrimitive.Viewport>"
+        }
+      ],
+      "slots": [
+        "message-scroller",
+        "message-scroller-button",
+        "message-scroller-content",
+        "message-scroller-item",
+        "message-scroller-viewport"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "16638ce8ea90c5030089ab0505684db71eb0e1e859b332c1caba987e3e544bf5"
+    },
+    {
+      "entityId": "component.native-select",
+      "name": "Native Select",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/native-select.tsx"
+      ],
+      "sourceHash": "c9bb3301464459880f74dbe11ff7937346bca0d42fa72d2d288716df962a56ca",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "size"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "NativeSelect",
+          "type": "NativeSelectProps"
+        },
+        {
+          "component": "NativeSelectOptGroup",
+          "type": "React.ComponentProps<\"optgroup\">"
+        },
+        {
+          "component": "NativeSelectOption",
+          "type": "React.ComponentProps<\"option\">"
+        }
+      ],
+      "slots": [
+        "native-select",
+        "native-select-icon",
+        "native-select-optgroup",
+        "native-select-option",
+        "native-select-wrapper"
+      ],
+      "requiredTokenRoles": [
+        "metric/control-height",
+        "radius/control",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "9ab3c4c9c23ff02cf5c0e965cb8da919ad985996c1af0a52ca02c9d46c138706"
+    },
+    {
+      "entityId": "component.navigation-menu",
+      "name": "Navigation Menu",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/navigation-menu.tsx"
+      ],
+      "sourceHash": "569af25f9b753da866de152dd52e6b62627063bdb2bd237c7c86380913fca60c",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "children",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "NavigationMenu",
+          "type": "NavigationMenuPrimitive.Root.Props & Pick<NavigationMenuPrimitive.Positioner.Props, \"align\">"
+        },
+        {
+          "component": "NavigationMenuContent",
+          "type": "NavigationMenuPrimitive.Content.Props"
+        },
+        {
+          "component": "NavigationMenuIndicator",
+          "type": "React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Icon>"
+        },
+        {
+          "component": "NavigationMenuItem",
+          "type": "React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Item>"
+        },
+        {
+          "component": "NavigationMenuLink",
+          "type": "NavigationMenuPrimitive.Link.Props"
+        },
+        {
+          "component": "NavigationMenuList",
+          "type": "React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.List>"
+        },
+        {
+          "component": "NavigationMenuPositioner",
+          "type": "NavigationMenuPrimitive.Positioner.Props"
+        },
+        {
+          "component": "NavigationMenuTrigger",
+          "type": "NavigationMenuPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "navigation-menu",
+        "navigation-menu-content",
+        "navigation-menu-indicator",
+        "navigation-menu-item",
+        "navigation-menu-link",
+        "navigation-menu-list",
+        "navigation-menu-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "47e9e9ad35404ec49691ff3cadff8113aa9f8c3bfac067ac032b11d2173c4ab7"
+    },
+    {
+      "entityId": "component.page-header",
+      "name": "Page Header",
+      "maturity": "experimental",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/page-header.tsx"
+      ],
+      "sourceHash": "cf7a60974c318f7eca10b382039944ec86e22b188a4a01350d70406d81df2d88",
+      "variantAxes": {},
+      "publicProperties": [
+        "action",
+        "description",
+        "icon",
+        "size",
+        "title"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "PageHeader",
+          "type": "{ icon?: React.ComponentType<{ className?: string }> title: string description?: string action?: React.ReactNode size?: \"page\" | \"panel\" | \"section\" }"
+        }
+      ],
+      "slots": [
+        "page-header",
+        "page-header-chip"
+      ],
+      "requiredTokenRoles": [
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "88f9feda8325ab1bc83b18c8f1e5111baee040d4954f249e9a48e4cd716363a9"
+    },
+    {
+      "entityId": "component.pagination",
+      "name": "Pagination",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/pagination.tsx"
+      ],
+      "sourceHash": "fb3ecb290ad8519cf3955d7102522d800471d800865c44187684da705b64f075",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "isActive",
+        "size",
+        "text"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Pagination",
+          "type": "React.ComponentProps<\"nav\">"
+        },
+        {
+          "component": "PaginationContent",
+          "type": "React.ComponentProps<\"ul\">"
+        },
+        {
+          "component": "PaginationEllipsis",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "PaginationItem",
+          "type": "React.ComponentProps<\"li\">"
+        },
+        {
+          "component": "PaginationLink",
+          "type": "PaginationLinkProps"
+        },
+        {
+          "component": "PaginationNext",
+          "type": "React.ComponentProps<typeof PaginationLink> & { text?: string }"
+        },
+        {
+          "component": "PaginationPrevious",
+          "type": "React.ComponentProps<typeof PaginationLink> & { text?: string }"
+        }
+      ],
+      "slots": [
+        "pagination",
+        "pagination-content",
+        "pagination-ellipsis",
+        "pagination-item",
+        "pagination-link"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "057449fa2fe86cd9c6f74ed2df131b89a9c2e42e8d48525a8684fa240e5959d5"
+    },
+    {
+      "entityId": "component.panels",
+      "name": "Panels",
+      "maturity": "experimental",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/panels.tsx"
+      ],
+      "sourceHash": "ce415454e2fd5718b2db5364709d0287740e9df2763e2e684f5bd9e94f01f4b5",
+      "variantAxes": {},
+      "publicProperties": [
+        "chart",
+        "children",
+        "className",
+        "dense",
+        "icon",
+        "label",
+        "lg",
+        "orientation",
+        "strong",
+        "sub",
+        "top",
+        "value"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "IconChip",
+          "type": "{ icon: React.ComponentType<{ className?: string }> }"
+        },
+        {
+          "component": "PanelEmpty",
+          "type": "{ children: React.ReactNode }"
+        },
+        {
+          "component": "PanelGroup",
+          "type": "React.ComponentProps<\"div\"> & { orientation?: \"horizontal\" | \"vertical\" }"
+        },
+        {
+          "component": "PanelRegion",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "PanelShell",
+          "type": "React.ComponentProps<\"section\">"
+        },
+        {
+          "component": "Stat",
+          "type": "{ value: React.ReactNode; label: string }"
+        },
+        {
+          "component": "TableFrame",
+          "type": "{ children: React.ReactNode dense?: boolean }"
+        },
+        {
+          "component": "Tile",
+          "type": "{ value: React.ReactNode label: string lg?: boolean /** A sparkline of how the figure got here. Large tiles only — the small tile is 20px of type in a header row and a line under it is a smudge. Optional on purpose: a trace is worth its space only where the figure moved through values on its way here. A count that has been 0, then 1, draws a step, and a step drawn at chart size reads as a spike — an event rendered as a trend. */ chart?: React.ReactNode }"
+        },
+        {
+          "component": "TwoLine",
+          "type": "{ top: React.ReactNode; sub?: string; strong?: boolean }"
+        }
+      ],
+      "slots": [
+        "icon-chip",
+        "panel-empty",
+        "panel-group",
+        "panel-region",
+        "panel-shell",
+        "stat",
+        "table-frame",
+        "tile",
+        "two-line"
+      ],
+      "requiredTokenRoles": [
+        "radius/control",
+        "radius/surface",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "5b7814dc025cabd7e3428f1988fba356ded374afafc8ccafba0e887e88c3e315"
+    },
+    {
+      "entityId": "component.popover",
+      "name": "Popover",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/popover.tsx"
+      ],
+      "sourceHash": "0f337a1714ded5f9db8df10e3cb07ccf64db64481bccbe2edb78f42e0cacb308",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Popover",
+          "type": "PopoverPrimitive.Root.Props"
+        },
+        {
+          "component": "PopoverContent",
+          "type": "PopoverPrimitive.Popup.Props & Pick< PopoverPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+        },
+        {
+          "component": "PopoverDescription",
+          "type": "PopoverPrimitive.Description.Props"
+        },
+        {
+          "component": "PopoverHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "PopoverTitle",
+          "type": "PopoverPrimitive.Title.Props"
+        },
+        {
+          "component": "PopoverTrigger",
+          "type": "PopoverPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "popover",
+        "popover-content",
+        "popover-description",
+        "popover-header",
+        "popover-title",
+        "popover-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "18f79399d08a60c932412ff6116df3c4f11fb8c9682b8a3e653286db00b68b0c"
+    },
+    {
+      "entityId": "component.progress",
+      "name": "Progress",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/progress.tsx"
+      ],
+      "sourceHash": "c289167e203d944b500779b66f910508f0f5fe1f506fe17d7741d9bad0770957",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "value"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Progress",
+          "type": "ProgressPrimitive.Root.Props"
+        },
+        {
+          "component": "ProgressIndicator",
+          "type": "ProgressPrimitive.Indicator.Props"
+        },
+        {
+          "component": "ProgressLabel",
+          "type": "ProgressPrimitive.Label.Props"
+        },
+        {
+          "component": "ProgressTrack",
+          "type": "ProgressPrimitive.Track.Props"
+        },
+        {
+          "component": "ProgressValue",
+          "type": "ProgressPrimitive.Value.Props"
+        }
+      ],
+      "slots": [
+        "progress",
+        "progress-indicator",
+        "progress-label",
+        "progress-track",
+        "progress-value"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "53ab9919165be267a7a8f6dbfa2b58b2c96932b75efe2f65017e47f14072377b"
+    },
+    {
+      "entityId": "component.radio-group",
+      "name": "Radio Group",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/radio-group.tsx"
+      ],
+      "sourceHash": "85b8d11aa30dd39a2b8d56912a1b792b316fd07eb21aee580de5877cceb9369c",
+      "variantAxes": {},
+      "publicProperties": [
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "RadioGroup",
+          "type": "RadioGroupPrimitive.Props"
+        },
+        {
+          "component": "RadioGroupItem",
+          "type": "RadioPrimitive.Root.Props"
+        }
+      ],
+      "slots": [
+        "radio-group",
+        "radio-group-indicator",
+        "radio-group-item"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "8012c5dcae49ef281ec9855d86bfe59351ceb81e99d16a4ecf05086278a1bda8"
+    },
+    {
+      "entityId": "component.resizable",
+      "name": "Resizable",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/scroll-area.tsx",
+        "packages/ui/src/components/ui/resizable.tsx"
+      ],
+      "sourceHash": "ff541be866754d6387e99055c334021b5e149fd287991c2f7cd9c8a6aad31761",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "orientation",
+        "withHandle"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "ResizableHandle",
+          "type": "ResizablePrimitive.SeparatorProps & { withHandle?: boolean }"
+        },
+        {
+          "component": "ResizablePanel",
+          "type": "ResizablePrimitive.PanelProps"
+        },
+        {
+          "component": "ResizablePanelGroup",
+          "type": "ResizablePrimitive.GroupProps"
+        },
+        {
+          "component": "ScrollArea",
+          "type": "ScrollAreaPrimitive.Root.Props"
+        },
+        {
+          "component": "ScrollBar",
+          "type": "ScrollAreaPrimitive.Scrollbar.Props"
+        }
+      ],
+      "slots": [
+        "resizable-handle",
+        "resizable-panel",
+        "resizable-panel-group",
+        "scroll-area",
+        "scroll-area-scrollbar",
+        "scroll-area-thumb",
+        "scroll-area-viewport"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "dfbb979c85aff1feb3cc77ed3c1b71202aa0c6090ee1b742627bb493bfa177ab"
+    },
+    {
+      "entityId": "component.scroll-area",
+      "name": "Scroll Area",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/scroll-area.tsx",
+        "packages/ui/src/components/ui/resizable.tsx"
+      ],
+      "sourceHash": "ff541be866754d6387e99055c334021b5e149fd287991c2f7cd9c8a6aad31761",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "orientation",
+        "withHandle"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "ResizableHandle",
+          "type": "ResizablePrimitive.SeparatorProps & { withHandle?: boolean }"
+        },
+        {
+          "component": "ResizablePanel",
+          "type": "ResizablePrimitive.PanelProps"
+        },
+        {
+          "component": "ResizablePanelGroup",
+          "type": "ResizablePrimitive.GroupProps"
+        },
+        {
+          "component": "ScrollArea",
+          "type": "ScrollAreaPrimitive.Root.Props"
+        },
+        {
+          "component": "ScrollBar",
+          "type": "ScrollAreaPrimitive.Scrollbar.Props"
+        }
+      ],
+      "slots": [
+        "resizable-handle",
+        "resizable-panel",
+        "resizable-panel-group",
+        "scroll-area",
+        "scroll-area-scrollbar",
+        "scroll-area-thumb",
+        "scroll-area-viewport"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "6c8b257c0a39f417cf6328447911acd5f61ee29b3b5084006e907d1adabc66cb"
+    },
+    {
+      "entityId": "component.select",
+      "name": "Select",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/select.tsx"
+      ],
+      "sourceHash": "cbb055eaa20b58c877af7d2c340359d37109b641962986bdf10879605fb13e18",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignItemWithTrigger",
+        "alignOffset",
+        "children",
+        "className",
+        "side",
+        "sideOffset",
+        "size"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "SelectContent",
+          "type": "SelectPrimitive.Popup.Props & Pick< SelectPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" | \"alignItemWithTrigger\" >"
+        },
+        {
+          "component": "SelectGroup",
+          "type": "SelectPrimitive.Group.Props"
+        },
+        {
+          "component": "SelectItem",
+          "type": "SelectPrimitive.Item.Props"
+        },
+        {
+          "component": "SelectLabel",
+          "type": "SelectPrimitive.GroupLabel.Props"
+        },
+        {
+          "component": "SelectScrollDownButton",
+          "type": "React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow>"
+        },
+        {
+          "component": "SelectScrollUpButton",
+          "type": "React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>"
+        },
+        {
+          "component": "SelectSeparator",
+          "type": "SelectPrimitive.Separator.Props"
+        },
+        {
+          "component": "SelectTrigger",
+          "type": "SelectPrimitive.Trigger.Props & { size?: \"sm\" | \"default\" }"
+        },
+        {
+          "component": "SelectValue",
+          "type": "SelectPrimitive.Value.Props"
+        }
+      ],
+      "slots": [
+        "select-content",
+        "select-group",
+        "select-item",
+        "select-label",
+        "select-scroll-down-button",
+        "select-scroll-up-button",
+        "select-separator",
+        "select-trigger",
+        "select-value"
+      ],
+      "requiredTokenRoles": [
+        "metric/control-height",
+        "radius/control",
+        "radius/floating",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "555d35be2ebbf04bae4f1b0e4fdecb0b5bcee8678bb580ef5c762dd570667209"
+    },
+    {
+      "entityId": "component.separator",
+      "name": "Separator",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/separator.tsx"
+      ],
+      "sourceHash": "a6bf89b8c0069dedaf6c09fe0422b15528a952c486724ef8320d9cfc1f0efbc1",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "orientation"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Separator",
+          "type": "SeparatorPrimitive.Props"
+        }
+      ],
+      "slots": [
+        "separator"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "c77be2a34b326cba51f003a435b43c2d779b7ec7e7235d78f102edfd1d9c0d6e"
+    },
+    {
+      "entityId": "component.sheet",
+      "name": "Sheet",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/sheet.tsx"
+      ],
+      "sourceHash": "4cff103f36133d9f866c73613118d92ba6e86292daaf3a80a8bb69090246fb5e",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "showCloseButton",
+        "side"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Sheet",
+          "type": "SheetPrimitive.Root.Props"
+        },
+        {
+          "component": "SheetClose",
+          "type": "SheetPrimitive.Close.Props"
+        },
+        {
+          "component": "SheetContent",
+          "type": "SheetPrimitive.Popup.Props & { side?: \"top\" | \"right\" | \"bottom\" | \"left\" showCloseButton?: boolean }"
+        },
+        {
+          "component": "SheetDescription",
+          "type": "SheetPrimitive.Description.Props"
+        },
+        {
+          "component": "SheetFooter",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SheetHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SheetOverlay",
+          "type": "SheetPrimitive.Backdrop.Props"
+        },
+        {
+          "component": "SheetPortal",
+          "type": "SheetPrimitive.Portal.Props"
+        },
+        {
+          "component": "SheetTitle",
+          "type": "SheetPrimitive.Title.Props"
+        },
+        {
+          "component": "SheetTrigger",
+          "type": "SheetPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "sheet",
+        "sheet-close",
+        "sheet-content",
+        "sheet-description",
+        "sheet-footer",
+        "sheet-header",
+        "sheet-overlay",
+        "sheet-portal",
+        "sheet-title",
+        "sheet-trigger"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "e5eca27f50e283bb41c571242c2f1d3ace447d304338fd7e029a8ca38417c7f4"
+    },
+    {
+      "entityId": "component.sidebar",
+      "name": "Sidebar",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/sidebar.tsx"
+      ],
+      "sourceHash": "e9085394b22d80ed5b80bf750ad037312c88eab37af4a7d181b0bd075c6a43e2",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "outline"
+        ],
+        "size": [
+          "default",
+          "lg",
+          "sm"
+        ]
+      },
+      "publicProperties": [
+        "children",
+        "className",
+        "collapsible",
+        "defaultOpen",
+        "dir",
+        "isActive",
+        "onClick",
+        "onOpenChange",
+        "open",
+        "render",
+        "showIcon",
+        "showOnHover",
+        "side",
+        "size",
+        "style",
+        "tooltip",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Sidebar",
+          "type": "React.ComponentProps<\"div\"> & { side?: \"left\" | \"right\" variant?: \"sidebar\" | \"floating\" | \"inset\" collapsible?: \"offcanvas\" | \"icon\" | \"none\" }"
+        },
+        {
+          "component": "SidebarContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SidebarFooter",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SidebarGroup",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SidebarGroupAction",
+          "type": "useRender.ComponentProps<\"button\"> & React.ComponentProps<\"button\">"
+        },
+        {
+          "component": "SidebarGroupContent",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SidebarGroupLabel",
+          "type": "useRender.ComponentProps<\"div\"> & React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SidebarHeader",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SidebarInput",
+          "type": "React.ComponentProps<typeof Input>"
+        },
+        {
+          "component": "SidebarInset",
+          "type": "React.ComponentProps<\"main\">"
+        },
+        {
+          "component": "SidebarMenu",
+          "type": "React.ComponentProps<\"ul\">"
+        },
+        {
+          "component": "SidebarMenuAction",
+          "type": "useRender.ComponentProps<\"button\"> & React.ComponentProps<\"button\"> & { showOnHover?: boolean }"
+        },
+        {
+          "component": "SidebarMenuBadge",
+          "type": "React.ComponentProps<\"div\">"
+        },
+        {
+          "component": "SidebarMenuButton",
+          "type": "useRender.ComponentProps<\"button\"> & React.ComponentProps<\"button\"> & { isActive?: boolean tooltip?: string | React.ComponentProps<typeof TooltipContent> } & VariantProps<typeof sidebarMenuButtonVariants>"
+        },
+        {
+          "component": "SidebarMenuItem",
+          "type": "React.ComponentProps<\"li\">"
+        },
+        {
+          "component": "SidebarMenuSkeleton",
+          "type": "React.ComponentProps<\"div\"> & { showIcon?: boolean }"
+        },
+        {
+          "component": "SidebarMenuSub",
+          "type": "React.ComponentProps<\"ul\">"
+        },
+        {
+          "component": "SidebarMenuSubButton",
+          "type": "useRender.ComponentProps<\"a\"> & React.ComponentProps<\"a\"> & { size?: \"sm\" | \"md\" isActive?: boolean }"
+        },
+        {
+          "component": "SidebarMenuSubItem",
+          "type": "React.ComponentProps<\"li\">"
+        },
+        {
+          "component": "SidebarProvider",
+          "type": "React.ComponentProps<\"div\"> & { defaultOpen?: boolean open?: boolean onOpenChange?: (open: boolean) => void }"
+        },
+        {
+          "component": "SidebarRail",
+          "type": "React.ComponentProps<\"button\">"
+        },
+        {
+          "component": "SidebarSeparator",
+          "type": "React.ComponentProps<typeof Separator>"
+        },
+        {
+          "component": "SidebarTrigger",
+          "type": "React.ComponentProps<typeof Button>"
+        }
+      ],
+      "slots": [
+        "sidebar",
+        "sidebar-content",
+        "sidebar-footer",
+        "sidebar-group",
+        "sidebar-header",
+        "sidebar-menu",
+        "sidebar-separator"
+      ],
+      "requiredTokenRoles": [
+        "radius/control",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {
+        "State": [
+          "default",
+          "hover",
+          "active"
+        ]
+      },
+      "figmaProperties": {
+        "Icon": {
+          "type": "INSTANCE_SWAP",
+          "mapsTo": "composition"
+        }
+      },
+      "notes": [
+        "Variant, Size, State, and Icon are represented by the namespaced Sidebar / Menu Button family inside the owning section.",
+        "State is Figma-only interaction evidence, not a React prop.",
+        "The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
+      ],
+      "contractHash": "b06250f8d269d05bcee89809fe27402c1bf095c4481586f45bf68e28f610fd48"
+    },
+    {
+      "entityId": "component.skeleton",
+      "name": "Skeleton",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/skeleton.tsx"
+      ],
+      "sourceHash": "f8049bd66e6c57d77efc5207a8245a7b042bbc993076f95abe320a707be9c0b7",
+      "variantAxes": {},
+      "publicProperties": [
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Skeleton",
+          "type": "React.ComponentProps<\"div\">"
+        }
+      ],
+      "slots": [
+        "skeleton"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "81f216d23be355c90f4fa6dd8807d02ee0e2c5e0c9dcbab1e775e551f8001026"
+    },
+    {
+      "entityId": "component.slider",
+      "name": "Slider",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/slider.tsx"
+      ],
+      "sourceHash": "fb3297473eb671ac9d94bd2dd298f1d4564725d65e3e53c5931637d90386dd97",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "defaultValue",
+        "max",
+        "min",
+        "value"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Slider",
+          "type": "SliderPrimitive.Root.Props"
+        }
+      ],
+      "slots": [
+        "slider",
+        "slider-range",
+        "slider-thumb",
+        "slider-track"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "5e59b14918349f4623af7a99364917e4406bcd66498cad177cf2a88f67924948"
+    },
+    {
+      "entityId": "component.sonner",
+      "name": "Sonner",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/sonner.tsx"
+      ],
+      "sourceHash": "190758fd5d6d7a64aeb4f34e4e8d59f79eddcef54f7dae6cdf603c151e07f56f",
+      "variantAxes": {},
+      "publicProperties": [],
+      "propTypeExpressions": [],
+      "slots": [],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "b665a96437a77ed6e8c1ea796f298091988342dd4147a32bf709ed3d555316cd"
+    },
+    {
+      "entityId": "component.spinner",
+      "name": "Spinner",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/spinner.tsx"
+      ],
+      "sourceHash": "e2c95642e38e1007d89f33121e128f13f0cb0628e280ac2e7d430fde1729d588",
+      "variantAxes": {},
+      "publicProperties": [
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Spinner",
+          "type": "React.ComponentProps<\"svg\">"
+        }
+      ],
+      "slots": [
+        "spinner"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "ebbddc4c5f33e8981ab1eed37d61d50849ec3c705daa09937a5f530d3cb1c377"
+    },
+    {
+      "entityId": "component.status-badge",
+      "name": "Status Badge",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/status-badge.tsx"
+      ],
+      "sourceHash": "f43422ff35b68094b5920b4d8c9b679412adf7b03ae1d570d4e646fe49961317",
+      "variantAxes": {
+        "status": [
+          "booked",
+          "cancelled",
+          "delivered",
+          "draft",
+          "expired",
+          "in_transit",
+          "on_hold",
+          "pending",
+          "rejected",
+          "settled"
+        ]
+      },
+      "publicProperties": [
+        "children",
+        "className",
+        "status"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "StatusBadge",
+          "type": "React.ComponentProps<\"span\"> & VariantProps<typeof statusBadgeVariants>"
+        }
+      ],
+      "slots": [
+        "status-badge"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "575383b4dad16fb316cb5f220645394fd7ffd4cdf6b8e4ef641001cc2a288c1e"
+    },
+    {
+      "entityId": "component.switch",
+      "name": "Switch",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/switch.tsx"
+      ],
+      "sourceHash": "f7608ac4162332f46eeb73e49ac69d14eba426d58f4b949532c7546a5b5c7fac",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "size"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Switch",
+          "type": "SwitchPrimitive.Root.Props & { size?: \"sm\" | \"default\" }"
+        }
+      ],
+      "slots": [
+        "switch",
+        "switch-thumb"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "db4e4e5bfa5eb7befda3351abe186709a3527dd730e1c530e7456970f2075321"
+    },
+    {
+      "entityId": "component.table",
+      "name": "Table",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/table.tsx"
+      ],
+      "sourceHash": "3dcbb8e57d87c5f4bb30301ee6a813a0c31e39693eb8d406ba6b53370ed84749",
+      "variantAxes": {},
+      "publicProperties": [
+        "className",
+        "striped"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Table",
+          "type": "React.ComponentProps<\"table\"> & { /** Zebra-stripe alternating body rows for easier row tracking in dense tables. Uses a subtle foreground overlay so it reads on any surface. Scoped to this table's own rows, so a nested table stays unstriped. */ striped?: boolean }"
+        },
+        {
+          "component": "TableBody",
+          "type": "React.ComponentProps<\"tbody\">"
+        },
+        {
+          "component": "TableCaption",
+          "type": "React.ComponentProps<\"caption\">"
+        },
+        {
+          "component": "TableCell",
+          "type": "React.ComponentProps<\"td\">"
+        },
+        {
+          "component": "TableFooter",
+          "type": "React.ComponentProps<\"tfoot\">"
+        },
+        {
+          "component": "TableHead",
+          "type": "React.ComponentProps<\"th\">"
+        },
+        {
+          "component": "TableHeader",
+          "type": "React.ComponentProps<\"thead\">"
+        },
+        {
+          "component": "TableRow",
+          "type": "React.ComponentProps<\"tr\">"
+        }
+      ],
+      "slots": [
+        "table",
+        "table-body",
+        "table-caption",
+        "table-cell",
+        "table-container",
+        "table-footer",
+        "table-head",
+        "table-header",
+        "table-row"
+      ],
+      "requiredTokenRoles": [
+        "semantic/fill"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "dacebb3144908ace0dacf6ff9bb07dd8abbea071f79fa5c20f96f752436a6185"
+    },
+    {
+      "entityId": "component.tabs",
+      "name": "Tabs",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/tabs.tsx"
+      ],
+      "sourceHash": "1aa1ed60e5405439351e28307648f4799e2abfd67602752fc37d85d61b2cebd7",
+      "variantAxes": {
+        "variant": [
+          "folder",
+          "pill",
+          "underline"
+        ],
+        "size": [
+          "comfortable",
+          "compact",
+          "default"
+        ]
+      },
+      "publicProperties": [
+        "activateOnFocus",
+        "children",
+        "className",
+        "orientation",
+        "size",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "TabCount",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "TabDot",
+          "type": "React.ComponentProps<\"span\">"
+        },
+        {
+          "component": "Tabs",
+          "type": "TabsPrimitive.Root.Props"
+        },
+        {
+          "component": "TabsContent",
+          "type": "TabsPrimitive.Panel.Props"
+        },
+        {
+          "component": "TabsList",
+          "type": "TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>"
+        },
+        {
+          "component": "TabsTrigger",
+          "type": "TabsPrimitive.Tab.Props"
+        }
+      ],
+      "slots": [
+        "tab-count",
+        "tab-dot",
+        "tabs",
+        "tabs-content",
+        "tabs-list",
+        "tabs-trigger"
+      ],
+      "requiredTokenRoles": [
+        "metric/control-height",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "6cb4c6c414df9a85b01b5001f2dcc200c897b6ef00252ee24c97d20d2d02741f"
+    },
+    {
+      "entityId": "component.textarea",
+      "name": "Textarea",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/textarea.tsx"
+      ],
+      "sourceHash": "dabb2515537051d4d3ebb04ed2c05a7f60dad1f0151f7fe1c75476076092fc5f",
+      "variantAxes": {},
+      "publicProperties": [
+        "className"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Textarea",
+          "type": "React.ComponentProps<\"textarea\">"
+        }
+      ],
+      "slots": [
+        "textarea"
+      ],
+      "requiredTokenRoles": [
+        "radius/control",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "f54104e82c3ca1e83c2544dda07e5e96d56d95059de4c861918a584ea9d73f07"
+    },
+    {
+      "entityId": "component.toggle",
+      "name": "Toggle",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/toggle.tsx"
+      ],
+      "sourceHash": "d4e0f434424a260c7a3a69c20af19fc701d7af3c3e07dd756a75f593d734399d",
+      "variantAxes": {
+        "variant": [
+          "default",
+          "outline"
+        ],
+        "size": [
+          "default",
+          "lg",
+          "sm"
+        ]
+      },
+      "publicProperties": [
+        "className",
+        "size",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Toggle",
+          "type": "TogglePrimitive.Props & VariantProps<typeof toggleVariants>"
+        }
+      ],
+      "slots": [
+        "toggle"
+      ],
+      "requiredTokenRoles": [
+        "radius/control",
+        "semantic/fill",
+        "semantic/stroke"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "ee5e55186774b99a525abdf8694d7b0c24078d41ed77b85fa01409073fdebd6c"
+    },
+    {
+      "entityId": "component.toggle-group",
+      "name": "Toggle Group",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/toggle-group.tsx"
+      ],
+      "sourceHash": "79db98324e010d85e795588b5c072a2aef3eebc903bc703bce7983af4dde1b91",
+      "variantAxes": {},
+      "publicProperties": [
+        "children",
+        "className",
+        "orientation",
+        "size",
+        "spacing",
+        "variant"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "ToggleGroup",
+          "type": "ToggleGroupPrimitive.Props & VariantProps<typeof toggleVariants> & { spacing?: number orientation?: \"horizontal\" | \"vertical\" }"
+        },
+        {
+          "component": "ToggleGroupItem",
+          "type": "TogglePrimitive.Props & VariantProps<typeof toggleVariants>"
+        }
+      ],
+      "slots": [
+        "toggle-group",
+        "toggle-group-item"
+      ],
+      "requiredTokenRoles": [
+        "radius/control"
+      ],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "6d2418efc8093426e79cf057c2a825e1ded43086201b4dad89b0e9ef7ca46db1"
+    },
+    {
+      "entityId": "component.tooltip",
+      "name": "Tooltip",
+      "maturity": "ready",
+      "sourceFiles": [
+        "packages/ui/src/components/ui/tooltip.tsx"
+      ],
+      "sourceHash": "6dce4e7bc3ccb729e0f9c3084a4755a0013386ad41cf44166e547e0e5fbae6dd",
+      "variantAxes": {},
+      "publicProperties": [
+        "align",
+        "alignOffset",
+        "children",
+        "className",
+        "delay",
+        "side",
+        "sideOffset"
+      ],
+      "propTypeExpressions": [
+        {
+          "component": "Tooltip",
+          "type": "TooltipPrimitive.Root.Props"
+        },
+        {
+          "component": "TooltipContent",
+          "type": "TooltipPrimitive.Popup.Props & Pick< TooltipPrimitive.Positioner.Props, \"align\" | \"alignOffset\" | \"side\" | \"sideOffset\" >"
+        },
+        {
+          "component": "TooltipProvider",
+          "type": "TooltipPrimitive.Provider.Props"
+        },
+        {
+          "component": "TooltipTrigger",
+          "type": "TooltipPrimitive.Trigger.Props"
+        }
+      ],
+      "slots": [
+        "tooltip",
+        "tooltip-content",
+        "tooltip-provider",
+        "tooltip-trigger"
+      ],
+      "requiredTokenRoles": [],
+      "designStateAxes": {},
+      "figmaProperties": {},
+      "notes": [],
+      "contractHash": "68984e3dfb5c2049328bce84ff073fb5fffe7d1a14334bd12b912d06424a9b3a"
+    }
+  ]
+}

@@ -12,7 +12,7 @@
 
 | Concern | State | Origin | Canonical owner | Blocker | Evidence |
 | --- | --- | --- | --- | --- | --- |
-| visual | candidate | figma | — | No tuple-specific committed acceptance artifact existed in the legacy map. | `scripts/ds/__fixtures__/figma-map-pre-migration.json`<br>`scripts/ds/__fixtures__/figma-map-pre-migration.json#entities.component.button` |
+| visual | validated | figma | — | No tuple-specific committed acceptance artifact existed in the legacy map. | `docs/decisions/0071-internal-tool-connected-geometry.md`<br>`figma://du0qpv9XrTt4HEWdPhesUh/7:449`<br>`figma://du0qpv9XrTt4HEWdPhesUh/81:1572`<br>`https://kernel-design-system.netlify.app/components/button`<br>`packages/ui/src/components/ui/button.tsx`<br>`packages/ui/src/styles.css`<br>`scripts/ds/__fixtures__/figma-map-pre-migration.json`<br>`scripts/ds/__fixtures__/figma-map-pre-migration.json#entities.component.button` |
 
 ## Figma Input library component
 
@@ -25,6 +25,18 @@
 | Concern | State | Origin | Canonical owner | Blocker | Evidence |
 | --- | --- | --- | --- | --- | --- |
 | visual | candidate | figma | — | No tuple-specific committed acceptance artifact existed in the legacy map. | `scripts/ds/__fixtures__/figma-map-pre-migration.json`<br>`scripts/ds/__fixtures__/figma-map-pre-migration.json#entities.component.input` |
+
+## Internal tool radius study
+
+- ID: `figma-internal-tool-radius-study`
+- Lifecycle: `active`
+- Scope: `default`
+- Entities: `object.workspace`
+- Surfaces: Figma (3)
+
+| Concern | State | Origin | Canonical owner | Blocker | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| visual | validated | figma | — | Awaiting explicit acceptance and committed canonical evidence. | `docs/decisions/0071-internal-tool-connected-geometry.md`<br>`figma://du0qpv9XrTt4HEWdPhesUh/81:936`<br>`packages/ui/src/components/ui/panels.tsx`<br>`packages/ui/src/styles.css` |
 
 ## Figma Sidebar library component
 

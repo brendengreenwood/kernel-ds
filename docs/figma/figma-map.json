@@ -1,56 +1,56 @@
 {
   "file": {
-    "name": "Kernel DS",
-    "fileKey": "du0qpv9XrTt4HEWdPhesUh"
+    "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+    "name": "Kernel DS"
   },
   "collections": {
-    "Kernel Semantic": {
-      "id": "VariableCollectionId:1:74",
+    "Kernel Metrics": {
+      "id": "VariableCollectionId:1:348",
       "modes": {
-        "Light": "1:0",
-        "Dark": "1:1"
+        "Value": "1:3"
       },
-      "variables": 38,
-      "source": "packages/ui/src/styles.css :root/.dark shadcn theme block; + alpha-baked semantic/ring-50, semantic/destructive-20 (rings) and semantic/destructive-10 (destructive button fill, light 10% / dark 20% per code); + semantic/primary-80, secondary-hover, destructive-hover (button hover states)"
+      "source": "radius/{sm,md,lg,xl,full}, panel-radius/panel-inset, control heights (decision 0010), motion durations (decision 0018), spacing/* 4px grid (decision 0069), border/*, fontSize/*, lineHeight/*, ease/* reference strings",
+      "variables": 61
     },
     "Kernel Primitives": {
       "id": "VariableCollectionId:1:107",
       "modes": {
         "Value": "1:2"
       },
-      "variables": 254,
-      "source": "packages/ui/src/styles.css raw scales (brand/lime/neutral/status/viz/commodity) + light/base/dark and status/* aliases"
+      "source": "packages/ui/src/styles.css raw scales (brand/lime/neutral/status/viz/commodity) + light/base/dark and status/* aliases",
+      "variables": 254
     },
-    "Kernel Metrics": {
-      "id": "VariableCollectionId:1:348",
+    "Kernel Semantic": {
+      "id": "VariableCollectionId:1:74",
       "modes": {
-        "Value": "1:3"
+        "Dark": "1:1",
+        "Light": "1:0"
       },
-      "variables": 61,
-      "source": "radius/{sm,md,lg,xl,full}, panel-radius/panel-inset, control heights (decision 0010), motion durations (decision 0018), spacing/* 4px grid (decision 0069), border/*, fontSize/*, lineHeight/*, ease/* reference strings"
+      "source": "packages/ui/src/styles.css :root/.dark shadcn theme block; + alpha-baked semantic/ring-50, semantic/destructive-20 (rings) and semantic/destructive-10 (destructive button fill, light 10% / dark 20% per code); + semantic/primary-80, secondary-hover, destructive-hover (button hover states)",
+      "variables": 38
     }
   },
   "pages": {
+    "Components": {
+      "pageId": "1:1250"
+    },
     "Tokens": {
-      "pageId": "1:357",
-      "sections": {
-        "Semantic": "1:358",
-        "Primitives": "1:456",
-        "Metrics": "1:1216",
-        "Typography": "1:1485",
-        "Elevation": "5:80",
-        "Layout": "6:118"
-      },
       "effectStyles": {
         "note": "10 elevation effect styles: elevation/{light,dark}/{sm,md,lg,xl,2xl} — from the styles.css shadow ramp (--shadow-sm..2xl). Figma has no shadow variable type and effect styles can't mode-switch, so light/dark are separate style trees; 2xs/xs omitted (transparent by design). --shadow == --shadow-sm in code so no separate 'shadow' style."
       },
+      "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable. The v2 lime scale is included. All 353 variables carry scopes and (where a stable CSS var exists) WEB code syntax.",
+      "pageId": "1:357",
+      "sections": {
+        "Elevation": "5:80",
+        "Layout": "6:118",
+        "Metrics": "1:1216",
+        "Primitives": "1:456",
+        "Semantic": "1:358",
+        "Typography": "1:1485"
+      },
       "textStyles": {
         "note": "18 local text styles: text/{2xs,xs,sm,base,lg}/{regular,medium}, text/{xl,2xl,3xl}/{regular,semibold}, mono/{sm,xs}. Sans stand-in: Inter (code uses system-ui stack); mono stand-in: Roboto Mono. Sizes = Tailwind scale + custom text-2xs (11/16) from styles.css."
-      },
-      "note": "Reference swatch sheets; every swatch fill / metric bar is bound to a variable. The v2 lime scale is included. All 353 variables carry scopes and (where a stable CSS var exists) WEB code syntax."
-    },
-    "Components": {
-      "pageId": "1:1250"
+      }
     }
   },
   "entities": {
@@ -62,14 +62,6 @@
       "page": "Components",
       "status": "built",
       "props": {
-        "Variant": [
-          "default",
-          "outline",
-          "secondary",
-          "ghost",
-          "destructive",
-          "link"
-        ],
         "Size": [
           "default",
           "xs",
@@ -81,6 +73,14 @@
           "hover",
           "focus",
           "disabled"
+        ],
+        "Variant": [
+          "default",
+          "outline",
+          "secondary",
+          "ghost",
+          "destructive",
+          "link"
         ]
       },
       "note": "Mirrors @kernel/ui buttonVariants incl. interaction states (96 variants; icon sizes omitted). Hover fills: primary-80 / muted / secondary-hover (premixed color-mix) / muted / destructive-hover (alpha-baked 20/30) / link underline. Focus: 1px semantic/ring border + 3px spread drop-shadow bound semantic/ring-50 with showShadowBehindNode:false (translucent fills otherwise muddy). Disabled: node opacity 0.5 (node-level, safe from bind-drops-opacity). Mirrors @kernel/ui buttonVariants (icon sizes omitted). Heights bound to control-h vars, colors bound to semantic vars, destructive fill bound to alpha-baked semantic/destructive-10 at paint opacity 1 (see GUIDE hardened gotchas). Radius bound to radius/lg (radius/md for xs/sm), paddings/gaps bound to spacing vars per size, sm label 12.8px (text-[0.8rem]). Rebuilt 2026-09-19 after file-side deletion; built directly inside its section. Dark preview frame 10:500 (instances + explicitVariableModes) kept in section."
@@ -110,14 +110,14 @@
       "page": "Components",
       "status": "built",
       "children": {
+        "group-label": {
+          "nodeId": "7:216",
+          "key": "373fb826eaab76add99043667a26992796dada79"
+        },
         "menu-button-set": {
           "nodeId": "7:215",
           "key": "f654c9698827bb29bcbc2adf4347a6a6dffd3708",
           "axes": {
-            "Variant": [
-              "default",
-              "outline"
-            ],
             "Size": [
               "default",
               "sm",
@@ -127,16 +127,16 @@
               "default",
               "hover",
               "active"
+            ],
+            "Variant": [
+              "default",
+              "outline"
             ]
           },
           "props": {
             "Icon": "INSTANCE_SWAP (Icon#14:0), default view-dashboard-outline"
           },
           "note": "Icon slot is a 16px nested MDI instance wired to the Icon instance-swap property; icon vectors colored to match the label per state."
-        },
-        "group-label": {
-          "nodeId": "7:216",
-          "key": "373fb826eaab76add99043667a26992796dada79"
         },
         "separator": {
           "nodeId": "7:218",
@@ -159,8 +159,8 @@
   },
   "libraries": {
     "Material Design Icons": {
-      "fileKey": "KuMFRr3zRvRlkNpHaHZnce",
       "components": 5129,
+      "fileKey": "KuMFRr3zRvRlkNpHaHZnce",
       "note": "Published MDI library, enabled in this file. Mirrors the code's ./icon MDI shim (prefer *-outline). Import via importComponentByKeyAsync; hangs if the library isn't enabled in Assets."
     }
   }

@@ -1,0 +1,17 @@
+{
+  "$schema": "kernel-ds/figma-runtime-proof-results@1",
+  "results": [
+    {
+      "scenarioId": "component.button",
+      "entityId": "component.button",
+      "url": "/components/button",
+      "startedAt": "2026-09-27T00:00:00.000Z",
+      "finishedAt": "2026-09-27T00:00:01.000Z",
+      "buildHash": "fixture-build",
+      "matrixHash": "__MATRIX_HASH__",
+      "observedResult": "pass",
+      "screenshotPath": "scripts/__fixtures__/figma-runtime-proof/capture.png",
+      "recordingPath": "scripts/__fixtures__/figma-runtime-proof/capture.webm"
+    }
+  ]
+}

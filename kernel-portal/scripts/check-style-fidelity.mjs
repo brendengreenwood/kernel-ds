@@ -2,10 +2,10 @@
 /**
  * Style-fidelity drift guard (decision 0037).
  *
- * The design system has one overline recipe (`typeStyles.overline`) and one
- * radius scale (Tailwind `rounded-*` mapped to `--radius`). Hand-rolled
- * `uppercase tracking-*` treatments and `rounded-xl/2xl/[...]` hardcodes drift
- * away from those single sources of truth. This gate catches the drift.
+ * The design system has one overline recipe (`typeStyles.overline`) and semantic
+ * geometry roles. Hand-rolled `uppercase tracking-*` treatments and unbound
+ * `rounded-xl/2xl/[...]` hardcodes drift away from those sources of truth. This
+ * gate catches the drift; check-geometry-roles.mjs verifies compatibility aliases.
  *
  * Two rules, scanning every `src/**\/*.tsx`:
  *
@@ -15,8 +15,8 @@
  *      `cn(..., typeStyles.overline, colorOverride)`).
  *
  *   2. RADIUS — `rounded-xl`, `rounded-2xl`, `rounded-3xl`, or an arbitrary
- *      `rounded-[...]` bypasses the `--radius` scale. Use `rounded-lg` / `-md`
- *      / `-sm` instead.
+ *      `rounded-[...]` bypasses explicit semantic geometry unless it derives
+ *      from a token. Use a `--radius-*` role token for authored geometry.
  *
  * Deliberate one-offs live in ALLOWLIST below, keyed by a path fragment +
  * a substring that must appear on the offending line. Keep the list short and
@@ -54,7 +54,6 @@ const IN_SCOPE = [
 const ALLOWLIST = [
   // Type-scale demo intentionally shows different radii/tracking as samples.
   { path: "components/portal/foundations.tsx", needle: "tracking-[-0.03em]" },
-  { path: "components/portal/foundations.tsx", needle: "rounded-xl" },
   // Maturity micro-badge: a deliberately tiny inline pill, not a section overline.
   { path: "components/portal/section.tsx", needle: "text-[9.5px]" },
   // Motion warning micro-badge: inline pill inside a caption.

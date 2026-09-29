@@ -1,0 +1,48 @@
+{
+  "$schema": "kernel-ds/figma-component-layout@1",
+  "fileKey": "du0qpv9XrTt4HEWdPhesUh",
+  "records": [
+    {
+      "entityId": "component.button",
+      "sectionNodeId": "7:399",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1315,
+        "height": 2445
+      },
+      "expectedX": 0,
+      "predecessorSectionId": null,
+      "gap": null,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.input",
+      "sectionNodeId": "7:400",
+      "bounds": {
+        "x": 0,
+        "y": 2605,
+        "width": 1346,
+        "height": 395
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:399",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.sidebar",
+      "sectionNodeId": "7:289",
+      "bounds": {
+        "x": 0,
+        "y": 3160,
+        "width": 1391,
+        "height": 937
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:400",
+      "gap": 160,
+      "verdict": "pass"
+    }
+  ]
+}

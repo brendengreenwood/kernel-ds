@@ -73,7 +73,8 @@ const nav: { label: string; items: NavItem[] }[] = [
     items: [
       { title: "Color", to: "/colors", icon: Palette },
       { title: "Typography", to: "/typography", icon: Type },
-      { title: "Spacing & radius", to: "/spacing", icon: Ruler },
+      { title: "Spacing", to: "/spacing", icon: Ruler },
+      { title: "Geometry", to: "/geometry", icon: Shapes },
       { title: "Layout", to: "/layout", icon: Columns3 },
       { title: "Elevation", to: "/shadows", icon: Layers },
       { title: "Motion", to: "/motion", icon: Gauge },
@@ -144,7 +145,7 @@ export function AppSidebar() {
     <Sidebar variant="inset">
       <SidebarHeader>
         <div className="flex items-center gap-3 px-2 py-1.5">
-          <div className="flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+          <div className="flex size-8 items-center justify-center rounded-[var(--radius-control)] bg-sidebar-primary text-sidebar-primary-foreground">
             <Sprout className="size-5" />
           </div>
           <div className="leading-tight">

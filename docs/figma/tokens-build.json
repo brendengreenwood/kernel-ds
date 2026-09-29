@@ -1221,6 +1221,22 @@
       "value": 14
     },
     {
+      "name": "radius/control",
+      "value": 4
+    },
+    {
+      "name": "radius/surface",
+      "value": 8
+    },
+    {
+      "name": "radius/floating",
+      "value": 8
+    },
+    {
+      "name": "radius/modal",
+      "value": 8
+    },
+    {
       "name": "panel-radius",
       "value": 20
     },

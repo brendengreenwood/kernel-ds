@@ -1,0 +1,1550 @@
+{
+  "$schema": "kernel-ds/figma-runtime-proof-matrix@1",
+  "scenarios": [
+    {
+      "scenarioId": "component.accordion",
+      "entityId": "component.accordion",
+      "route": "/components/accordion",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/accordion"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "accordion"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "accordion.png"
+    },
+    {
+      "scenarioId": "component.alert",
+      "entityId": "component.alert",
+      "route": "/components/alert",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/alert"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "alert"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "alert.png"
+    },
+    {
+      "scenarioId": "component.alert-dialog",
+      "entityId": "component.alert-dialog",
+      "route": "/components/alert-dialog",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/alert-dialog"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "alert-dialog"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "alert-dialog.png"
+    },
+    {
+      "scenarioId": "component.aspect-ratio",
+      "entityId": "component.aspect-ratio",
+      "route": "/components/aspect-ratio",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/aspect-ratio"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "aspect-ratio"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "aspect-ratio.png"
+    },
+    {
+      "scenarioId": "component.attachment",
+      "entityId": "component.attachment",
+      "route": "/components/attachment",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/attachment"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "attachment"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "attachment.png"
+    },
+    {
+      "scenarioId": "component.avatar",
+      "entityId": "component.avatar",
+      "route": "/components/avatar",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/avatar"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "avatar"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "avatar.png"
+    },
+    {
+      "scenarioId": "component.badge",
+      "entityId": "component.badge",
+      "route": "/components/badge",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/badge"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "badge"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "badge.png"
+    },
+    {
+      "scenarioId": "component.breadcrumb",
+      "entityId": "component.breadcrumb",
+      "route": "/components/breadcrumb",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/breadcrumb"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "breadcrumb"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "breadcrumb.png"
+    },
+    {
+      "scenarioId": "component.bubble",
+      "entityId": "component.bubble",
+      "route": "/components/bubble",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/bubble"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "bubble"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "bubble.png"
+    },
+    {
+      "scenarioId": "component.button",
+      "entityId": "component.button",
+      "route": "/components/button",
+      "setup": [
+        "Use the rendered Button gallery cluster"
+      ],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/button"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "press",
+          "selector": "body",
+          "key": "Tab"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "button:has-text(\"Primary\")"
+        },
+        {
+          "type": "click",
+          "selector": "button:has-text(\"Primary\")"
+        },
+        {
+          "type": "screenshot",
+          "name": "button"
+        }
+      ],
+      "expectedObservations": [
+        "Keyboard traversal reaches an enabled button",
+        "Primary action accepts pointer activation without a runtime error"
+      ],
+      "requiredCaptureName": "button.png"
+    },
+    {
+      "scenarioId": "component.button-group",
+      "entityId": "component.button-group",
+      "route": "/components/button-group",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/button-group"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "button-group"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "button-group.png"
+    },
+    {
+      "scenarioId": "component.calendar",
+      "entityId": "component.calendar",
+      "route": "/components/calendar",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/calendar"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "calendar"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "calendar.png"
+    },
+    {
+      "scenarioId": "component.card",
+      "entityId": "component.card",
+      "route": "/components/card",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/card"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "card"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "card.png"
+    },
+    {
+      "scenarioId": "component.carousel",
+      "entityId": "component.carousel",
+      "route": "/components/carousel",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/carousel"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "carousel"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "carousel.png"
+    },
+    {
+      "scenarioId": "component.chart",
+      "entityId": "component.chart",
+      "route": "/components/chart",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/chart"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "chart"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "chart.png"
+    },
+    {
+      "scenarioId": "component.checkbox",
+      "entityId": "component.checkbox",
+      "route": "/components/checkbox",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/checkbox"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "checkbox"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "checkbox.png"
+    },
+    {
+      "scenarioId": "component.collapsible",
+      "entityId": "component.collapsible",
+      "route": "/components/collapsible",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/collapsible"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "collapsible"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "collapsible.png"
+    },
+    {
+      "scenarioId": "component.combobox",
+      "entityId": "component.combobox",
+      "route": "/components/combobox",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/combobox"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "combobox"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "combobox.png"
+    },
+    {
+      "scenarioId": "component.command",
+      "entityId": "component.command",
+      "route": "/components/command",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/command"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "command"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "command.png"
+    },
+    {
+      "scenarioId": "component.context-menu",
+      "entityId": "component.context-menu",
+      "route": "/components/context-menu",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/context-menu"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "context-menu"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "context-menu.png"
+    },
+    {
+      "scenarioId": "component.dialog",
+      "entityId": "component.dialog",
+      "route": "/components/dialog",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/dialog"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "dialog"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "dialog.png"
+    },
+    {
+      "scenarioId": "component.drawer",
+      "entityId": "component.drawer",
+      "route": "/components/drawer",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/drawer"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "drawer"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "drawer.png"
+    },
+    {
+      "scenarioId": "component.dropdown-menu",
+      "entityId": "component.dropdown-menu",
+      "route": "/components/dropdown-menu",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/dropdown-menu"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "dropdown-menu"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "dropdown-menu.png"
+    },
+    {
+      "scenarioId": "component.empty",
+      "entityId": "component.empty",
+      "route": "/components/empty",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/empty"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "empty"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "empty.png"
+    },
+    {
+      "scenarioId": "component.field",
+      "entityId": "component.field",
+      "route": "/components/field",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/field"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "field"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "field.png"
+    },
+    {
+      "scenarioId": "component.form",
+      "entityId": "component.form",
+      "route": "/components/form",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/form"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "form"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "form.png"
+    },
+    {
+      "scenarioId": "component.hover-card",
+      "entityId": "component.hover-card",
+      "route": "/components/hover-card",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/hover-card"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "hover-card"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "hover-card.png"
+    },
+    {
+      "scenarioId": "component.input",
+      "entityId": "component.input",
+      "route": "/components/input",
+      "setup": [
+        "Use the labelled email input in the Forms gallery cluster"
+      ],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/input"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "label[for=\"email\"]"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "#email"
+        },
+        {
+          "type": "click",
+          "selector": "#email"
+        },
+        {
+          "type": "press",
+          "selector": "#email",
+          "key": "a"
+        },
+        {
+          "type": "assertAttribute",
+          "selector": "#email",
+          "name": "type",
+          "value": "email"
+        },
+        {
+          "type": "screenshot",
+          "name": "input"
+        }
+      ],
+      "expectedObservations": [
+        "The input is associated with a visible label",
+        "The focused input accepts keyboard entry and exposes the entered value"
+      ],
+      "requiredCaptureName": "input.png"
+    },
+    {
+      "scenarioId": "component.input-otp",
+      "entityId": "component.input-otp",
+      "route": "/components/input-otp",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/input-otp"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "input-otp"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "input-otp.png"
+    },
+    {
+      "scenarioId": "component.item",
+      "entityId": "component.item",
+      "route": "/components/item",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/item"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "item"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "item.png"
+    },
+    {
+      "scenarioId": "component.kbd",
+      "entityId": "component.kbd",
+      "route": "/components/kbd",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/kbd"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "kbd"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "kbd.png"
+    },
+    {
+      "scenarioId": "component.label",
+      "entityId": "component.label",
+      "route": "/components/label",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/label"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "label"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "label.png"
+    },
+    {
+      "scenarioId": "component.marker",
+      "entityId": "component.marker",
+      "route": "/components/marker",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/marker"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "marker"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "marker.png"
+    },
+    {
+      "scenarioId": "component.menubar",
+      "entityId": "component.menubar",
+      "route": "/components/menubar",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/menubar"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "menubar"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "menubar.png"
+    },
+    {
+      "scenarioId": "component.message",
+      "entityId": "component.message",
+      "route": "/components/message",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/message"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "message"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "message.png"
+    },
+    {
+      "scenarioId": "component.message-scroller",
+      "entityId": "component.message-scroller",
+      "route": "/components/message-scroller",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/message-scroller"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "message-scroller"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "message-scroller.png"
+    },
+    {
+      "scenarioId": "component.native-select",
+      "entityId": "component.native-select",
+      "route": "/components/native-select",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/native-select"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "native-select"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "native-select.png"
+    },
+    {
+      "scenarioId": "component.navigation-menu",
+      "entityId": "component.navigation-menu",
+      "route": "/components/navigation-menu",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/navigation-menu"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "navigation-menu"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "navigation-menu.png"
+    },
+    {
+      "scenarioId": "component.page-header",
+      "entityId": "component.page-header",
+      "route": "/components/page-header",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/page-header"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "page-header"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "page-header.png"
+    },
+    {
+      "scenarioId": "component.pagination",
+      "entityId": "component.pagination",
+      "route": "/components/pagination",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/pagination"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "pagination"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "pagination.png"
+    },
+    {
+      "scenarioId": "component.panels",
+      "entityId": "component.panels",
+      "route": "/components/panels",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/panels"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "panels"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "panels.png"
+    },
+    {
+      "scenarioId": "component.popover",
+      "entityId": "component.popover",
+      "route": "/components/popover",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/popover"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "popover"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "popover.png"
+    },
+    {
+      "scenarioId": "component.progress",
+      "entityId": "component.progress",
+      "route": "/components/progress",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/progress"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "progress"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "progress.png"
+    },
+    {
+      "scenarioId": "component.radio-group",
+      "entityId": "component.radio-group",
+      "route": "/components/radio-group",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/radio-group"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "radio-group"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "radio-group.png"
+    },
+    {
+      "scenarioId": "component.resizable",
+      "entityId": "component.resizable",
+      "route": "/components/scroll-area",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/scroll-area"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "resizable"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "resizable.png"
+    },
+    {
+      "scenarioId": "component.scroll-area",
+      "entityId": "component.scroll-area",
+      "route": "/components/scroll-area",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/scroll-area"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "scroll-area"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "scroll-area.png"
+    },
+    {
+      "scenarioId": "component.select",
+      "entityId": "component.select",
+      "route": "/components/select",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/select"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "select"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "select.png"
+    },
+    {
+      "scenarioId": "component.separator",
+      "entityId": "component.separator",
+      "route": "/components/separator",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/separator"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "separator"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "separator.png"
+    },
+    {
+      "scenarioId": "component.sheet",
+      "entityId": "component.sheet",
+      "route": "/components/sheet",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/sheet"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "sheet"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "sheet.png"
+    },
+    {
+      "scenarioId": "component.sidebar",
+      "entityId": "component.sidebar",
+      "route": "/components/sidebar",
+      "setup": [
+        "Use the portal shell SidebarProvider and SidebarTrigger"
+      ],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/sidebar"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "[data-sidebar=\"trigger\"]"
+        },
+        {
+          "type": "assertAttribute",
+          "selector": "[data-slot=\"sidebar\"]",
+          "name": "data-state",
+          "value": "expanded"
+        },
+        {
+          "type": "click",
+          "selector": "[data-sidebar=\"trigger\"]"
+        },
+        {
+          "type": "assertAttribute",
+          "selector": "[data-slot=\"sidebar\"]",
+          "name": "data-state",
+          "value": "collapsed"
+        },
+        {
+          "type": "screenshot",
+          "name": "sidebar"
+        }
+      ],
+      "expectedObservations": [
+        "The sidebar trigger has an accessible visible control",
+        "Activating the trigger changes the sidebar from expanded to collapsed"
+      ],
+      "requiredCaptureName": "sidebar.png"
+    },
+    {
+      "scenarioId": "component.skeleton",
+      "entityId": "component.skeleton",
+      "route": "/components/skeleton",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/skeleton"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "skeleton"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "skeleton.png"
+    },
+    {
+      "scenarioId": "component.slider",
+      "entityId": "component.slider",
+      "route": "/components/slider",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/slider"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "slider"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "slider.png"
+    },
+    {
+      "scenarioId": "component.sonner",
+      "entityId": "component.sonner",
+      "route": "/components/sonner",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/sonner"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "sonner"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "sonner.png"
+    },
+    {
+      "scenarioId": "component.spinner",
+      "entityId": "component.spinner",
+      "route": "/components/spinner",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/spinner"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "spinner"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "spinner.png"
+    },
+    {
+      "scenarioId": "component.status-badge",
+      "entityId": "component.status-badge",
+      "route": "/components/status-badge",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/status-badge"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "status-badge"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "status-badge.png"
+    },
+    {
+      "scenarioId": "component.switch",
+      "entityId": "component.switch",
+      "route": "/components/switch",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/switch"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "switch"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "switch.png"
+    },
+    {
+      "scenarioId": "component.table",
+      "entityId": "component.table",
+      "route": "/components/table",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/table"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "table"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "table.png"
+    },
+    {
+      "scenarioId": "component.tabs",
+      "entityId": "component.tabs",
+      "route": "/components/tabs",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/tabs"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "tabs"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "tabs.png"
+    },
+    {
+      "scenarioId": "component.textarea",
+      "entityId": "component.textarea",
+      "route": "/components/textarea",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/textarea"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "textarea"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "textarea.png"
+    },
+    {
+      "scenarioId": "component.toggle",
+      "entityId": "component.toggle",
+      "route": "/components/toggle",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/toggle"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "toggle"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "toggle.png"
+    },
+    {
+      "scenarioId": "component.toggle-group",
+      "entityId": "component.toggle-group",
+      "route": "/components/toggle-group",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/toggle-group"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "toggle-group"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "toggle-group.png"
+    },
+    {
+      "scenarioId": "component.tooltip",
+      "entityId": "component.tooltip",
+      "route": "/components/tooltip",
+      "setup": [],
+      "steps": [
+        {
+          "type": "goto",
+          "path": "/components/tooltip"
+        },
+        {
+          "type": "assertVisible",
+          "selector": "main"
+        },
+        {
+          "type": "screenshot",
+          "name": "tooltip"
+        }
+      ],
+      "expectedObservations": [
+        "Component documentation route renders without runtime errors"
+      ],
+      "requiredCaptureName": "tooltip.png"
+    }
+  ]
+}

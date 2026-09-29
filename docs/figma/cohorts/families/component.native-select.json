@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.native-select",
+  "purpose": "Single-family migration for component.native-select",
+  "entityIds": [
+    "component.native-select"
+  ]
+}

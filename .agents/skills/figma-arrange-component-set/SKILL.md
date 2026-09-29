@@ -20,14 +20,16 @@ docs.
 
 ## Workflow
 
-1. **Identify the set.** Get the `COMPONENT_SET_ID` from selection, search, or a pasted id. (You can
+1. **Inventory the page before writing.** Capture a screenshot and read the bounds of every top-level section/frame on the target page. Choose the destination in the existing reading order and calculate placement from occupied bounds; never use an arbitrary open-looking coordinate or a coordinate remembered from an earlier call.
+2. **Identify the set.** Get the `COMPONENT_SET_ID` from selection, search, or a pasted id. (You can
    also leave the constant blank and select the set on the canvas — the script falls back to the
    current selection.)
-2. **Pick the column axis (optional).** By default the *last* variant property becomes columns
+3. **Pick the column axis (optional).** By default the *last* variant property becomes columns
    (usually `State`); everything else becomes rows. Override with `const COLUMN_PROPERTY`.
-3. **Run** [`scripts/arrange-component-set.js`](scripts/arrange-component-set.js) via `use_figma`
+4. **Run** [`scripts/arrange-component-set.js`](scripts/arrange-component-set.js) via `use_figma`
    (`skillNames: "figma-arrange-component-set"`). Adjust `GAP` / `CELL_PADDING` constants if needed.
-4. **Verify visually.** Take a screenshot. The script returns `containerId`, the (re-created)
+5. **Re-read and reflow.** Arrangement can recreate the set and change its bounds. Resolve the returned node IDs, measure the final wrapper, then move neighboring top-level sections to preserve the page grid, section spacing, and reading order. Do not leave overlaps or disconnected canvas islands.
+6. **Verify the whole page visually.** Take both a targeted screenshot and a full-page screenshot. The script returns `containerId`, the (re-created)
    `componentSetId`, and the grid shape (rows/columns, labels). Variants are centered per cell.
 
 ## How it works

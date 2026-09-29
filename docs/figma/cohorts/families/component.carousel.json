@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.carousel",
+  "purpose": "Single-family migration for component.carousel",
+  "entityIds": [
+    "component.carousel"
+  ]
+}

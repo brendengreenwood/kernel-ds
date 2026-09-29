@@ -65,7 +65,9 @@ Synchronization does **not** mean that every surface is pixel-identical or that 
 5. Record Figma node IDs and component keys through the prototype registry workflow; never hand-edit the generated Figma map.
 6. Do not claim browser/runtime equivalence for CSS cascade, `color-mix`, media queries, focus behavior, animation, responsive behavior, or live data.
 7. Before destructive work, verify the connected file, capture the current state, and live-probe mapped nodes for deletion drift.
-8. Return a reconciliation report before rebuilding or bulk-updating the library.
+8. Treat canvas placement as part of the authored result: inventory top-level section bounds, place related families on the existing page grid, and never use opportunistic or stale coordinates.
+9. After arranging or rebuilding components, re-read the resulting bounds, reflow neighboring sections, and verify the whole page with a screenshot before considering the write complete.
+10. Return a reconciliation report before rebuilding or bulk-updating the library.
 
 ## Responsibilities of the design-system agent
 

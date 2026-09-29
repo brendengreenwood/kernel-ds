@@ -83,7 +83,7 @@ export function Demo({
   return (
     <div
       className={cn(
-        "flex flex-wrap items-center gap-4 rounded-lg border bg-card p-8",
+        "flex flex-wrap items-center gap-4 rounded-[var(--radius-surface)] border bg-card p-8",
         className
       )}
     >

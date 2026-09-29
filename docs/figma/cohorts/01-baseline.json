@@ -1,0 +1,10 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "01-baseline",
+  "purpose": "Existing mapped-family reconciliation baseline",
+  "entityIds": [
+    "component.button",
+    "component.input",
+    "component.sidebar"
+  ]
+}

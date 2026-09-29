@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.checkbox",
+  "purpose": "Single-family migration for component.checkbox",
+  "entityIds": [
+    "component.checkbox"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "component.toggle",
+  "purpose": "Single-family migration for component.toggle",
+  "entityIds": [
+    "component.toggle"
+  ]
+}

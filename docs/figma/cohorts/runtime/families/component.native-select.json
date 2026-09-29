@@ -1,0 +1,11 @@
+{
+  "$schema": "kernel-ds/figma-runtime-proof-cohort@1",
+  "name": "component.native-select",
+  "matrixHash": "064485bc2864de7def63283db2089f90396f2fed67322b421ea7b845ba0772b5",
+  "entityIds": [
+    "component.native-select"
+  ],
+  "scenarioIds": [
+    "component.native-select"
+  ]
+}
