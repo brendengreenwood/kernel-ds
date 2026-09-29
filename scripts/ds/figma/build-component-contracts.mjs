@@ -8,8 +8,12 @@ export const OVERRIDES_SCHEMA = "kernel-ds/figma-component-contract-overrides@1"
 export const CONTRACTS_PATH = "docs/figma/component-contracts.json"
 export const OVERRIDES_PATH = "docs/figma/component-contract-overrides.json"
 
+export function normalizeSourceText(source) {
+  return source.replace(/\r\n?/g, "\n")
+}
+
 function readSource(path) {
-  return readFileSync(resolve(repoRoot, path), "utf8")
+  return normalizeSourceText(readFileSync(resolve(repoRoot, path), "utf8"))
 }
 
 function objectAfter(source, marker) {

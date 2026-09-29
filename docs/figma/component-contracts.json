@@ -8,7 +8,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/accordion.tsx"
       ],
-      "sourceHash": "a6c1018d9625f0003bd7d35d63eebea1a3fbd9fcf20098bd4c98ceb8533b46e0",
+      "sourceHash": "0f3d12d8a8f0d5cb3f993fc890a188d2de3d8a524da3e213514d2ece25f187e4",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -43,7 +43,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "38f82482f978ea69f0431027d740f30e493333fe3524daeaa30b8eb8ff79ea28"
+      "contractHash": "8b1d6e99ab30f133f4172e579c8e9533c22fe80ee34ff607cbe4a410cbeae935"
     },
     {
       "entityId": "component.alert",
@@ -52,7 +52,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/alert.tsx"
       ],
-      "sourceHash": "04e901687127c93849f98b82fc4a5c284bc83c988f88044ed464f24eecdc7980",
+      "sourceHash": "7bbd792ab4a2bc470a8157683f150ab36ed9294b2c0be0e8c3777e581146fe9b",
       "variantAxes": {
         "variant": [
           "default",
@@ -91,7 +91,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "3fdcc80a704fd6b76c5a844a05653d3a4e69f469a2b2b7b843848a09b0f413ab"
+      "contractHash": "9181ae4bb5c26c2124d53d915d7087480e64249e7c6192f270141f0dcd9af98d"
     },
     {
       "entityId": "component.alert-dialog",
@@ -100,7 +100,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/alert-dialog.tsx"
       ],
-      "sourceHash": "f1bbc55e8eb2c219696f37353cfa93ca439850ae4006f8630ae0ade7b7d86a79",
+      "sourceHash": "e82157462b28d768ecb1e33f0591258029c459220653e97079de8718261f7385",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -177,7 +177,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "3c5919fab9c1c85f6f9fc410aa8d774d2fa4807500c0ad32c0cb12dfaa0b9190"
+      "contractHash": "9f7b9d9e043c50fbd966df38dc200c1fc417b9fae7445664513ad0130fbed6c9"
     },
     {
       "entityId": "component.aspect-ratio",
@@ -186,7 +186,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/aspect-ratio.tsx"
       ],
-      "sourceHash": "128ffa30aac7050a3bb2a3ae9c74b6c39a8ea281e8fc8f1d08f56443f98a5b85",
+      "sourceHash": "45e0b325fdb5a9b3375a562a395001ddae12f1530f224d4c51bbfbc8a1be520e",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -205,7 +205,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "5ffe467b73ca16260da4f265d52b1e45f61cc72d286ad48d9880f3b1b8a17aca"
+      "contractHash": "252693c06cb674af9c9619359b6dca3fe1b98e7d554ce862296611d46c5d3736"
     },
     {
       "entityId": "component.attachment",
@@ -214,7 +214,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/attachment.tsx"
       ],
-      "sourceHash": "16e8e9c0fff7fcab578aa0207a073bc2126007fb3cc9d9e94a84c1e3b55f0c17",
+      "sourceHash": "56a5abb4ea1ef3feb768bf5ae4e323c230c51115fc8b543b3f090defdaee9fba",
       "variantAxes": {
         "size": [
           "default",
@@ -290,7 +290,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "7f0680749ab0c3b3f036929787ef88a1f5b1b75161a0a717e3c96d7165d8adcf"
+      "contractHash": "380c237dd13c9742e181d0bca4c573d9ed26fcbd67459d9f11e1af4934f441a8"
     },
     {
       "entityId": "component.avatar",
@@ -299,7 +299,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/avatar.tsx"
       ],
-      "sourceHash": "533d927e18147821841b31205daf5ac5073679126f1a03b2a1f07b9100f8aeb4",
+      "sourceHash": "61fe87cc6207a6c8a954126d300d6fb3446af39963f3bf49d022c20084d56463",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -346,7 +346,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "b6bd49be76c9be9780f1f798dad495b8ed015dcb5fbafc5f7402b0f344fb5a7b"
+      "contractHash": "d4cee555b200f5f68c9e25fcc168e786b02287767915d8e963c9a29a42341ff5"
     },
     {
       "entityId": "component.badge",
@@ -355,7 +355,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/badge.tsx"
       ],
-      "sourceHash": "b78d401aa874cc10cd4714699cecaebb4495123b7b41f38556572427f1b56a45",
+      "sourceHash": "cf5b0ecfaa5a9abb376732d7abd1ab3b2b68440750832da1ffc86f6e9666fdeb",
       "variantAxes": {
         "variant": [
           "default",
@@ -385,7 +385,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "1923d76d0669544f7157864220b70d0d8fd87f38913ca73e4abb6aac11380e36"
+      "contractHash": "11af82727b968c8e9aaa1cb71e00f66225f66da95c6460170fc4eccf21acafa7"
     },
     {
       "entityId": "component.breadcrumb",
@@ -394,7 +394,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/breadcrumb.tsx"
       ],
-      "sourceHash": "3bdd0d4cc94b73f51264c6e30911d883deab37a1401cd870f3d49effc88cc674",
+      "sourceHash": "e11e419189fd22134291e65591a9ccd28d6d4b1f925a00886a4d528d29b911ae",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -443,7 +443,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "68a22d9be3874fa78e0f87e2ea0ada56592c672bd51088e5804f893d1dbd5708"
+      "contractHash": "c28f7f8ed87f69b56fef9aede5d58daf264683f694678b84dbb429d41218d235"
     },
     {
       "entityId": "component.bubble",
@@ -452,7 +452,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/bubble.tsx"
       ],
-      "sourceHash": "0031ca83907df269e80461fc7d0724c2aae52c353100adb64264d9e0c60cbdd4",
+      "sourceHash": "6319c99f2b0dfdaee7197c802af07ceb7bb13c14496b6cfa7258cbdc8e4f5fb9",
       "variantAxes": {
         "variant": [
           "default",
@@ -501,7 +501,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "99d4bae33de4e68607ab716db070173183a89888496862a6b83bb8dca217b5ad"
+      "contractHash": "d7f71bf9063a1c15b7137c4bb171540ff0aded88daeb0fbed1e0339d6481187f"
     },
     {
       "entityId": "component.button",
@@ -510,7 +510,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/button.tsx"
       ],
-      "sourceHash": "0a1afab5699130373746a7194fd40e99866ec4afe9411f855e19e7e598249230",
+      "sourceHash": "e9277fc0706453c1fd851cff75f831bbe9a3a98c853da8a0ae3c06662222dfe6",
       "variantAxes": {
         "variant": [
           "default",
@@ -574,7 +574,7 @@
         "State is Figma-only interaction evidence, not a React prop.",
         "Label maps to button children; Icon maps to composed icon content."
       ],
-      "contractHash": "c1ffea1b9f46eb14404fd07b1dc94cccbe81ba4ae195e714f58883e37017d1b2"
+      "contractHash": "3748671155e581b496e4b6519a9426e1542266f02a5eadd3528ed277254c3777"
     },
     {
       "entityId": "component.button-group",
@@ -583,7 +583,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/button-group.tsx"
       ],
-      "sourceHash": "617f64bd9361c2aa7c1d6839f4fb9faa903cb6c4cb2887608cf14740661d5cb7",
+      "sourceHash": "c0e4cf38117664696b71885a404cadd5c27dc57438c4ac59bc96f9ee1547df28",
       "variantAxes": {
         "orientation": [
           "horizontal",
@@ -620,7 +620,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "a0205701c8a250493789d503fd95026189a07a6fb1713232ee1e1032dd1e76f3"
+      "contractHash": "e7ff97cb999d78d7e430daa73c225608184795fa1fc2354968c7e23f8928b6ff"
     },
     {
       "entityId": "component.calendar",
@@ -629,7 +629,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/calendar.tsx"
       ],
-      "sourceHash": "b14d9fac460c5d6bcd22aacb6616ca73d71bbc60512278749028159f783e41a2",
+      "sourceHash": "67124659961817cdcb26bad87322eee6018612a585e0eb4b4fba3b417042fe8b",
       "variantAxes": {},
       "publicProperties": [
         "buttonVariant",
@@ -662,7 +662,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "7e25dd37b79162e1d84a8a57925ade444d56c157c86c17de70ec74ac82ebd780"
+      "contractHash": "317b70845d16883fc27260b4b85e865960dac283c9e747edf4f496ec6a163d0e"
     },
     {
       "entityId": "component.card",
@@ -671,7 +671,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/card.tsx"
       ],
-      "sourceHash": "c923f3bea375ac36ec89473cf88b32f8615802dfbb5270925c2363b8f7343267",
+      "sourceHash": "fc5fc6a6d29c83394e6683be9857e95e9230af2a7ea80e82a20cad31d03b94c2",
       "variantAxes": {},
       "publicProperties": [
         "borderBeam",
@@ -723,7 +723,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "5707d6a9a757df6d85d463ad02d4fe35b96e36db179925c4f7f598db074bc8b0"
+      "contractHash": "5bbfae388c48f33032b36d2d07c65e35d7890f03401ba92fcf03d35631c015fc"
     },
     {
       "entityId": "component.carousel",
@@ -732,7 +732,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/carousel.tsx"
       ],
-      "sourceHash": "201fe0a893c78bcdfdaa70796a4545ce43dcade377e9880b2679a4ac48d7af69",
+      "sourceHash": "893a3e652ba5fec1e3626cd070cd344c9f19fb8a48ba0c2a66fb23e1fa72dfdd",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -777,7 +777,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "6c71f0e99bd7c585d8e102d555935adafae20762afd0d4114f849cf79b1baa5d"
+      "contractHash": "13057b2d25ed320d38fa13a27a57d41d2be2b4a9a58f7ac9708c7fe1a5b83072"
     },
     {
       "entityId": "component.chart",
@@ -786,7 +786,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/chart.tsx"
       ],
-      "sourceHash": "a89fb1796da4e0a273a5739e791b2831df8c8c0687f91ff2b5a45cee4879177e",
+      "sourceHash": "b079745ccbcbd09fc137144a7d613086e48fe0c1896bf6571e185a324b396e52",
       "variantAxes": {},
       "publicProperties": [
         "active",
@@ -833,7 +833,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "80836b0a75863011a97d0afff0d0e066458d331ed2200a8008af253b42ceca17"
+      "contractHash": "23d68d3a909eb02e558a2abfb119a77993b42efcf5d48db8e0202042fcaff143"
     },
     {
       "entityId": "component.checkbox",
@@ -842,7 +842,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/checkbox.tsx"
       ],
-      "sourceHash": "a65a442b0b5a088639f394dc5a453f40e3fc15e422f565ec710914a4ced66c42",
+      "sourceHash": "eb4a94e385e21d08a958293fd8f2fe59f1dd14670e0c0da7afb0c452e32b9e87",
       "variantAxes": {},
       "publicProperties": [
         "className"
@@ -864,7 +864,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "590ef5e65e144b1ab0056635383c87f0447a6fb88b8ece9310f3990c10795165"
+      "contractHash": "5453367a9c36530373dd126dd5ef3e5ab37f63bae131ff3ef3678771ab124fb4"
     },
     {
       "entityId": "component.collapsible",
@@ -873,7 +873,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/collapsible.tsx"
       ],
-      "sourceHash": "c787818359daef986dcd06e1cc4a12cff373a00b5ccd74d349d98065628d2a58",
+      "sourceHash": "2cea646b1bbc0647e541ada0c13b86abbbfd157d1fc0197b2b36098a93f83744",
       "variantAxes": {},
       "publicProperties": [],
       "propTypeExpressions": [
@@ -899,7 +899,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "2844c227f90169dd9195369df9b8b748dd84d9dfc5662094f5dc7d14d377b01e"
+      "contractHash": "2daec9e5a4b38d13135518a19d3e27427253e65f3f9f83904de672796ef429ad"
     },
     {
       "entityId": "component.combobox",
@@ -908,7 +908,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/combobox.tsx"
       ],
-      "sourceHash": "2aa74311b614a84200fed7e45baf86163d36dea6a462139d002be54f52cbdfe0",
+      "sourceHash": "0ad6fe10a376e761e95029ae7d82099b85c0b582830c3a294082cb1b55ebb07d",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -1010,7 +1010,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "dffde7eb4d1de379eac232ae278bb8236052fea8699ffb5362fbfd14f0a2c2e1"
+      "contractHash": "0e0572c0182a2a2e6e154bcbcd6f4693115e98758eb6de879618b8cf074bcd36"
     },
     {
       "entityId": "component.command",
@@ -1019,7 +1019,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/command.tsx"
       ],
-      "sourceHash": "502e45d3bb021c1c62ddf78650d6f23ed6d052a44a37701f065155cdbb34792e",
+      "sourceHash": "25a6bba86da03fd462ad3d5919a82b776cb51daf28199c4d5d88ef70d0a29fdf",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -1085,7 +1085,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "1f3cac3e57ba261160acb9898c1284463297cf4c74ecf0a19c003c71b3359252"
+      "contractHash": "54d44000b8fcb49b8d9c39429ae199e1e5ad27d87fb0f7c978f25b40010db5d5"
     },
     {
       "entityId": "component.context-menu",
@@ -1094,7 +1094,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/context-menu.tsx"
       ],
-      "sourceHash": "486abe6101ad256a688e2c207c19d97563ef9433af7b889ed6315dc98eff9d1f",
+      "sourceHash": "a6c06257621aa4673a1d240745816dd4ca9187510a0e667faca090de76434b8b",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -1192,7 +1192,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "5bfdf6789831084ae0c218e1cc226d07cbec0538009ddde4c74b98a378162eca"
+      "contractHash": "3e5b523a47f22b3004f45e908c8781cd75fad1bd9ab44153614b9538b99b7321"
     },
     {
       "entityId": "component.dialog",
@@ -1201,7 +1201,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/dialog.tsx"
       ],
-      "sourceHash": "223dd4a13b10709ac3ce0347ad65f2fa778d0900d7b6ef1934d7df276aa0d58c",
+      "sourceHash": "678f21cf0b23055cfb2682aa0561db50b79ad2e485abe522cb8a00b7cbbd0116",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -1275,7 +1275,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "2a1b083fc86f30b20318762b2a7669c3aa89f7edd249a6deed8258a820e2a48c"
+      "contractHash": "f27b5f721e60addf08469acdf8efafd6c810388ba04c9be3f935aebb957888ce"
     },
     {
       "entityId": "component.drawer",
@@ -1284,7 +1284,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/drawer.tsx"
       ],
-      "sourceHash": "e4c4859c7ee99ae0e437457c9c27f8679f4508cdb8e5c4b4cdd0d53e54bb2086",
+      "sourceHash": "e177fd4b9f27e3f7c4faa8efdffcd9d0c883cf71c5ea152cdfdd1c8f791e7ac7",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -1352,7 +1352,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "ae56784e2356027e9fb50ca5fe86d2a4af0cc5b731e1de0ee4af527f7826a812"
+      "contractHash": "65c5270685d428530ebcd4884bd75ec2daddd3ada8955bd720d0a0e093e7904d"
     },
     {
       "entityId": "component.dropdown-menu",
@@ -1361,7 +1361,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/dropdown-menu.tsx"
       ],
-      "sourceHash": "410669a14f17d80e46afcb495522fcfbd7bb69a9c39c6e704644c05d7cc933b3",
+      "sourceHash": "69f827a38e1134c8e0f36256b5a80e593c7987afcd4b955d5edff1116c492f56",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -1461,7 +1461,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "4e184c817b0d8ee44418ecaf992ee4664188e6ebba10abcbeb20fa004e179442"
+      "contractHash": "73c139f00271600be03267d30526cff39c485916dfa8b1b98e69f19cf480fb1b"
     },
     {
       "entityId": "component.empty",
@@ -1470,7 +1470,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/empty.tsx"
       ],
-      "sourceHash": "05a7b092fe4908e66d69a854bfdc294163faafdef40aa003a8b9726e4caa077d",
+      "sourceHash": "fb185863089e99f3ddce6bff8d68438ad1f12e459e9f9661a95e588464c99eae",
       "variantAxes": {
         "variant": [
           "default",
@@ -1521,7 +1521,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "862329bb7a9226859c749b33e2bb1b5168dc6b31428b350d51dc102a55c2c889"
+      "contractHash": "18968f7d214161387532758558ef89f0ff5610eb34341929e5ec6724826db017"
     },
     {
       "entityId": "component.field",
@@ -1530,7 +1530,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/field.tsx"
       ],
-      "sourceHash": "47a036e9e7bed4e4a30a709c48e8955d3480319febd7343cb3951e7db6a068e5",
+      "sourceHash": "7da498b546709ad4ed682746bec958da413d82eb9675c3080bbdfa2f60bb65d4",
       "variantAxes": {
         "orientation": [
           "horizontal",
@@ -1605,7 +1605,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "7e38faef27f1724ccc61ea0cd01c83ba60f277953921206711a3cde35da2e619"
+      "contractHash": "597e329417e135f9790549257434fcfb646645118d83f0af61f52be64dd16a38"
     },
     {
       "entityId": "component.form",
@@ -1614,7 +1614,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/form.tsx"
       ],
-      "sourceHash": "8680ff602d89eaf6337f27673cc2d25f34d086aba3df81f2b6bbe9c69e72f9fe",
+      "sourceHash": "0d3911715e6ce168da5433450ea0296e4fdc08cd7bb497ede76b4568275fa654",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -1653,7 +1653,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "9c0ef5f44a5d62cb7f4ab5444e6f6072f10d0e8cc63415fb519b01fc438010d5"
+      "contractHash": "f91122b6ee32ab9ece56386f722b89b541f12dec007b4771a7d4cf89198fca16"
     },
     {
       "entityId": "component.hover-card",
@@ -1662,7 +1662,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/hover-card.tsx"
       ],
-      "sourceHash": "5c65873bea8358ff457b62b112ee1bc38fb604cf2fbab420134b1fc962cd23db",
+      "sourceHash": "a93e879ee32de0e13f484e09c0a2c5bc0669e72d09ab3bcc132937ce2ee06057",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -1697,7 +1697,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "784868adc0b9d7b67f32cbee6f4b7b06e82216c2a15b4ea632c92d1e2af1e7eb"
+      "contractHash": "523e6c01ad1172335e4e35787421579a41f4fd6ea4d1da104306d44eb2377a4a"
     },
     {
       "entityId": "component.input",
@@ -1706,7 +1706,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/input.tsx"
       ],
-      "sourceHash": "668cfed7d5b644bcab11603ff0a1e320d926de18076b706765dc35c99e85475a",
+      "sourceHash": "f95dc603ed10c8fccffdedc7c24b11147074c6b70b215caf81fab0ab53dc9f56",
       "variantAxes": {},
       "publicProperties": [
         "borderBeam",
@@ -1739,7 +1739,7 @@
       "notes": [
         "State is Figma-only interaction evidence, not a React prop."
       ],
-      "contractHash": "3a7ca61613329fef5f29871cb5a481149090837c219769871c716c076c69ef80"
+      "contractHash": "8b438b84b050613a5a4a14bb3b4782288b7147d643b602a4e71795576db6b987"
     },
     {
       "entityId": "component.input-otp",
@@ -1748,7 +1748,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/input-otp.tsx"
       ],
-      "sourceHash": "ee582c9b5288e2aa0282d75f2c57a2a725d4d6cd085157b6ee71965cc5d4e639",
+      "sourceHash": "f42c62507e8b33c2e206d5f037ff597c4fd613328265db892851027674377466",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -1785,7 +1785,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "3c4b5d82ea3a8654847230eab5d03760382537ba3b5b2e0540fd0e9dec52b9f4"
+      "contractHash": "ee1252284746b6472077747eaf47ea46ea87ef47bb11d433dcc366b2e1974d06"
     },
     {
       "entityId": "component.item",
@@ -1794,7 +1794,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/item.tsx"
       ],
-      "sourceHash": "9e8bed30d9d514a205ab2ad39b7dead96d6789686270e9e00d63996c4bc42f15",
+      "sourceHash": "4df5d269494fdd3ba5c2bb863391d95fbbeafe2bc856a089b038ff00a55317b0",
       "variantAxes": {
         "variant": [
           "default",
@@ -1873,7 +1873,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "19a4cc8b769a8f987a721b49cb9bb71478906c8a3ede4714bb535053def73c74"
+      "contractHash": "b32e9543c985a717b24563559f0bffe72a1c74df1fbbdc59b2c70f5ca31e69c6"
     },
     {
       "entityId": "component.kbd",
@@ -1882,7 +1882,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/kbd.tsx"
       ],
-      "sourceHash": "ff0bddaeafc28cbb24fa0bc3857c7c4b61edb34fa1c82aad3bacf3addf44c56a",
+      "sourceHash": "4a7dc457d988ddd96c925f0132802100b8bf3c40f9804f55cb3123abb7e6450e",
       "variantAxes": {},
       "publicProperties": [
         "className"
@@ -1907,7 +1907,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "72c8e41711f3f81067b7ed1ea6227ea8fe377630c93fde9b062c510011dbef3a"
+      "contractHash": "be7f998f6fa92db9b7e2e71daab6004b8685561e8bbf9e75cd424e1ba0f88ba0"
     },
     {
       "entityId": "component.label",
@@ -1916,7 +1916,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/label.tsx"
       ],
-      "sourceHash": "0f4fee395144110667176b0e192f1fe80b6e3f5345369b988b0876ffc8adea98",
+      "sourceHash": "298878fbabfe8b9d3994a379f01618a0c564d2d9103822bd4a844ac541613faa",
       "variantAxes": {},
       "publicProperties": [
         "className"
@@ -1934,7 +1934,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "e36c392494c3c7ac4166e0bb7181a915c7f3347ea72279ca3d20359a58dacac9"
+      "contractHash": "6f05d36771019137f589ca03da328b7c427039a865543f52ccdd4862569e2075"
     },
     {
       "entityId": "component.marker",
@@ -1943,7 +1943,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/marker.tsx"
       ],
-      "sourceHash": "78edddcd271cda5ddebe4c7c8e6d2d77609848cc2c827074dea03de584000bcc",
+      "sourceHash": "65241a8aa25b48b9c4e2958fd820751109560030c78028fae2fdfd0d3945b9d4",
       "variantAxes": {
         "variant": [
           "border",
@@ -1980,7 +1980,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "b4b26af5adb1ff7d48cca8477862469a89152110ba165f0ee36a53e9d810465d"
+      "contractHash": "6262df95cf89fd26f2465a605f131e3c8f8bc6caed2c986a63a0072e9bb032c0"
     },
     {
       "entityId": "component.menubar",
@@ -1989,7 +1989,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/menubar.tsx"
       ],
-      "sourceHash": "e31a27f84a5a1bfc35b1cf46da6013fe157fd91529f01455a4ee75d5275652eb",
+      "sourceHash": "edd336b2af368a5a620db6c30a61ebbffaaae35b28178d5b85645a27e163570f",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -2091,7 +2091,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "4aac9d90842d68094ceecd6347f03b7b8792537d0ac6aa51dc33c62413621e69"
+      "contractHash": "32e639b6f07c6d48ba7077912ec194f9f82eb9ab34b7b1b5610d160b54a5f22a"
     },
     {
       "entityId": "component.message",
@@ -2100,7 +2100,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/message.tsx"
       ],
-      "sourceHash": "eabcc999750972ee32b65367b7a3f8bc326130f921ad16bdc66e271fc46ea4d0",
+      "sourceHash": "259e2fc678420d2b9bd955c8aad042f1080ed5151718997cd2f2c55e721915b9",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -2146,7 +2146,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "479f8e1294cf345845e9cf3fc3a3add1ce6b9dcf9b91788c587e9fc3cbfea395"
+      "contractHash": "0367e8766afc5c148a3176ee061774f4ff03c5a2ce966a5f367c41ffdd16e4cd"
     },
     {
       "entityId": "component.message-scroller",
@@ -2155,7 +2155,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/message-scroller.tsx"
       ],
-      "sourceHash": "5d818cd9574848a974b4605514c5a73e56f729b7977f527db547dca9b365c80d",
+      "sourceHash": "7bdfd1d63307639af75e62c6daca1dfa2c61165deaa61708735835fb1fb4d78b",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -2202,7 +2202,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "1df8bb68be68cc3ca6b25b26ad3d84c938fc535d5f4876b4fe67df5933dde781"
+      "contractHash": "16638ce8ea90c5030089ab0505684db71eb0e1e859b332c1caba987e3e544bf5"
     },
     {
       "entityId": "component.native-select",
@@ -2211,7 +2211,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/native-select.tsx"
       ],
-      "sourceHash": "2b1b96fd2f53e5339bd73825e981924f2f900701f431789cdd9144a820c5165e",
+      "sourceHash": "c9bb3301464459880f74dbe11ff7937346bca0d42fa72d2d288716df962a56ca",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -2247,7 +2247,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "14b6630081017b7e09e639e220b8535fbbc4f7994251cd2076741173b3210344"
+      "contractHash": "9ab3c4c9c23ff02cf5c0e965cb8da919ad985996c1af0a52ca02c9d46c138706"
     },
     {
       "entityId": "component.navigation-menu",
@@ -2256,7 +2256,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/navigation-menu.tsx"
       ],
-      "sourceHash": "818d947ec887429a57aa754f6e55ed3c437edfc0010d3d3117fdc9675ddfde25",
+      "sourceHash": "569af25f9b753da866de152dd52e6b62627063bdb2bd237c7c86380913fca60c",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -2315,7 +2315,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "f594ddb7f89558203c065c27c1de5590cf2867c0edd0fa30bcdf662c6199923a"
+      "contractHash": "47e9e9ad35404ec49691ff3cadff8113aa9f8c3bfac067ac032b11d2173c4ab7"
     },
     {
       "entityId": "component.page-header",
@@ -2324,7 +2324,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/page-header.tsx"
       ],
-      "sourceHash": "bb14c8a3aec964e747dfe5dce1b75a136e952b53c45e0f9efef88486e7d05266",
+      "sourceHash": "cf7a60974c318f7eca10b382039944ec86e22b188a4a01350d70406d81df2d88",
       "variantAxes": {},
       "publicProperties": [
         "action",
@@ -2349,7 +2349,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "d3418d644c8cd0cf19f08b86f7a69b762de57231e4e66c79eb9508a8d32559be"
+      "contractHash": "88f9feda8325ab1bc83b18c8f1e5111baee040d4954f249e9a48e4cd716363a9"
     },
     {
       "entityId": "component.pagination",
@@ -2358,7 +2358,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/pagination.tsx"
       ],
-      "sourceHash": "373a8849920b7a912e53fe70c1e0ee98fb7778c030611c4a664b0e4fd99e1764",
+      "sourceHash": "fb3ecb290ad8519cf3955d7102522d800471d800865c44187684da705b64f075",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -2407,7 +2407,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "6dbc8307e8ca8e1813632adc04e8f31fd108bc9d14cb95e185c4359d3ba9e4a4"
+      "contractHash": "057449fa2fe86cd9c6f74ed2df131b89a9c2e42e8d48525a8684fa240e5959d5"
     },
     {
       "entityId": "component.panels",
@@ -2416,7 +2416,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/panels.tsx"
       ],
-      "sourceHash": "74eaf925e25a5128a4576d67ef2fbf55049a8ceb15d066a4335fa602255f6463",
+      "sourceHash": "ce415454e2fd5718b2db5364709d0287740e9df2763e2e684f5bd9e94f01f4b5",
       "variantAxes": {},
       "publicProperties": [
         "chart",
@@ -2490,7 +2490,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "eeccf247c231d418f2bf438580c421e06e9e0ccfd377fb59e004d2f0a052216c"
+      "contractHash": "5b7814dc025cabd7e3428f1988fba356ded374afafc8ccafba0e887e88c3e315"
     },
     {
       "entityId": "component.popover",
@@ -2499,7 +2499,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/popover.tsx"
       ],
-      "sourceHash": "528d41a29674b8bb71c5b79867b76d232a6c3e7c9da06d7dddf6ec66b914c536",
+      "sourceHash": "0f337a1714ded5f9db8df10e3cb07ccf64db64481bccbe2edb78f42e0cacb308",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -2548,7 +2548,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "e0f9f5cccdeee665d1c31d49a1d7471d7942b62e8c1f72f096ce7961bc2a8748"
+      "contractHash": "18f79399d08a60c932412ff6116df3c4f11fb8c9682b8a3e653286db00b68b0c"
     },
     {
       "entityId": "component.progress",
@@ -2557,7 +2557,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/progress.tsx"
       ],
-      "sourceHash": "80ae564dad55291995e0cb1d4fee77017ee680b5b56c37a0db3264d425f3ec07",
+      "sourceHash": "c289167e203d944b500779b66f910508f0f5fe1f506fe17d7741d9bad0770957",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -2599,7 +2599,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "2e2363e1508a22821cef75b68646bb021b199007adf0dc5d91aca0618aa8a5e8"
+      "contractHash": "53ab9919165be267a7a8f6dbfa2b58b2c96932b75efe2f65017e47f14072377b"
     },
     {
       "entityId": "component.radio-group",
@@ -2608,7 +2608,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/radio-group.tsx"
       ],
-      "sourceHash": "0320307b70d6590dd11525ecfbd811bc592bffe7f054d90666636efb771a199f",
+      "sourceHash": "85b8d11aa30dd39a2b8d56912a1b792b316fd07eb21aee580de5877cceb9369c",
       "variantAxes": {},
       "publicProperties": [
         "className"
@@ -2635,7 +2635,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "a60ccaed75db8e62888133c8ac33963a9538b94d9e44d9598b8faa2115b8df6d"
+      "contractHash": "8012c5dcae49ef281ec9855d86bfe59351ceb81e99d16a4ecf05086278a1bda8"
     },
     {
       "entityId": "component.resizable",
@@ -2645,7 +2645,7 @@
         "packages/ui/src/components/ui/scroll-area.tsx",
         "packages/ui/src/components/ui/resizable.tsx"
       ],
-      "sourceHash": "b56311d4edd5332a0976205b7170ed9e07f4c7cdbda51c69edf066165418966d",
+      "sourceHash": "ff541be866754d6387e99055c334021b5e149fd287991c2f7cd9c8a6aad31761",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -2688,7 +2688,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "c0846f47258f070a0985659faa0a60f7abb59cfcede4c8729fd22283dc477536"
+      "contractHash": "dfbb979c85aff1feb3cc77ed3c1b71202aa0c6090ee1b742627bb493bfa177ab"
     },
     {
       "entityId": "component.scroll-area",
@@ -2698,7 +2698,7 @@
         "packages/ui/src/components/ui/scroll-area.tsx",
         "packages/ui/src/components/ui/resizable.tsx"
       ],
-      "sourceHash": "b56311d4edd5332a0976205b7170ed9e07f4c7cdbda51c69edf066165418966d",
+      "sourceHash": "ff541be866754d6387e99055c334021b5e149fd287991c2f7cd9c8a6aad31761",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -2741,7 +2741,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "0c82cf7b183bdd7ccc4566a32e46fc9367b1b3b83a8f3bfd812db53b13b01263"
+      "contractHash": "6c8b257c0a39f417cf6328447911acd5f61ee29b3b5084006e907d1adabc66cb"
     },
     {
       "entityId": "component.select",
@@ -2750,7 +2750,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/select.tsx"
       ],
-      "sourceHash": "77a3e960465d955af29b5d0dcf6d820d4bd236346f35df72cb6d9480e56014fb",
+      "sourceHash": "cbb055eaa20b58c877af7d2c340359d37109b641962986bdf10879605fb13e18",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -2821,7 +2821,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "fc1df719558bf28f851a464aafe1015ffcb22331be6d8b96933a2c24444437cd"
+      "contractHash": "555d35be2ebbf04bae4f1b0e4fdecb0b5bcee8678bb580ef5c762dd570667209"
     },
     {
       "entityId": "component.separator",
@@ -2830,7 +2830,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/separator.tsx"
       ],
-      "sourceHash": "30566a19d8e95b30bd74445ec6a41e9d90f33571ed788c7d884d4b6bedd0a9ec",
+      "sourceHash": "a6bf89b8c0069dedaf6c09fe0422b15528a952c486724ef8320d9cfc1f0efbc1",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -2849,7 +2849,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "693ff609926ae860b7436d09b8e51297812af72af313f7a860bdc5453aba3bab"
+      "contractHash": "c77be2a34b326cba51f003a435b43c2d779b7ec7e7235d78f102edfd1d9c0d6e"
     },
     {
       "entityId": "component.sheet",
@@ -2858,7 +2858,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/sheet.tsx"
       ],
-      "sourceHash": "47859086188f592d466f480985d2e30905550dc4c47e53bfa9faa3e1545537ad",
+      "sourceHash": "4cff103f36133d9f866c73613118d92ba6e86292daaf3a80a8bb69090246fb5e",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -2926,7 +2926,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "900f62f598a8f0ad246a7c2cb5efb39970cf8955399250dacab34ae32185b883"
+      "contractHash": "e5eca27f50e283bb41c571242c2f1d3ace447d304338fd7e029a8ca38417c7f4"
     },
     {
       "entityId": "component.sidebar",
@@ -2935,7 +2935,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/sidebar.tsx"
       ],
-      "sourceHash": "9930ac6ba8b5451ddc2d796400d2b996d24310317df10a4a143205caadb1a480",
+      "sourceHash": "e9085394b22d80ed5b80bf750ad037312c88eab37af4a7d181b0bd075c6a43e2",
       "variantAxes": {
         "variant": [
           "default",
@@ -3092,7 +3092,7 @@
         "State is Figma-only interaction evidence, not a React prop.",
         "The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
       ],
-      "contractHash": "12dcab537d0da572e4e18e1962f50b1e8d305a11979a21bb17f1a63616b07a66"
+      "contractHash": "b06250f8d269d05bcee89809fe27402c1bf095c4481586f45bf68e28f610fd48"
     },
     {
       "entityId": "component.skeleton",
@@ -3101,7 +3101,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/skeleton.tsx"
       ],
-      "sourceHash": "dc045e8bbf88b4c572240dfebb4877dfb26c18c232677c1c6c073b18ccf406a1",
+      "sourceHash": "f8049bd66e6c57d77efc5207a8245a7b042bbc993076f95abe320a707be9c0b7",
       "variantAxes": {},
       "publicProperties": [
         "className"
@@ -3121,7 +3121,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "87a9bcf7c78299915271746a3ea03970503a7075cb175da658ae1725e555b1e4"
+      "contractHash": "81f216d23be355c90f4fa6dd8807d02ee0e2c5e0c9dcbab1e775e551f8001026"
     },
     {
       "entityId": "component.slider",
@@ -3130,7 +3130,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/slider.tsx"
       ],
-      "sourceHash": "dd7c4fe2bb668e732fd8e0b927374abe27dbdbe09e539d2b7386e38d438f3d5d",
+      "sourceHash": "fb3297473eb671ac9d94bd2dd298f1d4564725d65e3e53c5931637d90386dd97",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -3157,7 +3157,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "18580c0b85722669eea0a6a04fb4089482489d2cd3e3b1fd18d258e06d9e05cf"
+      "contractHash": "5e59b14918349f4623af7a99364917e4406bcd66498cad177cf2a88f67924948"
     },
     {
       "entityId": "component.sonner",
@@ -3166,7 +3166,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/sonner.tsx"
       ],
-      "sourceHash": "7d7454eeb87f598df7a3dbc7eed7b96383ff9f027e5cab6a42dbd48936308364",
+      "sourceHash": "190758fd5d6d7a64aeb4f34e4e8d59f79eddcef54f7dae6cdf603c151e07f56f",
       "variantAxes": {},
       "publicProperties": [],
       "propTypeExpressions": [],
@@ -3178,7 +3178,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "727d547e31da373bc62a6c04110277eee2368b91b759adf69cad34f37ba1d7b9"
+      "contractHash": "b665a96437a77ed6e8c1ea796f298091988342dd4147a32bf709ed3d555316cd"
     },
     {
       "entityId": "component.spinner",
@@ -3187,7 +3187,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/spinner.tsx"
       ],
-      "sourceHash": "4e99f6ed0c914967d2b51aaf0f7e0f5de622d80f1af2c6804017de9b95bd3ae8",
+      "sourceHash": "e2c95642e38e1007d89f33121e128f13f0cb0628e280ac2e7d430fde1729d588",
       "variantAxes": {},
       "publicProperties": [
         "className"
@@ -3205,7 +3205,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "df76c7e02781effeb742d0c68e491fb420013bf7ed95c97a55e9b35a948e5574"
+      "contractHash": "ebbddc4c5f33e8981ab1eed37d61d50849ec3c705daa09937a5f530d3cb1c377"
     },
     {
       "entityId": "component.status-badge",
@@ -3214,7 +3214,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/status-badge.tsx"
       ],
-      "sourceHash": "6554a33acb27b703ce189a92f39094a0a02be9ee1c22c83ff77a0213b45c6d6f",
+      "sourceHash": "f43422ff35b68094b5920b4d8c9b679412adf7b03ae1d570d4e646fe49961317",
       "variantAxes": {
         "status": [
           "booked",
@@ -3247,7 +3247,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "d11a23ad430246fb1c9f628703ef01ba6b326404893fa484ee0dbd1477ffec4f"
+      "contractHash": "575383b4dad16fb316cb5f220645394fd7ffd4cdf6b8e4ef641001cc2a288c1e"
     },
     {
       "entityId": "component.switch",
@@ -3256,7 +3256,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/switch.tsx"
       ],
-      "sourceHash": "2e9b203c5a2fde17cbeaf9d6c1cf9703add9fbde5ca26088f10476f60adff60e",
+      "sourceHash": "f7608ac4162332f46eeb73e49ac69d14eba426d58f4b949532c7546a5b5c7fac",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -3279,7 +3279,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "812453cd22b6f5743abadd4e5a3325f5a5d7bdfb2ea0403eba6f289daa7d7bf2"
+      "contractHash": "db4e4e5bfa5eb7befda3351abe186709a3527dd730e1c530e7456970f2075321"
     },
     {
       "entityId": "component.table",
@@ -3288,7 +3288,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/table.tsx"
       ],
-      "sourceHash": "118dc1e9e1db9525abe3255c817aac31c1de5336ec9e99ea4aa2383721dffb1c",
+      "sourceHash": "3dcbb8e57d87c5f4bb30301ee6a813a0c31e39693eb8d406ba6b53370ed84749",
       "variantAxes": {},
       "publicProperties": [
         "className",
@@ -3345,7 +3345,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "48324bfd7e3be538d5955190d7789cf6c238c664b46ad7a37b46e92c8d5ffc80"
+      "contractHash": "dacebb3144908ace0dacf6ff9bb07dd8abbea071f79fa5c20f96f752436a6185"
     },
     {
       "entityId": "component.tabs",
@@ -3354,7 +3354,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/tabs.tsx"
       ],
-      "sourceHash": "9c44167cbd4677093083e5d4db9d0a1a0ed582a69d17263903675375adeb3f43",
+      "sourceHash": "1aa1ed60e5405439351e28307648f4799e2abfd67602752fc37d85d61b2cebd7",
       "variantAxes": {
         "variant": [
           "folder",
@@ -3417,7 +3417,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "7cc0b950bfdb71a3d5ebddc82f1a38d74cb1e7d5f6325a31dd8d7d2f5c6ae9e2"
+      "contractHash": "6cb4c6c414df9a85b01b5001f2dcc200c897b6ef00252ee24c97d20d2d02741f"
     },
     {
       "entityId": "component.textarea",
@@ -3426,7 +3426,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/textarea.tsx"
       ],
-      "sourceHash": "1316610b1d78159c07d6e5a761c7894ad0bbb33368d5e6b3dad804deaee9767b",
+      "sourceHash": "dabb2515537051d4d3ebb04ed2c05a7f60dad1f0151f7fe1c75476076092fc5f",
       "variantAxes": {},
       "publicProperties": [
         "className"
@@ -3447,7 +3447,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "c313859f27fd968ed7842123c919b84919318de6d411697f96ae99bf12847b30"
+      "contractHash": "f54104e82c3ca1e83c2544dda07e5e96d56d95059de4c861918a584ea9d73f07"
     },
     {
       "entityId": "component.toggle",
@@ -3456,7 +3456,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/toggle.tsx"
       ],
-      "sourceHash": "6d2deb7ba6c99b1a9ad4d9e0c5c6e554d7ca825b0da40a94d958b6a1e2031058",
+      "sourceHash": "d4e0f434424a260c7a3a69c20af19fc701d7af3c3e07dd756a75f593d734399d",
       "variantAxes": {
         "variant": [
           "default",
@@ -3490,7 +3490,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "bb65703980a99508df4c9f2665ad8b61cb8a7909c352a33135d2ccbc3c03d0c4"
+      "contractHash": "ee5e55186774b99a525abdf8694d7b0c24078d41ed77b85fa01409073fdebd6c"
     },
     {
       "entityId": "component.toggle-group",
@@ -3499,7 +3499,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/toggle-group.tsx"
       ],
-      "sourceHash": "3876b644cdb47933e905176608f890b0e55e2943f946dff57772a364ac5f4944",
+      "sourceHash": "79db98324e010d85e795588b5c072a2aef3eebc903bc703bce7983af4dde1b91",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -3529,7 +3529,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "c2e6b5f553b8922a220860e67de84be5dd42b7bb667a782d27514ca7684da87d"
+      "contractHash": "6d2418efc8093426e79cf057c2a825e1ded43086201b4dad89b0e9ef7ca46db1"
     },
     {
       "entityId": "component.tooltip",
@@ -3538,7 +3538,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/tooltip.tsx"
       ],
-      "sourceHash": "e9c26eac39dd216cc89f5282838295542d5e38650a90e6a63c54118b331f491b",
+      "sourceHash": "6dce4e7bc3ccb729e0f9c3084a4755a0013386ad41cf44166e547e0e5fbae6dd",
       "variantAxes": {},
       "publicProperties": [
         "align",
@@ -3577,7 +3577,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "7c3d4f2e13fe01e22658d7210fc80e67f3d762982d8d65164d1afda1999dce6f"
+      "contractHash": "68984e3dfb5c2049328bce84ff073fb5fffe7d1a14334bd12b912d06424a9b3a"
     }
   ]
 }
