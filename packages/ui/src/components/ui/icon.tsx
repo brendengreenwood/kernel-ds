@@ -1,5 +1,5 @@
 import * as React from "react";
-import { mdiAccountGroupOutline, mdiAccountOutline, mdiAlertCircleOutline, mdiAlertOutline, mdiApplicationOutline, mdiArchiveArrowDownOutline, mdiStarFourPointsOutline, mdiWheelchairAccessibility, mdiArrowLeft, mdiArrowRight, mdiBellOutline, mdiCalendarBlankOutline, mdiCancel, mdiCash, mdiChartBar, mdiChartLine, mdiCheck, mdiCheckCircleOutline, mdiChevronDown, mdiChevronLeft, mdiChevronRight, mdiChevronUp, mdiClockOutline, mdiClose, mdiCloseCircleOutline, mdiCloseOctagonOutline, mdiCloudUploadOutline, mdiCogOutline, mdiCompassOutline, mdiConsole, mdiContentCopy, mdiCreation, mdiCreditCardOutline, mdiCursorText, mdiDockLeft, mdiDotsHorizontal, mdiDotsVertical, mdiDownload, mdiDragVertical, mdiEyeOffOutline, mdiEyeOutline, mdiFileDocumentOutline, mdiFileSign, mdiFilterVariant, mdiFormatBold, mdiFormatFont, mdiFormatItalic, mdiFormatListChecks, mdiFormatUnderline, mdiGauge, mdiGithub, mdiHandshakeOutline, mdiHomeOutline, mdiInformationOutline, mdiLayersOutline, mdiLoading, mdiLogout, mdiMagnify, mdiMessageOutline, mdiMinus, mdiPaletteOutline, mdiPencilOutline, mdiPlus, mdiReply, mdiRuler, mdiSend, mdiShapeOutline, mdiShareVariantOutline, mdiSitemapOutline, mdiSproutOutline, mdiSwapVertical, mdiTable, mdiTrashCanOutline, mdiTrendingDown, mdiTrendingUp, mdiTruckOutline, mdiTune, mdiUnfoldMoreHorizontal, mdiUpload, mdiViewColumnOutline, mdiViewDashboardOutline, mdiViewListOutline, mdiViewQuiltOutline, mdiViewSplitVertical, mdiWeatherNight, mdiWhiteBalanceSunny } from "@mdi/js";
+import { mdiAccountGroupOutline, mdiAccountOutline, mdiAlertCircleOutline, mdiAlertOutline, mdiApplicationOutline, mdiArchiveArrowDownOutline, mdiStarFourPointsOutline, mdiWheelchairAccessibility, mdiArrowLeft, mdiArrowRight, mdiBellOutline, mdiCalendarBlankOutline, mdiCancel, mdiCash, mdiChartBar, mdiChartLine, mdiCheck, mdiCheckCircleOutline, mdiChevronDown, mdiChevronLeft, mdiChevronRight, mdiChevronUp, mdiClockOutline, mdiClose, mdiCloseCircleOutline, mdiCloseOctagonOutline, mdiCloudUploadOutline, mdiCogOutline, mdiCompassOutline, mdiConsole, mdiContentCopy, mdiCreation, mdiCreditCardOutline, mdiCursorText, mdiDockLeft, mdiDotsHorizontal, mdiDotsVertical, mdiDownload, mdiDragVertical, mdiEyeOffOutline, mdiEyeOutline, mdiFileDocumentOutline, mdiFileSign, mdiFilterVariant, mdiFormatBold, mdiFormatFont, mdiFormatItalic, mdiFormatListChecks, mdiFormatUnderline, mdiGauge, mdiGithub, mdiHandshakeOutline, mdiHomeOutline, mdiInformationOutline, mdiLayersOutline, mdiLoading, mdiLogout, mdiMagnify, mdiMessageOutline, mdiMinus, mdiPaletteOutline, mdiPencilOutline, mdiPlus, mdiReply, mdiRuler, mdiSend, mdiShapeOutline, mdiShareVariantOutline, mdiSitemapOutline, mdiSproutOutline, mdiSwapVertical, mdiTable, mdiTrashCanOutline, mdiTrendingDown, mdiTrendingUp, mdiTruckOutline, mdiTune, mdiUnfoldMoreHorizontal, mdiUpload, mdiViewColumnOutline, mdiViewDashboardOutline, mdiViewListOutline, mdiViewQuiltOutline, mdiViewSplitVertical, mdiWeatherNight, mdiWhiteBalanceSunny, mdiArrowUp, mdiWaveform, mdiClipboardTextOutline, mdiFolderOutline, mdiMessagePlusOutline, mdiRefresh, mdiThumbDownOutline, mdiThumbUpOutline } from "@mdi/js";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,6 +17,8 @@ export interface IconProps
   absoluteStrokeWidth?: boolean;
 }
 
+// Optical groups: glyphs whose ink is much narrower than their box (chevrons
+// draw ~7 of 14px) tag themselves so containers can pad to the visible ink.
 function makeIcon(path: string, name: string) {
   const Comp = React.forwardRef<SVGSVGElement, IconProps>(function Icon(
     { className, size = 24, strokeWidth: _s, absoluteStrokeWidth: _a, ...props },
@@ -30,6 +32,7 @@ function makeIcon(path: string, name: string) {
         width={size}
         height={size}
         fill="currentColor"
+        data-optic={/^Chevron(Down|Up|Left|Right)/.test(name) ? "narrow" : undefined}
         className={cn(className)}
         {...props}
       >
@@ -140,3 +143,11 @@ export const Users = makeIcon(mdiAccountGroupOutline, "Users");
 export const X = makeIcon(mdiClose, "X");
 export const XCircle = makeIcon(mdiCloseCircleOutline, "XCircle");
 export const XIcon = makeIcon(mdiClose, "XIcon");
+export const ArrowUp = makeIcon(mdiArrowUp, "ArrowUp");
+export const AudioLines = makeIcon(mdiWaveform, "AudioLines");
+export const ClipboardPaste = makeIcon(mdiClipboardTextOutline, "ClipboardPaste");
+export const Folder = makeIcon(mdiFolderOutline, "Folder");
+export const MessageSquarePlus = makeIcon(mdiMessagePlusOutline, "MessageSquarePlus");
+export const RotateCw = makeIcon(mdiRefresh, "RotateCw");
+export const ThumbsDown = makeIcon(mdiThumbDownOutline, "ThumbsDown");
+export const ThumbsUp = makeIcon(mdiThumbUpOutline, "ThumbsUp");

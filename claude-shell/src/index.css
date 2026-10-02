@@ -1,0 +1,17 @@
+/* Consumes Kernel at source (decision 0034), exactly like kernel-app. */
+@import "../../packages/ui/src/styles.css";
+@source "./";
+
+/* The experiment's only styling lever: a semantic-tier remap. No component
+   in src/ may use raw colors, hex, or arbitrary values — every gap goes in
+   DRIFT.md instead. */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+}

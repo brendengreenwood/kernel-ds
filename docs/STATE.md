@@ -479,6 +479,15 @@ functional target. Resizable handle keeps its vendored 1px focus ring
 
 ## Experiments
 
+- **Claude-shell experiment** (decision 0082, branch `exp/claude-shell`,
+  2026-10-02, uncommitted to main): `claude-shell/` rebuilds claude.ai's
+  project view from Kernel parts. Landed in Kernel on the branch: measured
+  surface ladder (light + dark), status roles, contrast fixes, branded
+  `inverse` Button, `--shadow-panel`, optical icon padding. Open: name the
+  surface steps as roles + gate them; check /forms and /dashboard; build the
+  faked pieces (Composer, Notice, File row, drop zone). Gaps in
+  `claude-shell/DRIFT.md`.
+
 - **Kernel v2 prototype** (decisions 0058 + 0068; formerly branch
   claude/kernel-insider-portal-fvqfq2, 2026-07-29): `kernel-app/` is a
   separate Vite app that consumes the design system **at source** (`@` alias

@@ -35,9 +35,9 @@ export default function PortalLayout() {
       <ScrollManager />
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
+        <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="mr-2 h-4 data-vertical:self-center" />
           <span className="text-sm text-muted-foreground">
             Kernel <span className="opacity-40">/</span>{" "}
             <span className="font-medium text-foreground">Design System</span>
@@ -47,7 +47,7 @@ export default function PortalLayout() {
               href="https://github.com/brendengreenwood/kernel-ds"
               target="_blank"
               rel="noreferrer"
-              className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+              className={cn(buttonVariants({ variant: "outline", size: "icon-sm" }))}
             >
               <Github className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">GitHub repository</span>

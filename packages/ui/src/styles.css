@@ -43,7 +43,11 @@
   --ease-in-out: cubic-bezier(0.5, 0, 0.2, 1);   /* symmetric moves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* playful overshoot */
 
-  --background: oklch(1.0000 0 0);
+  /* Surface ladder, light (measured against claude.ai, 2026-10-01): page is an
+     off-white, cards are white and sit ABOVE it; recessed fills step darker in
+     even ~0.025 L steps. Edges/hover/secondary text are the foreground at
+     partial opacity, mirroring dark. */
+  --background: oklch(0.955 0.008 165);
   --foreground: oklch(0.2128 0.0209 162.2254);
   --card: oklch(1.0000 0 0);
   --card-foreground: oklch(0.2128 0.0209 162.2254);
@@ -51,16 +55,33 @@
   --popover-foreground: oklch(0.2128 0.0209 162.2254);
   --primary: oklch(0.5364 0.1457 150.5842);
   --primary-foreground: oklch(1.0000 0 0);
+  /* Inverse: high-contrast secondary action, kept on the Cargill brand ramp. */
+  --inverse: var(--brand-900);
+  --inverse-foreground: var(--brand-50);
+  /* Status roles: --x is text/icon/fill, --x-foreground sits on a --x fill,
+     --x-muted is the soft notice/badge background. */
+  --info: var(--info-700);
+  --info-foreground: oklch(1 0 0);
+  --info-muted: color-mix(in oklch, var(--info-500) 10%, transparent);
+  --success: var(--success-700);
+  --success-foreground: oklch(1 0 0);
+  --success-muted: color-mix(in oklch, var(--success-500) 10%, transparent);
+  --warning: var(--warning-800);
+  --warning-foreground: oklch(1 0 0);
+  --warning-muted: color-mix(in oklch, var(--warning-500) 10%, transparent);
+  --error: var(--error-700);
+  --error-foreground: oklch(1 0 0);
+  --error-muted: color-mix(in oklch, var(--error-500) 10%, transparent);
   --secondary: oklch(0.9758 0.0163 121.7629);
   --secondary-foreground: oklch(0.4373 0.1176 150.8612);
-  --muted: oklch(0.9612 0 0);
-  --muted-foreground: oklch(0.5350 0.0104 161.1304);
-  --accent: var(--lime-300);
+  --muted: oklch(0.955 0.012 158);
+  --muted-foreground: color-mix(in oklch, var(--foreground) 64%, transparent);
+  --accent: oklch(0.93 0.008 165);
   --accent-foreground: oklch(0.2469 0.0618 153.3342);
   --destructive: oklch(0.5227 0.2063 25.8499);
   --destructive-foreground: oklch(1.0000 0 0);
-  --border: oklch(0.8957 0.0025 165.0685);
-  --input: oklch(0.7140 0.0064 170.3662);
+  --border: color-mix(in oklch, var(--foreground) 10%, transparent);
+  --input: oklch(0.62 0.010 165); /* 3:1 non-text contrast on white (WCAG 1.4.11) */
   --ring: oklch(0.5364 0.1457 150.5842);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
@@ -69,14 +90,14 @@
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
-  --sidebar: var(--neutral-100);
+  --sidebar: var(--background);
   --sidebar-foreground: oklch(0.2128 0.0209 162.2254);
   --sidebar-primary: oklch(0.5364 0.1457 150.5842);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
   /* Nav selection/hover is NEUTRAL, not green (see the .dark note). It also
      has to be DARKER than the rail: a selected item lighter than a 0.967 rail
      would read as a hole rather than a chip. One rung down. */
-  --sidebar-accent: var(--neutral-200);
+  --sidebar-accent: var(--accent);
   --sidebar-accent-foreground: var(--neutral-900);
   --sidebar-border: var(--neutral-200);
   --sidebar-ring: oklch(0.5364 0.1457 150.5842);
@@ -115,6 +136,8 @@
   --shadow-lg: 0 4px 8px -2px color-mix(in oklch, var(--shadow-color) 8%, transparent);
   --shadow-xl: 0 8px 16px -4px color-mix(in oklch, var(--shadow-color) 10%, transparent);
   --shadow-2xl: 0 16px 32px -8px color-mix(in oklch, var(--shadow-color) 14%, transparent);
+  /* Panel elevation: the main working surface lifts hard off the page. */
+  --shadow-panel: -80px 24px 240px 0 color-mix(in oklch, var(--shadow-color) 3%, transparent), 0 32px 96px -16px color-mix(in oklch, var(--shadow-color) 14%, transparent), 0 8px 32px -6px color-mix(in oklch, var(--shadow-color) 8%, transparent);
 
   /* ---- elevation recipe (register Part 2.4) ----
      A white card on a white canvas measures 1.000:1 — it exists only by its
@@ -124,7 +147,7 @@
      parent — frames, inner panels, tiles: ~1.06:1, a step, not a slab. */
   --elev-lip: transparent;
   --elev-cast: var(--shadow-lg);
-  --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
+  --elev-raised-surface: oklch(0.976 0.005 165);
 }
 
 .dark {
@@ -133,27 +156,44 @@
      the DS neutral scale (green-tinted by design), -900 for the canvas, -800
      for elevated surfaces, -950 only for the recessed rail. Accents stay on
      the lime/green ramps. */
-  --background: var(--neutral-900);
-  --foreground: var(--neutral-50);
-  --card: var(--neutral-800);
-  --card-foreground: var(--neutral-50);
-  --popover: var(--neutral-800);
-  --popover-foreground: var(--neutral-50);
+  /* Surface ladder (measured against claude.ai, 2026-10-01): even ~0.03 L steps,
+     Kernel green hue at neutral chroma. Edges/hover/secondary text are the
+     foreground at partial opacity so they read on every rung. */
+  --background: oklch(0.22 0.017 165);
+  --foreground: oklch(0.94 0.012 158);
+  --card: oklch(0.25 0.017 165);
+  --card-foreground: oklch(0.94 0.012 158);
+  --popover: oklch(0.30 0.017 165);
+  --popover-foreground: oklch(0.94 0.012 158);
   --primary: var(--lime-300);
   --primary-foreground: var(--neutral-950);
-  --secondary: var(--neutral-800);
-  --secondary-foreground: var(--neutral-100);
+  --inverse: var(--brand-100);
+  --inverse-foreground: var(--brand-950);
+  --info: var(--info-300);
+  --info-foreground: var(--info-900);
+  --info-muted: color-mix(in oklch, var(--info-400) 16%, transparent);
+  --success: var(--success-300);
+  --success-foreground: var(--success-900);
+  --success-muted: color-mix(in oklch, var(--success-400) 16%, transparent);
+  --warning: var(--warning-300);
+  --warning-foreground: var(--warning-900);
+  --warning-muted: color-mix(in oklch, var(--warning-400) 16%, transparent);
+  --error: var(--error-300);
+  --error-foreground: var(--error-900);
+  --error-muted: color-mix(in oklch, var(--error-400) 16%, transparent);
+  --secondary: oklch(0.30 0.045 153);
+  --secondary-foreground: var(--brand-100);
   /* --muted now equals --card (register 2.2 caveat): anything styled bg-muted
      on a card surface is invisible — separation on cards uses a foreground
      overlay instead (see Table striped). */
-  --muted: var(--neutral-800);
-  --muted-foreground: var(--neutral-400);
-  --accent: var(--brand-900);
+  --muted: oklch(0.28 0.024 158);
+  --muted-foreground: color-mix(in oklch, var(--foreground) 64%, transparent);
+  --accent: oklch(0.37 0.014 165);
   --accent-foreground: var(--neutral-50);
-  --destructive: var(--error-500);
+  --destructive: var(--error-400); /* 4.5:1 as text on --card */
   --destructive-foreground: var(--neutral-50);
-  --border: var(--neutral-700);
-  --input: var(--neutral-700);
+  --border: color-mix(in oklch, var(--foreground) 12%, transparent);
+  --input: oklch(0.56 0.014 165); /* 3:1 non-text contrast on --card */
   --ring: var(--lime-300);
 
   --chart-1: var(--lime-300);
@@ -162,16 +202,16 @@
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
-  --sidebar: var(--neutral-950);
+  --sidebar: var(--background);
   --sidebar-foreground: var(--neutral-50);
   --sidebar-primary: var(--lime-300);
   --sidebar-primary-foreground: var(--neutral-950);
   /* Nav selection/hover is NEUTRAL, not green. The rail is chrome; a coloured
      chip there competes with the accent doing real work in the content. One
      rung up from the rail reads as raised without a second green. */
-  --sidebar-accent: var(--neutral-800);
+  --sidebar-accent: var(--accent);
   --sidebar-accent-foreground: var(--neutral-50);
-  --sidebar-border: var(--neutral-800);
+  --sidebar-border: var(--border);
   --sidebar-ring: var(--lime-300);
 
   /* Deeper than light's, and still in the surface hue family: this has to
@@ -197,6 +237,7 @@
   --shadow-lg: 0 4px 8px -2px color-mix(in oklch, var(--shadow-color) 40%, transparent);
   --shadow-xl: 0 8px 16px -4px color-mix(in oklch, var(--shadow-color) 46%, transparent);
   --shadow-2xl: 0 16px 32px -8px color-mix(in oklch, var(--shadow-color) 55%, transparent);
+  --shadow-panel: -80px 24px 240px 0 color-mix(in oklch, var(--shadow-color) 11%, transparent), 0 32px 96px -16px color-mix(in oklch, var(--shadow-color) 43%, transparent), 0 8px 32px -6px color-mix(in oklch, var(--shadow-color) 30%, transparent);
 
   /* ---- elevation recipe (register Part 2.4) ----
      Dark has no ambient light source to borrow, so raised furniture uses a
@@ -205,7 +246,7 @@
      carry depth the same way; the asymmetry is intentional. */
   --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
   --elev-cast: var(--shadow-lg);
-  --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
+  --elev-raised-surface: oklch(0.28 0.017 165);
 }
 
 @theme inline {
@@ -217,6 +258,20 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-muted: var(--info-muted);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-muted: var(--warning-muted);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-error-muted: var(--error-muted);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -262,6 +317,7 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+  --shadow-panel: var(--shadow-panel);
 }
 
 @layer base {

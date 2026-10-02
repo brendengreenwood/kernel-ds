@@ -58,6 +58,7 @@ export const buttonDoc: ComponentDoc = parseComponentDoc({
             { key: "outline", description: "The workhorse for supporting actions that sit beside the primary; visible but not competing." },
             { key: "secondary", description: "A filled but muted action for toolbars and grouped controls where outline feels too light." },
             { key: "ghost", description: "Minimal chrome for dense or repeated actions — row actions, icon buttons, menu items." },
+            { key: "inverse", description: "High-contrast action on the Cargill brand ramp (deep green in light, pale green in dark) — for a second strong action such as Share when `default` is reserved for the one main action." },
             { key: "destructive", description: "Irreversible operations only (delete, void, revoke). Confirm the consequence in a Dialog first." },
             { key: "link", description: "Reads as inline text but behaves as a button. Use for in-flow actions, never for real navigation." },
           ],
@@ -127,7 +128,7 @@ export const buttonDoc: ComponentDoc = parseComponentDoc({
     {
       kind: "api",
       props: [
-        { name: "variant", type: "\"default\" | \"outline\" | \"secondary\" | \"ghost\" | \"destructive\" | \"link\"", default: "\"default\"", description: "Visual emphasis — one primary per view, the rest secondary." },
+        { name: "variant", type: "\"default\" | \"outline\" | \"secondary\" | \"ghost\" | \"inverse\" | \"destructive\" | \"link\"", default: "\"default\"", description: "Visual emphasis — one primary per view, the rest secondary." },
         { name: "size", type: "\"default\" | \"xs\" | \"sm\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"", default: "\"default\"", description: "Control height and density; `icon-*` sizes render a square glyph-only button." },
         { name: "borderBeam", type: "BorderBeamProp", description: "Optional animated border accent for a highlighted call to action." },
         { name: "className", type: "string", description: "Merged with the variant classes via `cn`." },
