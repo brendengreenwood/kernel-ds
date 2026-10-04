@@ -1,4 +1,5 @@
 import * as React from "react"
+import { cn } from "@/lib/utils"
 import maplibregl, { type GeoJSONSource, type Map as MLMap } from "maplibre-gl"
 import "maplibre-gl/dist/maplibre-gl.css"
 
@@ -97,6 +98,8 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
   const container = React.useRef<HTMLDivElement>(null)
   const mapRef = React.useRef<MLMap | null>(null)
   const [ready, setReady] = React.useState(0)
+  // Hold the map hidden until its first tiles have drawn, then fade it in.
+  const [painted, setPainted] = React.useState(false)
   const onSelectRef = React.useRef(onSelect)
   onSelectRef.current = onSelect
   const onResetRef = React.useRef(onReset)
@@ -204,6 +207,8 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     )
     map.addControl(new maplibregl.ScaleControl({ unit: "imperial" }), "bottom-left")
     mapRef.current = map
+    map.once("idle", () => setPainted(true))
+    const giveUp = window.setTimeout(() => setPainted(true), 4000)
 
     const tip = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 12, className: "om-tip" })
 
@@ -254,6 +259,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     })
 
     return () => {
+      window.clearTimeout(giveUp)
       tip.remove()
       map.remove()
       mapRef.current = null
@@ -408,7 +414,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
   return (
     <div
       ref={container}
-      className="size-full"
+      className={cn("size-full transition-opacity duration-[var(--duration-slow)] ease-[var(--ease-out)] motion-reduce:transition-none", painted ? "opacity-100" : "opacity-0")}
       role="region"
       aria-label="Map of Cargill and ADM grain buying points with draw-area circles. Use the Pairs and Regions lists for keyboard access."
     />

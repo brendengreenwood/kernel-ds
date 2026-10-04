@@ -82,15 +82,6 @@ function CropTag({ crop }: { crop: Crop }) {
   )
 }
 
-function Stat({ value, label }: { value: React.ReactNode; label: string }) {
-  return (
-    <div className="flex h-full min-w-0 flex-col justify-between gap-1">
-      <div className="text-lg font-semibold tabular-nums leading-6">{value}</div>
-      <div className="text-xs leading-4 text-muted-foreground">{label}</div>
-    </div>
-  )
-}
-
 function SiteName({ s, sub = true }: { s: Site; sub?: boolean }) {
   return (
     <span className="flex min-w-0 items-center gap-1.5">
@@ -184,7 +175,9 @@ export default function DrawAreasPage() {
 
   // Desktop: every panel floats on the map at its own anchor. Phones: the map fills the
   // screen and the panels move into a tabbed sheet below it, one tab at a time.
-  const desktop = useMediaQuery("(min-width: 1280px)")
+  // Layout follows the map's own width, not the window: the app sidebar takes a share.
+  const rootRef = React.useRef<HTMLDivElement>(null)
+  const desktop = useMinWidth(rootRef, 1120)
   // Phones show one filter panel at a time, picked from the Filters sub-bar.
   const [dock, setDock] = React.useState<FilterTab | null>(null)
   const sub = (k: FilterTab) => ((desktop ? dock : filterTab) !== k ? "hidden" : "")
@@ -337,25 +330,13 @@ export default function DrawAreasPage() {
       <>
         <section
           aria-label="Summary"
-          className={cn("grid grid-cols-2 gap-2", desktop && "pointer-events-none absolute top-3 left-[272px] z-10 flex items-stretch")}
+          className={cn("grid grid-cols-2 gap-2", desktop && "pointer-events-none absolute top-3 left-[272px] z-10 flex items-start")}
         >
           <h1 className="sr-only">Where Cargill and ADM buy from the same farmers</h1>
-            <div className={cn(PANEL, "gap-1 p-3 xl:h-[5.5rem] xl:w-40")}>
-              <Stat value={visibleSites.length} label="buying points mapped" />
-            </div>
-            <div className={cn(PANEL, "gap-1 p-3 xl:h-[5.5rem] xl:w-40")}>
-              <Stat value={a.sameTown} label="Cargill sites sharing a town with ADM" />
-            </div>
-            <div className={cn(PANEL, "gap-1 p-3 xl:h-[5.5rem] xl:w-40")}>
-              <Stat value={bothOn && a.cargill ? `${a.contestedCargill} of ${a.cargill}` : "—"} label="Cargill sites with ADM in reach" />
-            </div>
-            <div className={cn(PANEL, "gap-1 p-3 xl:h-[5.5rem] xl:w-40")}>
-              <Stat value={bothOn && a.adm ? `${a.contestedAdm} of ${a.adm}` : "—"} label="ADM sites with Cargill in reach" />
-            </div>
             <Popover>
               <PopoverTrigger
                 render={
-                  <Button variant="outline" className="pointer-events-auto col-span-2 w-fit self-center rounded-full bg-card/95 shadow-lg backdrop-blur" />
+                  <Button variant="outline" className="pointer-events-auto col-span-2 w-fit rounded-full bg-card/95 shadow-lg backdrop-blur" />
                 }
               >
                 About this data
@@ -537,7 +518,7 @@ export default function DrawAreasPage() {
   }
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col overflow-hidden">
+    <div ref={rootRef} className="relative flex h-full min-h-0 flex-col overflow-hidden">
       <section aria-label="Map" className={cn("relative min-h-0 flex-1 [&_.maplibregl-ctrl-bottom-left]:left-1/2! [&_.maplibregl-ctrl-bottom-left]:-translate-x-1/2 [&_.maplibregl-ctrl-bottom-right]:transition-[right] [&_.maplibregl-ctrl-bottom-right]:duration-[var(--duration-base)]", desktop && colLow && "[&_.maplibregl-ctrl-bottom-right]:right-[392px]!")}>
         <DrawAreaMap
           sites={SITES}
@@ -557,7 +538,7 @@ export default function DrawAreasPage() {
             Basemap tiles didn't load — showing state outlines. Sites and draw areas are unaffected.
           </p>
         )}
-        <div className={cn("pointer-events-none absolute top-3 left-3 flex flex-col gap-2", desktop && "top-3")}>
+        <div className={cn("pointer-events-none absolute top-3 left-14 flex flex-col gap-2 md:left-3", desktop && "top-3")}>
           <div className="pointer-events-auto grid content-center gap-1.5 rounded-[var(--radius-floating)] border border-border bg-card/95 px-3 py-2.5 text-xs shadow-lg backdrop-blur xl:h-[5.5rem]">
             <div className="flex gap-3">
               {COMPANIES.map((co) => (
@@ -671,13 +652,14 @@ export default function DrawAreasPage() {
   )
 }
 
-function useMediaQuery(query: string) {
-  return React.useSyncExternalStore(
-    (cb) => {
-      const m = window.matchMedia(query)
-      m.addEventListener("change", cb)
-      return () => m.removeEventListener("change", cb)
-    },
-    () => window.matchMedia(query).matches,
-  )
+function useMinWidth(ref: React.RefObject<HTMLElement | null>, min: number) {
+  const [ok, setOk] = React.useState(false)
+  React.useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const ro = new ResizeObserver(([e]) => setOk(e.contentRect.width >= min))
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [ref, min])
+  return ok
 }
