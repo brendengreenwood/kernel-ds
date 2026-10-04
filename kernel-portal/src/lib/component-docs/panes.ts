@@ -31,6 +31,7 @@ export const panesDoc: ComponentDoc = parseComponentDoc({
         "Set the canvas threshold from the canvas's real minimum, not the window — app chrome takes a share of the window.",
         "Write pill labels as the current setting, and pass applied when it differs from the default so the closed pill shows the outline and dot.",
         "Read --pane-reserve-left and --pane-reserve-right to move canvas controls (zoom, attribution) clear of an open column.",
+        "Use the three motion recipes: panes slide in from their side (FloatingPane side), a route switch fades its page in with --duration-base, and a canvas that paints late (map tiles) stays at opacity 0 until its first idle, then fades in with --duration-slow.",
       ],
       donts: [
         "Don't hand-position a floating panel with absolute top-[..] classes; the pane usage gate flags it.",
