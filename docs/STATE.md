@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-09-22
+> Last touched: 2026-10-04
 
 ## What this project is
 
@@ -26,6 +26,8 @@ The portal is **per-page** (decision 0011): every side-rail item is its
 own route, not a section of one long scroll.
 
 ## Current state
+
+- **`prototypes/` holds standalone DS-consuming prototype apps** (decision 0081, 2026-10-04). First: `prototypes/origination-map/` — a Cargill vs ADM draw-area map on a real MapLibre GL map (OpenFreeMap tiles, no key; env-overridable style; bundled state-outline fallback) plus a US crop tonnage ledger, composed from live `@kernel/ui` at source with `--om-*` app tokens on the `--viz-*` axis. Own lockfile, CI build job, not a workspace, not authoritative. Not yet deployed (has its own `netlify.toml` for a separate Netlify site with base `prototypes/origination-map`).
 
 - **Full-library code-to-Figma integration now has a versioned manifest** (decision 0078, 2026-09-27): `docs/figma/component-integration.json` enumerates all 62 catalog-owned `@kernel/ui` components by DSDS entity ID and records canonical sources, documentation, public modules, current Figma mappings, contract-extraction state, token prerequisites, lifecycle authority, and promotion blockers. It is generated deterministically by `scripts/ds/figma/build-component-integration.mjs` from the catalog, package API inventory, and Figma compatibility map. Current coverage is 3 drifted mappings (Button, Input, Sidebar) and 59 not started; no component is treated as fully mapped yet. The three non-catalog public modules (`code-block`, `direction`, `input-group`) remain outside Figma identity work until cataloged deliberately.
 

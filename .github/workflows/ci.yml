@@ -206,6 +206,28 @@ jobs:
         working-directory: .
         run: node scripts/check-drift-register.mjs
 
+  origination-map:
+    name: origination-map prototype (typecheck + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prototypes/origination-map
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: prototypes/origination-map/package-lock.json
+      # Consumes the DS at source like kernel-app (decision 0034), so the root
+      # install comes first for packages/ui's bare deps.
+      - name: Install DS workspace deps
+        working-directory: .
+        run: npm ci
+      - run: npm ci
+      - name: Build (tsc + vite)
+        run: npm run build
+
   studio:
     name: studio (typecheck + tests)
     runs-on: ubuntu-latest

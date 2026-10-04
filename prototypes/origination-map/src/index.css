@@ -1,0 +1,108 @@
+/* Origination map prototype — consumes the full DS token sheet + components at
+   source (same wiring as kernel-app). App-local tokens are prefixed --om-* and
+   never leak into packages/ui. */
+@import "../../../packages/ui/src/styles.css";
+
+@source "../../../packages/ui/src";
+@source "./";
+
+/* ---- company series ----
+   Competitors are neither a status, a notification, nor a commodity, so they
+   take the abstract --viz-* chart series (CLAUDE.md "three color axes").
+   Crop green / sky blue keep the source page's Cargill-green, ADM-blue
+   mapping; Bunge plum and LDC clay finish the four ABCDs. Dark lifts one rung
+   so marks hold contrast on the near-black basemap. */
+:root {
+  --om-cargill: var(--viz-crop-600);
+  --om-adm: var(--viz-sky-600);
+  --om-bunge: var(--viz-plum-600);
+  --om-ldc: var(--viz-clay-600);
+  --om-production: var(--neutral-300);
+}
+.dark {
+  --om-cargill: var(--viz-crop-400);
+  --om-adm: var(--viz-sky-400);
+  --om-bunge: var(--viz-plum-400);
+  --om-ldc: var(--viz-clay-400);
+  --om-production: var(--neutral-700);
+}
+
+@theme inline {
+  --color-om-cargill: var(--om-cargill);
+  --color-om-adm: var(--om-adm);
+  --color-om-bunge: var(--om-bunge);
+  --color-om-ldc: var(--om-ldc);
+  --color-om-production: var(--om-production);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* ---- MapLibre chrome in Kernel tokens ---- */
+.maplibregl-map {
+  font: inherit;
+}
+.om-tip .maplibregl-popup-content {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-floating);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: var(--shadow-md);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  pointer-events: none;
+}
+.om-tip .maplibregl-popup-content span {
+  color: var(--muted-foreground);
+}
+.om-tip .maplibregl-popup-tip {
+  display: none;
+}
+.maplibregl-ctrl-group {
+  border-radius: var(--radius-control) !important;
+  background: var(--card) !important;
+  box-shadow: var(--shadow-sm) !important;
+  border: 1px solid var(--border);
+}
+.maplibregl-ctrl-group button + button {
+  border-top-color: var(--border) !important;
+}
+.dark .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+.maplibregl-ctrl-scale {
+  background: color-mix(in oklch, var(--card) 80%, transparent);
+  border-color: var(--muted-foreground);
+  color: var(--foreground);
+}
+.dark .maplibregl-ctrl-attrib {
+  background: color-mix(in oklch, var(--card) 80%, transparent);
+}
+.dark .maplibregl-ctrl-attrib a,
+.dark .maplibregl-ctrl-attrib-inner {
+  color: var(--muted-foreground);
+}
+.dark .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
+
+/* Coarse pointers: map zoom buttons grow to the 44px target (CLAUDE.md). */
+@media (pointer: coarse) {
+  .maplibregl-ctrl-group button {
+    width: 44px;
+    height: 44px;
+  }
+}
+.maplibregl-ctrl-attrib {
+  font-size: 0.6875rem;
+}
