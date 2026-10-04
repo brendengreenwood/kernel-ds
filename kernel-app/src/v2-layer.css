@@ -32,30 +32,6 @@
     outline-color: color-mix(in oklch, var(--primary) 32%, transparent);
   }
 
-  /* Segmented range control: turn the outline ToggleGroup into a filled
-     pill with a highlighted active segment. */
-  [data-v2-segmented] {
-    gap: calc(var(--spacing) * 0.5);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--card);
-    padding: calc(var(--spacing) * 0.75);
-  }
-  [data-v2-segmented] [data-slot="toggle-group-item"] {
-    border: 0 !important;
-    border-radius: calc(var(--radius) - var(--spacing));
-    background: transparent;
-    color: var(--muted-foreground);
-  }
-  [data-v2-segmented] [data-slot="toggle-group-item"]:hover {
-    background: transparent;
-    color: var(--foreground);
-  }
-  [data-v2-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
-  [data-v2-segmented] [data-slot="toggle-group-item"][data-state="on"] {
-    background: var(--v2-seg-active);
-    color: var(--v2-seg-active-foreground);
-  }
 }
 
 /* ---- The activity panel's concentric inner surface ----
@@ -89,57 +65,87 @@
 }
 
 /* ---- The folder tab's panel ----
-   Two steps up off the page plate, in the app's own overlay units: every other
-   surface step here is a foreground mix (zebra 5%, row hover 4%, selected 9%),
-   so a tab panel that stepped by neutral rungs instead would be the one surface
-   in the app measuring itself against a different ruler. 4% twice = 8%.
+   It takes no fill. The panel used to step two overlay units off the plate
+   (4% twice = 8%) on the reading that a panel is a surface above the page. But
+   the thing a folder tab is drawing is a folder: the selected tab and the panel
+   under it are ONE piece of card stock, and the unselected tabs are the ones
+   behind it. Filling the panel grey while the selected tab stayed white broke
+   exactly that joint — the tab read as a chip sitting on a band rather than as
+   the front face of the panel it opens, and the band itself read as a strip of
+   chrome the table happened to start under.
 
-   It carries no edge of its own. The folder strip's baseline already draws the
-   top, and the plate draws the sides — a second hairline inside them would be
+   So the panel is the plate, the selected tab is the plate, and the boundary
+   between what is open and what is not is carried where it belongs: the strip's
+   baseline, which already runs the full width of the plate.
+
+   It carries no edge of its own either. The folder strip's baseline draws the
+   top and the plate draws the sides — a second hairline inside them would be
    two lines describing one boundary. */
-[data-v2-tabpanel] {
-  background: color-mix(in oklch, var(--foreground) 8%, transparent);
-}
 
-/* ---- Segmented tabs ----
-   The same control as the Overview's range group, driven off the same marker,
-   so `data-v2-segmented` means one thing in this app whether the segments are
-   toggle-group items or tab triggers.
+/* ---- The segmented control: a trough holding one plate ----
+   One marker, `data-v2-segmented`, drives this whether the segments are
+   toggle-group items (Overview's range, the forward curve's commodity) or tab
+   triggers (the commodity filters, the activity range). A segmented control is
+   a segmented control wherever it sits.
 
-   A quiet track and a quiet chip. The DS pill hands the active segment
-   --primary, which is right for a filter the reader SET and wrong for a range
-   that merely defaults to something: a green block on a panel's first line
-   reads as the panel's subject, not as one of two states of a control.
+   The active segment used to take a flat overlay, and on the ToggleGroup it
+   took nothing at all: the DS ships `aria-pressed:bg-muted` as a UTILITY, and
+   the rule that was meant to fill it green lived in @layer components, so the
+   background fell through to --muted while the colour rule still applied
+   --primary-foreground. White text on a near-white fill: 1.00:1, a label that
+   was not there. Every property that a utility also sets is !important here.
 
-   Both fills are foreground overlays rather than palette rungs, because this
-   control sits on --card inside the panel and on the page plate on Overview,
-   and an overlay carries the same step off either. Track 4%, chip 10%: the
-   chip has to clear the track it sits in, not the surface underneath. */
-[data-slot="tabs-list"][data-v2-segmented] {
-  border-radius: var(--radius);
+   What replaced it is the elevation language the rest of the app already
+   speaks. The track is the card carved into the surface; the active segment is
+   the card itself, put back up on a hairline, a lip and the shortest cast in
+   the ramp. Nothing is tinted: a filter that merely defaults to something is
+   not the panel's subject, and --primary on the first line of a panel reads
+   like it is.
+
+   Geometry is concentric. The chip's corner has to hold the same distance from
+   the track's corner as its sides hold from the track's sides, or the fill
+   pinches at the ends: inner radius = outer radius − border − padding, which
+   is 10.16 − 1 − 2.88 = 6.28px. Hover takes the same radius as active, because
+   a hover fill that is not the shape of the thing it previews is a different
+   thing being previewed. */
+[data-v2-segmented] {
+  --v2-seg-pad: calc(var(--spacing) * 0.75);
+  --v2-seg-radius: calc(var(--radius) - var(--spacing));
+  --v2-seg-radius-inner: calc(var(--v2-seg-radius) - 1px - var(--v2-seg-pad));
+  gap: calc(var(--spacing) * 0.5) !important;
+  align-items: stretch;
+  border-radius: var(--v2-seg-radius) !important;
   border: 1px solid var(--border);
-  background: color-mix(in oklch, var(--foreground) 4%, transparent);
-  padding: calc(var(--spacing) * 0.75);
-  gap: calc(var(--spacing) * 0.5);
+  background: var(--v2-seg-track) !important;
+  padding: var(--v2-seg-pad) !important;
 }
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"] {
-  border-radius: calc(var(--radius) - var(--spacing));
-  border: 0;
-  background: transparent;
+[data-v2-segmented] [data-slot="toggle-group-item"],
+[data-v2-segmented] [data-slot="tabs-trigger"] {
+  border: 0 !important;
+  border-radius: var(--v2-seg-radius-inner) !important;
+  background: transparent !important;
   color: var(--muted-foreground);
 }
-/* Scoped off :focus-visible — see the note on the pill strip below: an
-   unconditional `box-shadow: none` erases the focus ring along with the
-   active segment's lift, because both are box-shadows. */
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"]:not(:focus-visible) {
+/* Scoped off :focus-visible: the focus ring is a box-shadow too, so clearing
+   the property unconditionally takes the keyboard indicator with it. */
+[data-v2-segmented] [data-slot="toggle-group-item"]:not(:focus-visible),
+[data-v2-segmented] [data-slot="tabs-trigger"]:not(:focus-visible) {
   box-shadow: none;
 }
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"]:hover {
+[data-v2-segmented] [data-slot="toggle-group-item"]:hover,
+[data-v2-segmented] [data-slot="tabs-trigger"]:hover {
+  background: color-mix(in oklch, var(--foreground) 6%, transparent) !important;
   color: var(--foreground);
 }
-[data-slot="tabs-list"][data-v2-segmented] [data-slot="tabs-trigger"][data-active] {
-  background: color-mix(in oklch, var(--foreground) 10%, transparent);
-  color: var(--foreground);
+[data-v2-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
+[data-v2-segmented] [data-slot="toggle-group-item"][data-state="on"],
+[data-v2-segmented] [data-slot="tabs-trigger"][data-active] {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  box-shadow:
+    inset 0 0 0 1px var(--border),
+    inset 0 1px 0 var(--elev-lip),
+    var(--shadow-md);
 }
 
 /* --radius (14px) is tuned for the app's roomy cards; at control heights it
@@ -158,79 +164,6 @@
   border-radius: calc(var(--radius) - var(--spacing)) !important;
 }
 
-/* ---- The pill tab becomes a real segmented control ----
-   The DS's pill variant is a padded track (`bg-muted`, 5px inset) holding a
-   floating rounded active pill. Two things break it here: --muted resolves to
-   the same value as --card in this theme, so the track is invisible and the
-   active pill floats unattached; and a rounded chip inside a rounded track is
-   two radii doing the same job at two scales.
-
-   One container, divided. The track keeps the stadium end but loses its
-   padding, so segments run edge to edge and the dividers — not gaps — say where
-   one choice stops. The active segment is a filled block that reaches the
-   container's border on every side, and the end segments inherit the stadium
-   curve, so the fill ends in the shape of the container rather than in a shape
-   of its own. Fill and text are --v2-seg-active / --v2-seg-active-foreground:
-   the strongest neutral the theme has, inverted — near-black on white in light,
-   near-white on the panel in dark. --secondary cannot do this job in dark,
-   where it resolves to the same value as --card.
-
-   A divider next to the block would cut into it, so the block clears the
-   dividers on both of its own edges. The border is never removed, only made
-   transparent, so nothing shifts by a pixel when the selection moves.
-
-   No `overflow: hidden` on the track — it would clip the focus ring, which is a
-   box-shadow. The ends are rounded per segment instead. Unlayered + !important
-   to beat the variant's utilities.
-
-   `:not([data-v2-segmented])` throughout: a list carrying the segmented marker
-   is the Overview's range control, not this one, and these rules would win on
-   !important alone if they were allowed to match it. */
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) {
-  align-items: stretch;
-  gap: 0 !important;
-  padding: 0 !important;
-  border-radius: 9999px !important;
-  border: 1px solid var(--border);
-  background: transparent;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] {
-  border-radius: 0 !important;
-  padding-inline: calc(var(--spacing) * 3.5) !important;
-}
-/* The shadow this clears is the DS pill's `data-active:shadow-sm` — a lifted
-   active segment, which is wrong for a strip that reads as one etched track.
-   `:not(:focus-visible)` because the focus ring is ALSO a box-shadow (that is
-   how Tailwind's `ring` is built), so clearing the property unconditionally
-   took the keyboard indicator with it and left these tabs with no focus state
-   at all. Same reason the segmented control below is scoped this way. */
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented])
-  [data-slot="tabs-trigger"]:not(:focus-visible) {
-  box-shadow: none !important;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] {
-  border-inline-start: 1px solid var(--border);
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:first-child {
-  border-start-start-radius: 9999px !important;
-  border-end-start-radius: 9999px !important;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:last-child {
-  border-start-end-radius: 9999px !important;
-  border-end-end-radius: 9999px !important;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"]:not([data-active]):hover {
-  background: color-mix(in oklch, var(--foreground) 4%, transparent);
-  color: var(--foreground);
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"][data-active] {
-  background: var(--v2-seg-active) !important;
-  color: var(--v2-seg-active-foreground) !important;
-  border-inline-start-color: transparent;
-}
-[data-slot="tabs-list"][data-variant="pill"]:not([data-v2-segmented]) [data-slot="tabs-trigger"][data-active] + [data-slot="tabs-trigger"] {
-  border-inline-start-color: transparent;
-}
 
 /* ---- Tabs run one step larger than the DS control scale. Tabs are not toolbar
    controls in this app — they are the page's primary way of moving between
@@ -262,6 +195,22 @@
      the same job here: centring splits the free space, so the digits ride half a
      pixel up and land on the badge's optical centre. */
   padding-block-end: 1px;
+  /* Horizontally the badge was centring the ADVANCE, not the ink, and tabular
+     figures make those two different things. `1` is the narrowest digit in this
+     face - 4.83px of ink against the 6.66px every other digit takes - and
+     tabular widths force it into the common slot by padding its side bearings,
+     unevenly. So `12` centred its box perfectly while its ink sat 1.5px left of
+     centre, and it was the only badge doing it: every single-digit count was
+     within a third of a pixel, which is why the strip looked fine until a count
+     crossed ten.
+
+     Tabular figures are for digits that have to line up in a stack. These are
+     one per tab, inline, never stacked - the alignment they were buying does not
+     exist here, and the uneven bearings it costs do. Proportional figures put
+     every badge on the same +0.3px, which is under a device pixel.
+
+     !important because `tabular-nums` is a utility and this block is layered. */
+  font-variant-numeric: normal !important;
 }
 
 /* ---- The page header's glyph chip is a TILE, not a wash. As a flat 5% fill it
@@ -560,12 +509,18 @@
     var(--elev-cast) !important;
 }
 
-/* A frame nested INSIDE a card is a plate on a plate: it takes the lip and a
-   fill one step off the card, but no cast. A drop shadow at both levels is how
-   an interface starts to look upholstered — surface + edge is enough
-   separation. Its own `border-border` supplies the hairline. */
+/* A frame nested INSIDE a card is not a second surface. It used to take a fill
+   one step off the card (`--elev-plate`, the card mixed 2.5% light / 3.5% dark
+   toward the foreground) on the reasoning that a plate on a plate should step.
+   On a page where the card IS the plate, that step only ever read as a grey box
+   drawn around the table: the table stopped looking like the panel's content
+   and started looking like an attachment to it.
+
+   A frame is a boundary, not a surface. It keeps the lip and its own
+   `border-border` hairline, which is all a boundary needs; the fill under it is
+   the card's, because it IS the card's content. Still no cast — a drop shadow
+   at both levels is how an interface starts to look upholstered. */
 [data-v2-frame] {
-  background: var(--elev-plate);
   box-shadow: inset 0 1px 0 var(--elev-lip);
 }
 
@@ -685,7 +640,7 @@
    through it — that fill has to track the plate it sits on, or the pin reads as
    a darker patch stuck to the table's right edge. */
 [data-v2-frame] [data-v2-pin] {
-  background: var(--elev-plate);
+  background: var(--card);
 }
 
 /* ---- Rail label crossfade ----
@@ -851,4 +806,231 @@ main [data-slot="card"] {
    utilities, so specificity and order are the only levers left. */
 [data-slot="table-cell"][data-v2-detail] {
   padding-block: calc(var(--spacing) * 6) !important;
+}
+
+/* ── The map canvas ────────────────────────────────────────────────────────
+   The workspace's plate is filled by a map, so the map brings no surface of
+   its own: no border, no radius, no background. What it does bring is chrome
+   MapLibre draws itself — attribution and zoom controls — and those arrive in
+   the library's own visual language. They are restyled here rather than hidden
+   because attribution is a licence term, not decoration.
+
+   The pins are DOM buttons, not a symbol layer: four houses is far below the
+   count where a canvas layer earns itself, and a button is focusable,
+   hoverable and keyboard-reachable for free. */
+
+.v2-map .maplibregl-ctrl-attrib {
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  border-radius: calc(var(--radius) - 0.25rem);
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+
+.v2-map .maplibregl-ctrl-attrib a {
+  color: var(--muted-foreground);
+}
+
+/* The zoom controls read as one small plate rather than two stacked chips —
+   the same treatment the panels get, one rung down. */
+.v2-map .maplibregl-ctrl-group {
+  background: var(--card);
+  border-radius: calc(var(--radius) - 0.25rem);
+  box-shadow:
+    inset 0 0 0 1px var(--elev-edge-rest),
+    var(--shadow-md);
+  overflow: hidden;
+}
+
+.v2-map .maplibregl-ctrl-group button {
+  background: transparent;
+  border: 0;
+  height: calc(var(--spacing) * 8);
+  width: calc(var(--spacing) * 8);
+}
+
+.v2-map .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--elev-edge-rest);
+}
+
+.v2-map .maplibregl-ctrl-group button:hover {
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+.v2-map .maplibregl-ctrl-group button:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ring);
+}
+
+/* MapLibre ships its glyphs as background images tinted for a white control.
+   Inverting them in dark is cheaper and steadier than shipping replacements,
+   and the icons are pure black line art, so it is lossless. */
+.dark .v2-map .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1) opacity(0.72);
+}
+
+/* The pin. A dot carrying the scenario count, with the house name beside it —
+   the label is part of the target, so the whole thing is one button rather
+   than a dot with a caption floating next to it. */
+.v2-map-pin {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 1.5);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  /* The pin's own footprint is small; the touch floor comes from the dot's
+     size plus this, so a thumb lands on the pin and not the map beneath it. */
+  padding-block: calc(var(--spacing) * 1);
+  padding-inline-end: calc(var(--spacing) * 1);
+}
+
+.v2-map-pin-dot {
+  display: grid;
+  place-items: center;
+  width: calc(var(--spacing) * 7);
+  height: calc(var(--spacing) * 7);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--card) 82%, var(--foreground));
+  color: var(--foreground);
+  box-shadow:
+    inset 0 0 0 1px var(--elev-edge-peak),
+    var(--shadow-lg);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.v2-map-pin-count {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* The label rides on its own small plate so it stays legible over any ground —
+   fields, water and town all pass under these at some zoom. */
+.v2-map-pin-label {
+  padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 1.5);
+  border-radius: calc(var(--radius) - 0.5rem);
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  box-shadow: inset 0 0 0 1px var(--elev-edge-rest);
+  color: var(--foreground);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.v2-map-pin:hover .v2-map-pin-dot {
+  color: var(--foreground);
+  box-shadow:
+    inset 0 0 0 1px var(--elev-edge-peak),
+    var(--shadow-lg);
+}
+
+.v2-map-pin:focus-visible {
+  outline: none;
+}
+
+.v2-map-pin:focus-visible .v2-map-pin-dot {
+  box-shadow:
+    0 0 0 2px var(--ring),
+    var(--shadow-lg);
+}
+
+/* Selected is the accent's job — it is the one thing on the canvas the dock is
+   currently about, which is exactly what the action hue means everywhere else
+   in this app. */
+.v2-map-pin[data-selected="true"] .v2-map-pin-dot {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--primary) 70%, black),
+    var(--shadow-lg);
+}
+
+.v2-map-pin[data-selected="true"] .v2-map-pin-label {
+  background: var(--card);
+  color: var(--foreground);
+}
+
+/* ---- the surface map ----
+   Every surface that paints its own slate restates the accent pair, because a
+   custom property resolves where it is declared (see index.css). Grouped by the
+   token each one paints with, so the list stays readable as the DS grows.
+
+   The separation this buys is measurable: on the page floor accent lands at
+   L 0.388, inside a --popover panel at L 0.413. The absolute token could not do
+   both - pinned at neutral-800 a selected select item was invisible, because the
+   popover it sat in WAS neutral-800. */
+
+/* Panels, plates and overlays: everything painted --card. */
+[data-slot="card"],
+[data-slot="sidebar-inset"],
+[data-slot="dialog-content"],
+[data-slot="alert-dialog-content"],
+[data-slot="sheet-content"],
+[data-slot="drawer-content"] {
+  --surface: var(--card);
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+
+/* Floating menus and pickers: everything painted --popover. */
+[data-slot="popover-content"],
+[data-slot="select-content"],
+[data-slot="combobox-content"],
+[data-slot="command"],
+[data-slot="hover-card-content"],
+[data-slot="dropdown-menu-content"],
+[data-slot="dropdown-menu-sub-content"],
+[data-slot="context-menu-content"],
+[data-slot="context-menu-sub-content"],
+[data-slot="menubar-content"],
+[data-slot="menubar-sub-content"] {
+  --surface: var(--popover);
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+
+/* The rail is its own slate and always has been. */
+[data-slot="sidebar-inner"] {
+  --surface: var(--sidebar);
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+}
+
+/* The workspace navigator sits between the page and the plate: recessed, but
+   not a hole. Light recesses by going down to --muted; dark has nowhere below
+   the floor that is not the rail, so it lifts a little instead - the plate's
+   cast is what puts it underneath, not its fill. */
+[data-v2-navbody] {
+  /* One instruction, both themes: lean the floor most of the way toward the
+     card. Dark reads that as a lift off a near-black page; light reads it as a
+     lift off neutral-100 toward white. The column is raised in both, which is
+     what the plate's cast is describing when it lands on top of it. */
+  --surface: color-mix(in oklab, var(--background) 55%, var(--card));
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+  background: var(--surface);
+}
+
+/* Selection in the navigator is the accent step plus one lime mark. The step
+   says "this row is raised"; the mark says "this is the one". Colour carries
+   the identity, geometry carries the state - so the row does not have to shout
+   in a hue to be found. */
+[data-v2-navrow][data-active] {
+  position: relative;
+}
+
+[data-v2-navrow][data-active]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(var(--spacing) * 2);
+  bottom: calc(var(--spacing) * 2);
+  width: 2px;
+  border-radius: 999px;
+  background: var(--primary);
 }

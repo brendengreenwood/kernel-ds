@@ -238,7 +238,7 @@ export function PageHeader({
   title: string
   description?: string
   action?: React.ReactNode
-  size?: "page" | "panel" | "section"
+  size?: "page" | "panel" | "section" | "bar"
 }) {
   const Heading = size === "page" ? "h1" : "h2"
   const s = SIZES[size]
@@ -280,6 +280,16 @@ const SIZES = {
     glyph: "size-4",
     title: "text-base",
     description: "text-xs",
+  },
+  /* A workspace bar is a header that has to live inside 4rem of chrome. It
+     keeps the whole anatomy - chip, title, description - because that is what
+     gives a bar its weight; it just takes the section rung's type with a chip
+     one step up, so the glyph still reads as a plate and not as a bullet. */
+  bar: {
+    chip: "grid size-8 shrink-0 place-items-center",
+    glyph: "size-4",
+    title: "text-base",
+    description: "text-[11px]",
   },
 } as const
 

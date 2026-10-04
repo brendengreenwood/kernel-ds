@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useNavigate } from "react-router-dom"
 import { Archive, ChevronDown, Gauge, ListChecks, Pencil, Plus, Users } from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { CommodityLabel, type Commodity } from "@/components/ui/commodity-badge"
@@ -58,6 +59,7 @@ const Dash = () => (
     here too; it is shelved, and its data still generates — see the note in
     data/scenarios.ts.) */
 function ScenarioDetail({ scenario }: { scenario: Scenario }) {
+  const navigate = useNavigate()
   const [range, setRange] = React.useState<ActivityRange>("since")
   const activity = scenario.activity[range]
   // The roll-up is the scenario's whole life, not the recent tail: it is what
@@ -133,7 +135,11 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           action={
             /* The row's own edit control is an icon in a 38px cell at the end
                of a long table. Opened, there is room for the real thing. */
-            <Button size="lg" aria-label={`Edit ${scenario.id}`}>
+            <Button
+              size="lg"
+              aria-label={`Edit ${scenario.id}`}
+              onClick={() => navigate(`/scenarios/${scenario.id}/edit`)}
+            >
               <Pencil />
               Edit scenario
             </Button>
@@ -259,6 +265,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
 }
 
 export default function ScenariosPage() {
+  const navigate = useNavigate()
   const [location, setLocation] = React.useState("all")
   const [commodity, setCommodity] = React.useState("all")
 
@@ -322,11 +329,15 @@ export default function ScenariosPage() {
           it the line was a rule with content after it; with it the line is the
           seam where the folder's contents begin. */}
       <div data-v2-tabpanel className="flex flex-1 flex-col">
-      {/* commodity pills */}
-      <div className="px-6 pt-4 md:px-8">
+      {/* commodity pills. The band owns the space on both of its sides:
+          with `pt-4` alone the gap above came from here and the gap below
+          came from the table's `pt-6`, so the control sat 15.36px under the
+          folder strip and 23.04px over the table. A control is not centred
+          in a band it only pays for one side of. */}
+      <div className="px-6 py-4 md:px-8">
         <Tabs value={commodity} onValueChange={(v) => setCommodity(v as string)}>
           <div className="max-w-full overflow-x-auto">
-            <TabsList variant="pill" size="compact">
+            <TabsList variant="pill" size="compact" data-v2-segmented>
               {commodityFilters.map((c) => (
                 <TabsTrigger key={c.value} value={c.value}>
                   {c.label}
@@ -337,8 +348,9 @@ export default function ScenariosPage() {
         </Tabs>
       </div>
 
-      {/* object table */}
-      <div className="px-6 py-6 md:px-8">
+      {/* object table. No `pt` — the filter band above supplies that gap, so
+          it is spent once. */}
+      <div className="px-6 pb-6 md:px-8">
         <TableFrame dense={false}>
           {/* Striped by data index rather than by nth-child: expanded detail rows
               are extra <tr>s, which would flip the parity. `data-v2-rowstripe`
@@ -419,7 +431,15 @@ export default function ScenariosPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center justify-end gap-1">
-                      <Button variant="default" size="icon-sm" aria-label={`Edit ${s.id}`}>
+                      <Button
+                        variant="default"
+                        size="icon-sm"
+                        aria-label={`Edit ${s.id}`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigate(`/scenarios/${s.id}/edit`)
+                        }}
+                      >
                         <Pencil />
                       </Button>
                       <Button
