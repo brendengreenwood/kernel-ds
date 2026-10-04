@@ -14,14 +14,14 @@
    so marks hold contrast on the near-black basemap. */
 :root {
   --om-cargill: var(--viz-crop-600);
-  --om-adm: var(--viz-sky-600);
+  --om-adm: var(--viz-plum-600);
   --om-bunge: var(--viz-plum-600);
   --om-ldc: var(--viz-clay-600);
   --om-production: var(--neutral-300);
 }
 .dark {
   --om-cargill: var(--viz-crop-400);
-  --om-adm: var(--viz-sky-400);
+  --om-adm: var(--viz-plum-400);
   --om-bunge: var(--viz-plum-400);
   --om-ldc: var(--viz-clay-400);
   --om-production: var(--neutral-700);
