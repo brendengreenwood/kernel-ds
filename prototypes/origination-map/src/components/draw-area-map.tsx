@@ -6,11 +6,17 @@ import "maplibre-gl/dist/maplibre-gl.css"
 import { COMPANY, FACILITY, cropList, type FacilityType, type Site } from "@app/data/sites"
 import { circleRing } from "@app/lib/geo"
 import { cssVarColor } from "@app/lib/color"
+import bargeRivers from "@app/data/barge-rivers.json"
+import rail from "@app/data/rail.json"
+import railFlow from "@app/data/rail-flow.json"
 import type { Theme } from "@app/lib/theme"
 
 /* Basemaps: OpenFreeMap's vector styles — free, no API key, OSM data. Either
    can be swapped for any MapLibre style URL (MapTiler, Stadia, a self-hosted
    PMTiles style…) via env without touching the code. */
+// Low zooms use Natural Earth names ("Mississippi"), higher zooms OSM names ("Mississippi River").
+const BARGE_RIVERS = ["Mississippi", "Missouri", "Ohio", "Illinois", "Tennessee", "Arkansas", "Cumberland", "Columbia", "Snake"].flatMap((n) => [n, n + " River"])
+
 const STYLE: Record<Theme, string> = {
   light: import.meta.env.VITE_MAP_STYLE_LIGHT ?? "https://tiles.openfreemap.org/styles/positron",
   dark: import.meta.env.VITE_MAP_STYLE_DARK ?? "https://tiles.openfreemap.org/styles/dark",
@@ -230,16 +236,33 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         }
       }
       // Dark basemap reduced to what origination reads: card-colored ground,
-      // water and the road/rail network in darker steps, everything else hidden.
+      // water, the road/rail network and place names, everything else hidden.
       if (!usingFallback.current && document.documentElement.classList.contains("dark")) {
         const ground = cssVarColor("--card")
         const water = cssVarColor("--neutral-900")
-        const network = cssVarColor("--neutral-900")
+        const roads = cssVarColor("--neutral-950")
+        const bargeColor = cssVarColor("--viz-sky-400")
+        const tributary = cssVarColor("--viz-sky-700")
+        const rivers = cssVarColor("--viz-sky-800")
+        const streams = cssVarColor("--viz-sky-900")
+        const rail = cssVarColor("--viz-rust-500")
+        const label = cssVarColor("--muted-foreground")
         for (const l of map.getStyle().layers) {
           if (l.type === "background") map.setPaintProperty(l.id, "background-color", ground)
           else if (l.id === "water") map.setPaintProperty(l.id, "fill-color", water)
-          else if (l.id === "waterway") map.setPaintProperty(l.id, "line-color", water)
-          else if (/^(highway_(minor|major_inner|major_subtle|motorway_inner|motorway_subtle)|railway(_minor|_transit)?)$/.test(l.id)) map.setPaintProperty(l.id, "line-color", network)
+          else if (l.id === "waterway") {
+            // The Mississippi is the trunk; barge tributaries step down, other rivers and streams recede.
+            const trunk = ["in", ["get", "name"], ["literal", ["Mississippi", "Mississippi River"]]] as const
+            const barge = ["in", ["get", "name"], ["literal", BARGE_RIVERS]] as const
+            map.setPaintProperty(l.id, "line-color", ["case", trunk, bargeColor, barge, tributary, ["==", ["get", "class"], "river"], rivers, streams])
+            map.setPaintProperty(l.id, "line-width", ["interpolate", ["linear"], ["zoom"], 3, ["case", trunk, 2, 1], 8, ["case", trunk, 3.5, barge, 2, 0.8], 12, ["case", trunk, 5, barge, 3, 1.2]])
+          }
+          else if (/^highway_(minor|major_inner|major_subtle|motorway_inner|motorway_subtle)$/.test(l.id)) map.setPaintProperty(l.id, "line-color", roads)
+          else if (/^railway(_minor|_transit)?$/.test(l.id)) { map.setPaintProperty(l.id, "line-color", rail); map.setLayerZoomRange(l.id, 5, 24) }
+          else if (l.id.startsWith("place_")) {
+            map.setPaintProperty(l.id, "text-color", label)
+            map.setPaintProperty(l.id, "text-halo-color", ground)
+          }
           else map.setLayoutProperty(l.id, "visibility", "none")
         }
       }
@@ -336,6 +359,59 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     map.addSource("om-sites", { type: "geojson", data: siteData })
     map.addSource("om-pair", { type: "geojson", data: pairData })
 
+    // Zoomed out the tiles drop river names, so the barge network ships as its own
+    // Natural Earth layer until z8, where the tile waterways take over the ranking.
+    if (document.documentElement.classList.contains("dark")) {
+      // Tile rail only appears near street zoom; Natural Earth rail fills in until then.
+      map.addSource("om-rail", { type: "geojson", data: rail as GeoJSON.FeatureCollection })
+      map.addLayer(
+        {
+          id: "om-rail",
+          type: "line",
+          source: "om-rail",
+          maxzoom: 13,
+          layout: { "line-join": "round" },
+          paint: {
+            "line-color": cssVarColor("--viz-rust-500"),
+            "line-opacity": 0.35,
+            "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 8, 1.4, 12, 2],
+          },
+        },
+        firstLabel,
+      )
+      // Rail Cargill grain rides to a Gulf outlet (scripts/build-rail-flow.mjs):
+      // the more site routes share a segment, the brighter and thicker it draws.
+      map.addSource("om-rail-flow", { type: "geojson", data: railFlow as GeoJSON.FeatureCollection })
+      map.addLayer(
+        {
+          id: "om-rail-flow",
+          type: "line",
+          source: "om-rail-flow",
+          layout: { "line-cap": "round", "line-join": "round" },
+          paint: {
+            "line-color": ["step", ["get", "routes"], cssVarColor("--viz-rust-600"), 3, cssVarColor("--viz-rust-500"), 6, cssVarColor("--viz-rust-400")],
+            "line-width": ["interpolate", ["linear"], ["zoom"], 3, ["interpolate", ["linear"], ["get", "routes"], 1, 1, 9, 3], 10, ["interpolate", ["linear"], ["get", "routes"], 1, 2, 9, 6]],
+          },
+        },
+        firstLabel,
+      )
+      map.addSource("om-rivers", { type: "geojson", data: bargeRivers as GeoJSON.FeatureCollection })
+      map.addLayer(
+        {
+          id: "om-rivers",
+          type: "line",
+          source: "om-rivers",
+          maxzoom: 8,
+          layout: { "line-cap": "round", "line-join": "round" },
+          paint: {
+            "line-color": ["case", ["get", "trunk"], cssVarColor("--viz-sky-400"), cssVarColor("--viz-sky-700")],
+            "line-width": ["interpolate", ["linear"], ["zoom"], 3, ["case", ["get", "trunk"], 2.5, 1.2], 8, ["case", ["get", "trunk"], 4, 2]],
+          },
+        },
+        firstLabel,
+      )
+    }
+
     map.addLayer(
       {
         id: "om-draw-fill",
@@ -389,7 +465,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       source: "om-sites",
       layout: {
         "icon-image": ["concat", "om-", ["get", "type"]],
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 6, 0.85, 9, 1.1],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 3, 0.3, 5, 0.45, 7, 0.75, 9, 1.1],
         "icon-offset": ["get", "off"],
         "icon-allow-overlap": true,
         "icon-ignore-placement": true,

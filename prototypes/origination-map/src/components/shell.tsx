@@ -93,7 +93,7 @@ export function Shell() {
         </SidebarFooter>
       </Sidebar>
       <SidebarInset className="min-h-0 md:peer-data-[variant=inset]:ml-0 dark:bg-card">
-        <SidebarTrigger className="absolute top-3 left-3 z-30 bg-card/95 shadow-lg backdrop-blur md:hidden" variant="outline" />
+        <SidebarTrigger className="absolute top-3 left-3 z-30 bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 shadow-lg backdrop-blur md:hidden" variant="outline" />
         <div key={pathname} className="min-h-0 flex-1 animate-in fade-in duration-[var(--duration-base)] ease-[var(--ease-out)] motion-reduce:animate-none">
           <Outlet />
         </div>

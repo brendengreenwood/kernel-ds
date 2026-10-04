@@ -106,3 +106,6 @@ body {
 .maplibregl-ctrl-attrib {
   font-size: 0.6875rem;
 }
+
+/* Map controls match the floating panels in dark: one step above the card ground, hairline one step above that. */
+.dark .maplibregl-ctrl-group { background: color-mix(in oklch, var(--neutral-700) 90%, transparent) !important; border: 1px solid var(--neutral-600) !important; }

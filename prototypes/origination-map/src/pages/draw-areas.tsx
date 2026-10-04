@@ -33,7 +33,7 @@ const CO_SWATCH: Record<Company, string> = { C: "bg-om-cargill", A: "bg-om-adm" 
 const CO_TEXT: Record<Company, string> = { C: "text-om-cargill", A: "text-om-adm" }
 
 const PANEL =
-  "grid gap-3 rounded-[var(--radius-floating)] border border-border bg-card/95 p-4 shadow-lg backdrop-blur"
+  "grid gap-3 rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 p-4 shadow-lg backdrop-blur"
 const PANEL_TITLE = "text-sm font-semibold"
 
 type SheetTab = "overview" | "filters" | "regions" | "pairs"
@@ -221,7 +221,7 @@ export default function DrawAreasPage() {
   const pill = (k: Side, title: string) => (
     <Button
       variant={open[k] ? "default" : "outline"}
-      className={cn("pointer-events-auto rounded-full shadow-lg", !open[k] && "bg-card/95 backdrop-blur")}
+      className={cn("pointer-events-auto rounded-full shadow-lg", !open[k] && "bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 backdrop-blur")}
       aria-expanded={open[k]}
       onClick={() => flip(k)}
     >
@@ -337,7 +337,7 @@ export default function DrawAreasPage() {
             <Popover>
               <PopoverTrigger
                 render={
-                  <Button variant="outline" className="pointer-events-auto col-span-2 w-fit rounded-full bg-card/95 shadow-lg backdrop-blur" />
+                  <Button variant="outline" className="pointer-events-auto col-span-2 w-fit rounded-full bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 shadow-lg backdrop-blur" />
                 }
               >
                 About this data
@@ -542,12 +542,12 @@ export default function DrawAreasPage() {
           onBasemap={setBasemap}
         />
         {basemap === "fallback" && (
-          <p className="absolute right-14 bottom-8 max-w-64 rounded-[var(--radius-control)] border border-border bg-card/95 px-2.5 py-1.5 text-xs text-muted-foreground shadow-sm">
+          <p className="absolute right-14 bottom-8 max-w-64 rounded-[var(--radius-control)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 px-2.5 py-1.5 text-xs text-muted-foreground shadow-sm">
             Basemap tiles didn't load — showing state outlines. Sites and draw areas are unaffected.
           </p>
         )}
         <div className={cn("pointer-events-none absolute top-3 left-14 flex flex-col gap-2 md:left-3", desktop && "top-3")}>
-          <div className="pointer-events-auto grid content-center gap-1.5 rounded-[var(--radius-floating)] border border-border bg-card/95 px-3 py-2.5 text-xs shadow-lg backdrop-blur xl:h-[5.5rem]">
+          <div className="pointer-events-auto grid content-center gap-1.5 rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 px-3 py-2.5 text-xs shadow-lg backdrop-blur xl:h-[5.5rem]">
             <div className="flex gap-3">
               {COMPANIES.map((co) => (
                 <span key={co} className="flex items-center gap-1.5 font-medium">
@@ -581,7 +581,7 @@ export default function DrawAreasPage() {
                     variant={dock === k ? "default" : "outline"}
                     className={cn(
                       "pointer-events-auto rounded-full shadow-lg",
-                      dock !== k && "bg-card/95 backdrop-blur",
+                      dock !== k && "bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 backdrop-blur",
                       dock !== k && on && "border-primary",
                     )}
                     aria-expanded={dock === k}
@@ -619,7 +619,7 @@ export default function DrawAreasPage() {
             <div
               role="tablist"
               aria-label="Filter type"
-              className="pointer-events-auto flex gap-1 overflow-x-auto rounded-[var(--radius-floating)] border border-border bg-card/95 p-1 shadow-lg backdrop-blur"
+              className="pointer-events-auto flex gap-1 overflow-x-auto rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 p-1 shadow-lg backdrop-blur"
             >
               {FILTER_TABS.map(([t, label]) => (
                 <Button
@@ -638,7 +638,7 @@ export default function DrawAreasPage() {
           <nav
             role="tablist"
             aria-label="Panels"
-            className="pointer-events-auto flex gap-1 rounded-[var(--radius-floating)] border border-border bg-card/95 p-1 shadow-lg backdrop-blur"
+            className="pointer-events-auto flex gap-1 rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 p-1 shadow-lg backdrop-blur"
           >
             {SHEET_TABS.map(([t, label]) => (
               <Button
