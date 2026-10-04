@@ -229,11 +229,11 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
           if (l.type === "line") map.setPaintProperty(l.id, "line-color", water)
         }
       }
-      // Dark basemap reduced to what origination reads: neutral-800 ground,
+      // Dark basemap reduced to what origination reads: card-colored ground,
       // water and the road/rail network in darker steps, everything else hidden.
       if (!usingFallback.current && document.documentElement.classList.contains("dark")) {
-        const ground = cssVarColor("--neutral-800")
-        const water = cssVarColor("--neutral-950")
+        const ground = cssVarColor("--card")
+        const water = cssVarColor("--neutral-900")
         const network = cssVarColor("--neutral-900")
         for (const l of map.getStyle().layers) {
           if (l.type === "background") map.setPaintProperty(l.id, "background-color", ground)
