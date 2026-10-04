@@ -21,7 +21,7 @@ import { useTheme } from "@app/lib/theme"
 // One tile style for both states: 48px tall, 24px icon pinned 12px in, so
 // collapsing only narrows the sidebar and the label fades — nothing reflows.
 const RAIL =
-  "h-12! w-full! gap-3 rounded-[var(--radius-surface)] p-3! whitespace-nowrap text-muted-foreground hover:text-sidebar-accent-foreground data-active:border data-active:border-border data-active:text-sidebar-accent-foreground data-active:shadow-sm dark:data-active:text-brand-100 group-data-[collapsible=icon]:h-12! group-data-[collapsible=icon]:w-full! group-data-[collapsible=icon]:p-3! data-active:p-[11px]! group-data-[collapsible=icon]:data-active:p-[11px]! [&_svg]:size-6! [&>span]:transition-opacity [&>span]:duration-[var(--duration-base)] [&>span]:ease-[var(--ease-out)] group-data-[collapsible=icon]:[&>span]:opacity-0"
+  "h-12! w-full! gap-3 rounded-[var(--radius-surface)] p-3! whitespace-nowrap text-muted-foreground hover:text-sidebar-accent-foreground data-active:border data-active:border-border data-active:text-sidebar-accent-foreground data-active:shadow-sm dark:data-active:text-brand-100 group-data-[collapsible=icon]:h-12! group-data-[collapsible=icon]:w-12! group-data-[collapsible=icon]:p-3! data-active:p-[11px]! group-data-[collapsible=icon]:data-active:p-[11px]! [&_svg]:size-6! [&>span]:transition-opacity [&>span]:duration-[var(--duration-base)] [&>span]:ease-[var(--ease-out)] group-data-[collapsible=icon]:[&>span]:opacity-0"
 
 const NAV = [
   { to: "/", label: "Draw areas", icon: Layers },
@@ -92,7 +92,7 @@ export function Shell() {
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="min-h-0 dark:bg-card">
+      <SidebarInset className="min-h-0 md:peer-data-[variant=inset]:ml-0 dark:bg-card">
         <SidebarTrigger className="absolute top-3 left-3 z-30 bg-card/95 shadow-lg backdrop-blur md:hidden" variant="outline" />
         <div key={pathname} className="min-h-0 flex-1 animate-in fade-in duration-[var(--duration-base)] ease-[var(--ease-out)] motion-reduce:animate-none">
           <Outlet />
