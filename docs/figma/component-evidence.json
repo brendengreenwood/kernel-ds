@@ -292,7 +292,7 @@
       "mainComponentKey": "4e16316e02b580ee9559a5959b4ea861fda9ad1d",
       "sectionId": "7:289",
       "sectionName": "Sidebar",
-      "contractHash": "b06250f8d269d05bcee89809fe27402c1bf095c4481586f45bf68e28f610fd48",
+      "contractHash": "9826e7ff4910b9c4c34a702f18203b6deeed2d765e2846c814126a452fef0658",
       "contractEvidence": {
         "codeVariantAxes": {
           "variant": [
@@ -389,7 +389,7 @@
           "evidence": "Variant, Size, State, and Icon are represented by the namespaced Sidebar / Menu Button family inside the owning section. State is Figma-only interaction evidence, not a React prop. The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
         }
       },
-      "auditedAt": "2026-09-27T09:28:22.991Z"
+      "auditedAt": "2026-10-04T06:17:57.860Z"
     }
   ]
 }
