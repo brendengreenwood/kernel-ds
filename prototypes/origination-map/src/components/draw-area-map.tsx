@@ -236,11 +236,35 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       onBasemapRef.current?.("fallback")
       map.setStyle(fallbackStyle(), { diff: false })
     })
+    let hoverId: number | null = null
+    // Relationship lines march slowly so a pinned pair reads as a live link.
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const DASH = [
+      [0, 2, 1.5], [0.25, 2, 1.25], [0.5, 2, 1], [0.75, 2, 0.75], [1, 2, 0.5], [1.25, 2, 0.25],
+      [1.5, 2, 0], [0, 0.25, 2, 1.25], [0, 0.5, 2, 1], [0, 0.75, 2, 0.75], [0, 1, 2, 0.5], [0, 1.25, 2, 0.25],
+    ]
+    let raf = 0
+    let step = -1
+    const march = (t: number) => {
+      const next = Math.floor(t / 70) % DASH.length
+      if (next !== step && map.getLayer("om-pair")) {
+        step = next
+        map.setPaintProperty("om-pair", "line-dasharray", DASH[step])
+      }
+      raf = requestAnimationFrame(march)
+    }
+    if (!reduce) raf = requestAnimationFrame(march)
     map.on("mousemove", "om-sites", (e) => {
       const f = e.features?.[0]
       if (!f) return
       map.getCanvas().style.cursor = "pointer"
-      const s = byIdRef.current.get(f.properties.id as number)
+      const id = f.properties.id as number
+      if (hoverId !== id) {
+        if (hoverId != null) map.setFeatureState({ source: "om-sites", id: hoverId }, { hover: false })
+        hoverId = id
+        map.setFeatureState({ source: "om-sites", id }, { hover: true })
+      }
+      const s = byIdRef.current.get(id)
       if (!s) return
       tip
         .setLngLat([s.lon, s.lat])
@@ -251,6 +275,8 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     })
     map.on("mouseleave", "om-sites", () => {
       map.getCanvas().style.cursor = ""
+      if (hoverId != null) map.setFeatureState({ source: "om-sites", id: hoverId }, { hover: false })
+      hoverId = null
       tip.remove()
     })
     map.on("click", (e) => {
@@ -260,6 +286,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
 
     return () => {
       window.clearTimeout(giveUp)
+      cancelAnimationFrame(raf)
       tip.remove()
       map.remove()
       mapRef.current = null
@@ -323,6 +350,21 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       layout: { "line-cap": "round" },
       paint: { "line-color": ink, "line-width": 2, "line-dasharray": [2, 1.5] },
     })
+    const hover = ["boolean", ["feature-state", "hover"], false] as unknown as maplibregl.ExpressionSpecification
+    const lit = ["boolean", ["feature-state", "on"], false] as unknown as maplibregl.ExpressionSpecification
+    map.addLayer({
+      id: "om-glow",
+      type: "circle",
+      source: "om-sites",
+      paint: {
+        "circle-color": byCo,
+        "circle-blur": 1,
+        "circle-radius": ["case", hover, 18, lit, 16, 6],
+        "circle-opacity": ["case", hover, 0.55, lit, 0.4, 0],
+        "circle-radius-transition": { duration: 200 },
+        "circle-opacity-transition": { duration: 200 },
+      },
+    })
     map.addLayer({
       id: "om-sites",
       type: "symbol",
@@ -338,7 +380,8 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       paint: {
         "icon-color": byCo,
         "icon-halo-color": ["case", ["boolean", ["feature-state", "on"], false], ink, halo],
-        "icon-halo-width": ["case", ["boolean", ["feature-state", "on"], false], 3, 1.25],
+        "icon-halo-width": ["case", lit, 3, hover, 2.5, 1.25],
+        "icon-halo-width-transition": { duration: 200 },
       },
     })
   }
