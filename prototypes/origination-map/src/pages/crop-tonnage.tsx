@@ -1,4 +1,5 @@
 import * as React from "react"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
@@ -28,7 +29,7 @@ export default function CropTonnagePage() {
   const log = scale === "log"
 
   return (
-    <div className="h-full overflow-y-auto">
+    <ScrollArea className="h-full">
       <div className="mx-auto grid max-w-5xl gap-8 px-4 py-8 md:px-6">
         <header className="grid gap-2">
           <h1 className="max-w-[40ch] text-2xl font-semibold leading-8 text-balance">
@@ -207,6 +208,6 @@ export default function CropTonnagePage() {
           </ul>
         </section>
       </div>
-    </div>
+    </ScrollArea>
   )
 }
