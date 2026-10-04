@@ -229,6 +229,20 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
           if (l.type === "line") map.setPaintProperty(l.id, "line-color", water)
         }
       }
+      // Dark basemap reduced to what origination reads: neutral-800 ground,
+      // water and the road/rail network in darker steps, everything else hidden.
+      if (!usingFallback.current && document.documentElement.classList.contains("dark")) {
+        const ground = cssVarColor("--neutral-800")
+        const water = cssVarColor("--neutral-950")
+        const network = cssVarColor("--neutral-900")
+        for (const l of map.getStyle().layers) {
+          if (l.type === "background") map.setPaintProperty(l.id, "background-color", ground)
+          else if (l.id === "water") map.setPaintProperty(l.id, "fill-color", water)
+          else if (l.id === "waterway") map.setPaintProperty(l.id, "line-color", water)
+          else if (/^(highway_(minor|major_inner|major_subtle|motorway_inner|motorway_subtle)|railway(_minor|_transit)?)$/.test(l.id)) map.setPaintProperty(l.id, "line-color", network)
+          else map.setLayoutProperty(l.id, "visibility", "none")
+        }
+      }
       install(map)
       setReady((n) => n + 1)
     })
