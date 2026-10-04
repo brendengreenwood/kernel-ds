@@ -7,6 +7,9 @@ import { parseCatalogFile } from "../lib/catalog-file.mjs"
 export const repoRoot = resolve(fileURLToPath(new URL("../../..", import.meta.url)))
 export const COMPONENT_SCOPE_SCHEMA = "kernel-ds/figma-component-scope@1"
 export const EXPECTED_COMPONENT_COUNT = 62
+// Experimental @kernel/ui components not yet built in the Figma library (decision 0084).
+// Remove an entry once its Figma family exists; the scope count then rises with it.
+export const FIGMA_DEFERRED_COMPONENTS = new Set(["component.panes"])
 export const EXPECTED_ELEMENT_COUNT = 3
 export const EXPECTED_NON_CATALOG_MODULE_COUNT = 3
 
@@ -27,6 +30,7 @@ export function loadComponentScope() {
   const api = readJson("packages/ui/api.json")
   const components = entities
     .filter((entity) => entity.kind === "component" && entity.package === "@kernel/ui")
+    .filter((entity) => !FIGMA_DEFERRED_COMPONENTS.has(entity.id))
     .sort((a, b) => a.id.localeCompare(b.id))
   const elementModules = new Set(["animated-number", "border-beam", "commodity-badge"])
   const elements = entities
