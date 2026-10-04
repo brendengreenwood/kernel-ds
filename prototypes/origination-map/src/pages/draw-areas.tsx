@@ -124,6 +124,7 @@ export default function DrawAreasPage() {
   const [selectedId, setSelectedId] = React.useState<number | null>(null)
   const [pinnedPair, setPinnedPair] = React.useState<[number, number] | null>(null)
   const [hoverPair, setHoverPair] = React.useState<[number, number] | null>(null)
+  const [hoverSite, setHoverSite] = React.useState<number | null>(null)
   const [focusKey, setFocusKey] = React.useState(0)
   const [basemap, setBasemap] = React.useState<"tiles" | "fallback">("tiles")
 
@@ -396,8 +397,14 @@ export default function DrawAreasPage() {
                         <button
                           type="button"
                           className="flex w-full items-center justify-between gap-3 rounded-[var(--radius-control)] px-1.5 py-1.5 text-left text-sm hover:bg-foreground/8 active:bg-foreground/12 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-                          onMouseEnter={() => setHoverPair(selected.co === "C" ? [selected.id, site.id] : [site.id, selected.id])}
-                          onMouseLeave={() => setHoverPair(null)}
+                          onMouseEnter={() => {
+                            setHoverPair(selected.co === "C" ? [selected.id, site.id] : [site.id, selected.id])
+                            setHoverSite(site.id)
+                          }}
+                          onMouseLeave={() => {
+                            setHoverPair(null)
+                            setHoverSite(null)
+                          }}
                           onClick={() => focusRival(selected, site)}
                         >
                           <SiteName s={site} />
@@ -529,6 +536,7 @@ export default function DrawAreasPage() {
           theme={theme}
           selectedId={selected?.id ?? null}
           pair={hoverPair ?? pinnedPair}
+          hoverSite={hoverSite}
           focusKey={focusKey}
           onSelect={(id) => select(id)}
           onBasemap={setBasemap}

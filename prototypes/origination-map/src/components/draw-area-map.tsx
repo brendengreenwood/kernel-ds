@@ -92,9 +92,12 @@ export interface DrawAreaMapProps {
   onBasemap?: (b: "tiles" | "fallback") => void
   /** Adds a reset-view button to the map's zoom controls. */
   onReset?: () => void
+  /** A site hovered outside the map (e.g. a rival list row) — lit and labelled as if the cursor were on it. */
+  hoverSite?: number | null
 }
 
-export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset }: DrawAreaMapProps) {
+export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset, hoverSite = null }: DrawAreaMapProps) {
+  const listTip = React.useRef<maplibregl.Popup | null>(null)
   const container = React.useRef<HTMLDivElement>(null)
   const mapRef = React.useRef<MLMap | null>(null)
   const [ready, setReady] = React.useState(0)
@@ -208,6 +211,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     map.addControl(new maplibregl.ScaleControl({ unit: "imperial" }), "bottom-left")
     mapRef.current = map
     map.once("idle", () => setPainted(true))
+    listTip.current = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 12, className: "om-tip" })
     const giveUp = window.setTimeout(() => setPainted(true), 4000)
 
     const tip = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 12, className: "om-tip" })
@@ -453,6 +457,23 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusKey])
+
+  React.useEffect(() => {
+    const map = mapRef.current
+    const tip = listTip.current
+    if (!map || !tip || hoverSite == null || !map.getSource("om-sites")) return
+    const s = byIdRef.current.get(hoverSite)
+    if (!s) return
+    map.setFeatureState({ source: "om-sites", id: hoverSite }, { hover: true })
+    tip
+      .setLngLat([s.lon, s.lat])
+      .setHTML(`<strong>${COMPANY[s.co]} ${s.name}, ${s.state}</strong><span>${FACILITY[s.type].label} · bids ${cropList(s.crops)}</span>`)
+      .addTo(map)
+    return () => {
+      if (map.getSource("om-sites")) map.setFeatureState({ source: "om-sites", id: hoverSite }, { hover: false })
+      tip.remove()
+    }
+  }, [hoverSite, ready])
 
   return (
     <div
