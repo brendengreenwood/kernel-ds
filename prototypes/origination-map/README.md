@@ -21,6 +21,19 @@ npm run dev                              # http://localhost:5173
 npm run build                            # tsc + vite build → dist/
 ```
 
+## Deploy
+
+Live: **https://kernel-origination-map.netlify.app** (Netlify project
+`kernel-origination-map`, team `brenden7`).
+
+It is a manual deploy of the prebuilt `dist/` — the build needs the repo's
+`packages/ui`, so uploading this folder alone to Netlify's builder fails. To
+redeploy: `npm run build`, copy `dist/` to a scratch folder with a
+`netlify.toml` of `publish = "."` + the SPA redirect, and deploy that folder
+to the project (Netlify CLI or MCP). To make it auto-deploy instead, link the
+project to the GitHub repo with base directory `prototypes/origination-map`;
+the committed `netlify.toml` already runs the root install first.
+
 ## Map
 
 - **Engine:** [MapLibre GL JS](https://maplibre.org/) (open-source fork of
