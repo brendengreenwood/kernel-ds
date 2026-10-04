@@ -36,35 +36,50 @@ type Bounds = [[number, number], [number, number]]
    (redundant coding — the type key never depends on hue). */
 const SHAPES: FacilityType[] = ["i", "r", "p", "x"]
 function shapeImage(type: FacilityType): ImageData {
+  // A true signed distance field (MapLibre/TinySDF convention: edge at 0.75, falling off
+  // over RADIUS px), so icons stay crisp at any icon-size and can still be recolored.
   const n = 48
-  const c = document.createElement("canvas")
-  c.width = c.height = n
-  const g = c.getContext("2d")!
-  g.fillStyle = "#000"
-  g.beginPath()
+  const RADIUS = 6
   const m = n / 2
   const r = n * 0.36
-  if (type === "i") g.arc(m, m, r * 0.92, 0, Math.PI * 2)
-  else if (type === "r") {
-    g.moveTo(m, m - r * 1.05)
-    g.lineTo(m + r * 1.05, m + r * 0.8)
-    g.lineTo(m - r * 1.05, m + r * 0.8)
-  } else if (type === "p") g.rect(m - r * 0.85, m - r * 0.85, r * 1.7, r * 1.7)
-  else {
-    g.moveTo(m, m - r * 1.1)
-    g.lineTo(m + r * 1.1, m)
-    g.lineTo(m, m + r * 1.1)
-    g.lineTo(m - r * 1.1, m)
+  const poly: [number, number][] | null =
+    type === "r"
+      ? [[m, m - r * 1.05], [m + r * 1.05, m + r * 0.8], [m - r * 1.05, m + r * 0.8]]
+      : type === "p"
+        ? [[m - r * 0.85, m - r * 0.85], [m + r * 0.85, m - r * 0.85], [m + r * 0.85, m + r * 0.85], [m - r * 0.85, m + r * 0.85]]
+        : type === "x"
+          ? [[m, m - r * 1.1], [m + r * 1.1, m], [m, m + r * 1.1], [m - r * 1.1, m]]
+          : null
+  const dist = (x: number, y: number) => {
+    if (!poly) return Math.hypot(x - m, y - m) - r * 0.92
+    let d = Infinity
+    let inside = false
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [ax, ay] = poly[j]
+      const [bx, by] = poly[i]
+      const dx = bx - ax
+      const dy = by - ay
+      const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy)))
+      d = Math.min(d, Math.hypot(x - ax - t * dx, y - ay - t * dy))
+      if (ay > y !== by > y && x < ((bx - ax) * (y - ay)) / (by - ay) + ax) inside = !inside
+    }
+    return inside ? -d : d
   }
-  g.closePath()
-  g.fill()
-  return g.getImageData(0, 0, n, n)
+  const img = new ImageData(n, n)
+  for (let y = 0; y < n; y++)
+    for (let x = 0; x < n; x++) {
+      const a = Math.round(255 * Math.max(0, Math.min(1, 0.75 - dist(x + 0.5, y + 0.5) / RADIUS)))
+      img.data[(y * n + x) * 4 + 3] = a
+    }
+  return img
 }
 
 export interface DrawAreaMapProps {
   sites: Site[]
   visible: Set<number>
   radiusMi: number
+  /** Draw-area circles on or off; sites stay either way. */
+  showDraw?: boolean
   theme: Theme
   selectedId: number | null
   /** Two sites to tie together (a hovered/selected Cargill–ADM pair). */
@@ -74,14 +89,18 @@ export interface DrawAreaMapProps {
   onSelect: (id: number | null) => void
   /** Reports whether the live basemap or the offline outline fallback is showing. */
   onBasemap?: (b: "tiles" | "fallback") => void
+  /** Adds a reset-view button to the map's zoom controls. */
+  onReset?: () => void
 }
 
-export function DrawAreaMap({ sites, visible, radiusMi, theme, selectedId, pair, focusKey, onSelect, onBasemap }: DrawAreaMapProps) {
+export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset }: DrawAreaMapProps) {
   const container = React.useRef<HTMLDivElement>(null)
   const mapRef = React.useRef<MLMap | null>(null)
   const [ready, setReady] = React.useState(0)
   const onSelectRef = React.useRef(onSelect)
   onSelectRef.current = onSelect
+  const onResetRef = React.useRef(onReset)
+  onResetRef.current = onReset
 
   const byId = React.useMemo(() => new Map(sites.map((s) => [s.id, s])), [sites])
   const home = React.useMemo<Bounds>(() => {
@@ -118,7 +137,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, theme, selectedId, pair,
     () => ({
       type: "FeatureCollection",
       features: sites
-        .filter((s) => visible.has(s.id) && s.type !== "x")
+        .filter((s) => showDraw && visible.has(s.id) && s.type !== "x")
         .map((s) => ({
           type: "Feature",
           id: s.id,
@@ -126,7 +145,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, theme, selectedId, pair,
           properties: { id: s.id, co: s.co },
         })),
     }),
-    [sites, visible, radiusMi],
+    [sites, visible, radiusMi, showDraw],
   )
 
   const pairData = React.useMemo<GeoJSON.FeatureCollection>(() => {
@@ -164,7 +183,25 @@ export function DrawAreaMap({ sites, visible, radiusMi, theme, selectedId, pair,
       pitchWithRotate: false,
     })
     map.touchZoomRotate.disableRotation()
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right")
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right")
+    map.addControl(
+      {
+        onAdd: () => {
+          const g = document.createElement("div")
+          g.className = "maplibregl-ctrl maplibregl-ctrl-group"
+          const b = document.createElement("button")
+          b.type = "button"
+          b.title = "Reset view"
+          b.setAttribute("aria-label", "Reset view")
+          b.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" style="margin:auto" fill="currentColor" aria-hidden="true"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M14.19,14.19L6,18L9.81,9.81L18,6M12,10.9A1.1,1.1 0 0,0 10.9,12A1.1,1.1 0 0,0 12,13.1A1.1,1.1 0 0,0 13.1,12A1.1,1.1 0 0,0 12,10.9Z"/></svg>'
+          b.onclick = () => onResetRef.current?.()
+          g.appendChild(b)
+          return g
+        },
+        onRemove: () => {},
+      },
+      "bottom-right",
+    )
     map.addControl(new maplibregl.ScaleControl({ unit: "imperial" }), "bottom-left")
     mapRef.current = map
 
@@ -172,6 +209,17 @@ export function DrawAreaMap({ sites, visible, radiusMi, theme, selectedId, pair,
 
     map.on("style.load", () => {
       stylePending.current = false
+      // Positron's land is near-white; tint it onto Kernel's neutral scale.
+      if (!usingFallback.current && !document.documentElement.classList.contains("dark")) {
+        const bg = map.getStyle().layers.find((l) => l.type === "background")
+        if (bg) map.setPaintProperty(bg.id, "background-color", cssVarColor("--neutral-100"))
+        const water = cssVarColor("--viz-slate-200")
+        for (const l of map.getStyle().layers) {
+          if (!/water/.test(l.id)) continue
+          if (l.type === "fill") map.setPaintProperty(l.id, "fill-color", water)
+          if (l.type === "line") map.setPaintProperty(l.id, "line-color", water)
+        }
+      }
       install(map)
       setReady((n) => n + 1)
     })
