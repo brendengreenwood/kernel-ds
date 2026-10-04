@@ -163,6 +163,8 @@ jobs:
         run: node scripts/check-prose-quality.mjs
       - name: Style fidelity
         run: node scripts/check-style-fidelity.mjs
+      - name: Floating pane usage
+        run: node scripts/check-pane-usage.mjs
       - name: Status→tone map integrity
         run: node scripts/check-status-map.mjs
       - name: Composition contract

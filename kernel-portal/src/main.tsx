@@ -46,6 +46,7 @@ import { TraversalSection } from "@/components/portal/objects/traversal"
 import { DesignsSection } from "@/components/portal/objects/designs"
 import "@kernel/ui/styles.css"
 import { GeometrySection } from '@/components/portal/geometry-foundation';
+import { PanesSection } from '@/components/portal/panes-pattern';
 
 /**
  * A bookmark from the old single-page portal arrives as `/#anchor`
@@ -99,6 +100,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="border-beam" element={<BorderBeamSection />} />
             <Route path="appshell" element={<AppShellSection />} />
             <Route path="navigation" element={<NavPatternsSection />} />
+            <Route path="panes" element={<PanesSection />} />
             <Route path="dashboard" element={<DashboardSection />} />
             <Route path="filters" element={<FiltersSection />} />
             <Route path="filtering-advanced" element={<FilteringAdvancedSection />} />

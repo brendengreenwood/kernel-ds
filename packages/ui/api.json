@@ -190,6 +190,10 @@
       "catalogBacked": true
     },
     {
+      "module": "panes",
+      "catalogBacked": true
+    },
+    {
       "module": "popover",
       "catalogBacked": true
     },

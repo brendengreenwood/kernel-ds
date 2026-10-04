@@ -27,6 +27,10 @@
      instead of reading as separate rounded cards. */
   --panel-radius: var(--radius-surface);
   --panel-inset: calc(var(--spacing) * 3);
+  /* Floating panes (decision 0083): panes float over a canvas (map, chart).
+     One inset from the canvas edge and one gap between panes keep the 8px rhythm. */
+  --pane-inset: 0.5rem;
+  --pane-gap: 0.5rem;
 
   /* control metrics (decision 0010): the density knob for interactive controls */
   --control-h-sm: 2rem;      /* 32px — compact toolbars, dense rows */
@@ -124,6 +128,10 @@
      parent — frames, inner panels, tiles: ~1.06:1, a step, not a slab. */
   --elev-lip: transparent;
   --elev-cast: var(--shadow-lg);
+  /* Interaction fills (decision 0083): a neutral step above whatever surface
+     the row sits on, so hovers never tint green or vanish on cards. */
+  --state-hover: color-mix(in oklch, var(--foreground) 8%, transparent);
+  --state-press: color-mix(in oklch, var(--foreground) 12%, transparent);
   --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
 }
 
@@ -162,7 +170,7 @@
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
-  --sidebar: var(--neutral-950);
+  --sidebar: var(--neutral-900);
   --sidebar-foreground: var(--neutral-50);
   --sidebar-primary: var(--lime-300);
   --sidebar-primary-foreground: var(--neutral-950);
@@ -205,6 +213,10 @@
      carry depth the same way; the asymmetry is intentional. */
   --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
   --elev-cast: var(--shadow-lg);
+  /* Interaction fills (decision 0083): a neutral step above whatever surface
+     the row sits on, so hovers never tint green or vanish on cards. */
+  --state-hover: color-mix(in oklch, var(--foreground) 8%, transparent);
+  --state-press: color-mix(in oklch, var(--foreground) 12%, transparent);
   --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
 }
 
@@ -243,6 +255,8 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-state-hover: var(--state-hover);
+  --color-state-press: var(--state-press);
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
