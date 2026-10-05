@@ -43,7 +43,17 @@
   --ease-in-out: cubic-bezier(0.5, 0, 0.2, 1);   /* symmetric moves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* playful overshoot */
 
-  --background: oklch(1.0000 0 0);
+  /* Cream light ladder (Figma "Light — Map ladder (cream)"): a warm paper
+     ramp, hue ~85, chroma under 0.02 so it reads cozy, not sweet. Lighter
+     means closer: frame 50, page 100, cards white, edges 300. Light mode
+     only; dark keeps the green-tinted neutrals. */
+  --cream-50: oklch(0.979 0.014 88.7);
+  --cream-100: oklch(0.962 0.013 86);
+  --cream-200: oklch(0.918 0.016 84);
+  --cream-300: oklch(0.858 0.018 84);
+  --cream-400: oklch(0.725 0.016 92);
+
+  --background: var(--cream-100);
   --foreground: oklch(0.2128 0.0209 162.2254);
   --card: oklch(1.0000 0 0);
   --card-foreground: oklch(0.2128 0.0209 162.2254);
@@ -53,14 +63,14 @@
   --primary-foreground: oklch(1.0000 0 0);
   --secondary: oklch(0.9758 0.0163 121.7629);
   --secondary-foreground: oklch(0.4373 0.1176 150.8612);
-  --muted: oklch(0.9612 0 0);
+  --muted: var(--cream-100);
   --muted-foreground: oklch(0.5350 0.0104 161.1304);
   --accent: var(--lime-300);
   --accent-foreground: oklch(0.2469 0.0618 153.3342);
   --destructive: oklch(0.5227 0.2063 25.8499);
   --destructive-foreground: oklch(1.0000 0 0);
-  --border: oklch(0.8957 0.0025 165.0685);
-  --input: oklch(0.7140 0.0064 170.3662);
+  --border: var(--cream-300);
+  --input: var(--cream-400);
   --ring: oklch(0.5364 0.1457 150.5842);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
@@ -69,16 +79,16 @@
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
-  --sidebar: var(--neutral-100);
+  --sidebar: var(--cream-50);
   --sidebar-foreground: oklch(0.2128 0.0209 162.2254);
   --sidebar-primary: oklch(0.5364 0.1457 150.5842);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
   /* Nav selection/hover is NEUTRAL, not green (see the .dark note). It also
      has to be DARKER than the rail: a selected item lighter than a 0.967 rail
      would read as a hole rather than a chip. One rung down. */
-  --sidebar-accent: var(--neutral-200);
+  --sidebar-accent: var(--cream-200);
   --sidebar-accent-foreground: var(--neutral-900);
-  --sidebar-border: var(--neutral-200);
+  --sidebar-border: var(--cream-300);
   --sidebar-ring: oklch(0.5364 0.1457 150.5842);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -89,7 +99,7 @@
      in that surface's hue family — a pure-black cast reads as a foreign grey
      smudge laid over the page. `--shadow-color` was declared here from the
      start but nothing referenced it; the ramp below now does. */
-  --shadow-color: oklch(0.16 0.022 165);
+  --shadow-color: oklch(0.2 0.025 75);
   --shadow-opacity: 0.1;
   --shadow-blur: 3px;
   --shadow-spread: 0px;
@@ -124,7 +134,7 @@
      parent — frames, inner panels, tiles: ~1.06:1, a step, not a slab. */
   --elev-lip: transparent;
   --elev-cast: var(--shadow-lg);
-  --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
+  --elev-raised-surface: var(--cream-50);
 }
 
 .dark {
