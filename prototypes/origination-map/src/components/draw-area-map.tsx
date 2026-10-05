@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { ThinkingOrb } from "thinking-orbs"
 import maplibregl, { type GeoJSONSource, type Map as MLMap } from "maplibre-gl"
 import "maplibre-gl/dist/maplibre-gl.css"
 
@@ -9,6 +10,7 @@ import { cssVarColor } from "@app/lib/color"
 import bargeRivers from "@app/data/barge-rivers.json"
 import rail from "@app/data/rail.json"
 import railFlow from "@app/data/rail-flow.json"
+import { DESTINATIONS, DEST, destSize } from "@app/data/destinations"
 import type { Theme } from "@app/lib/theme"
 
 /* Basemaps: OpenFreeMap's vector styles — free, no API key, OSM data. Either
@@ -17,8 +19,29 @@ import type { Theme } from "@app/lib/theme"
 // Low zooms use Natural Earth names ("Mississippi"), higher zooms OSM names ("Mississippi River").
 const BARGE_RIVERS = ["Mississippi", "Missouri", "Ohio", "Illinois", "Tennessee", "Arkansas", "Cumberland", "Columbia", "Snake"].flatMap((n) => [n, n + " River"])
 
+/* One map recipe, two themes. Dark ranks importance by moving AWAY from the
+   card ground toward light; light mirrors it by moving away toward dark: the
+   sky/rust steps flip around the middle of each ramp (400 <-> 600, 700 <-> 300). */
+function mapPalette() {
+  const dark = document.documentElement.classList.contains("dark")
+  const v = (d: string, l: string) => cssVarColor(dark ? d : l)
+  return {
+    ground: v("--card", "--cream-50"),
+    water: cssVarColor("--om-water"),
+    roads: v("--neutral-950", "--cream-300"),
+    trunk: v("--viz-sky-400", "--viz-sky-600"),
+    tributary: v("--viz-sky-700", "--viz-sky-400"),
+    rivers: v("--viz-sky-800", "--viz-sky-300"),
+    streams: v("--viz-sky-900", "--viz-sky-200"),
+    rail: cssVarColor("--viz-rust-500"),
+    flow: [v("--viz-rust-600", "--viz-rust-400"), v("--viz-rust-500", "--viz-rust-500"), v("--viz-rust-400", "--viz-rust-600")],
+    label: v("--muted-foreground", "--foreground"),
+  }
+}
+
 const STYLE: Record<Theme, string> = {
-  light: import.meta.env.VITE_MAP_STYLE_LIGHT ?? "https://tiles.openfreemap.org/styles/positron",
+  // Both themes repaint the same layer set, so light reuses the dark style's layer ids.
+  light: import.meta.env.VITE_MAP_STYLE_LIGHT ?? "https://tiles.openfreemap.org/styles/dark",
   dark: import.meta.env.VITE_MAP_STYLE_DARK ?? "https://tiles.openfreemap.org/styles/dark",
 }
 
@@ -42,13 +65,33 @@ type Bounds = [[number, number], [number, number]]
 /* One SDF glyph per facility type: shape carries type, colour carries company
    (redundant coding — the type key never depends on hue). */
 const SHAPES: FacilityType[] = ["i", "r", "p", "x"]
+// Destinations reuse the site glyphs but draw hollow, in ink: circle = ethanol, square = feedyard, diamond = port.
+const DEST_SHAPE = { e: "i", f: "p", x: "x" } as const
+const ALL_DEST: ReadonlySet<string> = new Set(["x", "f", "e"])
+const DEST_DATA: GeoJSON.FeatureCollection = {
+  type: "FeatureCollection",
+  features: DESTINATIONS.map((d) => ({
+    type: "Feature",
+    id: d.id,
+    geometry: { type: "Point", coordinates: [d.lon, d.lat] },
+    properties: {
+      id: d.id,
+      kind: d.kind,
+      shape: DEST_SHAPE[d.kind],
+      // Size by capacity, clamped so the biggest plant never outweighs a buying point.
+      k: d.size == null ? 1 : Math.min(1.6, Math.max(1, d.kind === "e" ? d.size / 110 : d.size / 80000)),
+    },
+  })),
+}
+
 function shapeImage(type: FacilityType): ImageData {
   // A true signed distance field (MapLibre/TinySDF convention: edge at 0.75, falling off
   // over RADIUS px), so icons stay crisp at any icon-size and can still be recolored.
-  const n = 48
-  const RADIUS = 6
+  // Canvas and falloff are padded well past the shape so thick outlines are not clipped.
+  const n = 80
+  const RADIUS = 20
   const m = n / 2
-  const r = n * 0.36
+  const r = 48 * 0.36
   const poly: [number, number][] | null =
     type === "r"
       ? [[m, m - r * 1.05], [m + r * 1.05, m + r * 0.8], [m - r * 1.05, m + r * 0.8]]
@@ -99,10 +142,12 @@ export interface DrawAreaMapProps {
   /** Adds a reset-view button to the map's zoom controls. */
   onReset?: () => void
   /** A site hovered outside the map (e.g. a rival list row) — lit and labelled as if the cursor were on it. */
+  /** Destination kinds to show (x port, f feedyard, e ethanol). */
+  destKinds?: ReadonlySet<string>
   hoverSite?: number | null
 }
 
-export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset, hoverSite = null }: DrawAreaMapProps) {
+export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset, hoverSite = null, destKinds = ALL_DEST }: DrawAreaMapProps) {
   const listTip = React.useRef<maplibregl.Popup | null>(null)
   const container = React.useRef<HTMLDivElement>(null)
   const mapRef = React.useRef<MLMap | null>(null)
@@ -224,44 +269,25 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
 
     map.on("style.load", () => {
       stylePending.current = false
-      // Positron's land is near-white; tint it onto Kernel's neutral scale.
-      if (!usingFallback.current && !document.documentElement.classList.contains("dark")) {
-        const bg = map.getStyle().layers.find((l) => l.type === "background")
-        if (bg) map.setPaintProperty(bg.id, "background-color", cssVarColor("--neutral-100"))
-        const water = cssVarColor("--viz-slate-200")
+      // Basemap reduced to what origination reads: ground, water, the road/rail
+      // network and place names, everything else hidden.
+      if (!usingFallback.current) {
+        const c = mapPalette()
         for (const l of map.getStyle().layers) {
-          if (!/water/.test(l.id)) continue
-          if (l.type === "fill") map.setPaintProperty(l.id, "fill-color", water)
-          if (l.type === "line") map.setPaintProperty(l.id, "line-color", water)
-        }
-      }
-      // Dark basemap reduced to what origination reads: card-colored ground,
-      // water, the road/rail network and place names, everything else hidden.
-      if (!usingFallback.current && document.documentElement.classList.contains("dark")) {
-        const ground = cssVarColor("--card")
-        const water = cssVarColor("--neutral-900")
-        const roads = cssVarColor("--neutral-950")
-        const bargeColor = cssVarColor("--viz-sky-400")
-        const tributary = cssVarColor("--viz-sky-700")
-        const rivers = cssVarColor("--viz-sky-800")
-        const streams = cssVarColor("--viz-sky-900")
-        const rail = cssVarColor("--viz-rust-500")
-        const label = cssVarColor("--muted-foreground")
-        for (const l of map.getStyle().layers) {
-          if (l.type === "background") map.setPaintProperty(l.id, "background-color", ground)
-          else if (l.id === "water") map.setPaintProperty(l.id, "fill-color", water)
+          if (l.type === "background") map.setPaintProperty(l.id, "background-color", c.ground)
+          else if (l.id === "water") map.setPaintProperty(l.id, "fill-color", c.water)
           else if (l.id === "waterway") {
             // The Mississippi is the trunk; barge tributaries step down, other rivers and streams recede.
             const trunk = ["in", ["get", "name"], ["literal", ["Mississippi", "Mississippi River"]]] as const
             const barge = ["in", ["get", "name"], ["literal", BARGE_RIVERS]] as const
-            map.setPaintProperty(l.id, "line-color", ["case", trunk, bargeColor, barge, tributary, ["==", ["get", "class"], "river"], rivers, streams])
+            map.setPaintProperty(l.id, "line-color", ["case", trunk, c.trunk, barge, c.tributary, ["==", ["get", "class"], "river"], c.rivers, c.streams])
             map.setPaintProperty(l.id, "line-width", ["interpolate", ["linear"], ["zoom"], 3, ["case", trunk, 2, 1], 8, ["case", trunk, 3.5, barge, 2, 0.8], 12, ["case", trunk, 5, barge, 3, 1.2]])
           }
-          else if (/^highway_(minor|major_inner|major_subtle|motorway_inner|motorway_subtle)$/.test(l.id)) map.setPaintProperty(l.id, "line-color", roads)
-          else if (/^railway(_minor|_transit)?$/.test(l.id)) { map.setPaintProperty(l.id, "line-color", rail); map.setLayerZoomRange(l.id, 5, 24) }
+          else if (/^highway_(minor|major_inner|major_subtle|motorway_inner|motorway_subtle)$/.test(l.id)) map.setPaintProperty(l.id, "line-color", c.roads)
+          else if (/^railway(_minor|_transit)?$/.test(l.id)) { map.setPaintProperty(l.id, "line-color", c.rail); map.setLayerZoomRange(l.id, 5, 24) }
           else if (l.id.startsWith("place_")) {
-            map.setPaintProperty(l.id, "text-color", label)
-            map.setPaintProperty(l.id, "text-halo-color", ground)
+            map.setPaintProperty(l.id, "text-color", c.label)
+            map.setPaintProperty(l.id, "text-halo-color", c.ground)
           }
           else map.setLayoutProperty(l.id, "visibility", "none")
         }
@@ -314,6 +340,27 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         )
         .addTo(map)
     })
+    let destHover: number | null = null
+    map.on("mousemove", "om-dest", (e) => {
+      const f = e.features?.[0]
+      if (!f || map.queryRenderedFeatures(e.point, { layers: ["om-sites"] }).length) return
+      const id = f.properties.id as number
+      if (destHover !== id) {
+        if (destHover != null) map.setFeatureState({ source: "om-dest", id: destHover }, { hover: false })
+        destHover = id
+        map.setFeatureState({ source: "om-dest", id }, { hover: true })
+      }
+      const d = DESTINATIONS[id]
+      tip
+        .setLngLat([d.lon, d.lat])
+        .setHTML(`<strong>${d.name}, ${d.state}</strong><span>${DEST[d.kind].label} · ${d.operator}${destSize(d)}</span>`)
+        .addTo(map)
+    })
+    map.on("mouseleave", "om-dest", () => {
+      if (destHover != null) map.setFeatureState({ source: "om-dest", id: destHover }, { hover: false })
+      destHover = null
+      tip.remove()
+    })
     map.on("mouseleave", "om-sites", () => {
       map.getCanvas().style.cursor = ""
       if (hoverId != null) map.setFeatureState({ source: "om-sites", id: hoverId }, { hover: false })
@@ -338,12 +385,23 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
   const stylePending = React.useRef(true)
   const usingFallback = React.useRef(false)
   const byIdRef = React.useRef(byId)
+  const destFilter = (k: ReadonlySet<string>) => ["in", ["get", "kind"], ["literal", [...k]]] as maplibregl.FilterSpecification
+  const destRef = React.useRef(destKinds)
+  destRef.current = destKinds
+  React.useEffect(() => {
+    const map = mapRef.current
+    if (map && ready && map.getLayer("om-dest")) map.setFilter("om-dest", destFilter(destKinds))
+    if (map && ready && map.getLayer("om-dest-shadow")) map.setFilter("om-dest-shadow", destFilter(destKinds))
+  }, [destKinds, ready])
   byIdRef.current = byId
 
   function install(map: MLMap) {
     const cargill = cssVarColor("--om-cargill")
     const adm = cssVarColor("--om-adm")
-    const halo = cssVarColor("--background")
+    const dark = document.documentElement.classList.contains("dark")
+    // Markers read like Google Maps in both themes: an outline in the page color (white in light, neutral-700 in dark) plus a soft drop shadow lifts them off the map.
+    const halo = dark ? cssVarColor("--neutral-700") : "#ffffff"
+    const shade = dark ? "rgba(0, 0, 0, 0.7)" : "rgba(40, 30, 15, 0.45)"
     const ink = cssVarColor("--foreground")
     const byCo = ["match", ["get", "co"], "C", cargill, adm] as unknown as maplibregl.ExpressionSpecification
 
@@ -358,10 +416,12 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     map.addSource("om-draw", { type: "geojson", data: drawData })
     map.addSource("om-sites", { type: "geojson", data: siteData })
     map.addSource("om-pair", { type: "geojson", data: pairData })
+    map.addSource("om-dest", { type: "geojson", data: DEST_DATA })
 
     // Zoomed out the tiles drop river names, so the barge network ships as its own
     // Natural Earth layer until z8, where the tile waterways take over the ranking.
-    if (document.documentElement.classList.contains("dark")) {
+    {
+      const c = mapPalette()
       // Tile rail only appears near street zoom; Natural Earth rail fills in until then.
       map.addSource("om-rail", { type: "geojson", data: rail as GeoJSON.FeatureCollection })
       map.addLayer(
@@ -372,7 +432,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
           maxzoom: 13,
           layout: { "line-join": "round" },
           paint: {
-            "line-color": cssVarColor("--viz-rust-500"),
+            "line-color": c.rail,
             "line-opacity": 0.35,
             "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 8, 1.4, 12, 2],
           },
@@ -389,7 +449,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
           source: "om-rail-flow",
           layout: { "line-cap": "round", "line-join": "round" },
           paint: {
-            "line-color": ["step", ["get", "routes"], cssVarColor("--viz-rust-600"), 3, cssVarColor("--viz-rust-500"), 6, cssVarColor("--viz-rust-400")],
+            "line-color": ["step", ["get", "routes"], c.flow[0], 3, c.flow[1], 6, c.flow[2]],
             "line-width": ["interpolate", ["linear"], ["zoom"], 3, ["interpolate", ["linear"], ["get", "routes"], 1, 1, 9, 3], 10, ["interpolate", ["linear"], ["get", "routes"], 1, 2, 9, 6]],
           },
         },
@@ -404,7 +464,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
           maxzoom: 8,
           layout: { "line-cap": "round", "line-join": "round" },
           paint: {
-            "line-color": ["case", ["get", "trunk"], cssVarColor("--viz-sky-400"), cssVarColor("--viz-sky-700")],
+            "line-color": ["case", ["get", "trunk"], c.trunk, c.tributary],
             "line-width": ["interpolate", ["linear"], ["zoom"], 3, ["case", ["get", "trunk"], 2.5, 1.2], 8, ["case", ["get", "trunk"], 4, 2]],
           },
         },
@@ -459,24 +519,80 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         "circle-opacity-transition": { duration: 200 },
       },
     })
-    map.addLayer({
-      id: "om-sites",
-      type: "symbol",
-      source: "om-sites",
-      layout: {
-        "icon-image": ["concat", "om-", ["get", "type"]],
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 3, 0.3, 5, 0.45, 7, 0.75, 9, 1.1],
-        "icon-offset": ["get", "off"],
+    // One marker recipe for every point on the map: a soft drop shadow, then the glyph with an outline.
+    // Kinds differ only in source, glyph, scale, fill, and outline color; shadow and zoom curves are shared.
+    const marker = (o: {
+      id: string
+      source: string
+      image: maplibregl.ExpressionSpecification
+      scale: maplibregl.ExpressionSpecification | number
+      fill: maplibregl.ExpressionSpecification | string
+      ring: maplibregl.ExpressionSpecification | string
+      ringWidth: number
+      filter?: maplibregl.FilterSpecification
+      layout?: Record<string, unknown>
+      before?: string
+    }) => {
+      const z = (n: number): maplibregl.ExpressionSpecification | number => (typeof o.scale === "number" ? o.scale * n : ["*", o.scale, n])
+      const layout = {
+        "icon-image": o.image,
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 3, z(0.3), 5, z(0.45), 7, z(0.75), 9, z(1.1)],
         "icon-allow-overlap": true,
         "icon-ignore-placement": true,
-        "symbol-sort-key": ["case", ["==", ["get", "type"], "p"], 0, 1],
-      },
-      paint: {
-        "icon-color": byCo,
-        "icon-halo-color": ["case", ["boolean", ["feature-state", "on"], false], ink, halo],
-        "icon-halo-width": ["case", lit, 3, hover, 2.5, 1.25],
-        "icon-halo-width-transition": { duration: 200 },
-      },
+        ...o.layout,
+      } as maplibregl.SymbolLayerSpecification["layout"]
+      const base = { type: "symbol" as const, source: o.source, layout, ...(o.filter ? { filter: o.filter } : {}) }
+      map.addLayer(
+        {
+          ...base,
+          id: o.id + "-shadow",
+          paint: {
+            "icon-color": shade,
+            "icon-halo-color": shade,
+            "icon-halo-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 9, 2.5],
+            "icon-halo-blur": ["interpolate", ["linear"], ["zoom"], 3, 1, 9, 2.5],
+            "icon-translate": ["interpolate", ["linear"], ["zoom"], 3, ["literal", [0, 0.5]], 9, ["literal", [0, 1.5]]],
+          },
+        },
+        o.before,
+      )
+      // Outline grows with icon-size so it keeps the same proportion at every zoom; hover +0.5, selected +1.
+      const w = (k: number): maplibregl.ExpressionSpecification => ["case", lit, o.ringWidth * k + 0.75, hover, o.ringWidth * k + 0.5, o.ringWidth * k]
+      map.addLayer(
+        {
+          ...base,
+          id: o.id,
+          paint: {
+            "icon-color": o.fill,
+            "icon-halo-color": o.ring,
+            "icon-halo-width": ["interpolate", ["linear"], ["zoom"], 3, w(0.42), 6, w(0.67), 9, w(1)],
+            "icon-halo-width-transition": { duration: 200 },
+          },
+        },
+        o.before,
+      )
+    }
+    // Destinations: hollow (page-color fill, ink ring), sized by capacity, drawn under buying points.
+    marker({
+      id: "om-dest",
+      source: "om-dest",
+      image: ["concat", "om-", ["get", "shape"]],
+      scale: ["*", ["get", "k"], 0.8],
+      fill: dark ? cssVarColor("--neutral-800") : "#ffffff",
+      ring: ["case", hover, ink, cssVarColor("--muted-foreground")],
+      ringWidth: 1.5,
+      filter: destFilter(destRef.current),
+    })
+    // Buying points: filled in company color with a page-color ring.
+    marker({
+      id: "om-sites",
+      source: "om-sites",
+      image: ["concat", "om-", ["get", "type"]],
+      scale: 1,
+      fill: byCo,
+      ring: ["case", lit, dark ? cssVarColor("--neutral-600") : ink, hover, dark ? cssVarColor("--neutral-600") : halo, halo],
+      ringWidth: 3,
+      layout: { "icon-offset": ["get", "off"], "symbol-sort-key": ["case", ["==", ["get", "type"], "p"], 0, 1] },
     })
   }
 
@@ -513,6 +629,35 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       on.forEach((id) => map.setFeatureState({ source: src, id }, { on: true }))
     }
   }, [on, ready, siteData, drawData])
+
+  // ---- selected marker: a short light streak travels around its outline -------
+  React.useEffect(() => {
+    const map = mapRef.current
+    const s = selectedId != null ? byIdRef.current.get(selectedId) : undefined
+    if (!map || !ready || !s) return
+    const el = document.createElement("div")
+    el.className = "om-beam"
+    el.innerHTML = "<span></span>"
+    const marker = new maplibregl.Marker({ element: el }).setLngLat([s.lon, s.lat]).addTo(map)
+    // Same zoom curve as the marker's icon-size, so the beam hugs the outline.
+    const size = () => {
+      const stops: [number, number][] = [[3, 0.3], [5, 0.45], [7, 0.75], [9, 1.1]]
+      const z = map.getZoom()
+      let k = z <= 3 ? 0.3 : 1.1
+      for (let i = 1; i < stops.length; i++) {
+        const [z0, s0] = stops[i - 1]
+        const [z1, s1] = stops[i]
+        if (z > z0 && z <= z1) k = s0 + ((s1 - s0) * (z - z0)) / (z1 - z0)
+      }
+      el.style.setProperty("--om-beam-d", `${Math.round(17.3 * k + 10)}px`)
+    }
+    size()
+    map.on("zoom", size)
+    return () => {
+      map.off("zoom", size)
+      marker.remove()
+    }
+  }, [selectedId, ready, siteData])
 
   // ---- theme: swap basemap; style.load re-installs our layers in new colours --
   const firstTheme = React.useRef(theme)
@@ -566,11 +711,18 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
   }, [hoverSite, ready])
 
   return (
+    <div className="relative size-full">
+      {!painted && (
+        <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center">
+          <ThinkingOrb state="solving" size={64} theme={theme} aria-label="Loading map" />
+        </div>
+      )}
     <div
       ref={container}
       className={cn("size-full transition-opacity duration-[var(--duration-slow)] ease-[var(--ease-out)] motion-reduce:transition-none", painted ? "opacity-100" : "opacity-0")}
       role="region"
       aria-label="Map of Cargill and ADM grain buying points with draw-area circles. Use the Pairs and Regions lists for keyboard access."
     />
+    </div>
   )
 }

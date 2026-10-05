@@ -1,3 +1,4 @@
+import { DEST, DEST_KINDS, type DestKind } from "@app/data/destinations"
 import * as React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -59,7 +60,10 @@ function toggle<T>(set: Set<T>, v: T) {
 }
 
 /** The facility-type glyph, matching the map's SDF shapes. */
-function Shape({ type, className }: { type: FacilityType; className?: string }) {
+const DEST_SHAPE: Record<DestKind, FacilityType> = { e: "i", f: "p", x: "x" }
+
+/** Hollow = a destination (where grain goes); filled = a company buying point. */
+function Shape({ type, className, hollow }: { type: FacilityType; className?: string; hollow?: boolean }) {
   const d = {
     i: <circle cx="6" cy="6" r="4" />,
     r: <path d="M6 1.4 10.6 9.6H1.4Z" />,
@@ -67,7 +71,7 @@ function Shape({ type, className }: { type: FacilityType; className?: string }) 
     x: <path d="M6 1 11 6 6 11 1 6Z" />,
   }[type]
   return (
-    <svg viewBox="0 0 12 12" aria-hidden className={cn("size-3 shrink-0 fill-current", className)}>
+    <svg viewBox="0 0 12 12" aria-hidden className={cn("size-3 shrink-0 fill-current", hollow && "fill-card stroke-current [stroke-width:1.5]", className)}>
       {d}
     </svg>
   )
@@ -118,7 +122,8 @@ export default function DrawAreasPage() {
   const { theme } = useTheme()
   const [radius, setRadius] = React.useState(35)
   const [showDraw, setShowDraw] = React.useState(false)
-  const [companies, setCompanies] = React.useState(() => new Set<Company>(COMPANIES))
+  const [destKinds, setDestKinds] = React.useState(() => new Set<DestKind>(DEST_KINDS))
+  const [companies, setCompanies] = React.useState(() => new Set<Company>(["C"]))
   const [types, setTypes] = React.useState(() => new Set<FacilityType>(TYPES))
   const [crops, setCrops] = React.useState(() => new Set<Crop>(CROPS))
   const [selectedId, setSelectedId] = React.useState<number | null>(null)
@@ -311,6 +316,12 @@ export default function DrawAreasPage() {
                 <Check key={t} checked={types.has(t)} onChange={() => setTypes((s) => toggle(s, t))}>
                   <Shape type={t} />
                   {FACILITY[t].plural}
+                </Check>
+              ))}
+              {DEST_KINDS.map((k) => (
+                <Check key={k} checked={destKinds.has(k)} onChange={() => setDestKinds((p) => { const n = new Set(p); if (n.has(k)) n.delete(k); else n.add(k); return n })}>
+                  <Shape type={DEST_SHAPE[k]} hollow />
+                  {DEST[k].plural}
                 </Check>
               ))}
             </FilterGroup>
@@ -532,6 +543,7 @@ export default function DrawAreasPage() {
           visible={mapVisible}
           radiusMi={radius}
           showDraw={showDraw}
+          destKinds={destKinds}
             onReset={resetView}
           theme={theme}
           selectedId={selected?.id ?? null}
@@ -547,7 +559,7 @@ export default function DrawAreasPage() {
           </p>
         )}
         <div className={cn("pointer-events-none absolute top-3 left-14 flex flex-col gap-2 md:left-3", desktop && "top-3")}>
-          <div className="pointer-events-auto grid content-center gap-1.5 rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 px-3 py-2.5 text-xs shadow-lg backdrop-blur xl:h-[5.5rem]">
+          <div className="pointer-events-auto grid content-center gap-1.5 rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 px-3 py-2.5 text-xs shadow-lg backdrop-blur xl:min-h-[5.5rem]">
             <div className="flex gap-3">
               {COMPANIES.map((co) => (
                 <span key={co} className="flex items-center gap-1.5 font-medium">
@@ -564,6 +576,16 @@ export default function DrawAreasPage() {
                 </span>
               ))}
             </div>
+            {destKinds.size > 0 && (
+              <div className="hidden grid-cols-2 gap-x-3 gap-y-1 border-t border-border pt-1.5 text-muted-foreground sm:grid">
+                {DEST_KINDS.map((k) => (
+                  <span key={k} className="flex items-center gap-1.5">
+                    <Shape type={DEST_SHAPE[k]} hollow />
+                    {DEST[k].label}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
