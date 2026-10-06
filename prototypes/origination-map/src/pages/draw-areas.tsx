@@ -1,3 +1,4 @@
+import { useMapData } from "@app/map/data"
 import { DEST, DEST_KINDS, type DestKind } from "@app/data/destinations"
 import * as React from "react"
 import { Badge } from "@/components/ui/badge"
@@ -18,7 +19,6 @@ import {
   COMPANY,
   CROP,
   FACILITY,
-  SITES,
   type Company,
   type Crop,
   type FacilityType,
@@ -120,6 +120,7 @@ function Check({ checked, onChange, children }: { checked: boolean; onChange: ()
 }
 
 export default function DrawAreasPage() {
+  const data = useMapData()
   const { theme } = useTheme()
   const [radius, setRadius] = React.useState(35)
   const [showDraw, setShowDraw] = React.useState(false)
@@ -135,14 +136,14 @@ export default function DrawAreasPage() {
   const [basemap, setBasemap] = React.useState<"tiles" | "fallback">("tiles")
 
   const visibleSites = React.useMemo(
-    () => SITES.filter((s) => companies.has(s.co) && types.has(s.type) && s.crops.some((c) => crops.has(c))),
-    [companies, types, crops],
+    () => data.sites.filter((s) => companies.has(s.co) && types.has(s.type) && s.crops.some((c) => crops.has(c))),
+    [data.sites, companies, types, crops],
   )
   const visible = React.useMemo(() => new Set(visibleSites.map((s) => s.id)), [visibleSites])
   const a = React.useMemo(() => analyse(visibleSites, radius), [visibleSites, radius])
 
-  const selected = selectedId != null ? SITES[selectedId] : null
-  const rivals = React.useMemo(() => (selected ? rivalsNear(selected, SITES, radius) : []), [selected, radius])
+  const selected = selectedId != null ? data.sites[selectedId] : null
+  const rivals = React.useMemo(() => (selected ? rivalsNear(selected, data.sites, radius) : []), [selected, radius, data.sites])
   // Filters narrow the map, but a selected site or pair keeps its relationships visible.
   const mapVisible = React.useMemo(() => {
     const v = new Set(visible)
@@ -305,7 +306,7 @@ export default function DrawAreasPage() {
                   <span className={cn("size-2.5 rounded-full", CO_SWATCH[co])} />
                   {COMPANY[co]}
                   <span className="text-xs text-muted-foreground tabular-nums">
-                    {SITES.filter((s) => s.co === co).length}
+                    {data.sites.filter((s) => s.co === co).length}
                   </span>
                 </Check>
               ))}
@@ -540,7 +541,7 @@ export default function DrawAreasPage() {
     <div ref={rootRef} className="relative flex h-full min-h-0 flex-col overflow-hidden">
       <section aria-label="Map" className={cn("relative min-h-0 flex-1 [&_.maplibregl-ctrl-bottom-left]:left-1/2! [&_.maplibregl-ctrl-bottom-left]:-translate-x-1/2 [&_.maplibregl-ctrl-bottom-right]:transition-[right] [&_.maplibregl-ctrl-bottom-right]:duration-[var(--duration-base)]", desktop && colLow && "[&_.maplibregl-ctrl-bottom-right]:right-[392px]!")}>
         <DrawAreaMap
-          sites={SITES}
+          sites={data.sites}
           visible={mapVisible}
           radiusMi={radius}
           showDraw={showDraw}

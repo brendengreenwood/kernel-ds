@@ -7,10 +7,8 @@ import "maplibre-gl/dist/maplibre-gl.css"
 import { COMPANY, FACILITY, cropList, type FacilityType, type Site } from "@app/data/sites"
 import { circleRing } from "@app/lib/geo"
 import { cssVarColor } from "@app/lib/color"
-import bargeRivers from "@app/data/barge-rivers.json"
-import rail from "@app/data/rail.json"
-import railFlow from "@app/data/rail-flow.json"
-import { DESTINATIONS, DEST, destSize } from "@app/data/destinations"
+import { DEST, destSize, type Destination } from "@app/data/destinations"
+import { useMapData } from "@app/map/data"
 import type { Theme } from "@app/lib/theme"
 
 /* Basemaps: OpenFreeMap's vector styles — free, no API key, OSM data. Either
@@ -68,9 +66,9 @@ const SHAPES: FacilityType[] = ["i", "r", "p", "x"]
 // Destinations reuse the site glyphs but draw hollow, in ink: circle = ethanol, square = feedyard, diamond = port.
 const DEST_SHAPE = { e: "i", f: "p", x: "x" } as const
 const ALL_DEST: ReadonlySet<string> = new Set(["x", "f", "e"])
-const DEST_DATA: GeoJSON.FeatureCollection = {
+const destData = (list: Destination[]): GeoJSON.FeatureCollection => ({
   type: "FeatureCollection",
-  features: DESTINATIONS.map((d) => ({
+  features: list.map((d) => ({
     type: "Feature",
     id: d.id,
     geometry: { type: "Point", coordinates: [d.lon, d.lat] },
@@ -82,7 +80,7 @@ const DEST_DATA: GeoJSON.FeatureCollection = {
       k: d.size == null ? 1 : Math.min(1.6, Math.max(1, d.kind === "e" ? d.size / 110 : d.size / 80000)),
     },
   })),
-}
+})
 
 // shade = [r, g, b, alpha] bakes a soft drop shadow as a plain RGBA image instead of an SDF.
 // SDF halos with blur wider than the field's falloff fill the whole icon quad, which shows up
@@ -169,6 +167,9 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
   const onResetRef = React.useRef(onReset)
   onResetRef.current = onReset
 
+  const data = useMapData()
+  const dataRef = React.useRef(data)
+  dataRef.current = data
   const byId = React.useMemo(() => new Map(sites.map((s) => [s.id, s])), [sites])
   const home = React.useMemo<Bounds>(() => {
     const lons = sites.map((s) => s.lon)
@@ -360,7 +361,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         destHover = id
         map.setFeatureState({ source: "om-dest", id }, { hover: true })
       }
-      const d = DESTINATIONS[id]
+      const d = dataRef.current.destinations[id]
       tip
         .setLngLat([d.lon, d.lat])
         .setHTML(`<strong>${d.name}, ${d.state}</strong><span>${DEST[d.kind].label} · ${d.operator}${destSize(d)}</span>`)
@@ -428,14 +429,14 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     map.addSource("om-draw", { type: "geojson", data: drawData })
     map.addSource("om-sites", { type: "geojson", data: siteData })
     map.addSource("om-pair", { type: "geojson", data: pairData })
-    map.addSource("om-dest", { type: "geojson", data: DEST_DATA })
+    map.addSource("om-dest", { type: "geojson", data: destData(dataRef.current.destinations) })
 
     // Zoomed out the tiles drop river names, so the barge network ships as its own
     // Natural Earth layer until z8, where the tile waterways take over the ranking.
     {
       const c = mapPalette()
       // Tile rail only appears near street zoom; Natural Earth rail fills in until then.
-      map.addSource("om-rail", { type: "geojson", data: rail as GeoJSON.FeatureCollection })
+      map.addSource("om-rail", { type: "geojson", data: dataRef.current.corridors.rail })
       map.addLayer(
         {
           id: "om-rail",
@@ -453,7 +454,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       )
       // Rail Cargill grain rides to a Gulf outlet (scripts/build-rail-flow.mjs):
       // the more site routes share a segment, the brighter and thicker it draws.
-      map.addSource("om-rail-flow", { type: "geojson", data: railFlow as GeoJSON.FeatureCollection })
+      map.addSource("om-rail-flow", { type: "geojson", data: dataRef.current.corridors.routes })
       map.addLayer(
         {
           id: "om-rail-flow",
@@ -467,7 +468,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         },
         firstLabel,
       )
-      map.addSource("om-rivers", { type: "geojson", data: bargeRivers as GeoJSON.FeatureCollection })
+      map.addSource("om-rivers", { type: "geojson", data: dataRef.current.corridors.rivers })
       map.addLayer(
         {
           id: "om-rivers",

@@ -52,6 +52,10 @@ A lens chooses what is foreground, what drops to ground (dimmed, smaller), and w
 
 Hue is the scarcest channel, so it is assigned **per lens**: company hues in Competition, category hues in Demand, a netback ramp in Sell. Today's map shows Competition and Demand at once, which is why the hue ledger below ran out.
 
+## Data boundary
+
+The map never imports data files. It reads one typed `MapData` object (`src/map/model.ts`: source, sites, destinations, corridors) from `useMapData()` (`src/map/data.tsx`). An adapter builds that object: `src/map/adapters/public.ts` wraps the public JSON. Real data = a new adapter passed to `<MapDataProvider>`; no map code changes.
+
 ## Three layers
 
 1. **Ground** — land, water, roads, rail, rivers. Quiet, ranked, recedes. (`src/components/draw-area-map.tsx` `mapPalette()`, `om-rail`, `om-rail-flow`, `om-rivers`)
