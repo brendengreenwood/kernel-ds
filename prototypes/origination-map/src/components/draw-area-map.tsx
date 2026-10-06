@@ -13,7 +13,7 @@ import { useMapData } from "@app/map/data"
 import { mapPalette, markRoles } from "@app/map/kit/theme"
 import { installGlyphs } from "@app/map/kit/glyphs"
 import { addMarker, hoverState, litState } from "@app/map/kit/marker"
-import { addCorridors } from "@app/map/kit/corridors"
+import { addCorridors, setCorridorHighlight, type CorridorHighlight } from "@app/map/kit/corridors"
 import type { Theme } from "@app/lib/theme"
 
 /* Basemaps: OpenFreeMap's vector styles — free, no API key, OSM data. Either
@@ -70,10 +70,13 @@ export interface DrawAreaMapProps {
   /** A site hovered outside the map (e.g. a rival list row) — lit and labelled as if the cursor were on it. */
   /** Destination kinds to show. */
   destKinds?: ReadonlySet<string>
+  highlight?: CorridorHighlight
   hoverSite?: number | null
 }
 
-export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset, hoverSite = null, destKinds = ALL_DEST }: DrawAreaMapProps) {
+const ALL_ON: CorridorHighlight = { rivers: true, rail: true }
+
+export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset, hoverSite = null, destKinds = ALL_DEST, highlight = ALL_ON }: DrawAreaMapProps) {
   const listTip = React.useRef<maplibregl.Popup | null>(null)
   const container = React.useRef<HTMLDivElement>(null)
   const mapRef = React.useRef<MLMap | null>(null)
@@ -313,6 +316,12 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     if (map && ready && map.getLayer("om-dest")) map.setFilter("om-dest", destFilter(destKinds))
     if (map && ready && map.getLayer("om-dest-shadow")) map.setFilter("om-dest-shadow", destFilter(destKinds))
   }, [destKinds, ready])
+  const hlRef = React.useRef(highlight)
+  hlRef.current = highlight
+  React.useEffect(() => {
+    const map = mapRef.current
+    if (map && ready) setCorridorHighlight(map, highlight)
+  }, [highlight.rivers, highlight.rail, ready])
   byIdRef.current = byId
 
   function install(map: MLMap) {
@@ -330,6 +339,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     map.addSource("om-dest", { type: "geojson", data: destData(dataRef.current.destinations) })
 
     addCorridors(map, dataRef.current.corridors, firstLabel)
+    setCorridorHighlight(map, hlRef.current)
 
     map.addLayer(
       {

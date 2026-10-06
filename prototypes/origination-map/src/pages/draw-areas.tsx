@@ -97,6 +97,7 @@ export default function DrawAreasPage() {
   const { theme } = useTheme()
   const [radius, setRadius] = React.useState(35)
   const [showDraw, setShowDraw] = React.useState(false)
+  const [highlight, setHighlight] = React.useState({ rivers: true, rail: true })
   const [destKinds, setDestKinds] = React.useState(() => new Set<DestKind>(DEST_KINDS))
   const [companies, setCompanies] = React.useState(() => new Set<Company>(["cargill"]))
   const [types, setTypes] = React.useState(() => new Set<Facility>(TYPES))
@@ -299,6 +300,14 @@ export default function DrawAreasPage() {
                   {DEST[k].plural}
                 </Check>
               ))}
+              <Check checked={highlight.rivers} onChange={() => setHighlight((h) => ({ ...h, rivers: !h.rivers }))}>
+                <span className="h-1 w-3 rounded-full bg-viz-sky-500" aria-hidden />
+                River highlight
+              </Check>
+              <Check checked={highlight.rail} onChange={() => setHighlight((h) => ({ ...h, rail: !h.rail }))}>
+                <span className="h-1 w-3 rounded-full bg-viz-rust-500" aria-hidden />
+                Rail highlight
+              </Check>
             </FilterGroup>
     ),
     commodity: (
@@ -329,18 +338,18 @@ export default function DrawAreasPage() {
                 About this data
               </PopoverTrigger>
               <PopoverContent align="start" className="w-80 text-xs leading-4 text-muted-foreground">
-                <ul className="grid list-disc gap-1.5 pl-4">
-            <li>
-              Sites come from each company's public bid listings (Cargill Ag locations, Farmbucks) and NOPA / Corn
-              Refiners member lists, placed at the town's ZIP centroid, not the street address.
-            </li>
-            <li>ADM's list is only sites that post public bids; ADM runs more US locations than that.</li>
-            <li>
-              Facility type was assigned by whether the town sits on a navigable river, so a few will be wrong. Crop tags
-              come from posted bids.
-            </li>
-            <li>Cargill's Kalama, Portland and Tacoma TEMCO terminals are not shown; Houston is.</li>
-            <li>Draw areas are circles. A river terminal's real draw is a corridor along the river and its feeder roads.</li>
+                <ul className="grid list-disc gap-1.5 pl-4">
+            <li>
+              Sites come from each company's public bid listings (Cargill Ag locations, Farmbucks) and NOPA / Corn
+              Refiners member lists, placed at the town's ZIP centroid, not the street address.
+            </li>
+            <li>ADM's list is only sites that post public bids; ADM runs more US locations than that.</li>
+            <li>
+              Facility type was assigned by whether the town sits on a navigable river, so a few will be wrong. Crop tags
+              come from posted bids.
+            </li>
+            <li>Cargill's Kalama, Portland and Tacoma TEMCO terminals are not shown; Houston is.</li>
+            <li>Draw areas are circles. A river terminal's real draw is a corridor along the river and its feeder roads.</li>
           </ul>
               </PopoverContent>
             </Popover>
@@ -519,6 +528,7 @@ export default function DrawAreasPage() {
           radiusMi={radius}
           showDraw={showDraw}
           destKinds={destKinds}
+          highlight={highlight}
             onReset={resetView}
           theme={theme}
           selectedId={selected?.id ?? null}

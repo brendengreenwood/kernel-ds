@@ -56,3 +56,13 @@ export function addCorridors(map: MLMap, corridors: Corridors, before?: string) 
     before,
   )
 }
+
+export interface CorridorHighlight { rivers: boolean; rail: boolean }
+
+/** Highlight off drops a corridor to plain ground: rivers take the water color,
+    routed rail fades out over the background rail. Geography stays; the hue is freed. */
+export function setCorridorHighlight(map: MLMap, h: CorridorHighlight) {
+  const c = mapPalette()
+  if (map.getLayer("om-rivers")) map.setPaintProperty("om-rivers", "line-color", h.rivers ? ["case", ["get", "trunk"], c.trunk, c.tributary] : c.rivers)
+  if (map.getLayer("om-rail-flow")) map.setPaintProperty("om-rail-flow", "line-opacity", h.rail ? 1 : 0)
+}
