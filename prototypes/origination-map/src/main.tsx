@@ -5,6 +5,7 @@ import { ThemeProvider } from "@app/lib/theme"
 import { Shell } from "@app/components/shell"
 import DrawAreasPage from "@app/pages/draw-areas"
 import CropTonnagePage from "@app/pages/crop-tonnage"
+import DataModelPage from "@app/pages/data-model"
 import "./index.css"
 
 createRoot(document.getElementById("root")!).render(
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/" element={<Shell />}>
             <Route index element={<DrawAreasPage />} />
             <Route path="tonnage" element={<CropTonnagePage />} />
+            <Route path="model" element={<DataModelPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

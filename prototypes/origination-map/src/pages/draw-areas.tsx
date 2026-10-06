@@ -1,3 +1,4 @@
+import { GlyphIcon as Shape } from "@app/map/kit/glyph-icon"
 import { useMapData } from "@app/map/data"
 import { DEST, DEST_KINDS, type DestKind } from "@app/map/objects/destination"
 import { COMPANIES, COMPANY, FACILITIES, FACILITY, type BuyingPoint as Site, type Company, type Facility } from "@app/map/objects/buying-point"
@@ -49,22 +50,6 @@ function toggle<T>(set: Set<T>, v: T) {
   return next
 }
 
-
-/** Hollow = a destination (where grain goes); filled = a company buying point. */
-/** The glyph, matching the map's shapes. */
-function Shape({ type, className, hollow }: { type: Glyph; className?: string; hollow?: boolean }) {
-  const d = {
-    circle: <circle cx="6" cy="6" r="4" />,
-    triangle: <path d="M6 1.4 10.6 9.6H1.4Z" />,
-    square: <rect x="2" y="2" width="8" height="8" />,
-    diamond: <path d="M6 1 11 6 6 11 1 6Z" />,
-  }[type]
-  return (
-    <svg viewBox="0 0 12 12" aria-hidden className={cn("size-3 shrink-0 fill-current", hollow && "fill-card stroke-current [stroke-width:1.5]", className)}>
-      {d}
-    </svg>
-  )
-}
 
 function CropTag({ crop }: { crop: Crop }) {
   const commodity = COMMODITY_OF[crop]

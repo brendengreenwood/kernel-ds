@@ -15,7 +15,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { BarChart3, Layers, Moon, PanelLeftIcon, Sun } from "@/components/ui/icon"
+import { BarChart3, Layers, Route, Moon, PanelLeftIcon, Sun } from "@/components/ui/icon"
 import { useTheme } from "@app/lib/theme"
 
 // One tile style for both states: 48px tall, 24px icon pinned 12px in, so
@@ -26,6 +26,7 @@ const RAIL =
 const NAV = [
   { to: "/", label: "Draw areas", icon: Layers },
   { to: "/tonnage", label: "Crop tonnage", icon: BarChart3 },
+  { to: "/model", label: "Data model", icon: Route },
 ]
 
 export function Shell() {
