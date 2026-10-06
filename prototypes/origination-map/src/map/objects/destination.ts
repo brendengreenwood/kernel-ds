@@ -63,6 +63,6 @@ export function destinationMarker(r: MarkRoles): MarkerSpec {
     scale: ["*", ["get", "k"], 0.8],
     fill: r.hollow,
     ring: ["case", hoverState, r.ink, categoryColor()],
-    ringWidth: 1.5,
+    ringWidth: ["case", ["==", ["get", "kind"], "feedyard"], 2, 1.5],
   }
 }

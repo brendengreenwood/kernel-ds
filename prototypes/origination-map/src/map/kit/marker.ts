@@ -15,7 +15,7 @@ export type MarkerSpec = {
   scale: maplibregl.ExpressionSpecification | number
   fill: maplibregl.ExpressionSpecification | string
   ring: maplibregl.ExpressionSpecification | string
-  ringWidth: number
+  ringWidth: maplibregl.ExpressionSpecification | number
   layout?: Record<string, unknown>
 }
 
@@ -42,7 +42,8 @@ export function addMarker(map: MLMap, o: MarkerSpec & { id: string; source: stri
     o.before,
   )
   // Outline grows with icon-size so it keeps the same proportion at every zoom; hover +0.5, selected +1.
-  const w = (k: number): maplibregl.ExpressionSpecification => ["case", lit, o.ringWidth * k + 0.75, hover, o.ringWidth * k + 0.5, o.ringWidth * k]
+  const rw = (k: number): maplibregl.ExpressionSpecification | number => (typeof o.ringWidth === "number" ? o.ringWidth * k : ["*", o.ringWidth, k])
+  const w = (k: number): maplibregl.ExpressionSpecification => ["case", lit, ["+", rw(k), 0.75], hover, ["+", rw(k), 0.5], rw(k)]
   map.addLayer(
     {
       ...base,

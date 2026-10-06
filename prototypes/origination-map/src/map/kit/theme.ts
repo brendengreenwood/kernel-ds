@@ -11,7 +11,7 @@ export function mapPalette() {
   return {
     ground: v("--card", "--cream-50"),
     water: cssVarColor("--om-water"),
-    roads: v("--neutral-950", "--cream-300"),
+    roads: v("--neutral-950", "--cream-200"),
     trunk: v("--viz-sky-400", "--viz-sky-600"),
     tributary: v("--viz-sky-700", "--viz-sky-400"),
     rivers: v("--viz-sky-800", "--viz-sky-300"),
