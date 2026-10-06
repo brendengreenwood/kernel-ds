@@ -2,6 +2,56 @@
 
 A grammar for drawing grain data on a map. Every visual channel has one job; no meaning gets two channels. Rules here are backed by code — each points at where it lives.
 
+## What it's for
+
+Kernel helps a merchant price a local market against competitors and make bids and offers to farmers. That's the **buy side**. The map is heading toward the **sell side** too: given grain in hand, where is the best place to sell it after freight? One map, one object graph, many lenses.
+
+## Objects and relationships
+
+The whole graph stays under the hood even when a lens hides most of it.
+
+| Object | Status | In code |
+|---|---|---|
+| Company | built | `COMPANY` in `src/data/sites.ts` |
+| Buying point (site) | built | `Site` in `src/data/sites.ts` |
+| Commodity | built | `CROP` in `src/data/sites.ts` |
+| Draw area | built (assumed radius) | `om-draw` in `draw-area-map.tsx` |
+| Pair (nearby competitors) | built | `draw-areas.tsx` |
+| Region | built | `Site.region` |
+| Destination (port, feedyard, ethanol) | built | `Destination` in `src/data/destinations.ts` |
+| Corridor (river, rail) | built | `barge-rivers.json`, rail tiles |
+| Route | guessed (nearest outlet by rail) | `rail-flow.json` |
+| Farmer / production | future | — |
+| Bid (buy price to farmer) | future | — |
+| Destination bid (sell price) | future | — |
+| Freight (rail, barge, truck rates) | future | — |
+| Netback (destination bid − freight) | future | — |
+| Contract / shipment | future | — |
+
+Relationships:
+
+- Company **owns** buying point.
+- Buying point **bids on** commodity, **draws from** draw area, **sits in** region, **competes with** buying point.
+- Farmer **sells to** buying point at a bid. *(future)*
+- Destination **consumes** commodity at a destination bid. *(future)*
+- Buying point **ships to** destination **along** corridor at a freight cost → **netback**. *(guessed today; the sell-side answer)*
+
+The sell-side question is ranking destinations by netback from a given origin. Every piece is an object above; only the prices are missing. Real prices stay work-side.
+
+## Lenses
+
+A lens chooses what is foreground, what drops to ground (dimmed, smaller), and which relationship is drawn. The grammar never changes between lenses: shape is always kind, filled/hollow is always buyer vs destination.
+
+| Lens | Foreground | Relationship drawn | Question |
+|---|---|---|---|
+| Competition | My points + competitors | Draw overlap, pairs | Who am I bidding against? |
+| Supply | Production, draw areas | Draws-from | Where is the grain? |
+| Bid | My points by bid/basis | Spread vs competitor | Where am I high or low? |
+| Demand | Destinations | Consumes | Where does grain end up? |
+| Sell | One origin + ranked destinations | Ships-to with netback | Where should I sell this grain? |
+
+Hue is the scarcest channel, so it is assigned **per lens**: company hues in Competition, category hues in Demand, a netback ramp in Sell. Today's map shows Competition and Demand at once, which is why the hue ledger below ran out.
+
 ## Three layers
 
 1. **Ground** — land, water, roads, rail, rivers. Quiet, ranked, recedes. (`src/components/draw-area-map.tsx` `mapPalette()`, `om-rail`, `om-rail-flow`, `om-rivers`)
