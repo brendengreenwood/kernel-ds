@@ -97,6 +97,7 @@ const nav: { label: string; items: NavItem[] }[] = [
     items: [
       { title: "App shell", to: "/appshell", icon: PanelsTopLeft },
       { title: "Navigation", to: "/navigation", icon: Compass },
+      { title: "Floating panes", to: "/panes", icon: Layers, maturity: "experimental" },
       { title: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
       { title: "Filtering", to: "/filters", icon: Filter },
       { title: "Advanced filtering", to: "/filtering-advanced", icon: SlidersHorizontal },

@@ -2935,7 +2935,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/sidebar.tsx"
       ],
-      "sourceHash": "e9085394b22d80ed5b80bf750ad037312c88eab37af4a7d181b0bd075c6a43e2",
+      "sourceHash": "f4bedff8242954a819c1018f36b474b9f26575f7ed090ec83c5e9257d3e2c38e",
       "variantAxes": {
         "variant": [
           "default",
@@ -3092,7 +3092,7 @@
         "State is Figma-only interaction evidence, not a React prop.",
         "The Figma family represents the connected-square rail anatomy; floating and inset variants (radius/floating, radius/surface) and runtime-only slots (rail, trigger, inset, input, badges, skeletons, subs) are not represented and are validated in the portal runtime proof."
       ],
-      "contractHash": "b06250f8d269d05bcee89809fe27402c1bf095c4481586f45bf68e28f610fd48"
+      "contractHash": "9826e7ff4910b9c4c34a702f18203b6deeed2d765e2846c814126a452fef0658"
     },
     {
       "entityId": "component.skeleton",

@@ -25,8 +25,8 @@ node kernel-portal/scripts/check-catalog.mjs
 <!-- kernel-ds:generated:start -->
 ## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
 
-- Entities: 97 — by kind: component 64, domain 2, element 6, object 15, pattern 10
-- By maturity: experimental 15, ready 82
-- By package owner: @kernel/definitions 7, @kernel/ui 62, kernel-portal 28
-- Documentation records: 85
+- Entities: 99 — by kind: component 65, domain 2, element 6, object 15, pattern 11
+- By maturity: experimental 17, ready 82
+- By package owner: @kernel/definitions 7, @kernel/ui 63, kernel-portal 29
+- Documentation records: 87
 <!-- kernel-ds:generated:end -->
