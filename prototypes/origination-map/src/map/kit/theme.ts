@@ -1,4 +1,3 @@
-import type maplibregl from "maplibre-gl"
 import { cssVarColor } from "@app/lib/color"
 
 const isDark = () => document.documentElement.classList.contains("dark")
@@ -23,15 +22,13 @@ export function mapPalette() {
   }
 }
 
-/* Mark roles. Every color a mark uses comes from here, named by what it means.
+/* Neutral mark roles (rings, hollow fill, shadow). Hues belong to objects: src/map/objects.
    Hue ledger and rules: MAP-DESIGN-SYSTEM.md. */
 export function markRoles() {
   const dark = isDark()
   const ink = cssVarColor("--foreground")
   // Outline in the page color plus a soft drop shadow lifts marks off the map (white in light, neutral-700 in dark).
   const halo = dark ? cssVarColor("--neutral-700") : "#ffffff"
-  const company = ["match", ["get", "co"], "C", cssVarColor("--om-cargill"), cssVarColor("--om-adm")] as unknown as maplibregl.ExpressionSpecification
-  const category = ["match", ["get", "kind"], "f", cssVarColor("--om-feed"), "e", cssVarColor("--om-refinery"), cssVarColor("--om-port")] as unknown as maplibregl.ExpressionSpecification
   return {
     dark,
     ink,
@@ -42,7 +39,7 @@ export function markRoles() {
     /** Fill that makes a mark read as hollow. */
     hollow: dark ? cssVarColor("--neutral-800") : "#ffffff",
     shade: (dark ? [0, 0, 0, 0.7] : [40, 30, 15, 0.45]) as [number, number, number, number],
-    company,
-    category,
   }
 }
+
+export type MarkRoles = ReturnType<typeof markRoles>

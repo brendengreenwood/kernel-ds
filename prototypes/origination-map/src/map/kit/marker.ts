@@ -8,18 +8,17 @@ const lit = litState
 
 // One marker recipe for every point on the map: a soft drop shadow, then the glyph with an outline.
 // Kinds differ only in source, glyph, scale, fill, and outline color; shadow and zoom curves are shared.
-export function addMarker(map: MLMap, o: {
-  id: string
-  source: string
+/** What an object decides about its marks; the map adds id, source, filter and order. */
+export type MarkerSpec = {
   image: maplibregl.ExpressionSpecification
   scale: maplibregl.ExpressionSpecification | number
   fill: maplibregl.ExpressionSpecification | string
   ring: maplibregl.ExpressionSpecification | string
   ringWidth: number
-  filter?: maplibregl.FilterSpecification
   layout?: Record<string, unknown>
-  before?: string
-}) {
+}
+
+export function addMarker(map: MLMap, o: MarkerSpec & { id: string; source: string; filter?: maplibregl.FilterSpecification; before?: string }) {
   const z = (n: number): maplibregl.ExpressionSpecification | number => (typeof o.scale === "number" ? o.scale * n : ["*", o.scale, n])
   const layout = {
     "icon-image": o.image,

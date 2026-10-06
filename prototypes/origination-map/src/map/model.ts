@@ -1,5 +1,5 @@
-import type { Site } from "@app/data/sites"
-import type { Destination } from "@app/data/destinations"
+import type { BuyingPoint as Site } from "@app/map/objects/buying-point"
+import type { Destination } from "@app/map/objects/destination"
 
 export type { Site, Destination }
 

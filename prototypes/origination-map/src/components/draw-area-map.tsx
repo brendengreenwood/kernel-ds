@@ -4,10 +4,11 @@ import { ThinkingOrb } from "thinking-orbs"
 import maplibregl, { type GeoJSONSource, type Map as MLMap } from "maplibre-gl"
 import "maplibre-gl/dist/maplibre-gl.css"
 
-import { COMPANY, FACILITY, cropList, type FacilityType, type Site } from "@app/data/sites"
+import { cropList } from "@app/data/sites"
+import { COMPANY, FACILITY, buyingPointFeature, buyingPointMarker, companyColor, type BuyingPoint as Site } from "@app/map/objects/buying-point"
 import { circleRing } from "@app/lib/geo"
 import { cssVarColor } from "@app/lib/color"
-import { DEST, destSize, type Destination } from "@app/data/destinations"
+import { DEST, DEST_KINDS, destSize, destinationFeature, destinationMarker, type Destination } from "@app/map/objects/destination"
 import { useMapData } from "@app/map/data"
 import { mapPalette, markRoles } from "@app/map/kit/theme"
 import { installGlyphs } from "@app/map/kit/glyphs"
@@ -45,24 +46,8 @@ function fallbackStyle(): maplibregl.StyleSpecification {
 
 type Bounds = [[number, number], [number, number]]
 
-// Destinations reuse the site glyphs but draw hollow, in ink: circle = ethanol, square = feedyard, diamond = port.
-const DEST_SHAPE = { e: "i", f: "p", x: "x" } as const
-const ALL_DEST: ReadonlySet<string> = new Set(["x", "f", "e"])
-const destData = (list: Destination[]): GeoJSON.FeatureCollection => ({
-  type: "FeatureCollection",
-  features: list.map((d) => ({
-    type: "Feature",
-    id: d.id,
-    geometry: { type: "Point", coordinates: [d.lon, d.lat] },
-    properties: {
-      id: d.id,
-      kind: d.kind,
-      shape: DEST_SHAPE[d.kind],
-      // Size by capacity, clamped so the biggest plant never outweighs a buying point.
-      k: d.size == null ? 1 : Math.min(1.6, Math.max(1, d.kind === "e" ? d.size / 110 : d.size / 80000)),
-    },
-  })),
-})
+const ALL_DEST: ReadonlySet<string> = new Set(DEST_KINDS)
+const destData = (list: Destination[]): GeoJSON.FeatureCollection => ({ type: "FeatureCollection", features: list.map(destinationFeature) })
 
 
 export interface DrawAreaMapProps {
@@ -83,7 +68,7 @@ export interface DrawAreaMapProps {
   /** Adds a reset-view button to the map's zoom controls. */
   onReset?: () => void
   /** A site hovered outside the map (e.g. a rival list row) — lit and labelled as if the cursor were on it. */
-  /** Destination kinds to show (x port, f feedyard, e ethanol). */
+  /** Destination kinds to show. */
   destKinds?: ReadonlySet<string>
   hoverSite?: number | null
 }
@@ -120,16 +105,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       type: "FeatureCollection",
       features: sites
         .filter((s) => visible.has(s.id))
-        .map((s) => {
-          const a = s.stack * 2.1
-          const off = s.stack ? [Math.cos(a) * 9, Math.sin(a) * 9] : [0, 0]
-          return {
-            type: "Feature",
-            id: s.id,
-            geometry: { type: "Point", coordinates: [s.lon, s.lat] },
-            properties: { id: s.id, co: s.co, type: s.type, off },
-          }
-        }),
+        .map(buyingPointFeature),
     }),
     [sites, visible],
   )
@@ -138,7 +114,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     () => ({
       type: "FeatureCollection",
       features: sites
-        .filter((s) => showDraw && visible.has(s.id) && s.type !== "x")
+        .filter((s) => showDraw && visible.has(s.id) && s.type !== "export")
         .map((s) => ({
           type: "Feature",
           id: s.id,
@@ -280,7 +256,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       tip
         .setLngLat([s.lon, s.lat])
         .setHTML(
-          `<strong>${COMPANY[s.co]} ${s.name}, ${s.state}</strong><span>${FACILITY[s.type].label} · bids ${cropList(s.crops)}</span>`,
+          `<strong>${COMPANY[s.co].label} ${s.name}, ${s.state}</strong><span>${FACILITY[s.type].label} · bids ${cropList(s.crops)}</span>`,
         )
         .addTo(map)
     })
@@ -341,7 +317,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
 
   function install(map: MLMap) {
     const r = markRoles()
-    const byCo = r.company
+    const byCo = companyColor()
 
     installGlyphs(map, r.shade)
 
@@ -406,23 +382,14 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     addMarker(map, {
       id: "om-dest",
       source: "om-dest",
-      image: ["concat", "om-", ["get", "shape"]],
-      scale: ["*", ["get", "k"], 0.8],
-      fill: r.hollow,
-      ring: ["case", hover, r.ink, r.category],
-      ringWidth: 1.5,
+      ...destinationMarker(r),
       filter: destFilter(destRef.current),
     })
     // Buying points: filled in company color with a page-color ring.
     addMarker(map, {
       id: "om-sites",
       source: "om-sites",
-      image: ["concat", "om-", ["get", "type"]],
-      scale: 1,
-      fill: byCo,
-      ring: ["case", lit, r.haloActive, hover, r.haloHover, r.halo],
-      ringWidth: 3,
-      layout: { "icon-offset": ["get", "off"], "symbol-sort-key": ["case", ["==", ["get", "type"], "p"], 0, 1] },
+      ...buyingPointMarker(r),
     })
   }
 
@@ -532,7 +499,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     map.setFeatureState({ source: "om-sites", id: hoverSite }, { hover: true })
     tip
       .setLngLat([s.lon, s.lat])
-      .setHTML(`<strong>${COMPANY[s.co]} ${s.name}, ${s.state}</strong><span>${FACILITY[s.type].label} · bids ${cropList(s.crops)}</span>`)
+      .setHTML(`<strong>${COMPANY[s.co].label} ${s.name}, ${s.state}</strong><span>${FACILITY[s.type].label} · bids ${cropList(s.crops)}</span>`)
       .addTo(map)
     return () => {
       if (map.getSource("om-sites")) map.setFeatureState({ source: "om-sites", id: hoverSite }, { hover: false })

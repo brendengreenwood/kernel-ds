@@ -1,4 +1,4 @@
-import type { Crop, Site } from "@app/data/sites"
+import type { BuyingPoint as Site, Crop } from "@app/map/objects/buying-point"
 import { miles } from "./geo"
 
 export interface Pair {
@@ -31,8 +31,8 @@ export interface Analysis {
    draw by barge and rail, not from nearby farms, so they sit out of every
    competition count — same rule as the source page. */
 export function analyse(visible: Site[], radiusMi: number): Analysis {
-  const C = visible.filter((s) => s.co === "C" && s.type !== "x")
-  const A = visible.filter((s) => s.co === "A" && s.type !== "x")
+  const C = visible.filter((s) => s.co === "cargill" && s.type !== "export")
+  const A = visible.filter((s) => s.co === "adm" && s.type !== "export")
   const pairs: Pair[] = []
   for (const c of C)
     for (const a of A)
@@ -47,7 +47,7 @@ export function analyse(visible: Site[], radiusMi: number): Analysis {
   const byRegion = new Map<string, RegionRow>()
   for (const s of [...C, ...A]) {
     const r = byRegion.get(s.region) ?? { region: s.region, cargill: 0, adm: 0, contested: 0, closest: null }
-    if (s.co === "C") r.cargill++
+    if (s.co === "cargill") r.cargill++
     else r.adm++
     byRegion.set(s.region, r)
   }
@@ -71,9 +71,9 @@ export function analyse(visible: Site[], radiusMi: number): Analysis {
 
 /** Nearest rival (non-export) sites within reach of `s`. */
 export function rivalsNear(s: Site, visible: Site[], radiusMi: number, limit = 5) {
-  if (s.type === "x") return []
+  if (s.type === "export") return []
   return visible
-    .filter((o) => o.co !== s.co && o.type !== "x")
+    .filter((o) => o.co !== s.co && o.type !== "export")
     .map((o) => ({ site: o, mi: miles(s, o) }))
     .filter((o) => o.mi < 2 * radiusMi)
     .sort((p, q) => p.mi - q.mi)

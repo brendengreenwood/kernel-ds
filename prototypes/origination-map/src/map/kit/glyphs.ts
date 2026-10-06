@@ -1,9 +1,9 @@
 import type { Map as MLMap } from "maplibre-gl"
 
 /* One glyph per shape; shape carries kind, color carries meaning (redundant coding:
-   the kind key never depends on hue). i circle, r triangle, p square, x diamond. */
-export type Glyph = "i" | "r" | "p" | "x"
-export const GLYPHS: Glyph[] = ["i", "r", "p", "x"]
+   the kind key never depends on hue). Objects pick a glyph per kind. */
+export type Glyph = "circle" | "triangle" | "square" | "diamond"
+export const GLYPHS: Glyph[] = ["circle", "triangle", "square", "diamond"]
 
 // shade = [r, g, b, alpha] bakes a soft drop shadow as a plain RGBA image instead of an SDF.
 // SDF halos with blur wider than the field's falloff fill the whole icon quad, which shows up
@@ -17,11 +17,11 @@ export function shapeImage(type: Glyph, shade?: [number, number, number, number]
   const m = n / 2
   const r = 48 * 0.36
   const poly: [number, number][] | null =
-    type === "r"
+    type === "triangle"
       ? [[m, m - r * 1.05], [m + r * 1.05, m + r * 0.8], [m - r * 1.05, m + r * 0.8]]
-      : type === "p"
+      : type === "square"
         ? [[m - r * 0.85, m - r * 0.85], [m + r * 0.85, m - r * 0.85], [m + r * 0.85, m + r * 0.85], [m - r * 0.85, m + r * 0.85]]
-        : type === "x"
+        : type === "diamond"
           ? [[m, m - r * 1.1], [m + r * 1.1, m], [m, m + r * 1.1], [m - r * 1.1, m]]
           : null
   const dist = (x: number, y: number) => {

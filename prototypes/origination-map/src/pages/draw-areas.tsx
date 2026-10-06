@@ -1,5 +1,7 @@
 import { useMapData } from "@app/map/data"
-import { DEST, DEST_KINDS, type DestKind } from "@app/data/destinations"
+import { DEST, DEST_KINDS, type DestKind } from "@app/map/objects/destination"
+import { COMPANIES, COMPANY, FACILITIES, FACILITY, type BuyingPoint as Site, type Company, type Facility } from "@app/map/objects/buying-point"
+import type { Glyph } from "@app/map/kit/glyphs"
 import * as React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,24 +16,12 @@ import { X } from "@/components/ui/icon"
 import { cn } from "@/lib/utils"
 
 import { DrawAreaMap } from "@app/components/draw-area-map"
-import {
-  COMMODITY_OF,
-  COMPANY,
-  CROP,
-  FACILITY,
-  type Company,
-  type Crop,
-  type FacilityType,
-  type Site,
-} from "@app/data/sites"
+import { COMMODITY_OF, CROP, type Crop } from "@app/data/sites"
 import { analyse, fmtMi, rivalsNear, type Pair } from "@app/lib/analysis"
 import { useTheme } from "@app/lib/theme"
 
-const COMPANIES: Company[] = ["C", "A"]
-const TYPES: FacilityType[] = ["r", "i", "p", "x"]
+const TYPES = FACILITIES
 const CROPS: Crop[] = ["c", "s", "w", "m", "o"]
-const CO_SWATCH: Record<Company, string> = { C: "bg-om-cargill", A: "bg-om-adm" }
-const CO_TEXT: Record<Company, string> = { C: "text-om-cargill", A: "text-om-adm" }
 
 const PANEL =
   "grid gap-3 rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-neutral-700/90 dark:border-neutral-600 p-4 shadow-lg backdrop-blur"
@@ -59,17 +49,15 @@ function toggle<T>(set: Set<T>, v: T) {
   return next
 }
 
-/** The facility-type glyph, matching the map's SDF shapes. */
-const DEST_SHAPE: Record<DestKind, FacilityType> = { e: "i", f: "p", x: "x" }
-const DEST_TEXT: Record<DestKind, string> = { x: "text-om-port", f: "text-om-feed", e: "text-om-refinery" }
 
 /** Hollow = a destination (where grain goes); filled = a company buying point. */
-function Shape({ type, className, hollow }: { type: FacilityType; className?: string; hollow?: boolean }) {
+/** The glyph, matching the map's shapes. */
+function Shape({ type, className, hollow }: { type: Glyph; className?: string; hollow?: boolean }) {
   const d = {
-    i: <circle cx="6" cy="6" r="4" />,
-    r: <path d="M6 1.4 10.6 9.6H1.4Z" />,
-    p: <rect x="2" y="2" width="8" height="8" />,
-    x: <path d="M6 1 11 6 6 11 1 6Z" />,
+    circle: <circle cx="6" cy="6" r="4" />,
+    triangle: <path d="M6 1.4 10.6 9.6H1.4Z" />,
+    square: <rect x="2" y="2" width="8" height="8" />,
+    diamond: <path d="M6 1 11 6 6 11 1 6Z" />,
   }[type]
   return (
     <svg viewBox="0 0 12 12" aria-hidden className={cn("size-3 shrink-0 fill-current", hollow && "fill-card stroke-current [stroke-width:1.5]", className)}>
@@ -90,7 +78,7 @@ function CropTag({ crop }: { crop: Crop }) {
 function SiteName({ s, sub = true }: { s: Site; sub?: boolean }) {
   return (
     <span className="flex min-w-0 items-center gap-1.5">
-      <Shape type={s.type} className={CO_TEXT[s.co]} />
+      <Shape type={FACILITY[s.type].glyph} className={COMPANY[s.co].text} />
       <span className="truncate">
         {s.name}, {s.state}
       </span>
@@ -125,8 +113,8 @@ export default function DrawAreasPage() {
   const [radius, setRadius] = React.useState(35)
   const [showDraw, setShowDraw] = React.useState(false)
   const [destKinds, setDestKinds] = React.useState(() => new Set<DestKind>(DEST_KINDS))
-  const [companies, setCompanies] = React.useState(() => new Set<Company>(["C"]))
-  const [types, setTypes] = React.useState(() => new Set<FacilityType>(TYPES))
+  const [companies, setCompanies] = React.useState(() => new Set<Company>(["cargill"]))
+  const [types, setTypes] = React.useState(() => new Set<Facility>(TYPES))
   const [crops, setCrops] = React.useState(() => new Set<Crop>(CROPS))
   const [selectedId, setSelectedId] = React.useState<number | null>(null)
   const [pinnedPair, setPinnedPair] = React.useState<[number, number] | null>(null)
@@ -167,7 +155,7 @@ export default function DrawAreasPage() {
     setFocusKey((k) => k + 1)
   }
   const focusRival = (s: Site, o: Site) => {
-    setPinnedPair(s.co === "C" ? [s.id, o.id] : [o.id, s.id])
+    setPinnedPair(s.co === "cargill" ? [s.id, o.id] : [o.id, s.id])
     setFocusKey((k) => k + 1)
   }
   const [tab, setTab] = React.useState<SheetTab | null>(null)
@@ -240,7 +228,7 @@ export default function DrawAreasPage() {
   const applied: Record<FilterTab, [string, boolean]> = {
     radius: [showDraw ? `Draw areas · ${radius} mi` : "Draw areas off", showDraw],
     company: [
-      companies.size === 2 ? "All companies" : companies.size === 1 ? COMPANY[[...companies][0]] : "No company",
+      companies.size === 2 ? "All companies" : companies.size === 1 ? COMPANY[[...companies][0]].label : "No company",
       companies.size !== 2,
     ],
     facility: [types.size === TYPES.length ? "All facilities" : `${types.size} of ${TYPES.length} facilities`, types.size !== TYPES.length],
@@ -303,8 +291,8 @@ export default function DrawAreasPage() {
       <FilterGroup legend="Company" className={cn(fpos("w-[180px]"), sub("company"))}>
               {COMPANIES.map((co) => (
                 <Check key={co} checked={companies.has(co)} onChange={() => setCompanies((s) => toggle(s, co))}>
-                  <span className={cn("size-2.5 rounded-full", CO_SWATCH[co])} />
-                  {COMPANY[co]}
+                  <span className={cn("size-2.5 rounded-full", COMPANY[co].swatch)} />
+                  {COMPANY[co].label}
                   <span className="text-xs text-muted-foreground tabular-nums">
                     {data.sites.filter((s) => s.co === co).length}
                   </span>
@@ -316,13 +304,13 @@ export default function DrawAreasPage() {
       <FilterGroup legend="Facility type" className={cn(fpos("w-[210px]"), sub("facility"))}>
               {TYPES.map((t) => (
                 <Check key={t} checked={types.has(t)} onChange={() => setTypes((s) => toggle(s, t))}>
-                  <Shape type={t} />
+                  <Shape type={FACILITY[t].glyph} />
                   {FACILITY[t].plural}
                 </Check>
               ))}
               {DEST_KINDS.map((k) => (
                 <Check key={k} checked={destKinds.has(k)} onChange={() => setDestKinds((p) => { const n = new Set(p); if (n.has(k)) n.delete(k); else n.add(k); return n })}>
-                  <Shape type={DEST_SHAPE[k]} hollow className={DEST_TEXT[k]} />
+                  <Shape type={DEST[k].glyph} hollow className={DEST[k].text} />
                   {DEST[k].plural}
                 </Check>
               ))}
@@ -379,12 +367,12 @@ export default function DrawAreasPage() {
           >
             <div className="flex items-start gap-2">
               <div className="grid min-w-0 flex-1 gap-0.5">
-                <span className={cn("text-xs font-medium", CO_TEXT[selected.co])}>{COMPANY[selected.co]}</span>
+                <span className={cn("text-xs font-medium", COMPANY[selected.co].text)}>{COMPANY[selected.co].label}</span>
                 <h2 className="text-base font-semibold leading-6">
                   {selected.name}, {selected.state}
                 </h2>
                 <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Shape type={selected.type} />
+                  <Shape type={FACILITY[selected.type].glyph} />
                   {FACILITY[selected.type].label} · {selected.region}
                 </span>
               </div>
@@ -400,9 +388,9 @@ export default function DrawAreasPage() {
             <ScrollArea className={cn("-mr-3 pr-3 [&_[data-slot=scroll-area-viewport]]:max-h-[inherit]", body("max-h-[calc(100dvh-56px-160px-250px)]"))}>
             <div className="grid gap-1">
               <span className="text-xs font-medium text-muted-foreground">
-                {selected.type === "x" ? "Export terminals draw by barge and rail" : `Rival sites within ${radius * 2} mi`}
+                {selected.type === "export" ? "Export terminals draw by barge and rail" : `Rival sites within ${radius * 2} mi`}
               </span>
-              {selected.type !== "x" &&
+              {selected.type !== "export" &&
                 (rivals.length ? (
                   <ul className="grid">
                     {rivals.map(({ site, mi }) => (
@@ -411,7 +399,7 @@ export default function DrawAreasPage() {
                           type="button"
                           className="flex w-full items-center justify-between gap-3 rounded-[var(--radius-control)] px-1.5 py-1.5 text-left text-sm hover:bg-foreground/8 active:bg-foreground/12 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                           onMouseEnter={() => {
-                            setHoverPair(selected.co === "C" ? [selected.id, site.id] : [site.id, selected.id])
+                            setHoverPair(selected.co === "cargill" ? [selected.id, site.id] : [site.id, selected.id])
                             setHoverSite(site.id)
                           }}
                           onMouseLeave={() => {
@@ -565,15 +553,15 @@ export default function DrawAreasPage() {
             <div className="flex gap-3">
               {COMPANIES.map((co) => (
                 <span key={co} className="flex items-center gap-1.5 font-medium">
-                  <span className={cn("size-2.5 rounded-full", CO_SWATCH[co])} />
-                  {COMPANY[co]}
+                  <span className={cn("size-2.5 rounded-full", COMPANY[co].swatch)} />
+                  {COMPANY[co].label}
                 </span>
               ))}
             </div>
             <div className="hidden grid-cols-2 gap-x-3 gap-y-1 text-muted-foreground sm:grid">
               {TYPES.map((t) => (
                 <span key={t} className="flex items-center gap-1.5">
-                  <Shape type={t} className="text-foreground" />
+                  <Shape type={FACILITY[t].glyph} className="text-foreground" />
                   {FACILITY[t].label}
                 </span>
               ))}
@@ -582,7 +570,7 @@ export default function DrawAreasPage() {
               <div className="hidden grid-cols-2 gap-x-3 gap-y-1 border-t border-border pt-1.5 text-muted-foreground sm:grid">
                 {DEST_KINDS.map((k) => (
                   <span key={k} className="flex items-center gap-1.5">
-                    <Shape type={DEST_SHAPE[k]} hollow className={DEST_TEXT[k]} />
+                    <Shape type={DEST[k].glyph} hollow className={DEST[k].text} />
                     {DEST[k].label}
                   </span>
                 ))}
