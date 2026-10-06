@@ -20,6 +20,10 @@
   --om-production: var(--neutral-300);
   /* Water: a low-chroma blue leaning violet, quiet against cream land. */
   --om-water: oklch(0.88 0.009 252);
+  /* Destination categories (any owner). Hues not used by companies, water or rail. */
+  --om-feed: var(--viz-slate-600);
+  --om-refinery: var(--viz-wheat-600);
+  --om-port: var(--viz-teal-600);
 }
 /* Light rail from Figma "Light — Map ladder (cream)" 179:1489. Scoped so it cannot override the .dark frame. */
 :root:not(.dark) {
@@ -39,6 +43,9 @@
   --om-ldc: var(--viz-clay-400);
   --om-production: var(--neutral-700);
   --om-water: var(--neutral-900);
+  --om-feed: var(--viz-slate-200);
+  --om-refinery: var(--viz-wheat-400);
+  --om-port: var(--viz-teal-400);
 }
 
 @theme inline {
@@ -47,6 +54,9 @@
   --color-om-bunge: var(--om-bunge);
   --color-om-ldc: var(--om-ldc);
   --color-om-production: var(--om-production);
+  --color-om-feed: var(--om-feed);
+  --color-om-refinery: var(--om-refinery);
+  --color-om-port: var(--om-port);
 }
 
 html,

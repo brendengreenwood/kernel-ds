@@ -80,10 +80,25 @@ for (const l of feedyards.trim().split("\n")) {
   const [name, op, st, lat, lon, head, src] = l.split("|")
   out.push(["f", name, op, st, +lat, +lon, head ? +head : null, src])
 }
-const ST = { Alabama:"AL",Arizona:"AZ",Arkansas:"AR",California:"CA",Colorado:"CO",Georgia:"GA",Idaho:"ID",Illinois:"IL",Indiana:"IN",Iowa:"IA",Kansas:"KS",Kentucky:"KY",Louisiana:"LA",Michigan:"MI",Minnesota:"MN",Mississippi:"MS",Missouri:"MO",Montana:"MT",Nebraska:"NE","New Mexico":"NM","New York":"NY","North Carolina":"NC","North Dakota":"ND",Ohio:"OH",Oklahoma:"OK",Oregon:"OR",Pennsylvania:"PA","South Dakota":"SD",Tennessee:"TN",Texas:"TX",Virginia:"VA",Wisconsin:"WI",Wyoming:"WY",Idaho:"ID",Washington:"WA" }
-const eth = JSON.parse(fs.readFileSync("C:/tmp/ethanol.json", "utf8")).features
-for (const { properties: p } of eth) {
-  out.push(["e", p.site_name.trim(), p.company.trim(), ST[p.state] ?? p.state, +p.latitude.toFixed(3), +p.longitude.toFixed(3), p.capacity, "eia"])
+const read = (f) => JSON.parse(fs.readFileSync(path.join(__dirname, f), "utf8"))
+// Nebraska Cattlemen Feedlot Council directory: yards of 10,000+ head. [name, town, st, lat, lon, head]
+for (const [name, , st, lat, lon, head] of read("ne-feedlots-2024.json")) out.push(["f", name, name, st, lat, lon, head, "nebraska"])
+// TCFA member feedyards (TX, OK, NM). No capacities published. [name, town, st, lat, lon]
+for (const [name, , st, lat, lon] of read("tcfa-feedyards.json")) out.push(["f", name, name, st, lat, lon, null, "tcfa"])
+const ST = { Alabama:"AL",Arizona:"AZ",Arkansas:"AR",California:"CA",Colorado:"CO",Georgia:"GA",Idaho:"ID",Illinois:"IL",Indiana:"IN",Iowa:"IA",Kansas:"KS",Kentucky:"KY",Louisiana:"LA",Michigan:"MI",Minnesota:"MN",Mississippi:"MS",Missouri:"MO",Montana:"MT",Nebraska:"NE","New Mexico":"NM","New York":"NY","North Carolina":"NC","North Dakota":"ND",Ohio:"OH",Oklahoma:"OK",Oregon:"OR",Pennsylvania:"PA","South Dakota":"SD",Tennessee:"TN",Texas:"TX",Virginia:"VA",Wisconsin:"WI",Wyoming:"WY",Washington:"WA" }
+// EIA fuel ethanol plants operating Jan 1, 2025. [city, company, state, lat, lon, MMgy]
+for (const [city, co, st, lat, lon, cap] of read("eia-ethanol-2025.json")) out.push(["e", city, co, ST[st] ?? st, lat, lon, cap, "eia"])
+
+// Town-level points share coordinates (Hereford alone has ~10 yards). Fan duplicates
+// out on a small ring so each marker can be hovered; offsets stay within ~2 miles.
+const seen = {}
+for (const o of out) {
+  const k = o[4].toFixed(3) + "," + o[5].toFixed(3)
+  const i = (seen[k] = (seen[k] ?? -1) + 1)
+  if (i === 0) continue
+  const a = i * 2.4
+  o[4] = +(o[4] + 0.025 * Math.sin(a)).toFixed(4)
+  o[5] = +(o[5] + 0.03 * Math.cos(a)).toFixed(4)
 }
 fs.writeFileSync(path.join(__dirname, "../src/data/destinations.json"), JSON.stringify(out))
 const n = (k) => out.filter((o) => o[0] === k).length

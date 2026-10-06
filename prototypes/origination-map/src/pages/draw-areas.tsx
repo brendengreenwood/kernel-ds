@@ -61,6 +61,7 @@ function toggle<T>(set: Set<T>, v: T) {
 
 /** The facility-type glyph, matching the map's SDF shapes. */
 const DEST_SHAPE: Record<DestKind, FacilityType> = { e: "i", f: "p", x: "x" }
+const DEST_TEXT: Record<DestKind, string> = { x: "text-om-port", f: "text-om-feed", e: "text-om-refinery" }
 
 /** Hollow = a destination (where grain goes); filled = a company buying point. */
 function Shape({ type, className, hollow }: { type: FacilityType; className?: string; hollow?: boolean }) {
@@ -320,7 +321,7 @@ export default function DrawAreasPage() {
               ))}
               {DEST_KINDS.map((k) => (
                 <Check key={k} checked={destKinds.has(k)} onChange={() => setDestKinds((p) => { const n = new Set(p); if (n.has(k)) n.delete(k); else n.add(k); return n })}>
-                  <Shape type={DEST_SHAPE[k]} hollow />
+                  <Shape type={DEST_SHAPE[k]} hollow className={DEST_TEXT[k]} />
                   {DEST[k].plural}
                 </Check>
               ))}
@@ -580,7 +581,7 @@ export default function DrawAreasPage() {
               <div className="hidden grid-cols-2 gap-x-3 gap-y-1 border-t border-border pt-1.5 text-muted-foreground sm:grid">
                 {DEST_KINDS.map((k) => (
                   <span key={k} className="flex items-center gap-1.5">
-                    <Shape type={DEST_SHAPE[k]} hollow />
+                    <Shape type={DEST_SHAPE[k]} hollow className={DEST_TEXT[k]} />
                     {DEST[k].label}
                   </span>
                 ))}

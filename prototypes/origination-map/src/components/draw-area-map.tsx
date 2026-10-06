@@ -84,7 +84,10 @@ const DEST_DATA: GeoJSON.FeatureCollection = {
   })),
 }
 
-function shapeImage(type: FacilityType): ImageData {
+// shade = [r, g, b, alpha] bakes a soft drop shadow as a plain RGBA image instead of an SDF.
+// SDF halos with blur wider than the field's falloff fill the whole icon quad, which shows up
+// as faint squares at high zoom; a pre-blurred image has no such limit.
+function shapeImage(type: FacilityType, shade?: [number, number, number, number]): ImageData {
   // A true signed distance field (MapLibre/TinySDF convention: edge at 0.75, falling off
   // over RADIUS px), so icons stay crisp at any icon-size and can still be recolored.
   // Canvas and falloff are padded well past the shape so thick outlines are not clipped.
@@ -118,8 +121,15 @@ function shapeImage(type: FacilityType): ImageData {
   const img = new ImageData(n, n)
   for (let y = 0; y < n; y++)
     for (let x = 0; x < n; x++) {
-      const a = Math.round(255 * Math.max(0, Math.min(1, 0.75 - dist(x + 0.5, y + 0.5) / RADIUS)))
-      img.data[(y * n + x) * 4 + 3] = a
+      const d = dist(x + 0.5, y + 0.5)
+      const i = (y * n + x) * 4
+      if (shade) {
+        const t = Math.max(0, Math.min(1, (d + 1) / 7))
+        img.data[i] = shade[0]
+        img.data[i + 1] = shade[1]
+        img.data[i + 2] = shade[2]
+        img.data[i + 3] = Math.round(255 * shade[3] * (1 - t * t * (3 - 2 * t)))
+      } else img.data[i + 3] = Math.round(255 * Math.max(0, Math.min(1, 0.75 - d / RADIUS)))
     }
   return img
 }
@@ -401,13 +411,15 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     const dark = document.documentElement.classList.contains("dark")
     // Markers read like Google Maps in both themes: an outline in the page color (white in light, neutral-700 in dark) plus a soft drop shadow lifts them off the map.
     const halo = dark ? cssVarColor("--neutral-700") : "#ffffff"
-    const shade = dark ? "rgba(0, 0, 0, 0.7)" : "rgba(40, 30, 15, 0.45)"
+    const shade: [number, number, number, number] = dark ? [0, 0, 0, 0.7] : [40, 30, 15, 0.45]
     const ink = cssVarColor("--foreground")
     const byCo = ["match", ["get", "co"], "C", cargill, adm] as unknown as maplibregl.ExpressionSpecification
 
     for (const t of SHAPES) {
       if (map.hasImage(`om-${t}`)) map.removeImage(`om-${t}`)
       map.addImage(`om-${t}`, shapeImage(t), { sdf: true, pixelRatio: 2 })
+      if (map.hasImage(`om-shadow-${t}`)) map.removeImage(`om-shadow-${t}`)
+      map.addImage(`om-shadow-${t}`, shapeImage(t, shade), { pixelRatio: 2 })
     }
 
     // Draw areas go under the basemap's labels so place names stay legible.
@@ -542,15 +554,13 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         ...o.layout,
       } as maplibregl.SymbolLayerSpecification["layout"]
       const base = { type: "symbol" as const, source: o.source, layout, ...(o.filter ? { filter: o.filter } : {}) }
+      const shadowImage = JSON.parse(JSON.stringify(o.image).replace('"om-"', '"om-shadow-"')) as maplibregl.ExpressionSpecification
       map.addLayer(
         {
           ...base,
+          layout: { ...layout, "icon-image": shadowImage },
           id: o.id + "-shadow",
           paint: {
-            "icon-color": shade,
-            "icon-halo-color": shade,
-            "icon-halo-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 9, 2.5],
-            "icon-halo-blur": ["interpolate", ["linear"], ["zoom"], 3, 1, 9, 2.5],
             "icon-translate": ["interpolate", ["linear"], ["zoom"], 3, ["literal", [0, 0.5]], 9, ["literal", [0, 1.5]]],
           },
         },
@@ -579,7 +589,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       image: ["concat", "om-", ["get", "shape"]],
       scale: ["*", ["get", "k"], 0.8],
       fill: dark ? cssVarColor("--neutral-800") : "#ffffff",
-      ring: ["case", hover, ink, cssVarColor("--muted-foreground")],
+      ring: ["case", hover, ink, ["match", ["get", "kind"], "f", cssVarColor("--om-feed"), "e", cssVarColor("--om-refinery"), cssVarColor("--om-port")]],
       ringWidth: 1.5,
       filter: destFilter(destRef.current),
     })
