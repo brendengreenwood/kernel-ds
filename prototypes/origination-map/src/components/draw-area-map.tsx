@@ -13,14 +13,12 @@ import { useMapData } from "@app/map/data"
 import { mapPalette, markRoles } from "@app/map/kit/theme"
 import { installGlyphs } from "@app/map/kit/glyphs"
 import { addMarker, hoverState, litState } from "@app/map/kit/marker"
-import { addCorridors, setCorridorHighlight, type CorridorHighlight } from "@app/map/kit/corridors"
+import { styleTileCorridors, addCorridors, setCorridorHighlight, type CorridorHighlight } from "@app/map/kit/corridors"
 import type { Theme } from "@app/lib/theme"
 
 /* Basemaps: OpenFreeMap's vector styles — free, no API key, OSM data. Either
    can be swapped for any MapLibre style URL (MapTiler, Stadia, a self-hosted
    PMTiles style…) via env without touching the code. */
-// Low zooms use Natural Earth names ("Mississippi"), higher zooms OSM names ("Mississippi River").
-const BARGE_RIVERS = ["Mississippi", "Missouri", "Ohio", "Illinois", "Tennessee", "Arkansas", "Cumberland", "Columbia", "Snake"].flatMap((n) => [n, n + " River"])
 
 
 const STYLE: Record<Theme, string> = {
@@ -199,15 +197,8 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         for (const l of map.getStyle().layers) {
           if (l.type === "background") map.setPaintProperty(l.id, "background-color", c.ground)
           else if (l.id === "water") map.setPaintProperty(l.id, "fill-color", c.water)
-          else if (l.id === "waterway") {
-            // The Mississippi is the trunk; barge tributaries step down, other rivers and streams recede.
-            const trunk = ["in", ["get", "name"], ["literal", ["Mississippi", "Mississippi River"]]] as const
-            const barge = ["in", ["get", "name"], ["literal", BARGE_RIVERS]] as const
-            map.setPaintProperty(l.id, "line-color", ["case", trunk, c.trunk, barge, c.tributary, ["==", ["get", "class"], "river"], c.rivers, c.streams])
-            map.setPaintProperty(l.id, "line-width", ["interpolate", ["linear"], ["zoom"], 3, ["case", trunk, 2, 1], 8, ["case", trunk, 3.5, barge, 2, 0.8], 12, ["case", trunk, 5, barge, 3, 1.2]])
-          }
+          else if (styleTileCorridors(map, l.id)) continue
           else if (/^highway_(minor|major_inner|major_subtle|motorway_inner|motorway_subtle)$/.test(l.id)) map.setPaintProperty(l.id, "line-color", c.roads)
-          else if (/^railway(_minor|_transit)?$/.test(l.id)) { map.setPaintProperty(l.id, "line-color", c.rail); map.setLayerZoomRange(l.id, 5, 24) }
           else if (l.id.startsWith("place_")) {
             map.setPaintProperty(l.id, "text-color", c.label)
             map.setPaintProperty(l.id, "text-halo-color", c.ground)

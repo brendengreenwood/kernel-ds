@@ -1,3 +1,4 @@
+import { Z, zoomCurve } from "@app/map/kit/zoom"
 import type maplibregl from "maplibre-gl"
 import type { Map as MLMap } from "maplibre-gl"
 
@@ -22,7 +23,7 @@ export function addMarker(map: MLMap, o: MarkerSpec & { id: string; source: stri
   const z = (n: number): maplibregl.ExpressionSpecification | number => (typeof o.scale === "number" ? o.scale * n : ["*", o.scale, n])
   const layout = {
     "icon-image": o.image,
-    "icon-size": ["interpolate", ["linear"], ["zoom"], 3, z(0.3), 5, z(0.45), 7, z(0.75), 9, z(1.1)],
+    "icon-size": zoomCurve({ country: z(0.3), region: z(0.45), state: z(0.75), county: z(1.1) }),
     "icon-allow-overlap": true,
     "icon-ignore-placement": true,
     ...o.layout,
@@ -35,7 +36,7 @@ export function addMarker(map: MLMap, o: MarkerSpec & { id: string; source: stri
       layout: { ...layout, "icon-image": shadowImage },
       id: o.id + "-shadow",
       paint: {
-        "icon-translate": ["interpolate", ["linear"], ["zoom"], 3, ["literal", [0, 0.5]], 9, ["literal", [0, 1.5]]],
+        "icon-translate": ["interpolate", ["linear"], ["zoom"], Z.country, ["literal", [0, 0.5]], Z.county, ["literal", [0, 1.5]]],
       },
     },
     o.before,
@@ -49,7 +50,7 @@ export function addMarker(map: MLMap, o: MarkerSpec & { id: string; source: stri
       paint: {
         "icon-color": o.fill,
         "icon-halo-color": o.ring,
-        "icon-halo-width": ["interpolate", ["linear"], ["zoom"], 3, w(0.42), 6, w(0.67), 9, w(1)],
+        "icon-halo-width": zoomCurve({ country: w(0.42), state: w(0.78), county: w(1) }),
         "icon-halo-width-transition": { duration: 200 },
       },
     },
