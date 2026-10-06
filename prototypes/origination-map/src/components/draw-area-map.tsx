@@ -9,6 +9,10 @@ import { circleRing } from "@app/lib/geo"
 import { cssVarColor } from "@app/lib/color"
 import { DEST, destSize, type Destination } from "@app/data/destinations"
 import { useMapData } from "@app/map/data"
+import { mapPalette, markRoles } from "@app/map/kit/theme"
+import { installGlyphs } from "@app/map/kit/glyphs"
+import { addMarker, hoverState, litState } from "@app/map/kit/marker"
+import { addCorridors } from "@app/map/kit/corridors"
 import type { Theme } from "@app/lib/theme"
 
 /* Basemaps: OpenFreeMap's vector styles — free, no API key, OSM data. Either
@@ -17,25 +21,6 @@ import type { Theme } from "@app/lib/theme"
 // Low zooms use Natural Earth names ("Mississippi"), higher zooms OSM names ("Mississippi River").
 const BARGE_RIVERS = ["Mississippi", "Missouri", "Ohio", "Illinois", "Tennessee", "Arkansas", "Cumberland", "Columbia", "Snake"].flatMap((n) => [n, n + " River"])
 
-/* One map recipe, two themes. Dark ranks importance by moving AWAY from the
-   card ground toward light; light mirrors it by moving away toward dark: the
-   sky/rust steps flip around the middle of each ramp (400 <-> 600, 700 <-> 300). */
-function mapPalette() {
-  const dark = document.documentElement.classList.contains("dark")
-  const v = (d: string, l: string) => cssVarColor(dark ? d : l)
-  return {
-    ground: v("--card", "--cream-50"),
-    water: cssVarColor("--om-water"),
-    roads: v("--neutral-950", "--cream-300"),
-    trunk: v("--viz-sky-400", "--viz-sky-600"),
-    tributary: v("--viz-sky-700", "--viz-sky-400"),
-    rivers: v("--viz-sky-800", "--viz-sky-300"),
-    streams: v("--viz-sky-900", "--viz-sky-200"),
-    rail: cssVarColor("--viz-rust-500"),
-    flow: [v("--viz-rust-600", "--viz-rust-400"), v("--viz-rust-500", "--viz-rust-500"), v("--viz-rust-400", "--viz-rust-600")],
-    label: v("--muted-foreground", "--foreground"),
-  }
-}
 
 const STYLE: Record<Theme, string> = {
   // Both themes repaint the same layer set, so light reuses the dark style's layer ids.
@@ -60,9 +45,6 @@ function fallbackStyle(): maplibregl.StyleSpecification {
 
 type Bounds = [[number, number], [number, number]]
 
-/* One SDF glyph per facility type: shape carries type, colour carries company
-   (redundant coding — the type key never depends on hue). */
-const SHAPES: FacilityType[] = ["i", "r", "p", "x"]
 // Destinations reuse the site glyphs but draw hollow, in ink: circle = ethanol, square = feedyard, diamond = port.
 const DEST_SHAPE = { e: "i", f: "p", x: "x" } as const
 const ALL_DEST: ReadonlySet<string> = new Set(["x", "f", "e"])
@@ -82,55 +64,6 @@ const destData = (list: Destination[]): GeoJSON.FeatureCollection => ({
   })),
 })
 
-// shade = [r, g, b, alpha] bakes a soft drop shadow as a plain RGBA image instead of an SDF.
-// SDF halos with blur wider than the field's falloff fill the whole icon quad, which shows up
-// as faint squares at high zoom; a pre-blurred image has no such limit.
-function shapeImage(type: FacilityType, shade?: [number, number, number, number]): ImageData {
-  // A true signed distance field (MapLibre/TinySDF convention: edge at 0.75, falling off
-  // over RADIUS px), so icons stay crisp at any icon-size and can still be recolored.
-  // Canvas and falloff are padded well past the shape so thick outlines are not clipped.
-  const n = 80
-  const RADIUS = 20
-  const m = n / 2
-  const r = 48 * 0.36
-  const poly: [number, number][] | null =
-    type === "r"
-      ? [[m, m - r * 1.05], [m + r * 1.05, m + r * 0.8], [m - r * 1.05, m + r * 0.8]]
-      : type === "p"
-        ? [[m - r * 0.85, m - r * 0.85], [m + r * 0.85, m - r * 0.85], [m + r * 0.85, m + r * 0.85], [m - r * 0.85, m + r * 0.85]]
-        : type === "x"
-          ? [[m, m - r * 1.1], [m + r * 1.1, m], [m, m + r * 1.1], [m - r * 1.1, m]]
-          : null
-  const dist = (x: number, y: number) => {
-    if (!poly) return Math.hypot(x - m, y - m) - r * 0.92
-    let d = Infinity
-    let inside = false
-    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-      const [ax, ay] = poly[j]
-      const [bx, by] = poly[i]
-      const dx = bx - ax
-      const dy = by - ay
-      const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy)))
-      d = Math.min(d, Math.hypot(x - ax - t * dx, y - ay - t * dy))
-      if (ay > y !== by > y && x < ((bx - ax) * (y - ay)) / (by - ay) + ax) inside = !inside
-    }
-    return inside ? -d : d
-  }
-  const img = new ImageData(n, n)
-  for (let y = 0; y < n; y++)
-    for (let x = 0; x < n; x++) {
-      const d = dist(x + 0.5, y + 0.5)
-      const i = (y * n + x) * 4
-      if (shade) {
-        const t = Math.max(0, Math.min(1, (d + 1) / 7))
-        img.data[i] = shade[0]
-        img.data[i + 1] = shade[1]
-        img.data[i + 2] = shade[2]
-        img.data[i + 3] = Math.round(255 * shade[3] * (1 - t * t * (3 - 2 * t)))
-      } else img.data[i + 3] = Math.round(255 * Math.max(0, Math.min(1, 0.75 - d / RADIUS)))
-    }
-  return img
-}
 
 export interface DrawAreaMapProps {
   sites: Site[]
@@ -407,21 +340,10 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
   byIdRef.current = byId
 
   function install(map: MLMap) {
-    const cargill = cssVarColor("--om-cargill")
-    const adm = cssVarColor("--om-adm")
-    const dark = document.documentElement.classList.contains("dark")
-    // Markers read like Google Maps in both themes: an outline in the page color (white in light, neutral-700 in dark) plus a soft drop shadow lifts them off the map.
-    const halo = dark ? cssVarColor("--neutral-700") : "#ffffff"
-    const shade: [number, number, number, number] = dark ? [0, 0, 0, 0.7] : [40, 30, 15, 0.45]
-    const ink = cssVarColor("--foreground")
-    const byCo = ["match", ["get", "co"], "C", cargill, adm] as unknown as maplibregl.ExpressionSpecification
+    const r = markRoles()
+    const byCo = r.company
 
-    for (const t of SHAPES) {
-      if (map.hasImage(`om-${t}`)) map.removeImage(`om-${t}`)
-      map.addImage(`om-${t}`, shapeImage(t), { sdf: true, pixelRatio: 2 })
-      if (map.hasImage(`om-shadow-${t}`)) map.removeImage(`om-shadow-${t}`)
-      map.addImage(`om-shadow-${t}`, shapeImage(t, shade), { pixelRatio: 2 })
-    }
+    installGlyphs(map, r.shade)
 
     // Draw areas go under the basemap's labels so place names stay legible.
     const firstLabel = map.getStyle().layers.find((l) => l.type === "symbol")?.id
@@ -431,59 +353,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     map.addSource("om-pair", { type: "geojson", data: pairData })
     map.addSource("om-dest", { type: "geojson", data: destData(dataRef.current.destinations) })
 
-    // Zoomed out the tiles drop river names, so the barge network ships as its own
-    // Natural Earth layer until z8, where the tile waterways take over the ranking.
-    {
-      const c = mapPalette()
-      // Tile rail only appears near street zoom; Natural Earth rail fills in until then.
-      map.addSource("om-rail", { type: "geojson", data: dataRef.current.corridors.rail })
-      map.addLayer(
-        {
-          id: "om-rail",
-          type: "line",
-          source: "om-rail",
-          maxzoom: 13,
-          layout: { "line-join": "round" },
-          paint: {
-            "line-color": c.rail,
-            "line-opacity": 0.35,
-            "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 8, 1.4, 12, 2],
-          },
-        },
-        firstLabel,
-      )
-      // Rail Cargill grain rides to a Gulf outlet (scripts/build-rail-flow.mjs):
-      // the more site routes share a segment, the brighter and thicker it draws.
-      map.addSource("om-rail-flow", { type: "geojson", data: dataRef.current.corridors.routes })
-      map.addLayer(
-        {
-          id: "om-rail-flow",
-          type: "line",
-          source: "om-rail-flow",
-          layout: { "line-cap": "round", "line-join": "round" },
-          paint: {
-            "line-color": ["step", ["get", "routes"], c.flow[0], 3, c.flow[1], 6, c.flow[2]],
-            "line-width": ["interpolate", ["linear"], ["zoom"], 3, ["interpolate", ["linear"], ["get", "routes"], 1, 1, 9, 3], 10, ["interpolate", ["linear"], ["get", "routes"], 1, 2, 9, 6]],
-          },
-        },
-        firstLabel,
-      )
-      map.addSource("om-rivers", { type: "geojson", data: dataRef.current.corridors.rivers })
-      map.addLayer(
-        {
-          id: "om-rivers",
-          type: "line",
-          source: "om-rivers",
-          maxzoom: 8,
-          layout: { "line-cap": "round", "line-join": "round" },
-          paint: {
-            "line-color": ["case", ["get", "trunk"], c.trunk, c.tributary],
-            "line-width": ["interpolate", ["linear"], ["zoom"], 3, ["case", ["get", "trunk"], 2.5, 1.2], 8, ["case", ["get", "trunk"], 4, 2]],
-          },
-        },
-        firstLabel,
-      )
-    }
+    addCorridors(map, dataRef.current.corridors, firstLabel)
 
     map.addLayer(
       {
@@ -515,10 +385,10 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
       type: "line",
       source: "om-pair",
       layout: { "line-cap": "round" },
-      paint: { "line-color": ink, "line-width": 2, "line-dasharray": [2, 1.5] },
+      paint: { "line-color": r.ink, "line-width": 2, "line-dasharray": [2, 1.5] },
     })
-    const hover = ["boolean", ["feature-state", "hover"], false] as unknown as maplibregl.ExpressionSpecification
-    const lit = ["boolean", ["feature-state", "on"], false] as unknown as maplibregl.ExpressionSpecification
+    const hover = hoverState
+    const lit = litState
     map.addLayer({
       id: "om-glow",
       type: "circle",
@@ -532,76 +402,25 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
         "circle-opacity-transition": { duration: 200 },
       },
     })
-    // One marker recipe for every point on the map: a soft drop shadow, then the glyph with an outline.
-    // Kinds differ only in source, glyph, scale, fill, and outline color; shadow and zoom curves are shared.
-    const marker = (o: {
-      id: string
-      source: string
-      image: maplibregl.ExpressionSpecification
-      scale: maplibregl.ExpressionSpecification | number
-      fill: maplibregl.ExpressionSpecification | string
-      ring: maplibregl.ExpressionSpecification | string
-      ringWidth: number
-      filter?: maplibregl.FilterSpecification
-      layout?: Record<string, unknown>
-      before?: string
-    }) => {
-      const z = (n: number): maplibregl.ExpressionSpecification | number => (typeof o.scale === "number" ? o.scale * n : ["*", o.scale, n])
-      const layout = {
-        "icon-image": o.image,
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 3, z(0.3), 5, z(0.45), 7, z(0.75), 9, z(1.1)],
-        "icon-allow-overlap": true,
-        "icon-ignore-placement": true,
-        ...o.layout,
-      } as maplibregl.SymbolLayerSpecification["layout"]
-      const base = { type: "symbol" as const, source: o.source, layout, ...(o.filter ? { filter: o.filter } : {}) }
-      const shadowImage = JSON.parse(JSON.stringify(o.image).replace('"om-"', '"om-shadow-"')) as maplibregl.ExpressionSpecification
-      map.addLayer(
-        {
-          ...base,
-          layout: { ...layout, "icon-image": shadowImage },
-          id: o.id + "-shadow",
-          paint: {
-            "icon-translate": ["interpolate", ["linear"], ["zoom"], 3, ["literal", [0, 0.5]], 9, ["literal", [0, 1.5]]],
-          },
-        },
-        o.before,
-      )
-      // Outline grows with icon-size so it keeps the same proportion at every zoom; hover +0.5, selected +1.
-      const w = (k: number): maplibregl.ExpressionSpecification => ["case", lit, o.ringWidth * k + 0.75, hover, o.ringWidth * k + 0.5, o.ringWidth * k]
-      map.addLayer(
-        {
-          ...base,
-          id: o.id,
-          paint: {
-            "icon-color": o.fill,
-            "icon-halo-color": o.ring,
-            "icon-halo-width": ["interpolate", ["linear"], ["zoom"], 3, w(0.42), 6, w(0.67), 9, w(1)],
-            "icon-halo-width-transition": { duration: 200 },
-          },
-        },
-        o.before,
-      )
-    }
     // Destinations: hollow (page-color fill, ink ring), sized by capacity, drawn under buying points.
-    marker({
+    addMarker(map, {
       id: "om-dest",
       source: "om-dest",
       image: ["concat", "om-", ["get", "shape"]],
       scale: ["*", ["get", "k"], 0.8],
-      fill: dark ? cssVarColor("--neutral-800") : "#ffffff",
-      ring: ["case", hover, ink, ["match", ["get", "kind"], "f", cssVarColor("--om-feed"), "e", cssVarColor("--om-refinery"), cssVarColor("--om-port")]],
+      fill: r.hollow,
+      ring: ["case", hover, r.ink, r.category],
       ringWidth: 1.5,
       filter: destFilter(destRef.current),
     })
     // Buying points: filled in company color with a page-color ring.
-    marker({
+    addMarker(map, {
       id: "om-sites",
       source: "om-sites",
       image: ["concat", "om-", ["get", "type"]],
       scale: 1,
       fill: byCo,
-      ring: ["case", lit, dark ? cssVarColor("--neutral-600") : ink, hover, dark ? cssVarColor("--neutral-600") : halo, halo],
+      ring: ["case", lit, r.haloActive, hover, r.haloHover, r.halo],
       ringWidth: 3,
       layout: { "icon-offset": ["get", "off"], "symbol-sort-key": ["case", ["==", ["get", "type"], "p"], 0, 1] },
     })
