@@ -21,6 +21,9 @@
   --radius-control: 0.25rem; /* 4px — controls stay subordinate to surfaces. */
   --radius-surface: 0.5rem; /* 8px — exposed perimeter of connected work surfaces. */
   --radius-floating: 0.5rem; /* 8px — menus, popovers, and other floating layers. */
+  /* Panels floating over a full-bleed canvas (maps). Light: the card. */
+  --floating: var(--card);
+  color-scheme: light;
   --radius-modal: 0.5rem; /* 8px — blocking dialogs share the system surface geometry. */
   /* Connected panels round the exposed shell once. Regions inside the shell
      remain square so adjacent navigator, canvas, and dock areas share seams
@@ -216,12 +219,32 @@
   --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
   --elev-cast: var(--shadow-lg);
   --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
+
+  /* Floating panels lift off a dark canvas; fields inside sit one step below
+     so their edges hold (--input equals the panel otherwise). */
+  --floating: color-mix(in oklch, var(--neutral-800) 55%, var(--neutral-700));
+  color-scheme: dark;
+}
+@layer utilities {
+  .dark [data-surface="floating"] :is([data-slot="input"], [data-slot="select-trigger"]) {
+    background-color: var(--card);
+  }
+}
+
+/* Small all-caps panel title. One recipe; override color only. */
+@utility text-overline {
+  font-size: var(--text-2xs);
+  line-height: var(--text-2xs--line-height);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-floating: var(--floating);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);

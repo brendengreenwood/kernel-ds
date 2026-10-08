@@ -18,7 +18,7 @@ export const typeStyles = {
   bodySmall: "text-sm leading-relaxed",
   label: "text-sm font-medium",
   caption: "text-xs text-muted-foreground",
-  overline: "text-2xs font-semibold uppercase tracking-[0.13em] text-muted-foreground",
+  overline: "text-overline text-muted-foreground",
   numeric: "font-mono text-sm tabular-nums",
   code: "font-mono text-sm",
 } as const
