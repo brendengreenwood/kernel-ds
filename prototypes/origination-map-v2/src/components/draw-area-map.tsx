@@ -70,11 +70,13 @@ export interface DrawAreaMapProps {
   destKinds?: ReadonlySet<string>
   highlight?: CorridorHighlight
   hoverSite?: number | null
+  /** Called with the map after every style load, so callers can add their own layers. */
+  onMap?: (map: MLMap) => void
 }
 
 const ALL_ON: CorridorHighlight = { rivers: true, rail: true }
 
-export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset, hoverSite = null, destKinds = ALL_DEST, highlight = ALL_ON }: DrawAreaMapProps) {
+export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, selectedId, pair, focusKey, onSelect, onBasemap, onReset, hoverSite = null, destKinds = ALL_DEST, highlight = ALL_ON, onMap }: DrawAreaMapProps) {
   const listTip = React.useRef<maplibregl.Popup | null>(null)
   const container = React.useRef<HTMLDivElement>(null)
   const mapRef = React.useRef<MLMap | null>(null)
@@ -295,6 +297,12 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const onMapRef = React.useRef(onMap)
+  onMapRef.current = onMap
+  React.useEffect(() => {
+    if (ready && mapRef.current) onMapRef.current?.(mapRef.current)
+  }, [ready])
 
   const stylePending = React.useRef(true)
   const usingFallback = React.useRef(false)
