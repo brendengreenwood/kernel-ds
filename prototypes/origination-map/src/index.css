@@ -28,13 +28,25 @@
 /* Light rail from Figma "Light — Map ladder (cream)" 179:1489. Scoped so it cannot override the .dark frame. */
 :root:not(.dark) {
   --sidebar: var(--brand-950);
-  --sidebar-foreground: var(--neutral-400);
+  --sidebar-foreground: var(--neutral-50);
   --sidebar-primary: var(--lime-300);
   --sidebar-primary-foreground: var(--lime-950);
-  --sidebar-accent: var(--neutral-600);
-  --sidebar-accent-foreground: var(--lime-200);
+  /* Active tile = a lighter step of the rail itself, not a contrasting block. */
+  --sidebar-accent: color-mix(in oklch, var(--brand-950) 80%, var(--cream-300));
+  --sidebar-accent-foreground: white;
   --sidebar-border: var(--neutral-500);
   --sidebar-ring: var(--lime-300);
+}
+/* Rail labels sit two neutral steps lighter than their icons, active and idle. */
+:root:not(.dark) [data-slot="sidebar-menu-button"] svg {
+  color: var(--neutral-400);
+}
+:root:not(.dark) [data-slot="sidebar-menu-button"][data-active] {
+  border-color: var(--neutral-700) !important;
+  box-shadow: none !important;
+}
+:root:not(.dark) [data-slot="sidebar-menu-button"][data-active] svg {
+  color: var(--neutral-200);
 }
 .dark {
   --om-cargill: var(--viz-crop-400);
