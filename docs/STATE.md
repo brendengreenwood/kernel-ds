@@ -459,7 +459,7 @@ With both merged, this branch drained its own register (2026-08-06): main merged
 
 ### Origination-map v2: merchant scenario workspace (2026-10-08)
 
-`prototypes/origination-map-v2` (port 5194, branch `claude/festive-bardeen-yd4esi`, unpushed) simulates the merchant session: scenario navigator, pricing panel, priority, priority areas, producers. All data simulated. Rules in its `WORKSPACE-DESIGN-SYSTEM.md`; remaining local patches in its `PATCHES.md`. Gaps it found landed in Kernel as decision 0085 (segmented toggle, `--floating`, `text-overline`, color-scheme, dark-card tints, `Flag`). Open: label weight (#5) and field-text nudge (#6) need a call; kernel-app still uses its own segmented CSS; `PageHeader` has no one-line size; the review half of the workflow is not defined.
+`prototypes/origination-map-v2` (port 5194, branch `claude/festive-bardeen-yd4esi`, unpushed) simulates the merchant session: scenario navigator, pricing panel, priority, priority areas, producers. All data simulated. Rules in its `WORKSPACE-DESIGN-SYSTEM.md`; remaining local patches in its `PATCHES.md`. Gaps it found landed in Kernel as decision 0085 (segmented toggle, `--floating`, `text-overline`, color-scheme, dark-card tints, `Flag`). Label weight (#5) and field-text nudge (#6) moved into Kernel. Open: kernel-app still uses its own segmented CSS; `PageHeader` has no one-line size; the review half of the workflow is not defined.
 
 ## Backlog
 

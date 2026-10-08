@@ -175,20 +175,6 @@ body {
   .om-beam > span { animation: none; background: var(--om-beam); }
 }
 
-form[aria-label="Pricing"] [data-slot=label] {
-  font-weight: 400;
-}
-
-/* Field text reads low; nudge it up 1px so it reads centered. */
-form[aria-label="Pricing"] [data-slot=input] {
-  padding-top: 3px;
-  padding-bottom: 5px;
-}
-form[aria-label="Pricing"] [data-slot=select-trigger] {
-  padding-top: 7px;
-  padding-bottom: 9px;
-}
-
 /* Date trigger reads as a field, not a button. */
 form[aria-label="Pricing"] #bid-date {
   padding-inline: 10px;
