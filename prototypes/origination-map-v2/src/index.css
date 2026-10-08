@@ -1,0 +1,236 @@
+/* Origination map prototype — consumes the full DS token sheet + components at
+   source (same wiring as kernel-app). App-local tokens are prefixed --om-* and
+   never leak into packages/ui. */
+@import "../../../packages/ui/src/styles.css";
+
+@source "../../../packages/ui/src";
+@source "./";
+
+/* ---- company series ----
+   Competitors are neither a status, a notification, nor a commodity, so they
+   take the abstract --viz-* chart series (CLAUDE.md "three color axes").
+   Crop green / sky blue keep the source page's Cargill-green, ADM-blue
+   mapping; Bunge plum and LDC clay finish the four ABCDs. Dark lifts one rung
+   so marks hold contrast on the near-black basemap. */
+:root {
+  --om-cargill: var(--brand-500);
+  --om-adm: var(--viz-plum-500);
+  --om-bunge: var(--viz-plum-600);
+  --om-ldc: var(--viz-clay-600);
+  --om-production: var(--neutral-300);
+  /* Water: a low-chroma blue leaning violet, quiet against cream land. */
+  --om-water: oklch(0.88 0.009 252);
+  /* Destination categories (any owner). Hues not used by companies, water or rail. */
+  --om-feed: var(--viz-slate-600);
+  --om-refinery: var(--viz-wheat-600);
+  --om-port: var(--viz-teal-600);
+}
+/* Light rail from Figma "Light — Map ladder (cream)" 179:1489. Scoped so it cannot override the .dark frame. */
+:root:not(.dark) {
+  --sidebar: var(--brand-950);
+  --sidebar-foreground: var(--neutral-50);
+  --sidebar-primary: var(--lime-300);
+  --sidebar-primary-foreground: var(--lime-950);
+  /* Active tile = a lighter step of the rail itself, not a contrasting block. */
+  --sidebar-accent: color-mix(in oklch, var(--brand-950) 80%, var(--cream-300));
+  --sidebar-accent-foreground: white;
+  --sidebar-border: var(--neutral-500);
+  --sidebar-ring: var(--lime-300);
+}
+/* Rail labels sit two neutral steps lighter than their icons, active and idle. */
+:root:not(.dark) [data-slot="sidebar-menu-button"] svg {
+  color: var(--neutral-400);
+}
+:root:not(.dark) [data-slot="sidebar-menu-button"][data-active] {
+  border-color: var(--neutral-700) !important;
+  box-shadow: none !important;
+}
+:root:not(.dark) [data-slot="sidebar-menu-button"][data-active] svg {
+  color: var(--neutral-200);
+}
+.dark {
+  --om-cargill: var(--viz-crop-400);
+  --om-adm: var(--viz-plum-400);
+  --om-bunge: var(--viz-plum-400);
+  --om-ldc: var(--viz-clay-400);
+  --om-production: var(--neutral-700);
+  --om-water: color-mix(in oklch, var(--neutral-900), var(--neutral-800));
+  --om-roads: color-mix(in oklch, var(--neutral-800), var(--neutral-700));
+  --om-float: color-mix(in oklch, var(--neutral-800) 55%, var(--neutral-700));
+  --om-feed: var(--viz-slate-200);
+  --om-refinery: var(--viz-wheat-400);
+  --om-port: var(--viz-teal-400);
+}
+
+@theme inline {
+  --color-om-cargill: var(--om-cargill);
+  --color-om-adm: var(--om-adm);
+  --color-om-bunge: var(--om-bunge);
+  --color-om-ldc: var(--om-ldc);
+  --color-om-production: var(--om-production);
+  --color-om-feed: var(--om-feed);
+  --color-om-refinery: var(--om-refinery);
+  --color-om-port: var(--om-port);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* ---- MapLibre chrome in Kernel tokens ---- */
+.maplibregl-map {
+  font: inherit;
+}
+.om-tip .maplibregl-popup-content {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-floating);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: var(--shadow-md);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  pointer-events: none;
+}
+.dark .om-tip .maplibregl-popup-content {
+  background: var(--neutral-950);
+  border-color: var(--neutral-800);
+}
+.om-tip .maplibregl-popup-content span {
+  color: var(--muted-foreground);
+}
+.om-tip .maplibregl-popup-tip {
+  display: none;
+}
+.maplibregl-ctrl-group {
+  border-radius: var(--radius-control) !important;
+  background: var(--card) !important;
+  box-shadow: var(--shadow-sm) !important;
+  border: 1px solid var(--border);
+}
+.maplibregl-ctrl-group button + button {
+  border-top-color: var(--border) !important;
+}
+.dark .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+.maplibregl-ctrl-scale {
+  background: color-mix(in oklch, var(--card) 80%, transparent);
+  border-color: var(--muted-foreground);
+  color: var(--foreground);
+}
+.dark .maplibregl-ctrl-attrib {
+  background: color-mix(in oklch, var(--card) 80%, transparent);
+}
+.dark .maplibregl-ctrl-attrib a,
+.dark .maplibregl-ctrl-attrib-inner {
+  color: var(--muted-foreground);
+}
+.dark .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
+
+/* Coarse pointers: map zoom buttons grow to the 44px target (CLAUDE.md). */
+@media (pointer: coarse) {
+  .maplibregl-ctrl-group button {
+    width: 44px;
+    height: 44px;
+  }
+}
+.maplibregl-ctrl-attrib {
+  font-size: 0.6875rem;
+}
+
+/* Map controls match the floating panels in dark: one step above the card ground, hairline one step above that. */
+.dark .maplibregl-ctrl-group { background: color-mix(in oklch, var(--neutral-700) 90%, transparent) !important; border: 1px solid var(--neutral-600) !important; }
+
+/* Selected marker: a short comet of light runs around the outline, fading at its tail. */
+.om-beam {
+  width: var(--om-beam-d);
+  height: var(--om-beam-d);
+  pointer-events: none;
+}
+.om-beam > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, transparent 0 78%, color-mix(in oklch, var(--om-beam) 40%, transparent) 88%, var(--om-beam) 99%, transparent 100%);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+  animation: om-beam-spin 2.4s linear infinite;
+}
+:root { --om-beam: var(--primary); }
+.dark { --om-beam: var(--lime-300); }
+@keyframes om-beam-spin {
+  to { transform: rotate(1turn); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .om-beam > span { animation: none; background: var(--om-beam); }
+}
+
+/* PREVIEW: kernel-app overview segmented toggle (v2-layer.css:35-58). Not in Kernel yet. */
+[data-segmented] {
+  gap: calc(var(--spacing) * 0.5);
+  border-radius: var(--radius-surface);
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: calc(var(--spacing) * 0.75);
+}
+[data-segmented] [data-slot="toggle-group-item"] {
+  border: 0 !important;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--muted-foreground);
+}
+[data-segmented] [data-slot="toggle-group-item"]:hover {
+  background: transparent;
+  color: var(--foreground);
+}
+[data-segmented] [data-slot="toggle-group-item"][aria-pressed="true"],
+[data-segmented] [data-slot="toggle-group-item"][data-state="on"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Fields on dark floating panels sit one shade below the panel. */
+.dark form[aria-label="Pricing"] :is([data-slot=input], [data-slot=select-trigger]) {
+  background-color: var(--neutral-800);
+}
+
+form[aria-label="Pricing"] [data-slot=label] {
+  font-weight: 400;
+}
+
+/* Native controls (date icon + calendar pop-up) follow the theme. */
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+
+/* Field text reads low; nudge it up 1px so it reads centered. */
+form[aria-label="Pricing"] [data-slot=input] {
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
+form[aria-label="Pricing"] [data-slot=select-trigger] {
+  padding-top: 7px;
+  padding-bottom: 9px;
+}
+
+/* Date trigger reads as a field, not a button. */
+form[aria-label="Pricing"] #bid-date {
+  padding-inline: 10px;
+}
+.dark form[aria-label="Pricing"] #bid-date {
+  background-color: var(--neutral-800);
+}
