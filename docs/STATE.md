@@ -457,6 +457,10 @@ The promotion merged as PR #85. The queue was drained onto branch `feat/v2-promo
 
 With both merged, this branch drained its own register (2026-08-06): main merged in (`ebe38a8`), the promoted entries flipped to carry their landing SHAs (Part 2 whole, 3.16/3.24/3.26/3.29, 4.12, 5.5's furniture, 5.8, 5.19), and the app's layers deduplicated — the page-plate and cell-as-control rules deleted from `v2-layer.css` (the DS draws them now), the concentric-corner tokens aliased to the DS's `--panel-radius`/`--panel-inset`, the shell's rail-width override and collapse guards removed. What the register still holds open: the charting layer, the light accent pass, and one live token drift (light `--muted-foreground`); green-vs-lime in dark closed as decision 0067.
 
+### Origination-map v2: merchant scenario workspace (2026-10-08)
+
+`prototypes/origination-map-v2` (port 5194, branch `claude/festive-bardeen-yd4esi`, unpushed) simulates the merchant session: scenario navigator, pricing panel, priority, priority areas, producers. All data simulated. Rules in its `WORKSPACE-DESIGN-SYSTEM.md`; remaining local patches in its `PATCHES.md`. Gaps it found landed in Kernel as decision 0085 (segmented toggle, `--floating`, `text-overline`, color-scheme, dark-card tints, `Flag`). Open: label weight (#5) and field-text nudge (#6) need a call; kernel-app still uses its own segmented CSS; `PageHeader` has no one-line size; the review half of the workflow is not defined.
+
 ## Backlog
 
 **The canonical backlog is the GitHub Project board:**
