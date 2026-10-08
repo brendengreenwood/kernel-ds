@@ -6,14 +6,16 @@ v2 should be built from plain Kernel parts. Each row is a local workaround; remo
 
 | # | v2 patch | Kernel fix | Status |
 |---|---|---|---|
-| 1 | Segmented toggle CSS (`index.css`, copied from kernel-app `v2-layer.css`) | `segmented` style on `ToggleGroup`; kernel-app switches too | open |
-| 2 | Row hover/selected `bg-foreground/5`, `/8` (`scenarios.tsx`) | `Item` uses a see-through tint, not `bg-muted` (invisible on dark cards) | open |
-| 3 | Calendar today marker invisible in dark | Same tint fix in `Calendar` | open |
-| 4 | Hand-written all-caps labels ("PRICING", legend titles) | Named all-caps small-label style | open |
+| 1 | Segmented toggle CSS | `ToggleGroup variant="segmented"` | done (Kernel uncommitted) |
+| 2 | Row hover tint | `Item` link hover uses `bg-foreground/5` | done (Kernel uncommitted) |
+| 3 | Calendar today marker invisible in dark | `Calendar` today uses `bg-foreground/8` | done (Kernel uncommitted) |
+| 4 | Hand-written all-caps labels | `text-overline` utility; portal `typeStyles.overline` uses it | done (Kernel uncommitted) |
 | 5 | Pricing label weight 400 (`index.css`) | Decide: regular-weight `Label` everywhere, or delete | needs decision |
 | 6 | 1px field text nudge (`index.css`) | Decide: apply in `Input`/`Select`, or delete | needs decision |
-| 7 | `--om-float` + darker dark-mode field fill (`index.css`) | One Kernel floating-panel surface for dark, fields tuned to it | open |
-| 10 | Root `color-scheme` rule (`index.css`) | Kernel base CSS | open |
+| 7 | `--om-float` + dark field fill | `--floating` token / `bg-floating` + `data-surface="floating"` field rule | done (Kernel uncommitted) |
+| 10 | Root `color-scheme` rule | Kernel `:root` / `.dark` | done (Kernel uncommitted) |
+| 11 | One-line scenario header (hand-built) | `compact` size on `PageHeader` | open |
+| 12 | `Flag` glyph | Added to Kernel icon shim | done (Kernel uncommitted) |
 
 ## Move into the map kit
 
@@ -25,4 +27,4 @@ v2 should be built from plain Kernel parts. Each row is a local workaround; remo
 
 | # | v2 patch | Why |
 |---|---|---|
-| 9 | `#bid-date` field styling (`index.css`) | Kernel Date Picker trigger should look like a field, or fold into #7 |
+| 9 | `#bid-date` field styling (`index.css`) | Kernel Date Picker trigger should look like a field |

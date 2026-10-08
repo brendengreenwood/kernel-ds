@@ -153,9 +153,8 @@ export default function ScenariosPage() {
           </Select>
           <ToggleGroup
             aria-label="Commodity"
-            variant="outline"
+            variant="segmented"
             size="sm"
-            data-segmented
             className="w-full"
             value={[commodity]}
             onValueChange={(v) => v[0] && setCommodity(v[0] as CommodityFilter)}
@@ -230,7 +229,7 @@ function ScenarioTile({
           />
         }
       >
-        <span className="text-[0.625rem] font-semibold uppercase text-muted-foreground">{month}</span>
+        <span className="text-overline text-muted-foreground">{month}</span>
         <span className="text-xs font-medium tabular-nums">{days}</span>
         <span className="text-[0.625rem] text-muted-foreground">{s.commodity === "corn" ? "Corn" : "Soy"}</span>
         {priority && <Flag aria-label="Priority" className="absolute top-1 left-1 size-3 text-primary" />}
@@ -249,7 +248,7 @@ function ScenarioRow({ scenario: s, priority, unpublished }: { scenario: Scenari
     <Item
       size="sm"
       render={<NavLink to={`/scenarios/${s.id}`} />}
-      className="[a]:hover:bg-foreground/5 aria-[current=page]:border-border aria-[current=page]:bg-foreground/8"
+      className="aria-[current=page]:border-border aria-[current=page]:bg-foreground/8"
     >
       <ItemMedia>
         <Calendar className="size-4 text-muted-foreground" />
@@ -389,7 +388,7 @@ function WorkspaceMap({
           </div>
           {/* What "competitive zone" means is not defined yet. */}
           <section aria-label="Producers" className={cn(FLOAT, "gap-1.5 px-3 py-2.5")}>
-            <h2 className="text-xs font-semibold uppercase text-muted-foreground">Producers</h2>
+            <h2 className="text-overline text-muted-foreground">Producers</h2>
             <dl className="flex gap-5">
               {(
                 [
@@ -408,11 +407,11 @@ function WorkspaceMap({
         </div>
         <div className="flex items-end gap-3">
           <div className={cn(FLOAT, "gap-1.5 px-3 py-2.5 text-xs")}>
-            <p className="font-semibold uppercase text-muted-foreground">Bid zones</p>
+            <p className="text-overline text-muted-foreground">Bid zones</p>
             <p className="text-muted-foreground">Not defined yet</p>
           </div>
           <div className={cn(FLOAT, "gap-1.5 px-3 py-2.5 text-xs")}>
-            <p className="font-semibold uppercase text-muted-foreground">Competitor bids</p>
+            <p className="text-overline text-muted-foreground">Competitor bids</p>
             <p className="text-muted-foreground">Not defined yet</p>
           </div>
         </div>
@@ -430,7 +429,7 @@ function WorkspaceMap({
 
 /** Same floating surface as the origination map's panels. */
 const FLOAT =
-  "pointer-events-auto grid rounded-[var(--radius-floating)] border border-border bg-card/95 dark:bg-(--om-float) shadow-lg backdrop-blur"
+  "pointer-events-auto grid rounded-[var(--radius-floating)] border border-border bg-floating/95 shadow-lg backdrop-blur"
 
 /** Same pill as the origination map's collapsed panels. */
 function Pill({
@@ -451,7 +450,7 @@ function Pill({
       onClick={onClick}
       className={cn(
         "pointer-events-auto rounded-full shadow-lg",
-        !pressed && "bg-card/95 dark:bg-(--om-float) backdrop-blur",
+        !pressed && "bg-floating/95 backdrop-blur",
       )}
     >
       {label}
@@ -483,12 +482,12 @@ function ProducersPanel({
       inert={!open}
       className={cn(
         FLOAT,
-        "absolute top-[104px] right-3 bottom-3 w-80 grid-rows-[auto_minmax(0,1fr)] transition-[translate,opacity] duration-[var(--duration-base)] ease-[var(--ease-out)]",
+        "absolute top-[104px] right-3 bottom-36 w-80 grid-rows-[auto_minmax(0,1fr)] transition-[translate,opacity] duration-[var(--duration-base)] ease-[var(--ease-out)]",
         open ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-[calc(100%+12px)] opacity-0",
       )}
     >
       <div className="flex items-center gap-2 border-b py-2 pr-2 pl-4">
-        <h2 className="flex-1 text-xs font-semibold uppercase text-muted-foreground">
+        <h2 className="flex-1 text-overline text-muted-foreground">
           Producers in draw area <span className="tabular-nums">{producers.length}</span>
         </h2>
         <Button variant="ghost" size="icon-sm" aria-label="Close producers" onClick={onClose}>
@@ -552,7 +551,7 @@ function AreasPanel({
   return (
     <section aria-label="Priority areas" className={cn(FLOAT, "w-72 gap-2 p-2")}>
       <div className="flex items-center gap-2 pl-2">
-        <h2 className="flex-1 text-xs font-semibold uppercase text-muted-foreground">Priority areas</h2>
+        <h2 className="flex-1 text-overline text-muted-foreground">Priority areas</h2>
         <Button variant={drawing ? "default" : "outline"} size="sm" onClick={startDraw} disabled={!map}>
           {drawing ? "Cancel" : <><Plus />Draw</>}
         </Button>
@@ -714,8 +713,8 @@ function PricingPanel({ draft, edit }: { draft: Draft; edit: Edit }) {
   // Past bid dates are history: shown, not editable.
   const past = date < startOfDay(new Date())
   return (
-    <form aria-label="Pricing" className={cn(FLOAT, "w-72 gap-3 p-4")} onSubmit={(e) => e.preventDefault()}>
-      <h2 className="text-xs font-semibold uppercase text-muted-foreground">Pricing</h2>
+    <form aria-label="Pricing" data-surface="floating" className={cn(FLOAT, "w-72 gap-3 p-4")} onSubmit={(e) => e.preventDefault()}>
+      <h2 className="text-overline text-muted-foreground">Pricing</h2>
       <DateField id="bid-date" label="Posted bid date" date={date} setDate={setDate} />
       <fieldset disabled={past} className="contents">
       <div className="grid grid-cols-2 gap-3">
