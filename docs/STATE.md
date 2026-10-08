@@ -461,6 +461,21 @@ With both merged, this branch drained its own register (2026-08-06): main merged
 
 `prototypes/origination-map-v2` (port 5194, branch `claude/festive-bardeen-yd4esi`, unpushed) simulates the merchant session: scenario navigator, pricing panel, priority, priority areas, producers. All data simulated. Rules in its `WORKSPACE-DESIGN-SYSTEM.md`; remaining local patches in its `PATCHES.md`. Gaps it found landed in Kernel as decision 0085 (segmented toggle, `--floating`, `text-overline`, color-scheme, dark-card tints, `Flag`). Label weight (#5) and field-text nudge (#6) moved into Kernel. Open: kernel-app still uses its own segmented CSS; `PageHeader` has no one-line size; the review half of the workflow is not defined.
 
+### Token surface added since the Cargill fork (for reconciliation)
+
+The Cargill copy forked around late August 2026 and its theme is updated separately. Token **names** are the contract: add freely; rename/remove only with a decision record. Every name added here is listed so the work side can diff names before merging values.
+
+| Added | Kind | Decision |
+|---|---|---|
+| `--floating` / `--color-floating` (`bg-floating`) | color token | 0085 |
+| `text-overline` | utility | 0085 |
+| `color-scheme` on `:root` / `.dark` | base rule | 0085 |
+| `data-surface="floating"` | attribute hook | 0085 |
+| `ToggleGroup`/`Toggle` `variant="segmented"` | component variant | 0085 |
+| `Flag` | icon | 0085 |
+
+Renamed or removed: none.
+
 ## Backlog
 
 **The canonical backlog is the GitHub Project board:**
