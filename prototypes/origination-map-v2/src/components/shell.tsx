@@ -1,5 +1,14 @@
 import * as React from "react"
-import { NavLink, Outlet, useLocation } from "react-router-dom"
+import { Navigate, NavLink, Outlet, useLocation } from "react-router-dom"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
   Sidebar,
   SidebarContent,
@@ -15,17 +24,20 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { BarChart3, Home, Layers, LayoutList, Route, Moon, PanelLeftIcon, Sun } from "@/components/ui/icon"
+import { BarChart3, Home, Layers, LayoutList, Route, Moon, PanelLeftIcon, Sun, User, Users } from "@/components/ui/icon"
 import { useTheme } from "@app/lib/theme"
+import { PERSONAS, personaLabel, usePersona, type Persona } from "@app/lib/persona"
 
 // One tile style for both states: 48px tall, 24px icon pinned 12px in, so
 // collapsing only narrows the sidebar and the label fades — nothing reflows.
 const RAIL =
   "h-12! w-full! gap-3 rounded-[var(--radius-surface)] p-3! whitespace-nowrap text-sidebar-foreground dark:text-sidebar-foreground/70 hover:text-sidebar-accent-foreground hover:not-data-active:bg-sidebar-accent/50 dark:hover:not-data-active:bg-sidebar-accent data-active:border data-active:border-sidebar-border dark:data-active:border-border data-active:text-sidebar-accent-foreground data-active:shadow-sm dark:data-active:text-brand-100 group-data-[collapsible=icon]:h-12! group-data-[collapsible=icon]:w-12! group-data-[collapsible=icon]:p-3! data-active:p-[11px]! group-data-[collapsible=icon]:data-active:p-[11px]! [&_svg]:size-6! [&>span]:transition-opacity [&>span]:duration-[var(--duration-base)] [&>span]:ease-[var(--ease-out)] group-data-[collapsible=icon]:[&>span]:opacity-0"
 
-const NAV = [
-  { to: "/scenarios", label: "Scenarios", icon: LayoutList },
-  { to: "/producers", label: "Producers", icon: Home },
+// roles: who sees the item. Omitted = every persona.
+const NAV: { to: string; label: string; icon: typeof Home; roles?: Persona[] }[] = [
+  { to: "/home", label: "Home", icon: Home },
+  { to: "/scenarios", label: "Scenarios", icon: LayoutList, roles: ["merchant"] },
+  { to: "/producers", label: "Producers", icon: Users },
   { to: "/map", label: "Draw areas", icon: Layers },
   { to: "/tonnage", label: "Crop tonnage", icon: BarChart3 },
   { to: "/model", label: "Data model", icon: Route },
@@ -35,6 +47,10 @@ export function Shell() {
   const { theme, setTheme } = useTheme()
   const { pathname } = useLocation()
   const dark = theme === "dark"
+  const { persona } = usePersona()
+  const nav = NAV.filter((n) => !n.roles || n.roles.includes(persona))
+  const blocked = NAV.find((n) => n.roles && !n.roles.includes(persona) && pathname.startsWith(n.to))
+  if (blocked) return <Navigate to="/home" replace />
   return (
     <SidebarProvider
       defaultOpen={false}
@@ -65,7 +81,7 @@ export function Shell() {
           <SidebarGroup className="px-0">
             <SidebarGroupContent>
               <SidebarMenu className="gap-2">
-                {NAV.map(({ to, label, icon: Icon }) => (
+                {nav.map(({ to, label, icon: Icon }) => (
                   <SidebarMenuItem key={to}>
                     <SidebarMenuButton
                       render={<NavLink to={to} />}
@@ -84,6 +100,9 @@ export function Shell() {
         </SidebarContent>
         <SidebarFooter className="px-0">
           <SidebarMenu className="gap-2">
+            <SidebarMenuItem>
+              <PersonaSwitcher />
+            </SidebarMenuItem>
             <SidebarMenuItem>
               <CollapseButton />
             </SidebarMenuItem>
@@ -107,6 +126,32 @@ export function Shell() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+// Prototype tool: stands in for signing in as another role.
+function PersonaSwitcher() {
+  const { persona, setPersona } = usePersona()
+  const label = personaLabel(persona)
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<SidebarMenuButton className={RAIL} tooltip={`Persona: ${label}`} />}>
+        <User />
+        <span>{label}</span>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side="right" align="end">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>View as (prototype)</DropdownMenuLabel>
+          <DropdownMenuRadioGroup value={persona} onValueChange={(v) => setPersona(v as Persona)}>
+            {PERSONAS.map((p) => (
+              <DropdownMenuRadioItem key={p.id} value={p.id}>
+                {p.label}
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
