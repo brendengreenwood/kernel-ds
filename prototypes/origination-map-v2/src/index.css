@@ -32,7 +32,7 @@
   --sidebar-primary: var(--lime-300);
   --sidebar-primary-foreground: var(--lime-950);
   /* Active tile = a lighter step of the rail itself, not a contrasting block. */
-  --sidebar-accent: color-mix(in oklch, var(--brand-950) 80%, var(--cream-300));
+  --sidebar-accent: color-mix(in oklch, var(--brand-950) 80%, var(--neutral-300));
   --sidebar-accent-foreground: white;
   --sidebar-border: var(--neutral-500);
   --sidebar-ring: var(--lime-300);

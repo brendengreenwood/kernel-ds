@@ -9,9 +9,9 @@ export function mapPalette() {
   const dark = document.documentElement.classList.contains("dark")
   const v = (d: string, l: string) => cssVarColor(dark ? d : l)
   return {
-    ground: v("--card", "--cream-50"),
+    ground: v("--card", "--neutral-warm-50"),
     water: cssVarColor("--om-water"),
-    roads: v("--neutral-950", "--cream-200"),
+    roads: v("--neutral-950", "--neutral-warm-200"),
     trunk: v("--viz-sky-400", "--viz-sky-600"),
     tributary: v("--viz-sky-700", "--viz-sky-400"),
     rivers: v("--viz-sky-800", "--viz-sky-300"),

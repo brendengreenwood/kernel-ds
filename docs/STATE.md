@@ -474,7 +474,7 @@ The Cargill copy forked around late August 2026 and its theme is updated separat
 | `ToggleGroup`/`Toggle` `variant="segmented"` | component variant | 0085 |
 | `Flag` | icon | 0085 |
 
-Renamed or removed: none.
+Renamed or removed: `--cream-*` → `--neutral-warm-*` (0087); UI surfaces moved to `--neutral-*`, neutral warm is map-only.
 
 ## Backlog
 

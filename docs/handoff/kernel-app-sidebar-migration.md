@@ -33,7 +33,7 @@ Replace the current side nav with Kernel's shadcn `Sidebar`, and bring over the 
 The rail is dark in light mode too. Values from the prototype:
 
 - `--sidebar: var(--brand-950)`, `--sidebar-foreground: var(--neutral-50)`
-- `--sidebar-accent: color-mix(in oklch, var(--brand-950) 80%, var(--cream-300))`: the active tile is a lighter step of the rail, not a loud color
+- `--sidebar-accent: color-mix(in oklch, var(--brand-950) 80%, var(--neutral-warm-300))`: the active tile is a lighter step of the rail, not a loud color
 - `--sidebar-border: var(--neutral-500)`, `--sidebar-primary: var(--lime-300)`
 - Active tile: border `--neutral-700`, no shadow. Menu labels are two steps lighter than icons.
 
