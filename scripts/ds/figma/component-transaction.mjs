@@ -47,7 +47,7 @@ export function assertReportedCreatedNodes(delta, reportedIds = []) {
 export function validateTransactionRequest(request, implementation) {
   if (!request || request.$schema !== TRANSACTION_REQUEST_SCHEMA) throw new Error("Invalid transaction request schema")
   if (sha256(implementation) !== request.implementationHash || sha256(request.code) !== request.codeHash) throw new Error("Transaction request implementation was tampered with")
-  const input = { operation: request.operation, requestId: request.requestId, requestHash: null, implementationHash: request.implementationHash, transactionId: request.transactionId, entityId: request.entityId || null, snapshot: request.snapshot || null, reportedCreatedNodeIds: request.reportedCreatedNodeIds || [] }
+  const input = { operation: request.operation, requestId: request.requestId, requestHash: null, implementationHash: request.implementationHash, transactionId: request.transactionId, entityId: request.entityId || null, snapshot: request.snapshot || null, reportedCreatedNodeIds: request.reportedCreatedNodeIds || [], expectNew: request.expectNew === true }
   if (sha256(input) !== request.requestHash) throw new Error("Transaction request input was tampered with")
   return request
 }

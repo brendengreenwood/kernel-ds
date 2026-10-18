@@ -1,0 +1,15 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.spinner",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "22558f42e7bd1be6817ce33f5a7a91806d0df32a",
+  "sectionId": "137:2412",
+  "sectionName": "Spinner",
+  "contractHash": "df76c7e02781effeb742d0c68e491fb420013bf7ed95c97a55e9b35a948e5574",
+  "requiredTokenRoles": [],
+  "anatomySlots": [
+    "spinner"
+  ],
+  "layoutSectionNodeId": "137:2412",
+  "layoutVerdict": "pass"
+}

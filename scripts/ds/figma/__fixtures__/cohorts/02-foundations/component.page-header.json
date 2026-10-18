@@ -1,0 +1,18 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.page-header",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "ec78cbbfd36af4e5e72f91734ea1f39dec5b3170",
+  "sectionId": "137:2351",
+  "sectionName": "Page Header",
+  "contractHash": "d3418d644c8cd0cf19f08b86f7a69b762de57231e4e66c79eb9508a8d32559be",
+  "requiredTokenRoles": [
+    "semantic/stroke"
+  ],
+  "anatomySlots": [
+    "page-header",
+    "page-header-chip"
+  ],
+  "layoutSectionNodeId": "137:2351",
+  "layoutVerdict": "pass"
+}

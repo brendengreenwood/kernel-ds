@@ -63,6 +63,13 @@
       "error": "reason"
     },
     {
+      "name": "acceptance-main-key-mismatch",
+      "mutation": {
+        "acceptanceMainKey": "different-key"
+      },
+      "error": "main component mismatch"
+    },
+    {
       "name": "detached-acceptance",
       "mutation": {
         "failure": "detached-acceptance-instance"

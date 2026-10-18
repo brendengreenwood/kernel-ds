@@ -1,0 +1,15 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.separator",
+  "nodeType": "COMPONENT",
+  "mainComponentKey": "58dd1258a93434edd088262b3e5852a8b6b6c01b",
+  "sectionId": "137:2406",
+  "sectionName": "Separator",
+  "contractHash": "693ff609926ae860b7436d09b8e51297812af72af313f7a860bdc5453aba3bab",
+  "requiredTokenRoles": [],
+  "anatomySlots": [
+    "separator"
+  ],
+  "layoutSectionNodeId": "137:2406",
+  "layoutVerdict": "pass"
+}

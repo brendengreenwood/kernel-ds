@@ -1,0 +1,25 @@
+{
+  "$schema": "kernel-ds/figma-component-cohort@1",
+  "id": "02-foundations",
+  "purpose": "Foundational and display primitive families",
+  "entityIds": [
+    "component.alert",
+    "component.aspect-ratio",
+    "component.attachment",
+    "component.avatar",
+    "component.badge",
+    "component.card",
+    "component.empty",
+    "component.item",
+    "component.kbd",
+    "component.label",
+    "component.marker",
+    "component.page-header",
+    "component.panels",
+    "component.progress",
+    "component.separator",
+    "component.skeleton",
+    "component.spinner",
+    "component.status-badge"
+  ]
+}

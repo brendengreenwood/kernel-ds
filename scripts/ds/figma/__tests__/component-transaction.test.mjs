@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import test from "node:test"
-import { TRANSACTION_SCHEMA, assertReportedCreatedNodes, inventoryDelta, validateMutationReport, validateSnapshot } from "../component-transaction.mjs"
+import { TRANSACTION_REQUEST_SCHEMA, TRANSACTION_SCHEMA, assertReportedCreatedNodes, inventoryDelta, sha256, validateMutationReport, validateSnapshot, validateTransactionRequest } from "../component-transaction.mjs"
 
 const fixture = JSON.parse(readFileSync(new URL("../__fixtures__/component-transaction/prohibited.json", import.meta.url), "utf8"))
 const nodeTypes = ["COMPONENT", "COMPONENT_SET", "INSTANCE", "SECTION"]
@@ -40,6 +40,52 @@ test("every rollback-unsafe mutation class is rejected", () => {
 
 test("unknown mutation classes are rejected", () => {
   assert.throws(() => validateMutationReport({ mutations: [{ property: "layoutMode" }] }), /Unsupported mutation layoutMode/)
+})
+
+const implementation = readFileSync(new URL("../component-transaction.js", import.meta.url), "utf8")
+
+function buildRequest(overrides = {}) {
+  const input = {
+    operation: "capture",
+    requestId: "request",
+    requestHash: null,
+    implementationHash: sha256(implementation),
+    transactionId: "component.button",
+    entityId: "component.button",
+    snapshot: null,
+    reportedCreatedNodeIds: [],
+    expectNew: true,
+    ...overrides,
+  }
+  const code = `const INPUT = ${JSON.stringify(input)}\n${implementation}`
+  return {
+    $schema: TRANSACTION_REQUEST_SCHEMA,
+    ...input,
+    requestHash: sha256({ ...input, requestHash: null }),
+    output: "out.json",
+    responsePath: "out.response.json",
+    code,
+    codeHash: sha256(code),
+  }
+}
+
+test("expect-new capture request round-trips validation", () => {
+  const request = buildRequest()
+  assert.deepEqual(validateTransactionRequest(structuredClone(request), implementation), request)
+})
+
+test("tampering with expectNew fails the request hash", () => {
+  const request = buildRequest()
+  request.expectNew = false
+  request.code = request.code.replace('"expectNew":true', '"expectNew":false')
+  request.codeHash = sha256(request.code)
+  assert.throws(() => validateTransactionRequest(request, implementation), /tampered/)
+})
+
+test("tampering with reportedCreatedNodeIds fails the request hash", () => {
+  const request = buildRequest({ operation: "verify", expectNew: false, reportedCreatedNodeIds: ["1:2"] })
+  request.reportedCreatedNodeIds = ["1:2", "1:3"]
+  assert.throws(() => validateTransactionRequest(request, implementation), /tampered/)
 })
 
 test("created nodes are discovered from inventory delta", () => {

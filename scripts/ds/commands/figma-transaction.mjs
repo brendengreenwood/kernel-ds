@@ -44,8 +44,9 @@ function begin(operation, flags) {
   const implementation = readFileSync(resolve(repoRoot, "scripts/ds/figma/component-transaction.js"), "utf8")
   const requestId = randomUUID()
   const implementationHash = sha256(implementation)
-  const reportedCreatedNodeIds = operation === "restore" && flags["created-nodes"] && flags["created-nodes"] !== true ? flags["created-nodes"].split(",").filter(Boolean) : []
-  const input = { operation, requestId, requestHash: null, implementationHash, transactionId, entityId, snapshot, reportedCreatedNodeIds }
+  const reportedCreatedNodeIds = ["restore", "verify"].includes(operation) && flags["created-nodes"] && flags["created-nodes"] !== true ? flags["created-nodes"].split(",").filter(Boolean) : []
+  const expectNew = operation === "capture" && flags["expect-new"] === true
+  const input = { operation, requestId, requestHash: null, implementationHash, transactionId, entityId, snapshot, reportedCreatedNodeIds, expectNew }
   input.requestHash = sha256(input)
   const code = implementation.replace("__KERNEL_TRANSACTION_INPUT__", JSON.stringify(input))
   const responsePath = `.mastracode/plans/full-kernel-ui-figma-integration.proof/transactions/requests/${requestId}.response.json`
@@ -79,8 +80,9 @@ function complete(flags) {
     writeJson(request.output, snapshot)
     console.log(`FIGMA-TRANSACTION-CAPTURE-OK: ${request.transactionId}`)
   } else if (request.operation === "verify") {
-    if (response.payload.createdNodeIds.length || response.payload.deletedNodeIds.length) throw new Error(`Transaction verification found created=${response.payload.createdNodeIds.length}; deleted=${response.payload.deletedNodeIds.length}`)
-    console.log(`FIGMA-TRANSACTION-VERIFY-OK: ${request.transactionId}`)
+    if (response.payload.deletedNodeIds.length) throw new Error(`Transaction verification found deleted=${response.payload.deletedNodeIds.length}`)
+    if (response.payload.createdNodeIds.length && response.payload.createdNodeAgreementVerdict !== "exact-match") throw new Error(`Transaction verification found unreported created nodes: ${response.payload.createdNodeIds.length}`)
+    console.log(`FIGMA-TRANSACTION-VERIFY-OK: ${request.transactionId}${response.payload.createdNodeIds.length ? ` (created nodes verified: ${response.payload.createdNodeIds.length})` : ""}`)
   } else if (request.operation === "restore") {
     if (response.payload.residualNodeIds.length) throw new Error(`Transaction restore left residual nodes: ${response.payload.residualNodeIds.join(",")}`)
     const preserved = response.payload.preservedNodeIds || []

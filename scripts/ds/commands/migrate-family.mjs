@@ -103,7 +103,7 @@ try {
       }
       state = { $schema: STATE_SCHEMA, fileKey: EXPECTED_FILE_KEY, entityId: ids[0], transactionId: ids[0], scopeFile: flags["scope-file"], snapshot: flags.snapshot, transcript: `${flags.snapshot}.transcript.json`, handoffAt: new Date().toISOString(), stage: "capture-start", pending: null, signatures: [], backups }
       saveState(state)
-      const output = run(transactionCommand, ["capture", "--scope-file", state.scopeFile, "--snapshot", state.snapshot])
+      const output = run(transactionCommand, ["capture", "--scope-file", state.scopeFile, "--snapshot", state.snapshot, ...(flags["expect-new"] === true ? ["--expect-new"] : [])])
       handoff(state, "capture", requestFrom(output))
     } else {
       state = loadState(ids[0])
@@ -122,6 +122,7 @@ try {
     const state = loadState(flags["transaction-id"])
     state.preliminaryCapture = flags["preliminary-capture"]
     state.fullCapture = flags["full-capture"]
+    if (flags["created-nodes"] && flags["created-nodes"] !== true) state.createdNodes = flags["created-nodes"]
     if (state.pending) {
       const command = state.pending.kind.startsWith("audit-") ? liveCommand : transactionCommand
       if (!completePending(state, command)) process.exit(0)
@@ -144,7 +145,7 @@ try {
       const output = run(liveCommand, ["begin", "--mode", "full", "--scope-file", state.scopeFile, "--capture", state.fullCapture, "--update-evidence"])
       handoff(state, "audit-full", requestFrom(output))
     } else if (state.stage === "full-passed") {
-      const output = run(transactionCommand, ["verify", "--snapshot", state.snapshot])
+      const output = run(transactionCommand, ["verify", "--snapshot", state.snapshot, ...(state.createdNodes ? ["--created-nodes", state.createdNodes] : [])])
       handoff(state, "verify", requestFrom(output))
     } else if (state.stage === "verified") {
       const full = auditCapture(state.fullCapture, state.entityId, "full")
@@ -153,7 +154,7 @@ try {
       const after = new Set(afterNodeIds)
       const createdNodeIds = afterNodeIds.filter((id) => !before.has(id))
       const deletedNodeIds = state.beforeNodeIds.filter((id) => !after.has(id))
-      const transcript = { $schema: TRANSCRIPT_SCHEMA, fileKey: state.fileKey, entityId: state.entityId, transactionId: state.transactionId, snapshotHash: state.snapshotHash, beforeInventoryHash: state.beforeInventoryHash, beforeNodeIds: state.beforeNodeIds, afterNodeIds, createdNodeIds, deletedNodeIds, preliminarySignature: state.preliminarySignature, fullSignature: state.fullSignature, cleanupVerdict: "not-required", absenceVerdict: "verified-by-transaction", restoreResult: "not-required", finalEvidenceHash: hashFile(evidencePath), completedAt: new Date().toISOString() }
+      const transcript = { $schema: TRANSCRIPT_SCHEMA, fileKey: state.fileKey, entityId: state.entityId, transactionId: state.transactionId, snapshotHash: state.snapshotHash, beforeInventoryHash: state.beforeInventoryHash, beforeNodeIds: state.beforeNodeIds, afterNodeIds, createdNodeIds, deletedNodeIds, reportedCreatedNodeIds: (state.createdNodes || "").split(",").filter(Boolean), preliminarySignature: state.preliminarySignature, fullSignature: state.fullSignature, cleanupVerdict: "not-required", absenceVerdict: "verified-by-transaction", restoreResult: "not-required", finalEvidenceHash: hashFile(evidencePath), completedAt: new Date().toISOString() }
       write(state.transcript, transcript)
       for (const backup of [state.backups.evidenceBackup, state.backups.layoutBackup]) if (backup && existsSync(resolve(repoRoot, backup))) rmSync(resolve(repoRoot, backup))
       rmSync(statePath(state.transactionId))
@@ -172,7 +173,8 @@ try {
     if (!existsSync(resolve(repoRoot, state.snapshot))) { rmSync(statePath(state.transactionId)); console.log(`FIGMA-FAMILY-MIGRATION-ABORTED: ${state.entityId}`); process.exit(0) }
     if (state.stage !== "restore-handoff") {
       const restoreArgs = ["restore", "--snapshot", state.snapshot]
-      if (flags["created-nodes"] && flags["created-nodes"] !== true) restoreArgs.push("--created-nodes", flags["created-nodes"])
+      const restoreCreatedNodes = flags["created-nodes"] && flags["created-nodes"] !== true ? flags["created-nodes"] : state.createdNodes
+      if (restoreCreatedNodes) restoreArgs.push("--created-nodes", restoreCreatedNodes)
       const output = run(transactionCommand, restoreArgs)
       handoff(state, "restore", requestFrom(output))
     } else if (!completePending(state, transactionCommand)) process.exit(0)
@@ -196,7 +198,9 @@ try {
         rollbackEvidence(state)
         if (state.stage !== "restore-handoff") {
           state.pending = null
-          const output = run(transactionCommand, ["restore", "--snapshot", state.snapshot])
+          const autoRestoreArgs = ["restore", "--snapshot", state.snapshot]
+          if (state.createdNodes) autoRestoreArgs.push("--created-nodes", state.createdNodes)
+          const output = run(transactionCommand, autoRestoreArgs)
           handoff(state, "restore", requestFrom(output))
         }
         error.message += "; evidence rolled back to pre-migration bytes; complete the restore handoff via abort"

@@ -16,6 +16,32 @@ function cohort(id, entityIds, purpose) {
   return { $schema: COHORT_SCHEMA, id, purpose, entityIds: [...entityIds].sort() }
 }
 
+export const SEGMENT_COHORTS = {
+  "02-foundations": {
+    purpose: "Foundational and display primitive families",
+    entityIds: [
+      "component.alert",
+      "component.aspect-ratio",
+      "component.attachment",
+      "component.avatar",
+      "component.badge",
+      "component.card",
+      "component.empty",
+      "component.item",
+      "component.kbd",
+      "component.label",
+      "component.marker",
+      "component.page-header",
+      "component.panels",
+      "component.progress",
+      "component.separator",
+      "component.skeleton",
+      "component.spinner",
+      "component.status-badge",
+    ],
+  },
+}
+
 export function buildComponentCohorts(scope = loadComponentScope()) {
   const ids = scope.components.map((entity) => entity.id)
   const byId = new Set(ids)
@@ -25,6 +51,10 @@ export function buildComponentCohorts(scope = loadComponentScope()) {
   const files = new Map()
   files.set(`${COHORT_DIR}/scope.json`, componentScopeRecord(scope))
   files.set(`${COHORT_DIR}/01-baseline.json`, cohort("01-baseline", baselineIds, "Existing mapped-family reconciliation baseline"))
+  for (const [segmentId, segment] of Object.entries(SEGMENT_COHORTS)) {
+    for (const id of segment.entityIds) if (!byId.has(id)) throw new Error(`Segment ${segmentId} entity ${id} is missing from component scope`)
+    files.set(`${COHORT_DIR}/${segmentId}.json`, cohort(segmentId, segment.entityIds, segment.purpose))
+  }
   files.set(`${COHORT_DIR}/07-acceptance.json`, cohort("07-acceptance", ids, "Whole @kernel/ui component-library acceptance"))
   for (const id of ids) files.set(`${COHORT_DIR}/families/${id}.json`, cohort(id, [id], `Single-family migration for ${id}`))
   return files

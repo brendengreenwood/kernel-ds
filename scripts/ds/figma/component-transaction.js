@@ -91,18 +91,23 @@ function assertFile() {
   if (figma.fileKey !== EXPECTED_FILE_KEY) throw new Error(`wrong-file:${figma.fileKey || "unknown"}`)
 }
 
-async function resolveScopedNodes(entityId) {
+async function resolveScopedNodes(entityId, expectNew) {
   const inventory = await allInventory()
   const identityNodes = inventory.filter((node) =>
     ["COMPONENT", "COMPONENT_SET"].includes(node.type) &&
     (node.getSharedPluginData("kernel.dsds", "entityId") || node.getPluginData("entityId")) === entityId)
-  if (identityNodes.length !== 1) throw new Error(`identity-count:${entityId}:${identityNodes.length}`)
-  const component = identityNodes[0]
-  let section = component.parent
-  while (section && section.type !== "SECTION") section = section.parent
-  if (!section) throw new Error(`missing-section:${entityId}`)
-  const acceptance = inventory.filter((node) => node.type === "INSTANCE" && (node.getSharedPluginData("kernel.dsds", "entityId") || node.getPluginData("entityId")) === entityId)
-  const scoped = new Map([section, component, ...acceptance].map((node) => [node.id, { node, role: "scope" }]))
+  if (expectNew) {
+    if (identityNodes.length !== 0) throw new Error(`identity-preexists:${entityId}:${identityNodes.length}`)
+  } else if (identityNodes.length !== 1) throw new Error(`identity-count:${entityId}:${identityNodes.length}`)
+  const scoped = new Map()
+  if (!expectNew) {
+    const component = identityNodes[0]
+    let section = component.parent
+    while (section && section.type !== "SECTION") section = section.parent
+    if (!section) throw new Error(`missing-section:${entityId}`)
+    const acceptance = inventory.filter((node) => node.type === "INSTANCE" && (node.getSharedPluginData("kernel.dsds", "entityId") || node.getPluginData("entityId")) === entityId)
+    for (const node of [section, component, ...acceptance]) scoped.set(node.id, { node, role: "scope" })
+  }
   for (const candidate of inventory) {
     if (candidate.type !== "SECTION" || scoped.has(candidate.id)) continue
     if (candidate.parent && candidate.parent.type === "PAGE" && candidate.parent.name === "Components") scoped.set(candidate.id, { node: candidate, role: "reflow" })
@@ -149,7 +154,7 @@ async function restoreNode(snapshotNode) {
 }
 
 async function capture() {
-  const { inventory, nodes } = await resolveScopedNodes(INPUT.entityId)
+  const { inventory, nodes } = await resolveScopedNodes(INPUT.entityId, INPUT.expectNew === true)
   return {
     inventoryNodeIds: inventory.map((node) => node.id).sort(),
     nodes: await Promise.all(nodes.map(async ({ node, role }) => ({
@@ -204,7 +209,26 @@ async function restore() {
 async function verify() {
   const current = await allInventory()
   const currentIds = current.map((node) => node.id).sort()
-  const createdNodeIds = currentIds.filter((id) => !INPUT.snapshot.inventoryNodeIds.includes(id))
+  const before = new Set(INPUT.snapshot.inventoryNodeIds)
+  const deltaNodes = current.filter((node) => node.type !== "PAGE" && !before.has(node.id))
+  const reported = INPUT.reportedCreatedNodeIds || []
+  const reportedSet = new Set(reported)
+  const owned = (node) => {
+    if (reportedSet.has(node.id)) return true
+    for (let parent = node.parent; parent; parent = parent.parent) if (reportedSet.has(parent.id)) return true
+    return false
+  }
+  const createdNodeIds = deltaNodes.map((node) => node.id).sort()
+  let createdNodeAgreementVerdict = "no-creations"
+  if (deltaNodes.length || reported.length) {
+    const discovered = new Set(createdNodeIds)
+    const mismatched = [
+      ...reported.filter((id) => !discovered.has(id)),
+      ...deltaNodes.filter((node) => !owned(node)).map((node) => node.id),
+    ]
+    if (mismatched.length) throw new Error(`created-node-agreement-mismatch:${[...new Set(mismatched)].sort().join(",")}`)
+    createdNodeAgreementVerdict = "exact-match"
+  }
   const deletedNodeIds = INPUT.snapshot.inventoryNodeIds.filter((id) => !currentIds.includes(id))
   for (const snapshotNode of INPUT.snapshot.nodes) {
     const node = await figma.getNodeByIdAsync(snapshotNode.nodeId)
@@ -213,7 +237,7 @@ async function verify() {
     await assertRelationships(node, snapshotNode)
     if (!same(stateFor(node), snapshotNode.state)) throw new Error(`state-drift:${snapshotNode.nodeId}`)
   }
-  return { currentNodeIds: currentIds, createdNodeIds, deletedNodeIds }
+  return { currentNodeIds: currentIds, createdNodeIds, deletedNodeIds, createdNodeAgreementVerdict }
 }
 
 async function smoke() {

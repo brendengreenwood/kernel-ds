@@ -3,13 +3,13 @@
   "fileKey": "du0qpv9XrTt4HEWdPhesUh",
   "records": [
     {
-      "entityId": "component.button",
-      "sectionNodeId": "7:399",
+      "entityId": "component.alert",
+      "sectionNodeId": "132:2022",
       "bounds": {
         "x": 0,
         "y": 0,
-        "width": 1315,
-        "height": 2445
+        "width": 1248,
+        "height": 306
       },
       "expectedX": 0,
       "predecessorSectionId": null,
@@ -17,16 +17,226 @@
       "verdict": "pass"
     },
     {
+      "entityId": "component.aspect-ratio",
+      "sectionNodeId": "132:2042",
+      "bounds": {
+        "x": 0,
+        "y": 466,
+        "width": 400,
+        "height": 280
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "132:2022",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.attachment",
+      "sectionNodeId": "133:2047",
+      "bounds": {
+        "x": 0,
+        "y": 906,
+        "width": 784,
+        "height": 785
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "132:2042",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.avatar",
+      "sectionNodeId": "134:2113",
+      "bounds": {
+        "x": 0,
+        "y": 1851,
+        "width": 208,
+        "height": 204
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "133:2047",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.badge",
+      "sectionNodeId": "136:2133",
+      "bounds": {
+        "x": 0,
+        "y": 2215,
+        "width": 524,
+        "height": 206
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "134:2113",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.button",
+      "sectionNodeId": "7:399",
+      "bounds": {
+        "x": 0,
+        "y": 2581,
+        "width": 1315,
+        "height": 2445
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "136:2133",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.card",
+      "sectionNodeId": "136:2151",
+      "bounds": {
+        "x": 0,
+        "y": 5186,
+        "width": 440,
+        "height": 252
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:399",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.empty",
+      "sectionNodeId": "136:2172",
+      "bounds": {
+        "x": 0,
+        "y": 5598,
+        "width": 864,
+        "height": 332
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "136:2151",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
       "entityId": "component.input",
       "sectionNodeId": "7:400",
       "bounds": {
         "x": 0,
-        "y": 2605,
+        "y": 6090,
         "width": 1346,
         "height": 395
       },
       "expectedX": 0,
-      "predecessorSectionId": "7:399",
+      "predecessorSectionId": "136:2172",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.item",
+      "sectionNodeId": "137:2196",
+      "bounds": {
+        "x": 0,
+        "y": 6645,
+        "width": 1248,
+        "height": 636
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:400",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.kbd",
+      "sectionNodeId": "137:2321",
+      "bounds": {
+        "x": 0,
+        "y": 7441,
+        "width": 148,
+        "height": 178
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2196",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.label",
+      "sectionNodeId": "137:2331",
+      "bounds": {
+        "x": 0,
+        "y": 7779,
+        "width": 114,
+        "height": 116
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2321",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.marker",
+      "sectionNodeId": "137:2336",
+      "bounds": {
+        "x": 0,
+        "y": 8055,
+        "width": 387,
+        "height": 165
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2331",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.page-header",
+      "sectionNodeId": "137:2351",
+      "bounds": {
+        "x": 0,
+        "y": 8380,
+        "width": 800,
+        "height": 191
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2336",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.panels",
+      "sectionNodeId": "137:2362",
+      "bounds": {
+        "x": 0,
+        "y": 8731,
+        "width": 800,
+        "height": 378
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2351",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.progress",
+      "sectionNodeId": "137:2393",
+      "bounds": {
+        "x": 0,
+        "y": 9269,
+        "width": 400,
+        "height": 127
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2362",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.separator",
+      "sectionNodeId": "137:2406",
+      "bounds": {
+        "x": 0,
+        "y": 9556,
+        "width": 400,
+        "height": 101
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2393",
       "gap": 160,
       "verdict": "pass"
     },
@@ -35,12 +245,54 @@
       "sectionNodeId": "7:289",
       "bounds": {
         "x": 0,
-        "y": 3160,
+        "y": 9817,
         "width": 1391,
         "height": 937
       },
       "expectedX": 0,
-      "predecessorSectionId": "7:400",
+      "predecessorSectionId": "137:2406",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.skeleton",
+      "sectionNodeId": "137:2409",
+      "bounds": {
+        "x": 0,
+        "y": 10914,
+        "width": 400,
+        "height": 116
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "7:289",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.spinner",
+      "sectionNodeId": "137:2412",
+      "bounds": {
+        "x": 0,
+        "y": 11190,
+        "width": 100,
+        "height": 120
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2409",
+      "gap": 160,
+      "verdict": "pass"
+    },
+    {
+      "entityId": "component.status-badge",
+      "sectionNodeId": "137:2417",
+      "bounds": {
+        "x": 0,
+        "y": 11470,
+        "width": 611,
+        "height": 198
+      },
+      "expectedX": 0,
+      "predecessorSectionId": "137:2412",
       "gap": 160,
       "verdict": "pass"
     }

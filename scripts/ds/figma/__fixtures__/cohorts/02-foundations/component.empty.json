@@ -1,0 +1,22 @@
+{
+  "$schema": "kernel-ds/figma-cohort-fixture@1",
+  "entityId": "component.empty",
+  "nodeType": "COMPONENT_SET",
+  "mainComponentKey": "69b70986a21ac072ea6a5ecf0273835c4841b1e8",
+  "sectionId": "136:2172",
+  "sectionName": "Empty",
+  "contractHash": "862329bb7a9226859c749b33e2bb1b5168dc6b31428b350d51dc102a55c2c889",
+  "requiredTokenRoles": [
+    "semantic/fill"
+  ],
+  "anatomySlots": [
+    "empty",
+    "empty-content",
+    "empty-description",
+    "empty-header",
+    "empty-icon",
+    "empty-title"
+  ],
+  "layoutSectionNodeId": "136:2172",
+  "layoutVerdict": "pass"
+}
