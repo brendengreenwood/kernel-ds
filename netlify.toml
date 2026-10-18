@@ -12,15 +12,23 @@
 # deploy previews) build the prototype instead of the design-system portal —
 # so the preview shows the prototype, not the portal. Scoped to the branch, so
 # main and every other preview keep building kernel-portal unchanged.
-# NOTE: the branch name below is historical ("insider") — it predates the
-# reframe to "v2 prototype" and must stay verbatim or the preview silently
-# falls back to building the portal.
+# Netlify matches these by exact branch name, so every prototype branch needs
+# its own block — there is no glob. A branch that is missing here does not
+# fail; it silently builds the portal, which looks like the prototype simply
+# did not pick up the change. The first name is historical ("insider") and
+# predates the reframe to "v2 prototype"; it stays verbatim.
 [context."claude/kernel-insider-portal-fvqfq2"]
   # Build from the repo ROOT. kernel-app consumes the DS at source from
   # packages/ui, whose own deps (@base-ui/react, @mdi/js, …) are workspace
   # dependencies — so the root install is what makes them resolvable. The app
   # itself is deliberately NOT a workspace (decision 0036 fences it as
   # unmanaged), hence its separate install.
+  base = "/"
+  command = "npm ci --no-audit --no-fund && npm --prefix kernel-app install --no-audit --no-fund && npm --prefix kernel-app run build"
+  publish = "kernel-app/dist"
+
+[context."feat/workspace-surface"]
+  # Same build as above: the workspace surface is the prototype.
   base = "/"
   command = "npm ci --no-audit --no-fund && npm --prefix kernel-app install --no-audit --no-fund && npm --prefix kernel-app run build"
   publish = "kernel-app/dist"

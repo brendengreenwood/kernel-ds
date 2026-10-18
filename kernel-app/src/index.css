@@ -15,10 +15,12 @@
 
 /* ---- app-only dark tokens ---- */
 .dark {
-  /* Segmented selection is the accent. --secondary cannot do it — in dark it is
-     the same value as --card, so a segment filled with it vanishes on a panel. */
-  --v2-seg-active: var(--primary);
-  --v2-seg-active-foreground: var(--primary-foreground);
+  /* A segmented control is a trough with one plate sitting back up in it. The
+     track is the card carved INTO the surface and the chip is the card itself,
+     so the pair reads the same way round in both themes: dark carves 22%
+     toward --shadow-color because a near-black card has to move a long way
+     before the eye reads a recess. */
+  --v2-seg-track: color-mix(in oklch, var(--card), var(--shadow-color) 22%);
 
   /* ---- the expanded-row well ----
      A recess has to be DARKER than anything the table paints, or it reads as
@@ -48,6 +50,32 @@
      depth with fill, so the inset carve and hairline do all of it here. */
   --trough-fill: var(--sidebar);
   --trough-cast: color-mix(in oklch, var(--shadow-color) 55%, transparent);
+
+  /* ---- the ramp is shorter than the DS ships it ----
+     LIVE DRIFT — not promoted. The DS ramp doubles offset AND blur every rung:
+     sm 1/2, md 2/4, lg 4/8, xl 8/16, 2xl 16/32. That is a clean geometric
+     series and it is far too tall for a shell. Footprint below the box is
+     offset + blur − spread, so the DS rungs paint 2, 5, 10, 20 and 40px of
+     shade under whatever casts them. This app's gutter is 4 units — 15.4px —
+     which means everything from xl up pools its shade into the gap between two
+     surfaces instead of ending inside it, and the only way to stop the pooling
+     is to widen the gutter. The ramp was setting the layout's minimum spacing,
+     which is backwards: elevation should describe the stack, not dictate how
+     far apart the stack has to sit.
+
+     So the geometry compresses to roughly 1.6x per rung — 2, 3, 5, 8, 13 —
+     while the alphas stay exactly as the DS ships them per theme, because the
+     alphas are what separate the rungs from each other and they were never the
+     complaint. Every rung now lands inside one gutter, so density is a layout
+     decision again. The rungs still read apart: the step between neighbours is
+     carried by depth of tone rather than distance travelled, which is also the
+     more honest signal — a thing one step up is not twice as far away. */
+
+  --shadow-sm: 0 1px 2px -1px color-mix(in oklch, var(--shadow-color) 28%, transparent);
+  --shadow-md: 0 1px 3px -1px color-mix(in oklch, var(--shadow-color) 34%, transparent);
+  --shadow-lg: 0 2px 5px -2px color-mix(in oklch, var(--shadow-color) 40%, transparent);
+  --shadow-xl: 0 3px 8px -3px color-mix(in oklch, var(--shadow-color) 46%, transparent);
+  --shadow-2xl: 0 5px 12px -4px color-mix(in oklch, var(--shadow-color) 55%, transparent);
 }
 
 /* ---- app-only light tokens ----
@@ -60,8 +88,41 @@
    white plate, the transparent lip, the cast-led elev recipe — is the DS's
    own now (register Part 2.3, promoted). */
 :root:not(.dark) {
-  --v2-seg-active: var(--primary);
-  --v2-seg-active-foreground: var(--primary-foreground);
+  /* Light only has to carve 6%: it starts at white, and the chip that sits
+     back up in the trough is white too, so a small step is a whole rung. */
+  --v2-seg-track: color-mix(in oklch, var(--card), var(--shadow-color) 6%);
+
+  /* The floor is neutral-50 and the plate is white.
+
+     In an inset shell the page you SEE is --sidebar: the wrapper takes
+     bg-sidebar and the rail sits on it invisibly, so one token paints both the
+     icon rail and the whole surround. The plate is --background, which the DS
+     inset fills inside its own margin, radius, edge and cast.
+
+     Earlier passes ran both tokens to --neutral-200 and argued light could not
+     dig, so it should compress instead and let the edge and the cast carry the
+     elevation. That argument was answering the wrong question. With both
+     tokens on the same rung the plate was not compressed against the floor, it
+     WAS the floor: /scenarios and /producers drew the plate's full geometry -
+     15.36px margin, 18px radius, edge hairline, cast - and filled it with the
+     exact value of the page behind it, so the lip resolved transparent and the
+     shape read as an outline rather than a surface. Only the workspace looked
+     right, because its map plate takes --elev-plate directly and never went
+     through --background at all.
+
+     So the fix is not a value, it is the pairing. White is the plate, because
+     the plate is the thing that holds content. The floor sits one rung under
+     it at --neutral-50 - far enough that the edge hairline has something to
+     separate, close enough that the chrome does not read as switched-off, which
+     is what --neutral-200 and --neutral-300 both did. The whole ladder now
+     spends 0.985 -> 1.0 and lets the edge do the work it was always drawn for.
+
+     The rail's accent and border stay a rung apart from the rail rather than
+     following it up: at --neutral-100 a border would be invisible against a
+     --neutral-50 rail, so both take --neutral-200. */
+  --sidebar: var(--neutral-50);
+  --sidebar-accent: var(--neutral-200);
+  --sidebar-border: var(--neutral-200);
 
   /* LIVE DRIFT — not promoted. The DS light --muted-foreground stayed at its
      oklch(0.5350 …) value; this app runs one rung down. The plate fill costs a
@@ -81,15 +142,38 @@
   --v2-well: var(--neutral-200);
   --v2-well-shade: color-mix(in oklch, var(--foreground) 12%, transparent);
 
-  /* Light runs about two-thirds of dark's alphas: the same mix reads as a
-     smear on a white panel where on black it reads as light. */
-  --v2-edge-rest: color-mix(in oklch, var(--primary) 6%, transparent);
-  --v2-edge-peak: color-mix(in oklch, var(--primary) 15%, transparent);
+  /* Dark mixes the ACTION hue into its edges: on a near-black surface a lime
+     hairline reads as light catching an edge, which is what an edge is. Light
+     cannot borrow that trick. A green mix on a near-white slate has nowhere to
+     go lighter, so it stops reading as light and starts reading as colour - a
+     green pinstripe around every panel, which is the one thing the accent work
+     was trying to stop. Light edges are shade, so they mix the FOREGROUND, and
+     --foreground is a near-neutral (chroma 0.021 against the action hue's
+     0.146): grey, with just enough of the system's hue to belong to it.
+
+     The alphas are set against the DS's own light hairline, not against the
+     green they replaced. `--border` is oklch(0.8957) - about 1.31:1 on white,
+     which is what a line has to be here to survive a white-on-white stack of
+     four surfaces. Matching that from a near-black foreground takes ~24%, so
+     peak lands there and rest sits at half of it. The first pass carried the
+     old 6/15 alphas across the swap and produced edges you had to hunt for:
+     4% of black on white is 1.04:1, which is not a line, it is a rumour. */
+  --v2-edge-rest: color-mix(in oklch, var(--foreground) 12%, transparent);
+  --v2-edge-peak: color-mix(in oklch, var(--foreground) 24%, transparent);
   /* Light CAN darken, so it does — but modestly. At 22% toward --shadow-color
      the well read as a grey slab (1.758:1 against the rail) and pushed the
      placeholder to 3.68:1, under the AA floor. 6% is a well, not a slab. */
   --trough-fill: color-mix(in oklch, var(--sidebar), var(--shadow-color) 6%);
   --trough-cast: color-mix(in oklch, var(--shadow-color) 18%, transparent);
+
+  /* Same compression as dark, same alphas as the DS ships for light. See the
+     note in the .dark block above for why the geometry moved. */
+
+  --shadow-sm: 0 1px 2px -1px color-mix(in oklch, var(--shadow-color) 4%, transparent);
+  --shadow-md: 0 1px 3px -1px color-mix(in oklch, var(--shadow-color) 6%, transparent);
+  --shadow-lg: 0 2px 5px -2px color-mix(in oklch, var(--shadow-color) 8%, transparent);
+  --shadow-xl: 0 3px 8px -3px color-mix(in oklch, var(--shadow-color) 10%, transparent);
+  --shadow-2xl: 0 5px 12px -4px color-mix(in oklch, var(--shadow-color) 14%, transparent);
 }
 
 /* Rail glyphs sit a step off the rail's own ink rather than at full
@@ -103,6 +187,72 @@
    same instruction in both themes and needs no per-theme value. */
 :root {
   --rail-icon: color-mix(in oklch, var(--sidebar-foreground) 78%, var(--sidebar));
+}
+
+/* ---- accent knows what it is sitting on ----
+   The DS ships --accent as one absolute value per theme, which means it can
+   only be right on one surface. In dark it was --brand-900: a green 25deg off
+   the lime that decision 0067 made the action hue, so every selection in the
+   app - navigator row, select item, menu item - washed green while everything
+   that ACTED was lime. Two greens, neither meaning the other.
+
+   Accent is not a colour here. It is a STEP: a fixed distance from whatever
+   slate the thing is standing on. Selection stops being a hue and becomes a
+   lift, which leaves lime free to mean "this is the thing" and nothing else.
+
+   The step differs by theme because the direction of travel does. Dark mixes
+   toward a near-white foreground and needs 20% before a fill separates from a
+   near-black floor; light mixes toward a near-black foreground, where 20%
+   lands as a bruise on a white card and 8% is the same perceived lift.
+
+   CRITICAL: a custom property resolves where it is DECLARED, not where it is
+   used. --accent cannot be written once here and inherit contextually - it
+   would freeze against this element's --surface and every descendant would get
+   the floor's answer. Every surface that raises its own slate must restate the
+   pair: --surface, then --accent beside it. The surface map lives in
+   v2-layer.css. */
+:root {
+  --surface: var(--background);
+  --accent-step: 8%;
+  --accent: color-mix(in oklab, var(--surface) calc(100% - var(--accent-step)), var(--foreground));
+  --accent-foreground: var(--foreground);
+}
+
+.dark {
+  --accent-step: 20%;
+}
+
+/* ---- categorical series ----
+   --chart-1..5 is a SEQUENTIAL ramp: one hue stepping lightness from 0.87 to
+   0.25. That is the right tool for one series shown in intensity, and the
+   wrong one for four things whose only relationship is that they are
+   different - chart-1 and chart-4 are the same hue a tenth of a lightness
+   apart, so two elevators drew as the same line, and chart-3 at L=0.87 is
+   about 1.5:1 on a white plate.
+
+   Four hues, evenly spaced, held at ONE lightness and ONE chroma so no line
+   reads as more important than another - a categorical set encodes identity
+   only, and any lightness difference between series is a claim about rank
+   that the data is not making.
+
+   The status hues could not be borrowed: on a trading surface red is a
+   direction, and an elevator drawn in --error reads as one that is in
+   trouble. 320 (violet) takes the fourth slot because it is the furthest
+   hue from the three in play that still holds chroma at this lightness. */
+:root {
+  --series-1: oklch(0.545 0.150 150.5);
+  --series-2: oklch(0.545 0.150 250.0);
+  --series-3: oklch(0.545 0.150 65.0);
+  --series-4: oklch(0.545 0.150 320.0);
+}
+
+.dark {
+  /* Same hues, lifted: a 0.545 line on a near-black plate is as dim as an
+     0.87 line is on a white one. */
+  --series-1: oklch(0.800 0.130 150.5);
+  --series-2: oklch(0.800 0.130 250.0);
+  --series-3: oklch(0.800 0.130 65.0);
+  --series-4: oklch(0.800 0.130 320.0);
 }
 
 html,

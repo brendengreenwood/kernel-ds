@@ -274,7 +274,7 @@ export default function ProducersPage() {
           onValueChange={(v) => setCommodity(v as string)}
           className="-my-1 min-w-0 max-w-full overflow-x-auto py-1"
         >
-          <TabsList variant="pill" size="compact">
+          <TabsList variant="pill" size="compact" data-v2-segmented>
             {commodityFilters.map((c) => (
               <TabsTrigger key={c.value} value={c.value}>
                 {c.label}
@@ -283,7 +283,7 @@ export default function ProducersPage() {
           </TabsList>
         </Tabs>
         <Tabs value={book} onValueChange={(v) => setBook(v as string)} className="ml-auto">
-          <TabsList variant="pill" size="compact">
+          <TabsList variant="pill" size="compact" data-v2-segmented>
             <TabsTrigger value="mine">My Producers</TabsTrigger>
             <TabsTrigger value="all">All Producers</TabsTrigger>
           </TabsList>

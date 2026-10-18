@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "3": "^2.1.0",
+    "maplibre-gl": "^6.2.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",
