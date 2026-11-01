@@ -1,5 +1,5 @@
 import * as React from "react";
-import { mdiAccountGroupOutline, mdiAccountOutline, mdiAlertCircleOutline, mdiAlertOutline, mdiApplicationOutline, mdiArchiveArrowDownOutline, mdiStarFourPointsOutline, mdiWheelchairAccessibility, mdiArrowLeft, mdiArrowRight, mdiBellOutline, mdiCalendarBlankOutline, mdiCancel, mdiCash, mdiChartBar, mdiChartLine, mdiCheck, mdiCheckCircleOutline, mdiChevronDown, mdiChevronLeft, mdiChevronRight, mdiChevronUp, mdiClockOutline, mdiClose, mdiCloseCircleOutline, mdiCloseOctagonOutline, mdiCloudUploadOutline, mdiCogOutline, mdiCompassOutline, mdiConsole, mdiContentCopy, mdiCreation, mdiCreditCardOutline, mdiCursorText, mdiDockLeft, mdiDotsHorizontal, mdiDotsVertical, mdiDownload, mdiDragVertical, mdiEyeOffOutline, mdiEyeOutline, mdiFileDocumentOutline, mdiFileSign, mdiFilterVariant, mdiFormatBold, mdiFormatFont, mdiFormatItalic, mdiFormatListChecks, mdiFormatUnderline, mdiGauge, mdiGithub, mdiHandshakeOutline, mdiHomeOutline, mdiInformationOutline, mdiLayersOutline, mdiLoading, mdiLogout, mdiMagnify, mdiMessageOutline, mdiMinus, mdiPaletteOutline, mdiPencilOutline, mdiPlus, mdiReply, mdiRuler, mdiSend, mdiShapeOutline, mdiShareVariantOutline, mdiSitemapOutline, mdiSproutOutline, mdiSwapVertical, mdiTable, mdiTrashCanOutline, mdiTrendingDown, mdiTrendingUp, mdiTruckOutline, mdiTune, mdiUnfoldMoreHorizontal, mdiUpload, mdiViewColumnOutline, mdiViewDashboardOutline, mdiViewListOutline, mdiViewQuiltOutline, mdiViewSplitVertical, mdiWeatherNight, mdiWhiteBalanceSunny } from "@mdi/js";
+import { mdiAccountGroupOutline, mdiAccountOutline, mdiAlertCircleOutline, mdiAlertOutline, mdiApplicationOutline, mdiArchiveArrowDownOutline, mdiStarFourPointsOutline, mdiWheelchairAccessibility, mdiArrowLeft, mdiArrowRight, mdiBellOutline, mdiCalendarBlankOutline, mdiCancel, mdiCash, mdiChartBar, mdiChartLine, mdiCheck, mdiCheckCircleOutline, mdiChevronDown, mdiChevronLeft, mdiChevronRight, mdiChevronUp, mdiClockOutline, mdiClose, mdiCloseCircleOutline, mdiCloseOctagonOutline, mdiCloudUploadOutline, mdiCogOutline, mdiCompassOutline, mdiConsole, mdiContentCopy, mdiCreation, mdiCreditCardOutline, mdiCursorText, mdiDockLeft, mdiDotsHorizontal, mdiDotsVertical, mdiDownload, mdiDragVertical, mdiEyeOffOutline, mdiEyeOutline, mdiFileDocumentOutline, mdiFileSign, mdiFilterVariant, mdiFormatBold, mdiFormatFont, mdiFormatItalic, mdiFormatListChecks, mdiFormatUnderline, mdiGauge, mdiGithub, mdiHandshakeOutline, mdiHomeOutline, mdiInformationOutline, mdiLayersOutline, mdiLoading, mdiLogout, mdiMagnify, mdiMessageOutline, mdiMinus, mdiPaletteOutline, mdiPauseCircleOutline, mdiPencilOutline, mdiPlayCircleOutline, mdiPlus, mdiRestart, mdiReply, mdiRuler, mdiSend, mdiShapeOutline, mdiShareVariantOutline, mdiSitemapOutline, mdiSproutOutline, mdiSwapVertical, mdiTable, mdiTrashCanOutline, mdiTrendingDown, mdiTrendingUp, mdiTruckOutline, mdiTune, mdiUnfoldMoreHorizontal, mdiUpload, mdiViewColumnOutline, mdiViewDashboardOutline, mdiViewListOutline, mdiViewQuiltOutline, mdiViewSplitVertical, mdiWeatherNight, mdiWhiteBalanceSunny } from "@mdi/js";
 import { cn } from "@/lib/utils";
 
 /**
@@ -108,10 +108,13 @@ export const PanelLeftIcon = makeIcon(mdiDockLeft, "PanelLeftIcon");
 export const PanelsLeftRight = makeIcon(mdiViewSplitVertical, "PanelsLeftRight");
 export const PanelsTopLeft = makeIcon(mdiViewQuiltOutline, "PanelsTopLeft");
 export const Pencil = makeIcon(mdiPencilOutline, "Pencil");
+export const Pause = makeIcon(mdiPauseCircleOutline, "Pause");
+export const Play = makeIcon(mdiPlayCircleOutline, "Play");
 export const Plus = makeIcon(mdiPlus, "Plus");
 export const Reply = makeIcon(mdiReply, "Reply");
 export const Route = makeIcon(mdiSitemapOutline, "Route");
 export const Ruler = makeIcon(mdiRuler, "Ruler");
+export const RotateCcw = makeIcon(mdiRestart, "RotateCcw");
 export const Search = makeIcon(mdiMagnify, "Search");
 export const SearchIcon = makeIcon(mdiMagnify, "SearchIcon");
 export const SendHorizontal = makeIcon(mdiSend, "SendHorizontal");

@@ -76,6 +76,7 @@ src/
       foundations.tsx          ← Colors · Typography · Spacing · Elevation
       layout-foundation.tsx    ← Layout: breakpoints · grid rules · measure (0033)
       motion-foundation.tsx    ← Motion: duration/easing tokens + polish primitives (0018)
+      grain-dump-scene.tsx     ← iso-glow receiving-pit illustration loop (on /motion)
       icons-foundation.tsx     ← Icons: searchable MDI-shim glyph grid (0019)
       a11y-foundation.tsx      ← Accessibility: touch · focus · contrast · zoom · motion contract
       gallery-forms.tsx        ← per-cluster demos + formsClusters (Button · Toggle · Inputs …)

@@ -317,6 +317,9 @@ own route, not a section of one long scroll.
   replayable track demos, plus a polish showcase. Engines adopted:
   `@number-flow/react` (`<AnimatedNumber>`), `@formkit/
   auto-animate` (`autoAnimateConfig`), `motion` (Framer `AnimatePresence`).
+  The page also hosts `GrainDumpScene` (2026-11-01), an isometric
+  "iso glow" receiving-pit loop (truck → pit → leg → bin) driven by one
+  token-eased timeline; portal-only, not yet promoted to `@kernel/ui`.
 - **Icon library: MDI** (decision 0019, 2026-07-09): icons are
   Material Design Icons. Glyphs import from a shim
   `src/components/ui/icon.tsx` (lucide-named components backed by `@mdi/js`

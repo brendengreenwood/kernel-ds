@@ -11,6 +11,7 @@ import { Section, Subhead } from "./section"
 import { Button } from "@kernel/ui"
 import { AnimatedNumber } from "@kernel/ui"
 import { autoAnimateConfig } from "@/lib/motion"
+import { GrainDumpScene } from "./grain-dump-scene"
 
 /** A track whose dot travels on click, timed by a duration + easing token. */
 function Track({ token, meta, duration, easing }: { token: string; meta: string; duration: string; easing: string }) {
@@ -170,6 +171,16 @@ export function MotionSection() {
           <PresenceDemo />
         </div>
       </div>
+
+      <Subhead>Illustrated scene — iso glow &nbsp;<PortalOnly /></Subhead>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        A choreographed isometric loop for empty states, onboarding, and the receiving dashboard: a load of corn
+        pulls onto the pit, dumps through the grate, and the leg lifts it to the bin. One timeline drives every
+        frame; the curves are the <code className="font-mono">--ease-out</code> /{" "}
+        <code className="font-mono">--ease-in-out</code> tokens, colour is all theme + <code className="font-mono">--commodity-corn</code>{" "}
+        tokens, and reduced motion shows a still frame with Play as an explicit opt-in.
+      </p>
+      <GrainDumpScene />
     </Section>
   )
 }
