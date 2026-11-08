@@ -14,6 +14,7 @@ import { mapPalette, markRoles } from "@app/map/kit/theme"
 import { installGlyphs } from "@app/map/kit/glyphs"
 import { addMarker, hoverState, litState } from "@app/map/kit/marker"
 import { styleTileCorridors, addCorridors, setCorridorHighlight, type CorridorHighlight } from "@app/map/kit/corridors"
+import { addSellRoutes, sellRouteData, setSellRoutes } from "@app/map/kit/sell-routes"
 import type { Theme } from "@app/lib/theme"
 
 /* Basemaps: OpenFreeMap's vector styles — free, no API key, OSM data. Either
@@ -92,6 +93,12 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
   const dataRef = React.useRef(data)
   dataRef.current = data
   const byId = React.useMemo(() => new Map(sites.map((s) => [s.id, s])), [sites])
+  const destById = React.useMemo(() => new Map(data.destinations.map((d) => [d.id, d])), [data.destinations])
+  // Sell-side routes for the selected buying point (object.route — labelled guesses).
+  const sellData = React.useMemo(
+    () => sellRouteData(data.sellRoutes, selectedId != null ? byId.get(selectedId) : undefined, destById, destKinds),
+    [data.sellRoutes, selectedId, byId, destById, destKinds],
+  )
   const home = React.useMemo<Bounds>(() => {
     const lons = sites.map((s) => s.lon)
     const lats = sites.map((s) => s.lat)
@@ -147,8 +154,8 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
 
   // Latest data for the style.load handler, which re-installs everything after
   // a basemap swap.
-  const latest = React.useRef({ siteData, drawData, pairData })
-  latest.current = { siteData, drawData, pairData }
+  const latest = React.useRef({ siteData, drawData, pairData, sellData })
+  latest.current = { siteData, drawData, pairData, sellData }
 
   // ---- create the map once --------------------------------------------------
   React.useEffect(() => {
@@ -339,6 +346,7 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
 
     addCorridors(map, dataRef.current.corridors, firstLabel)
     setCorridorHighlight(map, hlRef.current)
+    addSellRoutes(map, latest.current.sellData, firstLabel)
 
     map.addLayer(
       {
@@ -418,6 +426,11 @@ export function DrawAreaMap({ sites, visible, radiusMi, showDraw = true, theme, 
     if (!map || !ready) return
     ;(map.getSource("om-pair") as GeoJSONSource | undefined)?.setData(pairData)
   }, [pairData, ready])
+  React.useEffect(() => {
+    const map = mapRef.current
+    if (!map || !ready) return
+    setSellRoutes(map, sellData)
+  }, [sellData, ready])
 
   // ---- highlight state -------------------------------------------------------
   const on = React.useMemo(() => {
