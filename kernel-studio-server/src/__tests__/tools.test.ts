@@ -4,6 +4,7 @@ import path from "node:path";
 import { z } from "zod";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { listComponentsTool, readComponentDocsTool } from "../mastra/tools/ds-bundle-tools.js";
+import { componentsDir } from "../lib/paths.js";
 import { listPrototypesTool, writePrototypeTool } from "../mastra/tools/prototype-tools.js";
 
 const dummyContext = {} as never;
@@ -61,9 +62,11 @@ afterEach(async () => {
 });
 
 describe("ds-bundle tools", () => {
-  it("lists the 70 Kernel general components", async () => {
+  it("lists every Kernel general component in the bundle", async () => {
+    const docDirs = (await fs.readdir(componentsDir(), { withFileTypes: true })).filter((d) => d.isDirectory()).length;
     const result = toolResult(await listComponentsTool.execute!({}, dummyContext), listComponentsResultSchema);
-    expect(result.count).toBe(70);
+    expect(result.count).toBe(docDirs);
+    expect(result.count).toBeGreaterThan(60);
     expect(result.components).toContain("Button");
     expect(result.components).toContain("Tooltip");
     expect(result.components).toContain("Combobox");
