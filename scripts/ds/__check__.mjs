@@ -361,8 +361,9 @@ function tempDsdsRoot() {
     const mapped = mapCatalogEntityContract(entity)
     const kernel = mapped.$extensions["com.kernel.catalog"]
     assert(mapped.kind === fixture.expectedKinds[entity.kind], `DSDS maps ${entity.kind} explicitly`)
-    assert(mapped.identifier === entity.id.split(".").slice(1).join("."), `DSDS uses the stable ${entity.kind} slug`)
-    assert(/^[a-z][a-z0-9-]*$/.test(mapped.identifier), `DSDS ${entity.kind} identifier matches the official pattern`)
+    assert(mapped.id === entity.id.split(".").slice(1).join("."), `DSDS uses the stable ${entity.kind} slug`)
+    assert(/^[a-z][a-z0-9-]*$/.test(mapped.id), `DSDS ${entity.kind} id matches the official pattern`)
+    assert(typeof mapped.description === "string" && mapped.description.length > 0, `DSDS gives the ${entity.kind} entry a description`)
     assert(kernel.kind === entity.kind && kernel.entityId === entity.id, `DSDS preserves ${entity.kind} identity`)
     assert(kernel.package === entity.package && kernel.portalAnchor === entity.documentation.portalAnchor, `DSDS preserves ${entity.kind} ownership and anchor`)
     assert(JSON.stringify(kernel.sourceFiles) === JSON.stringify(entity.sourceFiles), `DSDS preserves ${entity.kind} source files`)
@@ -407,13 +408,13 @@ function tempDsdsRoot() {
   assert(unknownStatus.status === 2 && unknownStatus.stdout.includes("invalid version"), "DSDS status refuses unknown versions", unknownStatus.stdout + unknownStatus.stderr)
 
   const beforeDryRun = readFileSync(join(root, "vendor", "dsds", "VERSION"), "utf8")
-  const updateSource = join(fixturesDir, "dsds", "update-0.15.3.json")
+  const updateSource = join(fixturesDir, "dsds", "update-0.24.0.json")
   const dryRun = dsds(["update", ...rootArgs, "--source", updateSource, "--dry-run"])
   assert(dryRun.status === 0 && dryRun.stdout.includes("DSDS-UPDATE-DRY-RUN"), "DSDS update dry run verifies release", dryRun.stdout + dryRun.stderr)
   assert(readFileSync(join(root, "vendor", "dsds", "VERSION"), "utf8") === beforeDryRun, "DSDS update dry run does not mutate")
   const staged = dsds(["update", ...rootArgs, "--source", updateSource])
   assert(staged.status === 0 && staged.stdout.includes("DSDS-UPDATE-OK"), "DSDS update stages reviewable changes", staged.stdout + staged.stderr)
-  assert(readFileSync(join(root, "vendor", "dsds", "VERSION"), "utf8").trim() === "0.15.3", "DSDS update replaces the pin")
+  assert(readFileSync(join(root, "vendor", "dsds", "VERSION"), "utf8").trim() === "0.24.0", "DSDS update replaces the pin")
   assert(dsds(["check", ...rootArgs]).status === 0, "DSDS updated artifacts validate and stay fresh")
   rmSync(root, { recursive: true, force: true })
 
@@ -437,13 +438,14 @@ function tempDsdsRoot() {
   let validationError = ""
   try {
     validateDsdsDocuments(repoRoot, new Map([["invalid.dsds.json", JSON.stringify({
-      dsdsVersion: "0.15.2",
-      entity: { kind: "component", identifier: "component.invalid", name: "Invalid" },
+      schemaVersion: "0.23.1",
+      name: "Kernel Design System",
+      entries: [{ kind: "component", id: "Component.Invalid", name: "Invalid", description: "Invalid entry." }],
     })]]))
   } catch (error) {
     validationError = error.message
   }
-  assert(validationError.includes("identifier") && validationError.includes("pattern"), "AJV rejects an invalid official identifier", validationError)
+  assert(validationError.includes("id") && validationError.includes("pattern"), "AJV rejects an invalid official entry id", validationError)
 }
 
 // Prototype lifecycle commands stay deterministic, reject invalid changes before mutation, and freshness-gate projections.

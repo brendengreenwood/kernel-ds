@@ -41,7 +41,10 @@ async function check(flags) {
 
 async function status(flags) {
   const root = commandRoot(flags)
-  const source = String(flags.source ?? "https://registry.npmjs.org/design-system-documentation-schema/latest")
+  const source = String(
+    flags.source ??
+      "https://raw.githubusercontent.com/somerandomdude/design-system-documentation-schema/main/package.json",
+  )
   const pinned = loadAndVerifyVendor(root).provenance
   const upstream = await readJsonSource(source, root)
   const result = compareUpstream(pinned, upstream)

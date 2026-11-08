@@ -1,0 +1,8 @@
+{
+  "version": "0.24.0",
+  "commitSha": "4444444444444444444444444444444444444444",
+  "schemaId": "https://designsystemdocspec.org/v0.24.0/dsds.bundled.schema.json",
+  "schemaUrl": "fixture://update-0.24.0/schema.json",
+  "licenseUrl": "fixture://update-0.24.0/LICENSE",
+  "migrationUrl": "fixture://update-0.24.0/MIGRATION.md"
+}

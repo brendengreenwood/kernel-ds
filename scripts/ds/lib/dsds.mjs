@@ -5,8 +5,6 @@ import Ajv2020 from "ajv/dist/2020.js"
 import addFormats from "ajv-formats"
 import { mapCatalogEntityContract } from "./dsds-contract.mjs"
 
-export const INITIAL_DSDS_VERSION = "0.15.2"
-
 export function dsdsPaths(root) {
   return {
     root,
@@ -44,11 +42,14 @@ export function generateDsdsFiles(root) {
   return new Map([
     ["contract-sample.dsds.json", stableJson({
       $schema: provenance.schemaId,
-      dsdsVersion: version,
-      entity: {
-        ...mapped,
-        name: entity.name,
-      },
+      schemaVersion: version,
+      name: "Kernel Design System",
+      entries: [
+        {
+          ...mapped,
+          name: entity.name,
+        },
+      ],
     })],
   ])
 }
