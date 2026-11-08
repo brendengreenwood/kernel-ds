@@ -477,6 +477,9 @@ The Cargill copy forked around late August 2026 and its theme is updated separat
 | `data-surface="floating"` | attribute hook | 0085 |
 | `ToggleGroup`/`Toggle` `variant="segmented"` | component variant | 0085 |
 | `Flag` | icon | 0085 |
+| `--neutral-warm-50…950` + `--color-neutral-warm-*` theme aliases | color ramp | 0087 / 0088 |
+| `--map-ground` `--map-roads` `--map-water` `--map-barge` `--map-rail` `--map-cargill` `--map-adm` `--map-bunge` `--map-ldc` `--map-production` `--map-feed` `--map-refinery` `--map-port` + `--color-map-*` (`bg-map-*`) | map theme tokens | 0089 |
+| `Map` | icon | 0088 |
 
 Renamed or removed: `--cream-*` → `--neutral-warm-*` (0087); UI surfaces moved to `--neutral-*`, neutral warm is map-only.
 

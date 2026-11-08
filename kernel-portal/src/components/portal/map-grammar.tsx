@@ -16,6 +16,7 @@ import { Section, Subhead } from "./section";
 type LedgerRow = {
   name: string;
   chip: string;
+  token: string;
   light: string;
   dark: string;
   means: string;
@@ -24,56 +25,64 @@ type LedgerRow = {
 const LEDGER: LedgerRow[] = [
   {
     name: "Cargill",
-    chip: "bg-brand-500 dark:bg-viz-crop-400",
+    chip: "bg-map-cargill",
+    token: "--map-cargill",
     light: "--brand-500",
     dark: "--viz-crop-400",
     means: "Buying points we run. The only green on the map.",
   },
   {
     name: "ADM",
-    chip: "bg-viz-plum-500 dark:bg-viz-plum-400",
+    chip: "bg-map-adm",
+    token: "--map-adm",
     light: "--viz-plum-500",
     dark: "--viz-plum-400",
     means: "Competitor buying points.",
   },
   {
     name: "Water",
-    chip: "bg-viz-sky-600 dark:bg-viz-sky-400",
+    chip: "bg-map-barge",
+    token: "--map-barge",
     light: "--viz-sky-600",
     dark: "--viz-sky-400",
     means: "Barge corridors only — rivers a boat can move grain on.",
   },
   {
     name: "Rail",
-    chip: "bg-viz-rust-500 dark:bg-viz-rust-500",
+    chip: "bg-map-rail",
+    token: "--map-rail",
     light: "--viz-rust-500",
     dark: "--viz-rust-500",
     means: "Rail corridors and flow. Ramps 600 to 400 by volume.",
   },
   {
     name: "Ports",
-    chip: "bg-viz-teal-600 dark:bg-viz-teal-400",
+    chip: "bg-map-port",
+    token: "--map-port",
     light: "--viz-teal-600",
     dark: "--viz-teal-400",
     means: "Export terminals at the end of a corridor.",
   },
   {
     name: "Ethanol",
-    chip: "bg-viz-wheat-600 dark:bg-viz-wheat-400",
+    chip: "bg-map-refinery",
+    token: "--map-refinery",
     light: "--viz-wheat-600",
     dark: "--viz-wheat-400",
     means: "Ethanol plants.",
   },
   {
     name: "Feedyards",
-    chip: "bg-viz-slate-600 dark:bg-viz-slate-200",
+    chip: "bg-map-feed",
+    token: "--map-feed",
     light: "--viz-slate-600",
     dark: "--viz-slate-200",
     means: "Feedyards and feed mills.",
   },
   {
     name: "LDC (reserved)",
-    chip: "bg-viz-clay-600 dark:bg-viz-clay-400",
+    chip: "bg-map-ldc",
+    token: "--map-ldc",
     light: "--viz-clay-600",
     dark: "--viz-clay-400",
     means: "Claimed for Louis Dreyfus before any LDC data exists.",
@@ -135,7 +144,7 @@ export function MapGrammarSection() {
         {[
           {
             name: "Ground",
-            body: "The basemap, recessed and re-tinted from Kernel tokens. Light mode uses the neutral-warm ramp (ground 50, roads 200); dark uses neutral-950. The ground is context, never content.",
+            body: "The basemap, recessed and re-tinted from the --map-ground, --map-roads and --map-water tokens (neutral-warm in light, neutral-950 in dark). The ground is context, never content.",
           },
           {
             name: "Marks",
@@ -195,8 +204,10 @@ export function MapGrammarSection() {
       <p className="mb-4 max-w-2xl text-sm text-muted-foreground">
         Hue is the scarcest channel, so a color must be claimed here before it
         is painted. The ledger is full: a new category gets a second channel
-        (shape, fill, grouping), not a new hue. Swatches are live tokens and
-        flip with the theme.
+        (shape, fill, grouping), not a new hue. Each claim ships as a semantic token in
+        <code> @kernel/ui</code> (<code>--map-*</code>), aliased onto the Kernel
+        ramps shown beside it — swatches read the tokens and flip with the
+        theme.
       </p>
       <div className="overflow-hidden rounded-[var(--radius-surface)] border">
         {LEDGER.map((row) => (
@@ -215,7 +226,7 @@ export function MapGrammarSection() {
               </div>
             </div>
             <code className="hidden shrink-0 text-xs text-muted-foreground sm:block">
-              {row.light} · dark {row.dark}
+              {row.token} · {row.light} · dark {row.dark}
             </code>
           </div>
         ))}
