@@ -2924,5 +2924,35 @@ export const catalog = [
     "sourceFiles": [
       "packages/ui/src/components/ui/panes.tsx"
     ]
+  },
+  {
+    "id": "pattern.map-grammar",
+    "name": "Map grammar",
+    "kind": "pattern",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "pattern",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "pattern.pane-canvas"
+      }
+    ],
+    "documentation": {
+      "slug": "map-grammar",
+      "portalAnchor": "pattern-map-grammar"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/map-grammar.tsx"
+    ]
   }
 ] as const satisfies readonly CatalogEntity[]

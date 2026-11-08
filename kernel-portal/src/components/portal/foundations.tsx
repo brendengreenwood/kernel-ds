@@ -180,6 +180,7 @@ export function ColorsSection() {
         <Ramp name="Brand" role="green · brand-*" token="brand" steps={STEPS_11} />
         <Ramp name="Lime" role="accent green · lime-*" token="lime" steps={STEPS_11} />
         <Ramp name="Neutral" role="green-tinted · neutral-*" token="neutral" steps={STEPS_11} />
+        <Ramp name="Neutral warm" role="map ground only · neutral-warm-*" token="neutral-warm" steps={STEPS_11} />
       </div>
 
       <h4 className={cn("mb-4 mt-9", typeStyles.overline)}>
