@@ -53,6 +53,6 @@
     "ajv-cli": "5.0.0",
     "ajv-formats": "3.0.1",
     "react-hook-form": "^7.80.0",
-    "verdaccio": "6.9.0"
+    "verdaccio": "7.0.2"
   }
 }

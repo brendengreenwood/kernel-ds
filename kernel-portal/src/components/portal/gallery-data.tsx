@@ -3,11 +3,13 @@
 import * as React from "react"
 import {
   ColumnDef,
+  createSortedRowModel,
   flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
+  rowSortingFeature,
+  sortFns,
   SortingState,
-  useReactTable,
+  tableFeatures,
+  useTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown } from "@kernel/ui/icon"
 
@@ -31,6 +33,12 @@ import {
 import { Demo } from "./section"
 import type { GalleryCluster } from "@/lib/gallery-types"
 
+const features = tableFeatures({
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+  sortFns,
+})
+
 type Project = { name: string; status: Status; owner: string; usage: number }
 
 const data: Project[] = [
@@ -40,7 +48,7 @@ const data: Project[] = [
   { name: "canopy-edge", status: "rejected", owner: "Rae Okafor", usage: 91 },
 ]
 
-const columns: ColumnDef<Project>[] = [
+const columns: ColumnDef<typeof features, Project>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -71,13 +79,12 @@ const columns: ColumnDef<Project>[] = [
 
 function DataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const table = useReactTable({
+  const table = useTable({
+    features,
     data,
     columns,
     state: { sorting },
     onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   })
 
   return (
@@ -97,7 +104,7 @@ function DataTable() {
         <TableBody>
           {table.getRowModel().rows.map((row) => (
             <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
+              {row.getAllCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>

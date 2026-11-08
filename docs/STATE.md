@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-10-04
+> Last touched: 2026-11-08
 
 ## What this project is
 
@@ -29,6 +29,7 @@ own route, not a section of one long scroll.
 
 - **The map grammar is portal-canonical** (decision 0088, 2026-11-07): `/map-grammar` (`pattern.map-grammar`, documentation-only) is the single statement of the maps visual language — three layers (ground, marks, chrome), one job per visual channel with a binding "never means" column, the hue ledger as live token swatches, named zoom stops, and an explicit tile-source binding split (grammar travels to any MapLibre basemap; layer ids and handoff zooms are re-bound per source — prototype on OpenFreeMap, work app on CARTO Voyager). The map kit stays in the origination-map prototypes; `@kernel/ui` takes no MapLibre dependency until a second consumer exists. Prototype `MAP-DESIGN-SYSTEM.md` docs now defer to this page.
 - **Pricing scenario is a portal domain page** (2026-11-08): `/pricing-scenario` (`domain.pricing-scenario`, experimental) renders the Merchant's central business object from the work-vault domain model — identity (location + commodity + contract month + time of shipment) fixed when editing vs refreshable Posted Bid Date, one scenario per shipment window with per-row band and stale state, stale thresholds by band (Nearby 2 business days / Deferred 10 / 6+ months never, CBOT grain calendar), and version history (every save versions the one scenario; Originators see the latest published version only). Joins Contract detail and Settlement statement in the Domain group; statuses Draft/Expired use the status ledger verbatim, Published/Archived reuse settled/cancelled hues until the ledger grows scenario states.
+- **Dependencies are current across every surface** (decision 0090, 2026-11-08): portal on React 19.3, Vite 8.3, Tailwind 4.3.5, Base UI 1.9, TanStack Table 9 (full v9 API migration in `gallery-data.tsx`), motion 14, TypeScript 7.0.2; workspace packages on tsup 9 with TypeScript pinned ~6.0.3 (tsup's dts path cannot drive TS 7 yet — decision 0090); studio server on ai 7, @ai-sdk/anthropic 4, @mastra/mcp 2.8, @hono/node-server 2, @libsql/client 0.18, vitest 5. The DSDS spec pin stays at 0.15.2 while upstream is at 0.23.1 — the npm distribution channel `dsds:status` polled was unpublished and 0.20+ restructured the document format (`schemaVersion` + `entries[]`), so moving is a vendored-schema migration with its own decision record, not a dependency bump.
 
 - **Floating panes are a Kernel layout role** (decision 0083, 2026-10-04): `packages/ui/src/components/ui/panes.tsx` provides `PaneCanvas` (8px `--pane-inset`/`--pane-gap`, own-width `floating`/`sheet` switch), `FloatingPane`, `PaneStack` + `usePaneOrder` (publishes `--pane-reserve-left/right` for control step-aside), `PanePill`/`PanePillBar`, `FilterDock`, `PaneSheet`, `PaneCorner`. Row fills use `--state-hover`/`--state-press`. Catalog `component.panes` + `pattern.pane-canvas`; demo at `/panes`; `check-pane-usage.mjs` (CI, ratcheted, 0 offenders) blocks hand-rolled floating panels. The origination-map prototype migrates onto these next.
 
