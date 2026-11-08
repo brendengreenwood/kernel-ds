@@ -53,7 +53,7 @@ test("rejects relationships to missing entities", () => {
 test("sorts portal lifecycle metadata by group and name", () => {
   const lifecycle = selectPortalLifecycleMeta(catalog)
   const groups = lifecycle.map((entity) => entity.group)
-  assert.equal(lifecycle.length, 100)
+  assert.equal(lifecycle.length, 101)
   assert.deepEqual(lifecycle.slice(0, 3).map((entity) => entity.name), ["Accordion", "Alert", "Alert Dialog"])
   assert.equal(groups.lastIndexOf("component") < groups.indexOf("element"), true)
   assert.equal(groups.lastIndexOf("element") < groups.indexOf("pattern"), true)
@@ -67,7 +67,7 @@ test("selects stable group and maturity views", () => {
   const experimental = selectEntitiesByMaturity(catalog, "experimental")
   assert.equal(components.length, 65)
   assert.equal(ready.length, 82)
-  assert.equal(experimental.length, 18)
+  assert.equal(experimental.length, 19)
   assert.deepEqual(components.map((entity) => entity.name), [...components].map((entity) => entity.name).sort())
 })
 
