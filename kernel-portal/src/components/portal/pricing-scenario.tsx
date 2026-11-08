@@ -104,7 +104,7 @@ function IdentityFields() {
           {market.map(({ k, v }) => (
             <div key={k} className="flex items-baseline justify-between gap-4 border-b py-2 text-sm last:border-b-0">
               <dt className="text-muted-foreground">{k}</dt>
-              <dd className="font-mono">{v}</dd>
+              <dd className="tabular-nums">{v}</dd>
             </div>
           ))}
         </dl>
@@ -120,9 +120,9 @@ function WindowsTable() {
         <TableRow>
           <TableHead>Ship window</TableHead>
           <TableHead>Futures</TableHead>
-          <TableHead className="text-right">Posted Bid</TableHead>
-          <TableHead className="text-right">Max Bid</TableHead>
-          <TableHead className="text-right">Posted Bid Date</TableHead>
+          <TableHead>Posted Bid</TableHead>
+          <TableHead>Max Bid</TableHead>
+          <TableHead>Posted Bid Date</TableHead>
           <TableHead>Band · stale limit</TableHead>
           <TableHead>Status</TableHead>
         </TableRow>
@@ -131,10 +131,10 @@ function WindowsTable() {
         {windows.map((w) => (
           <TableRow key={w.window}>
             <TableCell className="font-medium">{w.window}</TableCell>
-            <TableCell className="font-mono">{w.futures}</TableCell>
-            <TableCell className="text-right font-mono">{w.posted}</TableCell>
-            <TableCell className="text-right font-mono">{w.max}</TableCell>
-            <TableCell className="text-right font-mono">
+            <TableCell className="tabular-nums">{w.futures}</TableCell>
+            <TableCell className="tabular-nums">{w.posted}</TableCell>
+            <TableCell className="tabular-nums">{w.max}</TableCell>
+            <TableCell className="tabular-nums">
               {w.bidDate}
               {w.stale ? (
                 <span className="ml-1.5 font-sans text-xs font-medium text-warning-700 dark:text-warning-400">stale</span>
@@ -163,7 +163,7 @@ function StaleBands() {
           <div key={band} className="flex items-baseline justify-between gap-4 border-b py-3 text-sm last:border-b-0">
             <div className="font-medium">{band}</div>
             <div className="text-muted-foreground">{start}</div>
-            <div className="font-mono">{limit}</div>
+            <div className="tabular-nums">{limit}</div>
           </div>
         ))}
       </div>
@@ -183,7 +183,7 @@ function VersionHistory() {
       <div className="px-5 pt-1 pb-4">
         {versions.map(({ v, date, change }) => (
           <div key={v} className="flex items-baseline gap-4 border-b py-3 text-sm last:border-b-0">
-            <div className="font-mono text-muted-foreground">{v}</div>
+            <div className="tabular-nums text-muted-foreground">{v}</div>
             <div className="min-w-0 flex-1">{change}</div>
             <div className="shrink-0 text-muted-foreground">{date}</div>
           </div>
