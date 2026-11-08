@@ -35,12 +35,12 @@
       "sectionNodeId": "7:289",
       "bounds": {
         "x": 0,
-        "y": 3160,
+        "y": 19534,
         "width": 1391,
         "height": 937
       },
       "expectedX": 0,
-      "predecessorSectionId": "7:400",
+      "predecessorSectionId": "137:2406",
       "gap": 160,
       "verdict": "pass"
     }

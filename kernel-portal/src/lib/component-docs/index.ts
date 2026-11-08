@@ -66,6 +66,8 @@ import { originationFlowDoc } from "./origination-flow.ts"
 import { pageHeaderDoc } from "./page-header.ts"
 import { paginationDoc } from "./pagination.ts"
 import { panelsDoc } from "./panels.ts"
+import { panesDoc } from "./panes.ts"
+import { paneCanvasDoc } from "./pane-canvas.ts"
 import { pinDoc } from "./pin.ts"
 import { plotDoc } from "./plot.ts"
 import { popoverDoc } from "./popover.ts"
@@ -151,6 +153,8 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [pageHeaderDoc.slug]: pageHeaderDoc,
   [paginationDoc.slug]: paginationDoc,
   [panelsDoc.slug]: panelsDoc,
+  [panesDoc.slug]: panesDoc,
+  [paneCanvasDoc.slug]: paneCanvasDoc,
   [pinDoc.slug]: pinDoc,
   [plotDoc.slug]: plotDoc,
   [popoverDoc.slug]: popoverDoc,

@@ -2874,5 +2874,55 @@ export const catalog = [
     "sourceFiles": [
       "packages/ui/src/components/ui/panels.tsx"
     ]
+  },
+  {
+    "id": "component.panes",
+    "name": "Panes",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "panes",
+      "portalAnchor": "c-panes"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/panes.tsx"
+    ]
+  },
+  {
+    "id": "pattern.pane-canvas",
+    "name": "Pane canvas",
+    "kind": "pattern",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "pattern",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "pane-canvas",
+      "portalAnchor": "pattern-pane-canvas"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/panes.tsx"
+    ]
   }
 ] as const satisfies readonly CatalogEntity[]

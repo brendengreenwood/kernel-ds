@@ -4399,11 +4399,11 @@
         "page": "Components",
         "sectionId": "7:289",
         "sectionName": "Sidebar",
-        "auditedAt": "2026-09-27T09:28:22.991Z"
+        "auditedAt": "2026-10-04T06:17:57.860Z"
       },
       "contract": {
-        "contractHash": "b06250f8d269d05bcee89809fe27402c1bf095c4481586f45bf68e28f610fd48",
-        "sourceHash": "e9085394b22d80ed5b80bf750ad037312c88eab37af4a7d181b0bd075c6a43e2",
+        "contractHash": "9826e7ff4910b9c4c34a702f18203b6deeed2d765e2846c814126a452fef0658",
+        "sourceHash": "f4bedff8242954a819c1018f36b474b9f26575f7ed090ec83c5e9257d3e2c38e",
         "variantAxes": {
           "variant": [
             "default",
