@@ -1,60 +1,18 @@
 import { spawnSync } from "node:child_process"
-import { resolve } from "node:path"
 import { parseFlags } from "../lib/args.mjs"
-import { repoRoot, runNode, runNpm } from "../lib/context.mjs"
+import { repoRoot } from "../lib/context.mjs"
+import { gateManifest, runCheck } from "../lib/gates.mjs"
 
 /**
  * Gate registry: changed-path pattern → the focused checks that guard it.
- * `dependents` lists downstream gates that consume this gate's outputs; they
- * are selected transitively so a package change never silently skips its
- * consumers (portal consumes catalog/ui/definitions, Studio consumes the
- * ds-bundle built from the portal and the packages).
+ * The registry itself lives in lib/gates.mjs (the single gate manifest, also
+ * consumed by ds:doctor's gate-coverage check against ci.yml). `dependents`
+ * lists downstream gates that consume this gate's outputs; they are selected
+ * transitively so a package change never silently skips its consumers
+ * (portal consumes catalog/ui/definitions, Studio consumes the ds-bundle
+ * built from the portal and the packages).
  */
-export const verifyGates = [
-  {
-    id: "ds-commands",
-    match: /^(scripts\/ds\/|package\.json$)/,
-    dependents: [],
-    run: () => [runNode(resolve(repoRoot, "scripts/ds/__check__.mjs"))],
-  },
-  {
-    id: "catalog",
-    match: /^packages\/catalog\//,
-    dependents: ["portal", "studio"],
-    run: () => [runNpm(["run", "catalog:check"])],
-  },
-  {
-    id: "ui",
-    match: /^packages\/ui\//,
-    dependents: ["portal", "studio"],
-    run: () => [runNpm(["run", "ui:build"]), runNpm(["run", "ui:test"]), runNpm(["run", "ui:check"])],
-  },
-  {
-    id: "definitions",
-    match: /^packages\/definitions\//,
-    dependents: ["portal", "studio"],
-    run: () => [runNpm(["run", "definitions:build"]), runNpm(["run", "definitions:test"]), runNpm(["run", "definitions:check"])],
-  },
-  {
-    id: "portal",
-    match: /^kernel-portal\//,
-    dependents: ["studio"],
-    run: () => [
-      runNpm(["run", "build"], { cwd: resolve(repoRoot, "kernel-portal") }),
-      runNpm(["run", "lint"], { cwd: resolve(repoRoot, "kernel-portal") }),
-      runNode(resolve(repoRoot, "kernel-portal/scripts/check-component-docs.mjs"), ["--coverage"], { cwd: resolve(repoRoot, "kernel-portal") }),
-    ],
-  },
-  {
-    id: "studio",
-    match: /^kernel-studio-server\//,
-    dependents: [],
-    run: () => [
-      runNpm(["run", "check"], { cwd: resolve(repoRoot, "kernel-studio-server") }),
-      runNpm(["test"], { cwd: resolve(repoRoot, "kernel-studio-server") }),
-    ],
-  },
-]
+export const verifyGates = gateManifest
 
 /**
  * Pure selection: changed paths → gates to run, expanded through `dependents`
@@ -107,9 +65,12 @@ export async function verify(argv) {
   const failures = []
   for (const gate of selected) {
     console.log(`DS-VERIFY gate: ${gate.id}`)
-    for (const result of gate.run()) {
+    for (const check of gate.checks) {
+      if (check.ciOnly) continue
+      console.log(`DS-VERIFY check: ${gate.id}/${check.id}`)
+      const result = runCheck(gate, check)
       if (result.status !== 0) {
-        failures.push(gate.id)
+        failures.push(`${gate.id}/${check.id}`)
         break
       }
     }

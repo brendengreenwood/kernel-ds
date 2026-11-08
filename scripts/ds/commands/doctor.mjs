@@ -252,6 +252,24 @@ export const doctorChecks = [
       return violations
     },
   },
+  {
+    id: "gate-coverage",
+    fixtureSafe: false,
+    run: async () => {
+      /* The gate manifest (lib/gates.mjs) is the single registry; ci.yml is
+         hand-written. A check declared with a `ci` needle that ci.yml never
+         runs is exactly the drift this guards against. */
+      const { ciNeedles } = await import("../lib/gates.mjs")
+      const workflow = readFileSync(resolve(repoRoot, ".github/workflows/ci.yml"), "utf8").replaceAll("\r\n", "\n")
+      const violations = []
+      for (const { gate, check, needle } of ciNeedles()) {
+        if (!workflow.includes(needle)) {
+          violations.push({ code: "gate-missing-from-ci", message: `${gate}/${check} declares CI needle "${needle}" but .github/workflows/ci.yml does not run it` })
+        }
+      }
+      return violations
+    },
+  },
 ]
 
 /** Report actionable design-system health violations; nonzero when any exist. */
