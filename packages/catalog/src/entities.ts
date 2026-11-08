@@ -2954,5 +2954,41 @@ export const catalog = [
     "sourceFiles": [
       "kernel-portal/src/components/portal/map-grammar.tsx"
     ]
+  },
+  {
+    "id": "domain.pricing-scenario",
+    "name": "Pricing scenario",
+    "kind": "domain",
+    "maturity": "experimental",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "domain",
+      "experimental"
+    ],
+    "capabilities": [
+      "accessibility-reviewed"
+    ],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "element.tables"
+      },
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      }
+    ],
+    "documentation": {
+      "portalAnchor": "pricing-scenario"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "lifecycle-metadata"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/pricing-scenario.tsx"
+    ],
+    "note": "Domain pattern 3; the Merchant's central business object — identity (location + commodity + contract month + time of shipment), one scenario per shipment window, staleness from the Posted Bid Date."
   }
 ] as const satisfies readonly CatalogEntity[]

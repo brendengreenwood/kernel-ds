@@ -39,6 +39,7 @@ export const docOrder: DocPage[] = [
   { path: "/modals", title: "Modals" },
   { path: "/contract", title: "Contract detail" },
   { path: "/settlement", title: "Settlement statement" },
+  { path: "/pricing-scenario", title: "Pricing scenario" },
 ]
 
 export const docIndex = new Map(docOrder.map((p, i) => [p.path, i]))

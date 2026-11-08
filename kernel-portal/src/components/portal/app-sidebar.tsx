@@ -21,6 +21,7 @@ import {
   Terminal,
   FileText,
   Banknote,
+  LineChart,
   Handshake,
   AppWindow,
   PanelsLeftRight,
@@ -116,6 +117,7 @@ export const nav: { label: string; items: NavItem[] }[] = [
     items: [
       { title: "Contract detail", to: "/contract", icon: FileText, maturity: "experimental" },
       { title: "Settlement statement", to: "/settlement", icon: Banknote, maturity: "experimental" },
+      { title: "Pricing scenario", to: "/pricing-scenario", icon: LineChart, maturity: "experimental" },
     ],
   },
   {
