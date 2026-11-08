@@ -25,6 +25,7 @@ import {
   AppWindow,
   PanelsLeftRight,
   Compass,
+  Map as MapIcon,
   SlidersHorizontal,
   ListChecks,
   Shapes,
@@ -51,7 +52,7 @@ import {
 import { galleryClusters } from "@/lib/gallery-registry"
 import { MaturityPill } from "./section"
 
-type NavItem = {
+export type NavItem = {
   title: string
   to: string
   icon: React.ComponentType<{ className?: string }>
@@ -59,7 +60,7 @@ type NavItem = {
   external?: boolean
 }
 
-const nav: { label: string; items: NavItem[] }[] = [
+export const nav: { label: string; items: NavItem[] }[] = [
   {
     label: "Get started",
     items: [
@@ -98,6 +99,7 @@ const nav: { label: string; items: NavItem[] }[] = [
       { title: "App shell", to: "/appshell", icon: PanelsTopLeft },
       { title: "Navigation", to: "/navigation", icon: Compass },
       { title: "Floating panes", to: "/panes", icon: Layers, maturity: "experimental" },
+      { title: "Map grammar", to: "/map-grammar", icon: MapIcon, maturity: "experimental" },
       { title: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
       { title: "Filtering", to: "/filters", icon: Filter },
       { title: "Advanced filtering", to: "/filtering-advanced", icon: SlidersHorizontal },

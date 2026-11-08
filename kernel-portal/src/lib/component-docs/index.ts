@@ -54,6 +54,7 @@ import { itemDoc } from "./item.ts"
 import { kbdDoc } from "./kbd.ts"
 import { labelDoc } from "./label.ts"
 import { legendswatchDoc } from "./legendswatch.ts"
+import { mapGrammarDoc } from "./map-grammar.ts"
 import { markerDoc } from "./marker.ts"
 import { menubarDoc } from "./menubar.ts"
 import { messageDoc } from "./message.ts"
@@ -141,6 +142,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [kbdDoc.slug]: kbdDoc,
   [labelDoc.slug]: labelDoc,
   [legendswatchDoc.slug]: legendswatchDoc,
+  [mapGrammarDoc.slug]: mapGrammarDoc,
   [markerDoc.slug]: markerDoc,
   [menubarDoc.slug]: menubarDoc,
   [messageDoc.slug]: messageDoc,

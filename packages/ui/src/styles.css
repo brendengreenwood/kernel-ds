@@ -647,6 +647,17 @@
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
   --color-neutral-950: var(--neutral-950);
+  --color-neutral-warm-50: var(--neutral-warm-50);
+  --color-neutral-warm-100: var(--neutral-warm-100);
+  --color-neutral-warm-200: var(--neutral-warm-200);
+  --color-neutral-warm-300: var(--neutral-warm-300);
+  --color-neutral-warm-400: var(--neutral-warm-400);
+  --color-neutral-warm-500: var(--neutral-warm-500);
+  --color-neutral-warm-600: var(--neutral-warm-600);
+  --color-neutral-warm-700: var(--neutral-warm-700);
+  --color-neutral-warm-800: var(--neutral-warm-800);
+  --color-neutral-warm-900: var(--neutral-warm-900);
+  --color-neutral-warm-950: var(--neutral-warm-950);
   --color-success-50: var(--success-50);
   --color-success-100: var(--success-100);
   --color-success-200: var(--success-200);
@@ -890,6 +901,59 @@
   --color-status-rejected: var(--status-rejected);
   --color-status-cancelled: var(--status-cancelled);
   --color-status-expired: var(--status-expired);
+}
+
+/* ===== MAP — map theme roles (decision 0089). Grammar: portal /map-grammar.
+   Ground/roads/water re-tint the basemap; the rest are the hue ledger. Marks
+   read these tokens, never the basemap palette, so light/dark hold on any
+   tile source (OpenFreeMap, CARTO, ...). */
+:root {
+  --map-ground: var(--neutral-warm-50);
+  --map-roads: var(--neutral-warm-200);
+  /* Water: a low-chroma blue leaning violet, quiet against warm land. */
+  --map-water: oklch(0.88 0.009 252);
+  --map-barge: var(--viz-sky-600);
+  --map-rail: var(--viz-rust-500);
+  --map-cargill: var(--brand-500);
+  --map-adm: var(--viz-plum-500);
+  --map-bunge: var(--viz-plum-600);
+  --map-ldc: var(--viz-clay-600);
+  --map-production: var(--neutral-300);
+  --map-feed: var(--viz-slate-600);
+  --map-refinery: var(--viz-wheat-600);
+  --map-port: var(--viz-teal-600);
+}
+
+.dark {
+  --map-ground: var(--neutral-950);
+  --map-roads: color-mix(in oklch, var(--neutral-800), var(--neutral-700));
+  --map-water: color-mix(in oklch, var(--neutral-900), var(--neutral-800));
+  --map-barge: var(--viz-sky-400);
+  --map-rail: var(--viz-rust-500);
+  --map-cargill: var(--viz-crop-400);
+  --map-adm: var(--viz-plum-400);
+  --map-bunge: var(--viz-plum-400);
+  --map-ldc: var(--viz-clay-400);
+  --map-production: var(--neutral-700);
+  --map-feed: var(--viz-slate-200);
+  --map-refinery: var(--viz-wheat-400);
+  --map-port: var(--viz-teal-400);
+}
+
+@theme inline {
+  --color-map-ground: var(--map-ground);
+  --color-map-roads: var(--map-roads);
+  --color-map-water: var(--map-water);
+  --color-map-barge: var(--map-barge);
+  --color-map-rail: var(--map-rail);
+  --color-map-cargill: var(--map-cargill);
+  --color-map-adm: var(--map-adm);
+  --color-map-bunge: var(--map-bunge);
+  --color-map-ldc: var(--map-ldc);
+  --color-map-production: var(--map-production);
+  --color-map-feed: var(--map-feed);
+  --color-map-refinery: var(--map-refinery);
+  --color-map-port: var(--map-port);
 }
 
 /* Touch targets — ≥44px effective hit area on coarse pointers (decision 0007).

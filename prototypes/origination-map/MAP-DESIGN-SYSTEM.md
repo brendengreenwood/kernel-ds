@@ -1,5 +1,9 @@
 # Map design system (origination map)
 
+> Canonical: the grammar in this doc is documented at the portal's `/map-grammar` page
+> (`pattern.map-grammar`, decision 0088). On conflict the portal page wins; this file keeps
+> the prototype-specific detail (data sources, marker recipe internals, tile bindings).
+
 A grammar for drawing grain data on a map. Every visual channel has one job; no meaning gets two channels. Rules here are backed by code — each points at where it lives.
 
 ## What it's for
