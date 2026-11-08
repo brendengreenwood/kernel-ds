@@ -1,0 +1,14 @@
+# Standalone deploy of this prototype (set the Netlify site's base directory to
+# prototypes/origination-map). The DS is consumed at source, so the root
+# workspace install runs first.
+[build]
+  command = "cd ../.. && npm ci --no-audit --no-fund && cd prototypes/origination-map && npm install --no-audit --no-fund && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

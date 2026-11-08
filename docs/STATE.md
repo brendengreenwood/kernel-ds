@@ -2,7 +2,7 @@
 
 > Living document. Edited in place on every change. History lives in
 > `worklog/`; rationale lives in `decisions/`; retired sections in `archive/`.
-> Last touched: 2026-09-22
+> Last touched: 2026-10-04
 
 ## What this project is
 
@@ -28,6 +28,8 @@ own route, not a section of one long scroll.
 ## Current state
 
 - **Floating panes are a Kernel layout role** (decision 0083, 2026-10-04): `packages/ui/src/components/ui/panes.tsx` provides `PaneCanvas` (8px `--pane-inset`/`--pane-gap`, own-width `floating`/`sheet` switch), `FloatingPane`, `PaneStack` + `usePaneOrder` (publishes `--pane-reserve-left/right` for control step-aside), `PanePill`/`PanePillBar`, `FilterDock`, `PaneSheet`, `PaneCorner`. Row fills use `--state-hover`/`--state-press`. Catalog `component.panes` + `pattern.pane-canvas`; demo at `/panes`; `check-pane-usage.mjs` (CI, ratcheted, 0 offenders) blocks hand-rolled floating panels. The origination-map prototype migrates onto these next.
+
+- **`prototypes/` holds standalone DS-consuming prototype apps** (decision 0081, 2026-10-04). First: `prototypes/origination-map/` — a Cargill vs ADM draw-area map on a real MapLibre GL map (OpenFreeMap tiles, no key; env-overridable style; bundled state-outline fallback) plus a US crop tonnage ledger, composed from live `@kernel/ui` at source with `--om-*` app tokens on the `--viz-*` axis. Own lockfile, CI build job, not a workspace, not authoritative. Deployed 2026-10-04 to a separate Netlify project, `kernel-origination-map` → https://kernel-origination-map.netlify.app — as a manual prebuilt-`dist/` upload, not a Git-linked build, so it does not auto-update on push (redeploy steps in the app README). Layout since reworked to a full-bleed map with floating panels, a filter-pill dock that shows applied state, stacking Regions/Pairs pills, and a phone bottom menu; selections keep their relationships when filtered (worklog 2026-10-04).
 
 - **Full-library code-to-Figma integration now has a versioned manifest** (decision 0078, 2026-09-27): `docs/figma/component-integration.json` enumerates all 62 catalog-owned `@kernel/ui` components by DSDS entity ID and records canonical sources, documentation, public modules, current Figma mappings, contract-extraction state, token prerequisites, lifecycle authority, and promotion blockers. It is generated deterministically by `scripts/ds/figma/build-component-integration.mjs` from the catalog, package API inventory, and Figma compatibility map. Current coverage is 3 drifted mappings (Button, Input, Sidebar) and 59 not started; no component is treated as fully mapped yet. The three non-catalog public modules (`code-block`, `direction`, `input-group`) remain outside Figma identity work until cataloged deliberately.
 
@@ -456,6 +458,25 @@ The prototype's remaining drift — its token direction, its elevation language,
 The promotion merged as PR #85. The queue was drained onto branch `feat/v2-promotion` (local, unpushed until review). Landed so far: the contrast-audit repair (it now reads the packaged stylesheet), register 4.12's dialog-close coarse-pointer reach, and the whole of Part 2 — the lime scale (decision 0064), the dark elevation inversion, the light rail retune, the 0.875rem radius, and the elevation-collection tokens (decision 0065). Landed since: the promotable components — PageHeader (three-size union), the panel furniture module (Tile, TwoLine, Stat, IconChip, TableFrame, PanelEmpty), the concentric corner tokens, the cell-as-control table affordance (`data-row-toggle`), and the 3.5rem rail collapse — with their catalog entities (97 total), package tests, and portal doc pages (`/components/page-header`, `/components/panels`; the Table and Sidebar doc entities carry the new affordance sections). The dark green-vs-lime hue question is resolved: lime is the dark action hue, ratified by decision 0067 (zero token changes). The shell composition followed as PR #86: the DS's inset variant carries the prototype's page plate at source (m-4, `--elev-edge-page` hairline, `--elev-lip`, shadow-2xl, ≥48rem; decision 0066) and the portal adopts `variant="inset"`, so the docs site wears the system it documents.
 
 With both merged, this branch drained its own register (2026-08-06): main merged in (`ebe38a8`), the promoted entries flipped to carry their landing SHAs (Part 2 whole, 3.16/3.24/3.26/3.29, 4.12, 5.5's furniture, 5.8, 5.19), and the app's layers deduplicated — the page-plate and cell-as-control rules deleted from `v2-layer.css` (the DS draws them now), the concentric-corner tokens aliased to the DS's `--panel-radius`/`--panel-inset`, the shell's rail-width override and collapse guards removed. What the register still holds open: the charting layer, the light accent pass, and one live token drift (light `--muted-foreground`); green-vs-lime in dark closed as decision 0067.
+
+### Origination-map v2: merchant scenario workspace (2026-10-08)
+
+`prototypes/origination-map-v2` (port 5194, branch `claude/festive-bardeen-yd4esi`, unpushed) simulates the merchant session: scenario navigator, pricing panel, priority, priority areas, producers. All data simulated. Rules in its `WORKSPACE-DESIGN-SYSTEM.md`; remaining local patches in its `PATCHES.md`. Gaps it found landed in Kernel as decision 0085 (segmented toggle, `--floating`, `text-overline`, color-scheme, dark-card tints, `Flag`). Label weight (#5) and field-text nudge (#6) moved into Kernel. Open: kernel-app still uses its own segmented CSS; `PageHeader` has no one-line size; the review half of the workflow is not defined.
+
+### Token surface added since the Cargill fork (for reconciliation)
+
+The Cargill copy forked around late August 2026 and its theme is updated separately. Token **names** are the contract: add freely; rename/remove only with a decision record. Every name added here is listed so the work side can diff names before merging values.
+
+| Added | Kind | Decision |
+|---|---|---|
+| `--floating` / `--color-floating` (`bg-floating`) | color token | 0085 |
+| `text-overline` | utility | 0085 |
+| `color-scheme` on `:root` / `.dark` | base rule | 0085 |
+| `data-surface="floating"` | attribute hook | 0085 |
+| `ToggleGroup`/`Toggle` `variant="segmented"` | component variant | 0085 |
+| `Flag` | icon | 0085 |
+
+Renamed or removed: `--cream-*` → `--neutral-warm-*` (0087); UI surfaces moved to `--neutral-*`, neutral warm is map-only.
 
 ## Backlog
 

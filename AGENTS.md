@@ -20,6 +20,7 @@ node --experimental-strip-types runs the .mts/.ts gate scripts directly (Node 24
 
 Docs are part of every change (see docs/GUIDE.md and docs/AGENTS.md)
 Same turn as a meaningful change: append docs/worklog/YYYY-MM.md, update docs/STATE.md, add docs/decisions/ record if a convention/dependency/architecture shifted, archive stale STATE sections to docs/archive/
+Offer a commit after every working, verified change so each step can be undone on its own; commit only when the user says so
 Rituals are encoded as skills in .agents/skills/ (kernel-token, kernel-feature, kernel-verify, kernel-ship) — reach for them instead of re-deriving
 
 Architecture

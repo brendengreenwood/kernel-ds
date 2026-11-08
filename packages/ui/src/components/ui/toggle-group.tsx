@@ -43,6 +43,7 @@ function ToggleGroup({
       style={{ "--gap": spacing } as React.CSSProperties}
       className={cn(
         "group/toggle-group flex w-fit flex-row items-center gap-[--spacing(var(--gap))] rounded-[var(--radius-control)] data-vertical:flex-col data-vertical:items-stretch",
+        variant === "segmented" && "gap-0.5 rounded-[var(--radius-surface)] border bg-card p-[3px]",
         className
       )}
       {...props}

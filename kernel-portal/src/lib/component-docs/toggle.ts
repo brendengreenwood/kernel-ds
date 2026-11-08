@@ -33,6 +33,7 @@ export const toggleDoc: ComponentDoc = parseComponentDoc({
           keys: [
             { key: "default", description: "Transparent until pressed; blends into a toolbar." },
             { key: "outline", description: "Bordered resting state for when the toggle needs to read as a distinct control." },
+            { key: "segmented", description: "One-of-few filter inside a ToggleGroup: the group draws a bordered track and the pressed item fills with the primary color." },
           ],
         },
         {

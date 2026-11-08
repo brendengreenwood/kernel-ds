@@ -21,6 +21,9 @@
   --radius-control: 0.25rem; /* 4px — controls stay subordinate to surfaces. */
   --radius-surface: 0.5rem; /* 8px — exposed perimeter of connected work surfaces. */
   --radius-floating: 0.5rem; /* 8px — menus, popovers, and other floating layers. */
+  /* Panels floating over a full-bleed canvas (maps). Light: the card. */
+  --floating: var(--card);
+  color-scheme: light;
   --radius-modal: 0.5rem; /* 8px — blocking dialogs share the system surface geometry. */
   /* Connected panels round the exposed shell once. Regions inside the shell
      remain square so adjacent navigator, canvas, and dock areas share seams
@@ -47,7 +50,23 @@
   --ease-in-out: cubic-bezier(0.5, 0, 0.2, 1);   /* symmetric moves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* playful overshoot */
 
-  --background: oklch(1.0000 0 0);
+  /* Neutral-warm light ladder (was cream): a barely-warm paper
+     ramp, hue 100, chroma 0.007 so it reads neutral, not yellow or red. Lighter
+     means closer: frame 50, page 100, cards white, edges 300. Light mode
+     only; dark keeps the green-tinted neutrals. */
+  --neutral-warm-50: oklch(0.979 0.016 100.0);
+  --neutral-warm-100: oklch(0.962 0.014 100.0);
+  --neutral-warm-200: oklch(0.918 0.013 100.0);
+  --neutral-warm-300: oklch(0.858 0.011 100.0);
+  --neutral-warm-400: oklch(0.725 0.010 100.0);
+  --neutral-warm-500: oklch(0.562 0.010 100.0);
+  --neutral-warm-600: oklch(0.460 0.010 100.0);
+  --neutral-warm-700: oklch(0.370 0.011 100.0);
+  --neutral-warm-800: oklch(0.270 0.012 100.0);
+  --neutral-warm-900: oklch(0.213 0.013 100.0);
+  --neutral-warm-950: oklch(0.165 0.013 100.0);
+
+  --background: var(--neutral-100);
   --foreground: oklch(0.2128 0.0209 162.2254);
   --card: oklch(1.0000 0 0);
   --card-foreground: oklch(0.2128 0.0209 162.2254);
@@ -57,14 +76,14 @@
   --primary-foreground: oklch(1.0000 0 0);
   --secondary: oklch(0.9758 0.0163 121.7629);
   --secondary-foreground: oklch(0.4373 0.1176 150.8612);
-  --muted: oklch(0.9612 0 0);
+  --muted: var(--neutral-100);
   --muted-foreground: oklch(0.5350 0.0104 161.1304);
   --accent: var(--lime-300);
   --accent-foreground: oklch(0.2469 0.0618 153.3342);
   --destructive: oklch(0.5227 0.2063 25.8499);
   --destructive-foreground: oklch(1.0000 0 0);
-  --border: oklch(0.8957 0.0025 165.0685);
-  --input: oklch(0.7140 0.0064 170.3662);
+  --border: var(--neutral-300);
+  --input: var(--neutral-400);
   --ring: oklch(0.5364 0.1457 150.5842);
 
   --chart-1: oklch(0.5364 0.1457 150.5842);
@@ -73,7 +92,7 @@
   --chart-4: oklch(0.4373 0.1176 150.8612);
   --chart-5: oklch(0.2469 0.0618 153.3342);
 
-  --sidebar: var(--neutral-100);
+  --sidebar: var(--neutral-50);
   --sidebar-foreground: oklch(0.2128 0.0209 162.2254);
   --sidebar-primary: oklch(0.5364 0.1457 150.5842);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
@@ -82,7 +101,7 @@
      would read as a hole rather than a chip. One rung down. */
   --sidebar-accent: var(--neutral-200);
   --sidebar-accent-foreground: var(--neutral-900);
-  --sidebar-border: var(--neutral-200);
+  --sidebar-border: var(--neutral-300);
   --sidebar-ring: oklch(0.5364 0.1457 150.5842);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -93,7 +112,7 @@
      in that surface's hue family — a pure-black cast reads as a foreign grey
      smudge laid over the page. `--shadow-color` was declared here from the
      start but nothing referenced it; the ramp below now does. */
-  --shadow-color: oklch(0.16 0.022 165);
+  --shadow-color: oklch(0.2 0.025 75);
   --shadow-opacity: 0.1;
   --shadow-blur: 3px;
   --shadow-spread: 0px;
@@ -218,12 +237,32 @@
   --state-hover: color-mix(in oklch, var(--foreground) 8%, transparent);
   --state-press: color-mix(in oklch, var(--foreground) 12%, transparent);
   --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
+
+  /* Floating panels lift off a dark canvas; fields inside sit one step below
+     so their edges hold (--input equals the panel otherwise). */
+  --floating: color-mix(in oklch, var(--neutral-800) 55%, var(--neutral-700));
+  color-scheme: dark;
+}
+@layer utilities {
+  .dark [data-surface="floating"] :is([data-slot="input"], [data-slot="select-trigger"]) {
+    background-color: var(--card);
+  }
+}
+
+/* Small all-caps panel title. One recipe; override color only. */
+@utility text-overline {
+  font-size: var(--text-2xs);
+  line-height: var(--text-2xs--line-height);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-floating: var(--floating);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
