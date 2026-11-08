@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@kernel/ui"
 import { Separator } from "@kernel/ui"
 import { AppSidebar } from "@/components/portal/app-sidebar"
+import { CommandSearch } from "@/components/portal/command-search"
 import { DocPager } from "@/components/portal/doc-pager"
 import { ModeToggle } from "@/components/mode-toggle"
 import { buttonVariants } from "@kernel/ui"
@@ -43,6 +44,7 @@ export default function PortalLayout() {
             <span className="font-medium text-foreground">Design System</span>
           </span>
           <div className="ml-auto flex items-center gap-2">
+            <CommandSearch />
             <a
               href="https://github.com/brendengreenwood/kernel-ds"
               target="_blank"

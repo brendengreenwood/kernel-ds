@@ -52,7 +52,7 @@ import {
 import { galleryClusters } from "@/lib/gallery-registry"
 import { MaturityPill } from "./section"
 
-type NavItem = {
+export type NavItem = {
   title: string
   to: string
   icon: React.ComponentType<{ className?: string }>
@@ -60,7 +60,7 @@ type NavItem = {
   external?: boolean
 }
 
-const nav: { label: string; items: NavItem[] }[] = [
+export const nav: { label: string; items: NavItem[] }[] = [
   {
     label: "Get started",
     items: [
