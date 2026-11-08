@@ -1,0 +1,25 @@
+{
+  "id": "object.designs",
+  "name": "Designs",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [],
+  "documentation": {
+    "portalAnchor": "obj-designs"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [],
+  "note": "decision 0026 — auto-derived surface iterating objectRegistry through every primitive preview."
+}

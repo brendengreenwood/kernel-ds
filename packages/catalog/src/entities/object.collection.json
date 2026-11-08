@@ -1,0 +1,32 @@
+{
+  "id": "object.collection",
+  "name": "Collection",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/definitions",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [
+    {
+      "type": "dependsOn",
+      "target": "object.workspace"
+    }
+  ],
+  "documentation": {
+    "portalAnchor": "obj-collection"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [
+    "packages/definitions/src/composition.ts"
+  ],
+  "note": "decision 0026 — first Read primitive (many rows of one object)."
+}

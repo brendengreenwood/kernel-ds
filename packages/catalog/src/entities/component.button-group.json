@@ -1,0 +1,29 @@
+{
+  "id": "component.button-group",
+  "name": "Button Group",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "button-group",
+    "sourceFile": "kernel-portal/src/lib/component-docs/button-group.ts",
+    "portalAnchor": "c-button-group"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/button-group.tsx"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "object.traversal",
+  "name": "Traversal",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/definitions",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [
+    {
+      "type": "dependsOn",
+      "target": "object.record"
+    }
+  ],
+  "documentation": {
+    "portalAnchor": "obj-traversal"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [
+    "packages/definitions/src/composition.ts"
+  ],
+  "note": "decision 0026 — Aspect: walks declared associations to related object rows."
+}

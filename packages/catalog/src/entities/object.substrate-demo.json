@@ -1,0 +1,25 @@
+{
+  "id": "object.substrate-demo",
+  "name": "Substrate demo",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [],
+  "documentation": {
+    "portalAnchor": "obj-substrate"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [],
+  "note": "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)."
+}

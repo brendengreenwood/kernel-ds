@@ -1,0 +1,30 @@
+{
+  "id": "object.expandable-row",
+  "name": "Expandable row",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [
+    {
+      "type": "dependsOn",
+      "target": "element.tables"
+    }
+  ],
+  "documentation": {
+    "slug": "expandable-row",
+    "portalAnchor": "tables"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "kernel-portal/src/components/portal/tables.tsx"
+  ]
+}

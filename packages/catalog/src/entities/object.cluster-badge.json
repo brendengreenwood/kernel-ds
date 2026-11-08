@@ -1,0 +1,31 @@
+{
+  "id": "object.cluster-badge",
+  "name": "ClusterBadge",
+  "kind": "object",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed",
+    "composition-contract"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "clusterbadge",
+    "sourceFile": "kernel-portal/src/lib/component-docs/clusterbadge.ts",
+    "portalAnchor": "mark-cluster-badge"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/marks/cluster-badge.tsx"
+  ],
+  "note": "Mark component (decision 0027). Rolled-up count when marks would overlap."
+}

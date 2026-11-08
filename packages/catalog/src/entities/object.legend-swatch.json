@@ -1,0 +1,31 @@
+{
+  "id": "object.legend-swatch",
+  "name": "LegendSwatch",
+  "kind": "object",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed",
+    "composition-contract"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "legendswatch",
+    "sourceFile": "kernel-portal/src/lib/component-docs/legendswatch.ts",
+    "portalAnchor": "mark-legend-swatch"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/marks/legend-swatch.tsx"
+  ],
+  "note": "Mark component (decision 0027). Legend row color-key glyph."
+}

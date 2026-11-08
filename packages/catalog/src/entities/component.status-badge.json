@@ -1,0 +1,30 @@
+{
+  "id": "component.status-badge",
+  "name": "Status Badge",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "status-badge",
+    "sourceFile": "kernel-portal/src/lib/component-docs/status-badge.ts",
+    "portalAnchor": "c-status-badge"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/status-badge.tsx"
+  ],
+  "note": "Kernel-only; domain lifecycle states (decision 0003)."
+}

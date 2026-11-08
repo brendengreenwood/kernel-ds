@@ -1,0 +1,29 @@
+{
+  "id": "component.card",
+  "name": "Card",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "card",
+    "sourceFile": "kernel-portal/src/lib/component-docs/card.ts",
+    "portalAnchor": "c-card"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/card.tsx"
+  ]
+}

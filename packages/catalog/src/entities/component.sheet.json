@@ -1,0 +1,29 @@
+{
+  "id": "component.sheet",
+  "name": "Sheet",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "sheet",
+    "sourceFile": "kernel-portal/src/lib/component-docs/sheet.ts",
+    "portalAnchor": "c-sheet"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/sheet.tsx"
+  ]
+}

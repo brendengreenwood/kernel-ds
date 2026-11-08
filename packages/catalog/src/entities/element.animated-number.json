@@ -1,0 +1,30 @@
+{
+  "id": "element.animated-number",
+  "name": "Animated number",
+  "kind": "element",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "element",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "animated-number",
+    "sourceFile": "kernel-portal/src/lib/component-docs/animated-number.ts",
+    "portalAnchor": "dashboard"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/animated-number.tsx"
+  ],
+  "note": "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable."
+}

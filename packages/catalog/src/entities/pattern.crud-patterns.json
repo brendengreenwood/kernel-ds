@@ -1,0 +1,27 @@
+{
+  "id": "pattern.crud-patterns",
+  "name": "CRUD patterns",
+  "kind": "pattern",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "pattern",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "crud-patterns",
+    "sourceFile": "kernel-portal/src/lib/component-docs/crud-patterns.ts",
+    "portalAnchor": "patterns"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": []
+}

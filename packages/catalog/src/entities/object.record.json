@@ -1,0 +1,32 @@
+{
+  "id": "object.record",
+  "name": "Record",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/definitions",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [
+    {
+      "type": "dependsOn",
+      "target": "object.workspace"
+    }
+  ],
+  "documentation": {
+    "portalAnchor": "obj-record"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [
+    "packages/definitions/src/composition.ts"
+  ],
+  "note": "decision 0026 — second Read primitive (one row of one object)."
+}

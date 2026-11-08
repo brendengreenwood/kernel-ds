@@ -1,0 +1,29 @@
+{
+  "id": "component.table",
+  "name": "Table",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "table",
+    "sourceFile": "kernel-portal/src/lib/component-docs/table.ts",
+    "portalAnchor": "c-table"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/table.tsx"
+  ]
+}

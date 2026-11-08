@@ -1,0 +1,29 @@
+{
+  "id": "component.radio-group",
+  "name": "Radio Group",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "radio-group",
+    "sourceFile": "kernel-portal/src/lib/component-docs/radio-group.ts",
+    "portalAnchor": "c-radio-group"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/radio-group.tsx"
+  ]
+}

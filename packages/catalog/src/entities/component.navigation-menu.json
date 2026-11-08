@@ -1,0 +1,30 @@
+{
+  "id": "component.navigation-menu",
+  "name": "Navigation Menu",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "navigation-menu",
+    "sourceFile": "kernel-portal/src/lib/component-docs/navigation-menu.ts",
+    "portalAnchor": "c-navigation-menu"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/navigation-menu.tsx"
+  ],
+  "note": "Base UI behavior (documented, intended): hover-open delay tuned to 50ms."
+}

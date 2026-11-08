@@ -1,0 +1,29 @@
+{
+  "id": "component.label",
+  "name": "Label",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "label",
+    "sourceFile": "kernel-portal/src/lib/component-docs/label.ts",
+    "portalAnchor": "fe-anatomy"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/label.tsx"
+  ]
+}

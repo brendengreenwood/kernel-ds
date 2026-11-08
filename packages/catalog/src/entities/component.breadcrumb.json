@@ -1,0 +1,29 @@
+{
+  "id": "component.breadcrumb",
+  "name": "Breadcrumb",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "breadcrumb",
+    "sourceFile": "kernel-portal/src/lib/component-docs/breadcrumb.ts",
+    "portalAnchor": "c-breadcrumb"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/breadcrumb.tsx"
+  ]
+}

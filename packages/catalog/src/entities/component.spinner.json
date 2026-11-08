@@ -1,0 +1,30 @@
+{
+  "id": "component.spinner",
+  "name": "Spinner",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "spinner",
+    "sourceFile": "kernel-portal/src/lib/component-docs/spinner.ts",
+    "portalAnchor": "c-spinner"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/spinner.tsx"
+  ],
+  "note": "role=\"status\" and an accessible label ship with it."
+}

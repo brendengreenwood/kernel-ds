@@ -13,9 +13,10 @@ if (!process.execArgv.includes("--experimental-strip-types")) {
 
 const portalRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const repoRoot = resolve(portalRoot, "..")
-const [{ catalog, selectPortalLifecycleMeta, validateCatalog }, { componentMeta }] = await Promise.all([
+const [{ catalog, selectPortalLifecycleMeta, validateCatalog }, { componentMeta }, store] = await Promise.all([
   import("../../packages/catalog/src/index.ts"),
   import("../src/lib/component-meta.ts"),
+  import("../../scripts/ds/lib/catalog-file.mjs"),
 ])
 
 const issues = validateCatalog(catalog)
@@ -25,11 +26,18 @@ const uniqueDocSlugs = new Set(catalog.flatMap((entity) => entity.documentation.
 if (JSON.stringify(componentMeta) !== JSON.stringify(expectedLifecycle)) {
   issues.push({ code: "invalid-entity", message: "Portal lifecycle adapter differs from catalog selectors" })
 }
-if (catalog.length !== 105 || componentMeta.length !== 105) {
-  issues.push({ code: "invalid-entity", message: `Expected 105 catalog and lifecycle entities; found ${catalog.length} and ${componentMeta.length}` })
+if (componentMeta.length !== catalog.length) {
+  issues.push({ code: "invalid-entity", message: `Lifecycle adapter has ${componentMeta.length} entities; catalog has ${catalog.length}` })
 }
-if (uniqueDocSlugs.size !== 92) {
-  issues.push({ code: "invalid-entity", message: `Catalog references ${uniqueDocSlugs.size} unique docs; expected 92` })
+
+// entities.ts is generated from the per-entity JSON store; fail when stale.
+const entitiesFile = resolve(repoRoot, "packages/catalog/src/entities.ts")
+if (store.hasCatalogStore(entitiesFile)) {
+  const parsed = store.parseCatalogFile(entitiesFile)
+  const expected = store.generateEntitiesSource(parsed, store.readCatalogStore(store.catalogStoreDir(entitiesFile)))
+  if (expected !== store.serializeCatalogFile(parsed)) {
+    issues.push({ code: "invalid-entity", message: "entities.ts is stale; regenerate it from packages/catalog/src/entities/*.json" })
+  }
 }
 
 for (const entity of catalog) {

@@ -1,0 +1,25 @@
+{
+  "id": "component.page-header",
+  "name": "Page Header",
+  "kind": "component",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [],
+  "documentation": {
+    "slug": "page-header",
+    "portalAnchor": "c-page-header"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/page-header.tsx"
+  ]
+}

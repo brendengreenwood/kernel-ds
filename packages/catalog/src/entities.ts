@@ -998,36 +998,6 @@ export const catalog = [
     ]
   },
   {
-    "id": "component.menubar",
-    "name": "Menubar",
-    "kind": "component",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "@kernel/ui",
-    "tags": [
-      "component",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "menubar",
-      "sourceFile": "kernel-portal/src/lib/component-docs/menubar.ts",
-      "portalAnchor": "c-navigation-menu"
-    },
-    "ai": {
-      "bundleCategory": "general",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/menubar.tsx"
-    ],
-    "note": "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
-  },
-  {
     "id": "component.marker",
     "name": "Marker",
     "kind": "component",
@@ -1056,6 +1026,36 @@ export const catalog = [
       "packages/ui/src/components/ui/marker.tsx"
     ],
     "note": "Transcript dividers — date, session, unread."
+  },
+  {
+    "id": "component.menubar",
+    "name": "Menubar",
+    "kind": "component",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "ready"
+    ],
+    "capabilities": [
+      "documented",
+      "accessibility-reviewed"
+    ],
+    "relationships": [],
+    "documentation": {
+      "slug": "menubar",
+      "sourceFile": "kernel-portal/src/lib/component-docs/menubar.ts",
+      "portalAnchor": "c-navigation-menu"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/menubar.tsx"
+    ],
+    "note": "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
   },
   {
     "id": "component.message",
@@ -1176,6 +1176,31 @@ export const catalog = [
     "note": "Base UI behavior (documented, intended): hover-open delay tuned to 50ms."
   },
   {
+    "id": "component.page-header",
+    "name": "Page Header",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "page-header",
+      "portalAnchor": "c-page-header"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/page-header.tsx"
+    ]
+  },
+  {
     "id": "component.pagination",
     "name": "Pagination",
     "kind": "component",
@@ -1202,6 +1227,56 @@ export const catalog = [
     },
     "sourceFiles": [
       "packages/ui/src/components/ui/pagination.tsx"
+    ]
+  },
+  {
+    "id": "component.panels",
+    "name": "Panels",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "panels",
+      "portalAnchor": "c-panels"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/panels.tsx"
+    ]
+  },
+  {
+    "id": "component.panes",
+    "name": "Panes",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "panes",
+      "portalAnchor": "c-panes"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/panes.tsx"
     ]
   },
   {
@@ -1820,6 +1895,125 @@ export const catalog = [
     ]
   },
   {
+    "id": "element.animated-number",
+    "name": "Animated number",
+    "kind": "element",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "element",
+      "ready"
+    ],
+    "capabilities": [
+      "documented",
+      "accessibility-reviewed"
+    ],
+    "relationships": [],
+    "documentation": {
+      "slug": "animated-number",
+      "sourceFile": "kernel-portal/src/lib/component-docs/animated-number.ts",
+      "portalAnchor": "dashboard"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/animated-number.tsx"
+    ],
+    "note": "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable."
+  },
+  {
+    "id": "element.border-beam",
+    "name": "Border beam",
+    "kind": "element",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "element",
+      "ready"
+    ],
+    "capabilities": [
+      "documented",
+      "accessibility-reviewed"
+    ],
+    "relationships": [],
+    "documentation": {
+      "slug": "border-beam",
+      "sourceFile": "kernel-portal/src/lib/component-docs/border-beam.ts",
+      "portalAnchor": "border-beam"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/border-beam.tsx"
+    ],
+    "note": "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card."
+  },
+  {
+    "id": "element.charts",
+    "name": "Charts",
+    "kind": "element",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "element",
+      "ready"
+    ],
+    "capabilities": [
+      "documented",
+      "accessibility-reviewed"
+    ],
+    "relationships": [],
+    "documentation": {
+      "slug": "charts",
+      "sourceFile": "kernel-portal/src/lib/component-docs/charts.ts",
+      "portalAnchor": "charts"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/chart.tsx"
+    ]
+  },
+  {
+    "id": "element.commodity-tags",
+    "name": "Commodity tags",
+    "kind": "element",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "element",
+      "ready"
+    ],
+    "capabilities": [
+      "documented",
+      "accessibility-reviewed"
+    ],
+    "relationships": [],
+    "documentation": {
+      "slug": "commodity-tags",
+      "sourceFile": "kernel-portal/src/lib/component-docs/commodity-tags.ts",
+      "portalAnchor": "colors"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/commodity-badge.tsx"
+    ],
+    "note": "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)."
+  },
+  {
     "id": "element.form-elements",
     "name": "Form elements",
     "kind": "element",
@@ -1878,14 +2072,14 @@ export const catalog = [
     ]
   },
   {
-    "id": "element.charts",
-    "name": "Charts",
-    "kind": "element",
+    "id": "pattern.advanced-filtering",
+    "name": "Advanced filtering",
+    "kind": "pattern",
     "maturity": "ready",
     "accessibility": "reviewed",
     "package": "kernel-portal",
     "tags": [
-      "element",
+      "pattern",
       "ready"
     ],
     "capabilities": [
@@ -1894,107 +2088,16 @@ export const catalog = [
     ],
     "relationships": [],
     "documentation": {
-      "slug": "charts",
-      "sourceFile": "kernel-portal/src/lib/component-docs/charts.ts",
-      "portalAnchor": "charts"
+      "slug": "advanced-filtering",
+      "sourceFile": "kernel-portal/src/lib/component-docs/advanced-filtering.ts",
+      "portalAnchor": "filtering-advanced"
     },
     "ai": {
       "bundleCategory": "design",
       "guidanceSource": "component-docs"
     },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/chart.tsx"
-    ]
-  },
-  {
-    "id": "element.border-beam",
-    "name": "Border beam",
-    "kind": "element",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "element",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "border-beam",
-      "sourceFile": "kernel-portal/src/lib/component-docs/border-beam.ts",
-      "portalAnchor": "border-beam"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/border-beam.tsx"
-    ],
-    "note": "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card."
-  },
-  {
-    "id": "element.commodity-tags",
-    "name": "Commodity tags",
-    "kind": "element",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "element",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "commodity-tags",
-      "sourceFile": "kernel-portal/src/lib/component-docs/commodity-tags.ts",
-      "portalAnchor": "colors"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/commodity-badge.tsx"
-    ],
-    "note": "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)."
-  },
-  {
-    "id": "element.animated-number",
-    "name": "Animated number",
-    "kind": "element",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "element",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "animated-number",
-      "sourceFile": "kernel-portal/src/lib/component-docs/animated-number.ts",
-      "portalAnchor": "dashboard"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/animated-number.tsx"
-    ],
-    "note": "<AnimatedNumber> (@number-flow/react) — counts up on mount, rolls on change, honors reduced-motion (decision 0018); used on dashboard KPIs + settlement net payable."
+    "sourceFiles": [],
+    "note": "Filter builder, column controls, and date preset patterns for dense data screens."
   },
   {
     "id": "pattern.app-shell",
@@ -2024,8 +2127,8 @@ export const catalog = [
     "sourceFiles": []
   },
   {
-    "id": "pattern.navigation",
-    "name": "Navigation",
+    "id": "pattern.crud-patterns",
+    "name": "CRUD patterns",
     "kind": "pattern",
     "maturity": "ready",
     "accessibility": "reviewed",
@@ -2040,16 +2143,15 @@ export const catalog = [
     ],
     "relationships": [],
     "documentation": {
-      "slug": "navigation",
-      "sourceFile": "kernel-portal/src/lib/component-docs/navigation.ts",
-      "portalAnchor": "navigation"
+      "slug": "crud-patterns",
+      "sourceFile": "kernel-portal/src/lib/component-docs/crud-patterns.ts",
+      "portalAnchor": "patterns"
     },
     "ai": {
       "bundleCategory": "design",
       "guidanceSource": "component-docs"
     },
-    "sourceFiles": [],
-    "note": "Module switcher + nested rail conventions for app-level navigation."
+    "sourceFiles": []
   },
   {
     "id": "pattern.dashboard",
@@ -2106,61 +2208,6 @@ export const catalog = [
     "sourceFiles": []
   },
   {
-    "id": "pattern.advanced-filtering",
-    "name": "Advanced filtering",
-    "kind": "pattern",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "pattern",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "advanced-filtering",
-      "sourceFile": "kernel-portal/src/lib/component-docs/advanced-filtering.ts",
-      "portalAnchor": "filtering-advanced"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [],
-    "note": "Filter builder, column controls, and date preset patterns for dense data screens."
-  },
-  {
-    "id": "pattern.crud-patterns",
-    "name": "CRUD patterns",
-    "kind": "pattern",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "pattern",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "crud-patterns",
-      "sourceFile": "kernel-portal/src/lib/component-docs/crud-patterns.ts",
-      "portalAnchor": "patterns"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": []
-  },
-  {
     "id": "pattern.flows",
     "name": "Flows",
     "kind": "pattern",
@@ -2186,6 +2233,92 @@ export const catalog = [
       "guidanceSource": "component-docs"
     },
     "sourceFiles": []
+  },
+  {
+    "id": "pattern.map-grammar",
+    "name": "Map grammar",
+    "kind": "pattern",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "pattern",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "pattern.pane-canvas"
+      }
+    ],
+    "documentation": {
+      "slug": "map-grammar",
+      "portalAnchor": "pattern-map-grammar"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/map-grammar.tsx"
+    ]
+  },
+  {
+    "id": "pattern.modals",
+    "name": "Modals",
+    "kind": "pattern",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "pattern",
+      "ready"
+    ],
+    "capabilities": [
+      "documented",
+      "accessibility-reviewed"
+    ],
+    "relationships": [],
+    "documentation": {
+      "slug": "modals",
+      "sourceFile": "kernel-portal/src/lib/component-docs/modals.ts",
+      "portalAnchor": "modals"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [],
+    "note": "Size ladder, footer, scrolling, dismissal, and must-choose modal rules."
+  },
+  {
+    "id": "pattern.navigation",
+    "name": "Navigation",
+    "kind": "pattern",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "pattern",
+      "ready"
+    ],
+    "capabilities": [
+      "documented",
+      "accessibility-reviewed"
+    ],
+    "relationships": [],
+    "documentation": {
+      "slug": "navigation",
+      "sourceFile": "kernel-portal/src/lib/component-docs/navigation.ts",
+      "portalAnchor": "navigation"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [],
+    "note": "Module switcher + nested rail conventions for app-level navigation."
   },
   {
     "id": "pattern.origination-flow",
@@ -2216,6 +2349,31 @@ export const catalog = [
     "note": "Offer queue, counter composer, and activity thread conventions for grain origination workflows."
   },
   {
+    "id": "pattern.pane-canvas",
+    "name": "Pane canvas",
+    "kind": "pattern",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "pattern",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "pane-canvas",
+      "portalAnchor": "pattern-pane-canvas"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/panes.tsx"
+    ]
+  },
+  {
     "id": "pattern.pricing-worksheet",
     "name": "Pricing worksheet",
     "kind": "pattern",
@@ -2242,34 +2400,6 @@ export const catalog = [
     },
     "sourceFiles": [],
     "note": "Board→basis→cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative."
-  },
-  {
-    "id": "pattern.modals",
-    "name": "Modals",
-    "kind": "pattern",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "pattern",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "modals",
-      "sourceFile": "kernel-portal/src/lib/component-docs/modals.ts",
-      "portalAnchor": "modals"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [],
-    "note": "Size ladder, footer, scrolling, dismissal, and must-choose modal rules."
   },
   {
     "id": "domain.contract-detail",
@@ -2306,6 +2436,42 @@ export const catalog = [
       "kernel-portal/src/components/portal/contract-detail.tsx"
     ],
     "note": "Domain pattern 1 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup."
+  },
+  {
+    "id": "domain.pricing-scenario",
+    "name": "Pricing scenario",
+    "kind": "domain",
+    "maturity": "experimental",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "domain",
+      "experimental"
+    ],
+    "capabilities": [
+      "accessibility-reviewed"
+    ],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "element.tables"
+      },
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      }
+    ],
+    "documentation": {
+      "portalAnchor": "pricing-scenario"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "lifecycle-metadata"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/pricing-scenario.tsx"
+    ],
+    "note": "Domain pattern 3; the Merchant's central business object — identity (location + commodity + contract month + time of shipment), one scenario per shipment window, staleness from the Posted Bid Date."
   },
   {
     "id": "domain.settlement-statement",
@@ -2352,84 +2518,35 @@ export const catalog = [
     "note": "Domain pattern 2 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup."
   },
   {
-    "id": "object.shell",
-    "name": "Shell",
+    "id": "object.cluster-badge",
+    "name": "ClusterBadge",
     "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/definitions",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
     "tags": [
       "object",
-      "experimental"
+      "ready"
     ],
     "capabilities": [
+      "documented",
+      "accessibility-reviewed",
       "composition-contract"
     ],
-    "relationships": [
-      {
-        "type": "composedWith",
-        "target": "object.workspace"
-      }
-    ],
+    "relationships": [],
     "documentation": {
-      "portalAnchor": "obj-shell"
+      "slug": "clusterbadge",
+      "sourceFile": "kernel-portal/src/lib/component-docs/clusterbadge.ts",
+      "portalAnchor": "mark-cluster-badge"
     },
     "ai": {
       "bundleCategory": "design",
-      "guidanceSource": "composition-contract"
+      "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "packages/definitions/src/composition.ts"
+      "packages/ui/src/components/ui/marks/cluster-badge.tsx"
     ],
-    "note": "decision 0026"
-  },
-  {
-    "id": "object.workspace",
-    "name": "Workspace",
-    "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/definitions",
-    "tags": [
-      "object",
-      "experimental"
-    ],
-    "capabilities": [
-      "composition-contract"
-    ],
-    "relationships": [
-      {
-        "type": "composedWith",
-        "target": "object.collection"
-      },
-      {
-        "type": "composedWith",
-        "target": "object.record"
-      },
-      {
-        "type": "composedWith",
-        "target": "object.write"
-      },
-      {
-        "type": "composedWith",
-        "target": "object.query"
-      },
-      {
-        "type": "composedWith",
-        "target": "object.traversal"
-      }
-    ],
-    "documentation": {
-      "portalAnchor": "obj-workspace"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "composition-contract"
-    },
-    "sourceFiles": [
-      "packages/definitions/src/composition.ts"
-    ],
-    "note": "decision 0026"
+    "note": "Mark component (decision 0027). Rolled-up count when marks would overlap."
   },
   {
     "id": "object.collection",
@@ -2464,132 +2581,35 @@ export const catalog = [
     "note": "decision 0026 — first Read primitive (many rows of one object)."
   },
   {
-    "id": "object.record",
-    "name": "Record",
+    "id": "object.corridor",
+    "name": "Corridor",
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "@kernel/definitions",
+    "package": "kernel-portal",
     "tags": [
       "object",
       "experimental"
     ],
-    "capabilities": [
-      "composition-contract"
-    ],
+    "capabilities": [],
     "relationships": [
       {
-        "type": "dependsOn",
-        "target": "object.workspace"
+        "type": "recommendedPatterns",
+        "target": "pattern.map-grammar"
       }
     ],
     "documentation": {
-      "portalAnchor": "obj-record"
+      "slug": "corridor",
+      "portalAnchor": "object-corridor"
     },
     "ai": {
       "bundleCategory": "design",
-      "guidanceSource": "composition-contract"
+      "guidanceSource": "component-docs"
     },
     "sourceFiles": [
-      "packages/definitions/src/composition.ts"
+      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
     ],
-    "note": "decision 0026 — second Read primitive (one row of one object)."
-  },
-  {
-    "id": "object.write",
-    "name": "Write",
-    "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/definitions",
-    "tags": [
-      "object",
-      "experimental"
-    ],
-    "capabilities": [
-      "composition-contract"
-    ],
-    "relationships": [
-      {
-        "type": "dependsOn",
-        "target": "object.record"
-      }
-    ],
-    "documentation": {
-      "portalAnchor": "obj-write"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "composition-contract"
-    },
-    "sourceFiles": [
-      "packages/definitions/src/composition.ts"
-    ],
-    "note": "decision 0026 — write layer (form + in-place postures)."
-  },
-  {
-    "id": "object.query",
-    "name": "Query",
-    "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/definitions",
-    "tags": [
-      "object",
-      "experimental"
-    ],
-    "capabilities": [
-      "composition-contract"
-    ],
-    "relationships": [
-      {
-        "type": "dependsOn",
-        "target": "object.collection"
-      }
-    ],
-    "documentation": {
-      "portalAnchor": "obj-query"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "composition-contract"
-    },
-    "sourceFiles": [
-      "packages/definitions/src/composition.ts"
-    ],
-    "note": "decision 0026 — Aspect: narrows an object row set with predicates; yields a Collection."
-  },
-  {
-    "id": "object.traversal",
-    "name": "Traversal",
-    "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/definitions",
-    "tags": [
-      "object",
-      "experimental"
-    ],
-    "capabilities": [
-      "composition-contract"
-    ],
-    "relationships": [
-      {
-        "type": "dependsOn",
-        "target": "object.record"
-      }
-    ],
-    "documentation": {
-      "portalAnchor": "obj-traversal"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "composition-contract"
-    },
-    "sourceFiles": [
-      "packages/definitions/src/composition.ts"
-    ],
-    "note": "decision 0026 — Aspect: walks declared associations to related object rows."
+    "note": "Map model object (origination-map v2 data model). Barge rivers and main-line rail that grain moves over. Geometry: line. Prototype status: built."
   },
   {
     "id": "object.designs",
@@ -2617,8 +2637,8 @@ export const catalog = [
     "note": "decision 0026 — auto-derived surface iterating objectRegistry through every primitive preview."
   },
   {
-    "id": "object.substrate-demo",
-    "name": "Substrate demo",
+    "id": "object.draw-area",
+    "name": "Draw area",
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
@@ -2627,19 +2647,147 @@ export const catalog = [
       "object",
       "experimental"
     ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "recommendedPatterns",
+        "target": "pattern.map-grammar"
+      }
+    ],
+    "documentation": {
+      "slug": "draw-area",
+      "portalAnchor": "object-draw-area"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+    ],
+    "note": "Map model object (origination-map v2 data model). The assumed radius a buying point pulls grain from. Geometry: area. Prototype status: built."
+  },
+  {
+    "id": "object.expandable-row",
+    "name": "Expandable row",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "element.tables"
+      }
+    ],
+    "documentation": {
+      "slug": "expandable-row",
+      "portalAnchor": "tables"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/tables.tsx"
+    ]
+  },
+  {
+    "id": "object.legend-swatch",
+    "name": "LegendSwatch",
+    "kind": "object",
+    "maturity": "ready",
+    "accessibility": "reviewed",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "ready"
+    ],
     "capabilities": [
+      "documented",
+      "accessibility-reviewed",
       "composition-contract"
     ],
     "relationships": [],
     "documentation": {
-      "portalAnchor": "obj-substrate"
+      "slug": "legendswatch",
+      "sourceFile": "kernel-portal/src/lib/component-docs/legendswatch.ts",
+      "portalAnchor": "mark-legend-swatch"
     },
     "ai": {
       "bundleCategory": "design",
-      "guidanceSource": "composition-contract"
+      "guidanceSource": "component-docs"
     },
-    "sourceFiles": [],
-    "note": "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)."
+    "sourceFiles": [
+      "packages/ui/src/components/ui/marks/legend-swatch.tsx"
+    ],
+    "note": "Mark component (decision 0027). Legend row color-key glyph."
+  },
+  {
+    "id": "object.page-section",
+    "name": "Page section",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "pattern.app-shell"
+      }
+    ],
+    "documentation": {
+      "slug": "page-section",
+      "portalAnchor": "sections"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "kernel-portal/src/components/portal/section.tsx"
+    ]
+  },
+  {
+    "id": "object.pair",
+    "name": "Pair",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "recommendedPatterns",
+        "target": "pattern.map-grammar"
+      }
+    ],
+    "documentation": {
+      "slug": "pair",
+      "portalAnchor": "object-pair"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+    ],
+    "note": "Map model object (origination-map v2 data model). Two nearby competing buying points. Geometry: line. Prototype status: built."
   },
   {
     "id": "object.pin",
@@ -2704,385 +2852,68 @@ export const catalog = [
     "note": "Mark component (decision 0027). Decorative glyph for one datum on a plot or spatial view."
   },
   {
-    "id": "object.cluster-badge",
-    "name": "ClusterBadge",
-    "kind": "object",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "object",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed",
-      "composition-contract"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "clusterbadge",
-      "sourceFile": "kernel-portal/src/lib/component-docs/clusterbadge.ts",
-      "portalAnchor": "mark-cluster-badge"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/marks/cluster-badge.tsx"
-    ],
-    "note": "Mark component (decision 0027). Rolled-up count when marks would overlap."
-  },
-  {
-    "id": "object.legend-swatch",
-    "name": "LegendSwatch",
-    "kind": "object",
-    "maturity": "ready",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "object",
-      "ready"
-    ],
-    "capabilities": [
-      "documented",
-      "accessibility-reviewed",
-      "composition-contract"
-    ],
-    "relationships": [],
-    "documentation": {
-      "slug": "legendswatch",
-      "sourceFile": "kernel-portal/src/lib/component-docs/legendswatch.ts",
-      "portalAnchor": "mark-legend-swatch"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/marks/legend-swatch.tsx"
-    ],
-    "note": "Mark component (decision 0027). Legend row color-key glyph."
-  },
-  {
-    "id": "object.expandable-row",
-    "name": "Expandable row",
+    "id": "object.query",
+    "name": "Query",
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
       "experimental"
     ],
-    "capabilities": [],
+    "capabilities": [
+      "composition-contract"
+    ],
     "relationships": [
       {
         "type": "dependsOn",
-        "target": "element.tables"
+        "target": "object.collection"
       }
     ],
     "documentation": {
-      "slug": "expandable-row",
-      "portalAnchor": "tables"
+      "portalAnchor": "obj-query"
     },
     "ai": {
       "bundleCategory": "design",
-      "guidanceSource": "component-docs"
+      "guidanceSource": "composition-contract"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/portal/tables.tsx"
-    ]
+      "packages/definitions/src/composition.ts"
+    ],
+    "note": "decision 0026 — Aspect: narrows an object row set with predicates; yields a Collection."
   },
   {
-    "id": "object.page-section",
-    "name": "Page section",
+    "id": "object.record",
+    "name": "Record",
     "kind": "object",
     "maturity": "experimental",
     "accessibility": "pending",
-    "package": "kernel-portal",
+    "package": "@kernel/definitions",
     "tags": [
       "object",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [
-      {
-        "type": "composedWith",
-        "target": "pattern.app-shell"
-      }
-    ],
-    "documentation": {
-      "slug": "page-section",
-      "portalAnchor": "sections"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "kernel-portal/src/components/portal/section.tsx"
-    ]
-  },
-  {
-    "id": "component.page-header",
-    "name": "Page Header",
-    "kind": "component",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/ui",
-    "tags": [
-      "component",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [],
-    "documentation": {
-      "slug": "page-header",
-      "portalAnchor": "c-page-header"
-    },
-    "ai": {
-      "bundleCategory": "general",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/page-header.tsx"
-    ]
-  },
-  {
-    "id": "component.panels",
-    "name": "Panels",
-    "kind": "component",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/ui",
-    "tags": [
-      "component",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [],
-    "documentation": {
-      "slug": "panels",
-      "portalAnchor": "c-panels"
-    },
-    "ai": {
-      "bundleCategory": "general",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/panels.tsx"
-    ]
-  },
-  {
-    "id": "component.panes",
-    "name": "Panes",
-    "kind": "component",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "@kernel/ui",
-    "tags": [
-      "component",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [],
-    "documentation": {
-      "slug": "panes",
-      "portalAnchor": "c-panes"
-    },
-    "ai": {
-      "bundleCategory": "general",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/panes.tsx"
-    ]
-  },
-  {
-    "id": "pattern.pane-canvas",
-    "name": "Pane canvas",
-    "kind": "pattern",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "kernel-portal",
-    "tags": [
-      "pattern",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [],
-    "documentation": {
-      "slug": "pane-canvas",
-      "portalAnchor": "pattern-pane-canvas"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "packages/ui/src/components/ui/panes.tsx"
-    ]
-  },
-  {
-    "id": "pattern.map-grammar",
-    "name": "Map grammar",
-    "kind": "pattern",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "kernel-portal",
-    "tags": [
-      "pattern",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [
-      {
-        "type": "composedWith",
-        "target": "pattern.pane-canvas"
-      }
-    ],
-    "documentation": {
-      "slug": "map-grammar",
-      "portalAnchor": "pattern-map-grammar"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "kernel-portal/src/components/portal/map-grammar.tsx"
-    ]
-  },
-  {
-    "id": "domain.pricing-scenario",
-    "name": "Pricing scenario",
-    "kind": "domain",
-    "maturity": "experimental",
-    "accessibility": "reviewed",
-    "package": "kernel-portal",
-    "tags": [
-      "domain",
       "experimental"
     ],
     "capabilities": [
-      "accessibility-reviewed"
+      "composition-contract"
     ],
     "relationships": [
-      {
-        "type": "composedWith",
-        "target": "element.tables"
-      },
       {
         "type": "dependsOn",
-        "target": "object.record"
+        "target": "object.workspace"
       }
     ],
     "documentation": {
-      "portalAnchor": "pricing-scenario"
+      "portalAnchor": "obj-record"
     },
     "ai": {
       "bundleCategory": "design",
-      "guidanceSource": "lifecycle-metadata"
+      "guidanceSource": "composition-contract"
     },
     "sourceFiles": [
-      "kernel-portal/src/components/portal/pricing-scenario.tsx"
+      "packages/definitions/src/composition.ts"
     ],
-    "note": "Domain pattern 3; the Merchant's central business object — identity (location + commodity + contract month + time of shipment), one scenario per shipment window, staleness from the Posted Bid Date."
-  },
-  {
-    "id": "object.draw-area",
-    "name": "Draw area",
-    "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "kernel-portal",
-    "tags": [
-      "object",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [
-      {
-        "type": "recommendedPatterns",
-        "target": "pattern.map-grammar"
-      }
-    ],
-    "documentation": {
-      "slug": "draw-area",
-      "portalAnchor": "object-draw-area"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
-    ],
-    "note": "Map model object (origination-map v2 data model). The assumed radius a buying point pulls grain from. Geometry: area. Prototype status: built."
-  },
-  {
-    "id": "object.pair",
-    "name": "Pair",
-    "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "kernel-portal",
-    "tags": [
-      "object",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [
-      {
-        "type": "recommendedPatterns",
-        "target": "pattern.map-grammar"
-      }
-    ],
-    "documentation": {
-      "slug": "pair",
-      "portalAnchor": "object-pair"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
-    ],
-    "note": "Map model object (origination-map v2 data model). Two nearby competing buying points. Geometry: line. Prototype status: built."
-  },
-  {
-    "id": "object.corridor",
-    "name": "Corridor",
-    "kind": "object",
-    "maturity": "experimental",
-    "accessibility": "pending",
-    "package": "kernel-portal",
-    "tags": [
-      "object",
-      "experimental"
-    ],
-    "capabilities": [],
-    "relationships": [
-      {
-        "type": "recommendedPatterns",
-        "target": "pattern.map-grammar"
-      }
-    ],
-    "documentation": {
-      "slug": "corridor",
-      "portalAnchor": "object-corridor"
-    },
-    "ai": {
-      "bundleCategory": "design",
-      "guidanceSource": "component-docs"
-    },
-    "sourceFiles": [
-      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
-    ],
-    "note": "Map model object (origination-map v2 data model). Barge rivers and main-line rail that grain moves over. Geometry: line. Prototype status: built."
+    "note": "decision 0026 — second Read primitive (one row of one object)."
   },
   {
     "id": "object.route",
@@ -3118,5 +2949,174 @@ export const catalog = [
       "prototypes/origination-map-v2/src/map/objects/catalog.ts"
     ],
     "note": "Map model object (origination-map v2 data model). Rail path from a buying point to an outlet — shortest track, not a real contract. Geometry: line. Prototype status: guessed."
+  },
+  {
+    "id": "object.shell",
+    "name": "Shell",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/definitions",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [
+      "composition-contract"
+    ],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "object.workspace"
+      }
+    ],
+    "documentation": {
+      "portalAnchor": "obj-shell"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "composition-contract"
+    },
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
+    "note": "decision 0026"
+  },
+  {
+    "id": "object.substrate-demo",
+    "name": "Substrate demo",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [
+      "composition-contract"
+    ],
+    "relationships": [],
+    "documentation": {
+      "portalAnchor": "obj-substrate"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "composition-contract"
+    },
+    "sourceFiles": [],
+    "note": "Decision 0027 — DOM compose vs. canvas boundary. Uses Contract stub rows and mark components (Pin, Plot, ClusterBadge, LegendSwatch)."
+  },
+  {
+    "id": "object.traversal",
+    "name": "Traversal",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/definitions",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [
+      "composition-contract"
+    ],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      }
+    ],
+    "documentation": {
+      "portalAnchor": "obj-traversal"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "composition-contract"
+    },
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
+    "note": "decision 0026 — Aspect: walks declared associations to related object rows."
+  },
+  {
+    "id": "object.workspace",
+    "name": "Workspace",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/definitions",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [
+      "composition-contract"
+    ],
+    "relationships": [
+      {
+        "type": "composedWith",
+        "target": "object.collection"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.record"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.write"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.query"
+      },
+      {
+        "type": "composedWith",
+        "target": "object.traversal"
+      }
+    ],
+    "documentation": {
+      "portalAnchor": "obj-workspace"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "composition-contract"
+    },
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
+    "note": "decision 0026"
+  },
+  {
+    "id": "object.write",
+    "name": "Write",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/definitions",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [
+      "composition-contract"
+    ],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.record"
+      }
+    ],
+    "documentation": {
+      "portalAnchor": "obj-write"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "composition-contract"
+    },
+    "sourceFiles": [
+      "packages/definitions/src/composition.ts"
+    ],
+    "note": "decision 0026 — write layer (form + in-place postures)."
   }
 ] as const satisfies readonly CatalogEntity[]

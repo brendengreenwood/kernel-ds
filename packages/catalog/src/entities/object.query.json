@@ -1,0 +1,32 @@
+{
+  "id": "object.query",
+  "name": "Query",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/definitions",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [
+    {
+      "type": "dependsOn",
+      "target": "object.collection"
+    }
+  ],
+  "documentation": {
+    "portalAnchor": "obj-query"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [
+    "packages/definitions/src/composition.ts"
+  ],
+  "note": "decision 0026 — Aspect: narrows an object row set with predicates; yields a Collection."
+}

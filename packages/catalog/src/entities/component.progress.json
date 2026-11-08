@@ -1,0 +1,29 @@
+{
+  "id": "component.progress",
+  "name": "Progress",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "progress",
+    "sourceFile": "kernel-portal/src/lib/component-docs/progress.ts",
+    "portalAnchor": "c-progress"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/progress.tsx"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "component.button",
+  "name": "Button",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "button",
+    "sourceFile": "kernel-portal/src/lib/component-docs/button.ts",
+    "portalAnchor": "c-button"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/button.tsx"
+  ]
+}

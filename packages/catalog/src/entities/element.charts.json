@@ -1,0 +1,29 @@
+{
+  "id": "element.charts",
+  "name": "Charts",
+  "kind": "element",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "element",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "charts",
+    "sourceFile": "kernel-portal/src/lib/component-docs/charts.ts",
+    "portalAnchor": "charts"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/chart.tsx"
+  ]
+}

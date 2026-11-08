@@ -1,0 +1,35 @@
+{
+  "id": "object.route",
+  "name": "Route",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [
+    {
+      "type": "dependsOn",
+      "target": "object.corridor"
+    },
+    {
+      "type": "recommendedPatterns",
+      "target": "pattern.map-grammar"
+    }
+  ],
+  "documentation": {
+    "slug": "route",
+    "portalAnchor": "object-route"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+  ],
+  "note": "Map model object (origination-map v2 data model). Rail path from a buying point to an outlet — shortest track, not a real contract. Geometry: line. Prototype status: guessed."
+}

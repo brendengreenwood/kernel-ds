@@ -1,0 +1,28 @@
+{
+  "id": "pattern.pricing-worksheet",
+  "name": "Pricing worksheet",
+  "kind": "pattern",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "pattern",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "pricing-worksheet",
+    "sourceFile": "kernel-portal/src/lib/component-docs/pricing-worksheet.ts",
+    "portalAnchor": "pricing"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [],
+  "note": "Board→basis→cash-bid stack, margin ladder, and bid board. Numbers/margin math are illustrative."
+}
