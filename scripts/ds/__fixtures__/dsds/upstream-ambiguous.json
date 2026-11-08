@@ -1,7 +1,7 @@
 {
-  "version": "0.15.2",
+  "version": "0.23.1",
   "commitSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "schemaId": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
+  "schemaId": "https://designsystemdocspec.org/v0.23.1/dsds.bundled.schema.json",
   "schemaUrl": "fixture://schema",
   "licenseUrl": "fixture://license",
   "migrationUrl": "fixture://migration"

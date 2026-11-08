@@ -2,7 +2,7 @@
 
 Kernel validates generated interoperability artifacts offline against the official Design System Documentation Specification bundle pinned here.
 
-- Version: `0.15.2`
+- Version: `0.23.1`
 - Upstream: `somerandomdude/design-system-documentation-schema`
 - License: Apache-2.0; the upstream license is preserved in `LICENSE`.
 - Integrity and source details: `provenance.json`

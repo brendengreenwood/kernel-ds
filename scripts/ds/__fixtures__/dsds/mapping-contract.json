@@ -80,10 +80,10 @@
   },
   "expectedKinds": {
     "component": "component",
-    "pattern": "pattern",
+    "pattern": "kernel.pattern",
     "element": "component",
-    "object": "pattern",
-    "domain": "pattern"
+    "object": "kernel.object",
+    "domain": "kernel.domain"
   },
   "unsupportedEntity": {
     "id": "widget.fixture",

@@ -1,64 +1,2225 @@
+# CHANGELOG
+
+All notable changes to the DSDS specification are documented in this file.
+
 ---
-title: "Migration — DSDS {{VERSION}}"
-slug: migration
-description: "How to move DSDS documents between spec versions: the 0.14.0 field-by-field mapping, the scripts that automate it, and the cases that need a human decision."
+
+## [0.23.1] — 2026-10-17
+
+- Add optional entry `uuid` for stable external identification; refs still use `id`. (Josh Harwood)
+- Fix: an inline link in a guideline item's `example` wasn't found, so `DSDS-05`, `DSDS-08` and the resolver's `inlineLinks` missed it. Found now. (0.23.0 bug, found in review.)
+
+## [0.23.0] — 2026-10-13
+
+An additive release. No document that validates under 0.22.0 stops validating, and there's no migration script.
+
+### Inline links in prose
+
+- **A Markdown field can link to something in the project with a `dsds:` link.** `[focus visible](dsds:shared-a11y#focus-visible)` shows your own text; `<dsds:button>` shows the target's name. The part after `dsds:` is written exactly like a `to`. Defined in the Specification (§2.5, §6.5), the processing model (§2.4) and `common/markdown.schema.yaml`.
+- **An inline link isn't a relationship.** It doesn't count as `uses`, and it doesn't appear when relationships are read backwards. Use a pointer field for that.
+- **A renderer must not output a `dsds:` URL as an `href`.** Added to the Security page.
+- **`DSDS-05` and `DSDS-08` check inline links** the same way they check a `to`, with the same error-or-warning rule. `DSDS-08` also reports a target that isn't shaped like a `to`, since the schema can't see inside a string. In `--json` output, a finding for an inline link has an `offset`: where the link starts in the field. New fixtures: `DSDS-08-inline-unknown-entry.yaml`, `DSDS-08-inline-malformed-target.yaml`, `DSDS-05-inline-unknown-address.yaml`, `DSDS-05-inline-ambiguous-address.yaml`.
+- **The reference resolver lists inline links.** `scripts/resolve/resolve.js` adds `inlineLinks` to its result when a project has any: where each link is, what it resolves to, and the text an autolink shows. It's never added to `incoming`. Two new problem codes: `malformed-link` and `inline-links-skipped`. New consumer test vector: `examples/vectors/inline-links/`. A project with no inline links resolves exactly as before, so the existing vectors are unchanged.
+- **The validator's Markdown parser is optional.** `dsds-validate` finds links with `mdast-util-from-markdown`, listed under `optionalDependencies`, so npm installs it by default. Leave it out (`npm install --omit=optional`), or run on a Node older than 20.19, and the validator skips inline links and says so with a warning, which fails `--strict`. It loads the parser only when a Markdown field contains `dsds:`, so documents with no inline links are unaffected either way.
+- **The Quick Start has a new step, "Linking from prose"**, with `examples/quickstart/13-inline-links.yaml`. The style guide says when to use each form. `llms-small.txt`, `AGENTS.md` and all four agent skills explain inline links.
+- **`npm run check:docs` fails if a built page has a `dsds:` href**, in any case or quoting.
+- Merged Mark Toadvine's update to the quick start to include accessibility tagging.
+
+### `description` is Markdown everywhere
+
+- An entry's, a shared entry's, a section's and an example's `description` now use `common/markdown.schema.yaml`, like the prose fields that already did. Its JSON type is still a string, so no document changes validity. Two things to check:
+  - a description containing `*`, `_` or `<` may render differently in a tool that now treats it as Markdown;
+  - a tool that shows a description on one line, such as in a table or a search result, shows each link as its text.
+
+### Stable ids and UUIDs
+
+- **The Specification (§3.1) says a published `id` SHOULD NOT change**, and how to rename instead: change `name`, or keep the old entry as a deprecated stub whose `replacedBy` names the new one. A validator can't check this across versions, so it's guidance, not a rule.
+- **A lowercase UUID is a valid `id`, and now documented as one**, for an entry or item that outside tools link to and that gets renamed. This already validated; nothing in the schema changed. Also in `common/id.schema.yaml` and the style guide.
+
+### Fixes
+
+- `AGENTS.md` linked to an Overview heading by its old anchor.
+
 ---
 
-# Migration
+## [0.22.0] — 2026-10-09
 
-This page covers moving existing DSDS documents to a newer spec version. Each breaking release gets a section here: what changed, what the migration script does for you, and what it leaves for a human.
+Breaking release. It simplifies the format rather than adding to it: one place to say why something exists, one field for each kind of pointer, and 14 `rel` values instead of 23. It's the last breaking window planned before 1.0 (see [Stability](https://designsystemdocspec.org/stability)). A 0.21 document fails validation until it's migrated: run `node scripts/tools/migrate-to-0.22.js <files-or-dirs…>` over every file of a project in one run, then `dsds-format` and `dsds-validate` on the same files. The fixes first planned as a 0.21.3 patch are folded in here too.
 
-The [Stability page](stability.html) explains when breaking changes happen. Short version: they are batched, announced one minor ahead, and shipped with a migration script.
+Tested at scale on Sanity UI's documentation (122 files, 230 entries): the migration script did nearly all of it, a handful of pointers needed a person, and the result validates with no errors or warnings.
 
-## Migrating to 0.15.0
+**Summary:**
+- `purpose` and `metadata.context` are folded into description. There’s now one place to say what an entry is and why it exists.
+- `uses` replaces `composes`, `depends-on`, `part-of` and `implements`.
+- Pointers in fields named for their kind no longer take a rel, because the field says it. That covers `uses`, `extends`, `alternatives`, `specs`, `evidence`, `checks`, `refines`, `replacedBy`, a token’s or theme’s `source`, and `sourceFiles[].file`.
+- An entry’s `related` is now `alternatives`, which contains pointers to entries that are typically used instead.
+- `rel` values are cut from 23 to 14.
+- A deprecated entry, trait or trait value names its successor in `replacedBy`, inside its `status`. Single trait values can now be deprecated.
+- `rel: file` is now for DSDS documents only. Code and token files are `rel: source`.
+- New `metadata.sourceRoot` on a system entry sets where relative sourceFiles paths start.
+- Sections no longer have `metadata`.
+- Entry ids are now checked against the id pattern.
+- New dsds-format tool puts fields in the style guide’s order, replacing four lint rules.
 
-0.15.0 is a minor release. It renames nothing and adds three constraints, so most documents migrate with only a `dsdsVersion` bump. There is no migration script — the affected spots are few, and the fixes are specific. Fix these if they apply to your documents:
+### Breaking
 
-- **Design-spec map keys must be lowercase kebab-case.** In a `design-specifications` block, the keys of `properties`, `spacing.internal`, `spacing.external`, and `typography` must match `^[a-z][a-z0-9-]*$`. Rename camelCase keys — `textColor` becomes `text-color`.
-- **`spacing.internal` and `spacing.external` cannot be empty.** Drop an empty map, or give it at least one entry.
-- **A deprecated API property needs a notice.** An `apiProperty` with `deprecated: true` must carry a non-empty `deprecationNotice` saying what to use instead.
+- **One place to say why.** `purpose` is gone from entries, component traits and trait values, and `metadata.context` is gone from every `metadata` object. All three answered the question `description` already asks. The migration script appends their text to `description` and reports each one, so you can tighten the result. A leftover `purpose` or `metadata.context` fails validation on every well-known kind except `kind: entry`, where `DSDS-24` reports it as a warning.
+- **Sections no longer carry `metadata`.** The migration script moves a section's `metadata` unchanged to that section's `$extensions["com.dsds.migration"].metadata`, so nothing is lost. A leftover section `metadata` fails validation on `guidelines`, `definitions` and `steps`, and is a `DSDS-24` warning on a generic `kind: section`.
+- **`metadata.origin.author` has three values: `human`, `assisted`, `generated`.** It says how much of the content a person wrote. Whether a tool was an AI model or a script was the other half of the old five values; `method` and `note` carry that now. `ai-assisted` and `machine-assisted` become `assisted`; `ai-generated` and `machine-generated` become `generated`. `migrate-to-0.20.js` maps 0.15.2 values the same way, and now writes `uses`/`replaced-by` too.
+- **`uses` replaces `composes`, `depends-on`, `part-of` and `implements`, and has a field of its own.** All four answered the question the graph exists for: what is affected when something changes? An entry or a section item lists what it's built from, needs, or follows in a `uses` field. `part-of` pointed the other way (a button was `part-of` its button group), so the migration writes it as `uses` on the group, and drops it when the group already said so — in this repo, nine of eleven `part-of` refs were already stated from the other end. `DSDS-06` now checks `uses` cycles, so a chain mixing the old `composes` and `depends-on` is caught too. `DSDS-07` is retired; its id stays in the catalog so it's never reused.
+- **`replaces` is now `replacedBy`, in the deprecated thing's `status`.** It sits next to `deprecationNotice`, inside the status that says the entry, trait or trait value is deprecated, and the schema accepts it nowhere else. A rename's successor has no reason to know the old name, a value with two successors would need both to claim it, and the notice already sits on the deprecated thing. In a per-platform status, it names that platform's successor. The migration moves each `replaces` onto its target.
+- **A single trait value can be deprecated** (#50, proposed by Opikat). A trait and a trait value take an optional `status`, the same shape as `metadata.status`, so `status: deprecated` needs a `deprecationNotice`, and `replacedBy` names the successor, addressed as `button#variant.primary` — the `traitId.valueId` form combos already use. Several successors means several pointers. `DSDS-05` resolves trait and trait-value targets, and `to` accepts a trait id's casing after the `#`. One change from the proposal: `replacedBy` sits inside the `status` rather than beside it. New fixtures: `schema-trait-value-deprecated-without-notice.yaml`, `schema-replaced-by-not-deprecated.yaml`.
+- **`dsds-format` replaces the field-order lint rules.** A new command, shipped next to `dsds-validate` and `dsds-lint`, puts every object's fields in the style guide's order and groups each entry's combos by subject, in `level` order. Those orders each have one right answer, read from the schema files, so applying them beats reporting them. `DSDS-17`, `DSDS-20`, `DSDS-22` and `DSDS-23` are retired and their ids kept. It moves lines and never re-serialises, so text, wrapping and comments survive; before writing, the result must re-parse to the same data and the same comments, or the file is left alone. `--check` changes nothing and exits 1 if a file needs formatting, and `npm run check` now runs it over the examples. Section, guideline-item and entry order stay advisory lint rules (`DSDS-18`, `DSDS-19`, `DSDS-21`): they're reading order, and an author can have a reason to break them. `yaml` moves from a devDependency to a runtime dependency. It also orders a system's `metadata` fully, which `DSDS-22` never did. One example fragment was reformatted.
+- **`DSDS-06` checks every chain a consumer follows.** It covered `uses` only; it now also catches a loop in `extends`, `same-as` (two items that each reuse the other, so neither states the rule) and `replaced-by`. Renamed `CHAIN_CYCLE`. New fixture: `DSDS-06-same-as-cycle.yaml`.
+- **`DSDS-25`: `same-as` and `replaced-by` in the right place.** A `same-as` ref must sit on a section item and point at an item of the same kind, since a guideline can't reuse a definition. A `replaced-by` ref must sit on a deprecated entry, trait or trait value. New fixture: `DSDS-25-ref-placement.yaml`.
+- **An ambiguous `#` address is an error.** When two items on one entry have the same address, a ref to it used to resolve to whichever came last. It now fails `DSDS-05` and names both items. An `id` written in the document beats a derived one, which beats the address an item inherits by reusing another (processing model §2.3), so an item and an item reusing it on the same entry aren't ambiguous.
+- **Each pointer field means one kind of pointer, and says so.** `uses` on an entry or a section item, `replacedBy` in a deprecated status, `extends` and `alternatives` on an entry, `specs` on a component, and `alternatives`, `evidence`, `checks` and `refines` on a guideline item each imply one `rel`, so a pointer in them no longer carries one: `evidence: [{href: https://www.w3.org/…}]`. A `rel` there now fails the schema, which also stops a field holding the wrong kind of pointer, and a kind that has a field fails `DSDS-25` when written in `refs`. The named fields stay because `refs` alone is too broad to find a citation or a test in.
+- **`rel` goes from 23 values to 14, and `refs` holds only six of them** (`same-as`, `file`, `source`, `design`, `demo`, `relates-to`); the other eight are what the named fields mean. `test`, `lint-rule` and `agent-test` become `checked-by`, with the kind of check in `role`. `external-link` becomes `cites` (in `evidence`) or `relates-to`. `storybook` becomes `demo`, `package` becomes `source`, and `see-also`, `pairs-with` and `excludes` become `relates-to` (a rule about combining two things is a combo). Each value now covers more, so `ref.schema.yaml` and a new table in the processing model say what each covers, which end it's written on, how it reads in reverse, and what a consumer does with it. A guideline item with no `statement` and a `relates-to` link replaces the `external-link` form.
+- **Renamed and moved pointer fields.** An entry's `related` is now `alternatives`. A guideline's `related` is gone: an agent rule points at the human rule it sharpens with its own `refines` field. A step's `checks` is gone: the guideline it verifies lists the step in its `checks`, next to any test, so everything that checks a rule is in one place.
+- **`rel: file` means a DSDS document, and only that.** A consumer reads a `rel: file` target into the project, so pointing one at a `.tsx` file or a DTCG token file asked it to read code as documentation. This spec's own examples did it, and so did the first large real corpus migrated to 0.22.0, in 140 places. A code file or a DTCG token file is `rel: source` now. A token's or theme's `source` field, and the `file` in a component's `sourceFiles`, take no `rel`, like the other named fields: `source: ./tokens.dtcg.json`, or `{href, note}`. A plain string is unchanged. `DSDS-25` warns on a `rel: file` whose target is a code file, or a `.json` file on disk that isn't a DSDS document. The migration script makes these changes, drops a `role: source` that only restated the new `rel`, and reports a `rel: file` it can't classify. Four examples moved their DTCG file into `source`, and `confirmation-dialog.yaml`'s code file is `rel: source`. New fixtures: `DSDS-25-file-ref-not-a-document.yaml`, `schema-source-field-rel.yaml`.
+- **`DSDS-03` reads `checks` only, and needs an `href`.** A `checkedBy: automated` rule must list a test, lint rule or agent eval it runs; a checklist step doesn't count.
+- **A section's `tags` no longer affect `DSDS-18`.** A section declaring `tags` used to form its own, narrowest tier, so tagging a section to classify it could also make it out of order. `tags` only classifies now, and `DSDS-18` sorts on `framing` and `for` alone. `examples/entries/button.yaml` and STYLE_GUIDE.md's example were reordered to match.
 
-Then set `dsdsVersion` to `0.15.0` and point any `$schema` URL at the `v0.15.0` bundle.
+### Everything else
 
-## Migrating to 0.14.0
+- **Every entry kind but `token` now takes the standard id pattern.** `entry.schema.yaml` described its `id` as using `common/id.schema.yaml`'s pattern, but enforced only `type: string` — so a component or entry id like `Button Main` validated. It now fails. A `token` keeps its looser `tokenId`, which allows capitals and slashes (`Color/Action/Primary`); the pattern is applied by kind rather than on `id` itself, since `token.schema.yaml` composes the base with `allOf` and a shared pattern would have rejected valid token ids. This is a tightening: a document whose non-token `id` doesn't fit the pattern validated before and fails now. It enforces what the schema already documented, and no document in this repo's corpus is affected. New fixture: `schema-entry-id-pattern.yaml`.
+- **Production dependencies audit clean** (#49). Removed the unused `ajv-cli` runtime dependency — nothing referenced it, and it pulled in `fast-json-patch` (prototype pollution) and three other advisories. Raised `js-yaml` to `^4.3.2` (merge-key chains could force quadratic CPU use, which matters for a validator that parses untrusted YAML) and `fast-uri` to 3.1.8 (host confusion). Both are in-range upgrades; the bundled schema is byte-identical after the parser upgrade. Production `npm audit` goes from 7 findings to 0.
+- **The specification** ([/specification](https://designsystemdocspec.org/specification)), a new normative page in numbered sections: documents, identifiers, entries, sections, pointers, extensions, and what validators and consumers must do. Every MUST in it and in the processing model ends with what enforces it — a schema file, a rule, a test vector, the conformance suite, or `consumer` for a requirement no document check can see — and `npm run check` fails on one that names nothing, or names something that doesn't exist, or on a semantic rule nothing cites. 79 requirements as of this release: 37 enforced by the schema, 22 by rules, 14 by test vectors, 3 by the conformance suite, and 7 on consumers only. The Conformance page no longer claims the schema is the whole spec.
+- **The processing model** ([/processing](https://designsystemdocspec.org/processing)), a new normative page: how a conforming consumer addresses items, gathers a project across files, presents reused content, derives reverse relationships, treats `extends` (never merged), follows successors (and when it must hand the choice to a person), and handles loops. Every MUST in it is checked by a rule or a test vector. Two things it settles that were undefined: an item with no `id` and no text of its own takes the address of the item it reuses, and `extends` doesn't merge the extended entry's content.
+- **Consumer test vectors** in `examples/vectors/`: six projects, each with the answer a conforming consumer must reach in `expected.json`. `scripts/resolve/resolve.js` (`npm run resolve`) is the reference implementation, and `npm run check` checks it against every vector. They're published in the conformance suite with a `consumerContract`, so a consumer in another language can test itself.
+- **`scripts/tools/migrate-to-0.22.js`** flips `part-of` and `replaces` across files, so pass a whole project in one run. A flip it can't make safely (the target isn't in the files given, or the ref carries a `role` that describes the other end) is left in place and reported, and the old `rel` then fails validation. It edits the original text instead of re-serialising it, so comments and line wrapping outside the changed fields survive. It uses the `yaml` package (a runtime dependency, shared with `dsds-format`, with no dependencies of its own) to locate fields, since `js-yaml` drops comments.
+- **The full worked examples are lint clean.** Every file in `examples/entries/` and `examples/base/`, plus Quick Start step 12, now passes every advisory rule, so they model complete documentation. `checkedBy` added to 15 hard-requirement rules: `manual` where only review can tell, `assisted` where axe flags likely cases (`button-name`, `link-in-text-block`, `target-size`), never `automated` without a real check to point at. `when-to-use` sections added to 8 components. In two of them, button-group and link, the first rule was already a fit judgment, so it moved into the new section rather than being rewritten beside a duplicate. Quick Start steps 01–11 are deliberately minimal, one feature at a time, and stay outside the lint-clean set.
+- **`DSDS-14` no longer flags a `same-as` pointer whose target sits in another document.** The rule can't see what that target declares, and making the pointer restate `checkedBy` would also force it to restate the target's `checks` to satisfy `DSDS-03`, which is the duplication the pointer form exists to avoid. A pointer to a target in the same document is still checked against that target.
+- **`metadata.sourceRoot` on a system entry says where the code lives.** Docs are often kept apart from the code they describe, in another folder or repository, and a `sourceFiles` path relative to the docs then can't reach it. `sourceRoot` is a path relative to the system's document, or a URL. When it's set, every relative `sourceFiles` path in the project starts there. `DSDS-11` uses it to check those paths when the system is in view (in the same document, or among the files validated together), and skips the check when it's a URL. Without a system in view, a missing `sourceFiles` path's warning now says to set `sourceRoot`. Additive. Found by documenting Sanity UI, whose docs sit next to its code repository; its 35 source paths raised 39 false warnings. New fixture: `DSDS-11-source-root.yaml`.
+- **`DSDS-11` checks relative `rel: source` paths and a theme's `source` too.** They point at files on disk the same way a `rel: file` or a token's `source` does.
+- **`DSDS-24`: unknown fields on a generic `entry` or `section`.** These two kinds validate against the open base the other kinds build on, so the schema accepts any extra field on them, and on a generic entry's `metadata`. A typo like `descripton`, or a field this release removed, used to pass silently. The validator now reports each one as a warning, with the closest real field when it looks like a typo, and with where the content goes now when 0.22.0 removed it. `--strict` turns it into a failure. The kinds stay open rather than closing, so no document that relies on that breaks; namespaced custom kinds aren't checked. Not breaking. New fixture: `DSDS-24-undeclared-field.yaml`.
+- **Plain-language rewrite of the normative pages.** The specification, the processing model, the Conformance page, the rule catalog's descriptions and `common/ref.schema.yaml`'s comments now use short sentences and everyday words. No requirement changed. Splitting long sentences gave several MUSTs their own sentence and citation, and one citation was corrected: two `sourceFiles` entries for one platform is caught by `DSDS-01`, not the schema. The consumer requirement on unresolved references now matches the processing model: report it, as an error or a warning depending on whether the project is complete.
+- **`DSDS-12` is retired.** It asked for "must" and "should" in capitals in a guideline's `statement`. A guideline's `level` already says how strong the rule is, so capitals added nothing a tool needs. In plain English, like "when a button must stay in the tab order", capitalizing the word added a requirement nobody meant. Documenting Sanity UI raised 161 of these. The id is kept so it is never reused. Advisory only, so no document's validity changes.
+- **`DSDS-19` ranks a reusing item at its target's level.** A guideline item can leave `level` out and take it from its `same-as` target. The rule used to rank it as if it had no level, and reported "level: undefined". It now looks the target up in the same document and ranks the item at that level, and the message says where the level came from. An item whose target is in another file is left out of the order check rather than guessed at. Found by documenting Sanity UI, where 56 such warnings were false.
+- **`DSDS-11` accepts a `#` fragment or `?` query on a file path.** `./tokens.dtcg.json#/color/surface/default`, the form the Interoperability page recommends for pointing at one token, warned that the file didn't exist, because the check looked for a file with the fragment in its name. It now checks the file part only, so a missing file still warns. `examples/entries/color-surface-default.yaml` now uses the fragment form, so the check covers it.
+- **The validator no longer blames allowed fields when part of an entry fails.** When one part of an entry was invalid, such as a bad `id` or a `replacedBy` on a status that isn't deprecated, the validator also reported `id`, `name`, `description` and `sections` as "unevaluated properties". Those fields were fine; the noise came from how the schema library tracks the `if`/`else` on `kind`. Those errors are dropped now, and a field the kind really doesn't declare is still reported. `conformance-test.js` checks that no fixture produces them again; six did before.
+- **The homepage leads with what DSDS does.** It opens with a one-line positioning statement (DTCG describes values, CEM describes APIs, DSDS describes how, when and why), then shows one Button entry and what each of its three readers gets from it: the docs-site view, the agent-only note, and the real `npm run lint` output, which flags a `must` rule with no `checkedBy`. Document structure and principles now sit below those use cases. "Trains your agents" is gone, since DSDS gives agents context and doesn't train anything. The positioning line is in the README too.
+- **Mechanical lint warnings fixed in the canonical examples** — two `DSDS-12` (one keyword capitalized; one sentence reworded, since its lowercase "must" was plain English inside a `should` rule and capitalizing it would have added a conflicting claim) and one `DSDS-17` field-order fix.
+- **`dsds-validate --json` and `dsds-lint --json`.** Both commands can print one JSON report instead of text. Each finding carries its rule id (`null` for a plain schema error), a severity, a JSON Pointer to the exact spot in the document (`/entries/0/refs/2/to`, not just the entry), the message, a fix hint, and a link to the rule's documentation. So an agent can fix a finding without parsing prose. `validateDoc()` returns the same thing as a new `findings` array; its `errors` and `warnings` strings are unchanged byte for byte, checked across all 86 example and fixture documents. Both commands also take `--help`, and exit 2 on an unknown option instead of treating it as a file name. `dsds-validate` now reports a file that doesn't parse as a finding instead of crashing the run.
+- **Every rule has a fix hint and its own section on the Conformance page.** `schema/conformance-rules.yaml` gains a required `fix` field: one or two sentences on how to resolve a finding. The Conformance page has a generated section per rule (`/conformance#dsds-14`) with what it checks, how to fix it, and links to the `examples/invalid/` fixtures that break it on purpose. The catalog table links to each one.
+- **`llms-small.txt`**, a primer in under 5,000 tokens, for an agent short on context: the core model, every entry and section kind, the `rel` values, one worked example, how to validate, and the trust model. Every list of field names, kinds and values in it is filled in from the schema files at build time, so it can't drift. The build fails if it grows past its budget. Linked from llms.txt and AGENTS.md.
+- **`manifest.json` records the schema versions `dsds-mcp` supports** — `mcp.schemaVersions`. For this release that's dsds-mcp 0.5.0 and later, which reads 0.22.x only. dsds-mcp 0.4.0 reads 0.20.x and 0.21.x.
+- **llms.txt** describes manifest.json in current terms (entry kind, section kind), and no longer labels a link "Per-definition markdown" that pointed at manifest.json.
+- **Docs and changelog corrections.** Two schema typos (`checkedBy`'s "is own verified", `metadata.context`'s "give provide"); a stale README note about untagged releases; three references to a removed `npm run validate:strict` script (now `npm run validate -- --strict`); the 0.21.0 entry's claims that `dsds-lint` shipped in a published package and that `DSDS-08` reports `to: Button` only as a warning in single-file validation (it is a hard error there); and AGENTS.md's `dsds-mcp` version history.
 
-0.14.0 is a breaking release. It applies every recorded naming exception and removes both deprecated surfaces. Documents at 0.10 through 0.13 migrate automatically.
+---
 
-### Run the scripts
+## [0.21.2] — 2026-09-21
 
-Run the link converter first if your documents still relate entities through `links`. Then run the 0.14 migrator:
+Patch release — documentation only. No schema shape change and no validation behavior change; a 0.21.1 document is a valid 0.21.2 document.
 
+- **`same-as` can point into any entry, not only `base.shared`.** `DSDS-05` already treated `entryId#itemId` as a resolvable ref, and already enforced it — the guidance simply hadn't kept up. A rule one entry owns, such as a pattern several components follow, no longer has to move into `shared` to be referenced. `shared` now means what it should: content no single entry owns. Updated in `common/ref.schema.yaml`, `DSDS-05`'s own description, and the `guidelines`/`definitions` field docs. No document changes validity.
+- **Quick Start teaches the general form.** The "Sharing content" section led with the `shared` array, which taught a shared-only model. It now leads with declare-once-and-point-at-it, names both places a target can live, and documents the pure-pointer form 0.21.1 introduced (no duplicated `statement` or `level`).
+
+---
+
+## [0.21.1] — 2026-09-21
+
+Patch release — one relaxation, applied consistently across all three section kinds. No document changes validity: everything valid at 0.21.0 is valid here, and there is nothing to migrate.
+
+- **An item that points elsewhere no longer restates what it borrows.** A section item carrying `refs` is now exempt from its kind's normally-required content fields: a `guidelines` item no longer needs `level`, a `definitions` item no longer needs `term`/`definition`, and a `steps` item no longer needs `title`. Borrowing a shared rule via `rel: same-as` previously meant copying the target's `level` alongside the pointer, with `DSDS-10` existing largely to police that the copy agreed with the original — the schema forced the duplication, then validated it. The pointer is now the whole item. **Consumers: these fields are no longer guaranteed present.** Resolve the `same-as` target to obtain them.
+- **`refs` on a `definitions` item.** The kind carried no pointer field at all, so a term declared once in `base.shared` could not be referenced from anywhere — the only option was to restate it.
+- **`DSDS-10` reframed** from "must match" to "when declared, must match". Declaring `level` on a same-as item stays legal and is still checked against the target; omitting it is now the ordinary form. An item that means to state a *different* level is a `refines`, not a `same-as`.
+- **Starter kit** demonstrates the pure-pointer form instead of the redundant one.
+
+---
+
+## [0.21.0] — 2026-09-15
+
+Minor release — component traits change twice, plus documentation, tooling and vocabulary. Pre-1.0, a minor may carry a breaking change with no deprecation window first; see [Stability](https://designsystemdocspec.org/stability). Run `node scripts/tools/migrate-to-0.21.js` over a 0.20.x document to bring it forward — it adds the new field and removes the old one in a single pass.
+
+- **A trait's `id` accepts real API identifier shapes.** `common/id.schema.yaml` gains `apiId` (camelCase, PascalCase, snake_case, kebab-case), and `traitValue.id` points at it. A trait id mirrors a real prop or attribute rather than being derived from prose, so `isDisabled` no longer has to be rewritten as `is-disabled` to validate. A dot stays forbidden, because a `combo` addresses an enum value as `traitId.valueId`.
+- **`tokenId` accepts a design tool's own casing.** A Figma variable named `Color/Action/Primary` is the real id, so it validates as written. Additive: every previously valid token id still validates.
+- **A `combo` can reference the ids the schema accepts.** `combo`'s target carried its own inline copy of the strict slug pattern, so a camelCase trait could be declared and then not referenced, and a slash-separated token id could never be referenced at all. The target is now three named branches (`traitTarget`, `tokenRef`, and an entry id) built from the same shapes `id.schema.yaml` declares. `ref`'s `to` is widened to match. Note the cost: `to: Button` is now shape-valid, since a token id can legitimately be capitalized. `DSDS-08` still catches it at resolution: a hard error in single-file validation, and a warning only when a multi-file project search can't rule out a missing sibling.
+- **`traitType` on every component trait, required** — `variant` for a dimension the caller configures (`size`), `state` for a condition the component can be in (`hover`, `loading`, `disabled`). This is the classification readers actually want, and it is not the same question as the existing optional `setBy`: `disabled` and `loading` are states the *consumer* sets, so neither field can be derived from the other. `kind` is unchanged and still means `boolean` or `enum` — the form the value takes, not what sort of trait it is.
+- **`DSDS-22` now covers traits.** A trait's fields and an `enum` trait's `values` are checked against the order `entries/component.schema.yaml` declares, the way the rule already checked `metadata`, sections, items, combos and refs. A trait leads with `traitType`, then `kind` — on a trait it's `traitType` that says what you're reading, where `kind` only says whether the value is a boolean or an enum.
+- **`setBy` removed from a trait.** It answered who sets a trait's value, `consumer` or `component`. `traitType` answers the question people were actually reaching for, and carrying both invited the two to drift. A leftover `setBy` is now a hard error, not a warning — both trait branches set `unevaluatedProperties: false` — so it has to come out, and the migration script takes it out. Note the loss: nothing in the format now distinguishes a state the caller switches on (`disabled`) from one the component enters by itself (`hover`), which is the signal code generation used to decide what becomes a prop. Put it under `$extensions` if you need it.
+- **`tags` on a section**, and `DSDS-18` reads it. A section declaring `tags` sorts after the broader sections, where the tier was previously inferred from the items — which made it depend on how many items a section had and whether their tags intersected. Optional: an undeclared section is simply not tag-scoped.
+- **`rel: agent-test`** — a new `rel` value on `common/ref.schema.yaml`, for a guideline's `checks` pointer to a fixture that runs an AI agent against the guideline and checks what it generates (a promptfoo config, say). It names a third way a rule gets checked, alongside `test` (the design system's own code) and `lint-rule` (static analysis); DSDS names the pointer's kind and does not define the fixture's format. `DSDS-03` accepts it as backing for `checkedBy: automated`. Its result is often a pass rate or a judged rubric rather than a strict pass/fail, so `checkedBy: assisted` is usually the more honest pairing. Additive: no existing document changes validity.
+- **[Style guide page](https://designsystemdocspec.org/style-guide)**, generated from STYLE_GUIDE.md.
+- **`DSDS-21`–`DSDS-23`** — advisory: entry order in `entries[]`, field order inside a nested shape, and `combos[]` grouped by subject then ordered by level.
+- **`dsds-lint`** — the advisory tier is exposed as the package's `dsds-lint` bin, alongside `dsds-validate`, so a consumer gets documentation-quality feedback and not just pass/fail.
+- **One source per repeated table.** `schema/interop-map.yaml` feeds the interoperability table in README, AGENTS.md and the site; `schema/terms.yaml` feeds a new terms table in the same three places; AGENTS.md's two field envelopes are generated from the schema. `npm run check` fails if any copy drifts.
+- **Every schema definition is now routed to.** All 23 per-definition markdown mirrors are listed in `manifest.json` and `llms.txt`; previously 9 were and 14 were reachable from nothing.
+- **"Index of every normative statement" now holds every one** (2 → 15). It read `description` only; 14 statements lived in `$comment`.
+- Normative sentences name a declared conformance class instead of an undeclared "tool" or "renderer".
+- Schema `$id`s move to `/v0.21.0/`. `/v0.20.0/` and `/v0.20.1/` stay frozen at the bytes they shipped with.
+- **`DSDS-14`** — fixed a false positive: a `must`/`must-not` guideline item that borrows its content via a `same-as` ref no longer gets flagged for a missing `checkedBy` when the resolved target declares one. The check is now document-scoped (like `DSDS-10`'s same-as resolution) instead of per-entity, since a same-as target is often a sibling entry (e.g. a shared accessibility rule) the old per-entity check couldn't see.
+
+
+---
+
+## [0.20.1] — 2026-09-08
+
+Documentation and tooling only — no schema shape change; a 0.20.0 document is a valid 0.20.1 document.
+
+- **STYLE_GUIDE.md** — a non-normative ordering convention for authoring DSDS documents, with `DSDS-17`–`DSDS-23` reporting deviations in the advisory tier. Order never affects validity.
+- **[Style guide page](https://designsystemdocspec.org/style-guide)** — the guide is now published on the site, generated from STYLE_GUIDE.md so the two can't drift.
+- **`DSDS-16`** — advisory: flags a token description that only restates its scale position.
+- **`DSDS-18`** — also reports a tag-scoped `guidelines` section placed before a broader one.
+- **`DSDS-21`–`DSDS-23`** — advisory: entry order in `entries[]`, field order inside a nested shape (`metadata`, a section, an item, a `combo`, a `ref`), and `combos[]` sorted by subject then level.
+- Property and enum declaration order changed across several schema files to match the guide: `kind` leads every entry, a `ref` lists `to`/`href` before `rel`, and the `metadata` shapes regrouped. Declaration order only — no document's validity changes.
+- Schema `$id`s move to `/v0.20.1/`. `/v0.20.0/` stays frozen at the bytes it shipped with.
+
+---
+
+## [0.20.0] — 2026-09-01
+
+Breaking release — a full rewrite of the schema's shape, not an incremental change. The entity/document-block model (`spec/schema/`, JSON) is replaced by an entry/section model (`schema/`, YAML). Schema files are served at `https://designsystemdocspec.org/v0.20.0/...`. See the field-by-field mapping below, [How the schema is organized](https://designsystemdocspec.org/schema.html#how-the-schema-is-organized) for the new shape's own design patterns, and [Conformance](https://github.com/somerandomdude/design-system-documentation-schema#conformance) in the README for the rule catalog.
+
+### Breaking changes
+
+- **`spec/` is dissolved.** `spec/schema/` and `spec/examples/` are replaced by `schema/` and `examples/` at the repo root. Document instances move from `.dsds.json` to `.dsds.yaml`.
+- **Root document restructured.** `dsdsVersion`, `systemInfo`, `entity`/`entityGroups` are replaced by `schemaVersion`, `name`, and `entries[]`. System-wide facts (version, organization, url, license, platforms) move onto a `kind: system` entry instead of living on the root document directly.
+- **Entity `identifier` renamed to entry `id`.**
+- **8 entity kinds collapse to 5.** `component`, `token`, `theme`, and `system` (new) keep their own schema files; `foundation`, `pattern`, `guide`, and `chunk` collapse into the generic `entry` kind (or a namespaced custom kind, e.g. `acme.icon-library`). There is no `token-group` kind — a group of tokens is a `metadata.group` fact on the tokens in it, not a separate artifact.
+- **`documentBlocks` + `agentDocumentBlocks` replaced by one `sections[]` array**, each section tagged `for: human | agent | all` instead of living in a separate array by audience.
+- **16 document-block kinds collapse to 4.** `guidelines`, `definitions`, `steps`, and the generic `section` replace `anatomy`, `api`, `variants`, `states`, `checklist`, `interactions`, `content`, `use-cases`, `imports`, `motion`, `principles`, `scale`, `design-specifications`, `accessibility`, and `sections`. A component's API/import surface moves to its own top-level `sourceFiles`/`imports` fields (pointing at real source instead of hand-typing an interface); variants and states merge into a component's own top-level `traits` field (boolean or enum).
+- **Three pointer types collapse into one.** `common/entity-ref`, `common/relationship`, and `common/link` are replaced by a single `common/ref` shape (`to`/`href` + `rel`), with one open `rel` vocabulary covering dependency, composition, citation, and external-link relationships.
+- **`common/criterion` is gone.** A conformance criterion is now a `guidelines` item's `checkedBy` (verification mode) plus `checks` (a `rel: test`/`lint-rule` ref to what actually runs the check), not a standalone object.
+- **`metadata.governance` replaced.** `{name, contact}` becomes `metadata.owner` (a plain mailbox string) and `metadata.reviewed[]` (an array of review events).
+- **Semantic rule catalog renumbered.** `rules/rules.yaml`'s 3-tier (`json-schema`/`semantic`/`lint`) catalog is replaced by `schema/conformance-rules.yaml`'s flat `DSDS-01`–`DSDS-07` catalog, enforced by the rewritten `scripts/validate.js`. This is a reset, not a renumbering that preserves meaning — `DSDS-01` here is unrelated to whatever `DSDS-001` meant in the old catalog. See the README's Rule catalog section for the explicit callout (added later this same release, once the id space had grown past a couple of entries and the ambiguity risk became worth naming).
+
+### Additions
+
+- **`DSDS-06`/`DSDS-07`: cycle detection.** A `composes` or `depends-on` ref chain that leads back to an entry already in the chain now fails validation — restores a check the pre-0.20.0 spec had that the rewrite initially dropped.
+- **`scripts/compose.js`.** Splits a design system's documentation across multiple hand-authored `.dsds.yaml` fragment files, composed into one document before validation — a flat concatenate-then-validate tool, not a `$ref`/JSON-Pointer resolution mechanism.
+- **CSS Custom Highlight API in `<ds-code>`.** Syntax highlighting no longer wraps tokens in `<span>`s; highlighted ranges are registered via `CSS.highlights` and painted with `::highlight()`, eliminating a whole class of escape-order bug the span-wrapping approach was prone to. Falls back to plain, unhighlighted code in browsers without the API.
+- **The site, content pages, and root docs are fully retargeted at the new schema.** `scripts/build-site.js`, `render-prop-table.js`, `nav.js`, and `compile-mdx.mjs` now render property tables and cross-references from `schema/**/*.schema.yaml` (each file its own `allOf`-resolved definition, addressed by `$ref` string rather than bare `$defs` name). `AGENTS.md` and `README.md` are rewritten in full, including an accurate `## Project Structure` and a manual version-bump procedure (see Known gaps).
+- **The site consolidates from 9 narrative pages to 5.** Principles and a simplified Humans & agents and Interoperability merge into Overview; a simplified "How the schema is organized" and stability guarantees merge into Conformance; Migration is removed outright (no versioned migration history exists yet — see the field-by-field mapping in this entry instead). Overview, Quick start, Extending the schema (new — see below), and Conformance remain as their own pages.
+- **`test/site-components/`, a regression corpus documenting this repo's own `site/components/` web components as DSDS entries**, replaces `test/sanity-ui/` (which documented an external library purely as a validation fixture) — dogfooding instead of a borrowed corpus. Wired into `npm run check` (`test:components`) alongside a new `examples/interop/*.dsds.yaml` check.
+- **`scripts/extract-normative.mjs` ported** — the Conformance page's normative-statement index regenerates from `schema/**/*.schema.yaml` again, wired back into `postvalidate`.
+- **`scripts/bump-version.js` ported and fully automated.** Rewrites every `schema/**/*.schema.yaml` file's `$id`, `bundle.js`'s hardcoded `$id`, every example/test fixture's `schemaVersion`, README's one hardcoded URL, and `package.json#version` in one pass, then runs `npm run bundle` and `npm run sync-skill-versions`. `scripts/validate.js` no longer hardcodes the spec version either — it reads it back out of whichever schema files it loads, the same pattern `nav.js`/`sync-skill-versions.js` already used.
+- **Profiles.** A project can drop a file at `profiles/entries/<kind>.schema.yaml` or `profiles/sections/<kind>.schema.yaml` to narrow an existing kind — make its *optional* fields required — without forking it. `scripts/validate.js` picks it up automatically; `scripts/bundle.js` never sees `profiles/`, so a private profile can't leak into the published schema. The mechanism (`allOf` + `required`/`if`-`then`) already worked for a custom kind; what was missing was a way to layer a profile onto a *built-in* kind without the second schema file crashing Ajv (`schema with key or id "..." already exists`) — dispatch now checks for a profile before falling back to the built-in schema. See the new [Extending the schema](https://designsystemdocspec.org/extending.html) page for the one rule (a profile may narrow, must not extend) and a worked example.
+- **`$extensions` on section items.** `guidelines`, `definitions`, and `steps` items, and a `freeform` entry, can now carry their own `$extensions` — previously only the document, entry, and section levels could. Closes the one place principle 6 ("there is always a way to add your own data") didn't hold: a `guidelines` item's shape is closed, so there was no way to attach a rationale or a failure mode to one specific rule without abandoning the `guidelines` kind entirely.
+- **The bundled schema dispatches per kind.** `base.schema.yaml`'s `entries` and `entry`/`shared.schema.yaml`'s `sections` now route to the right `entries/<kind>.schema.yaml`/`sections/<kind>.schema.yaml` by an `if`/`then`/`else` chain (`entry.schema.yaml#/$defs/dispatch`, `section.schema.yaml#/$defs/dispatch`) instead of a bare `$ref` to the open base. Previously the schema an editor's `$schema` points at (and the published bundle) only ever enforced the open base — a `kind: component` entry with `traits` set to a string, or an arbitrary extra field, validated. `scripts/validate.js`'s own whole-document check now skips re-reporting the same nested entry/section errors its per-entry loop already reports with better context, to avoid duplicate output.
+- **New page: Extending the schema.** Covers all three ways to go beyond the shipped fields — `$extensions`, a custom kind, and a profile — with a decision table and worked examples for each.
+- **`to:` now has a syntax check, structurally.** `common/ref.schema.yaml`'s `to` field gets a `pattern` (an id, optionally `#itemId`) — a display name (`to: Button`) or anything with a space in it now fails schema validation outright, in both the CLI and the bundled schema an editor's `$schema` points at. No rule id needed; this is a plain structural constraint, same as every other `pattern` in the schema.
+- **`DSDS-08 ENTRY_REF_RESOLVES`.** A bare `to:` (no `#itemId`) now resolves against the document's own entries and shared entries, the same way `DSDS-05` already resolved the `#itemId` form — previously a bare `to:` was never checked at all. Found and fixed two real dead references in the repo's own examples while building this (`starter-kit.dsds.yaml`'s and its fragment split's `dark` theme pointed at a `light` theme that was never added).
+- **Project-scope reference resolution.** `DSDS-05`/`DSDS-08` now follow a document's own `rel: file` refs transitively and re-check an otherwise-unresolved target against every entry and shared entry the whole closure turns up, not just the one file handed to the validator. A target still not found anywhere in the project reports as a **warning**, not a hard error — `scripts/validate.js` gains its first real warning tier for exactly this reason: a validator that followed every link it could still can't prove a sibling wasn't missing or unreadable, so it shouldn't fail the build with the same confidence as a fully self-contained document's unresolved `to:` (which stays a hard error, unchanged). `npm run validate -- --strict` promotes project-scope warnings to failures. The search is bounded to the directory of the file being validated (and its subdirectories) — a `rel: file` href resolving outside that is never read. Deliberately anchored to the target file, not the validator's own install location or an upward walk to a `.git`/`package.json`: the former made the feature do nothing for any adopter outside this repo (caught by external review before release — every cross-file reference in an adopter's own corpus reported as a false-positive warning), and the latter would widen the boundary to an entire monorepo in the exact case (a CI job checking an untrusted document) the boundary exists to protect.
+- **Standalone entry files now get reference checking too.** `validateItemRefs` used to run only for a base document's own `entries`/`shared` — a lone `.dsds.yaml` entry file (no `schemaVersion`) got none at all, silently, however broken its `to:` refs were. Fixed two ways at once: every file passed to one CLI invocation now contributes to a shared resolution pool (the `test/site-components/` shape — an index declaring `rel: file` to 142 standalone components, none of which point back — needs exactly this to resolve at all), and an unresolved target on a standalone entry is always a warning, never a hard error, even with no other file to check against — a lone entry file can never assert the same completeness a base document's own `entries`/`shared` arrays do. Caught a real, previously invisible dead reference this surfaced in the repo's own examples: `spacing-scale.yaml` pointed `composes` at a `space` token-group entry that was never real (there's no `token-group` kind) and was never actually created; added `space-4.yaml` as the missing worked example and pointed the reference at it instead.
+- **`definitions.role`.** `definitions` covers several genuinely different jobs — a component's anatomy, a glossary, a prop-list stand-in, keyboard interactions, event names — previously told apart only by a free-text `title` nothing validated. `role` (`anatomy`, `terms`, `keyboard`, `events`, or a namespaced custom value) makes the job machine-readable, so a renderer can find "the anatomy table" without matching on a human-written heading. Optional; a `definitions` section with no `role` is just an unclassified glossary, same as before.
+- **`traits[].setBy`.** A component's `traits` merged what a consumer sets (`size`, `variant`) with what happens on its own at runtime (`hover`, `loading`) — `kind` (`boolean`/`enum`) doesn't tell the two apart, since a boolean trait can be either (`button.yaml`'s own `disabled` is a prop the consumer passes in; `hover` never is). `setBy: consumer | component` names the difference explicitly — the distinction that matters most when generating code, since a `consumer`-set trait becomes a prop the caller sets and a `component`-set trait never should. Optional.
+- **`DSDS-10 SAME_AS_LEVEL_MATCHES`.** `level` is required on every guidelines item even when it borrows its `statement` from elsewhere via `same-as`, so the borrowing site and the shared rule each carried their own copy with nothing checking they agreed. Now checked whenever the target resolves: a mismatch is a hard error unconditionally, since it's a confirmed drift between two items the validator can both see, not a scope question.
+- **Documented that a statement-less `external-link` guideline is intentional.** `{level: must, refs: [{href: <ticket>, rel: external-link}]}` still validates on its own, unreadable without following the link — that's by design, not a gap, and `guidelines.schema.yaml`'s own `$comment` now says so explicitly, including what a renderer should do with one.
+- **Documented a preferred place for an entry's primary source.** Five places all validate — `refs` (`rel: source`), a custom top-level field, `$extensions`, `metadata.preview`, a section's `examples[].ref` — and none were interchangeable. `common/ref.schema.yaml`'s own `$comment` now states the preference: `refs` with `rel: source` for anything that isn't a component (every tool reading `common/ref` already understands it), `sourceFiles` for a component specifically.
+- **Documented the `tags[0]` category convention in `description`, not only `$comment`.** The convention already existed (`metadata.tags`' own `$comment`); it just wasn't visible anywhere a reader would actually see it without opening the schema source, since a property table only ever renders `description`.
+- **`examples/quickstart/` joins the default validate sweep.** None of the 12 quickstart files were covered by `npm run validate`/`npm run check` before — the first thing a new author copies was never actually checked. `01-base-document.yaml` is excluded from the default sweep on purpose (it's deliberately incomplete, the first step of a build-up the Quick Start page itself labels "not valid on its own yet"); explicitly validating it directly still shows the expected failure. The other 11 are genuinely standalone-valid and are checked like any other example now.
+- **New page: What's not here.** A page listing what the schema deliberately doesn't have — prop tables, anatomy diagrams, a `token-group` kind, typed accessibility fields, per-item rationale fields, separate relationship types, a migration guide — each stated as an absence with what to use instead, since an absence is the hardest thing for a schema to document and the easiest thing to misread as a gap rather than a decision.
+- **Every section item is now citable, by rule.** `id` on a `definitions`/`guidelines`/`steps` item or a `freeform` entry stays optional to write, but a conforming consumer now MUST be able to address any of them regardless — when `id` is missing, it derives one from the item's own text (lowercase, non-alphanumeric runs collapsed to a dash), the same algorithm this site's own `<ds-heading>` already uses for page anchors. Previously only `freeformEntry` even mentioned this, and only as a MAY; stated once, centrally, in `common/id.schema.yaml`'s own `$comment`, referenced from all four item shapes and from the Conformance page's "Conforming consumer" obligations.
+- **Clearer error messages for a failed `contains` (a `guidelines` item missing both `statement` and a `same-as`/`external-link` ref).** Ajv reports this by testing every array item against the `contains` sub-schema and surfacing each one's own leaked sub-error next to the real summary — `/refs/0/rel must be equal to one of the allowed values` before `/refs must contain at least 1 valid item(s)`. Both now collapse into one: `must contain at least one item with \`rel\` in [same-as, external-link]`.
+- **`DSDS-09 COMBO_TARGET_RESOLVES`.** A `combo`'s `subject`/`items` now resolve against real traits, tokens, and entries — `subject: size.small` against a component with no `size` trait, or a `{braced}` reference to a token that doesn't exist, both used to pass silently. Reuses the exact resolution pool (`resolveWiderScope`, factored out of `validateItemRefs`) `DSDS-05`/`DSDS-08` already built, with the same warning-vs-error split. Filled in `common/combo.schema.yaml`'s own `$comment` (previously `[TODO: FILL OUT]`) while here, and fixed its `items` example, which was missing the braces a real token reference needs.
+- **New worked example: `examples/entries/icon-button.yaml`.** Covers two hard cases at once: a component with no `sourceFiles` (designed but not yet built — the spec has no position on documentation-before-implementation, and nothing here needed to change to support it), and `checkedBy: automated` pointing `checks` at a real test path (previously that combination only existed in an *invalid* fixture, demonstrating the failure, never in a valid one demonstrating it done right). Also borrows `shared-a11y#touch-target` via `same-as` a second time, alongside `button.yaml`'s existing borrow, showing more than one entry citing the same shared item, resolved across files by the default `npm run check` sweep's own CLI-sibling pooling.
+- **New "Open conventions" section on the Conformance page.** A short registry of the places DSDS deliberately leaves a decision to the adopter rather than the schema: where a guidelines item's pointer goes when its `rel` doesn't fit `alternatives`/`evidence`/`related`/`checks` (the general-purpose `refs` field), plus cross-references to the already-documented `refs`-`rel: source` and `tags[0]`-as-category conventions. Also states, for the first time, a recommended way to address one specific token inside a shared DTCG file: the token's own `id` doubles as its DTCG path by convention, or a `source` `href` can carry a JSON Pointer fragment (`./tokens.dtcg.json#/color/action/primary`) when the two don't line up — ordinary URI syntax, no schema change.
+- **`examples/anti-patterns/`.** Three small documents that validate cleanly and are still bad documentation, each with its own leading comment on why the schema can't catch it: a definition that only restates its own term, a `checkedBy: manual` claim too vague to actually check, and guideline prose naming a "token-group" concept the spec doesn't have. Deliberately outside the default validate sweep's example corpus — not meant to be copied.
+- **`metadata.group` broadened beyond tokens.** Its `description`/`$comment` framed it purely as "the recommended way to group tokens" even though the field always lived on the shared `entry-metadata.schema.yaml` base, not a token-only file — nothing schema-side changes, but a component family (`button` covering `button`/`icon-button`) is now stated as the same idea applied to a different kind, not just tokens.
+- **`definitions.role` moved to `section.context`.** It was defined once, on `definitions.schema.yaml`, even though nothing about "what job is this section doing, machine-readably" is definitions-specific — any section kind can have a distinguishable job its `title` alone doesn't make machine-readable. Moved to the shared `section.schema.yaml` base (same `oneOf` shape: `anatomy`/`terms`/`keyboard`/`events`, or a namespaced custom value) so every kind can use it, and renamed `role` → `context` to match `metadata.context` (the same "why does this exist" idea one level up). `guidelines.schema.yaml`'s own, differently-shaped `context` field (`when-to-use`/`how-to-use`) is renamed `framing` to make room — it was never the same concept, just an unlucky name collision once the general field moved in.
+- **`<ds-code>` gains YAML syntax highlighting.** Every `<ds-example file="...">` on the site embeds a `.yaml` file (as of the 0.20.0 schema, nearly all of them), but `code.js` only ever tokenized `language="json"` — every YAML block on the live site rendered as plain, unhighlighted text. Added a line-based YAML tokenizer (keys, quoted/bare scalar values, flow sequences/mappings, comments, and block-scalar continuation lines all handled) reusing the same four highlight classes (`hl-k`/`hl-s`/`hl-n`/`hl-b`) and the same Custom Highlight API mechanism JSON already used.
+- **`<ds-code>`'s highlighting fallback removed.** `SUPPORTS_HIGHLIGHT_API` feature-detection and its plain-text fallback path are gone — the component now always attempts CSS Custom Highlight API highlighting, no defensive branch for a browser without it. One highlighting mechanism, not one primary path plus a permanently-untested fallback.
+- **Eight new worked examples close every dangling reference in the example corpus.** `button.yaml`, `color-action-primary.yaml`, `confirmation-dialog.yaml`, and `empty-state.yaml` each pointed at entries that were never added — real under `npm run check` (warnings only) but real gaps `npm run validate -- --strict` had flagged since project-scope resolution first shipped. Added `icon.yaml`, `link.yaml`, `button-group.yaml`, `dialog.yaml`, `error-state.yaml` (components/entries), and `color-action-primary-hover.yaml`, `color-surface-default.yaml`, `color-surface-raised.yaml` (tokens) — each a small, real entry, not a stub. `npm run validate -- --strict` is clean across the whole corpus for the first time.
+- **README and Quick start stop calling DSDS a "YAML/JSON" format.** Both opened by naming two formats as if either were a real option; only YAML ever was — every example, the default validate sweep, and the tooling all assume it. Quick start now says so directly, plus why the words "JSON Schema" still show up everywhere (the schema's own language, not a second document format).
+- **`<ds-json-view>` renamed `<ds-source-view>`, and it now actually shows source.** Every schema page's "view raw" panel was labeled with the real file path (e.g. `common/combo.schema.yaml`) but showed a `JSON.stringify`'d re-encoding of the parsed object instead — comments gone, a `.yaml`-named label sitting over JSON content. Now reads the real file text directly (`fs.readFileSync`, not a re-serialization) and renders it with `<ds-code language="yaml">`, `$comment`s included. The component itself is renamed for the same reason this bug existed in the first place: naming a "view the source" toggle after one specific text format is exactly the kind of claim that goes stale the moment the source's real format changes, which is what happened here once the schema moved to YAML. The markdown mirrors' own "Full schema JSON" section gets the same fix (now "Full schema source", a YAML fence).
+- **The published bundle is YAML: `dsds.bundled.yaml`, not `dsds.bundled.schema.json`.** Nothing about JSON Schema requires JSON text — it constrains a data model, and this repo's own validator already loads `schema/**/*.yaml` straight into Ajv with no JSON step. The bundle stayed JSON anyway, for no real reason beyond distribution habit; it's YAML now, matching the hand-authored source it's built from. Every reader of the old filename is updated: `scripts/bundle.js` (writes `yaml.dump()`, not `JSON.stringify`), `nav.js`/`compile-mdx.mjs`/`sync-skill-versions.js` (each had its own copy of "read the version out of the bundle's `$id`" — all three now match against raw file text instead of `JSON.parse`-ing it, so none of them care what text format the bundle is in, ever again), `build-site.js`'s versioned-publish step, `netlify.toml`'s content-type/redirect rules, and every doc reference (README, AGENTS.md, quickstart, extending). Versions through v0.15.2 published JSON and stay JSON, frozen, under their own `site/dist/v<n>/` — only the current version's bundle moved.
+
+  Deliberately named `dsds.bundled.yaml`, not `dsds.bundled.schema.yaml`: the latter would match the `*.schema.yaml` glob `scripts/bundle.js` and `scripts/validate.js` both use to discover individual schema files, so the bundle would end up including *itself* as one of its own inputs — caught this via a real `Ajv` "reference resolves to more than one schema" crash while making this change, not in review.
+- **Page templates split by page type.** One generic `main.template.html` used to take a single flattened `content` string no matter what kind of page it was — a guide page's compiled MDX and a schema page's source-view/def-index/definitions blocks all got concatenated into the same opaque blob in JS before reaching any template file, so nothing about a schema page's own structure was visible outside `renderSchemaPage()`'s code. Replaced with two type-specific templates: `main-guide.template.html` (header + one content block, for `overview`/`quickstart`/`extending`/`gaps`) and `main-schema.template.html` (header + source-view + def-index + definitions, each its own named slot, for every `common-*`/`entries-*`/`sections-*`/`metadata-*` page). `renderSchemaPage()` now returns those blocks separately instead of one joined string; `pageHtml()` no longer picks a content template itself — it takes an already-built `mainHtml` from whichever type-specific renderer (`renderMainGuide()`/`renderMainSchema()`) the caller used, keeping the page shell (head/nav/skip-link) type-agnostic, since none of that varies by type.
+- **Site collapsed from 5 narrative pages + 23 schema-reference pages to exactly 4: Overview, Quick start, Extending, Schema.**
+  - **Conformance and "What's not here" (gaps.mdx) merged into Overview.** Both are gone as standalone pages; their content now lives in Overview's own `## Conformance` and `## What the schema doesn't have` sections. `scripts/extract-normative.mjs`'s auto-generated normative-statement index now targets `overview.mdx` instead of the retired `conformance.mdx`. Every internal link to the old `conformance.html`/`gaps.html` (README, `AGENTS.md`, the `.agents/skills/*` files, `quickstart.mdx`, this CHANGELOG) now points at `index.html#<anchor>`.
+  - **Schema: one page, every definition, each with a real example next to it.** `common/`, `metadata/`, `entries/`, and `sections/` no longer get their own HTML page per file (`common-ref.html`, `entries-component.html`, etc.) — every schema file's definition(s) render onto one `schema.html`, grouped in the old nav's own order (Base, Common, Metadata, Entries, Sections). `def-section.js` gains a `layout="split"` mode and a named `example` slot (CSS grid, the left column `position: sticky` so it stays in view while a taller example scrolls past on the right — adapted from a `layout="split"` pattern in a sibling reference project, not copied verbatim). The example is a real, already-validated snippet pulled from `examples/` (a new `CURATED_EXAMPLES` table in `build-site.js`, keyed by schema file), not synthesized — all 23 top-level definitions have one (the last 4 — `common/example`, `common/showcase`, `metadata/metadata`, `sections/section` — had no real usage anywhere in the corpus yet, so a small, genuine one was added to an existing example file for each rather than synthesizing content for the schema page specifically); a nested `$def` with none yet just renders single-column, same as before this existed. Cross-reference anchors are now global instead of page-local (`render-prop-table.js`'s `buildDefIndex()`: `pageSlug` is the constant `"schema"` for every entry; a nested `$def`'s anchor is `<baseSlug>-<defName>`, not bare `<defName>`, since two files' local `$defs` could otherwise collide once they're all on one page). `check-markdown-mirrors.mjs` checks the one `schema.md` instead of asserting 23 separate mirrors exist.
+  - **`<ds-json-view>`/`<ds-source-view>` removed outright.** Its floating "view raw source" toggle was a per-page overlay; with 23 files' worth of definitions now on one page, 23 stacked floating buttons isn't a real feature. Each definition still shows which file it came from (a plain `<ds-code inline>` next to its type badge, via `def-section.js`'s existing `source` attribute) — a full raw-file viewer wasn't rebuilt for the combined page; flagged as a deliberate scope cut, not an oversight, in case the fancier version turns out to be wanted later.
+  - **Nav: sidebar → top bar.** `<ds-spec-nav>` re-laid-out from a fixed-left column (with collapsible per-group sections for the old 23 schema pages) to a flat horizontal bar — with every schema definition on one page, there's nothing left to group, so 4 flat links fit a bar. Frees the sidebar's reserved column width for the Schema page's side-by-side layout: `.content--full` (referenced by `contentClassFor()` since last session but never actually implemented) now has a real CSS rule, and the Schema page uses it. `--ds-width-nav` (240px, a column width) replaced by `--ds-height-nav` (64px, a bar height) everywhere it was reserved — `style.css`'s `.content__container`, `header.js`'s own hero-banner offset, both switched from `padding-inline-start` to `padding-block-start`.
+  - **`nav.js` simplified**: `TOP_LINKS` drops from 5 to 4 (Overview, Quick start, Extending, Schema); `discoverNavPages()`/the per-directory `<ds-nav-group>` construction it drove are deleted (`DIR_GROUPS`/`ROOT_FILES` themselves stay — `build-site.js` still needs them for real schema-file discovery and the versioned `$ref`-resolution mirror, unrelated to nav grouping).
+  - **`buildManifest()`/`buildLlmsTxt()`/sitemap** updated for one Schema entry instead of 23 — an entry kind's `manifest.json` page/markdown links now point at `schema.html#entries-<kind>`/`schema.md#entries-<kind>` instead of their own now-gone page.
+  - Also cleaned up in passing: a stale pre-0.20.0 static HTML snapshot (`site/page.template.html`, hardcoding a v0.15.1 "common-criterion" page — unrelated to and not to be confused with the real, live `site/templates/page.template.html`) and a stale `test/site-components/` regression fixture (`json-view.dsds.yaml`, describing a component file already renamed once and now removed).
+  - **Visual pass, matching the sibling reference project's structure (not its colors).** The split layout's sticky side flipped: `.end` (the example) is now the one that stays in view while `.start` (the def content, usually the taller column) scrolls past — the opposite of the first draft, and each definition's own `<h2>` is now *also* sticky independently, so the title stays visible while you scroll a long property table even before the example catches up. Titles are bigger and lighter (`3em`/`300`, was the same size as any other subhead) — one definition fills a real screenful of scrolling, so it reads better as an actual heading. Per-definition `type`/`source` and per-property `required`/`at least 1 required` drop the `<ds-badge>` pill treatment for plain text (`def-section.js`, `prop-list.js`) — those are facts about a field, not a tag to filter or click. The right-hand example column now reads as one continuous panel instead of a stack of separate boxes: `layout="split"` sections lose their inter-section `margin` entirely and get generous internal `padding` on `.start`/`.end` instead, so consecutive `.end` panels sit flush against each other with no page-background gap between them — the same mechanism (verified in) the reference project's own CSS, just without its unused, commented-out `:host`-level gradient version.
+  - **Second visual pass: drop the page-top def index, drop the per-example label, make the right column an actually continuous white panel.** The full-page "36 definitions" index that used to sit above every def-section broke the one-continuous-panel illusion right at the top of the page — it had no `.end` column of its own, so the right side didn't read as one white panel until the first split section arrived. Removed it (`build()`'s `schemaDefIndex`/`{%def_index%}` block in `main-schema.template.html`); the per-file mini-indexes further down the page, shown inline before a file's own multiple `$defs`, stay — a different, more locally-scoped affordance, not "the top." Each example `<ds-code>` no longer carries a `label` chip — `code.js`'s label previously fell back silently to the `language` attribute (`language="yaml"` alone was enough to draw a "yaml" tab), so dropping just the explicit `label="example"` attribute wasn't enough; `code.js` now only applies that fallback when `label` is omitted entirely, and the schema page passes `label=""` to opt out.
+  - **Third pass: the white panel still broke, for two separate structural reasons found by actually screenshotting the built page rather than reasoning about the CSS in the abstract.** First, `:host { margin: 64px 0 64px; }` on non-`layout="split"` def-sections (a nested `$def` with no curated example) opened a real gap back to the page background between one section and the next — margin isn't paint, so nothing was there to read as white. Replaced with `padding-block` (zeroed for `layout="split"`, which already spaces itself via `.start`/`.end`'s own padding) - padding stays inside the element's own box, so there's always *something* painted underneath it. Second, and less obvious: each definition's `<h2>` is `position: sticky` with its own opaque background (`--ds-color-bg`, matching the page) so scrolled-past text doesn't show through while the title is pinned under the nav bar - for a non-split section, which previously rendered full-width with no `.start`/`.end` split at all, that title's opaque tan background spanned the *entire* row width, including where the right column should have been white, every time that title came to rest while scrolling. Fixed by giving every def-section the same `.cols`/`.start` wrapper regardless of whether it has an example - `.end` is only added when `layout="split"`, but `.start` alone still claims only the left grid track, so a title can never bleed past the midpoint. With that fixed, the right column's white paint moved from a per-section concern onto `.content--full .content__inner`'s own background (a hard-stop `linear-gradient`, transparent left of the midpoint, white right of it) - an *element's own* background always paints beneath all of its descendants with no stacking-context caveats, which is not true of a `position: absolute; z-index: -1` pseudo-element (tried first; a positioned pseudo is still a descendant, and its actual paint order depends on `content__inner` establishing its own stacking context, which `position: relative` alone doesn't guarantee - it silently painted behind other content once real content with sticky/z-indexed descendants of its own, i.e. every def-section's `<h2>`, was in the mix).
+  - **The example code blocks are stretched to fill their row now, not just tall enough for their own content** (`.cols .start`/`.cols .end` both get `height: 100%` - part of what fixed the white-panel continuity above, since a short `.end` used to leave the row's remaining height unpainted). That moved the old "pin the example near the top while you scroll a long property table" behavior one level too shallow: `.end` sticking no longer does anything visible once its own box already spans the full row. The sticky pin moved to where the visible content actually is - the `<pre>` inside `<ds-code>` (`code.js`) - with the height-100% chain threaded all the way down to it (`.end` → the slotted `<ds-code>` → its own `.wrapper`) so `<pre>` has a tall-enough containing block to have room to stick within.
+  - **That didn't actually work at first** - `<pre>` reported `position: sticky` in computed styles but visibly scrolled away with the page instead of pinning. Cause: `.wrapper` (`<pre>`'s parent) had `overflow: hidden`, left over from a version of this component that also had a `border-radius` to clip to (long since removed - nothing needs clipping today). Any ancestor with `overflow` other than `visible` becomes a sticky descendant's positioning reference; since `.wrapper` itself never scrolls independently, `<pre>` was sticking relative to a box that just moves 1:1 with the page, which looks identical to not being sticky at all. Removed the dead `overflow: hidden` and re-verified with real scroll-position measurements (not just `getComputedStyle`, which had reported "sticky" the whole time despite it not visibly working) - `<pre>` now holds at a fixed viewport offset across repeated scroll steps while its container moves underneath it, and releases cleanly once the row ends.
+- **`entries/component.schema.yaml` gains `specs`, a pointer to a component's machine-readable API contract** (props/slots/events in some standard, tool-readable shape — e.g. a [DS Contracts](https://github.com/southleft/ds-contracts-poc) document or a W3C Custom Elements Manifest). Same shape as `sourceFiles` — its own dedicated, structured field rather than a `refs` entry — because it's a fact about the component as a build artifact, not documentation content, and because DSDS doesn't parse or validate the target's contents, only points at it: any standard contract format works. Reuses `common/ref.schema.yaml` (a list of `Ref`) rather than a bespoke shape, which needed a new `rel: contract` value added to `Ref`'s own enum — none of the existing values (`source`, `file`, `design`, …) cleanly meant "an already-generated contract document" rather than raw source or a design-tool file. `button.yaml` gets a real `specs` entry as the worked example.
+- **Overview cut by about a third (~4,700 words to ~3,200), same information, less of it said twice.** The same idea repeated itself several times in close proximity — "point at other sources instead of duplicating them" appeared as its own principle, then again as the Interoperability section's own opener, then again in that section's closing paragraph; the Rule catalog section explained the `--root`-flag rationale in full twice, a few paragraphs apart. Trimmed to state each idea once, and shortened sentence structure throughout to actually match Principle 8 ("one sentence per idea"), which the page itself wasn't following. Every externally-linked anchor (`#how-the-schema-is-organized`, `#humans-and-agents`, `#rule-catalog`, `#conformance` — referenced from README, the `.agents/skills/*` files, and `quickstart.mdx`) keeps its exact heading text, unchanged.
+- **"What the schema doesn't have" moved from Overview to Extending the schema, reframed as "Things people often want to add."** Same seven items (prop table, anatomy diagram, `token-group` kind, typed a11y fields, a guideline's rationale field, separate relationship types, a migration guide), same answers, but stated as a checklist to run through *before* reaching for `$extensions`/a custom kind/a profile, on the page about extending the schema, rather than as a list of absences on the page introducing it. The "rationale/failure-mode field on a guideline" row now links directly to the page's own `$extensions` section instead of repeating what it already covers.
+- **`<ds-heading>` gives every level 1–6 its own size.** h2, h3, and h4 all rendered at the same 18px (`--ds-font-size-lg`, whose own token comment said as much: "subheads (h2–h4)"), and h5/h6 both fell back to 14px, identical to body text — six heading levels reading as three visually distinct sizes. `tokens.css` gains two new steps (`--ds-font-size-md`: 16px, `--ds-font-size-xl`: 22px) and renames the old, single-consumer `--ds-font-size-xl` (28px, h1 only) to `--ds-font-size-2xl` to make room — a full xs→2xl scale where h1–h6 each map to a different step (2xl/xl/lg/md/base/sm). Also removed a dead, byte-for-byte duplicate of the old per-level rules in `site/style.css`'s global `h1`–`h6` selectors: every real heading on the site renders inside `<ds-heading>`'s shadow DOM, which a light-DOM stylesheet can never reach, so that block matched nothing in the built output — confirmed by grepping the built HTML for a bare `<h1>`–`<h6>` before removing it, not assumed.
+- **More vertical space between sections, on both the guide pages and the Schema page.** `tokens.css` gains `--ds-space-16` (64px), the next step past `--ds-space-8` in the existing power-of-two scale. Guide pages (Overview, Quick start, Extending): `hr` — the `---` divider markdown puts before every `## ` section — goes from `--ds-space-8` margin (64px total around the line) to `--ds-space-16` (128px total). Schema page: a definition with no worked example goes from 64px to 96px of its own top/bottom padding; a `layout="split"` definition's `.start`/`.end` vertical padding goes from `--ds-space-8` (32px) to `--ds-space-16` (64px) a side. Padding, not margin, in both split cases (as established when the right-hand column's continuous white panel was built) - the extra room doesn't reopen a gap back to the page background between one definition's `.end` and the next.
+- **The Schema page's "Base"/"Common"/"Metadata"/"Entries"/"Sections" group headings are gone, replaced by a small directory eyebrow above each individual definition's own title** (`common/`, `sections/`, etc. - `page.group` from `renderSchemaPage()`, threaded through a new `eyebrow` attribute on `<ds-def-section>`). 36 definitions under 5 headings meant the group a definition belonged to was only obvious if you scrolled up to find the last one; now every definition states it directly, in place. `base.schema.yaml`'s own definitions (the `root` group) get no eyebrow rather than a made-up "base/" - there's no real subdirectory to name. The markdown mirror (`schema.md`) keeps its `##` group headings unchanged: flat text has no per-definition eyebrow equivalent to fall back on, so the grouping still earns its keep there.
+- **Sticky elements (the def-section `<h2>` title, the example `<pre>`) now get a visible border once they've actually docked against the nav bar** - `@container scroll-state(stuck: top)`, Chrome/Edge only, no fallback (the same stance as the CSS Custom Highlight API `<ds-code>` already relies on). Found the hard way that `container-type: scroll-state` and the restyled element can't be the same element - self-targeting is valid, parseable syntax that silently never matches, confirmed with an isolated test page before touching the real components. The border lives on a `::after` pseudo-element instead (a pseudo-element still counts as a descendant of its container), absolutely positioned so it doesn't add to either element's flow height - and, for `<ds-code>`'s `pre` specifically, this also avoids wrapping its text in a span, which would have been a second, harder way to get a queryable descendant, at the cost of the single-text-node invariant `CSS.highlights` depends on.
+- **Each property row's `#` deep-link anchor moved from before the property name to after it** (`prop-list.js`'s `.prop-anchor`) - matching where `<ds-heading>`'s own anchor link already sits, after the text rather than before it. The row is a flex container, so this is `order: -1` → `order: 1` (`prop-name`/`prop-type`/`prop-status` stay at the default `order: 0`), not a markup change; the anchor's own margin flips from `-end` to `-start` to keep a consistent gap on whichever side it now trails.
+- **The top nav bar floats free of the viewport edges instead of spanning it edge to edge.** `spec-nav.js`'s `.nav` gains `margin: 1em` (`margin-top: 0`, so it still sits flush with the very top) and `width: calc(100% - 2em)` to match, plus a translucent background (`color-mix(in oklch, var(--ds-color-bg-accent) 90%, transparent)`, the `in oklch` filled in - the requested value omitted a color space, which `color-mix()` requires to parse at all) - page content now shows faintly through the bar instead of it being fully opaque.
+- **Netlify now runs the real build instead of serving whatever's checked into `site/dist/`.** `site/dist/` is committed (not gitignored) and `netlify.toml` had no `[build]` section - on `main` either, confirmed before assuming otherwise - so a deploy only ever reflected the last person's local `npm run build`, with no guardrail if someone forgot to run it (as it stood at the start of this pass: 12 files of real work, sitting locally, not live). Added `[build] command = "npm run build"`, `publish = "site/dist"` - `npm run build` already triggers `prebuild` (`sync-examples`, `bundle`, `og:generate`) through npm's own lifecycle hooks, nothing extra to chain.
+- **`## [0.20.0]` CHANGELOG date updated from 2026-08-20 to 2026-08-30** to reflect everything shipped under that header since - a version bump is a separate decision, not made here.
+- **A pass over `site/`'s HTML/CSS for modern-CSS simplifications, each verified empirically (computed styles, real hover simulation) rather than assumed from specificity rules on paper** - one assumption below turned out wrong, caught only by testing:
+  - **`<ds-def-index>` (the per-file "N definitions in this file" mini-index) removed outright - genuinely dead code.** `renderSchemaPage()` still computed and returned a `defIndex` string, but nothing in `build()`'s assembly loop had consumed it since the def-index/eyebrow rework earlier in this same unreleased version - the destructured variable was silently discarded every time. Removed the computation, the component (`def-index.js`), its template, its `index.js` registration, and its `test/site-components/` fixture. Confirmed dead first by grepping the built `schema.html` for any trace of the tag before touching anything.
+  - **`100vh` → `100dvh` for the page body and `<ds-header>`'s full-height hero**, cascading (both declarations kept, `dvh` second) so an unsupported browser silently keeps the `vh` behavior instead of breaking. `100vh` doesn't account for mobile browser chrome (the address bar) - the classic bug where a "full height" element runs taller than what's actually visible on a phone.
+  - **Two `!important`s removed** (`<ds-heading>`'s and `<ds-prop-table>`'s hover-revealed `#` anchor links) **by wrapping the losing selector's ancestor half in `:where()`** (`:where(.heading:hover) .anchor-link`), which always contributes zero specificity - so the direct-hover rule (`.anchor-link:hover`) naturally outranks the parent-hover rule instead of needing `!important` to force a tie-break. Verified with a real simulated hover in both states (hovering the row vs. hovering the link itself), not just computed-style-at-rest.
+  - **Two more `!important`s removed from `<ds-table>`'s light-DOM first/last-cell padding rules** (`th:first-child`/`td:first-child`, etc.) - genuinely unnecessary; the pseudo-class already gives them enough specificity to win over the base cell rule without help. Verified against a real table's computed `padding-left`/`padding-right`.
+  - **One `!important` in `<ds-callout>` (`::slotted(p:last-child) { margin-bottom: 0 }`) was tried and reverted** - removing it left the global `p { margin-bottom }` rule winning instead (verified: computed value stayed 16px, not 0), contradicting the specificity math that predicted `::slotted()` would win. Left in place with the empirical result, not the on-paper prediction.
+  - **Flagged as a real candidate, then built as a follow-up: `spec-nav.js`'s mobile menu now uses the native `popover` attribute.** `.nav__items` is `popover="auto"` unconditionally; the menu button uses `popovertarget`/`popovertargetaction="toggle"` instead of a click handler. Escape-to-close and click-outside-to-dismiss are both native now - the second one is a genuine behavior improvement, not just a refactor: the old manual implementation never closed the menu on an outside click at all. The open/close transition (opacity + a small translateY slide, the same feel as the old `max-height` version) uses `@starting-style` plus `transition-behavior: allow-discrete` on `display`/`overlay`, since neither is normally interpolable and both need to outlast the visual transition on the way out or the panel would just vanish instead of fading. Above 900px the popover machinery stays present but inert - author CSS forces `.nav__items` back into normal flow (`display: flex; position: static`) regardless of `:popover-open` state, since author styles always beat the user-agent's own popover defaults, so desktop needed no separate JS path to opt out of popover behavior. A single `toggle` event listener (the native `ToggleEvent`, firing for every dismissal path alike) now drives `aria-expanded`, the menu/close icon swap, and the public `open` attribute's reflection, replacing the old click handler plus a document-level `keydown` listener - net fewer moving parts for more behavior. Verified with real interaction, not just computed-style snapshots: click-to-open, Escape, outside-click, keyboard (Tab + Enter), clicking a link inside the open menu to confirm navigation still fires, and the desktop width showing all links inline and unaffected.
+
+  This also fixed a real overlap: the Overview's own interop table already listed Custom Elements Manifest as an example of what `sourceFiles` points at, contradicting the new field the moment it existed (caught by a direct question, not found in review). Reconciled by drawing the line the two fields' own `$comment`s already implied: `sourceFiles` is raw source a tool extracts an API *from* (`Button.tsx`); `specs` is an already-generated contract *document* (CEM's own JSON output, or similar) - one step later in the same pipeline, and CEM's actual artifact is the latter, not the former. The interop table's "Component code API facts" row splits into two ("Component source code, per platform" → `sourceFiles`; "Component API contract, already generated" → `specs`), and both schema files' `$comment`s now cross-reference each other instead of only `specs` mentioning `sourceFiles`.
+
+- **Quick start moves to the Schema page's own split-screen layout - help text on the left, its code example on the right** (`layout: full` in the frontmatter, a new `<ds-guide-section>` component). Deliberately a separate, simpler component rather than reusing `<ds-def-section layout="split">`: that one always renders its own fixed-level `<h2>` and schema-specific metadata (type, source, eyebrow), which doesn't fit a guide page's own mix of h2/h3 heading levels and plain prose. `<ds-guide-section>` renders nothing of its own - both columns are plain slots, so the compiled markdown (whatever heading level, paragraphs, lists, callouts) passes through unchanged. `.end` only renders when something is actually slotted into `example`; a step with no code just gets a full-width left column, backed by the same page-level `content--full` gradient the Schema page's own continuous white panel already relies on.
+  - **Found a real, sitewide bug while wiring this up: `<ds-example>`'s `label` attribute has never actually rendered, for any page, ever.** The old preprocessing round-tripped a fenced code block's "meta string" (` ```yaml label="…" `) through MDX compilation to carry the label across - the same mechanism GFM code fences use for a language tag. That never worked with this project's actual MDX setup: by default, `@mdx-js/mdx`'s compiled output simply discards a fenced block's meta string, and nothing in this pipeline's remark plugins (just `remark-gfm`) preserves it. Confirmed empirically, not assumed - compiled a minimal fence with a label through the real pipeline and found zero trace of it in the output, then confirmed the *live* `quickstart.html` had zero `label` attributes anywhere despite 12 `<ds-example>` tags all setting one. Fixed by building the final `<ds-code>` HTML directly instead of round-tripping through markdown at all - the same placeholder-slot technique `<ds-prop-table>` already used for the identical underlying problem (protecting real content from MDX's own JSX parsing). Also fixes `<ds-code language="…" label="…">` used directly in an `.mdx` file, the same bug via the same mechanism, unused by any current page but now correct for the next one that reaches for it.
+  - **Every code example on the page now genuinely pairs with the text that introduces it**, which meant giving a few steps their own heading where none existed before: "Document structure" used to show two examples (a bare base document, then one with a system entry) back to back under one heading with no way to tell them apart at a glance - split into "The bare minimum" and "Adding a system entry," matching the heading-per-concept pattern the rest of the page already used for "Adding more entries" and "Splitting across files."
+  - **A second real bug, found only by checking the mobile breakpoint, not just resizing a desktop window:** a step with no code example still rendered an empty `.end` - fine at desktop, where it's invisible against the page's own continuous background, but at ≤900px `.cols` collapses to one column and `.end` stacks below `.start` in normal flow, where an empty one is a visible, pointlessly padded white box with nothing in it. Fixed the same way `<ds-def-section>` already handles this on the Schema page: `.end` is only added to the DOM when something is actually slotted into `example`, checked once at connect time (mirroring the existing DOMContentLoaded-wait pattern `code.js`/`prop-list.js`/`spec-nav.js` already use, since `components.js` loads via a blocking `<script>` in `<head>` - confirmed by checking the template, not assumed from precedent alone).
+  - **Read through the rewritten page for factual accuracy, not just prose.** Spot-checked every claimed field list and vocabulary against the real schema files rather than trusting the original prose: `entry.schema.yaml`'s exact optional-field list (`purpose`, `metadata`, `related`, `extends`, `refs`, `sections`, `$extensions`), `metadata.status`'s "always an object, no bare-string shorthand" claim, and every `guidelines` item field name (`alternatives`, `evidence`, `checkedBy`, `checks`) all check out against the schema as written - no corrections needed there. The "Pizza Party Design System" example name (four of the quickstart fixture files, used consistently as one running example throughout the tutorial) looked like a stray inconsistency against the "Acme" branding used everywhere else on the site at first glance, but it's internally consistent across its own four files and deliberately distinct - left as-is rather than "fixed" into a non-problem.
+  - `<ds-def-example>` (`def-example.js`) removed - confirmed dead code found in passing: nothing generates its wrapper tag anywhere in the current pipeline (the old `<ds-example>` expansion never actually used it either), so it was never reachable to begin with. Removed the component, its `index.js` registration, and its `test/site-components/` fixture; added one for the new `<ds-guide-section>` in its place.
+- **Quick start's `<ds-example>`/`<ds-code>` "label" chips removed - the descriptive text moves into the left-column prose instead of floating in the corner of the right-column code panel.** All 19 labels either got folded into an existing sentence (a lead-in clause or a trailing "here's a component with a guidelines section:") or, where the label just restated the prose next to it, dropped outright. `code.js`'s existing default-to-language-name fallback now shows a plain `yaml`/`bash` tab instead. Caught and fixed two stale links while touching this content: the "Next steps" table's "Full Spec" row pointed at `index.html` (Overview) despite describing itself as "the complete schema reference," and a `sections/section` cross-reference pointed at a page URL (`sections-section.html`) left over from before the 23-pages-to-1 schema consolidation - both now point at `schema.html`/`schema.html#sections-section`.
+- **Fixed real overlap in the Token section's stacked example code blocks, bleeding into the next section below it.** `<ds-guide-section>`'s `::slotted(ds-code[slot="example"]) { height: 100% }` stretched *every* slotted code block to fill `.end`, written for the one-example-per-step case - Token slots two stacked `<ds-code>` blocks into one `.end`, so both got stretched to full height, doubling `.end`'s real height and running into "A pattern, using the generic entry kind" below it. Fixed with `:last-of-type` so only the last code block in a stack stretches to fill the leftover space; earlier ones keep their natural content height. Verified `:last-of-type` works inside `::slotted()` with an isolated test page before touching the real component, then confirmed visually that Token's two examples no longer overlap the next section.
+- **`.content__container`'s nav-clearance padding no longer applies on `content--full` pages (Quick start, Schema).** That padding exists so page content clears the fixed-position nav bar - necessary on every other page, but Quick start and Schema both open with `<ds-header>`'s own full-viewport hero (`min-height: 100dvh`), which already clears the nav on its own. Left in place, the padding just added a second, redundant gap between the hero and the page's actual content.
+- **Conformance content moves from Overview to the bottom of the Schema page - except "How the schema is organized," which stays on Overview (summarized), with the full version now living under Schema's own Conformance section.** Overview's `## Conformance` section (the RFC 2119 definitions paragraph, conformance classes, enforcement tiers, the rule catalog, open conventions, "passing isn't the same as good," stability and the road to 1.0, and the auto-generated normative-statement index) moves in full onto a new `## Conformance` section appended after every definition on `schema.html` - sourced from a new hand-authored fragment, `site/content/fragments/schema-conformance.mdx`, compiled through the same MDX pipeline as the narrative pages but spliced onto the schema-driven page's own definitions instead of becoming a page of its own (no nav entry, no sitemap row, no URL - `compileAllMdx()`'s directory scan skips `fragments/` entirely; `build-site.js` calls `compileMdxFile()` on it directly). Wrapped in `<ds-guide-section>` blocks, the same generic two-column prose wrapper Quick start uses, rather than inventing new layout CSS for the addition - reuses its existing half-width-with-continuous-white-panel look. Every internal link the moved content made to a schema anchor (`schema.html#common-ref`, `schema.html#sections-guidelines`, etc.) is now a same-page anchor, since it lives on that page now. `scripts/extract-normative.mjs`'s `PAGE` constant now targets the new fragment file instead of `overview.mdx`. Overview keeps a condensed `## How the schema is organized` - its own five-paragraph breakdown collapses to one, pointing at the full version and at Schema's own Conformance section for everything else - the one section the move deliberately carved out, so a reader gets the schema's organizing idea without leaving the page that introduces it, while every enforced rule and conformance class now lives on the same page as the definitions they govern. Quick start's own "See Conformance" cross-reference is retitled "See How the schema is organized," since that's the section its anchor actually still points at on Overview.
+- **Conformance moves again, off the site entirely and into `README.md` - except "How the schema is organized," which moves the other direction, off Overview and onto the top of the Schema page instead of staying summarized there.** Supersedes the previous entry's placement. `site/content/fragments/schema-conformance.mdx` is deleted; the RFC 2119 paragraph, conformance classes, enforcement tiers, rule catalog, open conventions, "passing isn't the same as good," stability/road-to-1.0, and the auto-generated normative index are now a `## Conformance` section in the README (its own `#rule-catalog`-style anchors still resolve the same way under GitHub's own heading-slug rules; every link the moved content made to a schema anchor is now a full `designsystemdocspec.org/schema.html#...` URL, since README isn't rendered on the site). `scripts/extract-normative.mjs`'s `PAGE` now targets `README.md`, and its marker comments switch from MDX's `{/* ... */}` JSX-comment syntax to plain `<!-- ... -->` HTML comments, since README is read directly by GitHub/npm, never compiled through this repo's MDX pipeline - which also meant the generated index's `v{{VERSION}}` token would have shipped as a literal, unsubstituted string forever (caught before it did; `{{VERSION}}` only ever gets resolved by `compile-mdx.mjs`'s own substitution step, which nothing runs over README). Fixed by giving `extract-normative.mjs` its own `readSpecVersion()` (the same read-the-real-value-out-of-`dsds.bundled.yaml` pattern `nav.js`/`compile-mdx.mjs` each already have their own copy of) and inlining the real version directly instead of leaving a token nothing will ever substitute. "How the schema is organized" - deliberately not part of this move - gets a new `site/content/fragments/schema-intro.mdx`, spliced onto the *top* of `schema.html` (before the first definition) the same way the old fragment spliced onto the bottom: left column its full text (unchanged from the version Overview used to summarize), right column a small ASCII tree diagram of the schema's own containment hierarchy (`base` → `entries[]` → each kind → `entry`'s own `sections[]` → each section kind, plus `shared[]`), in a plain `<ds-code>` (no `language`, so no syntax highlighting and no tab chip - just the monospace box). Overview's own condensed section is removed outright now that the full version lives on Schema directly, rather than kept as a second, competing summary of the same thing.
+  - **Found a second real, sitewide bug while building the ASCII art: a `<ds-code>` block with no `language` attribute wasn't protected from MDX's own JSX-children markdown parsing the way a `language="…"` block already was.** `preprocessDsCodeBlocks()`'s placeholder-slot regex (added earlier this same unreleased version to fix the `label` bug) required `language="…"` to match at all - a block written without one fell through to normal MDX compilation, where a blank line inside it got read as a paragraph break and split the block into two sibling `<p>`s. `<ds-code>`'s own `_render()` reads `textContent`, which concatenates sibling elements' text with no separator - the tree diagram and its caption rendered as one run-on line with no newline between them, confirmed in the actual compiled HTML before fixing (a nested `<p>base\n├── entries[]…\n└── shared[]</p><p>→ any node can point at any other…</p>` where a single flat text node should have been). Fixed by making `language` optional in the same regex (parsing `language="…"`/`label="…"` out of a general attribute capture instead of anchoring the match on `language` being first and present), while still skipping `inline` spans - which happens to be moot today (nothing hand-writes `<ds-code inline>` in any `.mdx` source; every inline instance is produced later, by `postProcess()`'s own backtick-to-`<ds-code>` conversion, which runs after this preprocessing step ever sees the source) but kept as an explicit guard in case a future page ever does.
+  - `README.md`'s "Documentation" section, the Quick Start section's own stale `index.html#how-the-schema-is-organized` link (labeled "Conformance," which hasn't been an accurate label for that anchor since the first conformance move above), and the three `.agents/skills/*` files that pointed at either of the old locations are all updated to match - the Schema/README split, not the old Overview-only one.
+- **Quick start's code samples lose their label chips outright, including the plain `yaml`/`bash` tab the earlier label-folding pass (above) left behind.** `<ds-code language="…">`'s own default-to-language-name fallback still made sense as a *lesser* label, but the page reads more consistently with none at all. `preprocessExamples()` (`compile-mdx.mjs`) now always emits `label=""` on the `<ds-code>` it builds from a `<ds-example>` tag, opting every one out of that fallback the same way an explicit `label=""` already did; the page's own hand-written `<ds-code language="…">` blocks get the same attribute directly. `<ds-example>`'s `label` parameter stays in the function signature (still honored if a future caller ever passes one) - Quick start is the only current caller, and it never has.
+- **The same DS-DS block-letter ASCII art now opens Quick start too, in "What is DSDS?"'s own `.end` column - not just Schema's.** That section previously had no example slot at all; matches the treatment already established on Schema (a plain, unlabeled, centered `<ds-code center>` block - see `code.js`'s `:host([center])` rule from the ASCII-art work above).
+- **The top nav bar's horizontal padding now matches the content's own inset at mobile widths.** `.nav`'s `padding-inline` was a flat `calc(var(--ds-space-4) * 2)` (2rem) at every width; `spec-nav.js`'s existing `@media (max-width: 900px)` block now overrides it to `var(--ds-space-4)` (1rem) there, lining the bar's logo/hamburger up with `.content__inner`'s own mobile `padding-inline` (`style.css`) instead of sitting half again as wide.
+- **`max-width: 65ch` added to `<ds-callout>`, `<ds-cross-refs>`, and `<ds-guide-section>`'s own `.start` column**, capping their reading width the same way `<ds-def-section>`'s `.desc`/`.meta` already do, so a callout or a cross-reference list sitting in a full-width `content--full` page doesn't stretch to fill however wide the column happens to be.
+- **"How the schema is organized" cut from five paragraphs to two sentences, on the Schema page itself now - the detail underneath moves into the schemas it was describing, not deleted.** The old paragraphs (`entry.schema.yaml`'s shared fields, `section.schema.yaml`'s shared fields and "content always lives in `items`" rule, `traits`' `anyOf`/`kind`-tag pattern vs. `steps`/`guidelines`' flexible untagged shape, `common/ref.schema.yaml`'s one-pointer-type role) restated things each schema file could just say about itself - a second, drifting copy of facts the property table on the same page already had the machinery to show, if the schema's own `description` said them. `entry.schema.yaml` and `sections/section.schema.yaml`'s own top-level `description` now lead with their exact shared-field lists (the latter adds the "never in a field named after the kind" rule, which wasn't stated anywhere before); `entries/component.schema.yaml`'s `traits` field gets the `kind: boolean`/`kind: enum` tagging rule folded into its own `description` (site-visible, in the property table), with the fuller "why a tag, not just optional fields" reasoning in `$comment` instead (source-only - confirmed neither `render-prop-table.js` nor any component reads `$comment` anywhere in the pipeline, so that's a deliberate two-tier split: what a document author needs while filling in the field vs. why the schema itself is shaped this way, not an oversight). `common/ref.schema.yaml` needed no change - its existing description/`$comment` already covered the "one pointer type" idea in more depth than the paragraph being cut. The "allOf + `unevaluatedProperties: false` closes every kind-specific file" mechanism is the one piece deliberately not redistributed anywhere - visible directly in each kind file's own structure for anyone reading the source, and a schema-authoring convention rather than a fact a document author needs to act on.
+- **Quick start's "Entry kinds" table copied onto the top of the Schema page too**, as its own `<ds-guide-section>` right after "How the schema is organized" - same description and table, no example column (matching how every other example-less step on either page already renders: left column only, the right half staying part of the page's own continuous white panel).
+- **Every worked example on the Schema page now touches every one of its own definition's top-level properties, and every definition has at least one real sentence of description and one example - both were true for most, but not all, of the 36 definitions.** `CURATED_EXAMPLES` (`build-site.js`) was keyed by a file's own root definition only, one entry per schema *file*; nested `$defs` (`common/combo`'s own `target`, `common/ref`'s own `list`, `entries/component`'s own `traitValue`/`traitSetBy`, `sections/section`'s own `dispatch`/`freeformEntry`, and 8 more) fell through to no example at all, and a handful of *those* (`common/example#list`, `common/ref#list`, `entries/entry#dispatch`, `entries/component#traitValue`, `sections/section#dispatch`, `sections/section#freeformentry`) had no `description` either, since nothing had ever been written for them. Fixed the lookup first - `CURATED_EXAMPLES` is now keyed by the exact same per-definition anchor `buildDefIndex()`/`renderSchemaPage()` already compute for every def, root or nested alike, not just a file's own root - then filled in all 13 previously-empty examples and wrote the 6 missing descriptions directly into the schema source (`common/example.schema.yaml`, `common/ref.schema.yaml`, `entries/entry.schema.yaml`, `entries/component.schema.yaml`, `sections/section.schema.yaml` ×2), and extended every existing example that only showed a subset of its def's properties - `entries/component` went from 4 of 16 properties shown to all 16, `metadata/entry-metadata` from 5 of 12 to all 12, `entries/entry` from 4 of 11 to all 11, and similarly for every other def. Long property lists use flow-style YAML (`{...}`/`[...]`) and `...` rather than spelling every field out in full block style, to stay short without leaving a property unrepresented. Caught and fixed two real inaccuracies while doing this: `metadata/system-metadata`'s example showed a `status` field that isn't actually one of that schema's own properties (it only exists on `entries/entry-metadata`, which a `kind: system` entry's `metadata` combines with via `allOf` - conflating the two), and `entries/theme`'s example used `refs` with `rel: extends` for its inheritance pointer instead of the dedicated `extends` field the rest of the spec's own "Open conventions" guidance says to use.
+- **`## [0.20.0]` CHANGELOG date updated from 2026-08-30 to 2026-09-01** to reflect everything shipped under that header since, and its own intro paragraph's link retargeted from the retired `index.html#how-the-schema-is-organized` to the current `schema.html#how-the-schema-is-organized` / README `#conformance` split (see the entries above) - a version bump is a separate decision, not made here.
+- **Every heading on the site is now a real `<h1>`-`<h6>` in the static HTML itself, not just something client JS turns into one.** Prompted by an external agentic-readiness scan; confirmed directly against the live site first, not just taken on faith - `curl`ing every page and grepping for `<h1`/`<h2`/`<h3` turned up zero matches, on every page, because `<ds-heading>`/`<ds-header>` only ever built their real heading markup inside a shadow root `attachShadow()` creates at runtime. A crawler, a screen reader, or any other agent that parses HTML without executing script saw no heading structure at all - `<ds-heading>`'s slotted text was at least present as light-DOM content; `<ds-header>`'s title/description lived only as attribute values, not even that. Fixed with Declarative Shadow DOM: `build-site.js` now has its own `injectDeclarativeShadowDom()`, run once over every fully-assembled page, which finds each `<ds-heading>`/`<ds-header>` opening tag and inserts a `<template shadowrootmode="open">` - parsed and attached as a real shadow root by the browser during HTML parsing itself, no script required - containing the exact same markup heading.js's/header.js's own `_render()` builds client-side (`HEADING_CSS_SSR`/`HEADER_CSS_SSR`/`declarativeHeadingTemplate()`/`declarativeHeaderTemplate()`, hand-kept in sync with the two components' own CSS/render logic the same way `readSpecVersion()` already is across `nav.js`/`compile-mdx.mjs` - no shared import, since heading.js/header.js are browser ES modules that throw immediately if evaluated in Node (`extends HTMLElement`, which doesn't exist there), and `bundleComponents()`'s own bundler resolves `site/components`' import graph with a regex scan of `index.js`'s barrel imports, not a real module resolver, so a new cross-component import wouldn't get picked up correctly anyway). `_shared.js`'s `createShadow()` now reuses `el.shadowRoot` if one already exists instead of always calling `attachShadow()` (which throws once a declarative one is already attached) - a one-line change that makes every component in the library declarative-shadow-DOM-safe, not just the two using it today.
+  - **Found a real timing bug shipping this, caught by an actual page load with console errors surfaced, not assumed:** `heading.js`/`header.js` called `createShadow()` synchronously in the constructor, same as every other component - but because `components.js` loads via a blocking `<head>` script (so every custom element is already defined before `<body>` starts parsing), the browser upgrades a `<ds-heading>` the instant its *opening* tag is parsed, before its own children - including a declarative `<template shadowrootmode>` a moment later - exist yet. `createShadow()` found no shadow root yet, attached one anyway, and the declarative one that was about to attach failed outright ("a second declarative shadow root cannot be created on a host"), once per heading. Fixed by moving shadow-root creation out of the constructor and into a DOMContentLoaded-deferred `_init()` - the same wait-for-DOMContentLoaded pattern `code.js`/`prop-list.js`/`spec-nav.js`/`guide-section.js` already use for the identical underlying reason (an eagerly-upgraded element's own children not existing yet), just applied one step earlier, to shadow-root acquisition instead of just `_render()`. Verified with a real accessibility-tree read (Chrome DevTools Protocol's `Accessibility.getFullAXTree`, not `textContent`/`innerText` - those read the shadow tree's own literal children, which correctly excludes a `<slot>`'s assigned nodes per spec, and momentarily looked like a regression before checking the actual accessible name computation) that every heading's real text is intact, with JS enabled and disabled alike, and zero console errors across all four pages.
+  - **Definitions on the Schema page (each one's own `<h2>`, built by `<ds-def-section>` directly rather than `<ds-heading>`) are a known, deliberate gap, not fixed here** - the sticky/docked-border/eyebrow machinery around that heading is more involved, and the page's own top intro (`<ds-heading>`-based, now fixed) already carries real `<h1>`/`<h2>` structure. Left as a scoped follow-up rather than expanding this pass indefinitely.
+- **Custom 404 page**, replacing a bare status code with real content: what happened, and four real recovery links (Overview, Quick start, Schema, Extending the schema), plus a pointer to `llms.txt` and the bundled schema for anything machine-facing. `site/content/fragments/404.mdx` (lives in `fragments/` so `compileAllMdx()`'s directory scan skips it, same reasoning as the schema-page intro/conformance fragments), compiled directly in `build()` and written to `site/dist/404.html`/`.md` - deliberately outside the regular MDX-pages loop, so it never lands in `sitemapEntries`/`guideMarkdownDocs` (no `sitemap.xml` row, no `llms-full.txt` entry - a 404 isn't real content worth crawling toward on purpose). `site/dist/404.html` at the publish root is Netlify's own convention for a custom error page; no `netlify.toml` rule needed.
+  - Both of the above were prompted by the same source: an external agentic-readiness scanner run against the live site. Most of its other findings don't actually apply here - OpenAPI specs, JSON API error-response schemas, a developer portal, a CLI tool listing, and SaaS-style trust-anchor pages (About/Contact/Privacy) assume a REST API product this repo isn't; manufacturing fake compliance for checks that don't fit what this site actually is would be worse than leaving them unaddressed. The two fixed here were the findings that held up against the site as it actually exists.
+
+### Retired
+
+Four quality-tooling scripts checked things that no longer exist in the new model, rather than needing a port: `scripts/check-doc-coverage.mjs` and `scripts/render-summaries.js` verified auto-generated entity/block summary tables that the rewritten Schema Architecture page (hand-written prose) doesn't have; `scripts/lint-token-refs.mjs` guarded against raw CSS values forking from a token source inside `design-specifications`/`anatomy`/`states` blocks, all of which are gone — the new schema has no field left to fork; `scripts/lint-docs.js` and `rules/rules.yaml` (its quality-rules catalog) checked `documentBlocks`-shaped content that no longer exists. `scripts/visualize.js` (the schema-relationship diagram generator) is removed outright rather than ported — it assumed the pre-0.20.0 shape throughout (`spec/schema/`, `.schema.json`, the old `entities`/`document-blocks` group names) and nothing in the current toolchain depends on it.
+
+- **`docs-new/`, a full stale duplicate of `site/`, removed.** A complete second copy of every component, template, and example, plus its own `dist/` — never referenced by any script, and already out of date with the live schema (still used the field names `section.context`/`definitions.role` renamed away above). Leftover from staging the 0.20.0 site rewrite before it was promoted into `site/`.
+- **One orphaned page template removed: `root-properties-heading.template.html`.** Not reachable from any `renderSub()` call site in `scripts/build-site.js`. (`example.template.html` was initially removed here too, on a mistaken read of the same check — it's actually called from two `renderSub("example", ...)` sites, for a schema definition's own worked example. Restored; the current schema corpus just doesn't happen to exercise that code path yet, which is why deleting it didn't visibly break a build.)
+
+### Known gaps
+
+- `DSDS-11`-style environment-scope checks (does a relative `href`, `sourceFiles[].file`, or token/theme `source` actually exist on disk) aren't implemented. Explicitly out of scope for the CLI's default run either way — opt-in, behind a flag, per the project-scope resolution proposal.
+- No `--root` flag to widen project-scope resolution's search boundary beyond the target file's own directory tree. Nothing has needed it yet; add it if a real split layout does.
+
+---
+
+## [0.15.2] — 2026-07-16
+
+Patch release — one addition, non-breaking. Schema files are served at `https://designsystemdocspec.org/v0.15.2/...`.
+
+### Additions
+
+- **`$extensions` is now valid on every document block.** All 12 block kinds (`imports`, `anatomy`, `api`, `variants`, `states`, `design-specifications`, `guidelines`, `use-cases`, `accessibility`, `content`, `sections`, `checklist`) accept an optional `$extensions` property, using the same shared `#/$defs/extensions` definition and contract entities already use: keys MUST use a vendor namespace (e.g. `com.figma`), tools that don't recognize an extension MUST keep it, and extension data SHOULD NOT duplicate core fields. This gives authors and tools a namespaced, collision-free place to attach structured per-block data — a Figma node id on `anatomy`, a lint-rule id on a `guideline`, a vendor hint on `api` — without opening `additionalProperties` on any block. Blocks stay closed: an unrecognized bare property still fails validation. Existing documents are unaffected — the property is optional everywhere and no `required` list changed.
+
+---
+
+## [0.15.1] — 2026-07-14
+
+Patch release — a terminology rename, non-breaking for document validity. Schema files are served at `https://designsystemdocspec.org/v0.15.1/...`.
+
+### Renames
+
+- **`criterionFixture` → `criterionTestCase`.** The criterion definition for "an example with a declared pass/fail `outcome`" is renamed from the jargon term *fixture* to the plainer *test case*, and the surrounding prose in `common/criterion.schema.json` (and the mirror note in `common/example.schema.json`) now says "test case" instead of "fixture." This is a rename of an internal `$def` only — document authors never write the definition name (they author `criterion.examples[]` with an `outcome`), so no real DSDS document changes and nothing that validated before becomes invalid. Consumers that referenced the `#/$defs/criterionFixture` definition by URL should point at `#/$defs/criterionTestCase` on v0.15.1; the v0.15.0 URL keeps the old name as a historical artifact. The normative-statement index and per-definition docs pages regenerate with the new name.
+
+---
+
+## [0.15.0] — 2026-07-14
+
+Minor release — a documentation-correctness and fortification pass from a full 0.14.0 review. Three new schema constraints tighten validation; some previously-accepted (but always-defective) documents now fail. Everything else corrects prose, tooling, fixtures, and examples without changing what validates. Schema files are served at `https://designsystemdocspec.org/v0.15.0/...`.
+
+### Tightenings (schema-enforced; may require edits)
+
+- **Design-spec map keys must be lowercase kebab-case** (`^[a-z][a-z0-9-]*$`), matching the token-override map. Affected positions: in a `design-specifications` block, the keys of `properties`, `spacing.internal`, `spacing.external`, and `typography`. A key like `textColor` now fails — use `text-color`.
+- **`spacing.internal` and `spacing.external` reject empty maps** (`minProperties: 1`) — the two nested maps missed by the 0.13.0 min-constraint sweep. An empty `{}` is now a defect.
+- **`apiProperty` with `deprecated: true` requires a non-empty `deprecationNotice`** (conditional), mirroring the `status`/`platformStatus` rule. A property marked deprecated must say what to use instead.
+
+### Fixes
+
+- **Description prose realigned with the 0.14.0 renames** — corrections that had drifted from the schema, one of which shipped in the published normative index: steps said a step "MUST carry a `title`" though the field is now `label`; token prose claimed the display `name` property was absent though it is defined; `links` and `entity-ref` described the removed inter-entity link surface as merely "deprecated"; scale said "label" for the renamed `name`; `useCases` casing survived in the guide and variants descriptions and the DSDS-006 rule statement; criterion listed a "custom" verification mode the enum forbids.
+- **`package.json` license `ISC` → `Apache-2.0`**, matching the LICENSE file.
+- **Doc counts corrected** — 17 block kinds (was 16) on the Overview; the Quick start lists all eight entity kinds (`chunk` was missing).
+- **README** — block-kind list (no phantom "examples" kind), migration-script listing, footer version example, and the governance/docOrigin credit (frozen since 0.14.0, no longer "initial drafts").
+
+### Tooling
+
+- **`test/invalid/expectations.json`** pins how every negative fixture fails — the rejection layer, and for schema rejections the instance path of the violation. `validate.js` enforces it and rejects missing or orphan entries, so a broken guard can no longer hide behind an unrelated failure in the same fixture.
+- **Eleven new negative fixtures** — eight pinning the old form of each 0.14.0 removal (nothing had asserted they still fail), three pinning the tightenings above. The suite is now 69.
+- **`migrate-to-0.14.js`** no longer recurses into `$extensions` (vendor blobs are opaque) and merges chunk shorthand into an existing same-kind block instead of appending a duplicate.
+- **`sync-examples.js`** drops the removed `spec/modules/` path and fails on an empty scan instead of passing vacuously.
+- **`readability-audit.mjs`** fails fast when the `readability` CLI is absent and no longer crashes on an empty result set.
+
+### Documentation
+
+- **New Migration page** — the field-by-field mapping, script order, and human-decision cases for 0.14.0, plus the 0.15.0 tightenings above.
+- The `extension-system` example carries real per-token agent guidance instead of copy-paste boilerplate; the minimal corpus's `form-validation` pattern describes form validation; its duplicate token groups are restructured into a nesting demonstration.
+
+---
+
+## [0.14.0] — 2026-07-06
+
+**Breaking release — the announced 0.14.0 breaking window.** Every naming exception recorded on the Schema Architecture page and every deprecated surface is executed here, together, once, exactly as the Stability page promised. Migrate with `scripts/migrate-to-0.14.js <files-or-dirs>` (run `scripts/migrate-relationship-links.js` first if documents still carry relationship-flavored links). Schema files are served at `https://designsystemdocspec.org/v0.14.0/...`.
+
+### Breaking changes
+
+- **Block kind `useCases` → `use-cases`** — the last camelCase value in the block-kind vocabulary; every DSDS-native vocabulary is now lowercase kebab-case. `docOrigin.blocks` keys tightened to match.
+- **`stepEntry.title` → `label`** (now richText), aligning the actionable line with `checklistItem.label`.
+- **`scaleStep.label` → `name`**, aligning with every sibling entry's display-name property.
+- **`systemInfo.systemName`/`systemVersion` → `name`/`version`**.
+- **Status object forms: `description` → `note`** (entity-level and per-platform), aligning with `lastUpdated`/`lastReviewed`/`docOrigin`; composes the shared `plainNote` leaf.
+- **`apiEvent.returns` → `payload`** — events do not return; the field documents what a listener receives.
+- **`link`'s inter-entity surface removed** — `identifier`, `role`, `required`, and the url-or-identifier anyOf are gone; a link is `kind` + `url` (+ optional `label`). Inter-entity references are `relationships` edges only. Lint rule DSDS-010 graduated to the schema (recorded in `rules/rules.yaml`'s graduated list).
+- **Chunk's top-level `guidelines`/`useCases` shorthand removed** — general document blocks in `documentBlocks` are the one way to attach guidance to a chunk.
+
+### Graduations
+
+- **`governance` and `docOrigin` are no longer drafts.** The "initial draft — shape may change" markers are removed; their shapes are frozen under the stability contract (criterion 2 of the 1.0 checklist starts now).
+
+### Fixes
+
+- **The negative-fixture suite now ships.** A stale `test` entry in `.gitignore` (predating the suite) had silently excluded all of `test/invalid/` — 58 fixtures plus README — from version control. Clones ran the negative-fixture pass against an empty directory, which reports "(no fixtures found)" and passes. The entry is removed; the conformance kit is now part of the repository, as the Conformance page and stability contract always claimed.
+
+### Migration
+
+- New `scripts/migrate-to-0.14.js` performs every mechanical transform above and reports the cases needing a human decision (identifier-bearing links). The full in-repo corpus (66 documents plus all keyed fixtures) migrated with zero manual interventions; three legacy relationship-links in `minimal/pattern.json` were converted to typed `composes` edges.
+
+---
+
+## [0.13.0] — 2026-07-04
+
+Minor release — a fortification pass from a full schema review: constraints the prose always promised are now enforced, unions report scoped errors, duplicated shapes share one definition, and chunks gain document blocks. Tightenings mean some previously-accepted (but always-defective) documents now fail validation. Schema files are served at `https://designsystemdocspec.org/v0.13.0/...`.
+
+### Additions
+
+- **Chunks accept `documentBlocks` and `agentDocumentBlocks`** (general kinds only). A chunk can now carry agent-only MUST/MUST-NOT rules and checklists like every other entity. The top-level `guidelines`/`useCases` arrays remain as deprecated authoring shorthand.
+- **`checklist` is now a general block kind**, available on every entity type (previously component/foundation/pattern only). Guides, tokens, and themes gain it.
+- **New shared defs**: `common/token-overrides.schema.json` (the token-override map used by anatomy, states, and variants — keys kebab-case, values documented token identifiers) and `common/dated-note.schema.json` (`isoDate`/`plainNote` leaves composed by `lastUpdated` and `lastReviewed`).
+
+### Tightenings (schema-enforced rules that were previously prose-only)
+
+- Empty content is rejected: `minItems: 1` on all seven `api` arrays and the three unguarded `accessibility` arrays; `motionDuration` requires min, max, or description; token/theme `source` requires `file`; `entityGroup` requires `entities`; `deprecationNotice` and `thumbnail.alt` must be non-empty.
+- `$extensions` keys must be vendor-namespaced (dot-separated) in schema, matching the existing semantic check. `link.kind` must match `^[a-z][a-z0-9-]*$`. `fileRef.$ref` and chunk `src` patterns reject absolute and scheme-bearing URIs.
+- `governance.reviewedAgainst` requires `lastReviewed` (`dependentRequired`). `docOrigin` rejects the `generated` + `human` origin/authorship contradiction, and its `blocks` map requires kebab-case keys and at least one entry. A criterion carrying a `check` must declare `verification`.
+
+### Changes
+
+- **Discriminated unions everywhere**: `anyEntity` and the flag/enum variant union now use kind-keyed `if`/`then` branches (like the document-block unions) instead of bare `oneOf` — one scoped error instead of a compound error across every branch. No valid document changes.
+- **`format: "uri"` → `"uri-reference"`** on presentation image/video URLs, `thumbnail.url`, and both `extends` URLs — relative paths, which the descriptions always promised, now validate.
+- **`tokenDocumentBlock` deleted** (pure alias); token/token-group/theme reference `generalDocumentBlock` directly. `metadata/extends.schema.json` pass-through deleted; metadata references `common/extends` directly. `colorContrast` def renamed `colorContrastEntry` (internal name only).
+- **Validator**: token-override resolution now covers states and variants (previously anatomy only) and a new check resolves `docOrigin.blocks` keys against the entity's actual block kinds. Both immediately caught and fixed latent defects in the shipped examples.
+
+### Fixes
+
+- Dangling and contradictory prose corrected: states' phantom "design-specifications overrides array", principles' nonexistent `purpose` reference, entity-ref's wrong consumer list, and pattern/chunk/links descriptions that still taught the DSDS-010-deprecated links-as-relationships form. Entity schemas now point at the shared `entityMetadata` field list instead of enumerating it (it had drifted in all seven).
+- `apiProperty` gains a precedence rule: `schema` is authoritative; `type`/`values` are display summaries and MUST NOT disagree.
+- Known naming exceptions (`useCases` casing; `label`/`title`/`name` drift) are recorded on the Schema Architecture page as deliberate until the next major.
+
+### Second review pass (also in this release)
+
+A fresh from-scratch review of the fortified tree folded further changes into this release before it was cut:
+
+- **`tokenType` is now inheritable.** Dropped from `token`'s required list; a token may omit it when an ancestor token group declares it, as the group prose always promised. The own-or-inherited rule is validator-enforced.
+- **Doc-generation repair.** The union restructure had broken `render-summaries.js`/`check-doc-coverage.mjs` (both read `oneOf`): the architecture page's entity/block tables rendered empty and the coverage guard passed vacuously. Both scripts now read the discriminated branches, and the guard hard-fails if its derived kind lists are ever empty.
+- **Further tightenings**: `minLength: 1` on `entityIdentifier`, `richText`, code strings, governance strings, `since`/`summary` and `tags`/`aliases` items (plus `uniqueItems`); `minProperties`/`minItems` close the hollow design-specifications presence gate, the `status.platforms` map, `entityMetadata`, and every remaining optional array (documentBlocks/agentDocumentBlocks included); cubic-bezier P1x/P2x bounds enforced via `prefixItems`.
+- **Draft-field reshapes** (`governance`/`docOrigin` are drafts): `reviewedAgainst` moved inside `lastReviewed`'s object form so it structurally cannot exist without a review; `docOrigin.blocks` values may now carry per-block `authorship` alongside origin; `docOrigin.note` composes the shared `plainNote`.
+- **Validator**: string token references (`theme` overrides, `scale` steps, `motion` entries) now resolve against the token layer — which caught and fixed an undocumented spacing ramp in starter-kit; `sections` identifiers are uniqueness-checked; token `tokenType` inheritance is checked.
+- **Prose sync**: the general-kinds lists across all entity schemas now include `checklist`; checklist/principles/variants/states/imports/link/criterion/content descriptions corrected; a flag-vs-state ownership rule added; `useCase.alternative.identifier` now routes through `entityIdentifier`; more naming exceptions recorded on the Schema Architecture page.
+
+### Documentation
+
+- **Three new spec pages**: Conformance (RFC 2119 classes, enforcement tiers, and a normative-statements index generated from the schemas by `scripts/extract-normative.mjs`, drift-guarded in postvalidate), Stability & 1.0 (version semantics, deprecation policy, the enumerated 0.14.0 breaking backlog, 1.0 criteria, and the post-1.0 additive-only contract), and Interoperability (explicit DTCG and Custom Elements Manifest positioning, a CEM-to-`api`-block mapping, the new documented `manifest` link kind, and validated worked examples — CEM's own sample manifest converted to a component document, and a DTCG token file paired with the token document that references it — living in `spec/examples/interop/` and embedded via drift-guarded `dsds:include` blocks, which `sync-examples.js` now also processes in site content pages).
+
+### Fixtures
+
+- New negative fixtures pin every new guard; new keyed examples cover `relationship`, `entityRef`, and `tokenOverrides`; the states fixture gains a full block instance; the chunk example demonstrates `agentDocumentBlocks`.
+
+---
+
+## [0.12.1] — 2026-07-04
+
+Patch release — two new metadata fields for documentation governance and provenance. Additive and backward-compatible. Both fields are **initial drafts and subject to change** in a future release. Schema files are served at `https://designsystemdocspec.org/v0.12.1/...`.
+
+### Additions
+
+- **New `governance` metadata field.** Who is accountable for an entity's documentation and when a human last confirmed it is accurate: a required `owner` (a team, role, or alias — string shorthand or `{name, contact}` object), an optional `lastReviewed` (bare ISO date or `{date, reviewedBy, note}` object), and an optional `reviewedAgainst` implementation version for drift detection. Reviewed is distinct from `lastUpdated`: updated records when the doc changed; reviewed records when someone confirmed it is still true. Defined in `metadata/governance.schema.json`. Optional on all entities; existing documents are unaffected.
+- **New `docOrigin` metadata field.** How the documentation came to exist, on two orthogonal axes. Origin — the doc's relation to the implementation: `authored` (doc-first), `generated` (tooling), `extracted` (read from the implementation after the fact), `reconstructed` (written from memory). Authorship — what wrote the words: `human`, `ai-assisted`, `ai-generated`, `machine-assisted`, `machine-generated`. A bare string sets the overall origin; the object form adds `authorship`, a `note`, and per-block origin overrides keyed by block kind. Lets consuming tools and agents calibrate trust. Defined in `metadata/doc-origin.schema.json`. Optional on all entities; existing documents are unaffected.
+
+### Credits
+
+- The `governance` and `docOrigin` schemas were contributed by [Afyia Smith](https://afyiasmith.co/).
+
+## [0.12.0] — 2026-06-18
+
+Minor release — a new relationship graph plus a deprecation. Additive and backward-compatible. Schema files are served at `https://designsystemdocspec.org/v0.12.0/...`.
+
+### Additions
+
+- **New `relationships` array on every entity.** A typed, directional dependency graph: each edge pairs a controlled `relation` with a target entity `identifier`, plus optional `role`, `required`, and `versionConstraint`. The relation vocabulary is `depends-on`, `composes`, `part-of`, `alternative-to`, `replaces`, and `extends` (custom relations allowed if vendor-namespaced). Edges are authored on the source in their canonical direction; tools derive the inverse edges (`composed-by`, `dependency-of`, …) and the whole-graph view. This is the structural graph agents read for impact analysis and alternatives. Defined in `common/relationship.schema.json`. The property is optional on all entities; existing documents are unaffected.
+- **Semantic validation for the graph.** The validator now rejects relationship targets that resolve to no documented entity, self-referential edges, duplicate `(relation, target)` edges, and cycles across `composes`/`depends-on`. Two negative fixtures pin these guards.
+
+### Deprecations
+
+- **Relationship-flavored `links` are deprecated (DSDS-010).** Using a `link` to express how entities relate — the relationship kinds (`alternative`, `parent`, `child`, `related`) and internal artifact references by `identifier` — is deprecated in favor of `relationships`. `links` is now for external resources addressed by `url`. The deprecated forms still validate for backward compatibility; the new lint rule DSDS-010 warns on them. `scripts/migrate-relationship-links.js` converts the unambiguous cases and reports the rest.
+
+---
+
+## [0.11.2] — 2026-06-18
+
+Patch release — one addition, non-breaking. Schema files are served at `https://designsystemdocspec.org/v0.11.2/...`.
+
+### Additions
+
+- **New `checklist` document block.** A checklist is an explicit list of items to work through for an artifact, built primarily for agents: a concrete pass of things to verify, do, or confirm when building, reviewing, or integrating an artifact. Each `checklistItem` pairs an actionable `label` with an optional RFC 2119 `level` (so must/must-not items read as hard gates), optional `description` detail, an optional `criterion` identifier linking to the testable success criterion that defines pass/fail, an optional `category`, and an `optional` flag. The block carries an optional `title` and an `ordered` flag (default `false`). `checklist` is accepted on **component**, **foundation**, and **pattern** entities, in both `documentBlocks` and `agentDocumentBlocks`; it is not a general kind (tokens, themes, and guides do not accept it). Existing documents are unaffected — `checklist` is a new member of the component, foundation, and pattern scoped unions, so nothing prior was tightened or removed.
+
+---
+
+## [0.11.1] — 2026-06-18
+
+Patch release — one addition, non-breaking. Schema files are served at `https://designsystemdocspec.org/v0.11.1/...`.
+
+### Additions
+
+- **Optional `description` on the status object form.** The object form of the `status` metadata field (`metadata/status.schema.json`) now accepts an optional `description` string alongside `overall`, `platforms`, and `deprecationNotice`. It carries a human-readable note about what the status represents — the reasoning behind it, its scope, or any caveats — for cases where the bare lifecycle value isn't enough. This mirrors the existing `description` on `platformStatus`. Existing documents are unaffected: the field is optional and the bare-string status form is unchanged.
+
+---
+
+## [0.11.0] — 2026-06-15
+
+Minor release — one addition, non-breaking. Schema files are served at `https://designsystemdocspec.org/v0.11.0/...`.
+
+### Additions
+
+- **New `chunk` entity.** A chunk is a pre-composed block of code that captures a design system pattern — a copy-paste starting point built from the system's components. It sits at the same level as a component: where a component documents one building block, a chunk documents a composition of them, captured as code. The schema is intentionally simple and does not use `documentBlocks`. Required: `kind`, `identifier`, `name`, and a `code` object. The `code` object takes one of two forms: **inline** (`code` + `language`) or **referenced** (`src` + `language`), where `src` is a relative path to an external source file resolved at read time under the same rules as a `$ref` fileRef — no build step. Optional: `description`, a flat `guidelines` array (reusing the shared guideline-entry shape), a `useCases` array (reusing the shared use-case shape), and `metadata`. Existing documents are unaffected — `chunk` is a new member of the entity union, so nothing prior was tightened or removed.
+
+---
+
+## [0.10.1] — 2026-06-11
+
+Patch release — one loosening, non-breaking. Schema files are served at `https://designsystemdocspec.org/v0.10.1/...`.
+
+### Additions
+
+- **`importEntry.platform` is now optional** (`code` remains the only required property). Single-platform systems no longer have to label imports with a platform identifier; multi-platform systems keep using it to distinguish entries.
+
+---
+
+## [0.10.0] — 2026-06-11
+
+The accessibility block becomes data all the way down, and the specialized-vs-general framing is documented across the structured blocks. Schema files are served at `https://designsystemdocspec.org/v0.10.0/...`.
+
+### Breaking changes
+
+#### 1. The accessibility block is structured data only
+
+The block's charter — structured data, not prose — now holds for every field, drawing a bright line: accessibility entries state verifiable facts about what the artifact does; rules with rationale belong in `guidelines` blocks (category 'accessibility').
+
+| Before (prose) | After (structured) |
+|---|---|
+| `screenReaderBehavior` (richText) | `announcements` — `{ context, announcement, screenReader? }` per state |
+| `focusManagement` (richText) | `focusBehaviors` — `{ trigger, behavior }` per moment |
+| `motionConsiderations` (richText) | `reducedMotion` — `{ animation, behavior }` per animation |
+
+`colorContrast` pairs also drop their hand-measured `contrastRatio` and per-pair `wcagLevel`: a pair declares which combinations occur and where; measurement is conformance work for an automated contrast criterion, so documented ratios can no longer silently drift from token values. The block-level `wcagLevel` target stays.
+
+**Migration.** `scripts/migrate-to-0.10.js` strips the measured contrast fields automatically. The three prose fields are reported for hand-restructuring — turning prose into entries is a human judgment.
+
+### Documentation
+
+- **Specialized vs. general, framed in both directions.** The `accessibility` and `content` blocks are documented as specialized, structured documentation (reference data: what the artifact or system *is*); `guidelines` blocks own general documentation guidance (rules with rationale: what authors *should do*), routed by `category`. The framing appears in the block schemas, the `guidelines` schema, and the Schema Architecture page.
+- The content block's `description` property no longer invites "content philosophy, voice and tone" — that is general guidance and is redirected to guidelines.
+
+---
+
+## [0.9.0] — 2026-06-11
+
+The predictability release: two breaking changes (the reference unification and the conformance-level casing fix) plus the non-breaking loosenings and author-facing errors that motivated it. Design record: `proposals/predictability.md`. Schema files are served at `https://designsystemdocspec.org/v0.9.0/...`.
+
+### Breaking changes
+
+#### 1. Conformance levels are lowercase kebab-case
+
+`level` values are `must`, `must-not`, `should`, `should-not` — like every DSDS-native vocabulary. The RFC 2119 keywords stay capitalized in prose, where capitalization carries conformance weight (enforced by DSDS-009); data tokens are not prose. Uppercase enum values are now reserved for external tokens with no natural lowercase form (WCAG `A`/`AA`/`AAA`).
+
+**Migration.** `node scripts/migrate-to-0.10.js <files>` — a four-entry lookup.
+
+#### 2. Interaction `components` are entity references
+
+`interactionEntry.components` entries are `{ "identifier": …, "role"?: … }` objects, not bare name strings. References resolve by `identifier` (stable) instead of `name` (display text), making a pattern's component relationships traversable and verifiable — a semantic check now rejects references that resolve to no documented entity (skipped for documents with unresolved `$ref`s, where the catalog is incomplete).
+
+**Migration.** The same codemod converts strings: identifier matches pass through, display-name matches swap to the entity's identifier, and anything unresolvable is converted verbatim and reported for a human decision.
+
+### Additions
+
+- **`entityRef`** (`common/entity-ref.schema.json`) — the one way to point at another entity: required `identifier`, optional `role`. Its leaf definitions (`entityIdentifier`, `entityRole`) are shared with `link`, whose identifier-bearing form follows the same resolution rules; URL-only links are why link composes the leaves rather than the object.
+- **Optional `name` on tokens and token groups.** When present it is the display name; when absent the identifier serves, as before. The display rule is now uniform for every entity: `name` when present, otherwise `identifier` — no more special-casing two kinds.
+- `scripts/migrate-to-0.10.js` — the codemod for both breaking changes.
+- **Single-value enums are valid.** `enumVariant.values` accepts one entry (`minItems` 2 → 1) — real systems carry single-value dimensions mid-migration.
+- **Non-token scale steps are valid.** A `scaleStep` requires `token` *or* `value`, no longer `token` alone — pre-tokenization systems and non-token scales (column counts, icon grids) no longer have to fabricate token identifiers.
+- **Convention-trap errors.** The validator now answers the two most common shape mistakes directly: a `status` object with no `overall` ("status is a bare string or an object with `overall`"), and `anatomyEntry.tokens` written as an array ("a purpose-keyed map, not an array — keys say what the token controls"). `anatomyEntry.tokens` also carries an inline example in the schema.
+- **Quickstart: "Conventions and traps"** — the four conventions that catch first-time authors (status shapes, identifier-never-name, the tokens map, flag vs. enum variants).
+- New lint rule **DSDS-009**: RFC 2119 keywords in `guidance` and criterion `statement` prose must be capitalized to carry conformance weight.
+
+---
+
+## [0.8.0] — 2026-06-10
+
+Conformance release. Criteria gain a conformance `level`, a `verification` mode, a machine-dispatchable `check`, and self-verifying fixtures with declared outcomes — a Spectrum-style layered model where the schema carries the test definitions and named tools carry execution. Schema files are served at `https://designsystemdocspec.org/v0.8.0/...`. Design and verification record: `proposals/criterion-conformance.md`.
+
+### Breaking changes
+
+#### 1. Criterion fixtures require a declared `outcome`
+
+A criterion's `examples` are now fixtures — the `example` shape plus a required `outcome` of `"pass"` or `"fail"`. Encoding outcomes in title prose ("Correct — …") is replaced by the machine-readable field, which lets runners confirm a check still detects what it claims to (a 'fail' fixture that passes is a broken check).
+
+**Migration.** Run `node scripts/migrate-to-0.8.js <files>` — it bumps `dsdsVersion`, rewrites `$schema` URLs, and infers `outcome` from common title prefixes (Correct/Incorrect, Pass/Fail, Do/Don't). Fixtures it cannot infer are reported for a human decision.
+
+### Additions
+
+- **Conformance vocabulary on `criterion`** (all optional — existing criteria stay valid): `level` (RFC 2119, shared with guideline entries via the new `conformanceLevel` def), `verification` (a closed enum — `automated` / `assisted` / `manual` — answering who decides the outcome; named procedures belong in `techniques`; omitted ⇒ tools MUST NOT assume automatability), `check` (a dispatch envelope: required open-vocabulary `scheme`, all other properties owned by the named tool; unrecognized scheme ⇒ skipped, never passing), and `since` (criterion identifiers are stable — never reuse one for a different requirement).
+- **Two structural guards**, pinned by negative fixtures: `verification: automated` requires a `check`; `verification: manual` forbids one.
+- **Quality rules catalog** at `rules/rules.yaml` — the catalog of record with stable IDs (DSDS-001…006) covering the doc lint's rules and the semantic checks. New: DSDS-001 (rationale must not restate guidance, lint), DSDS-002 (criterion identifier reuse, blocking semantic check for the within-entity half), DSDS-003 (criteria SHOULD declare `verification`, lint).
+- `guidelineEntry.level` now references the shared `conformanceLevel` definition (same values; no document impact).
+- Quickstart: new "Criteria: how to verify it" section.
+
+### Tooling
+
+- `scripts/migrate-to-0.8.js` — the outcome codemod.
+- `scripts/bump-version.js` now keeps `package.json` in step with the spec version.
+- `scripts/validate.js` now also validates the real-world documents in `test/` (`test/invalid/` keeps its own must-fail pass); `test/sanity-ui-button.dsds.json` was migrated from its pre-0.7 shape into the validated corpus, with its legacy per-variant design-spec tables preserved under `$extensions`.
+
+---
+
+## [0.7.2] — 2026-06-09
+
+Editorial-quality release. One tightening (use cases must declare a stance), one loosening (anatomy parts no longer force a `required` flag), author-facing validation errors, and a new non-blocking documentation lint. Schema files are served at `https://designsystemdocspec.org/v0.7.2/...`.
+
+### Breaking changes
+
+#### 1. `useCases` items require `stance`
+
+Every use case item must declare `"stance": "recommended"` or `"stance": "discouraged"`. Previously `stance` was optional, and an item without one read ambiguously — there was no defined meaning for the silence.
+
+**Migration.** Add a `stance` to any use case item that omits one. Items written as positive scenarios are almost always `"recommended"`.
+
+### Other changes
+
+#### Anatomy parts: `required` is now optional
+
+`anatomyEntry.required` is no longer in the required array; its declared `default: false` now applies. Authors only write `"required": true` for parts that are always present, instead of hand-writing `"required": false` on every conditional part. Existing documents are unaffected — explicit values remain valid.
+
+### Tooling
+
+- **Readable validation errors.** `scripts/validate.js` now reports against the `kind` discriminator instead of dumping every failed union branch. A typo'd block kind produces one line — `unknown kind 'guideline' — did you mean 'guidelines'?` — instead of several hundred raw errors. Misplaced blocks report as placement errors ("'api' is valid on its own but not allowed here"), and field errors report against the matched kind only.
+- **Documentation lint (warning tier).** `npm run lint:docs` (`scripts/lint-docs.js`) flags quality gaps without ever failing the build: guideline entries with neither `rationale` nor `evidence`, components and patterns without a `useCases` block, and entities without a `description` (tokens and token groups exempt by design). It accepts file or directory arguments for linting your own documents.
+- New negative fixture `use-case-missing-stance` pins the stance guard.
+
+### Examples
+
+All example documents now pass the lint: agent-facing guidance is entity-appropriate (link, alert, data-grid, and spacing-token guidance replace copy-pasted button and color boilerplate), every guideline entry carries a `rationale` or `evidence`, and every component and pattern declares its use cases.
+
+---
+
+## [0.7.1] — 2026-06-09
+
+Terminology and validation-hardening release, documented retroactively. Schema files are served at `https://designsystemdocspec.org/v0.7.1/...`.
+
+### Breaking changes
+
+#### 1. `keyboardInteraction` → `keyboardInteractions`
+
+The accessibility block's keyboard interaction array is now plural, matching its sibling arrays (`ariaAttributes`, `cssParts`, `dataAttributes`).
+
+**Migration.** Rename the property; entries are unchanged.
+
+#### 2. Accessibility blocks must carry content
+
+`{ "kind": "accessibility" }` with no other fields no longer validates. The block requires at least one of its content fields, matching the guard the other structured blocks (`api`, `content`, `design-specifications`) already had.
+
+**Migration.** Add content to empty accessibility blocks, or remove them.
+
+### Other changes
+
+- `agentDocumentBlocks` accepts an empty array, matching `documentBlocks` (the `minItems: 1` floor is removed from all entity types).
+- Schema titles standardized: document block schemas are titled "DSDS *Kind* Document Block", and residual pre-0.7 wording that called blocks "guidelines" is corrected throughout — including `kind` descriptions that misnamed the discriminator as `type`.
+
+### Tooling
+
+- **Semantic checks** in `scripts/validate.js` enforce two normative rules JSON Schema cannot express: entity identifiers must be unique within their entity group (and within token-group `children`), and `$extensions` keys must be vendor-namespaced (e.g. `com.acme.tool`).
+- **Negative fixture suite** at `test/invalid/` — documents that MUST fail validation, one per guard, asserted by the validation run. A fixture that validates cleanly fails the build.
+- `scripts/bump-version.js` stamps the spec's publication date on the overview page at each version cut.
+
+---
+
+## [0.7] — 2026-06-09
+
+Major simplification release. The spec's core sentence — *a document holds one `entity` or many `entityGroups`; a group holds `entities`; an entity is identity plus metadata plus kind-tagged blocks; list blocks are plural and hold `items`* — is now enforced everywhere. Every breaking change below is automated by `scripts/migrate-to-0.7.js`, which accepts v0.5.x and v0.6 documents and emits warnings wherever a conversion deserves human review.
+
+### Breaking changes
+
+#### 1. Entity `metadata` is a plain object, not an array of kind-tagged entries
+
+Metadata is keyed by field name; each kind's wrapper object and the array's uniqueness machinery are gone. `status` and `lastUpdated` accept a string shorthand for the common case and an object form for detail.
+
+| Before | After |
+|---|---|
+| `"metadata": [{ "kind": "tags", "items": [...] }]` | `"metadata": { "tags": [...] }` |
+| `{ "kind": "status", "overall": "stable" }` | `"status": "stable"` (or object with `overall`/`platforms`) |
+| `{ "kind": "last-updated", "value": "...", "description": "..." }` | `"lastUpdated": "..."` (or `{ "date", "note" }`) |
+| `{ "kind": "thumbnail", "url": ..., "alt": ... }` | `"thumbnail": { "url", "alt" }` |
+| `{ "kind": "preview", "presentation": {...} }` | `"preview": { ...presentation... }` |
+| `{ "kind": "extends", "extends": {...} }` | `"extends": { ... }` |
+
+**Migration.** Automatic. Each metadata field's schema now lives in its own file under `metadata/`, aggregated by `metadata.schema.json`.
+
+#### 2. `description` is entity identity, not metadata
+
+The `description` metadata entry is gone; `description` is a top-level entity property beside `identifier` and `name`, on all seven entity types.
+
+**Migration.** Automatic — the entry's value hoists to the entity top level.
+
+#### 3. `richText` is a markdown string
+
+The `{ "value", "format" }` object form and the `format` property are removed. Rich text is a string interpreted as CommonMark; plain text and inline HTML are both valid markdown.
+
+**Migration.** Automatic — structured values collapse to their bare string.
+
+#### 4. Root `documentation` → `entityGroups`; typed entity arrays → one `entities` array
+
+A group is `{ "name", "description", "entities": [...] }`. The six per-type arrays (`components`, `tokenGroups`, `themes`, `foundations`, `patterns`, `guides`) are removed; entities mix freely in display order, discriminated by `kind`. The entity union is defined once (`anyEntity`) and shared by the root `entity` property and group `entities` — groups may now also hold bare `token` entities. JSON Pointer fragments `#/documentation/...` become `#/entityGroups/...`.
+
+**Migration.** Automatic, including `$ref` fragment rewriting.
+
+#### 5. One examples vocabulary
+
+`variantValue.example` (array), `flagVariant.example` (single object), `stateEntry.preview`, and `anatomy.preview` are all `examples` — always plural, always an array of the common example model. The entity-level `preview` metadata field (a single teaser presentation) is unchanged.
+
+**Migration.** Automatic — bare objects are wrapped.
+
+#### 6. List-shaped block kinds are plural
+
+The rule: if a block's payload is `items`, its kind is plural. `guideline` → `guidelines`, `section` → `sections`, `import` → `imports`. Schema file names now match their primary definitions (`variants.schema.json` defines `variants`, and so on).
+
+**Migration.** Automatic kind rename.
+
+#### 7. The `purpose` block is now `useCases`
+
+Kind `purpose` → `useCases`; its `useCases` payload → `items` (now required, minItems 1); the freed `purpose` name is an optional richText umbrella statement on the block ("what is this for"), framing the scenario items beneath it.
+
+**Migration.** Automatic. Blocks that were legally empty under 0.6 (no use cases) fail the new floor and are flagged.
+
+#### 8. Nested `purpose` on variant values, flags, and states is `rationale`
+
+The embedded kind-tagged block is replaced by a richText `rationale` ("why does this option exist"). Comparative when-to-use guidance belongs in the entity's `useCases` block.
+
+**Migration.** Automatic best-effort — nested use cases fold into markdown bullets preserving stances and alternatives, with a warning per conversion for wording review.
+
+#### 9. `agents` is replaced by `agentDocumentBlocks`
+
+The agents object (intent, constraints, antiPatterns, examples, disambiguation, keywords, verified, verifiedAgainst) is removed. In its place, every entity accepts `agentDocumentBlocks` — an array taking the **same document block kinds** as `documentBlocks`, intended for agent (AI/LLM) consumption only. Tools MUST NOT render it for humans; agents read both arrays. One block grammar, two audiences.
+
+| Before (`agents.…`) | After |
+|---|---|
+| `intent` + `disambiguation` | an agent `useCases` block (intent as `purpose`; disambiguations as discouraged items with alternatives) |
+| `constraints` / `antiPatterns` | an agent `guidelines` block (anti-patterns become `MUST_NOT` entries) |
+| `examples` | an agent `sections` block (common example model) |
+| `keywords` | merged into metadata `tags` |
+| `verified` / `verifiedAgainst` | dropped (no v0.7 home) |
+
+**Migration.** Automatic, with a warning per entity; verified data is dropped with its own warning.
+
+#### 10. The agent-collection format is retired
+
+`common/agent-collection.schema.json` is removed. Cross-entity agent guidance lives in the relevant entities' `agentDocumentBlocks` (or a `guide` entity's agent blocks).
+
+**Migration.** Manual — the migrator flags agent-collection files; move scope content into entities by hand.
+
+#### 11. Guideline criteria are a shared, testable model
+
+The polymorphic `criteria` array (kind-tagged `criterionReference` / `criterionDefinition`) splits into two plain arrays on a guideline entry: `criteria` — testable success criteria using the new shared `common/criterion` definition (required `identifier` + objectively verifiable `statement`, optional title, techniques, failures, references, examples, tags) — and `references` — bare `{ "url", "label" }` citations of external standards. The display-code/registry apparatus is removed; identifier stability now serves test-history continuity. The `accessibility` block also accepts a `criteria` array.
+
+**Migration.** Automatic — references lose their kind tag; criterion entries rename `successCriterion` → `statement`.
+
+#### 12. Mechanical tightenings
+
+- `guidelineEntry` gains optional `evidence` (empirical backing: test runs, audits), formerly on agents constraints.
+- `apiProperty` no longer lists `required` in its required array (its `default: false` stands).
+- The `api` block requires at least one content array (properties, events, slots, cssCustomProperties, cssParts, dataAttributes, or methods).
+- `tokenDocumentBlock` is a direct alias of `generalDocumentBlock` (single-branch `oneOf` removed).
+- Scoped block unions are bare `$ref` lists; each kind is described once, in its own schema file.
+
+### Migration tooling
+
+`node scripts/migrate-to-0.7.js <file-or-dir>` applies every transform above to v0.5.x and v0.6 documents in place (`--check` for a dry run). The script is idempotent; conversions that merit review (rationale foldings, agents conversions, dropped data) emit warnings.
+
+---
+
+## [0.6] — 2026-06-08
+
+Minor release. Schema files are now served at `https://designsystemdocspec.org/v0.6/...`. All earlier bundles remain published at their original URLs for documents pinned to them. This release reshapes the `status` metadata entry to a single, consistent structure, removes the unused `statusObject` / `status` definitions from `common`, moves system-level `purpose` / `guidelines` onto a root `documentBlocks` array, and flattens the `thumbnail` metadata entry.
+
+### Breaking changes
+
+#### 1. `status` metadata reshaped — `overall` / `platforms` replace `status` / `platformStatus`
+
+The `status` metadata entry now uses the structure `common/status` previously reserved for its (unused) `statusObject`: an `overall` status value plus a `platforms` map, instead of the former `status` and `platformStatus` siblings. `overall` is now required, and — restoring an invariant the flat shape had dropped — `deprecationNotice` is required when `overall` is `deprecated`. The redundant `statusObject` and `status` union are removed from `common/status`; the reusable `statusValue` and `platformStatus` leaves remain and are composed by the metadata entry.
+
+| Before | After |
+|---|---|
+| `status` metadata field `status` | `overall` |
+| `status` metadata field `platformStatus` | `platforms` |
+| `common/status` `statusObject` and `status` (union) | removed |
+
+**Migration.** In every `{ "kind": "status" }` metadata entry, rename `status` → `overall` and `platformStatus` → `platforms`. Add a `deprecationNotice` to any entry whose `overall` is `deprecated`. Per-platform entries inside `platforms` are unchanged — they keep their own `status` field.
+
+#### 2. Root `purpose` and `guidelines` replaced by a root `documentBlocks` array
+
+System-level documentation now uses the same `documentBlocks` mechanism as entities. The root `purpose` object and `guidelines` array are removed; in their place the root carries a `documentBlocks` array of general document blocks (`purpose`, `guideline`, `section`, `accessibility`, `content`). Scope is expressed by position — a block at the root describes the system, the same block inside an entity describes that entity — rather than by parallel root-only definitions. The system-level `purpose.description` field is dropped; use a `section` block for narrative overviews.
+
+| Before | After |
+|---|---|
+| root `purpose` (`{ description, useCases }`) | a `purpose` block in root `documentBlocks` (`useCases`); narrative → a `section` block |
+| root `guidelines` (`guidelineEntry[]`) | a `guideline` block in root `documentBlocks` |
+
+**Migration.** Move the root `purpose` into a `{ "kind": "purpose", "useCases": [...] }` entry in a new root `documentBlocks` array, and the root `guidelines` into a `{ "kind": "guideline", "items": [...] }` entry. Relocate any `purpose.description` prose into a `{ "kind": "section", "items": [...] }` block. Entity-level `documentBlocks` are unchanged.
+
+#### 3. `thumbnail` metadata inlines `url` / `alt`
+
+The `thumbnail` metadata entry no longer nests a full `presentationImage` under an `image` property. It carries `url` and `alt` directly, dropping the redundant inner `kind: "image"`. Both are now required, so an empty thumbnail no longer validates.
+
+| Before | After |
+|---|---|
+| `{ "kind": "thumbnail", "image": { "kind": "image", "url", "alt" } }` | `{ "kind": "thumbnail", "url", "alt" }` |
+
+**Migration.** Lift `image.url` and `image.alt` up onto the thumbnail entry and remove the `image` wrapper (and its inner `kind`).
+
+#### 4. `agents` removed from document blocks — entity-level only
+
+The `agents` object (AI/LLM context) is no longer accepted on individual document blocks. It remains on entities. AI context now lives once per entity rather than per block, which shrinks every block's shape — a step toward a uniform block contract.
+
+**Migration.** Remove `agents` from every document block. If a block carried AI context worth keeping, fold it into the entity's `agents` object.
+
+#### 5. `events` document block removed — events live in `api.events`
+
+The standalone `events` document block is removed. Events are documented in the API block's `events` array (`api.events`); behavioral context the events block used to carry — DOM propagation, cancelability, deprecation, when an event does *not* fire — goes in each event's `description`. In practice the block duplicated `api.events` (same identifier, description, returns), so collapsing to one home removes a fork without losing the ability to document events.
+
+**Migration.** Move each `{ "kind": "events" }` block's entries into the `events` array of the component's (or pattern's) `api` block, folding any DOM/lifecycle detail into the event `description`. Remove the `events` block.
+
+#### 6. `design-specifications` slimmed; per-variant/state values move to the variants/states blocks
+
+`design-specifications` now documents only the **baseline** spec (`properties`, `spacing`, `sizing`, `typography`, `responsive`). Its `variants`, `sizes`, `states`, and `variantStates` arrays are removed (along with the `specVariant` / `specSize` / `specState` / `specVariantState` definitions). Per-variant and per-state design values now live where the variation is defined: each variant value (and flag) and each state carries a `tokens` map. This single-sources each value and removes the `design-specifications` ↔ `variants`/`states` overlap (and the token-fork that came with it).
+
+| Before | After |
+|---|---|
+| `design-specifications.variants[]` / `.sizes[]` | a `tokens` map on each variant value / flag |
+| `design-specifications.states[]` | the `tokens` map already on each state entry |
+| `design-specifications.variantStates[]` | removed — document state-specific variant quirks in prose |
+
+**Migration.** Move each `design-specifications` variant/size entry's `properties` onto the matching variant value's new `tokens` map; per-state values already live on the states block. Then remove the `variants` / `sizes` / `states` / `variantStates` arrays from `design-specifications`, keeping `properties` / `spacing` / `sizing` / `typography` / `responsive`.
+
+### Clarifications
+
+#### Token references required where a token layer exists
+
+The design-value slots in `design-specifications` and the `tokens` maps on `anatomy` parts and `states` entries accept either a token identifier or a raw CSS value. Their descriptions now state the contract: a system that has a token layer MUST use token identifiers in these slots so documented values cannot silently fork from the token source; raw values remain available only for token-less systems. No structural schema change — existing documents still validate. A new `npm run lint:tokens` check (also run by `npm run validate`) flags fork-prone raw values in those slots in token-bearing documents; zero values (`0`, `0px`) are exempt.
+
+#### Rules for splitting a document across files
+
+Using `$ref` to spread one document across files used to leave all the details to "consuming tooling." The Schema Architecture page now spells them out plainly: a tool joins the files into one before validating; reference loops and broken links are errors, not silently skipped; `$ref` paths must be relative; and tools don't fetch from the web by default (when that's turned on, they stick to trusted sites and block local and internal addresses). The `fileRef.$ref` description now says it must be relative. Nothing structural changed — existing documents still validate.
+
+#### The document-block contract is documented
+
+The Schema Architecture page now states the shape every block follows: a `kind` plus a payload, where collection blocks use an `items` array, three blocks keep a clearer domain name (`anatomy.parts`, `scale.steps`, `purpose.useCases`), and structured blocks (`api`, `accessibility`, `content`, `design-specifications`) use named fields. Paired with the block-level `agents` removal above, this is the "one block contract" simplification — documentation only, no schema change.
+
+#### `guideline` / `purpose` / `principles` disambiguated
+
+The three guidance blocks now state, in parallel, which question each answers: `purpose` — *whether* to use an artifact (the right choice vs. an alternative); `guideline` — *how* to use it correctly (concrete rules + rationale); `principles` — *what the system believes* (the philosophy that sits above the rules, on foundations). Leftover "best-practices" wording (from the block that was renamed to `guideline`) is replaced with `guideline` throughout. Documentation only — no schema change.
+
+---
+
+## [0.5.1] — 2026-06-08
+
+Patch release. Schema files are now served at `https://designsystemdocspec.org/v0.5.1/...`. All earlier bundles remain published at their original URLs for documents pinned to them. This release promotes the free-form `section` block to a general kind available on every entity rather than guides alone — an additive change, so a document valid under v0.5 stays valid after updating its `dsdsVersion` to `0.5.1`.
+
+### Additions
+
+#### Free-form `section` blocks on every entity
+
+The `section` document block — titled, optionally nested narrative prose with a rich-text body, examples, and links — was previously accepted only on `guide` entities. It is now a **general** block kind, available on every entity type (component, foundation, pattern, token, guide). Use it for conceptual content the structured block kinds do not capture: rationale, background, decision history, and FAQs. Reach for a structured block kind first; use `section` only for the remainder.
+
+Internally, the per-entity document-block unions now reference a shared `generalDocumentBlock` definition instead of inlining the general kinds, so future general additions propagate to every entity from one place.
+
+---
+
+## [0.5] — 2026-06-08
+
+Minor release. Schema files are now served at `https://designsystemdocspec.org/v0.5/...`. All earlier bundles remain published at their original URLs for documents pinned to them. This release renames the system-level `bestPractices` array to `guidelines`, aligning it with the guideline vocabulary the spec uses everywhere else.
+
+### Breaking changes
+
+#### 1. Root `bestPractices` renamed to `guidelines`
+
+The root-level `bestPractices` property is renamed to `guidelines`. Its entries already use the `guidelineEntry` shape — the same shape entity-level `guideline` document blocks use — so the old name was a second term for one construct, and it broke the parallel with the root `purpose` property (which mirrors the entity-level `purpose`). The new name aligns the system-level array with the guideline vocabulary used everywhere else in the spec. The array shape and entry semantics are unchanged; scope is still signalled by position (root vs. inside an entity).
+
+| Before | After |
+|---|---|
+| root property `bestPractices` | `guidelines` |
+
+**Migration.** Rename the root `bestPractices` property to `guidelines` in every document. Entries are unchanged.
+
+---
+
+## [0.4] — 2026-06-08
+
+Minor release. Schema files are now served at `https://designsystemdocspec.org/v0.4/...`. All earlier bundles remain published at their original URLs for documents pinned to them. This release de-overloads the `kind` field — the places where `kind` (and `type`) carried a value rather than a type discriminator are renamed (`level`, `stance`, `changeType`). `level` is then reserved for RFC 2119 enforcement, with WCAG conformance moving to `wcagLevel`; the guideline and agent-constraint enforcement vocabularies are unified; and several structural constraints are tightened (exactly-one root shape, at-most-one metadata entry per kind).
+
+### Breaking changes
+
+#### 1. `guidelineEntry.kind` → `guidelineEntry.level`; `NEUTRAL` removed
+
+`kind` everywhere else in DSDS is a type discriminator (a `const`). On guideline entries (and root `bestPractices`) it instead held an enforcement level — so it is renamed to `level`. The advisory `NEUTRAL` value is removed, leaving the four RFC 2119 levels, which now exactly match `agents.constraints[].level`. `level` is required (the old `NEUTRAL` default is gone).
+
+| Before | After |
+|---|---|
+| `guidelineEntry.kind` (and `bestPractices[].kind`) | `.level` |
+| values `MUST` / `SHOULD` / `NEUTRAL` / `SHOULD_NOT` / `MUST_NOT` | `MUST` / `SHOULD` / `SHOULD_NOT` / `MUST_NOT` |
+
+**Migration.** Rename `kind` to `level` on every guideline and `bestPractices` entry; remap `NEUTRAL` to `SHOULD`.
+
+#### 2. `useCase.kind` → `useCase.stance`; values renamed
+
+The use-case polarity field is renamed from `kind` to `stance`, and its values move from `positive`/`negative` to `recommended`/`discouraged`.
+
+| Before | After |
+|---|---|
+| `useCase.kind` | `.stance` |
+| `positive` | `recommended` |
+| `negative` | `discouraged` |
+
+**Migration.** Rename `kind` to `stance` on every use case; remap `positive` → `recommended`, `negative` → `discouraged`.
+
+#### 3. `agents.constraints[].level` aligned to RFC 2119 casing
+
+The agent-constraint enforcement enum is uppercased so it matches `guidelineEntry.level` exactly — same field name, same value set — so guideline and agent enforcement levels round-trip.
+
+| Before | After |
+|---|---|
+| `must` | `MUST` |
+| `should` | `SHOULD` |
+| `should-not` | `SHOULD_NOT` |
+| `must-not` | `MUST_NOT` |
+
+**Migration.** Uppercase each agents `level` value per the table.
+
+#### 4. Root document must carry exactly one of `documentation` / `entity`
+
+The root constraint changed from `anyOf` to `oneOf`. Previously a file could carry **both** a `documentation` array and an `entity` object — two contradictory shapes — and still validate. Now exactly one is allowed (both, or neither, is invalid).
+
+**Migration.** A document with both shapes was already malformed; split it into either a single multi-entity `documentation` file or a single-entity `entity` file.
+
+#### 5. `extends.modifications[].type` → `extends.modifications[].changeType`
+
+The change-category field is renamed from `type` to `changeType`. Its values are unchanged (`added` / `modified` / `removed` / `inherited`). The rename removes the last `type`-named value field, leaving `kind` and `type` for type discriminators only.
+
+**Migration.** Rename `type` to `changeType` on every `modifications` entry.
+
+#### 6. Entity `metadata` is now at most one entry per kind
+
+The `metadata` array enforces that each metadata kind (`description`, `status`, `tags`, …) appears **at most once** per entity, via a shared `entityMetadataArray` definition. Zero entries of a kind is still allowed; two or more of the same kind is now invalid — so an entity has a single source of truth for each field.
+
+**Migration.** Collapse any duplicate metadata entries of the same kind into one.
+
+#### 7. `colorContrast.level` → `colorContrast.wcagLevel`
+
+Finishes the `level` de-overloading. After enforcement moved onto `level`, the field still had two meanings: RFC 2119 enforcement (`MUST`…) on guidelines/agents, and WCAG conformance (`A`/`AA`/`AAA`) on `colorContrast`. The contrast field is renamed to `wcagLevel` — matching the sibling `accessibility.wcagLevel` field — so `level` means enforcement only and the two WCAG fields are named consistently. Values unchanged (`A`/`AA`/`AAA`).
+
+**Migration.** Rename `level` to `wcagLevel` on every `colorContrast` entry.
+
+---
+
+## [0.3] — 2026-06-08
+
+Minor release. Schema files are now served at `https://designsystemdocspec.org/v0.3/...`. All earlier bundles remain published at their original URLs for documents pinned to them. This release contains three breaking changes — renaming the `style` entity to `foundation`, the `guidelineEntry.kind` enforcement enum to RFC 2119 levels, and the root `systemMetadata` property to `systemInfo` — and adds the `guide` entity along with the `section` and `steps` document blocks.
+
+### Breaking changes
+
+#### 1. `style` entity renamed to `foundation`
+
+The `style` entity was too narrow — it framed every domain as a visual attribute, leaving no clear home for domains like accessibility and content, which aren't just visual. It is renamed to `foundation`, the conventional design-system term for the broad domains a system is built on: color, typography, spacing, elevation, motion, shape, accessibility, and content. The entity shape is unchanged; only names changed.
+
+| Before | After |
+|---|---|
+| entity `kind` const `"style"` | `"foundation"` |
+| schema file `entities/style.schema.json` | `entities/foundation.schema.json` |
+| `$defs/style` | `$defs/foundation` |
+| documentation group array `styles` | `foundations` |
+| document block union `styleDocumentBlock` | `foundationDocumentBlock` |
+
+**Migration.** In each document: change every `"kind": "style"` to `"kind": "foundation"`, and rename the `styles` array on every documentation group to `foundations`. Internal `link` references with `kind: "style"` should become `kind: "foundation"`.
+
+#### 2. `guidelineEntry.kind` enum renamed to RFC 2119 levels
+
+The enforcement-level enum on guideline entries (and root `bestPractices`) is renamed so the values *are* the RFC 2119 requirement levels rather than synonyms. The neutral/advisory level is named `NEUTRAL` (RFC 2119 has no neutral keyword). The default changes from `informational` to `NEUTRAL`.
+
+| Before | After |
+|---|---|
+| `required` | `MUST` |
+| `encouraged` | `SHOULD` |
+| `informational` (default) | `NEUTRAL` (default) |
+| `discouraged` | `SHOULD_NOT` |
+| `prohibited` | `MUST_NOT` |
+
+**Migration.** In every guideline entry and `bestPractices` entry, map each `kind` value per the table above.
+
+#### 3. Root `systemMetadata` renamed to `systemInfo`
+
+The root-level `systemMetadata` property is renamed to `systemInfo`. It holds the design system's identity and provenance (name, version, organization, URL, license) — the system's equivalent of an entity's `identifier`/`name` — and the new name disambiguates it from the descriptive `metadata` array carried by entities. The shape is unchanged.
+
+| Before | After |
+|---|---|
+| root property `systemMetadata` | `systemInfo` |
+| `common/system-metadata.schema.json` (`$defs/systemMetadata`) | `common/system-info.schema.json` (`$defs/systemInfo`) |
+
+**Migration.** Rename the root `systemMetadata` property to `systemInfo` in every document.
+
+### Additions
+
+#### 4. `guide` entity kind
+
+A new entity documents long-form, reading-oriented guidance that is not bound to a single artifact: getting-started walkthroughs, contribution guides, tutorials, conceptual overviews, and migration guides. It fills the gap left by the artifact-bound entities (component, token, foundation, pattern), which describe a single thing rather than a journey or concept.
+
+A guide carries identity (`identifier`, `name`), a `metadata` array, a `documentBlocks` array, and `agents` context — mirroring the `foundation` entity. The *type* of guide (getting-started, contribution, tutorial, concept, migration) is expressed through a `category` metadata entry, keeping the entity flexible enough for any guideline. Guides join the single-`entity` union and a new optional `guides` array on every documentation group.
+
+#### 5. `section` document block
+
+A narrative block of titled, optionally nested prose sections — the backbone of reading-oriented documentation that the structured block kinds (api, anatomy, variants) do not capture. Each `sectionEntry` pairs a `title` with an optional rich-text `body`, `examples`, related `links`, and recursive `sections` for a heading hierarchy.
+
+#### 6. `steps` document block
+
+An ordered (or unordered) procedure: the sequence of steps a reader follows to install, build, contribute, or migrate. Each `stepEntry` pairs a `title` with an optional `instruction`, `examples`, `expectedResult`, and an `optional` flag. The block carries an optional `title` and an `ordered` flag (default `true`).
+
+The new `guideDocumentBlock` union accepts `section` and `steps` plus reused kinds (`import`, `guideline`, `purpose`, `accessibility`, `content`). The three document-block additions are backward compatible; the renames and the enum change listed under Breaking changes are the breaking items.
+
+### Fixes
+
+- **Bundled schema now enforces root constraints.** `scripts/bundle.js` previously dropped `additionalProperties: false` and the `documentation`/`entity` `anyOf` from the root when generating `dsds.bundled.schema.json`, so the published bundle silently accepted unknown root keys. Both are now carried into the bundle; documents with stray root keys that slipped through before will be flagged.
+- **`purpose` document-block description corrected.** Its schema description wrongly called `useCases` an object with `whenToUse`/`whenNotToUse` arrays; it is an array of `useCase` entries. Description-only — the shape is unchanged.
+
+---
+
+## [0.2.1] — 2026-06-01
+
+Patch release on the 0.2.x line. Schema files are now served at `https://designsystemdocspec.org/v0.2.1/...`. The v0.2 bundle remains published at its original URL for documents pinned to it.
+
+### Additions
+
+#### 1. `last-updated` metadata kind
+
+A new optional metadata kind documents the date an entity's documentation was last revised, with an optional plain-text note explaining what changed. It joins the existing `entityMetadata` union and is accepted on every entity type (component, token, token-group, theme, style, pattern).
+
+The entry is a single-purpose timestamp — distinct from `since` (which records the version the entity first shipped). Use `last-updated` for documentation freshness, governance review cadence, and consumer-facing "this guidance was revised on …" labels.
+
+| Property | Type | Required | Description |
+|---|---|---|---|
+| `kind` | `"last-updated"` | Yes | Discriminator. |
+| `value` | `string` (`format: date`) | Yes | ISO 8601 date (`YYYY-MM-DD`) of the most recent update. |
+| `description` | `string` | No | Plain-text summary of what changed. MUST NOT contain markup. |
+
+**Example:**
+```json
+{
+  "kind": "last-updated",
+  "value": "2026-05-28",
+  "description": "Added focus-visible guidance and refreshed contrast requirements for inverse surfaces."
+}
 ```
-node scripts/migrate-relationship-links.js <files-or-dirs>
-node scripts/migrate-to-0.14.js <files-or-dirs>
+
+Affected schemas:
+- `metadata/last-updated.schema.json` (new)
+- `metadata/metadata.schema.json` (added the new kind to the `entityMetadata` union)
+
+The entity examples for component, style, theme, the aggregated `metadata/metadata.json`, and the `starter-kit.dsds.json` document have been updated to demonstrate the new kind.
+
+---
+
+## [0.2.0] — 2026-06-01
+
+First release on the 0.2.x line. Supersedes the never-published 0.1.6 draft; everything in 0.1.6 is included below. Schema files are now served at `https://designsystemdocspec.org/v0.2/...`.
+
+### Breaking changes
+
+#### 1. `name` → `identifier`, `displayName` → `name`
+
+Every machine-readable identifier field that was named `name` is now `identifier`. Every human-readable label field that was named `displayName` is now `name`. The rename brings DSDS in line with the convention used by Sanity, Strapi, and other CMSes (`identifier` for machine-stable lookup keys; `name` for the display label).
+
+**Affected fields** (non-exhaustive):
+
+- Every entity: `component`, `pattern`, `style`, `theme`, `token`, `tokenGroup`. The `name` (entity identifier) is now `identifier`; the `displayName` (human label) is now `name`.
+- Every sub-element: anatomy entries, state entries, variant axes + variant values, motion entries, scale entries.
+- Cross-reference fields: `link.name`, `entityExtends.name`, `useCase.alternative.name` — all renamed to `identifier`.
+- API surface fields: `apiProperty.name`, `apiEvent.name`, `apiSlot.name`, `apiCssCustomProperty.name`, `apiCssPart.name`, `apiDataAttribute.name`, `apiMethod.name`, `eventEntry.name` — all renamed to `identifier`.
+- Design-specifications cross-refs: `specVariant.name`, `specSize.name`, `specState.name` — all renamed to `identifier`.
+
+**Tokens and token groups** continue to omit the display `name` property by design — their `identifier` is also the display label.
+
+**Intentionally NOT renamed** (these were always human-readable and have no `identifier` counterpart):
+
+- `documentationGroup.name` (the root-level group label, e.g., `"Acme Design System"`).
+- `agentCollection.name` (the top-level title of an agent context collection file).
+
+**Migration:** mechanically rename every `name` field on a machine identifier to `identifier`, and every `displayName` field to `name`. The two preserved cases are easy to spot — their values contain spaces or capital letters (they are display strings, not slugs).
+
+**Example (before):**
+```json
+{
+  "kind": "component",
+  "name": "button",
+  "displayName": "Button",
+  "description": "An interactive element that triggers an action."
+}
 ```
 
-Both accept `--dry-run`. The migrator bumps `dsdsVersion`, updates any versioned `$schema` URL, and applies every rename below. It never touches `$extensions` content.
+**Example (after):**
+```json
+{
+  "kind": "component",
+  "identifier": "button",
+  "name": "Button",
+  "description": "An interactive element that triggers an action."
+}
+```
 
-### What changes
+### Additions
 
-| Before (≤ 0.13) | After (0.14.0) |
-| --- | --- |
-| Block kind `useCases` | Block kind `use-cases` (same rename in `docOrigin.blocks` keys) |
-| `stepEntry.title` | `stepEntry.label` (now rich text) |
-| `scaleStep.label` | `scaleStep.name` |
-| `systemInfo.systemName` / `systemVersion` | `systemInfo.name` / `version` |
-| Status object `description` (entity-level and per-platform) | Status object `note` |
-| `apiEvent.returns` | `apiEvent.payload` |
-| Link `identifier`, `role`, `required` | Removed. A link is `kind` + `url` (+ optional `label`). Entities relate through `relationships` edges |
-| Chunk top-level `guidelines` / `useCases` | Removed. Guidance lives in the chunk's `documentBlocks` |
+#### 1. Internal success criteria for governance (`criterionReference`, `criterionDefinition`)
 
-Nothing else changed shape. Documents that used none of these forms migrate with only a version bump.
+The `guidelineEntry.criteria` array now accepts two kinds of entries, discriminated by `kind`:
 
-### What needs a human
+- **`kind: "reference"`** — a citation of an external standard (WCAG, MDN, platform docs, vendor compliance frameworks). Backward-compatible with the old `{url, label}` shape, now requiring the explicit `kind` discriminator.
+- **`kind: "criterion"`** — a testable success criterion defined by this design system. Each entry pairs a stable, author-owned `identifier` (frozen once published) with a `title`, an objectively verifiable `successCriterion`, and optional `techniques`, `failures`, `references`, `examples`, and `tags`.
 
-- **Links that use an identifier.** A link that pointed at another entity by `identifier` no longer validates. The migrator reports each one instead of guessing. Convert it to a typed `relationships` edge (`composes`, `depends-on`, `alternative-to`, …) or rewrite it as a plain URL link.
-- **Chunks that had both forms.** When a chunk carried the shorthand *and* an equivalent block, the block took priority. The migrator merges in any shorthand items the block doesn't already have, and reports the counts. Skim the report to confirm nothing merged that you meant to drop.
+Internal criteria give every design system a WCAG-style governance primitive: stable, citable codes attached to testable success criteria. The author writes the `identifier` (a kebab-case slug, scoped to the parent entity); tooling derives the citable display code (ex: `BTN-2.1`) via a persistent registry, so citations remain stable as guidelines are reordered or edited.
 
-### Verify
+**Example:**
+```json
+{
+  "kind": "guideline",
+  "items": [
+    {
+      "guidance": "Maintain a minimum tap target of 44×44 CSS pixels for all button sizes.",
+      "rationale": "Touch devices require larger targets to prevent mis-taps.",
+      "kind": "required",
+      "category": "accessibility",
+      "criteria": [
+        {
+          "kind": "criterion",
+          "identifier": "touch-target-minimum",
+          "title": "Touch Target Minimum",
+          "successCriterion": "Every interactive element exposes a hit area of at least 44×44 CSS pixels in all viewports.",
+          "references": [
+            { "url": "https://www.w3.org/TR/WCAG22/#target-size-minimum", "label": "WCAG 2.5.8 Target Size (Minimum)" }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
 
-Validate the migrated documents against the bundled schema for the version you migrated to — every release is served at its own versioned URL on this site. In this repository, `npm run validate` covers every example and fixture.
+This is a breaking change for existing external citations: pre-0.2.0 entries of the form `{url, label}` now require an explicit `"kind": "reference"`.
 
-## Older migrations
+#### 2. Enhanced `agents` schema with empirical and verification fields
 
-Earlier breaking windows have their own scripts: `migrate-to-0.7.js` (from 0.5.x / 0.6), `migrate-to-0.8.js` (from 0.7.x), and `migrate-to-0.10.js` (from 0.8.x / 0.9.x). Run them in order when jumping several versions. The [CHANGELOG](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/CHANGELOG) records what each release changed.
+The `agents` schema gained several new optional fields to support empirically-grounded, verifiable agent context:
+
+- **`evidence`** on `constraints` and `antiPatterns` — quantitative or empirical backing (test run data, audit findings, issue references).
+- **`examples`** on `constraints` — inline before/after code examples scoped to a specific rule.
+- **`entityType`** on `disambiguation` — categorizes the disambiguated entity (`component`, `prop`, `token`, `pattern`, `package`, `concept`).
+- **`verified`** — ISO date when the agent context block was last validated.
+- **`verifiedAgainst`** — package version or audit reference the block was validated against.
+
+The `antiPatterns` array description was strengthened: every entry SHOULD include an `instead` value.
+
+All additions are non-breaking on the prior `agents` shape — existing content remains valid.
+
+#### 3. `agent-collection.schema.json` — multi-entity agent context files
+
+A standalone schema for files containing agent context blocks across many entities. Use it for system-wide pre-generation checklists, migration guides, and QA failure logs.
+
+Structure: a `sections` object where each key is a named scope and each value is a full agents block. Top-level metadata (`name`, `description`, `updated`, `source`, `version`, `schema`) provides collection-level context.
+
+**Example:**
+```json
+{
+  "name": "Pre-Generation Checklist",
+  "updated": "2026-06-01",
+  "sections": {
+    "button": {
+      "intent": "Use Button for all interactive action triggers.",
+      "verified": "2026-06-01"
+    }
+  }
+}
+```
+
+#### 4. `import` document block type
+
+A new `import` document block type documents how to import a component across platforms and frameworks. Each entry carries a platform identifier, the import code, the package name, and optional setup context.
+
+Accepted on **component** entities only.
+
+**Example:**
+```json
+{
+  "kind": "import",
+  "items": [
+    {
+      "platform": "react",
+      "package": "@acme/design-system",
+      "code": "import { Button } from '@acme/design-system';",
+      "language": "tsx"
+    },
+    {
+      "platform": "web-component",
+      "package": "@acme/design-system-wc",
+      "code": "import '@acme/design-system-wc/button';",
+      "language": "js"
+    }
+  ]
+}
+```
+
+### Documentation
+
+- **README focused on intro + pointer to the docs site.** Removed roughly 600 lines of duplicative spec content (property tables, document-block catalogs, enforcement-level tables, example payloads) that re-stated material from the schemas. The README now opens with the project's purpose and orientation, then points readers at [designsystemdocspec.org](https://designsystemdocspec.org/) for the canonical reference.
+- **Schema-driven property tables in narrative pages.** The MDX content pages (`overview.mdx`, `quickstart.mdx`, `schema-architecture.mdx`) now use a `<ds-prop-table schema="..." def="..." />` shortcode that renders the property table for any `$defs` entry directly from the schema. Both the per-schema docs pages and the narrative pages share the same renderer, so a description change in a schema flows to every page automatically.
+- **Readability pass on schema descriptions.** Long sentences broken up, dense Latinate phrases replaced (ex: "ancillary concerns" → "other properties", "agentic consumption" → "AI use"), repeated boilerplate normalized across 13 document-block schemas. Lifts the average readability score from 34/100 (College+) toward 36/100 across the corpus; substantive schemas like `entities/style`, `entities/theme`, and `document-blocks/guideline` cleared the "Graduate level" threshold.
+
+---
+
+## [0.1.5] — 2025-07-15
+
+### Additions
+
+#### 1. `agents` property on all document block types
+
+Every document block type now accepts an optional `agents` property — the same `agents` object available on entities. This allows block-level AI/LLM context that is scoped to a specific documentation section rather than the entity as a whole.
+
+Affected schemas:
+- `accessibility.schema.json`
+- `anatomy.schema.json`
+- `api.schema.json`
+- `content.schema.json`
+- `design-specifications.schema.json`
+- `guideline.schema.json`
+- `interaction.schema.json`
+- `motion.schema.json`
+- `principle.schema.json`
+- `scale.schema.json`
+- `state.schema.json`
+- `variant.schema.json`
+
+The `agents` object provides:
+- `intent` — one-sentence purpose statement
+- `constraints` — leveled rules (must/must-not/should/should-not)
+- `disambiguation` — confusion-resolution against similar entities
+- `antiPatterns` — incorrect uses with corrective alternatives
+- `examples` — ready-to-use code samples
+- `keywords` — semantic retrieval terms
+
+**Example:**
+```json
+{
+  "kind": "guideline",
+  "items": [...],
+  "agents": {
+    "intent": "Enforce correct Button usage in generated UI code.",
+    "constraints": [
+      { "rule": "Never place two primary buttons on the same surface.", "level": "must-not" }
+    ]
+  }
+}
+```
+
+All entity examples have been updated to demonstrate block-level agents.
+
+#### 2. `events` document block type
+
+A new `events` document block type documents the events emitted by a component as a dedicated, independently renderable section. Each event entry supports:
+
+- `name` — event name as used in code
+- `description` — trigger conditions and consumer guidance
+- `payload` / `payloadSchema` — human-readable and machine-readable payload descriptions
+- `bubbles`, `cancelable`, `composed` — DOM propagation behavior flags
+- `since`, `deprecated`, `deprecationNotice` — lifecycle metadata
+- `examples` — usage examples
+
+The `events` block is accepted on **component** and **pattern** entities.
+
+**Example:**
+```json
+{
+  "kind": "events",
+  "items": [
+    {
+      "name": "onClick",
+      "description": "Fires when the button is activated.",
+      "payload": "(event: MouseEvent) => void",
+      "bubbles": true,
+      "cancelable": false,
+      "since": "1.0.0"
+    }
+  ]
+}
+```
+
+---
+
+## [0.1.4] — 2026-02-26
+
+### Breaking Changes
+
+#### 1. `type` discriminator renamed to `kind` across the entire schema
+
+Every discriminator property previously named `type` has been renamed to `kind`. This
+affects entities, guidelines, presentations, links, and variant items. The rename
+eliminates confusion between the JSON Schema `type` keyword (which describes data types)
+and the DSDS discriminator property (which classifies instances).
+
+**Before:**
+```json
+{
+  "type": "component",
+  "name": "button",
+  "guidelines": [
+    {
+      "type": "best-practices",
+      "items": [...]
+    }
+  ],
+  "links": [
+    { "type": "source", "url": "..." }
+  ]
+}
+```
+
+**After:**
+```json
+{
+  "kind": "component",
+  "name": "button",
+  "guidelines": [
+    {
+      "kind": "best-practices",
+      "items": [...]
+    }
+  ],
+  "links": [
+    { "kind": "source", "url": "..." }
+  ]
+}
+```
+
+Affected schemas:
+- **Entities:** component, token, token-group, theme, style, pattern
+- **Guidelines:** best-practices, purpose, accessibility, variants, states, anatomy,
+  api, design-specifications, principles, scale, motion, interactions, content
+- **Presentations:** image, video, code, url
+- **Links:** all link types (source, design, documentation, related, etc.)
+- **Variants:** flag, enum
+
+**Note:** The `type` property on `apiProperty` and `apiMethod` is unchanged — it
+describes a data type (ex: `"string"`, `"boolean"`), not a DSDS discriminator.
+
+**Files changed:** All schema files in `common/`, `guidelines/`, `entities/`, and
+`dsds.schema.json`.
+
+---
+
+#### 2. Best practice `criteria` changed from string array to object array
+
+The `criteria` property on `bestPracticeEntry` has changed from an array of URI strings
+to an array of objects, each carrying a `url` and an optional `label`.
+
+**Before:**
+```json
+{
+  "criteria": [
+    "https://www.w3.org/TR/WCAG22/#contrast-minimum"
+  ]
+}
+```
+
+**After:**
+```json
+{
+  "criteria": [
+    {
+      "url": "https://www.w3.org/TR/WCAG22/#contrast-minimum",
+      "label": "1.4.3 Contrast (Minimum)"
+    }
+  ]
+}
+```
+
+Each criteria entry supports:
+
+| Property | Type     | Required | Description                                    |
+|----------|----------|----------|------------------------------------------------|
+| `url`    | `string` | Yes      | URL to the external standard or requirement    |
+| `label`  | `string` | No       | Human-readable label for the criterion         |
+
+**Files changed:** `guidelines/best-practice.schema.json`
+
+---
+
+#### 3. Default values added to optional properties
+
+Seven optional properties now declare advisory `default` values via the JSON Schema
+`default` keyword. Validators do not inject these values — they are hints for tools
+and consumers indicating what to assume when the property is omitted.
+
+| Property | Schema | Default |
+|----------|--------|---------|
+| `bestPracticeEntry.kind` | `best-practice.schema.json` | `"informational"` |
+| `link.required` | `link.schema.json` | `false` |
+| `anatomyEntry.required` | `anatomy.schema.json` | `false` |
+| `apiProperty.required` | `api.schema.json` | `false` |
+| `apiProperty.deprecated` | `api.schema.json` | `false` |
+| `ariaAttribute.required` | `accessibility.schema.json` | `false` |
+| `richText.format` | `rich-text.schema.json` | `"markdown"` |
+
+**Files changed:** `guidelines/best-practice.schema.json`, `common/link.schema.json`,
+`guidelines/anatomy.schema.json`, `guidelines/api.schema.json`,
+`guidelines/accessibility.schema.json`, `common/rich-text.schema.json`
+
+---
+
+### Tooling
+
+- **Validator bare-entity detection** updated to use `data.kind` instead of `data.type`
+  for matching minimal example files to their schema definitions.
+
+---
+
+### Migration Guide
+
+To update documents from 0.1.3 to 0.1.4:
+
+1. **Discriminator rename:** Replace `"type"` with `"kind"` on every entity, guideline,
+   presentation, link, and variant item. Do NOT rename `"type"` on `apiProperty` or
+   `apiMethod` — those describe data types, not DSDS discriminators.
+
+2. **Criteria objects:** Convert every `criteria` string to an object with a `url`
+   property. Optionally add a `label` for human-readable display.
+
+**Automated migration:**
+
+```sh
+# Rename type to kind for known discriminator values
+sed -i 's/"type": "component"/"kind": "component"/g' *.json
+sed -i 's/"type": "best-practices"/"kind": "best-practices"/g' *.json
+# ... repeat for all discriminator values
+```
+
+---
+
+### Internal
+
+- Bundled schema now contains 70 definitions from 28 files.
+- All example files updated to match schema changes.
+- Validator updated for `kind`-based bare entity detection.
+- README updated: all JSON examples, prose references, and tables reflect `kind`.
+
+---
+
+## [0.1.3] — 2026-02-26
+
+### Breaking Changes
+
+#### 1. Variant schema redesign — flag and enum types replace variantEntry
+
+The `variants` guideline has been redesigned around two discriminated variant types:
+
+- **`flagVariant`** (`type: "flag"`) — A boolean toggle that is either on or off (e.g.,
+  `disabled`, `full-width`, `icon-only`). No `values` array.
+- **`enumVariant`** (`type: "enum"`) — A set of mutually exclusive values (e.g.,
+  size: sm | md | lg). Requires a `values` array with at least 2 entries.
+
+**Before:**
+```json
+{
+  "type": "variants",
+  "items": [
+    {
+      "name": "size",
+      "description": "Controls the physical dimensions.",
+      "values": [
+        { "name": "small", "description": "Compact." },
+        { "name": "medium", "description": "Default." },
+        { "name": "large", "description": "Touch-optimized." }
+      ]
+    },
+    {
+      "name": "full-width",
+      "description": "Stretches to fill the container.",
+      "values": [
+        { "name": "full-width", "description": "100% width." }
+      ]
+    }
+  ]
+}
+```
+
+**After:**
+```json
+{
+  "type": "variants",
+  "items": [
+    {
+      "type": "enum",
+      "name": "size",
+      "description": "Controls the physical dimensions.",
+      "values": [
+        { "name": "small", "description": "Compact." },
+        { "name": "medium", "description": "Default." },
+        { "name": "large", "description": "Touch-optimized." }
+      ]
+    },
+    {
+      "type": "flag",
+      "name": "full-width",
+      "description": "Stretches to fill the container.",
+      "purpose": "Provides a prominent call to action in narrow layouts."
+    }
+  ]
+}
+```
+
+**Removed definitions:** `variantEntry`, `variantExclusionCondition`, `variantExclusion`
+**New definitions:** `flagVariant`, `enumVariant`
+**Files changed:** `guidelines/variant.schema.json`
+
+---
+
+#### 2. Variant exclusions removed
+
+The `exclusions` property has been removed from the `variants` guideline entirely.
+Invalid combinations across variant dimensions are no longer modeled in the schema.
+
+**Files changed:** `guidelines/variant.schema.json`
+
+---
+
+#### 3. Best practice `level` renamed to `kind`
+
+The enforcement level property on `bestPracticeEntry` was renamed from `level` to
+`kind` to use consistent terminology across the schema (use cases also use `kind`).
+
+**Before:** `"level": "required"`
+**After:** `"kind": "required"`
+
+Valid values are unchanged: `required`, `encouraged`, `informational`, `discouraged`,
+`prohibited`.
+
+**Files changed:** `guidelines/best-practice.schema.json`
+
+---
+
+#### 4. Use cases flattened from object to array
+
+The `useCases` property on `purpose` guidelines, `stateEntry`, and `variantValue` has
+changed from a `{ whenToUse, whenNotToUse }` object to a flat array of `useCase` items.
+Each use case now carries a `kind` discriminator (`"positive"` or `"negative"`) instead
+of being bucketed into separate arrays.
+
+**Before:**
+```json
+{
+  "type": "purpose",
+  "useCases": {
+    "whenToUse": [
+      { "description": "When the user needs to trigger an action." }
+    ],
+    "whenNotToUse": [
+      {
+        "description": "When the action navigates to a different page.",
+        "alternative": { "name": "link", "rationale": "..." }
+      }
+    ]
+  }
+}
+```
+
+**After:**
+```json
+{
+  "type": "purpose",
+  "useCases": [
+    {
+      "description": "When the user needs to trigger an action.",
+      "kind": "positive"
+    },
+    {
+      "description": "When the action navigates to a different page.",
+      "kind": "negative",
+      "alternative": { "name": "link", "rationale": "..." }
+    }
+  ]
+}
+```
+
+**Files changed:** `guidelines/purpose.schema.json`, `guidelines/state.schema.json`,
+`guidelines/variant.schema.json`, `common/purpose.schema.json`
+
+---
+
+#### 5. `tokens` property removed from `variantValue`
+
+The `tokens` object map on `variantValue` has been removed. Token associations for
+variant values should be documented in the anatomy or design-specifications guidelines
+rather than inline on each value.
+
+**Files changed:** `guidelines/variant.schema.json`
+
+---
+
+#### 6. `examples` guideline type and container removed
+
+The `examples` guideline type (`type: "examples"`) has been removed entirely. The
+`examples` container def has been deleted from `example.schema.json`. Individual schemas
+that need examples already accept `example[]` arrays directly on their items (e.g.,
+`variantValue.example`, `stateEntry.preview`, `interactionEntry.examples`,
+`bestPracticeEntry.examples`). The standalone container added no value on top of this.
+
+**Files changed:** `common/example.schema.json`, `guidelines/guideline.schema.json`
+
+---
+
+#### 7. Status schema renames
+
+The `statusObject` properties have been renamed for clarity:
+
+- `statusObject.status` → `statusObject.overall`
+- `statusObject.platformStatus` → `statusObject.platforms`
+- `platformStatusEntry` def → `platformStatus` def
+
+**Before:**
+```json
+{
+  "status": {
+    "status": "stable",
+    "platformStatus": {
+      "react": { "status": "stable", "since": "1.0.0" }
+    }
+  }
+}
+```
+
+**After:**
+```json
+{
+  "status": {
+    "overall": "stable",
+    "platforms": {
+      "react": { "status": "stable", "since": "1.0.0" }
+    }
+  }
+}
+```
+
+**Files changed:** `common/status.schema.json`
+
+---
+
+#### 8. `statusObject` now requires `platforms`
+
+The `statusObject` now requires both `overall` and `platforms`. The object form exists
+specifically for platform-specific tracking — if you only need a simple status value,
+use the string form (see §10 below).
+
+**Files changed:** `common/status.schema.json`
+
+---
+
+### New Features
+
+#### 9. Presentation schema extracted
+
+Presentation types (`presentationImage`, `presentationVideo`, `presentationCode`,
+`presentationUrl`) have been extracted into a dedicated `presentation.schema.json` file.
+The `example.schema.json` now references these types via `$ref` rather than defining
+them inline. This allows presentations to be reused independently of the example model.
+
+**Files created:** `common/presentation.schema.json`
+**Files changed:** `common/example.schema.json`
+
+---
+
+#### 10. Status accepts string or object
+
+The `status` property on all entities now accepts either a plain `statusValue` string
+or a full `statusObject`. This eliminates ceremony for the common case where no
+platform-specific tracking is needed.
+
+**Simple:**
+```json
+{ "status": "stable" }
+```
+
+**Detailed:**
+```json
+{
+  "status": {
+    "overall": "stable",
+    "platforms": {
+      "react": { "status": "stable", "since": "1.0.0" },
+      "ios": { "status": "experimental", "since": "3.0.0" }
+    }
+  }
+}
+```
+
+A new `status` union def (`oneOf: [statusValue, statusObject]`) is defined in
+`status.schema.json`. All entity schemas now reference this union instead of
+`statusObject` directly.
+
+**Files created:** `common/status.schema.json` (`status` def)
+**Files changed:** `entities/component.schema.json`, `entities/pattern.schema.json`,
+`entities/style.schema.json`, `entities/theme.schema.json`, `entities/token.schema.json`
+
+---
+
+#### 11. Component `preview` property
+
+Components now accept an optional `preview` property at the top level — a single
+presentation (image, video, code, or URL) providing a hero visual for the component.
+Accepts any presentation type from `presentation.schema.json`.
+
+**Files changed:** `entities/component.schema.json`
+
+---
+
+#### 12. `variantValue.preview` renamed to `example`
+
+The `preview` property on `variantValue` has been renamed to `example` and now accepts
+an array of example objects (consistent with the example model used elsewhere).
+
+**Files changed:** `guidelines/variant.schema.json`
+
+---
+
+### Tooling
+
+- **Bundle error messages now include file paths.** The `readJSON` function in
+  `scripts/bundle.js` now wraps `JSON.parse` in a try/catch and reports the relative
+  file path in the error message, replacing the unhelpful `<anonymous_script>` output.
+
+- **Validator now covers `minimal/` directory.** The document validator recursively
+  finds `.dsds.json` files in subdirectories (picks up `minimal/minimal.dsds.json`).
+  A new bare-entity validation mode detects files with a top-level `type` property
+  and validates them against the matching def (picks up `minimal/component.json`,
+  `minimal/token.json`, etc.).
+
+---
+
+### Migration Guide
+
+To update documents from 0.1.2 to 0.1.3:
+
+1. **Best practice entries:** Rename `"level"` → `"kind"` in every `bestPracticeEntry`.
+
+2. **Use cases:** Convert every `useCases` object to a flat array. Move `whenToUse`
+   entries into the array with `"kind": "positive"`. Move `whenNotToUse` entries into
+   the array with `"kind": "negative"`.
+
+3. **Variant items:** Add `"type": "enum"` to multi-value variants. Convert
+   single-value (boolean) variants to `"type": "flag"` and remove the `values` array.
+   Add an optional `purpose` field to each variant.
+
+4. **Variant exclusions:** Remove `exclusions` from all `variants` guidelines.
+
+5. **Variant value tokens:** Remove `tokens` from all `variantValue` objects.
+
+6. **Pattern examples guideline:** Remove any `type: "examples"` guideline from
+   pattern entities. Move example content into interaction step `examples`, anatomy
+   `preview`, or variant value `example` arrays as appropriate.
+
+7. **Status renames:** Inside every `status` object, rename `"status"` → `"overall"`
+   and `"platformStatus"` → `"platforms"`.
+
+8. **Status simplification:** Any `"status": { "overall": "stable" }` without
+   `platforms` can be simplified to `"status": "stable"`. Status objects that have
+   `platforms` must keep the object form.
+
+**Automated migration (sed, one-liners):**
+
+```sh
+# Rename level to kind in best practice entries
+sed -i 's/"level":\s*"required"/"kind": "required"/g' *.json
+sed -i 's/"level":\s*"encouraged"/"kind": "encouraged"/g' *.json
+sed -i 's/"level":\s*"informational"/"kind": "informational"/g' *.json
+sed -i 's/"level":\s*"discouraged"/"kind": "discouraged"/g' *.json
+sed -i 's/"level":\s*"prohibited"/"kind": "prohibited"/g' *.json
+
+# Rename status properties inside status objects
+sed -i 's/"platformStatus"/"platforms"/g' *.json
+```
+
+---
+
+### Internal
+
+- Bundled schema now contains 70 definitions from 28 files.
+- All example files updated to match schema changes. Simple status objects
+  collapsed to plain strings where no platform tracking is needed.
+- Validator now covers 172 validations across 2 documents, 164 keyed defs,
+  and 6 bare entity files in `minimal/`.
+- README updated to reflect status union, variant model, use case format, best
+  practice `kind` property, presentation schema, and corrected guideline scope tables.
+
+---
+
+## [0.1.2] — 2026-02-25
+
+### New Features
+
+#### 1. Motion guideline (`motion`)
+
+A new style-scoped guideline type for documenting easing curves, recommended durations,
+and usage guidance. Each entry carries a cubic-bezier function aligned with the W3C
+Design Tokens Format Module `cubicBezier` type (§8.6).
+
+```json
+{
+  "type": "motion",
+  "items": [
+    {
+      "name": "enter",
+      "displayName": "Enter Ease",
+      "description": "For elements entering the viewport from off-screen.",
+      "function": [0.05, 0.7, 0.1, 1],
+      "token": "motion-ease-enter",
+      "usage": "entering elements",
+      "duration": { "min": "300ms", "max": "500ms" }
+    }
+  ]
+}
+```
+
+Each `motionEntry` supports:
+
+| Property      | Type            | Required | Description                                         |
+|---------------|-----------------|----------|-----------------------------------------------------|
+| `name`        | `string`        | Yes      | Machine-readable easing name                        |
+| `displayName` | `string`        | No       | Human-readable name                                 |
+| `description` | `richText`      | Yes      | What this easing is for and when to use it          |
+| `function`    | `number[4]`     | No       | Cubic-bezier control points [P1x, P1y, P2x, P2y]   |
+| `token`       | `string`        | No       | Reference to a DTCG cubicBezier or transition token |
+| `duration`    | `motionDuration`| No       | Recommended duration range (min, max, description)  |
+| `usage`       | `string`        | No       | Comma-separated usage contexts                      |
+| `examples`    | `example[]`     | No       | Visual/interactive demonstrations                   |
+
+**Files created:** `guidelines/motion.schema.json`
+**Scope:** Style entities only
+
+---
+
+#### 2. Content guideline (`content`)
+
+A new general guideline type for structured content guidelines — recommended action
+labels (terminology dictionaries) and localization/internationalization considerations.
+
+```json
+{
+  "type": "content",
+  "labels": [
+    {
+      "term": "Add",
+      "definition": "Takes an existing object and uses it in a new context.",
+      "usage": "Combine Add with the object (ex: Add user, Add role).",
+      "alternatives": ["Create", "Insert", "New"],
+      "context": "Buttons, menu items"
+    }
+  ],
+  "localization": [
+    {
+      "concern": "rtl",
+      "description": "For RTL languages, the entire component is mirrored horizontally."
+    },
+    {
+      "concern": "text-expansion",
+      "description": "Localization can lengthen text by 20-30%. Avoid truncating labels."
+    }
+  ]
+}
+```
+
+Each `contentLabelEntry` supports:
+
+| Property       | Type        | Required | Description                                          |
+|----------------|-------------|----------|------------------------------------------------------|
+| `term`         | `string`    | Yes      | The canonical label text (ex: "Add", "Cancel")     |
+| `definition`   | `richText`  | Yes      | What the label means                                 |
+| `usage`        | `richText`  | No       | When and how to use this label                       |
+| `alternatives` | `string[]`  | No       | Related terms commonly confused with this one        |
+| `context`      | `string`    | No       | Where this label is commonly used in the UI          |
+| `examples`     | `example[]` | No       | Visual examples showing the label in context         |
+
+Each `localizationEntry` supports:
+
+| Property      | Type        | Required | Description                                           |
+|---------------|-------------|----------|-------------------------------------------------------|
+| `concern`     | `string`    | Yes      | The i18n concern (ex: "rtl", "text-expansion")      |
+| `description` | `richText`  | Yes      | Actionable guidance for this concern                  |
+| `examples`    | `example[]` | No       | Visual examples illustrating the concern              |
+
+Standard localization concerns: `rtl`, `text-expansion`, `pluralization`, `date-format`,
+`number-format`, `currency`, `text-direction`, `icon-direction`, `truncation`, `sorting`,
+`concatenation`. Custom values are permitted.
+
+At least one of `labels` or `localization` must be present (enforced via `anyOf`).
+
+**Files created:** `guidelines/content.schema.json`
+**Scope:** All entity types (general guideline)
+
+---
+
+#### 3. Anatomy, variants, and states now available on patterns
+
+The `patternGuideline` union now includes `anatomy`, `variants`, and `states` alongside
+`interactions` and the general guidelines. This resolves three real-world gaps:
+
+- **Anatomy for patterns:** Carbon's empty states have named parts (image, title, body,
+  primary action, secondary CTA) that can now be documented structurally.
+- **Variants for patterns:** Patterns with sub-types (ex: empty state: no-data,
+  user-action, error-management) can now express them as variant dimensions.
+- **States for patterns:** Patterns with distinct states (populated, empty, loading,
+  error) can now document triggers, visual changes, and token overrides.
+
+**Before:** Patterns accepted only `interactions` + general guidelines.
+**After:** Patterns accept `interactions`, `anatomy`, `variants`, `states` + general guidelines.
+
+**Files changed:** `guidelines/guideline.schema.json`
+
+---
+
+#### 4. Token `useCases` property
+
+Tokens now accept an optional `useCases` property directly on the entity, following the
+same shape used by variant values, state entries, and the purpose guideline.
+
+```json
+{
+  "type": "token",
+  "name": "color-text-primary",
+  "tokenType": "color",
+  "useCases": {
+    "whenToUse": [
+      { "description": "When applying color to body text on default backgrounds." }
+    ],
+    "whenNotToUse": [
+      {
+        "description": "When placing text on dark or brand-colored surfaces.",
+        "alternative": { "name": "color-text-inverse", "rationale": "..." }
+      }
+    ]
+  }
+}
+```
+
+**Files changed:** `entities/token.schema.json`
+
+---
+
+#### 5. Token value `resolution` field (DTCG-aligned)
+
+The `tokenValue` object now includes an optional `resolution` field with values aligned
+to the W3C Design Tokens Format Module terminology (§3.8 "Alias/Reference", §7
+"Aliases/References"):
+
+| Value      | DTCG concept                       | Description                           |
+|------------|------------------------------------|---------------------------------------|
+| `explicit` | Token with a direct `$value`       | Value is set directly, not an alias   |
+| `alias`    | Token whose `$value` is a reference| Value references another token        |
+
+When omitted, tools SHOULD infer: if `reference` is present the token is an alias,
+otherwise it is explicit.
+
+**Files changed:** `entities/token.schema.json`
+
+---
+
+### Internal
+
+- Bundled schema now contains 72 definitions from 27 files (up from 66/25).
+- All 163 validations pass across 1 document + 162 definition fragments.
+- New example files: `guidelines/motion.json` (2 defs), `guidelines/content.json` (3 defs).
+
+---
+
+## [0.1.1] — 2026-02-24
+
+### Breaking Changes
+
+#### 1. Purpose guideline: `whenToUse`/`whenNotToUse` replaced by `useCases`
+
+The `purpose` guideline no longer carries `whenToUse` and `whenNotToUse` as direct
+properties. Instead, it wraps them in a `useCases` object — matching the shape already
+used by variant values and state entries.
+
+**Before:**
+```json
+{
+  "type": "purpose",
+  "whenToUse": [{ "description": "..." }],
+  "whenNotToUse": [{ "description": "..." }]
+}
+```
+
+**After:**
+```json
+{
+  "type": "purpose",
+  "useCases": {
+    "whenToUse": [{ "description": "..." }],
+    "whenNotToUse": [{ "description": "..." }]
+  }
+}
+```
+
+**Files changed:** `guidelines/purpose.schema.json`
+**Rationale:** One concept, one name. The `useCases` shape is now used identically in
+purpose guidelines, variant values, and state entries.
+
+---
+
+#### 2. Best practice `entryType` renamed to `level`
+
+The enforcement level property on `bestPracticeEntry` was renamed from `entryType` to
+`level` to avoid collision with the `type` discriminator used on every guideline.
+
+**Before:** `"entryType": "required"`
+**After:** `"level": "required"`
+
+Valid values are unchanged: `required`, `encouraged`, `informational`, `discouraged`,
+`prohibited`.
+
+**Files changed:** `guidelines/best-practice.schema.json`
+
+---
+
+#### 3. `artifact-reference` guideline removed — merged into `links`
+
+The `artifact-reference` guideline type has been removed entirely. Internal artifact
+relationships are now expressed through the unified `links` array on each entity.
+
+The `link` object has been extended with three new optional properties:
+
+| Property   | Type      | Description                                           |
+|------------|-----------|-------------------------------------------------------|
+| `name`     | `string`  | Name of a referenced DSDS artifact                    |
+| `role`     | `string`  | The role this artifact plays in the current context    |
+| `required` | `boolean` | Whether this artifact is required for the parent       |
+
+The `url` property is now optional — a link requires at least one of `url` or `name`.
+
+**Before (guideline):**
+```json
+{
+  "type": "artifact-reference",
+  "referenceType": "component",
+  "references": [
+    { "name": "button", "role": "Submit trigger", "required": true }
+  ]
+}
+```
+
+**After (in the entity's `links` array):**
+```json
+{
+  "type": "component",
+  "name": "button",
+  "role": "Submit trigger",
+  "required": true
+}
+```
+
+**Files changed:** `common/link.schema.json`, `guidelines/guideline.schema.json`
+**Files deleted:** `guidelines/artifact-reference.schema.json`
+
+---
+
+#### 4. Token `displayName` removed
+
+The `displayName` property has been removed from `token` and `tokenGroup` schemas.
+Token names (ex: `color-text-primary`, `color.text.primary`) are already
+human-readable in their native format and serve as the display name.
+
+**Files changed:** `entities/token.schema.json`
+
+---
+
+#### 5. Token `description` and `status` now optional
+
+Both `description` and `status` are no longer required on `token` and `tokenGroup`.
+When omitted inside a token group, `status` is inherited from the parent group (same
+inheritance model already used by `tokenType` and `category`).
+
+Token required fields: `type`, `name`, `tokenType` (was: + `displayName`, `description`, `status`)
+Token group required fields: `type`, `name` (was: + `displayName`, `description`, `status`)
+
+**Files changed:** `entities/token.schema.json`
+
+---
+
+#### 6. Anatomy `tokens` changed from array to object map
+
+The `tokens` property on `anatomyEntry` was changed from `string[]` to an object map
+(`{ [purpose]: tokenName }`) for consistency with how tokens are referenced in variant
+values and state entries.
+
+**Before:** `"tokens": ["button-background", "button-border-radius"]`
+**After:** `"tokens": { "background": "button-background", "border-radius": "button-border-radius" }`
+
+**Files changed:** `guidelines/anatomy.schema.json`
+
+---
+
+### New Features
+
+#### 7. Variant exclusions
+
+The `variants` guideline now supports an optional `exclusions` array for documenting
+invalid combinations across variant dimensions.
+
+```json
+{
+  "type": "variants",
+  "items": [
+    { "name": "emphasis", "values": [...] },
+    { "name": "size", "values": [...] }
+  ],
+  "exclusions": [
+    {
+      "conditions": [
+        { "dimension": "emphasis", "value": "ghost" },
+        { "dimension": "size", "value": "sm" }
+      ],
+      "description": "Ghost emphasis requires at least medium size for adequate touch target area."
+    }
+  ]
+}
+```
+
+Each exclusion requires at least two conditions (a single condition would remove an
+entire value, which should be done in the values array instead).
+
+**Files changed:** `guidelines/variant.schema.json`
+
+---
+
+#### 8. `$profile` property for progressive authoring
+
+The root document schema now accepts an optional `$profile` property with two values:
+
+- `"core"` — Minimal viable documentation. Signals to tools that missing optional
+  fields are intentional, not errors. Use for migration drafts and skeleton documents.
+- `"complete"` — Full specification conformance (default when omitted).
+
+```json
+{
+  "dsdsVersion": "0.1",
+  "$profile": "core",
+  "documentation": [...]
+}
+```
+
+**Files changed:** `dsds.schema.json`
+
+---
+
+#### 9. `statusValue` pattern enforcement
+
+`statusValue` now enforces a `^[a-z][a-z0-9-]*$` pattern. The four standard values
+(`draft`, `experimental`, `stable`, `deprecated`) are unchanged. Custom values are
+still permitted but must be lowercase kebab-case, catching common errors like
+`"Stable"` or `"DEPRECATED"`.
+
+**Files changed:** `common/status.schema.json`
+
+---
+
+#### 10. `example` no longer requires `presentation` when `value` is provided
+
+The `example` object now uses `anyOf` — either `presentation` or `value` (or both)
+must be present. This reduces ceremony for API property examples where the meaningful
+content is a literal value like `true` or `"primary"`.
+
+**Before (required a presentation even for value-only examples):**
+```json
+{
+  "value": "primary",
+  "presentation": { "type": "code", "code": "variant=\"primary\"", "language": "jsx" }
+}
+```
+
+**After:**
+```json
+{ "value": "primary", "title": "Default variant" }
+```
+
+**Files changed:** `common/example.schema.json`
+
+---
+
+#### 11. Minimal examples
+
+A new `examples/minimal/` directory provides lightweight examples showing the floor
+of documentation for each entity type:
+
+| File                  | Lines | Description                              |
+|-----------------------|-------|------------------------------------------|
+| `minimal.dsds.json`   | ~77   | Complete DSDS document with all 6 types  |
+| `component.json`      | ~31   | Component with one purpose guideline     |
+| `token.json`          | ~8    | Bare minimum token                       |
+| `token-group.json`    | ~31   | Group with inherited status              |
+| `pattern.json`        | ~14   | Pattern with component links             |
+| `style.json`          | ~18   | Style with one principle                 |
+| `theme.json`          | ~22   | Theme with three overrides               |
+
+---
+
+### Migration Guide
+
+To update documents from the previous 0.1 draft to 0.1.1:
+
+1. **Purpose guidelines:** Wrap `whenToUse`/`whenNotToUse` in a `useCases` object.
+
+2. **Best practice entries:** Rename `entryType` → `level`.
+
+3. **Artifact references:** Move each `artifact-reference` guideline's `references`
+   into the entity's `links` array. Set `type` to the former `referenceType`. Copy
+   `name`, `role`, and `required` directly. Delete the guideline.
+
+4. **Token displayName:** Remove `displayName` from all token and token-group objects.
+
+5. **Anatomy tokens:** Convert `tokens` arrays to objects. Each array entry becomes a
+   key-value pair where the key is the token's purpose (ex: `"background"`) and the
+   value is the token name.
+
+**Automated migration (sed, one-liners):**
+
+```sh
+# Rename entryType to level
+sed -i 's/"entryType"/"level"/g' *.json
+
+# Remove displayName from tokens (manual review recommended)
+# Wrap purpose whenToUse/whenNotToUse (use the Python script pattern from this release)
+```
+
+---
+
+### Internal
+
+- Bundled schema now contains 66 definitions from 25 files (was 26 files; artifact-reference removed).
+- All 143 validations pass across examples and definition fragments.
+- Example sync pipeline (`sync-examples`) updated; 6 entity examples regenerated.
