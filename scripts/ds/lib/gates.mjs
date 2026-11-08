@@ -42,6 +42,7 @@ export const gateManifest = [
     match: /^packages\/ui\//,
     dependents: ["portal", "studio"],
     checks: [
+      { id: "ui-styles-check", node: "packages/ui/scripts/generate-styles.mjs", args: ["--check"], ci: "node packages/ui/scripts/generate-styles.mjs --check" },
       { id: "ui-build", npm: ["run", "ui:build"], ci: "npm run ui:build" },
       { id: "ui-test", npm: ["run", "ui:test"], ci: "npm run ui:test" },
       { id: "ui-check", npm: ["run", "ui:check"], ci: "npm run ui:check" },

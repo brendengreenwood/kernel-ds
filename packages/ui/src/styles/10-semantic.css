@@ -1,0 +1,233 @@
+/* ============================================================
+   Kernel — shadcn/ui theme tokens
+   Generated for Tailwind CSS v4 + shadcn/ui (New York)
+   ============================================================ */
+
+:root {
+  --radius: 0.875rem; /* Legacy general surface radius retained for existing
+     cards and floating layers while the internal-tool geometry migrates. */
+  --radius-control: 0.25rem; /* 4px — controls stay subordinate to surfaces. */
+  --radius-surface: 0.5rem; /* 8px — exposed perimeter of connected work surfaces. */
+  --radius-floating: 0.5rem; /* 8px — menus, popovers, and other floating layers. */
+  /* Panels floating over a full-bleed canvas (maps). Light: the card. */
+  --floating: var(--card);
+  color-scheme: light;
+  --radius-modal: 0.5rem; /* 8px — blocking dialogs share the system surface geometry. */
+  /* Connected panels round the exposed shell once. Regions inside the shell
+     remain square so adjacent navigator, canvas, and dock areas share seams
+     instead of reading as separate rounded cards. */
+  --panel-radius: var(--radius-surface);
+  --panel-inset: calc(var(--spacing) * 3);
+  /* Floating panes (decision 0083): panes float over a canvas (map, chart).
+     One inset from the canvas edge and one gap between panes keep the 8px rhythm. */
+  --pane-inset: 0.5rem;
+  --pane-gap: 0.5rem;
+
+  /* control metrics (decision 0010): the density knob for interactive controls */
+  --control-h-sm: 2rem;      /* 32px — compact toolbars, dense rows */
+  --control-h: 2.375rem;     /* 38px — the resting default */
+  --control-h-lg: 2.75rem;   /* 44px — hero actions; the touch minimum */
+
+  /* motion system (decision 0018): one source for timing + easing so
+     polish stays consistent and tunable. Honor prefers-reduced-motion
+     (guard at the end of this file). */
+  --duration-fast: 120ms;    /* hovers, small state flips */
+  --duration-base: 200ms;    /* the resting default */
+  --duration-slow: 320ms;    /* enter/exit, layout shifts */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);        /* decelerate — most UI */
+  --ease-in-out: cubic-bezier(0.5, 0, 0.2, 1);   /* symmetric moves */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* playful overshoot */
+
+  /* Neutral-warm light ladder (was cream): a barely-warm paper
+     ramp, hue 100, chroma 0.007 so it reads neutral, not yellow or red. Lighter
+     means closer: frame 50, page 100, cards white, edges 300. Light mode
+     only; dark keeps the green-tinted neutrals. */
+  --neutral-warm-50: oklch(0.979 0.016 100.0);
+  --neutral-warm-100: oklch(0.962 0.014 100.0);
+  --neutral-warm-200: oklch(0.918 0.013 100.0);
+  --neutral-warm-300: oklch(0.858 0.011 100.0);
+  --neutral-warm-400: oklch(0.725 0.010 100.0);
+  --neutral-warm-500: oklch(0.562 0.010 100.0);
+  --neutral-warm-600: oklch(0.460 0.010 100.0);
+  --neutral-warm-700: oklch(0.370 0.011 100.0);
+  --neutral-warm-800: oklch(0.270 0.012 100.0);
+  --neutral-warm-900: oklch(0.213 0.013 100.0);
+  --neutral-warm-950: oklch(0.165 0.013 100.0);
+
+  --background: var(--neutral-100);
+  --foreground: oklch(0.2128 0.0209 162.2254);
+  --card: oklch(1.0000 0 0);
+  --card-foreground: oklch(0.2128 0.0209 162.2254);
+  --popover: oklch(1.0000 0 0);
+  --popover-foreground: oklch(0.2128 0.0209 162.2254);
+  --primary: oklch(0.5364 0.1457 150.5842);
+  --primary-foreground: oklch(1.0000 0 0);
+  --secondary: oklch(0.9758 0.0163 121.7629);
+  --secondary-foreground: oklch(0.4373 0.1176 150.8612);
+  --muted: var(--neutral-100);
+  --muted-foreground: oklch(0.5350 0.0104 161.1304);
+  --accent: var(--lime-300);
+  --accent-foreground: oklch(0.2469 0.0618 153.3342);
+  --destructive: oklch(0.5227 0.2063 25.8499);
+  --destructive-foreground: oklch(1.0000 0 0);
+  --border: var(--neutral-300);
+  --input: var(--neutral-400);
+  --ring: oklch(0.5364 0.1457 150.5842);
+
+  --chart-1: oklch(0.5364 0.1457 150.5842);
+  --chart-2: var(--lime-500);
+  --chart-3: var(--lime-300);
+  --chart-4: oklch(0.4373 0.1176 150.8612);
+  --chart-5: oklch(0.2469 0.0618 153.3342);
+
+  --sidebar: var(--neutral-50);
+  --sidebar-foreground: oklch(0.2128 0.0209 162.2254);
+  --sidebar-primary: oklch(0.5364 0.1457 150.5842);
+  --sidebar-primary-foreground: oklch(1.0000 0 0);
+  /* Nav selection/hover is NEUTRAL, not green (see the .dark note). It also
+     has to be DARKER than the rail: a selected item lighter than a 0.967 rail
+     would read as a hole rather than a chip. One rung down. */
+  --sidebar-accent: var(--neutral-200);
+  --sidebar-accent-foreground: var(--neutral-900);
+  --sidebar-border: var(--neutral-300);
+  --sidebar-ring: oklch(0.5364 0.1457 150.5842);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Shadows are green-tinted near-black, not neutral black. Every surface in
+     Kernel is a green-tinted neutral, and occlusion on a tinted surface stays
+     in that surface's hue family — a pure-black cast reads as a foreign grey
+     smudge laid over the page. `--shadow-color` was declared here from the
+     start but nothing referenced it; the ramp below now does. */
+  --shadow-color: oklch(0.2 0.025 75);
+  --shadow-opacity: 0.1;
+  --shadow-blur: 3px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0;
+  --shadow-offset-y: 1px;
+  --letter-spacing: 0em;
+  --spacing: 0.25rem;
+  --tracking-normal: 0em;
+
+  /* Elevation ramp. The two smallest rungs are transparent BY DESIGN — small
+     surfaces are defined by their border, not by lift. From `sm` up, geometry
+     doubles each step (offset 1→2→4→8→16, blur 2→4→8→16→32, spread -blur/4)
+     and alpha climbs with it. That doubling is the ramp's contract: every rung
+     must be larger than the one below it on every axis. `2xl` used to be
+     `0 1px 3px / 0.25` — tighter than `xl` and even than `md`, so the top of
+     the ramp cast the smallest shadow in the set and read as a dark hairline
+     rather than as maximum lift. */
+  --shadow-2xs: 0 0 0 0 transparent;
+  --shadow-xs: 0 0 0 0 transparent;
+  --shadow-sm: 0 1px 2px 0px color-mix(in oklch, var(--shadow-color) 4%, transparent);
+  --shadow: 0 1px 2px 0px color-mix(in oklch, var(--shadow-color) 4%, transparent);
+  --shadow-md: 0 2px 4px -1px color-mix(in oklch, var(--shadow-color) 6%, transparent);
+  --shadow-lg: 0 4px 8px -2px color-mix(in oklch, var(--shadow-color) 8%, transparent);
+  --shadow-xl: 0 8px 16px -4px color-mix(in oklch, var(--shadow-color) 10%, transparent);
+  --shadow-2xl: 0 16px 32px -8px color-mix(in oklch, var(--shadow-color) 14%, transparent);
+
+  /* ---- elevation recipe (register Part 2.4) ----
+     A white card on a white canvas measures 1.000:1 — it exists only by its
+     hairline. Here the CAST does the lifting, not the edge: light already
+     comes from above in a light UI, so a white lip has nothing to add and
+     stays transparent. Raised furniture uses a surface fill one step off its
+     parent — frames, inner panels, tiles: ~1.06:1, a step, not a slab. */
+  --elev-lip: transparent;
+  --elev-cast: var(--shadow-lg);
+  /* Interaction fills (decision 0083): a neutral step above whatever surface
+     the row sits on, so hovers never tint green or vanish on cards. */
+  --state-hover: color-mix(in oklch, var(--foreground) 8%, transparent);
+  --state-press: color-mix(in oklch, var(--foreground) 12%, transparent);
+  --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 2.5%);
+}
+
+.dark {
+  /* v2 direction (register 2.1a): the elevation model inverts. Dark used to
+     RECESS cards below the canvas; now it raises them — surfaces derive from
+     the DS neutral scale (green-tinted by design), -900 for the canvas, -800
+     for elevated surfaces, -950 only for the recessed rail. Accents stay on
+     the lime/green ramps. */
+  --background: var(--neutral-900);
+  --foreground: var(--neutral-50);
+  --card: var(--neutral-800);
+  --card-foreground: var(--neutral-50);
+  --popover: var(--neutral-800);
+  --popover-foreground: var(--neutral-50);
+  --primary: var(--lime-300);
+  --primary-foreground: var(--neutral-950);
+  --secondary: var(--neutral-800);
+  --secondary-foreground: var(--neutral-100);
+  /* --muted now equals --card (register 2.2 caveat): anything styled bg-muted
+     on a card surface is invisible — separation on cards uses a foreground
+     overlay instead (see Table striped). */
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
+  --accent: var(--brand-900);
+  --accent-foreground: var(--neutral-50);
+  --destructive: var(--error-500);
+  --destructive-foreground: var(--neutral-50);
+  --border: var(--neutral-700);
+  --input: var(--neutral-700);
+  --ring: var(--lime-300);
+
+  --chart-1: var(--lime-300);
+  --chart-2: var(--lime-500);
+  --chart-3: oklch(0.5364 0.1457 150.5842);
+  --chart-4: oklch(0.4373 0.1176 150.8612);
+  --chart-5: oklch(0.2469 0.0618 153.3342);
+
+  --sidebar: var(--neutral-900);
+  --sidebar-foreground: var(--neutral-50);
+  --sidebar-primary: var(--lime-300);
+  --sidebar-primary-foreground: var(--neutral-950);
+  /* Nav selection/hover is NEUTRAL, not green. The rail is chrome; a coloured
+     chip there competes with the accent doing real work in the content. One
+     rung up from the rail reads as raised without a second green. */
+  --sidebar-accent: var(--neutral-800);
+  --sidebar-accent-foreground: var(--neutral-50);
+  --sidebar-border: var(--neutral-800);
+  --sidebar-ring: var(--lime-300);
+
+  /* Deeper than light's, and still in the surface hue family: this has to
+     darken a 0.165 rail, so the colour sits below every surface it will ever
+     fall on. The tint costs a little depth against pure black — measured: the
+     rail darkens by 4.7 8-bit levels instead of 5.0 — which is affordable
+     precisely because dark's cast was never doing the heavy lifting (see the
+     note below). Light is where the cast earns its keep: 18.7 levels there. */
+  --shadow-color: oklch(0.04 0.018 165);
+
+  /* Dark keeps the light ramp's GEOMETRY — the same offset/blur/spread at every
+     rung, so "lg" means one thing in both themes — but not its alpha. A shadow
+     is occlusion of ambient light, and on a 0.21-lightness card there is far
+     less of it to occlude: at the light ramp's 4-10% black, every rung here
+     resolved to a difference of under one 8-bit level. Dark shipped a verbatim
+     copy of the light values, so it had no working elevation at all. Alphas are
+     scaled ~4-7x, keeping the same climb. */
+  --shadow-2xs: 0 0 0 0 transparent;
+  --shadow-xs: 0 0 0 0 transparent;
+  --shadow-sm: 0 1px 2px 0px color-mix(in oklch, var(--shadow-color) 28%, transparent);
+  --shadow: 0 1px 2px 0px color-mix(in oklch, var(--shadow-color) 28%, transparent);
+  --shadow-md: 0 2px 4px -1px color-mix(in oklch, var(--shadow-color) 34%, transparent);
+  --shadow-lg: 0 4px 8px -2px color-mix(in oklch, var(--shadow-color) 40%, transparent);
+  --shadow-xl: 0 8px 16px -4px color-mix(in oklch, var(--shadow-color) 46%, transparent);
+  --shadow-2xl: 0 16px 32px -8px color-mix(in oklch, var(--shadow-color) 55%, transparent);
+
+  /* ---- elevation recipe (register Part 2.4) ----
+     Dark has no ambient light source to borrow, so raised furniture uses a
+     1px top highlight to establish its edge. The page surface owns a real
+     border instead of a separate simulated-edge token. Dark and light do not
+     carry depth the same way; the asymmetry is intentional. */
+  --elev-lip: color-mix(in oklch, var(--neutral-50) 7%, transparent);
+  --elev-cast: var(--shadow-lg);
+  /* Interaction fills (decision 0083): a neutral step above whatever surface
+     the row sits on, so hovers never tint green or vanish on cards. */
+  --state-hover: color-mix(in oklch, var(--foreground) 8%, transparent);
+  --state-press: color-mix(in oklch, var(--foreground) 12%, transparent);
+  --elev-raised-surface: color-mix(in oklch, var(--card), var(--foreground) 3.5%);
+
+  /* Floating panels lift off a dark canvas; fields inside sit one step below
+     so their edges hold (--input equals the panel otherwise). */
+  --floating: color-mix(in oklch, var(--neutral-800) 55%, var(--neutral-700));
+  color-scheme: dark;
+}
