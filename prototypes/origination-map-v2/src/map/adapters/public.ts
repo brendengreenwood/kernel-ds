@@ -2,6 +2,7 @@ import { SITES } from "@app/data/sites"
 import { DESTINATIONS } from "@app/data/destinations"
 import bargeRivers from "@app/data/barge-rivers.json"
 import rail from "@app/data/rail.json"
+import { SELL_ROUTES } from "@app/data/sell-routes"
 import railFlow from "@app/data/rail-flow.json"
 import type { MapData } from "@app/map/model"
 
@@ -15,4 +16,5 @@ export const publicMapData: MapData = {
     rail: rail as GeoJSON.FeatureCollection,
     routes: railFlow as GeoJSON.FeatureCollection,
   },
+  sellRoutes: SELL_ROUTES,
 }

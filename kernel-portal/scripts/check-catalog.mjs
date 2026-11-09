@@ -25,11 +25,11 @@ const uniqueDocSlugs = new Set(catalog.flatMap((entity) => entity.documentation.
 if (JSON.stringify(componentMeta) !== JSON.stringify(expectedLifecycle)) {
   issues.push({ code: "invalid-entity", message: "Portal lifecycle adapter differs from catalog selectors" })
 }
-if (catalog.length !== 101 || componentMeta.length !== 101) {
-  issues.push({ code: "invalid-entity", message: `Expected 101 catalog and lifecycle entities; found ${catalog.length} and ${componentMeta.length}` })
+if (catalog.length !== 105 || componentMeta.length !== 105) {
+  issues.push({ code: "invalid-entity", message: `Expected 105 catalog and lifecycle entities; found ${catalog.length} and ${componentMeta.length}` })
 }
-if (uniqueDocSlugs.size !== 88) {
-  issues.push({ code: "invalid-entity", message: `Catalog references ${uniqueDocSlugs.size} unique docs; expected 88` })
+if (uniqueDocSlugs.size !== 92) {
+  issues.push({ code: "invalid-entity", message: `Catalog references ${uniqueDocSlugs.size} unique docs; expected 92` })
 }
 
 for (const entity of catalog) {

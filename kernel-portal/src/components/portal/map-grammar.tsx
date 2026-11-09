@@ -260,6 +260,62 @@ export function MapGrammarSection() {
         </TableBody>
       </Table>
 
+      <Subhead id="map-grammar-objects">Model objects</Subhead>
+      <p className="mb-4 max-w-2xl text-sm text-muted-foreground">
+        The nouns the map renders. Each is a catalog object
+        (<code>object.draw-area</code>, <code>object.pair</code>,{" "}
+        <code>object.corridor</code>, <code>object.route</code>) so the model
+        is named before it is drawn — a mark with no object underneath it is a
+        grammar violation. Built objects come from real data; guessed objects
+        are drawn with an explicit caveat in their label.
+      </p>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {[
+          {
+            anchor: "object-draw-area",
+            name: "Draw area",
+            geometry: "Area",
+            status: "Built",
+            body: "The assumed radius a buying point pulls grain from. Rendered on the ground layer at state zoom and closer.",
+          },
+          {
+            anchor: "object-pair",
+            name: "Pair",
+            geometry: "Line",
+            status: "Built",
+            body: "Two nearby competing buying points. The unit of the competition lens — a pair is drawn, never inferred by eye.",
+          },
+          {
+            anchor: "object-corridor",
+            name: "Corridor",
+            geometry: "Line",
+            status: "Built",
+            body: "Barge rivers and main-line rail that grain moves over. Hue comes from the ledger: rail rust, water sky.",
+          },
+          {
+            anchor: "object-route",
+            name: "Route",
+            geometry: "Line",
+            status: "Guessed",
+            body: "Rail path from a buying point to an outlet along a corridor — shortest track, not a real contract, and labeled as such.",
+          },
+        ].map((o) => (
+          <div
+            key={o.anchor}
+            id={o.anchor}
+            className="rounded-[var(--radius-surface)] border bg-card p-4"
+          >
+            <div className="flex items-baseline justify-between gap-2">
+              <h5 className={typeStyles.overline}>{o.name}</h5>
+              <span className="text-xs text-muted-foreground">
+                {o.geometry} · {o.status}
+              </span>
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">{o.body}</p>
+          </div>
+        ))}
+      </div>
+
       <Subhead id="map-grammar-binding">Tile-source binding</Subhead>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-[var(--radius-surface)] border bg-card p-4">

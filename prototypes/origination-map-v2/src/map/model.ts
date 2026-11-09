@@ -13,6 +13,22 @@ export type Corridors = {
   routes: GeoJSON.FeatureCollection
 }
 
+/** One sell-side route from a buying point to a destination (object.route — a guess, not a contract). */
+export type SellRoute = {
+  kind: "port" | "feedyard" | "ethanol"
+  destId: number
+  mode: "rail" | "barge" | "truck"
+  miles: number
+  /** Indices into SellRoutes.segments (rail/barge only; truck is a straight line). */
+  segs?: number[]
+}
+
+/** Precomputed sell-side routes; geometry is shared between routes via `segments`. */
+export type SellRoutes = {
+  segments: [number, number][][]
+  bySite: ReadonlyMap<number, SellRoute[]>
+}
+
 /**
  * Everything the map renders, in one typed shape. The map never imports data files;
  * an adapter builds this object. Public data is one adapter; private data is another.
@@ -23,4 +39,6 @@ export type MapData = {
   sites: Site[]
   destinations: Destination[]
   corridors: Corridors
+  /** Sell-side routes per buying point; absent when the source can't route. */
+  sellRoutes?: SellRoutes
 }

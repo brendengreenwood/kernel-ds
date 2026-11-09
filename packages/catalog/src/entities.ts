@@ -2990,5 +2990,133 @@ export const catalog = [
       "kernel-portal/src/components/portal/pricing-scenario.tsx"
     ],
     "note": "Domain pattern 3; the Merchant's central business object — identity (location + commodity + contract month + time of shipment), one scenario per shipment window, staleness from the Posted Bid Date."
+  },
+  {
+    "id": "object.draw-area",
+    "name": "Draw area",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "recommendedPatterns",
+        "target": "pattern.map-grammar"
+      }
+    ],
+    "documentation": {
+      "slug": "draw-area",
+      "portalAnchor": "object-draw-area"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+    ],
+    "note": "Map model object (origination-map v2 data model). The assumed radius a buying point pulls grain from. Geometry: area. Prototype status: built."
+  },
+  {
+    "id": "object.pair",
+    "name": "Pair",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "recommendedPatterns",
+        "target": "pattern.map-grammar"
+      }
+    ],
+    "documentation": {
+      "slug": "pair",
+      "portalAnchor": "object-pair"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+    ],
+    "note": "Map model object (origination-map v2 data model). Two nearby competing buying points. Geometry: line. Prototype status: built."
+  },
+  {
+    "id": "object.corridor",
+    "name": "Corridor",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "recommendedPatterns",
+        "target": "pattern.map-grammar"
+      }
+    ],
+    "documentation": {
+      "slug": "corridor",
+      "portalAnchor": "object-corridor"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+    ],
+    "note": "Map model object (origination-map v2 data model). Barge rivers and main-line rail that grain moves over. Geometry: line. Prototype status: built."
+  },
+  {
+    "id": "object.route",
+    "name": "Route",
+    "kind": "object",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "kernel-portal",
+    "tags": [
+      "object",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [
+      {
+        "type": "dependsOn",
+        "target": "object.corridor"
+      },
+      {
+        "type": "recommendedPatterns",
+        "target": "pattern.map-grammar"
+      }
+    ],
+    "documentation": {
+      "slug": "route",
+      "portalAnchor": "object-route"
+    },
+    "ai": {
+      "bundleCategory": "design",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+    ],
+    "note": "Map model object (origination-map v2 data model). Rail path from a buying point to an outlet — shortest track, not a real contract. Geometry: line. Prototype status: guessed."
   }
 ] as const satisfies readonly CatalogEntity[]
