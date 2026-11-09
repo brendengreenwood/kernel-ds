@@ -42,7 +42,7 @@ const versions: { v: string; date: string; change: string }[] = [
 ]
 
 function WindowStatus({ status }: { status: "published" | "draft" | "expired" }) {
-  if (status === "published") return <StatusBadge status="settled">Published</StatusBadge>
+  if (status === "published") return <StatusBadge status="published" />
   if (status === "expired") return <StatusBadge status="expired" />
   return <StatusBadge status="draft" />
 }
@@ -56,7 +56,7 @@ function ScenarioHeader() {
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2.5">
           <h4 className="text-lg font-semibold tracking-tight">Albion · Corn · Dec 2026</h4>
-          <StatusBadge status="settled">Published</StatusBadge>
+          <StatusBadge status="published" />
         </div>
         <div className="text-sm text-muted-foreground">
           CZ6 (Dec 2026 futures) · Posted Bid Date Nov 6, 2026

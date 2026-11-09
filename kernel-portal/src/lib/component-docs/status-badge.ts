@@ -1,15 +1,17 @@
 import { parseComponentDoc, type ComponentDoc } from "./schema.ts"
 
 /**
- * StatusBadge — persistent lifecycle state for a load or contract. CVA-driven
- * single axis: `status` (10 keys). Source truth verified against
+ * StatusBadge — persistent lifecycle state for a scenario, producer bid, or
+ * contract. CVA-driven single axis: `status` (12 keys across three domain
+ * lifecycles, decision 0092). Source truth verified against
  * `status-badge.tsx` (1 slot, 2 exports).
  */
 export const statusBadgeDoc: ComponentDoc = parseComponentDoc({
   id: "status-badge",
   name: "StatusBadge",
   slug: "status-badge",
-  summary: "A persistent lifecycle state an object sits in.",
+  summary:
+    "A persistent lifecycle state an object sits in — one ledger shared by the scenario, producer-bid, and contract lifecycles.",
   status: "ready",
   sourceFiles: ["status-badge.tsx"],
   metadata: { owner: "ds", kind: "display" },
@@ -34,12 +36,14 @@ export const statusBadgeDoc: ComponentDoc = parseComponentDoc({
           axis: "status",
           keys: [
             "draft",
+            "published",
+            "archived",
             "pending",
+            "accepted",
             "booked",
             "in_transit",
             "delivered",
             "settled",
-            "on_hold",
             "rejected",
             "cancelled",
             "expired",

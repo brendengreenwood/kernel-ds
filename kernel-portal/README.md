@@ -105,8 +105,9 @@ src/
 > stock shadcn versions — they add first-class `success` / `warning` / `info`
 > variants wired to the notification scales (light + dark).
 > `ui/status-badge.tsx` is Kernel-only — `<StatusBadge status="…" />` for the
-> load/contract lifecycle (draft, pending, booked, in_transit, delivered,
-> settled, on_hold, rejected, cancelled, expired), each on a distinct
+> scenario (draft, published, archived), producer-bid (pending, accepted,
+> rejected) and contract (booked, in_transit, delivered, settled, cancelled)
+> lifecycles plus the shared expired, each on a distinct
 > `--status-*` hue. Use it for *persistent state*; use `Badge`/`Alert`
 > variants for *event outcomes*.
 > `ui/tabs.tsx` extends the stock component (decision 0021): `TabsList` takes

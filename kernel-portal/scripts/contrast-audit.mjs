@@ -202,12 +202,14 @@ for (const family of families) {
 /* ---- (c) StatusBadge variants (from status-badge.tsx) ---- */
 const statusVariants = [
   { status: "draft", family: "neutral", lightText: "800", darkBg: ["800", 0.5] },
+  { status: "published", family: "viz-sky", lightText: "800", darkBg: ["900", 0.45] },
+  { status: "archived", family: "viz-clay", lightText: "900", darkBg: ["900", 0.45] },
   { status: "pending", family: "info", lightText: "800", darkBg: ["900", 0.45] },
+  { status: "accepted", family: "viz-crop", lightText: "800", darkBg: ["900", 0.45] },
   { status: "booked", family: "viz-plum", lightText: "800", darkBg: ["900", 0.45] },
   { status: "in_transit", family: "warning", lightText: "900", darkBg: ["900", 0.45] },
   { status: "delivered", family: "viz-teal", lightText: "800", darkBg: ["900", 0.45] },
   { status: "settled", family: "success", lightText: "800", darkBg: ["900", 0.45] },
-  { status: "on_hold", family: "viz-clay", lightText: "900", darkBg: ["900", 0.45] },
   { status: "rejected", family: "error", lightText: "800", darkBg: ["900", 0.45] },
   { status: "cancelled", family: "viz-slate", lightText: "800", darkBg: ["900", 0.45] },
   { status: "expired", family: "viz-rust", lightText: "800", darkBg: ["900", 0.45] },

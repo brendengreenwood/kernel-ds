@@ -31,9 +31,9 @@ import {
 /** Scenario lifecycle → DS StatusBadge hue + label (StatusBadge is the DS's
     persistent-state axis; children override the label for this domain). */
 const statusMap: Record<ScenarioStatus, { hue: Status; label: string }> = {
-  active: { hue: "settled", label: "Active" },
+  active: { hue: "published", label: "Active" },
   draft: { hue: "draft", label: "Draft" },
-  paused: { hue: "on_hold", label: "Paused" },
+  paused: { hue: "archived", label: "Paused" },
   expired: { hue: "expired", label: "Expired" },
 }
 

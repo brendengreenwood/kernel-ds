@@ -63,7 +63,7 @@ const kpis: Kpi[] = [
 const feed: { id: string; what: string; who: string; num: string; status: Status }[] = [
   { id: "#4468", what: "settled", who: "Valley Co-op · 12m ago", num: "$101,049", status: "settled" },
   { id: "#4471", what: "in transit", who: "Hartmann Farms · 38m ago", num: "18,400 bu", status: "in_transit" },
-  { id: "#4465", what: "on hold", who: "Birchwood · 1h ago", num: "12,750 bu", status: "on_hold" },
+  { id: "#4465", what: "cancelled", who: "Birchwood · 1h ago", num: "12,750 bu", status: "cancelled" },
   { id: "#4460", what: "rejected", who: "Hartmann Farms · 2h ago", num: "—", status: "rejected" },
 ]
 
