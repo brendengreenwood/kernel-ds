@@ -44,7 +44,7 @@ type Project = { name: string; status: Status; owner: string; usage: number }
 const data: Project[] = [
   { name: "orchard-api", status: "in_transit", owner: "Ellis Morgan", usage: 62 },
   { name: "leaf-web", status: "settled", owner: "Sasha Lin", usage: 38 },
-  { name: "seed-worker", status: "on_hold", owner: "Devon Park", usage: 0 },
+  { name: "seed-worker", status: "cancelled", owner: "Devon Park", usage: 0 },
   { name: "canopy-edge", status: "rejected", owner: "Rae Okafor", usage: 91 },
 ]
 
@@ -159,19 +159,21 @@ function StatusBadgeCluster() {
   return (
     <>
       <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
-        Persistent lifecycle states for loads and contracts. Each maps to a
+        Persistent lifecycle states for scenarios, producer bids, and contracts. Each maps to a
         <code className="mx-1 font-mono">--status-*</code> token on a distinct hue,
         so a column of them is scannable at a glance.
       </p>
       <Demo className="gap-2.5">
         {([
           "draft",
+          "published",
+          "archived",
           "pending",
+          "accepted",
           "booked",
           "in_transit",
           "delivered",
           "settled",
-          "on_hold",
           "rejected",
           "cancelled",
           "expired",

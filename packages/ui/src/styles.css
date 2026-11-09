@@ -879,12 +879,14 @@
 /* ===== STATUS — lifecycle states (alias scale steps) ===== */
 :root {
   --status-draft: var(--neutral-500);
+  --status-published: var(--viz-sky-500);
+  --status-archived: var(--viz-clay-500);
   --status-pending: var(--info-500);
+  --status-accepted: var(--viz-crop-500);
   --status-booked: var(--viz-plum-500);
   --status-intransit: var(--warning-500);
   --status-delivered: var(--viz-teal-500);
   --status-settled: var(--success-500);
-  --status-onhold: var(--viz-clay-500);
   --status-rejected: var(--error-500);
   --status-cancelled: var(--viz-slate-500);
   --status-expired: var(--viz-rust-500);
@@ -892,12 +894,14 @@
 
 @theme inline {
   --color-status-draft: var(--status-draft);
+  --color-status-published: var(--status-published);
+  --color-status-archived: var(--status-archived);
   --color-status-pending: var(--status-pending);
+  --color-status-accepted: var(--status-accepted);
   --color-status-booked: var(--status-booked);
   --color-status-intransit: var(--status-intransit);
   --color-status-delivered: var(--status-delivered);
   --color-status-settled: var(--status-settled);
-  --color-status-onhold: var(--status-onhold);
   --color-status-rejected: var(--status-rejected);
   --color-status-cancelled: var(--status-cancelled);
   --color-status-expired: var(--status-expired);

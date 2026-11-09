@@ -51,7 +51,7 @@ export const revenue3mo: Point[] = [
 export const latestOrders = [
   { id: "#4468", who: "Valley Co-op", status: "settled" as const, amount: "$101,049", when: "12m ago" },
   { id: "#4471", who: "Hartmann Farms", status: "in_transit" as const, amount: "18,400 bu", when: "38m ago" },
-  { id: "#4465", who: "Birchwood", status: "on_hold" as const, amount: "12,750 bu", when: "1h ago" },
+  { id: "#4465", who: "Birchwood", status: "cancelled" as const, amount: "12,750 bu", when: "1h ago" },
   { id: "#4460", who: "Hartmann Farms", status: "rejected" as const, amount: "—", when: "2h ago" },
 ]
 

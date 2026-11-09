@@ -72,15 +72,17 @@ const commodities: [string, string][] = [
 
 const commodityTags: Commodity[] = ["corn", "canola", "soybeans", "wheat"]
 
-// token key ≠ badge key for the two snake_case statuses (in_transit, on_hold)
+// token key ≠ badge key for the one snake_case status (in_transit)
 const statuses: { token: string; badge: Status; source: string }[] = [
   { token: "--status-draft", badge: "draft", source: "neutral-500" },
+  { token: "--status-published", badge: "published", source: "viz-sky-500" },
+  { token: "--status-archived", badge: "archived", source: "viz-clay-500" },
   { token: "--status-pending", badge: "pending", source: "info-500" },
+  { token: "--status-accepted", badge: "accepted", source: "viz-crop-500" },
   { token: "--status-booked", badge: "booked", source: "viz-plum-500" },
   { token: "--status-intransit", badge: "in_transit", source: "warning-500" },
   { token: "--status-delivered", badge: "delivered", source: "viz-teal-500" },
   { token: "--status-settled", badge: "settled", source: "success-500" },
-  { token: "--status-onhold", badge: "on_hold", source: "viz-clay-500" },
   { token: "--status-rejected", badge: "rejected", source: "error-500" },
   { token: "--status-cancelled", badge: "cancelled", source: "viz-slate-500" },
   { token: "--status-expired", badge: "expired", source: "viz-rust-500" },

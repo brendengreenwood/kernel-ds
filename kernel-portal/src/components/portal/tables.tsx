@@ -68,7 +68,7 @@ type Row = { id: string; farm: string; grain: string; status: Status; bu: string
 const rows: Row[] = [
   { id: "#4471", farm: "Hartmann Farms", grain: "Corn", status: "in_transit", bu: "18,400", price: "4.62" },
   { id: "#4468", farm: "Valley Co-op", grain: "Soybean", status: "settled", bu: "9,120", price: "11.08" },
-  { id: "#4465", farm: "Birchwood Grain", grain: "Wheat", status: "on_hold", bu: "12,750", price: "5.94" },
+  { id: "#4465", farm: "Birchwood Grain", grain: "Wheat", status: "cancelled", bu: "12,750", price: "5.94" },
   { id: "#4460", farm: "Hartmann Farms", grain: "Corn", status: "rejected", bu: "0", price: "—" },
 ]
 
@@ -143,7 +143,7 @@ function CellTypes() {
   const data = [
     { id: "CTR-4471", meta: "Corn · Jun 2026", who: "EM", name: "Ellis Morgan", status: "in_transit" as Status, fill: 72, bu: "18,400", val: "$85,008" },
     { id: "CTR-4468", meta: "Soybean · Jun 2026", who: "SL", name: "Sasha Lin", status: "settled" as Status, fill: 100, bu: "9,120", val: "$101,049" },
-    { id: "CTR-4465", meta: "Wheat · Jul 2026", who: "DP", name: "Devon Park", status: "on_hold" as Status, fill: 34, bu: "12,750", val: "$75,735" },
+    { id: "CTR-4465", meta: "Wheat · Jul 2026", who: "DP", name: "Devon Park", status: "cancelled" as Status, fill: 34, bu: "12,750", val: "$75,735" },
   ]
   return (
     <div className="overflow-hidden rounded-lg border bg-card">

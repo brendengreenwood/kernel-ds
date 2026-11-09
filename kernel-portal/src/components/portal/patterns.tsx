@@ -73,7 +73,7 @@ type Load = {
 const loads: Load[] = [
   { id: "#4471", farm: "Hartmann Farms", grain: "Corn", status: "in_transit", bu: "18,400" },
   { id: "#4468", farm: "Valley Co-op", grain: "Soybean", status: "settled", bu: "9,120" },
-  { id: "#4465", farm: "Birchwood Grain", grain: "Wheat", status: "on_hold", bu: "12,750" },
+  { id: "#4465", farm: "Birchwood Grain", grain: "Wheat", status: "cancelled", bu: "12,750" },
   { id: "#4460", farm: "Hartmann Farms", grain: "Corn", status: "rejected", bu: "0" },
 ]
 
