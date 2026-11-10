@@ -12,6 +12,7 @@ node scripts/check-component-docs.mjs --coverage — every ready component has a
 node scripts/check-prose-quality.mjs — no placeholder/mad-lib prose in doc entities
 node scripts/check-style-fidelity.mjs — overlines route through typeStyles.overline; no rounded-xl/[ radius hardcodes
 node scripts/check-pane-usage.mjs — hand-rolled floating panels must use @kernel/ui panes (ratcheted baseline)
+node scripts/check-ds-usage.mjs — hand-spun buttons, form controls, tables, cards and foreign icon packages must come from @kernel/ui (ratcheted baseline; also scans prototypes/origination-map-v2)
 node scripts/check-geometry-roles.mjs — generic rounded-* aliases must resolve to semantic geometry roles; reports migration inventory
 node scripts/check-status-map.mjs — status→tone map integrity (Amendment A4)
 node scripts/emit-composition.mjs — composition contract rules (EMIT-OK)

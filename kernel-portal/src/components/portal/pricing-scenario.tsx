@@ -3,6 +3,14 @@ import { LineChart, MoreVertical } from "@kernel/ui/icon"
 import { Section, Subhead } from "@/components/portal/section"
 import { Button } from "@kernel/ui"
 import { StatusBadge } from "@kernel/ui"
+import { Freshness } from "@kernel/ui"
+import {
+  VersionHistory,
+  VersionHistoryItem,
+  VersionHistoryLabel,
+  VersionHistoryMeta,
+  VersionHistorySummary,
+} from "@kernel/ui"
 import {
   Table,
   TableBody,
@@ -135,10 +143,10 @@ function WindowsTable() {
             <TableCell className="tabular-nums">{w.posted}</TableCell>
             <TableCell className="tabular-nums">{w.max}</TableCell>
             <TableCell className="tabular-nums">
-              {w.bidDate}
-              {w.stale ? (
-                <span className="ml-1.5 font-sans text-xs font-medium text-warning-700 dark:text-warning-400">stale</span>
-              ) : null}
+              <span className="inline-flex items-center gap-2">
+                {w.bidDate}
+                {w.stale ? <Freshness state="stale" /> : null}
+              </span>
             </TableCell>
             <TableCell className="text-muted-foreground">{w.band}</TableCell>
             <TableCell><WindowStatus status={w.status} /></TableCell>
@@ -176,19 +184,19 @@ function StaleBands() {
   )
 }
 
-function VersionHistory() {
+function ScenarioVersions() {
   return (
     <div className="rounded-lg border bg-card">
       <div className="border-b px-5 py-3.5 text-sm font-semibold">Version history — one scenario</div>
-      <div className="px-5 pt-1 pb-4">
-        {versions.map(({ v, date, change }) => (
-          <div key={v} className="flex items-baseline gap-4 border-b py-3 text-sm last:border-b-0">
-            <div className="tabular-nums text-muted-foreground">{v}</div>
-            <div className="min-w-0 flex-1">{change}</div>
-            <div className="shrink-0 text-muted-foreground">{date}</div>
-          </div>
+      <VersionHistory className="px-5 pt-1 pb-4">
+        {versions.map(({ v, date, change }, i) => (
+          <VersionHistoryItem key={v} current={i === 0}>
+            <VersionHistoryLabel>{v}</VersionHistoryLabel>
+            <VersionHistorySummary>{change}</VersionHistorySummary>
+            <VersionHistoryMeta>{date}</VersionHistoryMeta>
+          </VersionHistoryItem>
         ))}
-      </div>
+      </VersionHistory>
       <div className="border-t px-5 py-3 text-xs text-muted-foreground">
         Every save is a version of the same scenario; nothing in a version can
         change identity. Originators see the latest published version only —
@@ -239,7 +247,7 @@ export function PricingScenarioSection() {
       </p>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-start">
         <StaleBands />
-        <VersionHistory />
+        <ScenarioVersions />
       </div>
     </Section>
   )

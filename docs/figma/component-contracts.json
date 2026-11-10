@@ -1019,7 +1019,7 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/command.tsx"
       ],
-      "sourceHash": "25a6bba86da03fd462ad3d5919a82b776cb51daf28199c4d5d88ef70d0a29fdf",
+      "sourceHash": "0fd02a44a4dea4bb0b4f3ecd4c8834f45fecbc784997e70a0c73ecbc70789456",
       "variantAxes": {},
       "publicProperties": [
         "children",
@@ -1085,7 +1085,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "54d44000b8fcb49b8d9c39429ae199e1e5ad27d87fb0f7c978f25b40010db5d5"
+      "contractHash": "43f765f63eaf36e6015514c9d03cbbf749282b376f4285a2a0c3f4e934d6b8ca"
     },
     {
       "entityId": "component.context-menu",
@@ -3214,17 +3214,19 @@
       "sourceFiles": [
         "packages/ui/src/components/ui/status-badge.tsx"
       ],
-      "sourceHash": "f43422ff35b68094b5920b4d8c9b679412adf7b03ae1d570d4e646fe49961317",
+      "sourceHash": "d7913b3ac46e3a6598c3120ddf5c64bc77b494f56d2c6063f7f2c91e906fe297",
       "variantAxes": {
         "status": [
+          "accepted",
+          "archived",
           "booked",
           "cancelled",
           "delivered",
           "draft",
           "expired",
           "in_transit",
-          "on_hold",
           "pending",
+          "published",
           "rejected",
           "settled"
         ]
@@ -3247,7 +3249,7 @@
       "designStateAxes": {},
       "figmaProperties": {},
       "notes": [],
-      "contractHash": "575383b4dad16fb316cb5f220645394fd7ffd4cdf6b8e4ef641001cc2a288c1e"
+      "contractHash": "080d1f66dcbf2c98211d92e749d7d04ee7c4520d12ada3f5f29c7288b0f3474a"
     },
     {
       "entityId": "component.switch",

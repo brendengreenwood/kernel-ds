@@ -25,6 +25,6 @@ npm pack --dry-run --json
 ## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
 
 - Export entries: ., ./api.json, ./icon, ./marks, ./package.json, ./styles.css, ./utils
-- Root-entry modules: 69 (66 catalog-backed)
-- Catalog entities owned: 63
+- Root-entry modules: 71 (68 catalog-backed)
+- Catalog entities owned: 65
 <!-- kernel-ds:generated:end -->

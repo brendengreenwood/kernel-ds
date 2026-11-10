@@ -16,6 +16,14 @@ import { ArrowUpDown, ChevronDown } from "@kernel/ui/icon"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@kernel/ui"
 import { Badge } from "@kernel/ui"
 import { StatusBadge, type Status } from "@kernel/ui"
+import { Freshness } from "@kernel/ui"
+import {
+  VersionHistory,
+  VersionHistoryItem,
+  VersionHistoryLabel,
+  VersionHistoryMeta,
+  VersionHistorySummary,
+} from "@kernel/ui"
 import { Avatar, AvatarFallback } from "@kernel/ui"
 import { Button } from "@kernel/ui"
 import { Progress } from "@kernel/ui"
@@ -328,9 +336,73 @@ function SeparatorCluster() {
   )
 }
 
+function FreshnessCluster() {
+  return (
+    <>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        Whether market data is still inside its stale limit. It is a condition
+        derived from a date, not a lifecycle state — a published scenario stays
+        published while its Posted Bid Date goes stale underneath it.
+      </p>
+      <Demo className="gap-6">
+        <Freshness state="fresh" />
+        <Freshness state="stale" />
+        <Freshness state="stale">Stale · 4 business days</Freshness>
+      </Demo>
+      <Demo className="mt-4 gap-8 text-sm">
+        <span className="inline-flex items-center gap-2 tabular-nums">
+          Nov 6
+          <Freshness state="fresh" />
+        </span>
+        <span className="inline-flex items-center gap-2 tabular-nums">
+          Nov 3
+          <Freshness state="stale" />
+        </span>
+      </Demo>
+    </>
+  )
+}
+
+function VersionHistoryCluster() {
+  return (
+    <>
+      <p className="-mt-2 mb-4 max-w-2xl text-sm text-muted-foreground">
+        The saves of one object, newest first. Every row is the same Pricing
+        scenario — Albion · Corn · Dec 2026 — saved four times.
+      </p>
+      <Demo className="block">
+        <VersionHistory className="max-w-xl">
+          <VersionHistoryItem current>
+            <VersionHistoryLabel>v4</VersionHistoryLabel>
+            <VersionHistorySummary>Posted Bid Date refreshed → Nov 6</VersionHistorySummary>
+            <VersionHistoryMeta>Nov 6</VersionHistoryMeta>
+          </VersionHistoryItem>
+          <VersionHistoryItem>
+            <VersionHistoryLabel>v3</VersionHistoryLabel>
+            <VersionHistorySummary>Max Bid $4.20 → $4.25</VersionHistorySummary>
+            <VersionHistoryMeta>Nov 3</VersionHistoryMeta>
+          </VersionHistoryItem>
+          <VersionHistoryItem>
+            <VersionHistoryLabel>v2</VersionHistoryLabel>
+            <VersionHistorySummary>Posted Bid Date refreshed → Oct 30</VersionHistorySummary>
+            <VersionHistoryMeta>Oct 30</VersionHistoryMeta>
+          </VersionHistoryItem>
+          <VersionHistoryItem>
+            <VersionHistoryLabel>v1</VersionHistoryLabel>
+            <VersionHistorySummary>Created · published to Originators</VersionHistorySummary>
+            <VersionHistoryMeta>Oct 22</VersionHistoryMeta>
+          </VersionHistoryItem>
+        </VersionHistory>
+      </Demo>
+    </>
+  )
+}
+
 export const dataClusters: GalleryCluster[] = [
   { anchor: "c-card", slug: "card", title: "Card", group: "Data display", demo: CardCluster },
   { anchor: "c-status-badge", slug: "status-badge", title: "Status badges", group: "Data display", demo: StatusBadgeCluster },
+  { anchor: "c-freshness", slug: "freshness", title: "Freshness", group: "Data display", demo: FreshnessCluster },
+  { anchor: "c-version-history", slug: "version-history", title: "Version history", group: "Data display", demo: VersionHistoryCluster },
   { anchor: "c-badge", slug: "badge", title: "Badge · Avatar", group: "Data display", demo: BadgeCluster },
   { anchor: "c-table", slug: "table", title: "Table · Data table (sortable)", group: "Data display", demo: TableCluster },
   { anchor: "c-progress", slug: "progress", title: "Progress · Skeleton", group: "Data display", demo: ProgressCluster },

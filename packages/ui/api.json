@@ -126,6 +126,10 @@
       "catalogBacked": true
     },
     {
+      "module": "freshness",
+      "catalogBacked": true
+    },
+    {
       "module": "hover-card",
       "catalogBacked": true
     },
@@ -275,6 +279,10 @@
     },
     {
       "module": "tooltip",
+      "catalogBacked": true
+    },
+    {
+      "module": "version-history",
       "catalogBacked": true
     }
   ]
