@@ -1,16 +1,17 @@
 /**
  * Component-docs barrel — the single registry of component doc entities.
  *
- * `componentDocs` is keyed by gallery slug; the parity gate
- * (`scripts/check-component-docs.mjs`) and the portal renderer
- * (`ComponentDocSections`) both read from this map. Adding a component's
- * documentation means authoring a `<slug>.ts` entity and registering it here.
+ * GENERATED from the `<slug>.ts` files in this directory by
+ * `kernel-portal/scripts/generate-component-docs-index.mjs`; never hand-edit.
+ * Authoring a doc entity is just adding the `<slug>.ts` file (exporting one
+ * `*Doc` const) and regenerating. The parity gate
+ * (`scripts/check-component-docs.mjs`) fails when this file is stale.
  */
 import type { ComponentDoc } from "./schema.ts"
 import { accordionDoc } from "./accordion.ts"
 import { advancedFilteringDoc } from "./advanced-filtering.ts"
-import { alertDoc } from "./alert.ts"
 import { alertDialogDoc } from "./alert-dialog.ts"
+import { alertDoc } from "./alert.ts"
 import { animatedNumberDoc } from "./animated-number.ts"
 import { appShellDoc } from "./app-shell.ts"
 import { aspectRatioDoc } from "./aspect-ratio.ts"
@@ -20,8 +21,8 @@ import { badgeDoc } from "./badge.ts"
 import { borderBeamDoc } from "./border-beam.ts"
 import { breadcrumbDoc } from "./breadcrumb.ts"
 import { bubbleDoc } from "./bubble.ts"
-import { buttonDoc } from "./button.ts"
 import { buttonGroupDoc } from "./button-group.ts"
+import { buttonDoc } from "./button.ts"
 import { calendarDoc } from "./calendar.ts"
 import { cardDoc } from "./card.ts"
 import { carouselDoc } from "./carousel.ts"
@@ -45,11 +46,11 @@ import { emptyDoc } from "./empty.ts"
 import { fieldDoc } from "./field.ts"
 import { filteringDoc } from "./filtering.ts"
 import { flowsDoc } from "./flows.ts"
-import { formDoc } from "./form.ts"
 import { formElementsDoc } from "./form-elements.ts"
+import { formDoc } from "./form.ts"
 import { hoverCardDoc } from "./hover-card.ts"
-import { inputDoc } from "./input.ts"
 import { inputOtpDoc } from "./input-otp.ts"
+import { inputDoc } from "./input.ts"
 import { itemDoc } from "./item.ts"
 import { kbdDoc } from "./kbd.ts"
 import { labelDoc } from "./label.ts"
@@ -57,18 +58,18 @@ import { legendswatchDoc } from "./legendswatch.ts"
 import { mapGrammarDoc } from "./map-grammar.ts"
 import { markerDoc } from "./marker.ts"
 import { menubarDoc } from "./menubar.ts"
-import { messageDoc } from "./message.ts"
 import { messageScrollerDoc } from "./message-scroller.ts"
+import { messageDoc } from "./message.ts"
 import { modalsDoc } from "./modals.ts"
 import { nativeSelectDoc } from "./native-select.ts"
-import { navigationDoc } from "./navigation.ts"
 import { navigationMenuDoc } from "./navigation-menu.ts"
+import { navigationDoc } from "./navigation.ts"
 import { originationFlowDoc } from "./origination-flow.ts"
 import { pageHeaderDoc } from "./page-header.ts"
 import { paginationDoc } from "./pagination.ts"
+import { paneCanvasDoc } from "./pane-canvas.ts"
 import { panelsDoc } from "./panels.ts"
 import { panesDoc } from "./panes.ts"
-import { paneCanvasDoc } from "./pane-canvas.ts"
 import { pinDoc } from "./pin.ts"
 import { plotDoc } from "./plot.ts"
 import { popoverDoc } from "./popover.ts"
@@ -90,15 +91,15 @@ import { tableDoc } from "./table.ts"
 import { tablesDoc } from "./tables.ts"
 import { tabsDoc } from "./tabs.ts"
 import { textareaDoc } from "./textarea.ts"
-import { toggleDoc } from "./toggle.ts"
 import { toggleGroupDoc } from "./toggle-group.ts"
+import { toggleDoc } from "./toggle.ts"
 import { tooltipDoc } from "./tooltip.ts"
 
 export const componentDocs: Record<string, ComponentDoc> = {
   [accordionDoc.slug]: accordionDoc,
   [advancedFilteringDoc.slug]: advancedFilteringDoc,
-  [alertDoc.slug]: alertDoc,
   [alertDialogDoc.slug]: alertDialogDoc,
+  [alertDoc.slug]: alertDoc,
   [animatedNumberDoc.slug]: animatedNumberDoc,
   [appShellDoc.slug]: appShellDoc,
   [aspectRatioDoc.slug]: aspectRatioDoc,
@@ -108,8 +109,8 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [borderBeamDoc.slug]: borderBeamDoc,
   [breadcrumbDoc.slug]: breadcrumbDoc,
   [bubbleDoc.slug]: bubbleDoc,
-  [buttonDoc.slug]: buttonDoc,
   [buttonGroupDoc.slug]: buttonGroupDoc,
+  [buttonDoc.slug]: buttonDoc,
   [calendarDoc.slug]: calendarDoc,
   [cardDoc.slug]: cardDoc,
   [carouselDoc.slug]: carouselDoc,
@@ -133,11 +134,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [fieldDoc.slug]: fieldDoc,
   [filteringDoc.slug]: filteringDoc,
   [flowsDoc.slug]: flowsDoc,
-  [formDoc.slug]: formDoc,
   [formElementsDoc.slug]: formElementsDoc,
+  [formDoc.slug]: formDoc,
   [hoverCardDoc.slug]: hoverCardDoc,
-  [inputDoc.slug]: inputDoc,
   [inputOtpDoc.slug]: inputOtpDoc,
+  [inputDoc.slug]: inputDoc,
   [itemDoc.slug]: itemDoc,
   [kbdDoc.slug]: kbdDoc,
   [labelDoc.slug]: labelDoc,
@@ -145,18 +146,18 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [mapGrammarDoc.slug]: mapGrammarDoc,
   [markerDoc.slug]: markerDoc,
   [menubarDoc.slug]: menubarDoc,
-  [messageDoc.slug]: messageDoc,
   [messageScrollerDoc.slug]: messageScrollerDoc,
+  [messageDoc.slug]: messageDoc,
   [modalsDoc.slug]: modalsDoc,
   [nativeSelectDoc.slug]: nativeSelectDoc,
-  [navigationDoc.slug]: navigationDoc,
   [navigationMenuDoc.slug]: navigationMenuDoc,
+  [navigationDoc.slug]: navigationDoc,
   [originationFlowDoc.slug]: originationFlowDoc,
   [pageHeaderDoc.slug]: pageHeaderDoc,
   [paginationDoc.slug]: paginationDoc,
+  [paneCanvasDoc.slug]: paneCanvasDoc,
   [panelsDoc.slug]: panelsDoc,
   [panesDoc.slug]: panesDoc,
-  [paneCanvasDoc.slug]: paneCanvasDoc,
   [pinDoc.slug]: pinDoc,
   [plotDoc.slug]: plotDoc,
   [popoverDoc.slug]: popoverDoc,
@@ -178,8 +179,8 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [tablesDoc.slug]: tablesDoc,
   [tabsDoc.slug]: tabsDoc,
   [textareaDoc.slug]: textareaDoc,
-  [toggleDoc.slug]: toggleDoc,
   [toggleGroupDoc.slug]: toggleGroupDoc,
+  [toggleDoc.slug]: toggleDoc,
   [tooltipDoc.slug]: tooltipDoc,
 }
 

@@ -1,0 +1,29 @@
+{
+  "id": "component.kbd",
+  "name": "Kbd",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "kbd",
+    "sourceFile": "kernel-portal/src/lib/component-docs/kbd.ts",
+    "portalAnchor": "c-kbd"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/kbd.tsx"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "component.marker",
+  "name": "Marker",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "marker",
+    "sourceFile": "kernel-portal/src/lib/component-docs/marker.ts",
+    "portalAnchor": "c-marker"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/marker.tsx"
+  ],
+  "note": "Transcript dividers — date, session, unread."
+}

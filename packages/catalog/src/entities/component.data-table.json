@@ -1,0 +1,30 @@
+{
+  "id": "component.data-table",
+  "name": "Data Table",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "data-table",
+    "sourceFile": "kernel-portal/src/lib/component-docs/data-table.ts",
+    "portalAnchor": "c-table"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/table.tsx"
+  ],
+  "note": "Composition: table + @tanstack/react-table."
+}

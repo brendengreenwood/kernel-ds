@@ -44,6 +44,24 @@ const coverageMode = process.argv.includes("--coverage");
 const offenders = [];
 
 /* ------------------------------------------------------------------ *
+ * Barrel staleness. The barrel is generated from the `<slug>.ts` files
+ * by scripts/generate-component-docs-index.mjs; a doc entity that isn't
+ * wired in would otherwise silently return undefined.
+ * ------------------------------------------------------------------ */
+if (existsSync(docsBarrel)) {
+  const { buildIndexSource } = await import(pathToFileURL(resolve(here, "generate-component-docs-index.mjs")).href);
+  const expected = buildIndexSource();
+  const actual = readFileSync(docsBarrel, "utf8").replaceAll("\r\n", "\n");
+  if (actual !== expected) {
+    offenders.push({
+      rule: "barrel-stale",
+      entity: "index.ts",
+      detail: "barrel does not match the <slug>.ts files; run node scripts/generate-component-docs-index.mjs",
+    });
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Load doc entities. The barrel and entities import only `schema.ts`
  * (zod) — no React — so `--experimental-strip-types` imports them
  * cleanly. "No barrel yet" is a clean exit 0; an import that throws is

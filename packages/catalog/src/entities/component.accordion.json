@@ -1,0 +1,29 @@
+{
+  "id": "component.accordion",
+  "name": "Accordion",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "accordion",
+    "sourceFile": "kernel-portal/src/lib/component-docs/accordion.ts",
+    "portalAnchor": "c-accordion"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/accordion.tsx"
+  ]
+}

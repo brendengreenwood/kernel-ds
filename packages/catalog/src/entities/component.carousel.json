@@ -1,0 +1,29 @@
+{
+  "id": "component.carousel",
+  "name": "Carousel",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "carousel",
+    "sourceFile": "kernel-portal/src/lib/component-docs/carousel.ts",
+    "portalAnchor": "c-carousel"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/carousel.tsx"
+  ]
+}

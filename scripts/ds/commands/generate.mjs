@@ -14,6 +14,16 @@ export const generateSteps = [
     run: () => runNode(resolve(repoRoot, "packages/catalog/scripts/generate-portal-adapter.mjs")),
   },
   {
+    id: "component-docs-barrel",
+    description: "Regenerate the portal component-docs barrel from the <slug>.ts entities",
+    run: () => runNode(resolve(repoRoot, "kernel-portal/scripts/generate-component-docs-index.mjs")),
+  },
+  {
+    id: "ui-styles",
+    description: "Regenerate packages/ui/src/styles.css from the src/styles partials",
+    run: () => runNode(resolve(repoRoot, "packages/ui/scripts/generate-styles.mjs")),
+  },
+  {
     id: "ui-package",
     description: "Rebuild @kernel/ui (entry points, dist, api.json)",
     run: () => runNpm(["run", "build", "--workspace", "@kernel/ui"]),

@@ -1,0 +1,30 @@
+{
+  "id": "component.sidebar",
+  "name": "Sidebar",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "sidebar",
+    "sourceFile": "kernel-portal/src/lib/component-docs/sidebar.ts",
+    "portalAnchor": "appshell"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/sidebar.tsx"
+  ],
+  "note": "Demonstrated by this portal's own rail and the app shell."
+}

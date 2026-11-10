@@ -1,0 +1,30 @@
+{
+  "id": "object.page-section",
+  "name": "Page section",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [
+    {
+      "type": "composedWith",
+      "target": "pattern.app-shell"
+    }
+  ],
+  "documentation": {
+    "slug": "page-section",
+    "portalAnchor": "sections"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "kernel-portal/src/components/portal/section.tsx"
+  ]
+}

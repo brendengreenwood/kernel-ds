@@ -1,0 +1,31 @@
+{
+  "id": "object.draw-area",
+  "name": "Draw area",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [
+    {
+      "type": "recommendedPatterns",
+      "target": "pattern.map-grammar"
+    }
+  ],
+  "documentation": {
+    "slug": "draw-area",
+    "portalAnchor": "object-draw-area"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+  ],
+  "note": "Map model object (origination-map v2 data model). The assumed radius a buying point pulls grain from. Geometry: area. Prototype status: built."
+}

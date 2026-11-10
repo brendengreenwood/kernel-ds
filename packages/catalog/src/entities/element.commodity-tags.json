@@ -1,0 +1,30 @@
+{
+  "id": "element.commodity-tags",
+  "name": "Commodity tags",
+  "kind": "element",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "element",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "commodity-tags",
+    "sourceFile": "kernel-portal/src/lib/component-docs/commodity-tags.ts",
+    "portalAnchor": "colors"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/commodity-badge.tsx"
+  ],
+  "note": "Categorical --commodity-* hues (corn/canola/soybeans/wheat) + <CommodityBadge> (decision 0013)."
+}

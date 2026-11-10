@@ -1,0 +1,28 @@
+{
+  "id": "pattern.origination-flow",
+  "name": "Origination flow",
+  "kind": "pattern",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "pattern",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "origination-flow",
+    "sourceFile": "kernel-portal/src/lib/component-docs/origination-flow.ts",
+    "portalAnchor": "origination"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [],
+  "note": "Offer queue, counter composer, and activity thread conventions for grain origination workflows."
+}

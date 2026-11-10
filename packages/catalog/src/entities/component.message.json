@@ -1,0 +1,29 @@
+{
+  "id": "component.message",
+  "name": "Message",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "message",
+    "sourceFile": "kernel-portal/src/lib/component-docs/message.ts",
+    "portalAnchor": "c-message"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/message.tsx"
+  ]
+}

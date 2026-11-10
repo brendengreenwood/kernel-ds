@@ -1,0 +1,44 @@
+{
+  "id": "domain.settlement-statement",
+  "name": "Settlement statement",
+  "kind": "domain",
+  "maturity": "experimental",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "domain",
+    "experimental"
+  ],
+  "capabilities": [
+    "accessibility-reviewed"
+  ],
+  "relationships": [
+    {
+      "type": "composedWith",
+      "target": "element.tables"
+    },
+    {
+      "type": "composedWith",
+      "target": "element.form-elements"
+    },
+    {
+      "type": "dependsOn",
+      "target": "object.record"
+    },
+    {
+      "type": "composedWith",
+      "target": "object.expandable-row"
+    }
+  ],
+  "documentation": {
+    "portalAnchor": "settlement"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "lifecycle-metadata"
+  },
+  "sourceFiles": [
+    "kernel-portal/src/components/portal/settlement.tsx"
+  ],
+  "note": "Domain pattern 2 of 4; kept experimental until contract, settlement, ticket, and invoice pages share one complete domain lineup."
+}

@@ -1,0 +1,30 @@
+{
+  "id": "component.dropdown-menu",
+  "name": "Dropdown Menu",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "dropdown-menu",
+    "sourceFile": "kernel-portal/src/lib/component-docs/dropdown-menu.ts",
+    "portalAnchor": "c-dropdown-menu"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/dropdown-menu.tsx"
+  ],
+  "note": "Base UI behavior (documented, intended): checkbox/radio menu items stay open on click for multi-select."
+}

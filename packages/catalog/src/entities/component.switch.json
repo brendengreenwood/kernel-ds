@@ -1,0 +1,29 @@
+{
+  "id": "component.switch",
+  "name": "Switch",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "switch",
+    "sourceFile": "kernel-portal/src/lib/component-docs/switch.ts",
+    "portalAnchor": "fe-selection"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/switch.tsx"
+  ]
+}

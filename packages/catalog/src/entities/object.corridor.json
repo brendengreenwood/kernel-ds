@@ -1,0 +1,31 @@
+{
+  "id": "object.corridor",
+  "name": "Corridor",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "kernel-portal",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [
+    {
+      "type": "recommendedPatterns",
+      "target": "pattern.map-grammar"
+    }
+  ],
+  "documentation": {
+    "slug": "corridor",
+    "portalAnchor": "object-corridor"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "prototypes/origination-map-v2/src/map/objects/catalog.ts"
+  ],
+  "note": "Map model object (origination-map v2 data model). Barge rivers and main-line rail that grain moves over. Geometry: line. Prototype status: built."
+}

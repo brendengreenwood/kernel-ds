@@ -1,0 +1,29 @@
+{
+  "id": "component.textarea",
+  "name": "Textarea",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "textarea",
+    "sourceFile": "kernel-portal/src/lib/component-docs/textarea.ts",
+    "portalAnchor": "c-input"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/textarea.tsx"
+  ]
+}

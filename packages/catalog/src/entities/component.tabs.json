@@ -1,0 +1,30 @@
+{
+  "id": "component.tabs",
+  "name": "Tabs",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "tabs",
+    "sourceFile": "kernel-portal/src/lib/component-docs/tabs.ts",
+    "portalAnchor": "c-tabs"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/tabs.tsx"
+  ],
+  "note": "Variants pill (primary active, default) · underline · folder; sizes compact/default/comfortable (control-height tokens); slots for leading icon, <TabCount> badge, <TabDot> notification (decision 0021). Automatic activation (arrows activate; activateOnFocus overridable) — decision 0023."
+}

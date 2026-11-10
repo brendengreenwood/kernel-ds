@@ -1,0 +1,48 @@
+{
+  "id": "object.workspace",
+  "name": "Workspace",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/definitions",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [
+    {
+      "type": "composedWith",
+      "target": "object.collection"
+    },
+    {
+      "type": "composedWith",
+      "target": "object.record"
+    },
+    {
+      "type": "composedWith",
+      "target": "object.write"
+    },
+    {
+      "type": "composedWith",
+      "target": "object.query"
+    },
+    {
+      "type": "composedWith",
+      "target": "object.traversal"
+    }
+  ],
+  "documentation": {
+    "portalAnchor": "obj-workspace"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [
+    "packages/definitions/src/composition.ts"
+  ],
+  "note": "decision 0026"
+}

@@ -36,6 +36,8 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
+      - name: Styles generated
+        run: node packages/ui/scripts/generate-styles.mjs --check
       - name: Build
         run: npm run ui:build
       - name: Tests

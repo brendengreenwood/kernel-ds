@@ -28,7 +28,7 @@
 - The catalog authoring commands write `packages/catalog/src/entities.ts` through `lib/catalog-file.mjs`; the entity array is strict JSON and must round-trip byte-for-byte (proven by `__check__.mjs`).
 - Mutating command tests operate only on temp copies of `__fixtures__/` — never point them at the real catalog in tests.
 - npm invocations receive internal constant arguments only; never interpolate user input into shell commands.
-- New generation steps append to `generateSteps` in `commands/generate.mjs`; new health checks append to `doctorChecks` in `commands/doctor.mjs`; new verify gates (with `dependents`) append to `verifyGates` in `commands/verify.mjs` and get a row in the `__check__.mjs` selection matrix.
+- New generation steps append to `generateSteps` in `commands/generate.mjs`; new health checks append to `doctorChecks` in `commands/doctor.mjs`; new gates (with `dependents`) append to the single gate manifest in `lib/gates.mjs` and get a row in the `__check__.mjs` selection matrix. A check declared with a `ci` needle must also be wired into `.github/workflows/ci.yml` — the `gate-coverage` doctor check fails until it is.
 - CI (`.github/workflows/ci.yml`) enforces the same commands: the `automation` job runs `ds:check`/`ds:doctor`/`skills:check`/`agents:check` plus generated-artifact freshness (`ds:generate --skip ds-bundle` then `git diff --exit-code`); the `pack-smoke` job packs real tarballs and imports them from a clean consumer via `pack-smoke.mjs`. Keep workflow steps and these commands in lockstep.
 
 ## Verification
@@ -42,7 +42,7 @@ npm run ds:doctor               # must report 0 violations on a clean tree
 ## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
 
 - Root scripts: agents:check, agents:generate, changeset:status, consumers:check, ds:add, ds:changeset, ds:check, ds:doctor, ds:figma, ds:figma:live, ds:figma:migrate-family, ds:figma:runtime-proof, ds:figma:transaction, ds:generate, ds:pack, ds:prototype, ds:reconcile, ds:relate, ds:release, ds:tag, ds:upgrade, ds:verify, release:check, release:impact, skills:check
-- Generate order: catalog-adapter → ui-package → definitions-package → prototype-projections → figma-component-contracts → figma-component-cohorts → figma-component-integration → agents-inventories → ds-bundle
+- Generate order: catalog-adapter → component-docs-barrel → ui-package → definitions-package → prototype-projections → figma-component-contracts → figma-component-cohorts → figma-component-integration → agents-inventories → ds-bundle
 - Verify gates: ds-commands, catalog, ui, definitions, portal, studio
-- Doctor checks: catalog-validate, source-files, generated-adapter, ui-api-alignment, a11y-readiness, version-alignment, agents-freshness, skill-integrity, prototype-registry, figma-map, figma-component-integration, workspace-membership, decision-records
+- Doctor checks: catalog-validate, source-files, generated-adapter, ui-api-alignment, a11y-readiness, version-alignment, agents-freshness, skill-integrity, prototype-registry, figma-map, figma-component-integration, workspace-membership, decision-records, gate-coverage
 <!-- kernel-ds:generated:end -->

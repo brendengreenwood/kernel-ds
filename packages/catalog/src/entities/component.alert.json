@@ -1,0 +1,30 @@
+{
+  "id": "component.alert",
+  "name": "Alert",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "alert",
+    "sourceFile": "kernel-portal/src/lib/component-docs/alert.ts",
+    "portalAnchor": "c-alert"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/alert.tsx"
+  ],
+  "note": "Kernel success/warning/info variants."
+}

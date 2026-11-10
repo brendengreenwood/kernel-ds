@@ -1,0 +1,30 @@
+{
+  "id": "component.message-scroller",
+  "name": "Message Scroller",
+  "kind": "component",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "message-scroller",
+    "sourceFile": "kernel-portal/src/lib/component-docs/message-scroller.ts",
+    "portalAnchor": "c-message-scroller"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/message-scroller.tsx"
+  ],
+  "note": "Autoscroll that yields to the operator; backed by @shadcn/react."
+}

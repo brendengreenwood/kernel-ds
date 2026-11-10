@@ -1,0 +1,25 @@
+{
+  "id": "component.panes",
+  "name": "Panes",
+  "kind": "component",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [],
+  "documentation": {
+    "slug": "panes",
+    "portalAnchor": "c-panes"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/panes.tsx"
+  ]
+}

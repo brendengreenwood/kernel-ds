@@ -1,0 +1,27 @@
+{
+  "id": "pattern.dashboard",
+  "name": "Dashboard",
+  "kind": "pattern",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "pattern",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "dashboard",
+    "sourceFile": "kernel-portal/src/lib/component-docs/dashboard.ts",
+    "portalAnchor": "dashboard"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": []
+}

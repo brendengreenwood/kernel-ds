@@ -1,0 +1,32 @@
+{
+  "id": "object.write",
+  "name": "Write",
+  "kind": "object",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/definitions",
+  "tags": [
+    "object",
+    "experimental"
+  ],
+  "capabilities": [
+    "composition-contract"
+  ],
+  "relationships": [
+    {
+      "type": "dependsOn",
+      "target": "object.record"
+    }
+  ],
+  "documentation": {
+    "portalAnchor": "obj-write"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "composition-contract"
+  },
+  "sourceFiles": [
+    "packages/definitions/src/composition.ts"
+  ],
+  "note": "decision 0026 — write layer (form + in-place postures)."
+}

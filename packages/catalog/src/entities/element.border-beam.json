@@ -1,0 +1,30 @@
+{
+  "id": "element.border-beam",
+  "name": "Border beam",
+  "kind": "element",
+  "maturity": "ready",
+  "accessibility": "reviewed",
+  "package": "kernel-portal",
+  "tags": [
+    "element",
+    "ready"
+  ],
+  "capabilities": [
+    "documented",
+    "accessibility-reviewed"
+  ],
+  "relationships": [],
+  "documentation": {
+    "slug": "border-beam",
+    "sourceFile": "kernel-portal/src/lib/component-docs/border-beam.ts",
+    "portalAnchor": "border-beam"
+  },
+  "ai": {
+    "bundleCategory": "design",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/border-beam.tsx"
+  ],
+  "note": "Third-party effect (border-beam, MIT); opt-in borderBeam prop on Button/Input/Card."
+}
