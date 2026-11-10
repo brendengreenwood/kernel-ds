@@ -1,0 +1,165 @@
+{
+  "kernel-portal/src/components/portal/a11y-foundation.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/app-shell.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/command-search.tsx": {
+    "raw-button": 1
+  },
+  "kernel-portal/src/components/portal/component-doc-sections.tsx": {
+    "hand-card": 2
+  },
+  "kernel-portal/src/components/portal/contract-detail.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/dashboard.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/doc-pager.tsx": {
+    "hand-card": 1
+  },
+  "kernel-portal/src/components/portal/filtering-advanced.tsx": {
+    "raw-button": 2,
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/filters.tsx": {
+    "raw-button": 3,
+    "raw-label": 1,
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/flows.tsx": {
+    "raw-label": 1,
+    "hand-card": 2
+  },
+  "kernel-portal/src/components/portal/form-elements.tsx": {
+    "raw-button": 3,
+    "raw-input": 1,
+    "raw-label": 1
+  },
+  "kernel-portal/src/components/portal/foundations.tsx": {
+    "raw-button": 5,
+    "raw-table": 1,
+    "hand-card": 11
+  },
+  "kernel-portal/src/components/portal/gallery-data.tsx": {
+    "raw-button": 1
+  },
+  "kernel-portal/src/components/portal/gallery-misc.tsx": {
+    "hand-card": 1
+  },
+  "kernel-portal/src/components/portal/geometry-foundation.tsx": {
+    "raw-button": 1,
+    "raw-input": 1,
+    "raw-label": 1,
+    "hand-card": 1
+  },
+  "kernel-portal/src/components/portal/icons-foundation.tsx": {
+    "raw-button": 1,
+    "hand-card": 1
+  },
+  "kernel-portal/src/components/portal/install.tsx": {
+    "hand-card": 1
+  },
+  "kernel-portal/src/components/portal/layout-foundation.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/modal-patterns.tsx": {
+    "hand-card": 5
+  },
+  "kernel-portal/src/components/portal/motion-foundation.tsx": {
+    "raw-button": 2,
+    "hand-card": 6
+  },
+  "kernel-portal/src/components/portal/nav-patterns.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/objects/_previews/collection-preview.tsx": {
+    "raw-table": 1
+  },
+  "kernel-portal/src/components/portal/objects/_previews/query-preview.tsx": {
+    "raw-button": 2,
+    "raw-label": 1,
+    "raw-table": 1
+  },
+  "kernel-portal/src/components/portal/objects/_previews/traversal-preview.tsx": {
+    "raw-button": 1
+  },
+  "kernel-portal/src/components/portal/objects/_previews/write-preview.tsx": {
+    "raw-button": 1,
+    "raw-table": 1
+  },
+  "kernel-portal/src/components/portal/objects/designs.tsx": {
+    "hand-card": 1
+  },
+  "kernel-portal/src/components/portal/objects/shell.tsx": {
+    "raw-table": 1
+  },
+  "kernel-portal/src/components/portal/objects/workspace-obj.tsx": {
+    "raw-button": 4
+  },
+  "kernel-portal/src/components/portal/objects/workspace/activity-rail.tsx": {
+    "raw-button": 1
+  },
+  "kernel-portal/src/components/portal/objects/workspace/navigator.tsx": {
+    "raw-button": 4
+  },
+  "kernel-portal/src/components/portal/objects/workspace/panel.tsx": {
+    "raw-button": 2
+  },
+  "kernel-portal/src/components/portal/objects/workspace/views.tsx": {
+    "raw-button": 1
+  },
+  "kernel-portal/src/components/portal/origination.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/panes-pattern.tsx": {
+    "raw-label": 1
+  },
+  "kernel-portal/src/components/portal/patterns.tsx": {
+    "hand-card": 5
+  },
+  "kernel-portal/src/components/portal/pricing-scenario.tsx": {
+    "hand-card": 4
+  },
+  "kernel-portal/src/components/portal/pricing.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/settlement.tsx": {
+    "hand-card": 3
+  },
+  "kernel-portal/src/components/portal/status-page.tsx": {
+    "hand-card": 1
+  },
+  "kernel-portal/src/components/portal/tables.tsx": {
+    "raw-button": 2,
+    "raw-table": 5,
+    "hand-card": 5
+  },
+  "kernel-portal/src/pages/component-page.tsx": {
+    "hand-card": 1
+  },
+  "kernel-portal/src/pages/components-index.tsx": {
+    "hand-card": 1
+  },
+  "kernel-portal/src/pages/studio.tsx": {
+    "raw-select": 1,
+    "raw-label": 1
+  },
+  "kernel-portal/src/pages/workspace.tsx": {
+    "raw-button": 7
+  },
+  "kernel-portal/src/studio/chat-panel.tsx": {
+    "raw-button": 3,
+    "raw-input": 1,
+    "raw-textarea": 1
+  },
+  "kernel-portal/src/studio/player.tsx": {
+    "raw-button": 2
+  },
+  "prototypes/origination-map-v2/src/pages/draw-areas.tsx": {
+    "raw-button": 2,
+    "raw-label": 2
+  }
+}

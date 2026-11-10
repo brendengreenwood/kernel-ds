@@ -5,6 +5,7 @@ check-prose-quality.mjs — flags placeholder/mad-lib prose in doc entities (sel
 check-style-fidelity.mjs — overlines must route through typeStyles.overline; no rounded-xl/2xl/[ radius hardcodes; has an allowlist for deliberate one-offs
 check-geometry-roles.mjs — verifies generic rounded-* compatibility aliases resolve to semantic geometry roles and reports the portal radius inventory
 check-pane-usage.mjs — floating panes must come from @kernel/ui panes.tsx; flags absolute + translucent card + backdrop-blur (or arbitrary top-[..] card) panels; ratcheted via pane-usage-baseline.json (--update)
+check-ds-usage.mjs — UI must come from @kernel/ui; flags raw button/input/select/textarea/label/table elements, hand-built rounded-lg + border + bg-card surfaces, and icon packages other than the icon shim, in kernel-portal/src and prototypes/origination-map-v2/src; ratcheted via ds-usage-baseline.json (--update)
 check-status-map.mjs — status→tone map integrity (Amendment A4: active never maps to pending under objects/)
 emit-composition.mjs — validates the composition contract rules, prints EMIT-OK
 check-portal-css.mjs — built dist CSS contains @kernel/ui component-utility sentinels (--sidebar-width, group-data-, peer-data-); catches Tailwind not scanning the packaged components

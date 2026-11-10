@@ -73,6 +73,7 @@ export const gateManifest = [
       { id: "prose-quality", node: "kernel-portal/scripts/check-prose-quality.mjs", ci: "node scripts/check-prose-quality.mjs" },
       { id: "style-fidelity", node: "kernel-portal/scripts/check-style-fidelity.mjs", ci: "node scripts/check-style-fidelity.mjs" },
       { id: "pane-usage", node: "kernel-portal/scripts/check-pane-usage.mjs", ci: "node scripts/check-pane-usage.mjs" },
+      { id: "ds-usage", node: "kernel-portal/scripts/check-ds-usage.mjs", ci: "node scripts/check-ds-usage.mjs" },
       { id: "status-map", node: "kernel-portal/scripts/check-status-map.mjs", ci: "node scripts/check-status-map.mjs" },
       { id: "composition", node: "kernel-portal/scripts/emit-composition.mjs", ci: "node scripts/emit-composition.mjs" },
       { id: "doc-schema-assertions", node: "kernel-portal/src/lib/component-docs/__check__.mts", ci: "node --experimental-strip-types src/lib/component-docs/__check__.mts" },
