@@ -48,6 +48,7 @@ import { filteringDoc } from "./filtering.ts"
 import { flowsDoc } from "./flows.ts"
 import { formElementsDoc } from "./form-elements.ts"
 import { formDoc } from "./form.ts"
+import { freshnessDoc } from "./freshness.ts"
 import { hoverCardDoc } from "./hover-card.ts"
 import { inputOtpDoc } from "./input-otp.ts"
 import { inputDoc } from "./input.ts"
@@ -94,6 +95,7 @@ import { textareaDoc } from "./textarea.ts"
 import { toggleGroupDoc } from "./toggle-group.ts"
 import { toggleDoc } from "./toggle.ts"
 import { tooltipDoc } from "./tooltip.ts"
+import { versionHistoryDoc } from "./version-history.ts"
 
 export const componentDocs: Record<string, ComponentDoc> = {
   [accordionDoc.slug]: accordionDoc,
@@ -136,6 +138,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [flowsDoc.slug]: flowsDoc,
   [formElementsDoc.slug]: formElementsDoc,
   [formDoc.slug]: formDoc,
+  [freshnessDoc.slug]: freshnessDoc,
   [hoverCardDoc.slug]: hoverCardDoc,
   [inputOtpDoc.slug]: inputOtpDoc,
   [inputDoc.slug]: inputDoc,
@@ -182,6 +185,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   [toggleGroupDoc.slug]: toggleGroupDoc,
   [toggleDoc.slug]: toggleDoc,
   [tooltipDoc.slug]: tooltipDoc,
+  [versionHistoryDoc.slug]: versionHistoryDoc,
 }
 
 /** Look up a component doc by its gallery slug. Returns undefined if absent. */

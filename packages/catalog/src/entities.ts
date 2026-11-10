@@ -824,6 +824,33 @@ export const catalog = [
     ]
   },
   {
+    "id": "component.freshness",
+    "name": "Freshness",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "freshness",
+      "sourceFile": "kernel-portal/src/lib/component-docs/freshness.ts",
+      "portalAnchor": "c-freshness"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/freshness.tsx"
+    ],
+    "note": "Kernel-only; derived market-data condition, not a lifecycle status (decision 0095)."
+  },
+  {
     "id": "component.hover-card",
     "name": "Hover Card",
     "kind": "component",
@@ -1893,6 +1920,33 @@ export const catalog = [
     "sourceFiles": [
       "packages/ui/src/components/ui/tooltip.tsx"
     ]
+  },
+  {
+    "id": "component.version-history",
+    "name": "Version history",
+    "kind": "component",
+    "maturity": "experimental",
+    "accessibility": "pending",
+    "package": "@kernel/ui",
+    "tags": [
+      "component",
+      "experimental"
+    ],
+    "capabilities": [],
+    "relationships": [],
+    "documentation": {
+      "slug": "version-history",
+      "sourceFile": "kernel-portal/src/lib/component-docs/version-history.ts",
+      "portalAnchor": "c-version-history"
+    },
+    "ai": {
+      "bundleCategory": "general",
+      "guidanceSource": "component-docs"
+    },
+    "sourceFiles": [
+      "packages/ui/src/components/ui/version-history.tsx"
+    ],
+    "note": "Kernel-only; the saves of one object, newest first (decision 0095)."
   },
   {
     "id": "element.animated-number",

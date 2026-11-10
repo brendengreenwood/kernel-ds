@@ -1,0 +1,27 @@
+{
+  "id": "component.version-history",
+  "name": "Version history",
+  "kind": "component",
+  "maturity": "experimental",
+  "accessibility": "pending",
+  "package": "@kernel/ui",
+  "tags": [
+    "component",
+    "experimental"
+  ],
+  "capabilities": [],
+  "relationships": [],
+  "documentation": {
+    "slug": "version-history",
+    "sourceFile": "kernel-portal/src/lib/component-docs/version-history.ts",
+    "portalAnchor": "c-version-history"
+  },
+  "ai": {
+    "bundleCategory": "general",
+    "guidanceSource": "component-docs"
+  },
+  "sourceFiles": [
+    "packages/ui/src/components/ui/version-history.tsx"
+  ],
+  "note": "Kernel-only; the saves of one object, newest first (decision 0095)."
+}

@@ -42,7 +42,7 @@ npm run ds:doctor               # must report 0 violations on a clean tree
 ## Generated inventory (do not edit — regenerate with `npm run agents:generate`)
 
 - Root scripts: agents:check, agents:generate, changeset:status, consumers:check, ds:add, ds:changeset, ds:check, ds:doctor, ds:figma, ds:figma:live, ds:figma:migrate-family, ds:figma:runtime-proof, ds:figma:transaction, ds:generate, ds:pack, ds:prototype, ds:reconcile, ds:relate, ds:release, ds:tag, ds:upgrade, ds:verify, release:check, release:impact, skills:check
-- Generate order: catalog-adapter → component-docs-barrel → ui-package → definitions-package → prototype-projections → figma-component-contracts → figma-component-cohorts → figma-component-integration → agents-inventories → ds-bundle
+- Generate order: catalog-adapter → component-docs-barrel → ui-styles → ui-package → definitions-package → prototype-projections → figma-component-contracts → figma-component-cohorts → figma-component-integration → agents-inventories → ds-bundle
 - Verify gates: ds-commands, catalog, ui, definitions, portal, studio
 - Doctor checks: catalog-validate, source-files, generated-adapter, ui-api-alignment, a11y-readiness, version-alignment, agents-freshness, skill-integrity, prototype-registry, figma-map, figma-component-integration, workspace-membership, decision-records, gate-coverage
 <!-- kernel-ds:generated:end -->

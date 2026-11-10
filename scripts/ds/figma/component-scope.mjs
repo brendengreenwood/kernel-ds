@@ -9,7 +9,7 @@ export const COMPONENT_SCOPE_SCHEMA = "kernel-ds/figma-component-scope@1"
 export const EXPECTED_COMPONENT_COUNT = 62
 // Experimental @kernel/ui components not yet built in the Figma library (decision 0084).
 // Remove an entry once its Figma family exists; the scope count then rises with it.
-export const FIGMA_DEFERRED_COMPONENTS = new Set(["component.panes"])
+export const FIGMA_DEFERRED_COMPONENTS = new Set(["component.freshness", "component.panes", "component.version-history"])
 export const EXPECTED_ELEMENT_COUNT = 3
 export const EXPECTED_NON_CATALOG_MODULE_COUNT = 3
 
