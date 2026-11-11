@@ -24,6 +24,7 @@ node --experimental-strip-types src/lib/component-docs/__check__.mts — doc sch
 node --experimental-strip-types src/lib/objects/__check__.mts — object-model assertions
 node src/components/ui/marks/__check__.mjs — marks assertions
 Run the gates touching your change before committing; run all before a PR
+The deployed site is password-gated by netlify/edge-functions/password.ts (Netlify SITE_PASSWORD variable, fails closed when unset; decision 0097). Local dev and vite preview are not gated
 
 Conventions (full detail in ../CLAUDE.md — read it)
 Tokens originate in ../packages/ui/src/styles.css; keep the matching foundations pages and package documentation synchronized.
